@@ -2,6 +2,17 @@
 Task 1C: Concept Probe Instability Experiment
 Research question: Do functionally equivalent neural networks encode the same concept
 in incompatible directions?
+
+NEGATIVE CONTROL:
+- Probe for the OUTPUT CLASS ITSELF (e.g., "is this digit 0?")
+- All 15 models achieve >95% accuracy on the same class
+- Probe direction for the output class should be stable
+- Expected |cosine similarity|: >0.8
+
+RESOLUTION TEST:
+- Compute averaged CAV across all 15 models
+- Measure cosine similarity between averaged CAV and each individual CAV
+- Averaged CAV should be a better "consensus direction"
 """
 import sys
 import json
@@ -81,7 +92,6 @@ def tcav_score(model, X_test, y_test, cav, target_class=None):
     """
     preds = model.predict(X_test)
     if target_class is None:
-        # Use predicted class per sample
         classes = preds
     else:
         classes = np.full(len(X_test), target_class)
@@ -119,6 +129,118 @@ def bootstrap_ci(values, n_boot=N_BOOT, alpha=0.05):
     lo = np.percentile(boot_means, 100 * alpha / 2)
     hi = np.percentile(boot_means, 100 * (1 - alpha / 2))
     return float(lo), float(np.mean(values)), float(hi)
+
+
+# ─── NEGATIVE CONTROL ──────────────────────────────────────────────────────────
+
+def run_negative_control_concept(models, X_test, y_test, target_class=0):
+    """
+    Negative control: probe for the OUTPUT CLASS ITSELF.
+
+    All 15 models achieve >95% accuracy on the same class.
+    The probe direction for the output class should be stable across models.
+    Expected |cosine similarity|: >0.8.
+
+    We probe for "is this digit TARGET_CLASS?" using the penultimate activations.
+    """
+    print("\n" + "=" * 60)
+    print(f"NEGATIVE CONTROL: Probing for output class {target_class} itself")
+    print("=" * 60)
+
+    # Binary labels: 1 if digit == target_class, 0 otherwise
+    class_labels = (y_test == target_class).astype(int)
+    print(f"  Positive class: digit {target_class} ({class_labels.sum()} samples)")
+    print(f"  Negative class: all other digits ({(class_labels == 0).sum()} samples)")
+
+    cavs_class = []
+    for i, model in enumerate(models):
+        act = get_penultimate_activations(model, X_test)
+        cav = extract_cav(act, class_labels)
+        cavs_class.append(cav)
+
+    # Cosine similarity matrix
+    cos_mat_class = cosine_similarity_matrix(cavs_class)
+    n = len(cavs_class)
+    off_diag = cos_mat_class[np.triu_indices(n, k=1)]
+    mean_cos_class = float(np.mean(off_diag))
+
+    ci_cos_class = bootstrap_ci(off_diag.tolist())
+    print(f"  Mean |cos sim| (off-diag): {mean_cos_class:.4f}  "
+          f"95% CI [{ci_cos_class[0]:.4f}, {ci_cos_class[2]:.4f}]")
+    print(f"  Expected: >0.80 (class probe direction is stable)")
+    print(f"  Compared to concept-A instability — larger value = more stable")
+
+    return {
+        "description": f"probe for output class {target_class} itself",
+        "target_class": int(target_class),
+        "n_positive_samples": int(class_labels.sum()),
+        "mean_abs_cosine_similarity": float(mean_cos_class),
+        "cosine_similarity_ci_lo": float(ci_cos_class[0]),
+        "cosine_similarity_ci_hi": float(ci_cos_class[2]),
+        "cavs_class": [v.tolist() for v in cavs_class],
+        "interpretation": "Expected >0.80; class probe is stable because all models solve same class",
+    }
+
+
+# ─── RESOLUTION TEST ───────────────────────────────────────────────────────────
+
+def run_resolution_test_concept(cavs_a, X_test, y_test, models):
+    """
+    Resolution test: compute the averaged CAV across all 15 models.
+
+    Measure cosine similarity between averaged CAV and each individual CAV.
+    The averaged CAV should be a better "consensus direction" — each individual
+    CAV should be closer to the average than to a random direction.
+    """
+    print("\n" + "=" * 60)
+    print("RESOLUTION TEST: Averaged CAV as consensus direction")
+    print("=" * 60)
+
+    # Average CAV (sum of unit vectors, then re-normalize)
+    cavs_arr = np.array(cavs_a)  # (15, 64)
+    avg_cav = cavs_arr.mean(axis=0)
+    avg_norm = np.linalg.norm(avg_cav)
+    if avg_norm > 0:
+        avg_cav = avg_cav / avg_norm
+
+    # Cosine similarity of each individual CAV with the averaged CAV
+    cos_sims_with_avg = []
+    for cav in cavs_a:
+        cos_sims_with_avg.append(abs(np.dot(cav, avg_cav)))
+
+    cos_sims_with_avg = np.array(cos_sims_with_avg)
+    mean_cos_with_avg = float(np.mean(cos_sims_with_avg))
+    ci_avg = bootstrap_ci(cos_sims_with_avg.tolist())
+
+    print(f"  Mean |cos(individual, average)|: {mean_cos_with_avg:.4f}  "
+          f"95% CI [{ci_avg[0]:.4f}, {ci_avg[2]:.4f}]")
+
+    # For comparison: pairwise individual-to-individual cosine similarity
+    n = len(cavs_a)
+    pairwise_cos = []
+    for i in range(n):
+        for j in range(i + 1, n):
+            pairwise_cos.append(abs(np.dot(cavs_a[i], cavs_a[j])))
+    mean_pairwise = float(np.mean(pairwise_cos))
+    ci_pairwise = bootstrap_ci(pairwise_cos)
+
+    print(f"  Mean pairwise |cos(i, j)|:       {mean_pairwise:.4f}  "
+          f"95% CI [{ci_pairwise[0]:.4f}, {ci_pairwise[2]:.4f}]")
+    print(f"  Improvement (avg vs pairwise): {(mean_cos_with_avg - mean_pairwise)*100:.1f} pp")
+    print(f"  Expected: mean_cos_with_avg > mean_pairwise (averaged CAV is more central)")
+
+    return {
+        "description": "averaged CAV as consensus direction for concept A (curved vs angular)",
+        "mean_cos_individual_to_avg": float(mean_cos_with_avg),
+        "cos_individual_to_avg_ci_lo": float(ci_avg[0]),
+        "cos_individual_to_avg_ci_hi": float(ci_avg[2]),
+        "mean_pairwise_cos": float(mean_pairwise),
+        "pairwise_cos_ci_lo": float(ci_pairwise[0]),
+        "pairwise_cos_ci_hi": float(ci_pairwise[2]),
+        "improvement_pp": float((mean_cos_with_avg - mean_pairwise) * 100),
+        "averaged_cav": avg_cav.tolist(),
+        "interpretation": "avg CAV should have higher similarity to each individual than pairwise average",
+    }
 
 
 # ─── Main experiment ───────────────────────────────────────────────────────────
@@ -170,8 +292,10 @@ def main():
     print(f"\nAll models >{MIN_ACCURACY*100:.0f}%: {all(a >= MIN_ACCURACY for a in accuracies)}")
     print(f"Mean accuracy: {mean_acc:.4f}, Min: {min_acc:.4f}")
 
-    # 3. Concept probe extraction (using ALL test samples)
-    print("\nExtracting CAVs …")
+    # ─── POSITIVE TEST ──────────────────────────────────────────────────────────
+    print("\n" + "=" * 60)
+    print("POSITIVE TEST: Rashomon concept probes (curved vs angular)")
+    print("=" * 60)
 
     # Concept A: curved vs angular (only samples that are curved or angular)
     curved_mask  = np.array([d in CURVED_DIGITS  for d in y_test])
@@ -189,17 +313,14 @@ def main():
     tcav_scores_b = []
 
     for i, model in enumerate(models):
-        # Penultimate activations for concept A subset
         act_a = get_penultimate_activations(model, X_concept_a)
         cav_a = extract_cav(act_a, y_concept_a_labels)
         cavs_a.append(cav_a)
 
-        # Penultimate activations for full test set (concept B)
         act_test = get_penultimate_activations(model, X_test)
         cav_b = extract_cav(act_test, y_concept_b_labels)
         cavs_b.append(cav_b)
 
-        # TCAV scores (use predicted class per sample)
         score_a = tcav_score(model, X_test, y_test, cav_a)
         score_b = tcav_score(model, X_test, y_test, cav_b)
         tcav_scores_a.append(score_a)
@@ -208,10 +329,9 @@ def main():
     tcav_scores_a = np.array(tcav_scores_a)
     tcav_scores_b = np.array(tcav_scores_b)
 
-    # 4. Cosine similarity matrix for Concept A
+    # Cosine similarity matrix for Concept A
     cos_mat = cosine_similarity_matrix(cavs_a)
 
-    # Off-diagonal mean
     n = N_MODELS
     off_diag = cos_mat[np.triu_indices(n, k=1)]
     mean_off_diag = float(np.mean(off_diag))
@@ -225,12 +345,12 @@ def main():
     print(f"\nConcept B (symmetric vs rest):")
     print(f"  TCAV score mean: {tcav_scores_b.mean():.4f}, std: {tcav_scores_b.std():.4f}")
 
-    # 5. Prediction agreement across 15 models
-    all_preds = np.array([m.predict(X_test) for m in models])  # (15, n_test)
+    # Prediction agreement across 15 models
+    all_preds = np.array([m.predict(X_test) for m in models])
     agreement = np.mean(np.all(all_preds == all_preds[0], axis=0))
     print(f"\nPrediction agreement (all 15 models): {agreement:.4f}")
 
-    # 6. Bootstrap CIs
+    # Bootstrap CIs (positive test)
     ci_instability = bootstrap_ci([1 - abs(np.dot(cavs_a[i], cavs_a[j]))
                                     for i in range(n) for j in range(i+1, n)])
     ci_tcav_a = bootstrap_ci(tcav_scores_a)
@@ -239,78 +359,100 @@ def main():
         [float(np.all(all_preds[:, k] == all_preds[0, k])) for k in range(all_preds.shape[1])]
     )
 
-    print(f"\n95% Bootstrap CIs:")
+    print(f"\n95% Bootstrap CIs (positive test):")
     print(f"  Concept direction instability: [{ci_instability[0]:.4f}, {ci_instability[2]:.4f}]")
     print(f"  TCAV-A std CI:                 [{ci_tcav_a[0]:.4f}, {ci_tcav_a[2]:.4f}]")
     print(f"  TCAV-B std CI:                 [{ci_tcav_b[0]:.4f}, {ci_tcav_b[2]:.4f}]")
     print(f"  Prediction agreement CI:       [{ci_agreement[0]:.4f}, {ci_agreement[2]:.4f}]")
 
-    # ─── 7. Figure ─────────────────────────────────────────────────────────────
-    print("\nGenerating figure …")
-    fig = plt.figure(figsize=(12, 5))
-    gs = gridspec.GridSpec(1, 2, figure=fig, wspace=0.38)
+    # ─── NEGATIVE CONTROL ─────────────────────────────────────────────────────
+    nc_results = run_negative_control_concept(models, X_test, y_test, target_class=0)
 
-    # Panel A: Heatmap of |cosine similarity| 15×15
+    # ─── RESOLUTION TEST ──────────────────────────────────────────────────────
+    res_results = run_resolution_test_concept(cavs_a, X_test, y_test, models)
+
+    # ─── Figure ────────────────────────────────────────────────────────────────
+    print("\nGenerating figure …")
+    fig = plt.figure(figsize=(15, 5))
+    gs = gridspec.GridSpec(1, 3, figure=fig, wspace=0.40)
+
+    # Panel A: Heatmap of |cosine similarity| 15×15 (positive test - concept A)
     ax1 = fig.add_subplot(gs[0])
     im = ax1.imshow(cos_mat, vmin=0, vmax=1, cmap='RdYlGn', aspect='auto')
     cbar = plt.colorbar(im, ax=ax1, fraction=0.046, pad=0.04)
     cbar.set_label(r'$|\cos(\mathbf{v}_i,\,\mathbf{v}_j)|$', fontsize=10)
-    ax1.set_title('Concept Direction Alignment\n(Curved vs. Angular)', fontsize=11, fontweight='bold')
+    ax1.set_title('(a) Positive Test\nConcept Direction Alignment\n(Curved vs. Angular)', fontsize=10, fontweight='bold')
     ax1.set_xlabel('Model index', fontsize=10)
     ax1.set_ylabel('Model index', fontsize=10)
     ax1.set_xticks(range(N_MODELS))
     ax1.set_yticks(range(N_MODELS))
     ax1.set_xticklabels(range(1, N_MODELS + 1), fontsize=7)
     ax1.set_yticklabels(range(1, N_MODELS + 1), fontsize=7)
-    # Annotate mean off-diagonal
     ax1.text(0.03, 0.97,
              f'Mean off-diag $= {mean_off_diag:.3f}$\nInstability $= {concept_direction_instability:.3f}$',
              transform=ax1.transAxes, va='top', ha='left', fontsize=8.5,
              bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='gray'))
 
-    # Panel B: Box plot of TCAV scores for 2 concepts
+    # Panel B: Negative control cosine matrix (output class probe)
+    nc_cavs = nc_results['cavs_class']
+    nc_cavs_arr = [np.array(v) for v in nc_cavs]
+    cos_mat_nc = cosine_similarity_matrix(nc_cavs_arr)
     ax2 = fig.add_subplot(gs[1])
-    bp = ax2.boxplot(
-        [tcav_scores_a, tcav_scores_b],
-        labels=['Curved\n(0,2,3,5,6,8,9)\nvs. Angular', 'Symmetric\n(0,1,8)\nvs. Rest'],
-        patch_artist=True,
-        medianprops=dict(color='black', linewidth=2),
-        whiskerprops=dict(linewidth=1.5),
-        capprops=dict(linewidth=1.5),
-        flierprops=dict(marker='o', markersize=4, alpha=0.6),
-        widths=0.5,
-    )
-    colors = ['#4878d0', '#ee854a']
-    for patch, color in zip(bp['boxes'], colors):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.7)
+    im2 = ax2.imshow(cos_mat_nc, vmin=0, vmax=1, cmap='RdYlGn', aspect='auto')
+    cbar2 = plt.colorbar(im2, ax=ax2, fraction=0.046, pad=0.04)
+    cbar2.set_label(r'$|\cos(\mathbf{v}_i,\,\mathbf{v}_j)|$', fontsize=10)
+    nc_off_diag = cos_mat_nc[np.triu_indices(N_MODELS, k=1)]
+    ax2.set_title(f'(b) Negative Control\nClass-{nc_results["target_class"]} Probe Alignment\n(Expected: stable)', fontsize=10, fontweight='bold')
+    ax2.set_xlabel('Model index', fontsize=10)
+    ax2.set_ylabel('Model index', fontsize=10)
+    ax2.set_xticks(range(N_MODELS))
+    ax2.set_yticks(range(N_MODELS))
+    ax2.set_xticklabels(range(1, N_MODELS + 1), fontsize=7)
+    ax2.set_yticklabels(range(1, N_MODELS + 1), fontsize=7)
+    ax2.text(0.03, 0.97,
+             f'Mean off-diag $= {nc_results["mean_abs_cosine_similarity"]:.3f}$\n(vs. concept A: {mean_off_diag:.3f})',
+             transform=ax2.transAxes, va='top', ha='left', fontsize=8.5,
+             bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='gray'))
 
-    # Overlay individual model points
-    for k, scores in enumerate([tcav_scores_a, tcav_scores_b], start=1):
-        x_jitter = np.random.normal(k, 0.07, size=len(scores))
-        ax2.scatter(x_jitter, scores, color=colors[k-1], s=28, zorder=5, alpha=0.8, edgecolors='white', linewidth=0.5)
+    # Panel C: Resolution — bar chart comparing avg CAV vs pairwise
+    ax3 = fig.add_subplot(gs[2])
+    bar_labels_res = ['Pairwise\n|cos(i,j)|\n(instability)', 'Indiv. vs\nAvg CAV\n(resolution)',
+                      'Neg. Control\n|cos(i,j)|\n(class probe)']
+    bar_vals_res = [res_results['mean_pairwise_cos'],
+                    res_results['mean_cos_individual_to_avg'],
+                    nc_results['mean_abs_cosine_similarity']]
+    bar_errs_lo_res = [res_results['mean_pairwise_cos'] - res_results['pairwise_cos_ci_lo'],
+                       res_results['mean_cos_individual_to_avg'] - res_results['cos_individual_to_avg_ci_lo'],
+                       nc_results['mean_abs_cosine_similarity'] - nc_results['cosine_similarity_ci_lo']]
+    bar_errs_hi_res = [res_results['pairwise_cos_ci_hi'] - res_results['mean_pairwise_cos'],
+                       res_results['cos_individual_to_avg_ci_hi'] - res_results['mean_cos_individual_to_avg'],
+                       nc_results['cosine_similarity_ci_hi'] - nc_results['mean_abs_cosine_similarity']]
 
-    # Annotate std
-    for k, scores in enumerate([tcav_scores_a, tcav_scores_b], start=1):
-        ax2.text(k, scores.min() - 0.025,
-                 f'std={scores.std():.3f}',
-                 ha='center', va='top', fontsize=8.5,
-                 color=colors[k-1], fontweight='bold')
+    bar_colors_res = ['#D55E00', '#0072B2', '#009E73']
+    xs_res = np.arange(len(bar_labels_res))
+    bars_res = ax3.bar(xs_res, bar_vals_res, color=bar_colors_res, alpha=0.8, width=0.6,
+                       yerr=[bar_errs_lo_res, bar_errs_hi_res],
+                       error_kw=dict(elinewidth=1.0, capsize=3, ecolor='#333333'))
+    ax3.set_xticks(xs_res)
+    ax3.set_xticklabels(bar_labels_res, fontsize=8)
+    ax3.set_ylabel('Mean |cosine similarity|', fontsize=9)
+    ax3.set_title('(c) Resolution Test\nAveraged CAV vs Pairwise', fontsize=10, fontweight='bold')
+    ax3.set_ylim(0, 1.1)
+    ax3.axhline(0.8, color='gray', linestyle='--', linewidth=0.8, alpha=0.6,
+                label='Expected control (0.8)')
+    ax3.legend(fontsize=7.5, loc='lower right')
 
-    ax2.set_ylabel('TCAV-like Score', fontsize=10)
-    ax2.set_title('TCAV Score Variability\nAcross 15 Equivalent Models', fontsize=11, fontweight='bold')
-    ax2.set_ylim(max(0, min(tcav_scores_a.min(), tcav_scores_b.min()) - 0.06),
-                 min(1, max(tcav_scores_a.max(), tcav_scores_b.max()) + 0.06))
-    ax2.axhline(0.5, color='gray', linestyle='--', linewidth=1, alpha=0.6, label='Chance (0.5)')
-    ax2.legend(fontsize=8, loc='lower right')
-    ax2.grid(axis='y', alpha=0.3)
+    for bar, val in zip(bars_res, bar_vals_res):
+        ax3.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.02,
+                 f'{val:.3f}', ha='center', va='bottom', fontsize=8.5, fontweight='bold')
 
-    fig.suptitle('Concept Probe Instability: Equivalent Models, Divergent Directions',
-                 fontsize=12, fontweight='bold', y=1.01)
+    fig.suptitle('Concept Probe Instability: Equivalent Models, Divergent Directions\n'
+                 '+ Negative Control (class probe) + Resolution (averaged CAV)',
+                 fontsize=11, fontweight='bold', y=1.01)
 
     save_figure(fig, 'concept_probe_instability')
 
-    # ─── 8. LaTeX table ────────────────────────────────────────────────────────
+    # ─── LaTeX table ────────────────────────────────────────────────────────────
     print("Generating LaTeX table …")
     sections_dir = Path(__file__).resolve().parent.parent / 'sections'
     sections_dir.mkdir(exist_ok=True)
@@ -318,28 +460,39 @@ def main():
 
     latex = r"""\begin{table}[t]
 \centering
-\caption{Concept probe instability across 15 equivalent MLPClassifier models trained on
-\texttt{sklearn} \texttt{load\_digits()} (8$\times$8 images, 10 classes, 1797 samples).
-Architecture: $(128, 64)$ hidden units, ReLU, trained with different random seeds.
-All models achieve $>95\%$ test accuracy yet encode concepts in substantially different directions.}
+\caption{Concept probe instability across 15 equivalent MLPClassifier models on
+\texttt{sklearn} \texttt{load\_digits()} (8$\times$8 images, 10 classes).
+Architecture: $(128, 64)$ hidden units, ReLU.
+\emph{Negative control}: probe for output class itself --- directions should be stable ($>0.80$).
+\emph{Resolution}: averaged CAV across 15 models --- individual CAVs should be closer to the average.
+All 95\% CIs from 2000 bootstrap resamples.}
 \label{tab:concept_probe}
-\begin{tabular}{lcc}
+\begin{tabular}{llcc}
 \toprule
-\textbf{Metric} & \textbf{Value} & \textbf{95\% CI} \\
+\textbf{Test} & \textbf{Metric} & \textbf{Value} & \textbf{95\% CI} \\
 \midrule
 """
-    latex += f"Mean test accuracy & ${mean_acc:.4f}$ & $[{min(accuracies):.4f},\\,{max(accuracies):.4f}]$ \\\\\n"
-    latex += f"Min test accuracy & ${min_acc:.4f}$ & --- \\\\\n"
-    latex += (f"Mean $|\\cos(\\mathbf{{v}}_i,\\mathbf{{v}}_j)|$ (off-diag) & "
+    latex += f"\\multirow{{5}}{{*}}{{Positive (Rashomon)}} & Mean test accuracy & ${mean_acc:.4f}$ & $[{min(accuracies):.4f},\\,{max(accuracies):.4f}]$ \\\\\n"
+    latex += f"& Min test accuracy & ${min_acc:.4f}$ & --- \\\\\n"
+    latex += (f"& Mean $|\\cos(\\mathbf{{v}}_i,\\mathbf{{v}}_j)|$ (off-diag) & "
               f"${mean_off_diag:.4f}$ & $[{ci_instability[0]:.4f},\\,{ci_instability[2]:.4f}]$ \\\\\n")
-    latex += (f"Concept direction instability & "
+    latex += (f"& Concept direction instability & "
               f"${concept_direction_instability:.4f}$ & --- \\\\\n")
-    latex += (f"TCAV score std — curved concept & "
-              f"${tcav_scores_a.std():.4f}$ & $[{ci_tcav_a[0]:.4f},\\,{ci_tcav_a[2]:.4f}]$ \\\\\n")
-    latex += (f"TCAV score std — symmetric concept & "
-              f"${tcav_scores_b.std():.4f}$ & $[{ci_tcav_b[0]:.4f},\\,{ci_tcav_b[2]:.4f}]$ \\\\\n")
-    latex += (f"Prediction agreement (all 15 models) & "
+    latex += (f"& Prediction agreement & "
               f"${agreement:.4f}$ & $[{ci_agreement[0]:.4f},\\,{ci_agreement[2]:.4f}]$ \\\\\n")
+    latex += r"\midrule" + "\n"
+    latex += (f"Neg.\\ control (class-{nc_results['target_class']} probe) & "
+              f"Mean $|\\cos(\\mathbf{{v}}_i,\\mathbf{{v}}_j)|$ & "
+              f"${nc_results['mean_abs_cosine_similarity']:.4f}$ & "
+              f"$[{nc_results['cosine_similarity_ci_lo']:.4f},\\,{nc_results['cosine_similarity_ci_hi']:.4f}]$ \\\\\n")
+    latex += r"\midrule" + "\n"
+    latex += (f"\\multirow{{2}}{{*}}{{Resolution (avg.\\ CAV)}} & "
+              f"Mean $|\\cos(\\text{{indiv}},\\text{{avg}})|$ & "
+              f"${res_results['mean_cos_individual_to_avg']:.4f}$ & "
+              f"$[{res_results['cos_individual_to_avg_ci_lo']:.4f},\\,{res_results['cos_individual_to_avg_ci_hi']:.4f}]$ \\\\\n")
+    latex += (f"& Mean pairwise $|\\cos(i,j)|$ & "
+              f"${res_results['mean_pairwise_cos']:.4f}$ & "
+              f"$[{res_results['pairwise_cos_ci_lo']:.4f},\\,{res_results['pairwise_cos_ci_hi']:.4f}]$ \\\\\n")
     latex += r"""\bottomrule
 \end{tabular}
 \end{table}
@@ -347,7 +500,7 @@ All models achieve $>95\%$ test accuracy yet encode concepts in substantially di
     table_path.write_text(latex)
     print(f"Saved table: {table_path}")
 
-    # ─── 9. Save JSON results ──────────────────────────────────────────────────
+    # ─── Save JSON results ──────────────────────────────────────────────────────
     results = {
         'experiment': 'concept_probe_instability',
         'task': '1C',
@@ -383,6 +536,8 @@ All models achieve $>95\%$ test accuracy yet encode concepts in substantially di
             'angular_digits': sorted(ANGULAR_DIGITS),
             'symmetric_digits': sorted(SYMMETRIC_DIGITS),
         },
+        'negative_control': {k: v for k, v in nc_results.items() if k != 'cavs_class'},
+        'resolution_test': {k: v for k, v in res_results.items() if k != 'averaged_cav'},
     }
     save_results(results, 'concept_probe_instability')
 
@@ -390,14 +545,27 @@ All models achieve $>95\%$ test accuracy yet encode concepts in substantially di
     print("\n" + "=" * 60)
     print("SUMMARY")
     print("=" * 60)
+    print("POSITIVE TEST (Rashomon models):")
     print(f"  Models trained:              {N_MODELS}")
     print(f"  All >95% accuracy:           {all(a >= MIN_ACCURACY for a in accuracies)}")
     print(f"  Mean accuracy:               {mean_acc:.4f}")
     print(f"  Mean |cos sim| (off-diag):   {mean_off_diag:.4f}  (expected <0.6)")
     print(f"  Concept direction instab.:   {concept_direction_instability:.4f}")
     print(f"  TCAV std (curved):           {tcav_scores_a.std():.4f}  (expected >0.1)")
-    print(f"  TCAV std (symmetric):        {tcav_scores_b.std():.4f}")
     print(f"  Prediction agreement:        {agreement:.4f}  (expected >0.95)")
+    print()
+    print("NEGATIVE CONTROL (class probe):")
+    print(f"  Mean |cos sim| (class {nc_results['target_class']} probe): "
+          f"{nc_results['mean_abs_cosine_similarity']:.4f}  "
+          f"[{nc_results['cosine_similarity_ci_lo']:.4f}, {nc_results['cosine_similarity_ci_hi']:.4f}]")
+    print(f"  Expected: >0.80")
+    print()
+    print("RESOLUTION TEST (averaged CAV):")
+    print(f"  Mean |cos(indiv, avg)|:  {res_results['mean_cos_individual_to_avg']:.4f}  "
+          f"[{res_results['cos_individual_to_avg_ci_lo']:.4f}, {res_results['cos_individual_to_avg_ci_hi']:.4f}]")
+    print(f"  Mean pairwise |cos|:     {res_results['mean_pairwise_cos']:.4f}  "
+          f"[{res_results['pairwise_cos_ci_lo']:.4f}, {res_results['pairwise_cos_ci_hi']:.4f}]")
+    print(f"  Improvement:             {res_results['improvement_pp']:.1f} pp")
     print("=" * 60)
 
 

@@ -65,10 +65,12 @@ Under Underspecification}}
 \begin{abstract}
 %%=======================================================================
 We prove a universal impossibility: no explanation system can simultaneously be
-faithful (reflecting the chosen hypothesis), stable (consistent across
-equivalent hypotheses), and decisive (resolving all explanation queries) when
-the underlying inference problem is underspecified---that is, when multiple
-hypotheses fit the data equally well.
+faithful (never contradicting the system's native explanation), stable
+(consistent across observationally equivalent configurations), and decisive
+(inheriting every incompatibility of the native explanation) when
+the underlying inference problem is underspecified---that is, when
+observationally equivalent configurations produce incompatible explanations
+(the Rashomon property).
 This single abstract theorem, which we call the \emph{Universal Explanation
 Impossibility}, is a meta-theorem that unifies six apparently unrelated
 impossibility results from across machine learning: (1)~the feature attribution
@@ -79,15 +81,16 @@ SHAP instability under model multiplicity \citep{damour2022underspecification},
 \citep{rudin2024amazing,fisher2019models}, (5)~the causal discovery ambiguity
 within a Markov equivalence class \citep{verma1991equivalence}, and (6)~the
 impossibility of faithful explanations for overparameterized neural networks.
-In each case, underspecification induces a Rashomon property on explanation
-targets, and the same four-line proof closes the impossibility.
+The proof is a tight four-step chain---decisiveness, stability, faithfulness,
+contradiction---and Lean-verified tightness theorems show that each pair of
+properties is achievable, confirming that the impossibility is non-trivial.
 Empirical experiments on four instances confirm severe instability among
 functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 and 80\% model selection flip rate.
 The resolution is uniform: $G$-invariant explanation systems that aggregate
-over equivalent hypotheses restore faithfulness and stability at the cost of
-decisiveness, and \DASH{} (\textbf{D}iversified \textbf{A}ggregation of
+over equivalent hypotheses restore faithfulness-in-expectation and stability at
+the cost of decisiveness, and \DASH{} (\textbf{D}iversified \textbf{A}ggregation of
 \textbf{SH}AP) is a concrete instance of this resolution for feature attribution.
 The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
@@ -201,72 +204,88 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 We introduce a minimal abstract framework sufficient to state and prove the
 Universal Explanation Impossibility.  All six instances in
 Section~\ref{sec:instances} are special cases.
+The framework aligns exactly with the Lean~4 formalization in
+\texttt{ExplanationSystem.lean}: every definition and theorem below has a
+machine-checked counterpart.
 
 \subsection{Explanation Systems}
 
 \begin{definition}[Explanation System]
 \label{def:explanation-system}
-An \emph{explanation system} is a tuple $\mathcal{S} = (\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$ where:
+An \emph{explanation system} is a tuple
+$\mathcal{S} = (\Params, \sH, Y, \mathsf{observe}, \mathsf{explain}, \incomp)$ where:
 \begin{itemize}
-  \item $\Params$ is a \emph{parameter space} (the set of possible ground truths
-    or data-generating processes);
-  \item $\sH$ is a \emph{hypothesis space} (the set of fitted models or
-    inferred structures); each $h \in \sH$ is associated with a parameter
-    $\theta(h) \in \Params$ via the \emph{attribution map} $\theta: \sH \to \Params$;
-  \item $Y$ is an \emph{explanation target space} (e.g., feature rankings,
-    causal graphs, fairness certificates);
-  \item $\mathsf{obs}: \sH \to Y$ is the \emph{observation map}, assigning
-    to each hypothesis the explanation it ``honestly reports'';
-  \item $\mathsf{exp}: \sH \to Y$ is the \emph{explanation map}, the
-    procedure under evaluation; and
-  \item $\incomp\;\subseteq Y \times Y$ is an \emph{incompatibility relation}
-    on explanations (e.g., strict ordering $j \succ k$ vs.\ $k \succ j$,
-    or two mutually exclusive fairness certificates).
+  \item $\Params$ is a \emph{configuration space} (the set of possible
+    configurations, e.g., random seeds, hyperparameter settings);
+  \item $\sH$ is an \emph{explanation space} (the set of possible explanations);
+  \item $Y$ is an \emph{observable space} (e.g., input--output functions,
+    test-set predictions);
+  \item $\mathsf{observe}: \Params \to Y$ is the \emph{observation map}, assigning
+    to each configuration its observable behavior;
+  \item $\mathsf{explain}: \Params \to \sH$ is the system's \emph{native
+    explanation map}, assigning to each configuration the explanation that the
+    system itself ``honestly reports''; and
+  \item $\incomp\;\subseteq \sH \times \sH$ is an \emph{incompatibility relation}
+    on explanations satisfying \emph{irreflexivity}:
+    $\neg\,\incomp(h, h)$ for every $h \in \sH$.
 \end{itemize}
 \end{definition}
 
-The explanation map $\mathsf{exp}$ is what a practitioner \emph{chooses} (e.g.,
-SHAP, LIME, a fixed causal orientation rule); the observation map
-$\mathsf{obs}$ records what the hypothesis \emph{actually implies}.  The
-incompatibility relation captures when two explanations cannot both be
-simultaneously correct.
+Irreflexivity of~$\incomp$ is a structural requirement: no explanation
+contradicts itself.  This is the \texttt{incompatible\_irrefl} field of the
+Lean structure and is used in the tightness proof
+(Section~\ref{sec:tightness}).
+
+An \emph{explanation map} $E : \Params \to \sH$ is a procedure that a
+practitioner \emph{chooses} (e.g., SHAP, LIME, a fixed causal orientation
+rule).  The native explanation $\mathsf{explain}(\theta)$ records what the
+configuration \emph{actually implies}; $E(\theta)$ is what the chosen method
+reports.
 
 \subsection{The Three Desiderata}
 
 \begin{definition}[Faithful]
 \label{def:faithful}
-An explanation map $\mathsf{exp}$ is \emph{faithful} if for every hypothesis
-$h \in \sH$,
+An explanation map $E$ is \emph{faithful} if $E(\theta)$ never contradicts the
+system's native explanation $\mathsf{explain}(\theta)$.  Formally,
 \[
-  \mathsf{exp}(h) = \mathsf{obs}(h).
+  \forall\,\theta \in \Params,\quad
+  \neg\,\incomp\bigl(E(\theta),\;\mathsf{explain}(\theta)\bigr).
 \]
-That is, the produced explanation agrees with what the hypothesis itself
-implies.
+That is, $E(\theta)$ may be less specific than $\mathsf{explain}(\theta)$ but
+never disagrees with it.
 \end{definition}
 
 \begin{definition}[Stable]
 \label{def:stable}
-An explanation map $\mathsf{exp}$ is \emph{stable} if for every pair of
-hypotheses $h, h' \in \sH$ with $\theta(h) = \theta(h')$,
+An explanation map $E$ is \emph{stable} if equivalent configurations receive
+the same explanation:
 \[
-  \mathsf{exp}(h) = \mathsf{exp}(h').
+  \forall\,\theta_1, \theta_2 \in \Params,\quad
+  \mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)
+  \;\Longrightarrow\;
+  E(\theta_1) = E(\theta_2).
 \]
-That is, equivalent hypotheses (same ground-truth parameter) receive the same
-explanation.
 \end{definition}
 
 \begin{definition}[Decisive]
 \label{def:decisive}
-An explanation map $\mathsf{exp}$ is \emph{decisive} if for every hypothesis
-$h \in \sH$, the explanation $\mathsf{exp}(h)$ is \emph{resolved}: it contains
-no undecided or tied queries.  Formally, there is no $y \in Y$ such that both
-$(\mathsf{exp}(h), y) \in \incomp$ and $\mathsf{exp}(h) = y$.
+An explanation map $E$ is \emph{decisive} if $E(\theta)$ inherits every
+incompatibility of the native explanation: whatever
+$\mathsf{explain}(\theta)$ rules out, $E(\theta)$ also rules out.  Formally,
+\[
+  \forall\,\theta \in \Params,\;\forall\,h \in \sH,\quad
+  \incomp\bigl(\mathsf{explain}(\theta),\, h\bigr)
+  \;\Longrightarrow\;
+  \incomp\bigl(E(\theta),\, h\bigr).
+\]
+$E$ is at least as committal as $\mathsf{explain}$.
 \end{definition}
 
 In the feature attribution instance (Section~\ref{sec:instance-attribution}),
-faithfulness is faithfulness to the model's own SHAP values, stability is
-consistency across retraining seeds, and decisiveness is the requirement to
-rank every feature pair strictly (no ties).
+faithfulness means the chosen method never contradicts the model's own SHAP
+values, stability means consistency across retraining seeds, and decisiveness
+means that every distinction made by the native attribution is preserved.
 
 \subsection{The Rashomon Property}
 
@@ -275,15 +294,14 @@ impossibility is the following.
 
 \begin{definition}[Rashomon Property]
 \label{def:rashomon}
-An explanation system $\mathcal{S}$ has the \emph{Rashomon property} if for
-every resolved pair of incompatible explanations $(y, y') \in \incomp$ with
-$y \neq y'$, there exist hypotheses $h, h' \in \sH$ with
-$\theta(h) = \theta(h')$ such that
+An explanation system $\mathcal{S}$ has the \emph{Rashomon property} if there
+exist configurations $\theta_1, \theta_2 \in \Params$ with
 \[
-  \mathsf{obs}(h) = y \quad \text{and} \quad \mathsf{obs}(h') = y'.
+  \mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)
+  \quad\text{and}\quad
+  \incomp\bigl(\mathsf{explain}(\theta_1),\;\mathsf{explain}(\theta_2)\bigr).
 \]
-That is, for every incompatible explanation pair, two hypotheses with the same
-ground-truth parameter exist that \emph{honestly} report the respective
+That is, two configurations that are observationally equivalent honestly report
 incompatible explanations.
 \end{definition}
 
@@ -297,28 +315,35 @@ explanation targets.
 
 \begin{theorem}[Universal Explanation Impossibility]
 \label{thm:universal}
-If an explanation system $\mathcal{S} = (\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$
-has the Rashomon property, then no explanation map $\mathsf{exp}$ can
-simultaneously be faithful, stable, and decisive.
+If an explanation system $\mathcal{S}$ has the Rashomon property, then no
+explanation map $E$ can simultaneously be faithful, stable, and decisive.
 \end{theorem}
 
 \begin{proof}
-By the Rashomon property, there exist incompatible explanations $y \neq y'$
-with $(y, y') \in \incomp$ and hypotheses $h, h'$ satisfying
-$\theta(h) = \theta(h')$, $\mathsf{obs}(h) = y$, and $\mathsf{obs}(h') = y'$.
-
-Suppose for contradiction that $\mathsf{exp}$ is faithful, stable, and
-decisive.  By faithfulness, $\mathsf{exp}(h) = \mathsf{obs}(h) = y$ and
-$\mathsf{exp}(h') = \mathsf{obs}(h') = y'$.  But by stability and
-$\theta(h) = \theta(h')$, we must have $\mathsf{exp}(h) = \mathsf{exp}(h')$,
-i.e., $y = y'$.  This contradicts $y \neq y'$.
+By the Rashomon property, there exist configurations $\theta_1, \theta_2$ with
+$\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$ and
+$\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$.
+Suppose for contradiction that $E$ is faithful, stable, and decisive.
+\begin{enumerate}
+  \item \textbf{Decisiveness} at $\theta_1$:
+    $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$
+    implies
+    $\incomp(E(\theta_1), \mathsf{explain}(\theta_2))$.
+  \item \textbf{Stability}:
+    $\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$
+    implies $E(\theta_1) = E(\theta_2)$, so
+    $\incomp(E(\theta_2), \mathsf{explain}(\theta_2))$.
+  \item \textbf{Faithfulness} at $\theta_2$:
+    $\neg\,\incomp(E(\theta_2), \mathsf{explain}(\theta_2))$.
+  \item Steps 2 and 3 contradict.  \qedhere
+\end{enumerate}
 \end{proof}
 
 \begin{remark}
-The proof uses decisiveness only implicitly, through the requirement that
-$\mathsf{obs}(h)$ is a resolved, specific explanation (not a set or
-distribution).  The impossibility persists whenever $\mathsf{obs}$ is
-single-valued and the incompatibility relation is asymmetric.
+The proof uses all three properties in a tight chain:
+decisive $\to$ stable $\to$ faithful $\to$ contradiction.
+This mirrors the Lean proof exactly (\texttt{explanation\_impossibility} in
+\texttt{ExplanationSystem.lean}).
 \end{remark}
 
 \begin{remark}
@@ -328,13 +353,46 @@ assumptions.  All quantitative depth (divergence rates, sample complexity,
 ensemble sizes) appears in the instance-specific sections below.
 \end{remark}
 
+\subsection{Tightness}
+\label{sec:tightness}
+
+The impossibility is tight: every pair of properties is simultaneously
+achievable.  Three Lean-verified witnesses establish this
+(\texttt{tightness\_faithful\_decisive},
+\texttt{tightness\_faithful\_stable},
+\texttt{tightness\_stable\_decisive} in \texttt{ExplanationSystem.lean}).
+
+\begin{proposition}[Tightness of the Universal Impossibility]
+\label{prop:tightness}
+For any explanation system with the Rashomon property:
+\begin{enumerate}
+  \item \textbf{Faithful $+$ Decisive (drop Stable).}
+    Set $E = \mathsf{explain}$.  Faithfulness holds by irreflexivity of
+    $\incomp$: $\neg\,\incomp(\mathsf{explain}(\theta), \mathsf{explain}(\theta))$.
+    Decisiveness holds by identity.  Stability fails because the Rashomon
+    property places incompatible native explanations on the same observe-fiber.
+
+  \item \textbf{Faithful $+$ Stable (drop Decisive).}
+    Let $c \in \sH$ be a ``neutral'' element with
+    $\neg\,\incomp(c, \mathsf{explain}(\theta))$ for all~$\theta$, and set
+    $E(\theta) = c$.  Faithfulness and stability hold, but $E$ abstains on
+    every distinction the native explanation makes.
+
+  \item \textbf{Stable $+$ Decisive (drop Faithful).}
+    Let $c \in \sH$ be a ``maximally committal'' element inheriting every
+    incompatibility of every native explanation, and set $E(\theta) = c$.
+    Stability and decisiveness hold, but $c$ may contradict some
+    $\mathsf{explain}(\theta)$.
+\end{enumerate}
+\end{proposition}
+
 \begin{corollary}[Decidable Underspecification Implies Impossible Explanation]
 \label{cor:decidable}
-If the data-generating process $\theta$ is not identifiable from the
-observations---i.e., if there exist $h, h'$ with $\theta(h) = \theta(h')$ yet
-$\mathsf{obs}(h) \neq \mathsf{obs}(h')$---then the Rashomon property holds
-whenever the explanation targets are ordered by an incompatibility relation
-with at least one incompatible pair.
+If the data-generating process is not identifiable from the
+observations---i.e., if there exist $\theta_1, \theta_2$ with
+$\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$ yet
+$\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$---then
+the Rashomon property holds and the impossibility applies.
 \end{corollary}
 
 %%=======================================================================
@@ -747,7 +805,7 @@ calibrated uncertainty are both achievable and informative.''
 \label{sec:obvious}
 
 A natural reaction is that practitioners already know explanations are unstable
----so what is new?  The contribution is fourfold.  First, we make explicit that
+---so what is new?  The contribution is fivefold.  First, we make explicit that
 six domains (attribution, attention, counterfactuals, concept probes, causal
 discovery, model selection) share \emph{one} mechanism---the Rashomon
 property---rather than six unrelated pathologies.  Second, the Lean~4
@@ -756,7 +814,12 @@ eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attention flip rates, measurable counterfactual and concept instability on
 standard benchmarks.  Fourth, the resolution via $G$-invariant maps is
-constructive and actionable, not merely diagnostic.  Arrow's impossibility
+constructive and actionable, not merely diagnostic.  Fifth, Lean-verified
+tightness theorems (Proposition~\ref{prop:tightness}) prove the impossibility
+is non-trivial: each pair of properties \emph{is} simultaneously achievable,
+so the theorem is not an artifact of overly strong definitions---it identifies
+the exact boundary between the possible and the impossible.
+Arrow's impossibility
 theorem \citep{arrow1951social} was arguably ``obvious'' once stated---every
 committee chair knows that voting rules are imperfect.  Yet its formalization
 created the field of social choice theory, precisely because it replaced
