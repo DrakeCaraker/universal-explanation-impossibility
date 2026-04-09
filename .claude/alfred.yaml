@@ -1,0 +1,31 @@
+# Alfred project configuration
+# Hooks and commands read this instead of hardcoding values.
+
+project:
+  name: "dash-impossibility-lean"
+  type: "mixed"
+
+formatting:
+  tool: "none"
+
+testing:
+  command: "lake build"
+  fast_command: "lake build"
+
+ci:
+  lint_command: "lake build"
+  typecheck_command: "lake build"
+  source_paths: ["DASHImpossibility/"]
+  source_glob: "*.lean"
+
+protected_files: []
+
+blocked_extensions: [".olean", ".ilean", ".trace"]
+max_file_size_mb: 10
+
+git:
+  main_branch: "main"
+
+domain:
+  venue: "JMLR (primary) / NeurIPS 2026 (backup)"
+  topic: "Attribution impossibility theorem — Lean 4 formalization, DASH resolution, design space characterization"

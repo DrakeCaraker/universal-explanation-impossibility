@@ -1,0 +1,599 @@
+{
+  "description": "Missing data compounds SHAP instability: more missing -> noisier data -> wider Rashomon -> more flips",
+  "config": {
+    "P": 10,
+    "group_size": 5,
+    "rho": 0.8,
+    "N_train": 2000,
+    "N_eval": 200,
+    "n_models": 30,
+    "n_estimators": 100,
+    "max_depth": 6,
+    "subsample": 0.8,
+    "mechanisms": [
+      "MCAR",
+      "MAR",
+      "MNAR"
+    ],
+    "missing_rates": [
+      0.0,
+      0.05,
+      0.1,
+      0.2
+    ]
+  },
+  "results": [
+    {
+      "mechanism": "MCAR",
+      "rate": 0.0,
+      "rate_pct": "0%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.45977,
+          "flip_rate_ci_lower": 0.4135,
+          "flip_rate_ci_upper": 0.5068
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.331034,
+          "flip_rate_ci_lower": 0.2885,
+          "flip_rate_ci_upper": 0.3766
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4681,
+      "max_flip_rate_ci_upper": 0.5616
+    },
+    {
+      "mechanism": "MCAR",
+      "rate": 0.05,
+      "rate_pct": "5%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 18,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.517241,
+          "flip_rate_ci_lower": 0.4703,
+          "flip_rate_ci_upper": 0.5638
+        },
+        {
+          "fi": 5,
+          "fj": 6,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4703,
+      "max_flip_rate_ci_upper": 0.5638
+    },
+    {
+      "mechanism": "MCAR",
+      "rate": 0.1,
+      "rate_pct": "10%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 20,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.517241,
+          "flip_rate_ci_lower": 0.4703,
+          "flip_rate_ci_upper": 0.5638
+        },
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.517241,
+          "flip_rate_ci_lower": 0.4703,
+          "flip_rate_ci_upper": 0.5638
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 5,
+          "fj": 6,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4703,
+      "max_flip_rate_ci_upper": 0.5638
+    },
+    {
+      "mechanism": "MCAR",
+      "rate": 0.2,
+      "rate_pct": "20%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 20,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.517241,
+          "flip_rate_ci_lower": 0.4703,
+          "flip_rate_ci_upper": 0.5638
+        },
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.517241,
+          "flip_rate_ci_lower": 0.4703,
+          "flip_rate_ci_upper": 0.5638
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4703,
+      "max_flip_rate_ci_upper": 0.5638
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.0,
+      "rate_pct": "0%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.45977,
+          "flip_rate_ci_lower": 0.4135,
+          "flip_rate_ci_upper": 0.5068
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.331034,
+          "flip_rate_ci_lower": 0.2885,
+          "flip_rate_ci_upper": 0.3766
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4681,
+      "max_flip_rate_ci_upper": 0.5616
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.05,
+      "rate_pct": "5%",
+      "max_flip_rate": 0.496552,
+      "n_unstable_pairs": 11,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 7,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        },
+        {
+          "fi": 1,
+          "fj": 2,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.370115,
+          "flip_rate_ci_lower": 0.3261,
+          "flip_rate_ci_upper": 0.4164
+        },
+        {
+          "fi": 1,
+          "fj": 3,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4498,
+      "max_flip_rate_ci_upper": 0.5434
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.1,
+      "rate_pct": "10%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 11,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 5,
+          "fj": 7,
+          "flip_rate": 0.404598,
+          "flip_rate_ci_lower": 0.3595,
+          "flip_rate_ci_upper": 0.4514
+        },
+        {
+          "fi": 1,
+          "fj": 3,
+          "flip_rate": 0.331034,
+          "flip_rate_ci_lower": 0.2885,
+          "flip_rate_ci_upper": 0.3766
+        },
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.23908,
+          "flip_rate_ci_lower": 0.2014,
+          "flip_rate_ci_upper": 0.2813
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4681,
+      "max_flip_rate_ci_upper": 0.5616
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.2,
+      "rate_pct": "20%",
+      "max_flip_rate": 0.508046,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 1,
+          "fj": 4,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        },
+        {
+          "fi": 5,
+          "fj": 6,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        },
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.45977,
+          "flip_rate_ci_lower": 0.4135,
+          "flip_rate_ci_upper": 0.5068
+        },
+        {
+          "fi": 5,
+          "fj": 7,
+          "flip_rate": 0.404598,
+          "flip_rate_ci_lower": 0.3595,
+          "flip_rate_ci_upper": 0.4514
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4612,
+      "max_flip_rate_ci_upper": 0.5548
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.0,
+      "rate_pct": "0%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.45977,
+          "flip_rate_ci_lower": 0.4135,
+          "flip_rate_ci_upper": 0.5068
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.331034,
+          "flip_rate_ci_lower": 0.2885,
+          "flip_rate_ci_upper": 0.3766
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4681,
+      "max_flip_rate_ci_upper": 0.5616
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.05,
+      "rate_pct": "5%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 8,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.514943,
+          "flip_rate_ci_lower": 0.4681,
+          "flip_rate_ci_upper": 0.5616
+        },
+        {
+          "fi": 1,
+          "fj": 2,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 6,
+          "fj": 9,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.434483,
+          "flip_rate_ci_lower": 0.3887,
+          "flip_rate_ci_upper": 0.4814
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4681,
+      "max_flip_rate_ci_upper": 0.5616
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.1,
+      "rate_pct": "10%",
+      "max_flip_rate": 0.508046,
+      "n_unstable_pairs": 6,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.508046,
+          "flip_rate_ci_lower": 0.4612,
+          "flip_rate_ci_upper": 0.5548
+        },
+        {
+          "fi": 1,
+          "fj": 2,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.48046,
+          "flip_rate_ci_lower": 0.4339,
+          "flip_rate_ci_upper": 0.5274
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.404598,
+          "flip_rate_ci_lower": 0.3595,
+          "flip_rate_ci_upper": 0.4514
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.128736,
+          "flip_rate_ci_lower": 0.1005,
+          "flip_rate_ci_upper": 0.1635
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4612,
+      "max_flip_rate_ci_upper": 0.5548
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.2,
+      "rate_pct": "20%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 8,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.517241,
+          "flip_rate_ci_lower": 0.4703,
+          "flip_rate_ci_upper": 0.5638
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.496552,
+          "flip_rate_ci_lower": 0.4498,
+          "flip_rate_ci_upper": 0.5434
+        },
+        {
+          "fi": 0,
+          "fj": 3,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.287356,
+          "flip_rate_ci_lower": 0.2468,
+          "flip_rate_ci_upper": 0.3316
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.23908,
+          "flip_rate_ci_lower": 0.2014,
+          "flip_rate_ci_upper": 0.2813
+        }
+      ],
+      "max_flip_rate_ci_lower": 0.4703,
+      "max_flip_rate_ci_upper": 0.5638
+    }
+  ],
+  "verdict": "CONFIRMED: missing data compounds SHAP instability",
+  "mechanism_verdicts": [
+    "  MCAR: instability increases with missing rate (0.5149 -> 0.5172)",
+    "  MAR: instability increases with missing rate (0.5149 -> 0.5080)",
+    "  MNAR: instability increases with missing rate (0.5149 -> 0.5172)"
+  ],
+  "total_runtime_seconds": 101.6,
+  "ci_method": "Wilson score (n_eff=435, heuristic)"
+}

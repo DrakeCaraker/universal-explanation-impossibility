@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/format-on-write.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/session-bookmark.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/feedback-capture.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/pilot-telemetry.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/pre-compact.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

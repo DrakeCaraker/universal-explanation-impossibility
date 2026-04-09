@@ -1,0 +1,454 @@
+{
+  "description": "Missing data compounds SHAP instability: more missing -> noisier data -> wider Rashomon -> more flips",
+  "config": {
+    "P": 10,
+    "group_size": 5,
+    "rho": 0.8,
+    "N_train": 2000,
+    "N_eval": 200,
+    "n_models": 30,
+    "n_estimators": 100,
+    "max_depth": 6,
+    "subsample": 0.8,
+    "mechanisms": [
+      "MCAR",
+      "MAR",
+      "MNAR"
+    ],
+    "missing_rates": [
+      0.0,
+      0.05,
+      0.1,
+      0.2
+    ]
+  },
+  "results": [
+    {
+      "mechanism": "MCAR",
+      "rate": 0.0,
+      "rate_pct": "0%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.45977
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.331034
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.287356
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.287356
+        }
+      ]
+    },
+    {
+      "mechanism": "MCAR",
+      "rate": 0.05,
+      "rate_pct": "5%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 18,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.517241
+        },
+        {
+          "fi": 5,
+          "fj": 6,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.496552
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.496552
+        }
+      ]
+    },
+    {
+      "mechanism": "MCAR",
+      "rate": 0.1,
+      "rate_pct": "10%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 20,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.517241
+        },
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.517241
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 5,
+          "fj": 6,
+          "flip_rate": 0.48046
+        }
+      ]
+    },
+    {
+      "mechanism": "MCAR",
+      "rate": 0.2,
+      "rate_pct": "20%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 20,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.517241
+        },
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.517241
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.496552
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.496552
+        }
+      ]
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.0,
+      "rate_pct": "0%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.45977
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.331034
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.287356
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.287356
+        }
+      ]
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.05,
+      "rate_pct": "5%",
+      "max_flip_rate": 0.496552,
+      "n_unstable_pairs": 11,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 7,
+          "flip_rate": 0.496552
+        },
+        {
+          "fi": 1,
+          "fj": 2,
+          "flip_rate": 0.48046
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.48046
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.370115
+        },
+        {
+          "fi": 1,
+          "fj": 3,
+          "flip_rate": 0.287356
+        }
+      ]
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.1,
+      "rate_pct": "10%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 11,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 5,
+          "fj": 7,
+          "flip_rate": 0.404598
+        },
+        {
+          "fi": 1,
+          "fj": 3,
+          "flip_rate": 0.331034
+        },
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.287356
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.23908
+        }
+      ]
+    },
+    {
+      "mechanism": "MAR",
+      "rate": 0.2,
+      "rate_pct": "20%",
+      "max_flip_rate": 0.508046,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 1,
+          "fj": 4,
+          "flip_rate": 0.48046
+        },
+        {
+          "fi": 5,
+          "fj": 6,
+          "flip_rate": 0.48046
+        },
+        {
+          "fi": 2,
+          "fj": 3,
+          "flip_rate": 0.45977
+        },
+        {
+          "fi": 5,
+          "fj": 7,
+          "flip_rate": 0.404598
+        }
+      ]
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.0,
+      "rate_pct": "0%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 12,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 2,
+          "fj": 4,
+          "flip_rate": 0.45977
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.331034
+        },
+        {
+          "fi": 6,
+          "fj": 8,
+          "flip_rate": 0.287356
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.287356
+        }
+      ]
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.05,
+      "rate_pct": "5%",
+      "max_flip_rate": 0.514943,
+      "n_unstable_pairs": 8,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.514943
+        },
+        {
+          "fi": 1,
+          "fj": 2,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 6,
+          "fj": 9,
+          "flip_rate": 0.496552
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.434483
+        }
+      ]
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.1,
+      "rate_pct": "10%",
+      "max_flip_rate": 0.508046,
+      "n_unstable_pairs": 6,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.508046
+        },
+        {
+          "fi": 1,
+          "fj": 2,
+          "flip_rate": 0.48046
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.48046
+        },
+        {
+          "fi": 7,
+          "fj": 9,
+          "flip_rate": 0.404598
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.128736
+        }
+      ]
+    },
+    {
+      "mechanism": "MNAR",
+      "rate": 0.2,
+      "rate_pct": "20%",
+      "max_flip_rate": 0.517241,
+      "n_unstable_pairs": 8,
+      "n_total_within_group_pairs": 20,
+      "top_flips": [
+        {
+          "fi": 3,
+          "fj": 4,
+          "flip_rate": 0.517241
+        },
+        {
+          "fi": 6,
+          "fj": 7,
+          "flip_rate": 0.496552
+        },
+        {
+          "fi": 0,
+          "fj": 3,
+          "flip_rate": 0.287356
+        },
+        {
+          "fi": 5,
+          "fj": 8,
+          "flip_rate": 0.287356
+        },
+        {
+          "fi": 0,
+          "fj": 4,
+          "flip_rate": 0.23908
+        }
+      ]
+    }
+  ],
+  "verdict": "CONFIRMED: missing data compounds SHAP instability",
+  "mechanism_verdicts": [
+    "  MCAR: instability increases with missing rate (0.5149 -> 0.5172)",
+    "  MAR: instability increases with missing rate (0.5149 -> 0.5080)",
+    "  MNAR: instability increases with missing rate (0.5149 -> 0.5172)"
+  ],
+  "total_runtime_seconds": 101.6
+}

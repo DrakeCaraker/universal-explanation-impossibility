@@ -1,0 +1,41 @@
+{
+  "title": "The Attribution Impossibility: No Feature Ranking Is Faithful, Stable, and Complete Under Collinearity — Lean 4 Formalization",
+  "description": "Lean 4 formalization proving that no feature ranking can be simultaneously faithful, stable, and complete when features are collinear. 305 type-checked theorems from 16 axioms with 0 sorry across 54 files.",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Caraker, Drake",
+      "affiliation": "Independent Researcher",
+      "orcid": "0009-0009-5639-7899"
+    },
+    {
+      "name": "Arnold, Bryan",
+      "affiliation": "Independent Researcher",
+      "orcid": "0009-0007-8589-8989"
+    },
+    {
+      "name": "Rhoads, David",
+      "affiliation": "Independent Researcher",
+      "orcid": "0009-0005-3015-5948"
+    }
+  ],
+  "keywords": [
+    "feature attribution",
+    "impossibility theorem",
+    "Shapley values",
+    "SHAP",
+    "Lean 4",
+    "formal verification",
+    "Rashomon effect",
+    "ensemble methods"
+  ],
+  "license": {"id": "Apache-2.0"},
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DrakeCaraker/dash-shap",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "version": "1.0.0"
+}

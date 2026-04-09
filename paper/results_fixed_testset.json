@@ -1,0 +1,58 @@
+{
+  "experiment": "fixed_testset_isolation",
+  "n_models": 50,
+  "dataset": "breast_cancer",
+  "test_set": "FIXED (seed=42, 20% holdout)",
+  "training_variation": "subsample=0.8, varying random_state only",
+  "n_features": 30,
+  "n_total_pairs": 435,
+  "n_unstable_pairs": 102,
+  "pct_unstable": 23.4,
+  "max_flip_rate": 0.5102,
+  "comparison_varying_testset": {
+    "n_unstable": 162,
+    "source": "results_cross_implementation.json"
+  },
+  "top_5_unstable": [
+    {
+      "j": 3,
+      "k": 18,
+      "feature_j": "mean area",
+      "feature_k": "symmetry error",
+      "flip_rate": 0.5102,
+      "n_comparisons": 1225
+    },
+    {
+      "j": 0,
+      "k": 17,
+      "feature_j": "mean radius",
+      "feature_k": "concave points error",
+      "flip_rate": 0.5094,
+      "n_comparisons": 1225
+    },
+    {
+      "j": 8,
+      "k": 11,
+      "feature_j": "mean symmetry",
+      "feature_k": "texture error",
+      "flip_rate": 0.5094,
+      "n_comparisons": 1225
+    },
+    {
+      "j": 9,
+      "k": 12,
+      "feature_j": "mean fractal dimension",
+      "feature_k": "perimeter error",
+      "flip_rate": 0.5094,
+      "n_comparisons": 1225
+    },
+    {
+      "j": 5,
+      "k": 10,
+      "feature_j": "mean compactness",
+      "feature_k": "radius error",
+      "flip_rate": 0.5069,
+      "n_comparisons": 1225
+    }
+  ]
+}

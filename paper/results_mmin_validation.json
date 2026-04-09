@@ -1,0 +1,105 @@
+{
+  "description": "M_min validation on Breast Cancer (50 models, bootstrap 200 trials)",
+  "results": [
+    {
+      "j": 16,
+      "k": 17,
+      "rho": 0.77,
+      "snr": 0.039,
+      "mmin_pred": 999,
+      "flip_1": 0.509,
+      "flip_Mpred": 0.33,
+      "flip_25": 0.445
+    },
+    {
+      "j": 7,
+      "k": 22,
+      "rho": 0.86,
+      "snr": 0.068,
+      "mmin_pred": 595,
+      "flip_1": 0.509,
+      "flip_Mpred": 0.345,
+      "flip_25": 0.355
+    },
+    {
+      "j": 9,
+      "k": 19,
+      "rho": 0.69,
+      "snr": 0.197,
+      "mmin_pred": 70,
+      "flip_1": 0.509,
+      "flip_Mpred": 0.08,
+      "flip_25": 0.155
+    },
+    {
+      "j": 22,
+      "k": 23,
+      "rho": 0.98,
+      "snr": 0.226,
+      "mmin_pred": 53,
+      "flip_1": 0.497,
+      "flip_Mpred": 0.05,
+      "flip_25": 0.15
+    },
+    {
+      "j": 3,
+      "k": 10,
+      "rho": 0.73,
+      "snr": 0.344,
+      "mmin_pred": 23,
+      "flip_1": 0.481,
+      "flip_Mpred": 0.06,
+      "flip_25": 0.025
+    },
+    {
+      "j": 9,
+      "k": 29,
+      "rho": 0.77,
+      "snr": 0.358,
+      "mmin_pred": 22,
+      "flip_1": 0.458,
+      "flip_Mpred": 0.045,
+      "flip_25": 0.08
+    },
+    {
+      "j": 5,
+      "k": 28,
+      "rho": 0.51,
+      "snr": 0.38,
+      "mmin_pred": 19,
+      "flip_1": 0.497,
+      "flip_Mpred": 0.06,
+      "flip_25": 0.03
+    },
+    {
+      "j": 7,
+      "k": 23,
+      "rho": 0.81,
+      "snr": 0.458,
+      "mmin_pred": 13,
+      "flip_1": 0.444,
+      "flip_Mpred": 0.055,
+      "flip_25": 0.01
+    },
+    {
+      "j": 25,
+      "k": 29,
+      "rho": 0.81,
+      "snr": 0.49,
+      "mmin_pred": 12,
+      "flip_1": 0.429,
+      "flip_Mpred": 0.045,
+      "flip_25": 0.015
+    },
+    {
+      "j": 6,
+      "k": 10,
+      "rho": 0.63,
+      "snr": 0.536,
+      "mmin_pred": 10,
+      "flip_1": 0.429,
+      "flip_Mpred": 0.045,
+      "flip_25": 0.0
+    }
+  ]
+}

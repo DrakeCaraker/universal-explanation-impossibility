@@ -1,0 +1,84 @@
+name: Lean Action CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lean-build:
+    name: Lean 4 Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+
+  verify-counts:
+    name: Verify Theorem/Axiom Counts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check counts
+        run: |
+          THEOREMS=$(grep -c '^theorem\|^lemma' DASHImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
+          AXIOMS=$(grep -c '^axiom' DASHImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
+          SORRY=$(grep -rc 'sorry' DASHImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
+          FILES=$(ls DASHImpossibility/*.lean | wc -l | tr -d ' ')
+
+          echo "Theorems+lemmas: $THEOREMS"
+          echo "Axioms:          $AXIOMS"
+          echo "Sorry:           $SORRY"
+          echo "Files:           $FILES"
+
+          if [ "$SORRY" -gt 0 ]; then
+            echo ""
+            echo "::warning::$SORRY sorry found in Lean files"
+            grep -rn 'sorry' DASHImpossibility/*.lean
+          fi
+
+  paper-compile:
+    name: Paper Compilation Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-extra texlive-fonts-recommended texlive-science texlive-bibtex-extra biber
+      - name: Compile NeurIPS version
+        run: |
+          cd paper
+          pdflatex -interaction=nonstopmode main.tex || true
+          bibtex main || true
+          pdflatex -interaction=nonstopmode main.tex
+          pdflatex -interaction=nonstopmode main.tex
+          echo "NeurIPS: $(pdfinfo main.pdf 2>/dev/null | grep Pages | awk '{print $2}') pages"
+      - name: Compile JMLR version
+        run: |
+          cd paper
+          pdflatex -interaction=nonstopmode main_jmlr.tex || true
+          bibtex main_jmlr || true
+          pdflatex -interaction=nonstopmode main_jmlr.tex
+          pdflatex -interaction=nonstopmode main_jmlr.tex
+          echo "JMLR: $(pdfinfo main_jmlr.pdf 2>/dev/null | grep Pages | awk '{print $2}') pages"
+      - name: Compile supplement
+        run: |
+          cd paper
+          pdflatex -interaction=nonstopmode supplement.tex || true
+          bibtex supplement || true
+          pdflatex -interaction=nonstopmode supplement.tex
+          pdflatex -interaction=nonstopmode supplement.tex
+          echo "Supplement: $(pdfinfo supplement.pdf 2>/dev/null | grep Pages | awk '{print $2}') pages"
+
+  axiom-consistency:
+    name: Axiom Consistency Model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install sympy numpy scipy
+      - name: Run axiom consistency check
+        run: python3 paper/scripts/axiom_consistency_model.py

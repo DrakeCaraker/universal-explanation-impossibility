@@ -1,0 +1,45 @@
+.lake/
+*.olean
+*.ilean
+*.trace
+lake-packages/
+
+# OS
+.DS_Store
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+paper/main.pdf
+paper/main_jmlr.pdf
+paper/main_definitive.pdf
+paper/supplement.pdf
+paper/submission/
+
+# Claude Code / Alfred
+.claude/.onboarding-state.json
+.claude/.session-bookmark.json
+.claude/.pilot-consent.json
+.claude/.pilot-identity.json
+.claude/settings.local.json
+.claude/worktrees/
+.claude/.pilot-session-start
+.claude/.session-count
+
+# Provenance sidecar files
+*.meta
+
+# CatBoost training artifacts
+catboost_info/
+
+# Failed experiment artifacts
+paper/figures/alpha_precision.pdf
+paper/scripts/alpha_precision_validation.py
+docs/private/

@@ -1,0 +1,51 @@
+======================================================================
+LLM Fine-tuning Instability — DistilBERT on SST-2
+  5 random seeds, 1 epoch each, 2000 training samples
+  Seeds: [42, 123, 456, 789, 1011]
+  device: cpu
+======================================================================
+
+SECTION 1: Global Adjacent-Pair Instability
+----------------------------------------
+Total adjacent token pairs analyzed:    55
+Pairs with flip rate > 10%:             8
+Instability rate:                       14.5%
+Mean flip rate:                         0.0655
+Median flip rate:                       0.0000
+Max flip rate:                          0.6000
+
+SECTION 2: Pairwise Spearman Rank Correlations
+----------------------------------------
+Mean Spearman correlation:              0.9562
+Min Spearman correlation:               0.8167
+Std Spearman correlation:               0.0403
+Number of model-pair comparisons:       100
+
+SECTION 3: Selected Collinear Token Pairs
+----------------------------------------
+  Token A         Token B          Flip Rate  Sentence
+  -------------- -------------- ----------  ----------------------------------------
+  extremely       good                0.0000  The movie was extremely good
+  absolutely      terrible            0.0000  This product is absolutely terrible
+  not             bad                 0.0000  The food was not bad at all
+  particularly    sharp               0.6000 ***  I found the service particularly sharp and efficient
+  very            poor                0.0000  The acting was very poor throughout
+  truly           wonderful           0.0000  A truly wonderful experience overall
+  incredibly      boring              0.0000  The plot was incredibly boring and predictable
+  outstanding     remarkable          0.0000  She gave an outstanding and remarkable performance
+  surprisingly    low                 0.0000  The quality is surprisingly low for the price
+  exceptionally   well                0.0000  An exceptionally well crafted piece of work
+
+  *** = flip rate > 10% (unstable)
+
+SECTION 4: Comparison — Weight Perturbation vs. Fine-tuning
+----------------------------------------
+  Weight perturbation (10 models, ε=0.02):  88% pairs unstable
+  Fine-tuning         (5 seeds, 1 epoch):  14.5% pairs unstable
+  Mean Spearman rho (fine-tuning):          0.9562
+
+SECTION 5: Conclusion
+----------------------------------------
+Conclusion: Attention-based token importance rankings ARE unstable across genuinely fine-tuned models with different random seeds. 14.5% of adjacent token pairs show flip rate > 10%, confirming the Attribution Impossibility is not an artefact of weight perturbation.
+
+Total elapsed time: 756.3s

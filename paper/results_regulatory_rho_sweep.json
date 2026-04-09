@@ -1,0 +1,22 @@
+{
+  "0.3": {
+    "rho": 0.3,
+    "n_denied": 2516,
+    "unstable_top_reason_pct": 20.0
+  },
+  "0.5": {
+    "rho": 0.5,
+    "n_denied": 2535,
+    "unstable_top_reason_pct": 0.0
+  },
+  "0.7": {
+    "rho": 0.7,
+    "n_denied": 2510,
+    "unstable_top_reason_pct": 0.0
+  },
+  "0.9": {
+    "rho": 0.9,
+    "n_denied": 2528,
+    "unstable_top_reason_pct": 28.0
+  }
+}

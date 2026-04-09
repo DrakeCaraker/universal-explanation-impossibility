@@ -1,0 +1,175 @@
+{
+  "rho": 0.3,
+  "results": [
+    {
+      "lr": 0.01,
+      "depth": 1,
+      "n_est": 50,
+      "flip_rate": 0.4795
+    },
+    {
+      "lr": 0.01,
+      "depth": 1,
+      "n_est": 100,
+      "flip_rate": 0.5087
+    },
+    {
+      "lr": 0.01,
+      "depth": 1,
+      "n_est": 500,
+      "flip_rate": 0.5045
+    },
+    {
+      "lr": 0.01,
+      "depth": 3,
+      "n_est": 50,
+      "flip_rate": 0.5134
+    },
+    {
+      "lr": 0.01,
+      "depth": 3,
+      "n_est": 100,
+      "flip_rate": 0.5147
+    },
+    {
+      "lr": 0.01,
+      "depth": 3,
+      "n_est": 500,
+      "flip_rate": 0.4426
+    },
+    {
+      "lr": 0.01,
+      "depth": 6,
+      "n_est": 50,
+      "flip_rate": 0.5129
+    },
+    {
+      "lr": 0.01,
+      "depth": 6,
+      "n_est": 100,
+      "flip_rate": 0.5039
+    },
+    {
+      "lr": 0.01,
+      "depth": 6,
+      "n_est": 500,
+      "flip_rate": 0.4668
+    },
+    {
+      "lr": 0.1,
+      "depth": 1,
+      "n_est": 50,
+      "flip_rate": 0.5095
+    },
+    {
+      "lr": 0.1,
+      "depth": 1,
+      "n_est": 100,
+      "flip_rate": 0.4763
+    },
+    {
+      "lr": 0.1,
+      "depth": 1,
+      "n_est": 500,
+      "flip_rate": 0.2742
+    },
+    {
+      "lr": 0.1,
+      "depth": 3,
+      "n_est": 50,
+      "flip_rate": 0.4716
+    },
+    {
+      "lr": 0.1,
+      "depth": 3,
+      "n_est": 100,
+      "flip_rate": 0.4008
+    },
+    {
+      "lr": 0.1,
+      "depth": 3,
+      "n_est": 500,
+      "flip_rate": 0.2587
+    },
+    {
+      "lr": 0.1,
+      "depth": 6,
+      "n_est": 50,
+      "flip_rate": 0.4716
+    },
+    {
+      "lr": 0.1,
+      "depth": 6,
+      "n_est": 100,
+      "flip_rate": 0.4555
+    },
+    {
+      "lr": 0.1,
+      "depth": 6,
+      "n_est": 500,
+      "flip_rate": 0.4584
+    },
+    {
+      "lr": 0.3,
+      "depth": 1,
+      "n_est": 50,
+      "flip_rate": 0.4666
+    },
+    {
+      "lr": 0.3,
+      "depth": 1,
+      "n_est": 100,
+      "flip_rate": 0.4011
+    },
+    {
+      "lr": 0.3,
+      "depth": 1,
+      "n_est": 500,
+      "flip_rate": 0.2095
+    },
+    {
+      "lr": 0.3,
+      "depth": 3,
+      "n_est": 50,
+      "flip_rate": 0.4221
+    },
+    {
+      "lr": 0.3,
+      "depth": 3,
+      "n_est": 100,
+      "flip_rate": 0.3634
+    },
+    {
+      "lr": 0.3,
+      "depth": 3,
+      "n_est": 500,
+      "flip_rate": 0.3332
+    },
+    {
+      "lr": 0.3,
+      "depth": 6,
+      "n_est": 50,
+      "flip_rate": 0.4532
+    },
+    {
+      "lr": 0.3,
+      "depth": 6,
+      "n_est": 100,
+      "flip_rate": 0.4513
+    },
+    {
+      "lr": 0.3,
+      "depth": 6,
+      "n_est": 500,
+      "flip_rate": 0.4516
+    }
+  ],
+  "min_flip_rate": 0.2095,
+  "min_config": {
+    "lr": 0.3,
+    "depth": 1,
+    "n_est": 500,
+    "flip_rate": 0.2095
+  },
+  "verdict": "Min flip rate at rho=0.3 is 0.2095. Instability persists."
+}

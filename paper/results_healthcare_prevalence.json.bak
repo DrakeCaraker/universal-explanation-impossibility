@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "n_datasets": 9,
+    "n_with_correlation": 8,
+    "pct_with_correlation": 88.9,
+    "n_with_instability": 6,
+    "pct_with_instability": 66.7
+  },
+  "datasets": [
+    {
+      "dataset": "breast_cancer",
+      "n_samples": 569,
+      "n_features": 30,
+      "task": "clf",
+      "n_pairs": 435,
+      "n_corr_pairs": 145,
+      "has_correlated": true,
+      "has_instability": true,
+      "max_flip_rate": 0.5
+    },
+    {
+      "dataset": "sklearn_diabetes",
+      "n_samples": 442,
+      "n_features": 10,
+      "task": "reg",
+      "n_pairs": 45,
+      "n_corr_pairs": 6,
+      "has_correlated": true,
+      "has_instability": true,
+      "max_flip_rate": 0.3
+    },
+    {
+      "dataset": "heart-statlog",
+      "n_samples": 270,
+      "n_features": 13,
+      "task": "clf",
+      "n_pairs": 78,
+      "n_corr_pairs": 1,
+      "has_correlated": true,
+      "has_instability": false,
+      "max_flip_rate": 0.0
+    },
+    {
+      "dataset": "qsar-biodeg",
+      "n_samples": 1055,
+      "n_features": 41,
+      "task": "clf",
+      "n_pairs": 820,
+      "n_corr_pairs": 49,
+      "has_correlated": true,
+      "has_instability": true,
+      "max_flip_rate": 0.45
+    },
+    {
+      "dataset": "ilpd",
+      "n_samples": 583,
+      "n_features": 9,
+      "task": "clf",
+      "n_pairs": 36,
+      "n_corr_pairs": 4,
+      "has_correlated": true,
+      "has_instability": true,
+      "max_flip_rate": 0.35
+    },
+    {
+      "dataset": "pc1",
+      "n_samples": 1109,
+      "n_features": 21,
+      "task": "clf",
+      "n_pairs": 210,
+      "n_corr_pairs": 145,
+      "has_correlated": true,
+      "has_instability": true,
+      "max_flip_rate": 0.5
+    },
+    {
+      "dataset": "parkinsons",
+      "n_samples": 10000,
+      "n_features": 21,
+      "task": "clf",
+      "n_pairs": 210,
+      "n_corr_pairs": 29,
+      "has_correlated": true,
+      "has_instability": true,
+      "max_flip_rate": 0.5
+    },
+    {
+      "dataset": "diabetes",
+      "n_samples": 768,
+      "n_features": 8,
+      "task": "clf",
+      "n_pairs": 28,
+      "n_corr_pairs": 1,
+      "has_correlated": true,
+      "has_instability": false,
+      "max_flip_rate": 0.0
+    },
+    {
+      "dataset": "hepatitis",
+      "n_samples": 83,
+      "n_features": 6,
+      "task": "clf",
+      "n_pairs": 15,
+      "n_corr_pairs": 0,
+      "has_correlated": false,
+      "has_instability": false,
+      "max_flip_rate": 0.0
+    }
+  ]
+}

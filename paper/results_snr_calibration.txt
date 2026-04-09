@@ -1,0 +1,27 @@
+SNR Calibration Results
+==================================================
+
+Total (SNR, flip_rate) pairs: 1325
+
+Points per dataset:
+  Breast Cancer       : 257
+  Wine                : 31
+  Diabetes            : 19
+  Digits (0v1)        : 1009
+  CA Housing          : 4
+  Iris (bin)          : 5
+
+Overall Pearson correlation (Φ(-SNR) vs flip): 0.3743  (p=2.58e-45)
+R² of theoretical curve:                         -1.0653
+Mean absolute error:                              0.1452
+
+Pairs with SNR > 1.96: 228
+  Of those with flip rate < 5%: 228 (100.0%)
+
+Empirical vs theoretical flip rates by SNR bin:
+  SNR [0.00, 0.50)        n= 674  emp=0.180  theory=0.401
+  SNR [0.50, 1.00)        n= 261  emp=0.229  theory=0.227
+  SNR [1.00, 1.28)        n=  99  emp=0.151  theory=0.127
+  SNR [1.28, 1.96)        n=  63  emp=0.053  theory=0.053
+  SNR [1.96, 3.00)        n= 115  emp=0.003  theory=0.007
+  SNR [3.00, ∞)           n= 113  emp=0.000  theory=0.000

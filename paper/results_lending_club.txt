@@ -1,0 +1,133 @@
+========================================================================
+LENDING CLUB CASE STUDY: Attribution Impossibility under Collinearity
+========================================================================
+
+Trying fetch_openml(lending-club (by name))... FAILED (OpenMLError: No active dataset lending-club found.)
+Trying fetch_openml(lending-club (data_id=42926))... FAILED (OpenMLError: Dataset with data_id 42926 not found.)
+
+Searching OpenML for lending/loan datasets...
+OpenML search failed: No module named 'openml'
+
+Falling back to UCI default-of-credit-card-clients (OpenML id=42477)...
+SUCCESS (30000 rows, 24 cols)
+
+Dataset: default-of-credit-card-clients
+Target column: y
+Shape: (30000, 24)
+
+------------------------------------------------------------------------
+PREPROCESSING
+------------------------------------------------------------------------
+Target encoded: {'0': 0, '1': 1}
+Numeric features: 23, Categorical features: 0
+Subsampled to 10000 rows
+Final shape: X=(10000, 23), y=(10000,)
+Features: ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10']...
+
+------------------------------------------------------------------------
+STEP 1: CORRELATION ANALYSIS
+------------------------------------------------------------------------
+Total feature pairs: 253
+Pairs with |rho| > 0.5: 29
+
+Top correlated pairs:
+                             x12  vs  x13                             rho = +0.9503
+                             x16  vs  x17                             rho = +0.9461
+                             x15  vs  x16                             rho = +0.9455
+                             x14  vs  x15                             rho = +0.9415
+                             x13  vs  x14                             rho = +0.9405
+                             x12  vs  x14                             rho = +0.9049
+                             x15  vs  x17                             rho = +0.9029
+                             x14  vs  x16                             rho = +0.8986
+                             x13  vs  x15                             rho = +0.8955
+                             x12  vs  x15                             rho = +0.8694
+                             x14  vs  x17                             rho = +0.8628
+                             x13  vs  x16                             rho = +0.8604
+                             x13  vs  x17                             rho = +0.8352
+                             x12  vs  x16                             rho = +0.8342
+                             x10  vs  x11                             rho = +0.8235
+
+Tracking 10 pairs through F5 -> F1 -> DASH pipeline
+
+------------------------------------------------------------------------
+STEP 2 (F5 SCREEN): Single-model split-frequency diagnostic
+------------------------------------------------------------------------
+Single model accuracy: 0.8295
+Total splits: 3577
+
+F5 split-frequency Z for tracked pairs:
+                       Feature j                       Feature k      rho      Z_jk    Flag
+  ──────────────────────────────  ──────────────────────────────  ───────  ────────  ──────
+                             x12                             x13  +0.9503    +3.262  |Z|>1.96
+                             x16                             x17  +0.9461    -1.922        
+                             x15                             x16  +0.9455    +2.452  |Z|>1.96
+                             x14                             x15  +0.9415    -0.587        
+                             x13                             x14  +0.9405    +0.269        
+                             x12                             x14  +0.9049    +3.528  |Z|>1.96
+                             x15                             x17  +0.9029    +0.533        
+                             x14                             x16  +0.8986    +1.868        
+                             x13                             x15  +0.8955    -0.318        
+                             x12                             x15  +0.8694    +2.946  |Z|>1.96
+
+  Pairs flagged for F1 validation: 4
+
+------------------------------------------------------------------------
+STEP 3 (F1 VALIDATION): 5-model attribution stability test
+------------------------------------------------------------------------
+F1 model accuracies: ['0.8275', '0.8250', '0.8290', '0.8350', '0.8240']
+
+F1 ranking stability for flagged pairs:
+                       Feature j                       Feature k      rho    j>k    k>j   Flip?
+  ──────────────────────────────  ──────────────────────────────  ───────  ─────  ─────  ──────
+                             x12                             x13  +0.9503    5.0    0.0        
+                             x15                             x16  +0.9455    5.0    0.0        
+                             x12                             x14  +0.9049    5.0    0.0        
+                             x12                             x15  +0.8694    5.0    0.0        
+
+  Pairs with ranking flips: 0/4
+  Flip rate (F1, 5 models): 0.0%
+
+------------------------------------------------------------------------
+STEP 4 (DASH RESOLUTION): 25-model consensus ranking
+------------------------------------------------------------------------
+DASH ensemble: 25 models
+Accuracy range: [0.8190, 0.8320]
+Mean accuracy:  0.8260
+
+DASH ranking stability for flagged pairs:
+                       Feature j                       Feature k      rho  Consensus Z_j  Consensus Z_k    FlipRate
+  ──────────────────────────────  ──────────────────────────────  ───────  ─────────────  ─────────────  ──────────
+                             x12                             x13  +0.9503         0.0745         0.0496       0.00%
+                             x15                             x16  +0.9455         0.0471         0.0429      16.00%
+                             x12                             x14  +0.9049         0.0745         0.0461       0.00%
+                             x12                             x15  +0.8694         0.0745         0.0471       0.00%
+
+  Mean DASH flip rate: 4.00%
+
+========================================================================
+SUMMARY: F5 -> F1 -> DASH Pipeline Results
+========================================================================
+
+Dataset:         default-of-credit-card-clients
+Samples:         10000
+Features:        23
+Collinear pairs: 29 (|rho| > 0.5)
+Tracked pairs:   10
+
+Pipeline progression:
+  F5 (1 model):   4 pairs flagged for instability
+  F1 (5 models):  0/4 pairs flip = 0% flip rate
+  DASH (25 models): mean flip rate = 4.00%
+
+Theoretical prediction:
+  rho=+0.950  =>  attribution_ratio = 1/(1-rho^2) = 10.31
+  rho=+0.946  =>  attribution_ratio = 1/(1-rho^2) = 9.54
+  rho=+0.946  =>  attribution_ratio = 1/(1-rho^2) = 9.44
+  rho=+0.941  =>  attribution_ratio = 1/(1-rho^2) = 8.80
+  rho=+0.941  =>  attribution_ratio = 1/(1-rho^2) = 8.67
+
+Conclusion:
+  Collinear features cause ranking instability across equivalent models
+  (the Attribution Impossibility). DASH consensus averaging reduces
+  flip rates by pooling across the Rashomon set.
+

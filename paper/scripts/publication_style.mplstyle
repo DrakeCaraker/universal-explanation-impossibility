@@ -1,0 +1,58 @@
+# Publication-quality matplotlib style for JMLR submission
+# Ensures Type 1 fonts (Computer Modern), consistent sizing, clean aesthetics
+
+# Font: Computer Modern to match LaTeX body text
+font.family: serif
+font.serif: cmr10, Computer Modern Roman, DejaVu Serif
+mathtext.fontset: cm
+text.usetex: True
+text.latex.preamble: \usepackage{amsmath}\usepackage{amssymb}
+
+# Force Type 1/TrueType fonts in PDF output (no Type 3)
+pdf.fonttype: 42
+ps.fonttype: 42
+
+# Font sizes (readable at JMLR column width ~3.25in)
+font.size: 9
+axes.titlesize: 10
+axes.labelsize: 9
+xtick.labelsize: 8
+ytick.labelsize: 8
+legend.fontsize: 8
+
+# Line weights
+lines.linewidth: 1.0
+axes.linewidth: 0.6
+grid.linewidth: 0.4
+lines.markersize: 4
+
+# Colors: colorblind-safe
+axes.prop_cycle: cycler('color', ['0072B2', 'D55E00', '009E73', 'CC79A7', 'F0E442', '56B4E9', 'E69F00', '000000'])
+
+# Axes: clean, modern
+axes.spines.top: False
+axes.spines.right: False
+axes.grid: False
+
+# Grid (when enabled)
+grid.color: cccccc
+grid.linestyle: --
+grid.alpha: 0.5
+
+# Legend
+legend.frameon: False
+legend.loc: best
+
+# Figure defaults
+figure.dpi: 150
+savefig.dpi: 300
+savefig.bbox: tight
+savefig.pad_inches: 0.05
+
+# Ticks
+xtick.direction: out
+ytick.direction: out
+xtick.major.size: 3
+ytick.major.size: 3
+xtick.minor.size: 1.5
+ytick.minor.size: 1.5

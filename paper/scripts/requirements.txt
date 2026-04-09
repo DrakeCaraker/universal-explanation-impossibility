@@ -1,0 +1,11 @@
+# Pinned dependencies for experiment reproducibility
+# Generated 2026-04-03 from Drake's Apple Silicon environment
+xgboost==2.1.4
+shap==0.49.1
+scipy==1.13.1
+numpy==2.0.2
+matplotlib==3.9.4
+pandas==2.3.3
+scikit-learn==1.6.1
+catboost==1.2.10
+sympy==1.14.0
