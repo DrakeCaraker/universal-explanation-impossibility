@@ -94,7 +94,7 @@ counterfactual direction flip rate, 0.90 concept direction instability,
 LLM self-explanation citation flip rate.
 The resolution is uniform: $G$-invariant aggregation over equivalent
 configurations restores faithfulness-in-expectation and stability at
-the cost of decisiveness, and is proved uniquely optimal.
+the cost of decisiveness, and is proved Pareto-optimal among stable methods.
 The impossibility is ubiquitous: any system with strictly more parameters
 than observational constraints admits a Rashomon set of positive measure.
 The framework is mechanically verified in Lean~4 (73~files, 346~theorems,
@@ -897,7 +897,7 @@ discovery, model selection, saliency maps, LLM explanations, mechanistic
 interpretability) share \emph{one}
 mechanism---the Rashomon property---rather than nine unrelated pathologies.  Second, the Lean~4
 formalization (Section~\ref{sec:lean}: 73~files, 346~theorems, 0~\texttt{sorry})
-eliminates logical gaps that informal arguments inevitably leave.  Third, the
+eliminates logical gaps in the formal proofs that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attention flip rates, measurable counterfactual and concept instability on
 standard benchmarks.  Fourth, the resolution via $G$-invariant maps is
@@ -941,8 +941,8 @@ We briefly sketch five domains where the theorem applies directly.
 Quine \citep{quine1951dogmas} and Duhem \citep{duhem1906aim} argued that
 empirical evidence underdetermines theory choice.  Van Fraassen
 \citep{vanfraassen1980scientific} elevated this to a central argument for
-constructive empiricism.  Despite a century of philosophical discussion, the
-thesis has never been formalized as a mathematical theorem with a precise
+constructive empiricism.  Despite a century of philosophical discussion, a core consequence of the
+thesis has not, to our knowledge, been formalized as a mathematical theorem with a precise
 boundary condition.  Theorem~\ref{thm:universal} provides that
 formalization: the configuration space corresponds to theories, the
 observable space to data, the Rashomon property to the existence of

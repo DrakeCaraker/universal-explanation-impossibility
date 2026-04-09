@@ -66,21 +66,21 @@
 \begin{abstract}
 %%=======================================================================
 When a system is underspecified---when multiple configurations produce
-the same observable output---any explanation faces a fundamental
+the same observable output---any explanation faces an inherent
 tradeoff. We prove that no explanation can simultaneously be faithful
 (consistent with the system's native explanation), stable (invariant
 across observationally equivalent configurations), and decisive
 (committing to every distinction the native explanation makes). This
 impossibility holds whenever the Rashomon property obtains: equivalent
 configurations with incompatible explanations. We prove the Rashomon
-property is both necessary and sufficient---the exact boundary between
+property is both necessary and sufficient---within our framework, the exact boundary between
 possibility and impossibility. The theorem is instantiated across nine
 domains: feature attribution, attention maps, counterfactual
 explanations, concept probes, causal discovery, model selection,
 saliency maps, language model explanations, and mechanistic
 interpretability. For causal discovery, the Rashomon property is derived
 from first principles (Markov equivalence). The resolution---$G$-invariant
-aggregation---is proved uniquely optimal. The result is mechanically
+aggregation---is proved Pareto-optimal among stable methods. The result is mechanically
 verified in the Lean~4 proof assistant (346 theorems, 0 unproved goals).
 \end{abstract}
 
@@ -91,14 +91,14 @@ Explainability is central to trustworthy AI, scientific inference, and
 regulatory compliance. We prove a universal impossibility: no method of
 explaining an underspecified system can simultaneously be faithful to the
 system, stable across equivalent configurations, and decisive in its
-commitments. This formalizes the century-old Quine--Duhem underdetermination
-thesis as a mathematical theorem for the first time. The impossibility
-applies to every major explanation paradigm in machine learning---from
+commitments. This formalizes a core consequence of the Quine--Duhem underdetermination
+thesis as a mathematical theorem, to our knowledge for the first time. The impossibility
+applies to nine major explanation paradigms in machine learning---from
 SHAP values to neural network circuit analysis---and extends to scientific
 explanation, medical diagnosis, and legal interpretation. The constructive
-resolution (aggregate over equivalent configurations) provides the
-mathematically optimal tradeoff. The entire proof is mechanically verified,
-eliminating logical gaps.
+resolution (aggregate over equivalent configurations) provides
+a Pareto-optimal tradeoff among stable explanation methods. The entire proof is mechanically verified,
+eliminating logical gaps in the formal proofs.
 
 \medskip
 
@@ -155,7 +155,7 @@ assistant~\cite{demoura2021lean4} (73 files, 346 theorems, 72 axioms,
 0~\texttt{sorry}). The core impossibility requires zero axioms beyond
 the Rashomon property itself.
 
-Our contributions are: (1)~a universal impossibility theorem unifying
+Our contributions are: (1)~To our knowledge, this is a universal impossibility theorem unifying
 nine domain-specific results under a single proof; (2)~a proof that the
 Rashomon property is both necessary and sufficient---the exact boundary
 between possibility and impossibility; (3)~nine instances spanning
@@ -609,13 +609,13 @@ framework; and the Rashomon property to the existence of empirically
 equivalent theories with incompatible explanations. The theorem states:
 underdetermination at the observable level propagates to underdetermination
 at the explanation level, and no interpretive procedure can escape the
-tradeoff. The necessity result (Proposition~\ref{prop:necessity})
+structural tradeoff. The necessity result (Proposition~\ref{prop:necessity})
 sharpens the thesis: the impossibility holds \emph{if and only if} the
 Rashomon property obtains, providing the exact boundary that philosophical
 formulations lack.
 
 Okasha~\cite{okasha2011theory} connected Kuhn's theory choice to Arrow's
-impossibility theorem in social choice. Our result provides a
+impossibility theorem~\cite{arrow1951social} in social choice. Our result provides a
 complementary connection: underdetermination of explanation is an
 impossibility theorem in the same structural sense as Arrow's, with the
 Rashomon property playing the role of Arrow's independence of irrelevant
@@ -625,7 +625,10 @@ alternatives.
 
 The EU AI Act~\cite{euaiact2024} requires ``meaningful explanations'' for
 high-risk systems. SR~11-7~\cite{occ2011sr117} requires ``developmental
-evidence'' documenting model decisions. Both implicitly demand
+evidence'' documenting model decisions. Fairness regulations face
+a parallel impossibility: Chouldechova~\cite{chouldechova2017fair} proved
+that common fairness metrics cannot simultaneously be satisfied when base
+rates differ across groups. Both implicitly demand
 faithfulness, stability, and decisiveness simultaneously.
 Theorem~\ref{thm:universal} shows this is impossible whenever models are
 underspecified---which is the norm for modern machine learning systems.
