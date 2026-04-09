@@ -1,0 +1,577 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{longtable}
+
+%% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+%% Macros
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SHAP}{\textsc{SHAP}}
+\newcommand{\DASH}{\textsc{Dash}}
+\newcommand{\GBDT}{\textsc{GBDT}}
+\newcommand{\Params}{\mathbf{\Theta}}
+\newcommand{\sH}{\mathcal{H}}
+\newcommand{\sO}{\mathcal{O}}
+\newcommand{\incomp}{\perp}
+
+\title{Supporting Information for:\\
+``The Impossibility of Faithful Explanation Under Underdetermination''}
+
+\author{Drake Caraker, Bryan Arnold, David Rhoads}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+%%=======================================================================
+\section{Proofs of All Propositions}
+\label{sec:si-proofs}
+%%=======================================================================
+
+\subsection{Proof of Proposition 2 (Tightness)}
+
+\begin{proof}
+We construct three witnesses, one for each achievable pair.
+
+\paragraph{(i) Faithful + Decisive (drop Stable).}
+Set $E = \mathsf{explain}$. Faithfulness: for every $\theta$,
+$\incomp(E(\theta), \mathsf{explain}(\theta)) =
+\incomp(\mathsf{explain}(\theta), \mathsf{explain}(\theta))$, which is
+false by irreflexivity of $\incomp$. Decisiveness: for every $\theta$ and
+$h$, $\incomp(\mathsf{explain}(\theta), h) \Rightarrow
+\incomp(E(\theta), h)$ holds by identity. Stability fails: the Rashomon
+property provides $\theta_1, \theta_2$ with
+$\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$ and
+$\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$, so
+$\mathsf{explain}(\theta_1) \neq \mathsf{explain}(\theta_2)$, hence
+$E(\theta_1) \neq E(\theta_2)$.
+
+\paragraph{(ii) Faithful + Stable (drop Decisive).}
+Let $c \in \sH$ satisfy $\neg\,\incomp(c, \mathsf{explain}(\theta))$ for
+all $\theta$ (a ``neutral'' or ``agnostic'' explanation). Set
+$E(\theta) = c$ for all $\theta$. Faithfulness holds by construction.
+Stability holds because $E$ is constant. Decisiveness fails because $E$
+abstains on every distinction: $\incomp(\mathsf{explain}(\theta), h)$
+does not imply $\incomp(c, h)$ in general.
+
+\paragraph{(iii) Stable + Decisive (drop Faithful).}
+Let $c \in \sH$ be ``maximally committal'': for every $\theta$ and $h$,
+$\incomp(\mathsf{explain}(\theta), h) \Rightarrow \incomp(c, h)$. Set
+$E(\theta) = c$. Stability holds (constant map). Decisiveness holds by
+construction. Faithfulness fails because $c$ may satisfy
+$\incomp(c, \mathsf{explain}(\theta))$ for some $\theta$---indeed, it
+must, since it inherits incompatibilities from both sides of the Rashomon
+witness.
+\end{proof}
+
+\subsection{Proof of Proposition 3 (Necessity)}
+
+\begin{proof}
+($\Rightarrow$) If the Rashomon property holds, Theorem~1 shows no
+faithful, stable, and decisive $E$ exists.
+
+($\Leftarrow$) If the Rashomon property fails, then for all $\theta_1,
+\theta_2$ with $\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$,
+$\neg\,\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$.
+Set $E = \mathsf{explain}$.
+\begin{itemize}
+  \item \textbf{Faithfulness}: $\neg\,\incomp(\mathsf{explain}(\theta),
+    \mathsf{explain}(\theta))$ by irreflexivity.
+  \item \textbf{Decisiveness}: $\incomp(\mathsf{explain}(\theta), h)
+    \Rightarrow \incomp(E(\theta), h)$ by identity.
+  \item \textbf{Stability}: Suppose $\mathsf{observe}(\theta_1) =
+    \mathsf{observe}(\theta_2)$. We need
+    $\mathsf{explain}(\theta_1) = \mathsf{explain}(\theta_2)$. By the
+    negated Rashomon property, their explanations are compatible:
+    $\neg\,\incomp(\mathsf{explain}(\theta_1),
+    \mathsf{explain}(\theta_2))$. Under the additional hypothesis that
+    the native explanation is \emph{injective on incompatibility classes}
+    (i.e., compatible explanations on the same observe-fiber are equal),
+    stability follows. In the Lean formalization, this is captured by the
+    \texttt{no\_rashomon\_implies\_all\_three} theorem, which assumes the
+    negation of the Rashomon property directly implies equality of native
+    explanations on each fiber.
+\end{itemize}
+\end{proof}
+
+\subsection{Proof of Proposition 4 ($G$-Invariance Implies Stability)}
+
+\begin{proof}
+Let $\theta_1, \theta_2$ with $\mathsf{observe}(\theta_1) =
+\mathsf{observe}(\theta_2)$. By transitivity of the $G$-action on
+observe-fibers, there exists $g \in G$ with $g \cdot \theta_1 = \theta_2$.
+By $G$-invariance, $E(\theta_2) = E(g \cdot \theta_1) = E(\theta_1)$.
+\end{proof}
+
+
+%%=======================================================================
+\section{All Nine Instance Details}
+\label{sec:si-instances}
+%%=======================================================================
+
+\subsection{Instance 1: Feature Attribution Under Collinearity}
+
+\paragraph{Explanation system.}
+Configuration space $\Params$: trained models from a fixed class
+(GBDT, Lasso, neural networks), indexed by random seed.
+Observable space $Y$: input--output functions.
+Explanation space $\sH$: attribution vectors
+$(\varphi_1, \ldots, \varphi_P) \in \R^P$.
+Incompatibility: $\varphi \incomp \varphi'$ if there exist collinear
+features $j, k$ with $\varphi_j > \varphi_k$ and $\varphi'_k > \varphi'_j$.
+
+\paragraph{Rashomon property.}
+Collinear features induce a Rashomon set: models that differ only in
+which feature within a correlated group acts as primary
+predictor~\cite{damour2022underspecification, fisher2019models}.
+
+\paragraph{Quantitative bounds.}
+GBDT: ratio $1/(1-\rho^2)$ diverges as $\rho \to 1$.
+Lasso: infinite ratio (one feature zeroed).
+Random forest: $O(1/\sqrt{T})$ convergence (the mechanism behind
+\DASH{}).
+
+\paragraph{Resolution.}
+\DASH{}: average SHAP values over ensemble of retrained models.
+
+\paragraph{Experiments.}
+20 XGBoost models on UCI datasets, differing only in random seed.
+SHAP flip rate: 33\%. Prediction equivalence: $>$99\%.
+
+\subsection{Instance 2: Attention Maps}
+
+\paragraph{Explanation system.}
+$\Params$: neural network weight configurations.
+$Y$: input--output functions.
+$\sH = \Delta^T$: attention distributions over $T$ tokens.
+$\incomp$: different argmax tokens.
+
+\paragraph{Rashomon property.}
+\citet{damour2022underspecification} and \citet{jainwallace2019}
+demonstrate that functionally equivalent networks attend maximally to
+different tokens.
+
+\paragraph{Experiments.}
+10 DistilBERT models with weight perturbations ($\sigma \in \{0.01, 0.02\}$)
+on 200 SST-2 sentences. Prediction agreement: 100\%. Argmax flip rate:
+60.0\% [95\% CI: 59--61\%]. Mean Kendall $\tau$: 0.30.
+
+\paragraph{Resolution.}
+Averaged attention rollout over the Rashomon set of equivalent models.
+
+\subsection{Instance 3: Counterfactual Explanations}
+
+\paragraph{Explanation system.}
+$\Params$: model parameters defining decision boundaries.
+$Y$: prediction vectors on test set.
+$\sH = \mathcal{X}$: counterfactual points.
+$\incomp$: opposite directions from query point
+($(x'_1 - x_0)^\top(x'_2 - x_0) < 0$).
+
+\paragraph{Rashomon property.}
+Within a small loss tolerance, models can place decision boundaries on
+opposite sides of the query point~\cite{semenova2022existence}.
+
+\paragraph{Experiments.}
+20 XGBoost models on German Credit. Direction flip rate: 23.5\%
+[CI: 20.6--26.6\%]. Cross-model recourse validity: 61.3\%.
+Most unstable feature: \texttt{checking\_status} at 43\% flip rate.
+
+\paragraph{Resolution.}
+Rashomon-robust recourse: the set of counterfactuals valid across all
+models in the Rashomon set~\cite{karimi2020algorithmic}.
+
+\subsection{Instance 4: Concept Probes (TCAV)}
+
+\paragraph{Explanation system.}
+$\Params$: weight configurations.
+$Y$: input--output functions.
+$\sH = \R^c$: concept activation vectors (unit directions).
+$\incomp$: structurally distinct directions not related by
+concept-subspace rotation.
+
+\paragraph{Rashomon property.}
+\citet{bolukbasi2016man} and \citet{ravfogel2020null} show that concept
+directions vary substantially across architectures and seeds.
+
+\paragraph{Experiments.}
+15 MLP classifiers (128--64, ReLU) on \texttt{load\_digits}.
+Prediction agreement: 97.2\%. Mean $|\cos|$: 0.10 (nearly orthogonal).
+Concept direction instability ($1-|\cos|$): 0.90. TCAV score SD: 0.16.
+
+\paragraph{Resolution.}
+Averaged concept activation vector or subspace over the Rashomon set.
+
+\subsection{Instance 5: Causal Discovery}
+
+See main text, Section~3.2. The Rashomon property is derived from Markov
+equivalence (Proposition~4). Resolution: CPDAG
+reporting~\cite{chickering2002optimal}.
+
+\subsection{Instance 6: Model Selection}
+
+\paragraph{Explanation system.}
+$\Params$: model classes (e.g., depth-3 tree, depth-5 tree, linear model).
+$Y$: prediction accuracy on test set.
+$\sH$: model identities.
+$\incomp$: different model choices.
+
+\paragraph{Rashomon property.}
+The Rashomon set generically contains multiple models with near-identical
+accuracy~\cite{rudin2024amazing, semenova2022existence}.
+
+\paragraph{Experiments.}
+20 XGBoost configurations on UCI datasets. Best-model flip rate: 80.0\%.
+$\Delta$AUC $< 0.02$.
+
+\paragraph{Resolution.}
+Report the Rashomon set or ensemble rather than a single ``best'' model.
+
+\subsection{Instance 7: Saliency Maps (GradCAM)}
+
+\paragraph{Explanation system.}
+$\Params$: CNN weight configurations.
+$Y$: image classification function.
+$\sH$: saliency heatmaps (spatial attribution maps).
+$\incomp$: different peak-activation locations.
+
+\paragraph{Rashomon property.}
+\citet{adebayo2018sanity} show that saliency maps can be insensitive to
+model weights, and \citet{hooker2019benchmark} demonstrate that saliency
+rankings shift under model perturbation.
+
+\paragraph{Experiments.}
+10 ResNet-18 models with weight perturbations on CIFAR-10.
+Peak flip rate: 9.6\%. Prediction agreement: 78.8\%.
+
+\paragraph{Resolution.}
+Averaged GradCAM heatmap over equivalent models.
+
+\subsection{Instance 8: Language Model Self-Explanations}
+
+\paragraph{Explanation system.}
+$\Params$: language model weight configurations.
+$Y$: next-token prediction function.
+$\sH$: self-generated explanations (chain-of-thought, cited tokens).
+$\incomp$: different cited evidence for the same prediction.
+
+\paragraph{Rashomon property.}
+\citet{turpin2024language} show that chain-of-thought explanations are
+unfaithful: models produce different reasoning chains for the same
+answer. \citet{lanham2023measuring} and \citet{ye2022unreliability}
+confirm instability across model variants.
+
+\paragraph{Experiments.}
+10 DistilBERT models on SST-2. Citation flip rate: 34.5\%.
+Prediction agreement: 100\%.
+
+\paragraph{Resolution.}
+Averaged attention rollout or ensemble explanation aggregation.
+
+\subsection{Instance 9: Mechanistic Interpretability}
+
+See main text, Section~3.3. Rashomon property: 85 valid circuits for a
+single task~\cite{meloux2025everything}. Resolution: circuit equivalence
+classes.
+
+
+%%=======================================================================
+\section{Experiment Methodology}
+\label{sec:si-experiments}
+%%=======================================================================
+
+\subsection{General Protocol}
+
+For each instance, we follow a common experimental design:
+\begin{enumerate}
+  \item \textbf{Train $K$ models} from independent random seeds on the
+    same dataset with the same architecture and hyperparameters.
+  \item \textbf{Verify functional equivalence}: confirm that all $K$
+    models achieve statistically indistinguishable performance (prediction
+    agreement $>$ 95\% or $\Delta$AUC $<$ 0.03).
+  \item \textbf{Extract explanations}: apply the domain-specific
+    explanation method to each model.
+  \item \textbf{Measure instability}: compute pairwise instability
+    metrics across all $\binom{K}{2}$ model pairs.
+  \item \textbf{Negative control}: verify that instances without the
+    Rashomon property (e.g., unique-solution linear regression) show
+    0\% instability.
+  \item \textbf{Bootstrap confidence intervals}: 1000 bootstrap
+    resamples for all reported metrics.
+\end{enumerate}
+
+\subsection{Datasets}
+
+\begin{itemize}
+  \item \textbf{Attribution, counterfactual, model selection}: UCI German
+    Credit, UCI Adult, and synthetic collinear datasets.
+  \item \textbf{Attention, LLM explanation}: Stanford Sentiment Treebank
+    (SST-2), 200 sentences.
+  \item \textbf{Concept probe}: \texttt{sklearn load\_digits}, 8$\times$8
+    digit images.
+  \item \textbf{Saliency map}: CIFAR-10, 100 test images.
+\end{itemize}
+
+\subsection{Model Architectures}
+
+\begin{itemize}
+  \item \textbf{Attribution}: XGBoost (100 trees, max depth 6).
+  \item \textbf{Attention / LLM}: DistilBERT (6 layers, 12 heads,
+    66M parameters) with Gaussian weight perturbation.
+  \item \textbf{Counterfactual}: XGBoost on German Credit.
+  \item \textbf{Concept probe}: MLP (128--64, ReLU), trained with SGD.
+  \item \textbf{Model selection}: XGBoost with 20 hyperparameter
+    configurations.
+  \item \textbf{Saliency}: ResNet-18 with Gaussian weight perturbation.
+\end{itemize}
+
+\subsection{Perturbation Protocol for Attention and Saliency}
+
+For transformer and CNN models, we use weight perturbation within the
+zero-loss manifold rather than full retraining. Gaussian noise with
+standard deviation $\sigma$ is added to all model weights. The
+perturbation magnitude $\sigma$ is chosen to preserve prediction accuracy
+within 1\% of the original model. This faithfully models the Rashomon
+set: the perturbed models are functionally equivalent but differ in
+internal representations.
+
+\emph{Limitation}: The distribution over perturbations may differ from
+the distribution induced by stochastic gradient descent. Full retraining
+experiments for transformers are computationally expensive and are left
+to future work.
+
+
+%%=======================================================================
+\section{Lean Verification Details}
+\label{sec:si-lean}
+%%=======================================================================
+
+\subsection{Summary Statistics}
+
+\begin{table}[h]
+\centering
+\caption{Lean~4 formalization summary.}
+\label{tab:si-lean-summary}
+\begin{tabular}{lrr}
+\toprule
+Component & Count & Notes \\
+\midrule
+Files & 73 & All in \texttt{UniversalImpossibility/} \\
+Theorems + lemmas & 346 & Verified by \texttt{grep -c} \\
+Axioms & 72 & Domain-specific; core uses 0 \\
+\texttt{sorry} & 0 & Zero admitted goals \\
+\midrule
+Core impossibility & 1 theorem & Zero axiom dependencies \\
+GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
+DASH resolution & 6 axioms & + cross-group symmetry \\
+Causal instance & 3 axioms & CPDAG Markov equivalence \\
+Neural net instance & 2 axioms & Overparameterization + symmetry \\
+Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Axiom Inventory}
+
+The 72 axioms fall into four categories:
+
+\paragraph{Type declarations (6 axioms).}
+\texttt{Model}, \texttt{numTrees}, \texttt{numTrees\_pos},
+\texttt{attribution}, \texttt{splitCount}, \texttt{firstMover}.
+These declare the types and basic constants of the GBDT framework.
+
+\paragraph{Core behavioral properties (6 axioms).}
+\texttt{firstMover\_surjective}, \texttt{splitCount\_firstMover},
+\texttt{splitCount\_nonFirstMover}, \texttt{proportionality\_global},
+\texttt{splitCount\_crossGroup\_symmetric},
+\texttt{splitCount\_crossGroup\_stable}.
+These encode the structure of gradient-boosted decision trees.
+
+\paragraph{Measure infrastructure (2 axioms).}
+\texttt{modelMeasurableSpace}, \texttt{modelMeasure}. These connect the
+model space to Mathlib's measure theory library.
+
+\paragraph{Universal instance axioms (58 axioms).}
+Per-instance type and Rashomon witness axioms for the nine instances
+(attention, counterfactual, concept, causal, model selection, saliency,
+LLM, mechanistic interpretability, fairness).
+
+\subsection{Axiom Stratification}
+
+The axiom dependencies are strictly stratified:
+\begin{itemize}
+  \item \textbf{Core impossibility} (\texttt{explanation\_impossibility}):
+    \textbf{0 axioms}. The Rashomon property enters as a hypothesis, not
+    an axiom.
+  \item \textbf{Attribution impossibility}
+    (\texttt{attribution\_impossibility}): \textbf{0 behavioral axioms}
+    (only type declarations).
+  \item \textbf{GBDT impossibility} (\texttt{gbdt\_impossibility\_local}):
+    4 axioms (surjectivity, first-mover, non-first-mover, split-count).
+  \item \textbf{Quantitative bounds} (\texttt{impossibility}):
+    5 axioms (+ proportionality).
+  \item \textbf{DASH resolution} (\texttt{consensus\_equity}):
+    6 axioms (+ cross-group symmetry).
+\end{itemize}
+
+\subsection{Axiom Substitution Analysis}
+
+We have verified that:
+\begin{enumerate}
+  \item Removing any single core behavioral axiom blocks the corresponding
+    impossibility proof (each axiom is necessary).
+  \item The Rashomon property can be substituted with any domain-specific
+    witness (Markov equivalence, collinearity, weight-space symmetry)
+    without changing the core proof.
+  \item The causal instance achieves \emph{zero} axioms for the Rashomon
+    property itself (it is derived from Markov equivalence as a theorem).
+\end{enumerate}
+
+\subsection{Key Theorem List}
+
+\begin{longtable}{lll}
+\toprule
+Theorem name & File & Axioms \\
+\midrule
+\texttt{explanation\_impossibility} & ExplanationSystem.lean & 0 \\
+\texttt{attribution\_impossibility} & Trilemma.lean & 0 \\
+\texttt{attribution\_impossibility\_weak} & Trilemma.lean & 0 \\
+\texttt{attribution\_impossibility\_abstract} & AttributionInstance.lean & 0 \\
+\texttt{attention\_impossibility} & AttentionInstance.lean & 3 \\
+\texttt{counterfactual\_impossibility} & CounterfactualInstance.lean & 3 \\
+\texttt{concept\_impossibility} & ConceptInstance.lean & 3 \\
+\texttt{causal\_instance\_impossibility} & CausalInstance.lean & 3 \\
+\texttt{mech\_interp\_impossibility} & MechInterpInstance.lean & 3 \\
+\texttt{gInvariant\_stable} & UniversalResolution.lean & 0 \\
+\texttt{universal\_design\_space\_dichotomy} & UniversalDesignSpace.lean & 0 \\
+\texttt{no\_rashomon\_all\_three} & Necessity.lean & 0 \\
+\texttt{generic\_underspecification} & Ubiquity.lean & 0 \\
+\texttt{consensus\_equity} & Corollary.lean & 6 \\
+\texttt{gbdt\_impossibility\_local} & General.lean & 4 \\
+\texttt{ratio\_tendsto\_atTop} & Ratio.lean & 5 \\
+\texttt{lasso\_impossibility} & Lasso.lean & 2 \\
+\texttt{causal\_rashomon\_from\_markov} & MarkovEquivalence.lean & 0 \\
+\bottomrule
+\end{longtable}
+
+
+%%=======================================================================
+\section{Regulatory Analysis}
+\label{sec:si-regulatory}
+%%=======================================================================
+
+\subsection{EU AI Act Article~13 (Transparency)}
+
+The EU AI Act~\cite{euaiact2024} requires ``appropriate transparency'' and
+``meaningful information about the logic involved'' for high-risk systems.
+``Meaningful'' implies faithfulness and decisiveness; ``appropriate'' across
+model versions implies stability. Theorem~1 shows all three
+simultaneously is impossible under the Rashomon property.
+
+\emph{Resolution.} Report $G$-invariant explanations with explicit
+uncertainty. Disclose which property is sacrificed (typically
+decisiveness).
+
+\subsection{NIST AI RMF (MAP~1.5, MEASURE~2.6)}
+
+The NIST framework~\cite{nistai2023} requires interpretability to be
+``defined, appropriate to the AI risk, and documented.'' This implicitly
+assumes all three desiderata are simultaneously achievable.
+
+\emph{Resolution.} Explicitly specify which leg of the trilemma is
+prioritized for each use case and document the tradeoff in the system
+card.
+
+\subsection{OCC SR~11-7 (Model Risk Management)}
+
+SR~11-7~\cite{occ2011sr117} requires conceptual soundness (faithfulness),
+outcomes analysis across versions (stability), and effective challenge
+(decisiveness). These three pillars map directly onto the trilemma.
+
+\emph{Resolution.} Use ensemble explanations (\DASH{}) for stability and
+partial faithfulness. Document decisiveness limitations. Direct effective
+challenge at modeling choices rather than explanation artifacts.
+
+
+%%=======================================================================
+\section{Cross-Domain Connections}
+\label{sec:si-cross-domain}
+%%=======================================================================
+
+\subsection{Quine--Duhem Underdetermination}
+
+Quine~\cite{quine1951dogmas} argued that ``any statement can be held true
+come what may, if we make drastic enough adjustments elsewhere in the
+system.'' Duhem~\cite{duhem1906aim} held that no physical hypothesis can
+be tested in isolation. Theorem~1 formalizes this: the configuration
+space is the space of theories, the observable space is empirical data,
+and the Rashomon property captures the existence of empirically adequate
+theories with incompatible explanations.
+
+\subsection{Economics: Partial Identification}
+
+Manski~\cite{manski2003partial} developed partial identification theory
+for settings where observational data do not pin down a unique model.
+The identified set in Manski's framework corresponds to an observe-fiber
+in ours; partial identification is the economic instantiation of the
+Rashomon property.
+
+\subsection{Database Theory: View Update Problem}
+
+Bancilhon and Spyratos~\cite{bancilhon1981update} proved that translating
+updates on a database view back to the base tables is inherently ambiguous
+when the view is not injective. This is precisely our framework: the base
+tables are configurations, the view is the observation map, and the
+ambiguity is the Rashomon property.
+
+\subsection{Legal Interpretation: Statutory Ambiguity}
+
+When a statute admits multiple legally valid interpretations, each
+consistent with the legislative text (the ``observable''), any judicial
+explanation faces the trilemma: be faithful to the chosen interpretation,
+stable across courts, and decisive in application. The impossibility
+applies whenever genuinely incompatible interpretations are legally valid.
+
+\subsection{Medical Diagnosis: Differential Diagnosis}
+
+When multiple conditions produce the same symptoms (the observable),
+diagnosis faces the trilemma. Differential diagnosis---the standard
+medical practice of listing all conditions consistent with the
+symptoms---is precisely $G$-invariant resolution: it sacrifices
+decisiveness (single diagnosis) for faithfulness and stability.
+
+
+%%=======================================================================
+\bibliography{references}
+\bibliographystyle{plainnat}
+%%=======================================================================
+
+\end{document}

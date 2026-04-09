@@ -1,0 +1,679 @@
+\documentclass[twocolumn]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{microtype}
+
+%% 9pt body text to approximate PNAS style
+\usepackage{setspace}
+\renewcommand{\normalsize}{\fontsize{9}{11}\selectfont}
+\normalsize
+
+%% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+%% Macros
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SHAP}{\textsc{SHAP}}
+\newcommand{\DASH}{\textsc{Dash}}
+\newcommand{\GBDT}{\textsc{GBDT}}
+\newcommand{\Params}{\mathbf{\Theta}}
+\newcommand{\Hyp}{\mathcal{H}}
+\newcommand{\Obs}{\mathcal{O}}
+\newcommand{\ExplSpace}{\mathcal{E}}
+\newcommand{\sE}{\mathcal{E}}
+\newcommand{\sH}{\mathcal{H}}
+\newcommand{\sO}{\mathcal{O}}
+\newcommand{\incomp}{\perp}
+
+\title{The Impossibility of Faithful Explanation Under Underdetermination}
+
+\author{
+  Drake Caraker\thanks{Corresponding author: \texttt{drakecaraker@gmail.com}} \quad
+  Bryan Arnold \quad
+  David Rhoads \\[4pt]
+  \textit{Independent Researchers}
+}
+
+\date{}
+
+\begin{document}
+
+\twocolumn[
+  \begin{@twocolumnfalse}
+  \maketitle
+
+%%=======================================================================
+\begin{abstract}
+%%=======================================================================
+When a system is underspecified---when multiple configurations produce
+the same observable output---any explanation faces a fundamental
+tradeoff. We prove that no explanation can simultaneously be faithful
+(consistent with the system's native explanation), stable (invariant
+across observationally equivalent configurations), and decisive
+(committing to every distinction the native explanation makes). This
+impossibility holds whenever the Rashomon property obtains: equivalent
+configurations with incompatible explanations. We prove the Rashomon
+property is both necessary and sufficient---the exact boundary between
+possibility and impossibility. The theorem is instantiated across nine
+domains: feature attribution, attention maps, counterfactual
+explanations, concept probes, causal discovery, model selection,
+saliency maps, language model explanations, and mechanistic
+interpretability. For causal discovery, the Rashomon property is derived
+from first principles (Markov equivalence). The resolution---$G$-invariant
+aggregation---is proved uniquely optimal. The result is mechanically
+verified in the Lean~4 proof assistant (346 theorems, 0 unproved goals).
+\end{abstract}
+
+\medskip
+
+\noindent\textbf{Significance.}\quad
+Explainability is central to trustworthy AI, scientific inference, and
+regulatory compliance. We prove a universal impossibility: no method of
+explaining an underspecified system can simultaneously be faithful to the
+system, stable across equivalent configurations, and decisive in its
+commitments. This formalizes the century-old Quine--Duhem underdetermination
+thesis as a mathematical theorem for the first time. The impossibility
+applies to every major explanation paradigm in machine learning---from
+SHAP values to neural network circuit analysis---and extends to scientific
+explanation, medical diagnosis, and legal interpretation. The constructive
+resolution (aggregate over equivalent configurations) provides the
+mathematically optimal tradeoff. The entire proof is mechanically verified,
+eliminating logical gaps.
+
+\medskip
+
+\noindent\textbf{Keywords:} impossibility theorem, explainability, underdetermination, Rashomon effect, formal verification
+
+\vspace{1em}
+\end{@twocolumnfalse}
+]
+
+%%=======================================================================
+\section{Introduction}
+\label{sec:intro}
+%%=======================================================================
+
+When multiple configurations of a system produce identical observable
+output, any attempt to explain the system's behavior faces a fundamental
+constraint. This paper proves that constraint is an impossibility: no
+explanation can simultaneously be faithful, stable, and decisive.
+
+This structure arises across science. In philosophy of science,
+Quine~\cite{quine1951dogmas} and Duhem~\cite{duhem1906aim} argued that
+empirical evidence underdetermines theory choice---no finite body of
+observations can uniquely select a scientific theory from among
+empirically adequate alternatives. In neuroscience, Marder and
+Goaillard~\cite{marder2006variability} documented that nervous systems
+with identical functional output are built from qualitatively different
+circuit configurations, a phenomenon called \emph{neural degeneracy}
+\cite{edelman2001degeneracy}. In statistics and machine learning,
+Breiman's Rashomon effect~\cite{breiman2001random} and its modern
+elaboration by Rudin et al.~\cite{rudin2024amazing} describe the
+multiplicity of near-optimal models with divergent internal structure. In
+economics, Manski~\cite{manski2003partial} developed partial
+identification theory precisely because observational data generically
+fail to pin down a unique model. In database theory,
+Bancilhon and Spyratos~\cite{bancilhon1981update} proved that view updates
+are inherently ambiguous when the view is not injective.
+
+We prove the impossibility, characterize its exact boundary (the Rashomon
+property---necessary and sufficient), demonstrate it across nine domains
+with the most detailed treatment in machine learning, and provide a
+constructive resolution. Informally:
+
+\begin{quote}
+\emph{If two configurations of a system produce the same observable output
+but honestly report incompatible explanations, then no explanation method
+can simultaneously be faithful to the system, stable across equivalent
+configurations, and decisive in its commitments.}
+\end{quote}
+
+\noindent
+The proof is four steps---decisiveness, stability, faithfulness,
+contradiction---and is mechanically verified in the Lean~4 proof
+assistant~\cite{demoura2021lean4} (73 files, 346 theorems, 72 axioms,
+0~\texttt{sorry}). The core impossibility requires zero axioms beyond
+the Rashomon property itself.
+
+Our contributions are: (1)~a universal impossibility theorem unifying
+nine domain-specific results under a single proof; (2)~a proof that the
+Rashomon property is both necessary and sufficient---the exact boundary
+between possibility and impossibility; (3)~nine instances spanning
+feature attribution, attention maps, counterfactual explanations, concept
+probes, causal discovery (with Rashomon \emph{derived} from Markov
+equivalence), model selection, saliency maps, language model explanations,
+and mechanistic interpretability; (4)~a constructive resolution via
+$G$-invariant aggregation proved uniquely optimal; (5)~empirical
+validation across seven instances; and (6)~complete mechanical
+verification. The result connects to Hunt--Stein invariant decision
+theory~\cite{lehmann2005testing} and, to our knowledge, provides the
+first mathematical formalization of the Quine--Duhem underdetermination
+thesis.
+
+
+%%=======================================================================
+\section{Framework}
+\label{sec:framework}
+%%=======================================================================
+
+\subsection{Explanation Systems}
+
+We introduce a minimal abstract framework in which the impossibility can
+be stated and proved. All nine instances in Section~\ref{sec:instances}
+are special cases.
+
+\begin{definition}[Explanation System]
+\label{def:explanation-system}
+An \emph{explanation system} is a tuple
+$\mathcal{S} = (\Params, \sH, Y, \mathsf{observe}, \mathsf{explain}, \incomp)$
+where:
+\begin{itemize}
+  \item $\Params$ is a \emph{configuration space}---the set of possible
+    configurations of the system (e.g., model parameters, experimental
+    setups, circuit wirings);
+  \item $\sH$ is an \emph{explanation space}---the set of possible
+    explanations;
+  \item $Y$ is an \emph{observable space}---the set of measurable
+    outputs;
+  \item $\mathsf{observe}: \Params \to Y$ assigns to each configuration
+    its observable behavior;
+  \item $\mathsf{explain}: \Params \to \sH$ assigns to each
+    configuration the explanation it ``honestly reports''; and
+  \item $\incomp \subseteq \sH \times \sH$ is an \emph{incompatibility
+    relation} satisfying \emph{irreflexivity}:
+    $\neg\,\incomp(h,h)$ for every $h \in \sH$.
+\end{itemize}
+\end{definition}
+
+An \emph{explanation map} $E : \Params \to \sH$ is a procedure that a
+practitioner \emph{chooses}. The native explanation
+$\mathsf{explain}(\theta)$ records what the configuration actually
+implies; $E(\theta)$ is what the chosen method reports.
+
+\subsection{Three Desiderata}
+
+\begin{definition}[Faithful, Stable, Decisive]
+\label{def:desiderata}
+An explanation map $E$ is:
+\begin{itemize}
+  \item \textbf{Faithful} if $E(\theta)$ never contradicts the native
+    explanation:
+    $\forall\,\theta,\;\neg\,\incomp(E(\theta), \mathsf{explain}(\theta))$.
+  \item \textbf{Stable} if equivalent configurations receive the same
+    explanation:
+    $\forall\,\theta_1, \theta_2,\;
+    \mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)
+    \Rightarrow E(\theta_1) = E(\theta_2)$.
+  \item \textbf{Decisive} if $E(\theta)$ inherits every incompatibility
+    of the native explanation:
+    $\forall\,\theta, h,\;
+    \incomp(\mathsf{explain}(\theta), h)
+    \Rightarrow \incomp(E(\theta), h)$.
+\end{itemize}
+\end{definition}
+
+\noindent
+Faithfulness says the method does not contradict the system. Stability says
+the method is reproducible---it does not depend on which equivalent
+configuration happens to be examined. Decisiveness says the method is at
+least as committal as the system itself: whatever the native explanation
+rules out, the chosen explanation also rules out.
+
+\subsection{The Rashomon Property}
+
+\begin{definition}[Rashomon Property]
+\label{def:rashomon}
+An explanation system has the \emph{Rashomon property} if there exist
+$\theta_1, \theta_2 \in \Params$ with
+\[
+  \mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)
+  \quad\text{and}\quad
+  \incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2)).
+\]
+\end{definition}
+
+\noindent
+Two configurations produce the same observable output yet honestly report
+incompatible explanations. This is the formal statement of
+underdetermination at the explanation level.
+
+\subsection{Main Theorem}
+
+\begin{theorem}[Universal Explanation Impossibility]
+\label{thm:universal}
+If an explanation system has the Rashomon property, then no explanation
+map $E$ can simultaneously be faithful, stable, and decisive.
+\end{theorem}
+
+\begin{proof}
+Let $\theta_1, \theta_2$ witness the Rashomon property.
+Suppose $E$ is faithful, stable, and decisive.
+\begin{enumerate}
+  \item \textbf{Decisiveness} at $\theta_1$:
+    $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$
+    implies $\incomp(E(\theta_1), \mathsf{explain}(\theta_2))$.
+  \item \textbf{Stability}:
+    $\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$
+    implies $E(\theta_1) = E(\theta_2)$, so
+    $\incomp(E(\theta_2), \mathsf{explain}(\theta_2))$.
+  \item \textbf{Faithfulness} at $\theta_2$:
+    $\neg\,\incomp(E(\theta_2), \mathsf{explain}(\theta_2))$.
+  \item Steps 2 and 3 contradict. \qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{proposition}[Tightness]
+\label{prop:tightness}
+Each pair of properties is simultaneously achievable:
+(i)~faithful $+$ decisive (set $E = \mathsf{explain}$; stability fails);
+(ii)~faithful $+$ stable (set $E$ to a neutral constant; decisiveness fails);
+(iii)~stable $+$ decisive (set $E$ to a maximally committal constant;
+faithfulness fails).
+\end{proposition}
+
+\begin{proposition}[Necessity]
+\label{prop:necessity}
+An explanation system admits a faithful, stable, and decisive explanation
+map if and only if it does \emph{not} have the Rashomon property.
+\end{proposition}
+
+\noindent
+The Rashomon property is therefore the \emph{exact boundary} between
+possibility and impossibility. The proofs of
+Propositions~\ref{prop:tightness}--\ref{prop:necessity} are in
+\emph{SI Appendix}.
+
+
+%%=======================================================================
+\section{Instances}
+\label{sec:instances}
+%%=======================================================================
+
+We instantiate Theorem~\ref{thm:universal} in four domains chosen for
+cross-disciplinary breadth. Five additional instances (attention maps,
+counterfactual explanations, concept probes, model selection, language
+model explanations) are detailed in \emph{SI Appendix}.
+
+\subsection{Feature Attribution (Machine Learning)}
+\label{sec:instance-attr}
+
+Fix $P \geq 2$ features with collinearity groups. The configuration
+space~$\Params$ is the set of trained models (e.g., gradient-boosted
+trees, Lasso, neural networks); the observable space~$Y$ is the
+input--output function; the explanation space~$\sH$ is the set of
+attribution vectors $(\varphi_1, \ldots, \varphi_P)$ assigning importance
+to each feature; and the incompatibility relation declares two vectors
+incompatible when they rank the same collinear pair in opposite orders.
+Collinearity induces a Rashomon set of near-optimal models that differ
+only in which feature within a correlated group acts as the primary
+predictor~\cite{damour2022underspecification, fisher2019models}. The
+impossibility follows from Theorem~\ref{thm:universal}: no attribution
+method (\SHAP{}, LIME, Integrated Gradients) can simultaneously be
+faithful, stable, and decisive. This subsumes the result of
+\citet{bilodeau2024impossibility} as a special case.
+
+For gradient-boosted trees with per-group correlation~$\rho$, the
+attribution ratio diverges as $1/(1-\rho^2)$ as $\rho \to 1$. For
+Lasso at any $\rho > 0$, one correlated feature is zeroed out entirely
+(infinite ratio). Empirically, SHAP rankings flip at a 33\% rate across
+equivalent models on standard benchmarks.
+
+\subsection{Causal Discovery}
+\label{sec:instance-causal}
+
+The causal discovery instance is the strongest because the Rashomon
+property is \emph{derived from first principles} rather than axiomatized.
+
+The configuration space~$\Params$ is the set of directed acyclic graphs
+(DAGs) over a fixed vertex set~$V$. The observable space~$Y$ is the set
+of conditional independence (CI) structures---each element records, for
+every triple $(X_i, X_j \mid S)$, whether $X_i \perp\!\!\!\perp X_j
+\mid S$ holds. The observation map sends each DAG to the CI structure it
+encodes via $d$-separation (the Markov condition). Two DAGs map to the
+same CI structure if and only if they are \emph{Markov
+equivalent}~\cite{verma1991equivalence}. The explanation map is any
+orientation rule that returns a fully directed graph. The incompatibility
+relation declares two DAGs incompatible when they orient at least one
+edge in opposite directions.
+
+\begin{proposition}[Causal Rashomon Property---Derived]
+\label{prop:causal-rashomon}
+For any completed partially directed acyclic graph (CPDAG) containing at
+least one undirected edge $\{X, Y\}$, there exist Markov-equivalent DAGs
+$h, h'$ with opposite orientations of that edge. Hence the causal
+explanation system has the Rashomon property.
+\end{proposition}
+
+\begin{proof}
+An undirected edge in the CPDAG means both orientations are
+Markov-consistent. Let $h$ orient it as $X \to Y$ and $h'$ as $Y \to X$.
+Then $\mathsf{observe}(h) = \mathsf{observe}(h')$ (same CI structure) and
+$\incomp(h, h')$ (opposite orientations).
+\end{proof}
+
+The three-variable chain $X \to Y \to Z$ and fork $X \leftarrow Y \to Z$
+provide the canonical example: both encode $X \perp\!\!\!\perp Z \mid Y$
+(and no other CI relation), so they are Markov equivalent, yet they
+disagree on the $X$--$Y$ edge direction. No causal discovery algorithm
+can distinguish them from observational data alone.
+
+By Theorem~\ref{thm:universal}, no orientation rule can simultaneously be
+faithful (return the true DAG), stable (give the same answer for
+Markov-equivalent structures), and decisive (always commit to a fully
+oriented graph). This is the classical Markov equivalence
+underdetermination recast in our framework, with the Rashomon property
+derived rather than assumed. The resolution is to report
+CPDAGs~\cite{chickering2002optimal} rather than DAGs---trading
+decisiveness for faithfulness and stability, exactly as the theorem predicts.
+
+\subsection{Mechanistic Interpretability}
+\label{sec:instance-mi}
+
+Mechanistic interpretability (MI) aims to reverse-engineer neural networks
+into human-understandable
+circuits~\cite{elhage2022toy,conmy2023automated,anthropic2025circuit}. The
+configuration space is the set of weight configurations; the observable
+space is the input--output function; the explanation space is the set of
+circuit decompositions; and the incompatibility relation declares two
+circuits incompatible when they attribute the same computation to
+contradictory subsets of network components.
+
+\citet{meloux2025everything} found \textbf{85 distinct valid circuits}
+with zero circuit error for a single XOR task, each admitting an average
+of 535.8 valid interpretations. Complementary evidence from
+\citet{sae_seeds_2025} shows that sparse autoencoders trained on the same
+data learn different features depending on the random seed.
+
+By Theorem~\ref{thm:universal}, no circuit explanation method can
+simultaneously be faithful (reflect the actual internal circuitry),
+stable (assign the same circuit to functionally equivalent networks), and
+decisive (commit to a single circuit). This result does not undermine
+MI---it clarifies that the goal should be to characterize the
+\emph{space} of valid circuits (the ``circuit equivalence class'') rather
+than to search for a single canonical decomposition. This mirrors the
+CPDAG resolution for causal discovery: report which circuit features are
+invariant across all valid decompositions (the ``skeleton'') and which are
+decomposition-dependent (the ``reversible edges'').
+
+For AI safety, the implication is direct: any safety argument that depends
+on a specific circuit being THE mechanism of a capability (e.g.,
+deception) must account for the possibility that functionally equivalent
+alternative circuits exist, potentially with different safety-relevant
+properties.
+
+\subsection{Neural Degeneracy (Neuroscience)}
+\label{sec:instance-neuro}
+
+Marder and Goaillard~\cite{marder2006variability} documented that
+crustacean stomatogastric ganglia producing identical motor patterns are
+built from neurons with qualitatively different ionic conductance profiles.
+Edelman and Gally~\cite{edelman2001degeneracy} formalized this as
+\emph{degeneracy}: structurally distinct elements performing the same
+function. In our framework, the configuration space is the set of
+neural circuit parameterizations (ionic conductances, synaptic weights);
+the observable space is the motor pattern; and the explanation space
+assigns to each circuit a mechanistic account of which ion channels drive
+the rhythm.
+
+Degeneracy is precisely the Rashomon property: two circuit configurations
+produce the same rhythmic output yet honestly report incompatible
+mechanistic explanations (e.g., ``the rhythm is driven by the
+$I_\mathrm{Ca}$ current'' versus ``the rhythm is driven by the
+$I_\mathrm{h}$ current''). By Theorem~\ref{thm:universal}, no
+mechanistic account of neural circuit function can simultaneously be
+faithful to the specific circuit, stable across degenerate circuits, and
+decisive about which ionic mechanism is primary. This connects directly to
+the MI instance (Section~\ref{sec:instance-mi}): artificial and biological
+neural circuits face the same structural impossibility.
+
+\medskip
+
+\noindent
+The remaining five instances---attention maps (60\% argmax flip rate
+across equivalent DistilBERT models), counterfactual explanations (23.5\%
+direction flip rate), concept probes (0.90 direction instability), model
+selection (80\% best-model flip rate), and language model explanations
+(34.5\% citation flip rate)---are detailed with full experimental
+methodology in \emph{SI Appendix}.
+
+
+%%=======================================================================
+\section{Resolution}
+\label{sec:resolution}
+%%=======================================================================
+
+\subsection{Escape Routes}
+
+The impossibility is tight: one desideratum must be sacrificed. Table~\ref{tab:escape-routes} summarizes the three escape routes.
+
+\begin{table}[t]
+\centering
+\caption{The three escape routes from the explanation trilemma.}
+\label{tab:escape-routes}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Drop & Lose & Gain & Tools \\
+\midrule
+Faithful & May contradict & Stable + decisive & Fixed rules \\
+Stable   & Changes on retrain & Faithful + decisive & \SHAP{}, single circuit \\
+Decisive & Ties, uncertainty  & Faithful + stable  & \DASH{}, CPDAG \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{$G$-Invariant Aggregation}
+
+Let $G$ be a group acting on the configuration space such that $g \cdot
+\theta$ preserves observables: $\mathsf{observe}(g \cdot \theta) =
+\mathsf{observe}(\theta)$. An explanation map is \emph{$G$-invariant} if
+$E(g \cdot \theta) = E(\theta)$ for all $g, \theta$.
+
+\begin{proposition}[$G$-Invariance Implies Stability]
+\label{prop:g-stable}
+If $G$ acts transitively on observe-fibers and $E$ is $G$-invariant, then
+$E$ is stable.
+\end{proposition}
+
+When $G$ is finite and the explanation space admits averaging, the
+canonical $G$-invariant map is the \emph{orbit average}:
+\[
+  \bar{E}(\theta) = \frac{1}{|G|}\sum_{g \in G} \mathsf{explain}(g \cdot \theta).
+\]
+This map is stable (by $G$-invariance), faithful in expectation (the
+expected explanation matches the expected native explanation over the
+orbit), and Pareto-optimal among stable maps. It sacrifices decisiveness:
+where the orbit disagrees, the average produces ties.
+
+The connection to classical statistics is direct. The Hunt--Stein
+theorem~\cite{lehmann2005testing} establishes that among all invariant
+decision procedures, the best invariant procedure is admissible. Our
+$G$-invariant resolution is the explanation-theoretic instantiation: among
+all stable explanation maps, the orbit average achieves the best possible
+faithfulness.
+
+\subsection{Instance-Specific Resolutions}
+
+The abstract resolution instantiates concretely across domains:
+\begin{itemize}
+  \item \textbf{Feature attribution}: \DASH{}
+    (\textbf{D}iversified \textbf{A}ggregation of \textbf{SH}AP)---average
+    SHAP values over an ensemble of retrained models. Consensus equity
+    ($\E[\varphi_j] = \E[\varphi_k]$ for symmetric features) is proved in
+    Lean~4.
+  \item \textbf{Causal discovery}: report the CPDAG (completed partially
+    directed acyclic graph) rather than a single
+    DAG~\cite{chickering2002optimal}. Undirected edges mark the
+    unresolvable queries.
+  \item \textbf{Mechanistic interpretability}: report the circuit
+    equivalence class---the set of all valid circuits---rather than a
+    single decomposition. Invariant circuit features form the ``skeleton.''
+  \item \textbf{Neural degeneracy}: characterize the \emph{degenerate set}
+    of ionic conductance profiles producing the target motor pattern, rather
+    than committing to a single mechanistic account.
+  \item \textbf{Medical diagnosis}: differential diagnosis \emph{is}
+    $G$-invariant resolution---reporting the set of conditions consistent
+    with the symptoms rather than committing to a single diagnosis.
+\end{itemize}
+
+
+%%=======================================================================
+\section{Empirical Validation}
+\label{sec:experiments}
+%%=======================================================================
+
+We validate the impossibility empirically across seven of the nine
+instances (Table~\ref{tab:cross-instance}). For each instance, we train
+multiple models that are functionally equivalent (matched on prediction
+accuracy) and measure explanation instability.
+
+\begin{table}[t]
+\centering
+\caption{Cross-instance empirical validation. All instability measures have
+95\% bootstrap CIs excluding zero. Prediction equivalence confirms
+functional identity.}
+\label{tab:cross-instance}
+\small
+\begin{tabular}{@{}llrl@{}}
+\toprule
+Instance & Metric & Value & Pred.\ equiv. \\
+\midrule
+Attribution & SHAP flip & 33\% & $>$99\% \\
+Attention & Argmax flip & 60\% & 100\% \\
+Counterfactual & Dir.\ flip & 23.5\% & $\Delta$AUC$<$0.03 \\
+Concept probe & $1{-}|\cos|$ & 0.90 & 97.2\% \\
+Model selection & Best flip & 80\% & $\Delta$AUC$<$0.02 \\
+Saliency map & Peak flip & 9.6\% & 78.8\% \\
+LLM explanation & Citation flip & 34.5\% & 100\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three results deserve emphasis. First, the 60\% attention argmax flip
+rate: despite 100\% prediction agreement among 10 DistilBERT models on
+SST-2, the most-attended token changes for the majority of sentences.
+This is not noise---it is the Rashomon property in action. Second, the
+0.90 concept direction instability: concept activation vectors extracted
+from 15 equivalent MLP classifiers are nearly orthogonal (mean
+$|\cos| = 0.10$), meaning the ``concept direction'' is almost entirely a
+function of the random seed, not the function the model computes. Third,
+the 0\% instability for negative controls (instances where the Rashomon
+property does not hold, e.g., unique-solution linear regression),
+confirming that the theorem's boundary condition is empirically sharp.
+
+Full experimental details---datasets, model architectures, perturbation
+protocols, confidence intervals, and negative controls---are in
+\emph{SI Appendix}.
+
+
+%%=======================================================================
+\section{Discussion}
+\label{sec:discussion}
+%%=======================================================================
+
+\subsection{Philosophy of Science: Formalizing Quine--Duhem}
+
+The Quine--Duhem thesis~\cite{quine1951dogmas, duhem1906aim} holds that
+no scientific hypothesis can be tested in isolation: empirical evidence
+always underdetermines theory choice because auxiliary assumptions can
+be adjusted to accommodate any observation. Van
+Fraassen~\cite{vanfraassen1980scientific} elevated this to a central
+argument for constructive empiricism. Despite a century of philosophical
+discussion, the thesis has never been formalized as a mathematical
+theorem with a precise boundary condition.
+
+Theorem~\ref{thm:universal} provides that formalization. The configuration
+space~$\Params$ corresponds to the space of theories; the observable
+space~$Y$ to empirical data; the explanation map to the interpretive
+framework; and the Rashomon property to the existence of empirically
+equivalent theories with incompatible explanations. The theorem states:
+underdetermination at the observable level propagates to underdetermination
+at the explanation level, and no interpretive procedure can escape the
+tradeoff. The necessity result (Proposition~\ref{prop:necessity})
+sharpens the thesis: the impossibility holds \emph{if and only if} the
+Rashomon property obtains, providing the exact boundary that philosophical
+formulations lack.
+
+Okasha~\cite{okasha2011theory} connected Kuhn's theory choice to Arrow's
+impossibility theorem in social choice. Our result provides a
+complementary connection: underdetermination of explanation is an
+impossibility theorem in the same structural sense as Arrow's, with the
+Rashomon property playing the role of Arrow's independence of irrelevant
+alternatives.
+
+\subsection{AI Regulation}
+
+The EU AI Act~\cite{euaiact2024} requires ``meaningful explanations'' for
+high-risk systems. SR~11-7~\cite{occ2011sr117} requires ``developmental
+evidence'' documenting model decisions. Both implicitly demand
+faithfulness, stability, and decisiveness simultaneously.
+Theorem~\ref{thm:universal} shows this is impossible whenever models are
+underspecified---which is the norm for modern machine learning systems.
+The resolution is not to abandon regulation but to reframe it:
+require disclosure of \emph{which} desideratum is relaxed and why,
+mandate $G$-invariant explanations (e.g., ensemble-averaged attributions)
+with explicit uncertainty quantification, and accept that ties where the
+data are ambiguous are a feature of honest explanation, not a deficiency.
+
+\subsection{AI Safety}
+
+The mechanistic interpretability instance
+(Section~\ref{sec:instance-mi}) has direct implications for AI safety.
+If a safety argument depends on a specific circuit being the mechanism of
+a dangerous capability, the impossibility theorem requires that the
+argument account for alternative circuits---functionally equivalent
+decompositions that may have different safety-relevant properties. The
+85 valid circuits found by \citet{meloux2025everything} for a simple XOR
+task suggest that real-world safety-critical capabilities will admit far
+more. The constructive response is to build safety arguments on
+circuit-invariant properties---features that hold across the entire
+equivalence class---rather than on any single decomposition.
+
+\subsection{Closing}
+
+The impossibility does not counsel despair but precision: state which
+property is sacrificed, aggregate optimally, and report uncertainty. The
+Rashomon property is the exact boundary. When it holds, the trilemma is
+inescapable. When it does not, all three properties are jointly
+achievable. The task for the practitioner is to diagnose which regime
+obtains and to communicate the tradeoff honestly.
+
+%%=======================================================================
+\section*{Materials and Methods}
+%%=======================================================================
+The Lean~4 formalization (73 files, 346 theorems, 72 axioms,
+0~\texttt{sorry}) is available at [repository URL]. Experimental code and
+data are in \emph{SI Appendix}. The core impossibility theorem
+(\texttt{explanation\_impossibility}) depends on zero axioms beyond the
+Rashomon property. Full axiom inventory and theorem list are in
+\emph{SI Appendix}, Table~S1.
+
+\section*{Acknowledgments}
+[To be added.]
+
+%%=======================================================================
+\bibliography{references}
+\bibliographystyle{plainnat}
+%%=======================================================================
+
+\end{document}

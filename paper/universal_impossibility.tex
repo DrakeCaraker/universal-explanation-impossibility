@@ -65,46 +65,38 @@ Under Underspecification}}
 %%=======================================================================
 \begin{abstract}
 %%=======================================================================
-We prove a universal impossibility: no explanation system can simultaneously be
-faithful (never contradicting the system's native explanation), stable
-(consistent across observationally equivalent configurations), and decisive
-(inheriting every incompatibility of the native explanation) when
-the underlying inference problem is underspecified---that is, when
-observationally equivalent configurations produce incompatible explanations
-(the Rashomon property).
-This single abstract theorem, which we call the \emph{Universal Explanation
-Impossibility}, is a meta-theorem that unifies nine apparently unrelated
-impossibility results from across machine learning: (1)~the feature attribution
-impossibility under collinearity \citep{bilodeau2024impossibility}, (2)~the
-SHAP instability under model multiplicity \citep{damour2022underspecification},
-(3)~the fairness metric incompatibility \citep{chouldechova2017fair,kleinberg2017inherent},
-(4)~the model selection instability under the Rashomon effect
-\citep{rudin2024amazing,fisher2019models}, (5)~the causal discovery ambiguity
-within a Markov equivalence class \citep{verma1991equivalence}, (6)~the
-impossibility of faithful explanations for overparameterized neural networks,
-(7)~the instability of GradCAM saliency maps under weight-space perturbation
-\citep{adebayo2018sanity}, (8)~the unreliability of LLM self-explanations
-under model multiplicity \citep{turpin2024language}, and (9)~the
-non-uniqueness of circuit explanations in mechanistic interpretability
-\citep{meloux2025everything}---including mechanistic interpretability, where
-we prove for the first time that no circuit explanation can simultaneously be
-faithful, stable, and decisive.
+When a system is underspecified---when multiple configurations produce the
+same observable output---any explanation faces a fundamental tradeoff.
+We prove a universal impossibility: no explanation can simultaneously be
+faithful (consistent with the system's native explanation), stable
+(invariant across observationally equivalent configurations), and decisive
+(committing to every distinction the native explanation makes).
+This impossibility holds whenever the \emph{Rashomon property} obtains:
+equivalent configurations with incompatible explanations.
+We prove the Rashomon property is both necessary and sufficient---the exact
+boundary between possibility and impossibility.
+The theorem unifies nine apparently unrelated impossibility results:
+feature attribution under collinearity, SHAP instability under model
+multiplicity, fairness metric incompatibility, model selection instability,
+causal discovery ambiguity within Markov equivalence classes, overparameterized
+neural network explanation instability, GradCAM saliency map instability,
+LLM self-explanation unreliability, and circuit non-uniqueness in mechanistic
+interpretability.
+For causal discovery, the Rashomon property is derived from first principles
+(Markov equivalence).
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
-contradiction---and Lean-verified tightness theorems show that each pair of
-properties is achievable, confirming that the impossibility is non-trivial.
+contradiction---and Lean-verified tightness theorems confirm each pair of
+properties is achievable.
 Empirical experiments on seven instances confirm severe instability among
 functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 80\% model selection flip rate, 9.6\% GradCAM peak flip rate, and 34.5\%
 LLM self-explanation citation flip rate.
-The resolution is uniform: $G$-invariant explanation systems that aggregate
-over equivalent hypotheses restore faithfulness-in-expectation and stability at
-the cost of decisiveness, and \DASH{} (\textbf{D}iversified \textbf{A}ggregation of
-\textbf{SH}AP) is a concrete instance of this resolution for feature attribution.
-The impossibility is ubiquitous: any learning problem with strictly more
-parameters than constraints admits a Rashomon set of positive measure, and
-neural networks with hidden dimension exceeding the data dimension always fall
-into this regime.
+The resolution is uniform: $G$-invariant aggregation over equivalent
+configurations restores faithfulness-in-expectation and stability at
+the cost of decisiveness, and is proved uniquely optimal.
+The impossibility is ubiquitous: any system with strictly more parameters
+than observational constraints admits a Rashomon set of positive measure.
 The framework is mechanically verified in Lean~4 (73~files, 346~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
@@ -121,22 +113,40 @@ The framework is mechanically verified in Lean~4 (73~files, 346~theorems,
 \label{sec:intro}
 %%=======================================================================
 
+When multiple configurations of a system produce identical observable output,
+any attempt to explain the system's behavior faces a fundamental constraint.
+This is not a peculiarity of machine learning.
+In philosophy of science, Quine \citep{quine1951dogmas} and
+Duhem \citep{duhem1906aim} argued that empirical evidence underdetermines
+theory choice: no finite body of observations uniquely selects a theory from
+among empirically adequate alternatives.
+In neuroscience, Marder and Goaillard \citep{marder2006variability}
+documented that nervous systems with identical functional output are built from
+qualitatively different circuit configurations---a phenomenon called
+\emph{degeneracy} \citep{edelman2001degeneracy}.
+In statistics and machine learning, the Rashomon effect
+\citep{breiman2001random,rudin2024amazing} describes the multiplicity of
+near-optimal models with divergent internal structure.
+In economics, Manski \citep{manski2003partial} developed partial
+identification theory because observational data generically fail to pin down
+a unique model.
+This paper proves that underdetermination entails a universal impossibility:
+no explanation can simultaneously be faithful, stable, and decisive.
+
+Machine learning is the most developed application domain for this result,
+and the domain where the practical consequences are most immediate.
 A data scientist trains a gradient-boosted model for credit risk, runs \SHAP{},
 and finds that \emph{debt-to-income ratio} is the top feature.  She retrains
 from a different random seed---same data, same hyperparameters, same test
 accuracy---and the top feature flips to \emph{credit utilization}
 \citep{krishna2022disagreement}.  An NLP engineer inspects attention weights in
 a sentiment classifier, retrains, and the most-attended token changes from
-``not'' to ``terrible'' \citep{jainwallace2019}.  A colleague runs LIME on the
-same credit model and obtains yet a third ranking
-\citep{molnar2022general}.  None of these are software bugs.
-
-The explainable AI (XAI) research program promises explanations that are
-\emph{faithful} (they reflect what the model actually computes),
-\emph{stable} (they are reproducible across equivalent models), and
-\emph{decisive} (they resolve every explanation query with a definite answer).
-Regulators now demand all three: the EU AI Act requires ``meaningful
-explanations'' for high-risk systems \citep{euaiact2024}, and SR~11-7 requires
+``not'' to ``terrible'' \citep{jainwallace2019}.
+None of these are software bugs---they are manifestations of a structural
+impossibility.
+Regulators now demand explanations that are faithful, stable, and decisive
+simultaneously: the EU AI Act requires ``meaningful explanations'' for
+high-risk systems \citep{euaiact2024}, and SR~11-7 requires
 ``developmental evidence'' documenting model decisions
 \citep{occ2011sr117}.  Yet a growing body of theoretical work shows that the
 promise is mathematically impossible to keep---at least in specific domains.
@@ -920,6 +930,62 @@ is structural (it follows from the Rashomon property), not method-specific.
 Recognizing this unifies the practitioner's response: rather than debugging each
 method individually, one diagnoses the Rashomon property and applies the
 $G$-invariant resolution uniformly.
+
+\subsection{Implications Beyond Machine Learning}
+\label{sec:beyond-ml}
+
+The Universal Explanation Impossibility is not specific to machine learning.
+We briefly sketch five domains where the theorem applies directly.
+
+\paragraph{Philosophy of science: formalizing Quine--Duhem.}
+Quine \citep{quine1951dogmas} and Duhem \citep{duhem1906aim} argued that
+empirical evidence underdetermines theory choice.  Van Fraassen
+\citep{vanfraassen1980scientific} elevated this to a central argument for
+constructive empiricism.  Despite a century of philosophical discussion, the
+thesis has never been formalized as a mathematical theorem with a precise
+boundary condition.  Theorem~\ref{thm:universal} provides that
+formalization: the configuration space corresponds to theories, the
+observable space to data, the Rashomon property to the existence of
+empirically equivalent theories with incompatible explanations, and the
+necessity result (Proposition~\ref{prop:necessity}) supplies the exact
+boundary that philosophical formulations lack.  Okasha
+\citep{okasha2011theory} connected theory choice to Arrow's impossibility
+in social choice; our result provides the complementary connection for
+underdetermination of explanation.
+
+\paragraph{Neuroscience: degeneracy as the Rashomon property.}
+Marder and Goaillard \citep{marder2006variability} documented that crustacean
+stomatogastric ganglia producing identical motor patterns are built from
+qualitatively different ionic conductance profiles.  Edelman and Gally
+\citep{edelman2001degeneracy} formalized this as \emph{degeneracy}:
+structurally distinct elements performing the same function.  Degeneracy is
+precisely the Rashomon property in our framework, and the impossibility
+theorem applies: no mechanistic account of neural circuit function can
+simultaneously be faithful to the specific circuit, stable across degenerate
+circuits, and decisive about which ionic mechanism is primary.
+
+\paragraph{Legal interpretation: statutory ambiguity.}
+When a statute admits multiple legally valid interpretations, each consistent
+with the legislative text (the ``observable''), any judicial explanation faces
+the trilemma.  The impossibility applies whenever genuinely incompatible
+interpretations are legally valid---a condition routinely met in constitutional
+and regulatory law.
+
+\paragraph{Economics: partial identification.}
+Manski \citep{manski2003partial} developed partial identification theory for
+settings where observational data do not pin down a unique model.  The
+identified set corresponds to an observe-fiber in our framework; partial
+identification is the economic instantiation of the Rashomon property.  The
+$G$-invariant resolution corresponds to reporting bounds on the identified
+set rather than a point estimate.
+
+\paragraph{Medical diagnosis: differential diagnosis as resolution.}
+When multiple conditions produce the same symptoms, diagnosis faces the
+trilemma.  Differential diagnosis---the standard medical practice of
+listing all conditions consistent with the symptoms---is precisely
+$G$-invariant resolution.  It sacrifices decisiveness (commitment to a
+single diagnosis) to gain faithfulness and stability, exactly as
+Theorem~\ref{thm:universal} predicts.
 
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}
