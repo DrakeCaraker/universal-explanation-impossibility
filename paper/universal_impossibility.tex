@@ -73,22 +73,26 @@ the underlying inference problem is underspecified---that is, when
 observationally equivalent configurations produce incompatible explanations
 (the Rashomon property).
 This single abstract theorem, which we call the \emph{Universal Explanation
-Impossibility}, is a meta-theorem that unifies six apparently unrelated
+Impossibility}, is a meta-theorem that unifies eight apparently unrelated
 impossibility results from across machine learning: (1)~the feature attribution
 impossibility under collinearity \citep{bilodeau2024impossibility}, (2)~the
 SHAP instability under model multiplicity \citep{damour2022underspecification},
 (3)~the fairness metric incompatibility \citep{chouldechova2017fair,kleinberg2017inherent},
 (4)~the model selection instability under the Rashomon effect
 \citep{rudin2024amazing,fisher2019models}, (5)~the causal discovery ambiguity
-within a Markov equivalence class \citep{verma1991equivalence}, and (6)~the
-impossibility of faithful explanations for overparameterized neural networks.
+within a Markov equivalence class \citep{verma1991equivalence}, (6)~the
+impossibility of faithful explanations for overparameterized neural networks,
+(7)~the instability of GradCAM saliency maps under weight-space perturbation
+\citep{adebayo2018sanity}, and (8)~the unreliability of LLM self-explanations
+under model multiplicity \citep{turpin2024language}.
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
-Empirical experiments on four instances confirm severe instability among
+Empirical experiments on seven instances confirm severe instability among
 functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
-and 80\% model selection flip rate.
+80\% model selection flip rate, 9.6\% GradCAM peak flip rate, and 34.5\%
+LLM self-explanation citation flip rate.
 The resolution is uniform: $G$-invariant explanation systems that aggregate
 over equivalent hypotheses restore faithfulness-in-expectation and stability at
 the cost of decisiveness, and \DASH{} (\textbf{D}iversified \textbf{A}ggregation of
@@ -97,8 +101,8 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (67~files, 319~theorems,
-60~axioms, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (70~files, 338~theorems,
+68~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
 %%=======================================================================
@@ -149,18 +153,21 @@ honestly report incompatible explanations---and the proof is four lines.
 Our contributions are:
 \begin{enumerate}
   \item \textbf{A universal impossibility theorem}
-    (Theorem~\ref{thm:universal}) that unifies six apparently unrelated
+    (Theorem~\ref{thm:universal}) that unifies eight apparently unrelated
     impossibility results under a single proof requiring only the Rashomon
     property.
-  \item \textbf{Six instances}: feature attribution
+  \item \textbf{Eight instances}: feature attribution
     \citep{bilodeau2024impossibility}, attention maps
     \citep{jainwallace2019}, counterfactual explanations, concept probes,
-    causal discovery \citep{verma1991equivalence}, and model selection
-    \citep{rudin2024amazing}---each shown to be a special case of the
+    causal discovery \citep{verma1991equivalence}, model selection
+    \citep{rudin2024amazing}, GradCAM saliency maps
+    \citep{selvaraju2017gradcam}, and LLM self-explanations
+    \citep{turpin2024language}---each shown to be a special case of the
     abstract framework.
-  \item \textbf{Empirical validation} for four of the six instances
-    (attention, counterfactual, concept probes, model selection),
-    confirming explanation instability on standard benchmarks.
+  \item \textbf{Empirical validation} for seven of the eight instances
+    (attribution, attention, counterfactual, concept probes, model selection,
+    GradCAM, LLM explanations), confirming explanation instability on
+    standard benchmarks.
   \item \textbf{A uniform resolution}: $G$-invariant aggregation restores
     faithfulness and stability at the cost of decisiveness.  \DASH{} for
     feature attribution, CPDAGs for causal discovery, and ensemble probes
@@ -169,7 +176,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 67~files, 319~theorems, 60~axioms,
+    \citep{demoura2021lean4}: 70~files, 338~theorems, 68~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -185,7 +192,7 @@ The remainder of the paper is organized as follows.
 Section~\ref{sec:related} surveys related work.
 Section~\ref{sec:framework} introduces the abstract framework and proves
 the universal impossibility.  Section~\ref{sec:instances} instantiates the
-theorem across six domains.  Section~\ref{sec:resolution} presents the
+theorem across eight domains.  Section~\ref{sec:resolution} presents the
 uniform $G$-invariant resolution.  Section~\ref{sec:ubiquity} establishes
 ubiquity.  Section~\ref{sec:lean} describes the Lean formalization.
 Section~\ref{sec:discussion} discusses implications and open questions.
@@ -203,7 +210,7 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 %%=======================================================================
 
 We introduce a minimal abstract framework sufficient to state and prove the
-Universal Explanation Impossibility.  All six instances in
+Universal Explanation Impossibility.  All eight instances in
 Section~\ref{sec:instances} are special cases.
 The framework aligns exactly with the Lean~4 formalization in
 \texttt{ExplanationSystem.lean}: every definition and theorem below has a
@@ -397,11 +404,11 @@ the Rashomon property holds and the impossibility applies.
 \end{corollary}
 
 %%=======================================================================
-\section{Six Instances}
+\section{Eight Instances}
 \label{sec:instances}
 %%=======================================================================
 
-We instantiate Theorem~\ref{thm:universal} in six structurally distinct
+We instantiate Theorem~\ref{thm:universal} in eight structurally distinct
 domains.  In each case we (i)~specify the explanation system
 $(\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$, (ii)~verify the
 Rashomon property, and (iii)~characterize the resolution.
@@ -418,9 +425,13 @@ Rashomon property, and (iii)~characterize the resolution.
 
 \input{sections/instance_model_selection}
 
+\input{sections/instance_gradcam}
+
+\input{sections/instance_llm_explanation}
+
 \begin{table}[t]
 \centering
-\caption{Empirical validation of the universal explanation impossibility across four explanation types. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
+\caption{Empirical validation of the universal explanation impossibility across seven explanation types. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
 \label{tab:cross-instance}
 \begin{tabular}{llrl}
 \toprule
@@ -431,6 +442,8 @@ Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
+Saliency map (ResNet-18) & Peak flip rate & 9.6\% & 78.8\% \\
+LLM explanation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
 Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
 \bottomrule
 \end{tabular}
@@ -521,7 +534,7 @@ No explanation map lies outside these two families.
 \label{sec:resolution-instances}
 
 Table~\ref{tab:resolutions} summarizes how the $G$-invariant resolution
-instantiates across the six domains of Section~\ref{sec:instances}.
+instantiates across the eight domains of Section~\ref{sec:instances}.
 
 \begin{table}[t]
 \centering
@@ -558,6 +571,14 @@ Model selection &
   Model permutation in Rashomon set &
   Ensemble / Rashomon set report &
   Single best model \\
+Saliency map &
+  Weight-space symmetries &
+  Averaged GradCAM heatmap &
+  Single peak location \\
+LLM explanation &
+  Weight-space symmetries &
+  Averaged attention rollout &
+  Single cited token \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -688,7 +709,7 @@ non-dictatorship exists for three or more candidates---a universal
 impossibility that unified disparate paradoxes in voting theory.
 \citet{nipkow2009social} later formalized Arrow's theorem in Isabelle/HOL.
 Our Universal Explanation Impossibility plays an analogous role for
-explainability: it unifies six domain-specific impossibilities under one
+explainability: it unifies eight domain-specific impossibilities under one
 structural cause (the Rashomon property) and one four-line proof, and the
 resolution (orbit averaging) is the XAI counterpart of accepting partial
 orderings in social choice.
@@ -700,7 +721,7 @@ in \texttt{Ubiquity.lean}.)
 \label{sec:lean}
 %%=======================================================================
 
-The Universal Explanation Impossibility and all six instances are mechanically
+The Universal Explanation Impossibility and all eight instances are mechanically
 verified in Lean~4 \citep{demoura2021lean4} using Mathlib
 \citep{mathlib2020}.  Table~\ref{tab:lean-summary} summarizes the
 formalization.
@@ -713,9 +734,9 @@ formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 67 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 319 & Verified by \texttt{grep -c} \\
-Axioms & 60 & Domain-specific; core theorem uses 0 \\
+Files & 70 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 338 & Verified by \texttt{grep -c} \\
+Axioms & 68 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero axiom dependencies \\
@@ -807,10 +828,10 @@ calibrated uncertainty are both achievable and informative.''
 
 A natural reaction is that practitioners already know explanations are unstable
 ---so what is new?  The contribution is fivefold.  First, we make explicit that
-six domains (attribution, attention, counterfactuals, concept probes, causal
-discovery, model selection) share \emph{one} mechanism---the Rashomon
-property---rather than six unrelated pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 67~files, 319~theorems, 0~\texttt{sorry})
+eight domains (attribution, attention, counterfactuals, concept probes, causal
+discovery, model selection, saliency maps, LLM explanations) share \emph{one}
+mechanism---the Rashomon property---rather than eight unrelated pathologies.  Second, the Lean~4
+formalization (Section~\ref{sec:lean}: 70~files, 338~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attention flip rates, measurable counterfactual and concept instability on
@@ -835,7 +856,7 @@ classical \citep{verma1991equivalence}, fairness impossibility was proved by
 \citet{chouldechova2017fair}, and \SHAP{} instability was observed by
 \citet{damour2022underspecification} and \citet{krishna2022disagreement}.  The
 contribution is not any single instance but the \emph{meta-theorem}: the same
-four-line proof (Theorem~\ref{thm:universal}) closes all six cases under a
+four-line proof (Theorem~\ref{thm:universal}) closes all eight cases under a
 single structural condition.  Before this work, a practitioner encountering
 attention instability might switch to \SHAP{}, then to counterfactual
 explanations, then to concept probes---each time hoping the new method escapes

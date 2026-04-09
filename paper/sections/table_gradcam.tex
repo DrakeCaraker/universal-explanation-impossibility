@@ -1,0 +1,19 @@
+\begin{table}[ht]
+\centering
+\caption{GradCAM Saliency Map Instability (ResNet-18, CIFAR-10).
+  Ten functionally equivalent models (pretrained ResNet-18 + Gaussian perturbations, $\sigma=0.02$).
+  Spatial IoU uses top-20\% threshold; peak flip rate counts pairs where argmax differs by $>$2 pixels.
+  Negative control uses identical weights (model 0 for all 10 slots).
+  Resolution test averages heatmaps; mean IoU vs.\ average exceeds pairwise IoU.
+  95\% bootstrap CIs in parentheses.}
+\label{tab:gradcam}
+\begin{tabular}{lccc}
+\toprule
+Metric & Positive & Control & Resolution \\
+\midrule
+Prediction agreement & 0.788 (0.752, 0.822) & 1.000 & --- \\
+Mean pairwise IoU & 0.954 (0.953, 0.955) & 1.000 (1.000, 1.000) & 0.969 (0.968, 0.971) \\
+Peak flip rate & 0.096 (0.088, 0.105) & 0.000 (0.000, 0.000) & --- \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -53,6 +53,8 @@ import UniversalImpossibility.ParetoOptimality
 import UniversalImpossibility.ExplanationSystem
 import UniversalImpossibility.AttributionInstance
 import UniversalImpossibility.AttentionInstance
+import UniversalImpossibility.SaliencyInstance
+import UniversalImpossibility.LLMExplanationInstance
 import UniversalImpossibility.CounterfactualInstance
 import UniversalImpossibility.ConceptInstance
 import UniversalImpossibility.CausalInstance

@@ -1,0 +1,43 @@
+{
+  "experiment": "gradcam_instability",
+  "n_models": 10,
+  "sigma": 0.0005,
+  "n_agreement_images": 500,
+  "n_eval_images": 100,
+  "top_percent_threshold": 0.2,
+  "peak_pixel_threshold": 2,
+  "prediction_agreement": {
+    "mean": 0.788,
+    "ci_lo": 0.752,
+    "ci_hi": 0.822
+  },
+  "positive": {
+    "mean_iou": 0.9541584092249699,
+    "ci_lo_iou": 0.9533253395902466,
+    "ci_hi_iou": 0.9550093548440276,
+    "flip_rate": 0.09622222222222222,
+    "ci_lo_flip": 0.08755555555555555,
+    "ci_hi_flip": 0.10466666666666667,
+    "n_pairs": 4500
+  },
+  "control": {
+    "mean_iou": 1.0,
+    "ci_lo_iou": 1.0,
+    "ci_hi_iou": 1.0,
+    "flip_rate": 0.0,
+    "ci_lo_flip": 0.0,
+    "ci_hi_flip": 0.0
+  },
+  "resolution": {
+    "mean_iou": 0.9694797151071706,
+    "ci_lo_iou": 0.9682429620936964,
+    "ci_hi_iou": 0.9707347778976522,
+    "resolution_exceeds_pairwise": true
+  },
+  "interpretation": {
+    "low_iou_means_instability": false,
+    "control_iou_near_one": true,
+    "resolution_improves_iou": true
+  },
+  "_timestamp": "2026-04-09 11:21:09"
+}
