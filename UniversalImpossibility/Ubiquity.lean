@@ -35,9 +35,10 @@ theorem generic_underspecification {n m : Nat} (h : m < n) : n - m > 0 := by
 -- ============================================================================
 
 /-- If two configurations have the same observable output but incompatible
-    explanations, we can construct an ExplanationSystem with the Rashomon
-    property. This bridges "underspecification is generic" to "the
-    impossibility applies." -/
+    explanations, and the incompatibility relation is irreflexive, then
+    no explanation can be faithful, stable, and decisive.
+
+    This is a self-contained version that does not go through ExplanationSystem. -/
 theorem fiber_nondegeneracy_implies_impossibility
     {Θ H Y : Type}
     (observe : Θ → Y) (explain : Θ → H) (incomp : H → H → Prop)
@@ -45,12 +46,14 @@ theorem fiber_nondegeneracy_implies_impossibility
     (hobs : observe θ₁ = observe θ₂)
     (hinc : incomp (explain θ₁) (explain θ₂))
     (E : Θ → H)
-    (hf : E = explain)
+    (hf : ∀ (θ : Θ), ¬incomp (E θ) (explain θ))
     (hs : ∀ a b : Θ, observe a = observe b → E a = E b)
-    (hd : ∀ a b : Θ, incomp (E a) (E b) → E a ≠ E b) :
+    (hd : ∀ (θ : Θ) (h : H), incomp (explain θ) h → incomp (E θ) h) :
     False := by
-  subst hf
-  exact absurd (hs θ₁ θ₂ hobs) (hd θ₁ θ₂ hinc)
+  have h1 : incomp (E θ₁) (explain θ₂) := hd θ₁ (explain θ₂) hinc
+  have h2 : E θ₁ = E θ₂ := hs θ₁ θ₂ hobs
+  rw [h2] at h1
+  exact hf θ₂ h1
 
 -- ============================================================================
 -- §3  Neural network dimensional case (documentation)
@@ -71,8 +74,10 @@ theorem fiber_nondegeneracy_implies_impossibility
 theorem ubiquity_impossibility
     {Θ H Y : Type}
     (observe : Θ → Y) (explain : Θ → H) (incomp : H → H → Prop)
+    (incomp_irrefl : ∀ (h : H), ¬incomp h h)
     (θ₁ θ₂ : Θ) (hobs : observe θ₁ = observe θ₂) (hinc : incomp (explain θ₁) (explain θ₂)) :
-    let S : ExplanationSystem Θ H Y := ⟨observe, explain, incomp, θ₁, θ₂, hobs, hinc⟩
+    let S : ExplanationSystem Θ H Y :=
+      ⟨observe, explain, incomp, incomp_irrefl, θ₁, θ₂, hobs, hinc⟩
     ∀ (E : Θ → H), faithful S E → stable S E → decisive S E → False := by
   intro S E hf hs hd
   exact explanation_impossibility S E hf hs hd
