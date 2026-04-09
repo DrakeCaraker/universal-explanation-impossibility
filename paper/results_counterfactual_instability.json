@@ -8,18 +8,18 @@
   "cf_found_rate": 0.8544444444444445,
   "direction_flip_rate": {
     "mean": 0.2351881899243842,
-    "ci_lo": 0.20566590201234636,
-    "ci_hi": 0.26573100124126814
+    "ci_lo": 0.20662917995486677,
+    "ci_hi": 0.26309491245847766
   },
   "cross_model_validity": {
     "mean": 0.6128448901821477,
-    "ci_lo": 0.5582940134753673,
-    "ci_hi": 0.6615391081583082
+    "ci_lo": 0.5605409189052714,
+    "ci_hi": 0.6643957668793194
   },
   "distance_cv": {
     "mean": 0.32809781065300814,
-    "ci_lo": 0.2810625797383164,
-    "ci_hi": 0.3717173362929533
+    "ci_lo": 0.29277821402227777,
+    "ci_hi": 0.37172004257842745
   },
   "top10_flip_rates": {
     "checking_status_>=200": 0.43016053596258375,
@@ -33,5 +33,32 @@
     "personal_status_male single": 0.3453419289596764,
     "employment_unemployed": 0.3434458349134117
   },
-  "_timestamp": "2026-04-08 21:18:56"
+  "negative_control": {
+    "description": "make_classification class_sep=3.0, subsample=1.0",
+    "n_models": 20,
+    "n_queries": 30,
+    "auc_range": 0.0,
+    "auc_min": 0.9910000000000001,
+    "auc_max": 0.9910000000000001,
+    "cf_found_rate": 0.0,
+    "direction_flip_rate": 0.0,
+    "direction_flip_rate_ci_lo": 0.0,
+    "direction_flip_rate_ci_hi": 0.0,
+    "interpretation": "Expected <5%; validates instability is from Rashomon ambiguity"
+  },
+  "resolution_test": {
+    "description": "feature-wise median consensus CF; consistency = same direction on top-5 features",
+    "top5_feature_names": [
+      "checking_status_no checking",
+      "savings_status_<100",
+      "property_magnitude_real estate",
+      "credit_history_critical/other existing credit",
+      "property_magnitude_no known property"
+    ],
+    "mean_consistency_with_consensus": 0.9273960688434374,
+    "consistency_ci_lo": 0.9002856098579782,
+    "consistency_ci_hi": 0.9547345016095016,
+    "interpretation": "Expected >80% of individual CFs agree with consensus direction"
+  },
+  "_timestamp": "2026-04-09 09:40:39"
 }

@@ -27,7 +27,26 @@
   "mean_kendall_tau_ci_hi": 0.3064316931216931,
   "n_kendall_comparisons": 9000,
   "n_flip_comparisons": 9000,
-  "elapsed_seconds": 128.0,
+  "negative_control": {
+    "description": "single-token inputs \u2014 model has no choice where to attend",
+    "n_single_token_sentences": 20,
+    "flip_rate": 0.02,
+    "flip_rate_ci_lo": 0.011111111111111112,
+    "flip_rate_ci_hi": 0.03,
+    "interpretation": "Expected ~0%; validates instability is from Rashomon, not noise"
+  },
+  "resolution_test": {
+    "description": "averaged rollout across 5+5 model subsets (A vs B)",
+    "individual_flip_rate": 0.5225,
+    "individual_flip_rate_ci_lo": 0.50775,
+    "individual_flip_rate_ci_hi": 0.5375,
+    "averaged_flip_rate": 0.65,
+    "averaged_flip_rate_ci_lo": 0.585,
+    "averaged_flip_rate_ci_hi": 0.715,
+    "stability_improvement_pp": -12.750000000000005,
+    "interpretation": "Averaged flip rate should be lower; aggregation resolves instability"
+  },
+  "elapsed_seconds": 126.4,
   "conclusion": "instability_confirmed",
-  "_timestamp": "2026-04-08 21:18:06"
+  "_timestamp": "2026-04-09 09:42:57"
 }

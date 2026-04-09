@@ -119,7 +119,7 @@ paper/
   sections/                   — LaTeX section fragments for universal paper instances
 ```
 
-## Lean State: 67 files, 60 axioms, 322 theorems+lemmas, 0 sorry
+## Lean State: 68 files, 60 axioms, 336 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (60 total)
 

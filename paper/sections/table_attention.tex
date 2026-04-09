@@ -1,14 +1,25 @@
 \begin{table}[t]
 \centering
-\caption{Attention map instability across 10 functionally equivalent DistilBERT models.}
+\caption{Attention map instability across 10 functionally equivalent DistilBERT models.
+  Negative control uses single-token inputs (model cannot choose where to attend).
+  Resolution test averages rollout across 5+5 model subsets and measures inter-group flip rate.
+  All 95\% CIs from 2000 bootstrap resamples.}
 \label{tab:attention}
-\begin{tabular}{lr}
+\begin{tabular}{llr}
 \toprule
-Metric & Value \\
+Test & Metric & Value (95\% CI) \\
 \midrule
-Prediction agreement & 100.0\% $\pm$ 0.0\% \\
-Argmax flip rate & 60.0\% $\pm$ 1.0\% \\
-Mean Kendall $\tau$ & 0.297 $\pm$ 0.010 \\
+\multirow{3}{*}{Positive (Rashomon)} &
+  Prediction agreement & 100.0\% $[100.0\%, 100.0\%]$ \\
+& Argmax flip rate & 60.0\% $[59.0\%, 61.1\%]$ \\
+& Mean Kendall $\tau$ & 0.297 $[0.287, 0.306]$ \\
+\midrule
+Neg.\ control (1 token) &
+  Argmax flip rate & 2.0\% $[1.1\%, 3.0\%]$ \\
+\midrule
+\multirow{2}{*}{Resolution (avg.\ 5+5)} &
+  Individual flip rate & 52.2\% $[50.8\%, 53.8\%]$ \\
+& Averaged flip rate & 65.0\% $[58.5\%, 71.5\%]$ \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -1,24 +1,26 @@
 \begin{table}[ht]
 \centering
 \caption{Model selection instability on German Credit (credit-g).
-  50 XGBoost classifiers (differing only in random seed) are trained on a
-  single fixed 80/20 split and evaluated on 20 independent
-  random 80/20 evaluation splits. Despite near-identical mean AUC
-  ($0.948 \pm 0.0023$),
-  the identity of the ``best'' model changes across splits, confirming
-  Instance~6 of the Universal Explanation Impossibility.}
+  \emph{Positive test}: 50 diverse XGBoost classifiers (differing in seed + subsample=0.8) on 20 splits.
+  \emph{Negative control}: 50 \emph{identical} classifiers (same seed, subsample=1.0) --- expected flip rate $<10\%$.
+  \emph{Resolution}: ensemble (average probabilities) is more stable than best-single.
+  All 95\% bootstrap CIs from 2000 resamples.}
 \label{tab:model_selection_instability}
-\begin{tabular}{lc}
+\begin{tabular}{llc}
 \toprule
-\textbf{Metric} & \textbf{Value} \\
+\textbf{Test} & \textbf{Metric} & \textbf{Value (95\% CI)} \\
 \midrule
-Models in Rashomon set & 50 \\
-Evaluation splits & 20 \\
-Unique ``best'' models & 11 / 50 \\
-Best-model flip rate & $80%$ \\
-Consecutive flip rate & $89%$ \\
-Mean AUC spread per split & $0.0197$ \\
-Overall mean AUC & $0.948 \pm 0.0023$ \\
+\multirow{5}{*}{Positive (Rashomon)} & Models in Rashomon set & 50 \\
+& Evaluation splits & 20 \\
+& Unique `best' models & 11 / 50 \\
+& Best-model flip rate & $80%$ \\
+& Consecutive flip rate & $89%$ $[74%, 100%]$ \\
+\midrule
+Neg.\ control (identical) & Consecutive flip rate & $0%$ $[0%, 0%]$ \\
+\midrule
+\multirow{3}{*}{Resolution (ensemble)} & Ensemble AUC (mean) & $0.9510$ $[0.9431, 0.9581]$ \\
+& Best-single AUC (mean) & $0.9575$ $[0.9501, 0.9647]$ \\
+& Std reduction & $-0.0013$ \\
 \bottomrule
 \end{tabular}
 \end{table}
