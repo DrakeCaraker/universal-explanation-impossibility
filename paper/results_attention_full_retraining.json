@@ -1,0 +1,118 @@
+{
+  "experiment": "attention_full_retraining",
+  "description": "Full retraining: 20 seeds \u00d7 DistilBERT with layers 4+5 + pre_classifier + classifier reset and fine-tuned (layers 0-3 frozen). Evaluated on 50 test sentences using attention rollout.",
+  "model": "distilbert-base-uncased",
+  "method": "partial_backbone_retraining_attention_rollout",
+  "frozen_layers": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "retrained_layers": [
+    4,
+    5,
+    "pre_classifier",
+    "classifier"
+  ],
+  "num_models": 20,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61
+  ],
+  "num_train_sentences": 200,
+  "num_heldout_sentences": 40,
+  "num_test_sentences": 50,
+  "num_epochs": 5,
+  "lr": 2e-05,
+  "batch_size": 16,
+  "min_accuracy_threshold": 0.8,
+  "all_heldout_accuracies": [
+    0.9,
+    0.9,
+    0.85,
+    0.8,
+    0.725,
+    0.775,
+    0.9,
+    0.875,
+    0.875,
+    0.725,
+    0.825,
+    0.85,
+    0.775,
+    0.85,
+    0.85,
+    0.875,
+    0.9,
+    0.875,
+    0.9,
+    0.875
+  ],
+  "min_accuracy": 0.725,
+  "max_accuracy": 0.9,
+  "mean_accuracy": 0.845,
+  "all_above_80pct": false,
+  "argmax_flip_rate": 0.1986315789473684,
+  "argmax_flip_rate_ci_lo": 0.19073421052631578,
+  "argmax_flip_rate_ci_hi": 0.20642105263157895,
+  "n_flip_comparisons": 9500,
+  "prediction_agreement": 0.9449473684210526,
+  "prediction_agreement_ci_lo": 0.9403157894736842,
+  "prediction_agreement_ci_hi": 0.9493684210526315,
+  "mean_kendall_tau": 0.6287933166248956,
+  "mean_kendall_tau_ci_lo": 0.6231828947368421,
+  "mean_kendall_tau_ci_hi": 0.6343260275689223,
+  "n_tau_comparisons": 9500,
+  "comparison_table": {
+    "perturbation_sigma_001": {
+      "flip_rate": 0.6,
+      "prediction_agreement": 1.0,
+      "kendall_tau": 0.3
+    },
+    "head_only_retraining": {
+      "flip_rate": 0.028,
+      "prediction_agreement": 0.94,
+      "kendall_tau": null
+    },
+    "full_retraining_this": {
+      "flip_rate": 0.1986315789473684,
+      "prediction_agreement": 0.9449473684210526,
+      "kendall_tau": 0.6287933166248956,
+      "flip_rate_ci": [
+        0.19073421052631578,
+        0.20642105263157895
+      ],
+      "prediction_agreement_ci": [
+        0.9403157894736842,
+        0.9493684210526315
+      ],
+      "kendall_tau_ci": [
+        0.6231828947368421,
+        0.6343260275689223
+      ]
+    }
+  },
+  "elapsed_seconds": 147.1,
+  "conclusion": "moderate_instability_confirmed",
+  "interpretation": "Full retraining flip rate 19.9% demonstrates meaningful attention instability from genuine re-initialization and fine-tuning of the backbone layers, well above the head-only retraining rate of 2.8%.",
+  "_timestamp": "2026-04-09 16:01:46"
+}

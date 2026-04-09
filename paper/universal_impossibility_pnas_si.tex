@@ -275,7 +275,7 @@ Peak flip rate: 9.6\%. Prediction agreement: 78.8\%.
 \paragraph{Resolution.}
 Averaged GradCAM heatmap over equivalent models.
 
-\subsection{Instance 8: Language Model Self-Explanations}
+\subsection{Instance 8: Token Citation Explanations}
 
 \paragraph{Explanation system.}
 $\Params$: language model weight configurations.
@@ -333,7 +333,7 @@ For each instance, we follow a common experimental design:
 \begin{itemize}
   \item \textbf{Attribution, counterfactual, model selection}: UCI German
     Credit, UCI Adult, and synthetic collinear datasets.
-  \item \textbf{Attention, LLM explanation}: Stanford Sentiment Treebank
+  \item \textbf{Attention, token citation}: Stanford Sentiment Treebank
     (SST-2), 200 sentences.
   \item \textbf{Concept probe}: \texttt{sklearn load\_digits}, 8$\times$8
     digit images.
@@ -344,7 +344,7 @@ For each instance, we follow a common experimental design:
 
 \begin{itemize}
   \item \textbf{Attribution}: XGBoost (100 trees, max depth 6).
-  \item \textbf{Attention / LLM}: DistilBERT (6 layers, 12 heads,
+  \item \textbf{Attention / token citation}: DistilBERT (6 layers, 12 heads,
     66M parameters) with Gaussian weight perturbation.
   \item \textbf{Counterfactual}: XGBoost on German Credit.
   \item \textbf{Concept probe}: MLP (128--64, ReLU), trained with SGD.
@@ -422,7 +422,7 @@ model space to Mathlib's measure theory library.
 \paragraph{Universal instance axioms (58 axioms).}
 Per-instance type and Rashomon witness axioms for the nine instances
 (attention, counterfactual, concept, causal, model selection, saliency,
-LLM, mechanistic interpretability, fairness).
+token citation, mechanistic interpretability, fairness).
 
 \subsection{Axiom Stratification}
 
@@ -551,14 +551,6 @@ updates on a database view back to the base tables is inherently ambiguous
 when the view is not injective. This is precisely our framework: the base
 tables are configurations, the view is the observation map, and the
 ambiguity is the Rashomon property.
-
-\subsection{Legal Interpretation: Statutory Ambiguity}
-
-When a statute admits multiple legally valid interpretations, each
-consistent with the legislative text (the ``observable''), any judicial
-explanation faces the trilemma: be faithful to the chosen interpretation,
-stable across courts, and decisive in application. The impossibility
-applies whenever genuinely incompatible interpretations are legally valid.
 
 \subsection{Medical Diagnosis: Differential Diagnosis}
 

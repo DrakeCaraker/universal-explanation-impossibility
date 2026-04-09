@@ -1,94 +1,47 @@
 % Regulatory Analysis subsection — standalone LaTeX fragment
 % Intended to replace or expand \subsection{Regulatory Implications} in universal_impossibility.tex
+% FOCUSED on SR 11-7, with brief notes on EU AI Act and NIST AI RMF
 
-\subsection{Regulatory Analysis}
+\subsection{Regulatory Analysis: SR~11-7}
 \label{sec:regulatory-analysis}
 
-We analyze three major regulatory frameworks through the lens of
-Theorem~\ref{thm:universal}, showing that each implicitly demands
-all three desiderata simultaneously---and that our impossibility result
-clarifies how compliance should be structured.
+OCC SR~11-7 \citep{occ2011sr117} establishes three pillars for model
+validation in banking that map directly onto the trilemma. Section~III.A
+(\emph{Conceptual Soundness}) requires that ``the model's theoretical
+construct, \ldots\ assumptions, and limitations should be assessed''---this
+demands \emph{faithfulness}: the explanation must reflect the model's
+actual structure and assumptions. Section~III.B (\emph{Outcomes Analysis})
+requires ``comparing the model's outputs with the corresponding realized
+outcomes'' across ``model versions''---this demands \emph{stability}: the
+explanation must be consistent across model versions that produce
+equivalent outcomes. Section~IV (\emph{Effective Challenge}) requires
+``critical analysis by objective, informed parties'' yielding ``specific
+findings''---this demands \emph{decisiveness}: the challenge must produce
+specific, actionable findings, not hedged non-answers.
 
-\paragraph{EU AI Act Article~13 (Transparency).}
-The EU AI Act \citep{euaiact2024} requires that high-risk AI systems
-be designed with ``appropriate transparency'' and that users receive
-``meaningful information about the logic involved'' in automated
-decisions.  In the language of our framework, ``meaningful information''
-implies that explanations must be \emph{faithful} (accurately reflecting
-the model's actual reasoning) and \emph{decisive} (providing a definite
-answer, not a hedge).  The qualifier ``appropriate'' is intended to hold
-across model versions, deployment contexts, and regulatory audits---i.e.,
-the explanation must also be \emph{stable}.
-Theorem~\ref{thm:universal} shows that all three simultaneously is
-impossible whenever the Rashomon property holds.  Concretely, two
-equally-performant models of a credit scoring system may assign opposite
-feature importance rankings; demanding a single ``meaningful'' ranking
-that is faithful to both is a contradiction.
+These three requirements, as stated, cannot be simultaneously satisfied for
+any banking model with the Rashomon property---i.e., any model where
+multiple parameter configurations achieve equivalent predictive
+performance. For models trained with bagging, boosting, or stochastic
+gradient descent, the Rashomon property is generic
+(Section~\ref{sec:resolution}). Theorem~\ref{thm:universal} applies
+directly.
 
-\emph{Resolution.}  Report $G$-invariant explanations (e.g., \DASH{}
-attributions averaged over the Rashomon set) with explicit uncertainty
-quantification.  Disclose \emph{which} property is sacrificed---typically
-decisiveness---and why: the data genuinely underdetermines the
-explanation.  Article~13 compliance is then achieved by providing
-stable, faithful-in-expectation explanations with transparent
-disclosure of ties.
+Compliant model documentation under the trilemma should: (a)~state which
+property is prioritized for each model use case; (b)~use ensemble
+explanations (\DASH{}) for the stable $+$ faithful tradeoff, documenting
+where decisiveness is sacrificed; (c)~report explanation uncertainty bounds
+(confidence intervals on feature importance across the Rashomon set)
+alongside point estimates; and (d)~document the Rashomon set size and the
+resulting explanation variance as part of the model risk assessment.
+Effective challenge (Section~IV) is then directed at modeling choices---why
+this Rashomon set? why this loss threshold?---rather than at explanation
+artifacts that are mathematically underdetermined.
 
-\paragraph{NIST AI Risk Management Framework (MAP~1.5, MEASURE~2.6).}
-The NIST AI RMF \citep{nistai2023} requires that ``interpretability and
-explainability are defined, appropriate to the AI risk, and are
-documented'' (MEASURE~2.6), and that risks from lack of interpretability
-are mapped and managed (MAP~1.5).  The word ``appropriate'' signals a
-context-dependent balancing of explanation quality---but the framework
-provides no formal guidance on \emph{which} properties of an explanation
-should take priority.  In practice, this implicitly assumes that
-faithfulness, stability, and decisiveness are all simultaneously
-achievable: one simply chooses the ``appropriate'' level of each.
-
-\emph{Resolution.}  Our theorem shows that compliance should explicitly
-specify \emph{which leg} of the trilemma is prioritized for each use
-case.  For safety-critical applications (e.g., medical devices), one may
-prioritize faithfulness and accept instability across model versions.
-For auditable financial models, one may prioritize stability and accept
-ties.  The NIST framework's ``define and document'' mandate is best
-fulfilled by documenting the trilemma tradeoff explicitly in the system
-card.
-
-\paragraph{OCC SR~11-7 (Model Risk Management).}
-SR~11-7 \citep{occ2011sr117} establishes three pillars for model
-validation in banking: \emph{conceptual soundness} (the model's
-theoretical basis must be justified), \emph{outcomes analysis} (model
-performance must be monitored across versions and time), and
-\emph{effective challenge} (independent reviewers must produce specific,
-actionable findings).  These three requirements map directly onto our
-trilemma: conceptual soundness demands \emph{faithfulness} (the
-explanation reflects the model's actual structure), outcomes analysis
-across model versions demands \emph{stability}, and effective challenge
-demands \emph{decisiveness} (a reviewer cannot ``effectively challenge''
-a model if the explanation is a set of ties).  SR~11-7 thus demands all
-three for every banking model subject to validation.
-
-\emph{Resolution.}  For model validation, use ensemble explanations
-(\DASH{}) that are stable and partially faithful---faithful in
-expectation over the Rashomon set---satisfying conceptual soundness and
-outcomes analysis.  Document decisiveness limitations explicitly in
-model documentation: where the data underdetermines the explanation,
-state so and provide the $G$-invariant confidence interval rather than a
-point estimate.  Effective challenge is then directed at the
-\emph{modeling choices} (why this Rashomon set? why this loss threshold?)
-rather than at explanation artifacts that are mathematically
-underdetermined.
-
-\paragraph{Synthesis.}
-Our theorem does not imply that explainability requirements are
-wrong---it implies they must be stated as \emph{tradeoffs}, not
-absolutes.  A regulation that demands ``faithful, stable explanations''
-is achievable (drop decisive).  A regulation that demands ``faithful,
-decisive explanations'' is achievable (accept instability across
-versions).  A regulation that demands all three is asking for the
-mathematically impossible.  The $G$-invariant resolution provides the
-best achievable compliance: stable, faithful-in-expectation, with
-explicit ties where the data underdetermines the explanation.
-Regulators who adopt this framing---requiring disclosure of \emph{which}
-desideratum is relaxed and \emph{why}---will produce more honest, more
-useful, and more legally defensible AI governance than those who demand
-the impossible.
+The same analysis applies to EU AI Act Article~13 \citep{euaiact2024}
+(transparency) and NIST AI RMF MAP~1.5 \citep{nistai2023}
+(interpretability). In each case, the regulatory language implicitly
+assumes all three properties are jointly achievable; our theorem shows they
+are not. Regulations should be reformulated as explicit tradeoffs: specify
+which property is required, which may be relaxed, and what resolution
+method is acceptable.

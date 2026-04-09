@@ -68,3 +68,4 @@ import UniversalImpossibility.CPDAGResolution
 import UniversalImpossibility.UniversalDesignSpace
 import UniversalImpossibility.Ubiquity
 import UniversalImpossibility.Necessity
+import UniversalImpossibility.QuantitativeBound

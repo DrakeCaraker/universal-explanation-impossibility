@@ -80,7 +80,7 @@ feature attribution under collinearity, SHAP instability under model
 multiplicity, fairness metric incompatibility, model selection instability,
 causal discovery ambiguity within Markov equivalence classes, overparameterized
 neural network explanation instability, GradCAM saliency map instability,
-LLM self-explanation unreliability, and circuit non-uniqueness in mechanistic
+token citation instability, and circuit non-uniqueness in mechanistic
 interpretability.
 For causal discovery, the Rashomon property is derived from first principles
 (Markov equivalence).
@@ -91,7 +91,7 @@ Empirical experiments on seven instances confirm severe instability among
 functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 80\% model selection flip rate, 9.6\% GradCAM peak flip rate, and 34.5\%
-LLM self-explanation citation flip rate.
+token citation flip rate.
 The resolution is uniform: $G$-invariant aggregation over equivalent
 configurations restores faithfulness-in-expectation and stability at
 the cost of decisiveness, and is proved Pareto-optimal among stable methods.
@@ -182,7 +182,7 @@ Our contributions are:
     \citep{jainwallace2019}, counterfactual explanations, concept probes,
     causal discovery \citep{verma1991equivalence}, model selection
     \citep{rudin2024amazing}, GradCAM saliency maps
-    \citep{selvaraju2017gradcam}, LLM self-explanations
+    \citep{selvaraju2017gradcam}, token citation explanations
     \citep{turpin2024language}, and \textbf{mechanistic interpretability}
     \citep{meloux2025everything}---each shown to be a special case of the
     abstract framework.
@@ -193,7 +193,7 @@ Our contributions are:
     single task).
   \item \textbf{Empirical validation} for seven of the nine instances
     (attribution, attention, counterfactual, concept probes, model selection,
-    GradCAM, LLM explanations), confirming explanation instability on
+    GradCAM, token citation), confirming explanation instability on
     standard benchmarks.
   \item \textbf{A uniform resolution}: $G$-invariant aggregation restores
     faithfulness and stability at the cost of decisiveness.  \DASH{} for
@@ -517,7 +517,7 @@ Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
 Saliency map (ResNet-18) & Peak flip rate & 9.6\% & 78.8\% \\
-LLM explanation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
+Token citation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
 Mech.\ interp.\ (circuits) & \multicolumn{3}{l}{\textit{85 valid circuits, Meloux et al., 2025}} \\
 Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 \bottomrule
@@ -652,7 +652,7 @@ Saliency map &
   Weight-space symmetries &
   Averaged GradCAM heatmap &
   Single peak location \\
-LLM explanation &
+Token citation &
   Weight-space symmetries &
   Averaged attention rollout &
   Single cited token \\
@@ -893,7 +893,7 @@ calibrated uncertainty are both achievable and informative.''
 A natural reaction is that practitioners already know explanations are unstable
 ---so what is new?  The contribution is fivefold.  First, we make explicit that
 nine domains (attribution, attention, counterfactuals, concept probes, causal
-discovery, model selection, saliency maps, LLM explanations, mechanistic
+discovery, model selection, saliency maps, token citation, mechanistic
 interpretability) share \emph{one}
 mechanism---the Rashomon property---rather than nine unrelated pathologies.  Second, the Lean~4
 formalization (Section~\ref{sec:lean}: 73~files, 346~theorems, 0~\texttt{sorry})
@@ -963,13 +963,6 @@ precisely the Rashomon property in our framework, and the impossibility
 theorem applies: no mechanistic account of neural circuit function can
 simultaneously be faithful to the specific circuit, stable across degenerate
 circuits, and decisive about which ionic mechanism is primary.
-
-\paragraph{Legal interpretation: statutory ambiguity.}
-When a statute admits multiple legally valid interpretations, each consistent
-with the legislative text (the ``observable''), any judicial explanation faces
-the trilemma.  The impossibility applies whenever genuinely incompatible
-interpretations are legally valid---a condition routinely met in constitutional
-and regulatory law.
 
 \paragraph{Economics: partial identification.}
 Manski \citep{manski2003partial} developed partial identification theory for

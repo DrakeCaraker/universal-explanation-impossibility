@@ -85,9 +85,15 @@
 \node[instance, left=55pt] at ($(Faithful)!0.5!(Stable)$)
   {GradCAM};
 
-%% Along right edge (between Faithful and Decisive): LLM Explanation
+%% Along right edge (between Faithful and Decisive): Token Citation
 \node[instance, right=55pt] at ($(Faithful)!0.5!(Decisive)$)
-  {LLM Explanation};
+  {Token Citation};
+
+%% Additional Tier 1 instances: Database, Statistics
+\node[instance, above=28pt] at ($(Stable)!0.5!(Decisive)$)
+  {Database Views};
+\node[instance, below left=38pt and 2pt] at (Decisive)
+  {Rashomon Sets};
 
 %% Along bottom edge (between Stable and Decisive): Mechanistic Interp
 \node[instance, below=48pt] at ($(Stable)!0.5!(Decisive)$)

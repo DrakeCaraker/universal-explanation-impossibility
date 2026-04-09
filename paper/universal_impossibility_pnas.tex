@@ -77,7 +77,7 @@ property is both necessary and sufficient---within our framework, the exact boun
 possibility and impossibility. The theorem is instantiated across nine
 domains: feature attribution, attention maps, counterfactual
 explanations, concept probes, causal discovery, model selection,
-saliency maps, language model explanations, and mechanistic
+saliency maps, token citation explanations, and mechanistic
 interpretability. For causal discovery, the Rashomon property is derived
 from first principles (Markov equivalence). The resolution---$G$-invariant
 aggregation---is proved Pareto-optimal among stable methods. The result is mechanically
@@ -95,7 +95,7 @@ commitments. This formalizes a core consequence of the Quine--Duhem underdetermi
 thesis as a mathematical theorem, to our knowledge for the first time. The impossibility
 applies to nine major explanation paradigms in machine learning---from
 SHAP values to neural network circuit analysis---and extends to scientific
-explanation, medical diagnosis, and legal interpretation. The constructive
+explanation and medical diagnosis. The constructive
 resolution (aggregate over equivalent configurations) provides
 a Pareto-optimal tradeoff among stable explanation methods. The entire proof is mechanically verified,
 eliminating logical gaps in the formal proofs.
@@ -161,7 +161,7 @@ Rashomon property is both necessary and sufficient---the exact boundary
 between possibility and impossibility; (3)~nine instances spanning
 feature attribution, attention maps, counterfactual explanations, concept
 probes, causal discovery (with Rashomon \emph{derived} from Markov
-equivalence), model selection, saliency maps, language model explanations,
+equivalence), model selection, saliency maps, token citation explanations,
 and mechanistic interpretability; (4)~a constructive resolution via
 $G$-invariant aggregation proved uniquely optimal; (5)~empirical
 validation across seven instances; and (6)~complete mechanical
@@ -452,7 +452,7 @@ neural circuits face the same structural impossibility.
 The remaining five instances---attention maps (60\% argmax flip rate
 across equivalent DistilBERT models), counterfactual explanations (23.5\%
 direction flip rate), concept probes (0.90 direction instability), model
-selection (80\% best-model flip rate), and language model explanations
+selection (80\% best-model flip rate), and token citation explanations
 (34.5\% citation flip rate)---are detailed with full experimental
 methodology in \emph{SI Appendix}.
 
@@ -564,7 +564,7 @@ Counterfactual & Dir.\ flip & 23.5\% & $\Delta$AUC$<$0.03 \\
 Concept probe & $1{-}|\cos|$ & 0.90 & 97.2\% \\
 Model selection & Best flip & 80\% & $\Delta$AUC$<$0.02 \\
 Saliency map & Peak flip & 9.6\% & 78.8\% \\
-LLM explanation & Citation flip & 34.5\% & 100\% \\
+Token citation & Citation flip & 34.5\% & 100\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -586,57 +586,131 @@ protocols, confidence intervals, and negative controls---are in
 \emph{SI Appendix}.
 
 
+\subsection{Information-Theoretic Perspective}
+
+The algebraic impossibility (Theorem~\ref{thm:universal}) has a natural
+information-theoretic complement. Let $P$ be a probability measure over
+$\Params$.
+
+\begin{proposition}[Information-Theoretic Cost of Stability]
+\label{prop:info-theoretic}
+\emph{(Argued; paper proof.)}
+If $E$ is stable, then $I(E;\,\Params \mid Y) = 0$ and
+$I(E;\,\mathsf{explain}(\Params)) \leq I(Y;\,\mathsf{explain}(\Params))$.
+When $H(\mathsf{explain}(\Params) \mid Y) > 0$ (the system is
+underspecified), this bound is strictly less than
+$H(\mathsf{explain}(\Params))$, so any stable $E$ forfeits at least
+$H(\mathsf{explain}(\Params) \mid Y)$ bits of information about the native
+explanation.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+Stability means $E$ is a function of $Y$ alone: $E = g(Y)$ for some $g$.
+Hence $I(E;\,\Params \mid Y) = 0$. By the data processing inequality
+applied to the Markov chain $\mathsf{explain}(\Params) \to \Params \to Y
+\to E$, we obtain $I(E;\,\mathsf{explain}(\Params)) \leq
+I(Y;\,\mathsf{explain}(\Params))$. Decomposing:
+$I(Y;\,\mathsf{explain}(\Params)) = H(\mathsf{explain}(\Params)) -
+H(\mathsf{explain}(\Params) \mid Y)$. When $H(\mathsf{explain}(\Params)
+\mid Y) > 0$, the bound is strictly less than
+$H(\mathsf{explain}(\Params))$.
+\end{proof}
+
+The quantity $H(\mathsf{explain}(\Params) \mid Y)$ is the
+\emph{fundamental information gap}: the minimum information that any
+stable explanation must forfeit about the native explanation. This
+formulation complements the algebraic impossibility
+(Theorem~\ref{thm:universal}). Both identify the Rashomon property as the
+root cause, but the information-theoretic version additionally quantifies
+the minimum information loss. The Rashomon property holding with positive
+probability is equivalent to $H(\mathsf{explain}(\Params) \mid Y) > 0$.
+
+
 %%=======================================================================
 \section{Discussion}
 \label{sec:discussion}
 %%=======================================================================
 
-\subsection{Philosophy of Science: Formalizing Quine--Duhem}
+\subsection{Implications Beyond Machine Learning}
 
-The Quine--Duhem thesis~\cite{quine1951dogmas, duhem1906aim} holds that
-no scientific hypothesis can be tested in isolation: empirical evidence
-always underdetermines theory choice because auxiliary assumptions can
-be adjusted to accommodate any observation. Van
-Fraassen~\cite{vanfraassen1980scientific} elevated this to a central
-argument for constructive empiricism. Despite a century of philosophical
-discussion, the thesis has never been formalized as a mathematical
-theorem with a precise boundary condition.
+\paragraph{Tier~1: Formal instances.}
+The theorem applies directly to any domain where the ExplanationSystem
+structure is instantiated. Beyond the nine ML instances, the database
+view update problem~\cite{bancilhon1981update} and Rashomon sets in
+statistics~\cite{fisher2019models} share the exact mathematical structure:
+multiple configurations (base tables, near-optimal models) map to the same
+observable (view, predictive performance) yet differ in their explanations
+(update translation, variable importance rankings).
 
-Theorem~\ref{thm:universal} provides that formalization. The configuration
-space~$\Params$ corresponds to the space of theories; the observable
-space~$Y$ to empirical data; the explanation map to the interpretive
-framework; and the Rashomon property to the existence of empirically
-equivalent theories with incompatible explanations. The theorem states:
-underdetermination at the observable level propagates to underdetermination
-at the explanation level, and no interpretive procedure can escape the
-structural tradeoff. The necessity result (Proposition~\ref{prop:necessity})
-sharpens the thesis: the impossibility holds \emph{if and only if} the
-Rashomon property obtains, providing the exact boundary that philosophical
-formulations lack.
+\paragraph{Tier~2: Substantive applications requiring formalization.}
+The degeneracy principle in neuroscience~\cite{marder2006variability,
+edelman2001degeneracy}, partial identification in
+econometrics~\cite{manski2003partial}, and differential diagnosis in
+medicine exhibit the same structure: multiple configurations produce
+identical observables. Formalizing each as an ExplanationSystem and
+verifying the Rashomon property would yield the impossibility as a
+corollary. We leave these formalizations to domain specialists, but note
+that the neuroscience instance is treated in
+Section~\ref{sec:instance-neuro} and the medical diagnosis resolution
+(differential diagnosis as $G$-invariant aggregation) is described in
+Section~\ref{sec:resolution}.
 
-Okasha~\cite{okasha2011theory} connected Kuhn's theory choice to Arrow's
-impossibility theorem~\cite{arrow1951social} in social choice. Our result provides a
-complementary connection: underdetermination of explanation is an
-impossibility theorem in the same structural sense as Arrow's, with the
-Rashomon property playing the role of Arrow's independence of irrelevant
-alternatives.
+\paragraph{Tier~3: Suggestive connections (discussion only).}
+The Quine--Duhem underdetermination thesis~\cite{quine1951dogmas,
+duhem1906aim} is the informal precursor to our result.
+Theorem~\ref{thm:universal} can be read as a formalization of a core
+consequence of underdetermination: no method of choosing between
+empirically equivalent theories can simultaneously be faithful to a
+specific theory, stable across equivalent theories, and decisive about
+theoretical commitments. The $G$-invariant resolution formalizes what
+structural realists~\cite{worrall1989structural} have argued informally:
+the stable content of a theory is its structure, not its interpretation.
+We note, however, that the philosophical setting involves normative and
+ontological dimensions that our descriptive framework does not capture.
+Okasha~\cite{okasha2011theory} connected theory choice to Arrow's
+impossibility theorem~\cite{arrow1951social}; our result provides the
+complementary connection for underdetermination of explanation.
 
-\subsection{AI Regulation}
+\subsection{Regulatory Analysis: SR~11-7}
 
-The EU AI Act~\cite{euaiact2024} requires ``meaningful explanations'' for
-high-risk systems. SR~11-7~\cite{occ2011sr117} requires ``developmental
-evidence'' documenting model decisions. Fairness regulations face
-a parallel impossibility: Chouldechova~\cite{chouldechova2017fair} proved
-that common fairness metrics cannot simultaneously be satisfied when base
-rates differ across groups. Both implicitly demand
-faithfulness, stability, and decisiveness simultaneously.
-Theorem~\ref{thm:universal} shows this is impossible whenever models are
-underspecified---which is the norm for modern machine learning systems.
-The resolution is not to abandon regulation but to reframe it:
-require disclosure of \emph{which} desideratum is relaxed and why,
-mandate $G$-invariant explanations (e.g., ensemble-averaged attributions)
-with explicit uncertainty quantification, and accept that ties where the
-data are ambiguous are a feature of honest explanation, not a deficiency.
+OCC SR~11-7~\cite{occ2011sr117} establishes three pillars for model
+validation in banking that map directly onto the trilemma. Section~III.A
+(\emph{Conceptual Soundness}) requires that ``the model's theoretical
+construct, \ldots\ assumptions, and limitations should be assessed''---this
+demands \emph{faithfulness}: the explanation must reflect the model's
+actual structure and assumptions. Section~III.B (\emph{Outcomes Analysis})
+requires ``comparing the model's outputs with the corresponding realized
+outcomes'' across ``model versions''---this demands \emph{stability}: the
+explanation must be consistent across model versions that produce
+equivalent outcomes. Section~IV (\emph{Effective Challenge}) requires
+``critical analysis by objective, informed parties'' yielding ``specific
+findings''---this demands \emph{decisiveness}: the challenge must produce
+specific, actionable findings, not hedged non-answers.
+
+These three requirements, as stated, cannot be simultaneously satisfied for
+any banking model with the Rashomon property---i.e., any model where
+multiple parameter configurations achieve equivalent predictive
+performance. For models trained with bagging, boosting, or stochastic
+gradient descent, the Rashomon property is generic
+(Section~\ref{sec:resolution}). Theorem~\ref{thm:universal} applies
+directly.
+
+Compliant model documentation under the trilemma should: (a)~state which
+property is prioritized for each model use case; (b)~use ensemble
+explanations (\DASH{}) for the stable $+$ faithful tradeoff, documenting
+where decisiveness is sacrificed; (c)~report explanation uncertainty bounds
+(confidence intervals on feature importance across the Rashomon set)
+alongside point estimates; and (d)~document the Rashomon set size and the
+resulting explanation variance as part of the model risk assessment.
+Effective challenge (Section~IV) is then directed at modeling choices---why
+this Rashomon set? why this loss threshold?---rather than at explanation
+artifacts that are mathematically underdetermined.
+
+The same analysis applies to EU AI Act Article~13~\cite{euaiact2024}
+(transparency) and NIST AI RMF MAP~1.5~\cite{nistai2023}
+(interpretability). In each case, the regulatory language implicitly
+assumes all three properties are jointly achievable; our theorem shows they
+are not.
 
 \subsection{AI Safety}
 
@@ -652,14 +726,40 @@ more. The constructive response is to build safety arguments on
 circuit-invariant properties---features that hold across the entire
 equivalence class---rather than on any single decomposition.
 
+\subsection{Practitioner Decision Guide}
+
+Table~\ref{tab:practitioner} provides actionable guidance. Each row
+corresponds to a common practitioner goal and specifies which desideratum
+is sacrificed, what method class achieves the remaining two, and example
+tools.
+
+\begin{table}[t]
+\centering
+\caption{Practitioner decision table: which desideratum to sacrifice for
+each goal.}
+\label{tab:practitioner}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Your goal & Sacrifice & Method & Example tools \\
+\midrule
+Debug THIS model & Stability & Model's own explanation & \SHAP{}, GradCAM \\
+Monitor across retrains & Decisiveness & Aggregate over Rashomon set & \DASH{}, CPDAG \\
+Regulatory template & Faithfulness & Fixed rule-based explanation & Predefined feature lists \\
+Safety audit & Decisiveness & Conservative bounds & Worst-case over Rashomon set \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Closing}
 
-The impossibility does not counsel despair but precision: state which
-property is sacrificed, aggregate optimally, and report uncertainty. The
-Rashomon property is the exact boundary. When it holds, the trilemma is
-inescapable. When it does not, all three properties are jointly
-achievable. The task for the practitioner is to diagnose which regime
-obtains and to communicate the tradeoff honestly.
+No explanation of an underspecified system can simultaneously be faithful,
+stable, and decisive. The impossibility does not counsel despair but
+precision: state which property is sacrificed, aggregate optimally, and
+report uncertainty. The Rashomon property is the exact boundary. When it
+holds, the trilemma is inescapable. When it does not, all three properties
+are jointly achievable. The task for the practitioner is to diagnose which
+regime obtains and to communicate the tradeoff honestly.
 
 %%=======================================================================
 \section*{Materials and Methods}
