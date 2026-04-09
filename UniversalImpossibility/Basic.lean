@@ -58,3 +58,7 @@ import UniversalImpossibility.ConceptInstance
 import UniversalImpossibility.CausalInstance
 import UniversalImpossibility.ModelSelectionInstance
 import UniversalImpossibility.UniversalImpossibility
+import UniversalImpossibility.UniversalResolution
+import UniversalImpossibility.DASHResolution
+import UniversalImpossibility.CPDAGResolution
+import UniversalImpossibility.UniversalDesignSpace
