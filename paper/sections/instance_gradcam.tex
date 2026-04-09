@@ -64,7 +64,9 @@ $\mathcal{S}_{\mathrm{sal}}$.
 We validate Proposition~\ref{prop:gradcam-impossibility} by creating 10
 perturbed ResNet-18 models on CIFAR-10 ($\sigma = 0.02$ Gaussian weight
 noise).  With \textbf{78.8\% prediction agreement} (confirming approximate
-functional equivalence), the \textbf{peak flip rate} is \textbf{9.6\%}
+functional equivalence; prediction agreement is 78.8\%, reflecting
+sensitivity of ImageNet-pretrained ResNet-18 to perturbation on CIFAR-10),
+the \textbf{peak flip rate} is \textbf{9.6\%}
 [95\% CI: 8.8--10.5\%]: nearly one in ten model pairs places peak GradCAM
 activation at a different spatial location despite the same prediction.
 The mean pairwise spatial IoU (top-20\% threshold) is \textbf{95.4\%}

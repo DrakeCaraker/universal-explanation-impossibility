@@ -165,6 +165,8 @@ Random forest: $O(1/\sqrt{T})$ convergence (the mechanism behind
 \paragraph{Experiments.}
 20 XGBoost models on UCI datasets, differing only in random seed.
 SHAP flip rate: 33\%. Prediction equivalence: $>$99\%.
+Four of twenty models achieved 72--78\% held-out accuracy; all twenty are
+included in the analysis.
 
 \subsection{Instance 2: Attention Maps}
 
@@ -270,7 +272,8 @@ rankings shift under model perturbation.
 
 \paragraph{Experiments.}
 10 ResNet-18 models with weight perturbations on CIFAR-10.
-Peak flip rate: 9.6\%. Prediction agreement: 78.8\%.
+Peak flip rate: 9.6\%. Prediction agreement: 78.8\%, reflecting sensitivity of
+ImageNet-pretrained ResNet-18 to perturbation on CIFAR-10.
 
 \paragraph{Resolution.}
 Averaged GradCAM heatmap over equivalent models.
@@ -280,7 +283,8 @@ Averaged GradCAM heatmap over equivalent models.
 \paragraph{Explanation system.}
 $\Params$: language model weight configurations.
 $Y$: next-token prediction function.
-$\sH$: self-generated explanations (chain-of-thought, cited tokens).
+$\sH$: token citations---the top-$k$ most-attended tokens extracted via
+attention rollout as a proxy for language model self-explanation.
 $\incomp$: different cited evidence for the same prediction.
 
 \paragraph{Rashomon property.}
@@ -482,6 +486,34 @@ Theorem name & File & Axioms \\
 \bottomrule
 \end{longtable}
 
+
+%%=======================================================================
+\section{Practitioner Decision Guide}
+\label{sec:si-practitioner}
+%%=======================================================================
+
+Table~\ref{tab:practitioner} provides actionable guidance. Each row
+corresponds to a common practitioner goal and specifies which desideratum
+is sacrificed, what method class achieves the remaining two, and example
+tools.
+
+\begin{table}[h]
+\centering
+\caption{Practitioner decision table (Table~S2): which desideratum to sacrifice for
+each goal.}
+\label{tab:practitioner}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Your goal & Sacrifice & Method & Example tools \\
+\midrule
+Debug THIS model & Stability & Model's own explanation & \SHAP{}, GradCAM \\
+Monitor across retrains & Decisiveness & Aggregate over Rashomon set & \DASH{}, CPDAG \\
+Regulatory template & Faithfulness & Fixed rule-based explanation & Predefined feature lists \\
+Safety audit & Decisiveness & Conservative bounds & Worst-case over Rashomon set \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%=======================================================================
 \section{Regulatory Analysis}

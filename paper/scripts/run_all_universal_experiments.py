@@ -2,13 +2,16 @@
 """
 run_all_universal_experiments.py
 ---------------------------------
-Runs all four universal explanation impossibility experiments sequentially.
+Runs all seven universal explanation impossibility experiments sequentially.
 
 Experiment order matches Section 4 (Instances) of universal_impossibility.tex:
   1. Attention map instability (DistilBERT, Task 1A)
   2. Counterfactual explanation instability (XGBoost, Task 1B)
   3. Concept probe instability / TCAV (neural nets, Task 1C)
   4. Model selection instability (Rashomon multiplicity, Task 1D)
+  5. GradCAM instability (ResNet-18 / CIFAR-10, Task 1E)
+  6. LLM explanation instability / token citation (DistilBERT, Task 1F)
+  7. Attention full retraining (DistilBERT, Task 1G)
 
 Each script saves its own JSON results and (where applicable) LaTeX table
 fragments under paper/results_*.json and paper/sections/table_*.tex.
@@ -64,6 +67,29 @@ EXPERIMENTS = [
         "outputs": [
             "paper/results_model_selection_instability.json",
             "paper/sections/table_model_selection.tex",
+        ],
+    },
+    {
+        "name": "GradCAM Instability (Instance 7: ResNet-18 / CIFAR-10)",
+        "script": SCRIPTS_DIR / "gradcam_instability_experiment.py",
+        "outputs": [
+            "paper/results_gradcam_instability.json",
+            "paper/sections/table_gradcam.tex",
+        ],
+    },
+    {
+        "name": "LLM Explanation Instability (Instance 8: Token citation / DistilBERT)",
+        "script": SCRIPTS_DIR / "llm_explanation_instability_experiment.py",
+        "outputs": [
+            "paper/results_llm_explanation_instability.json",
+            "paper/sections/table_llm_explanation.tex",
+        ],
+    },
+    {
+        "name": "Attention Full Retraining (Instance 2: DistilBERT full retraining)",
+        "script": SCRIPTS_DIR / "attention_full_retraining_experiment.py",
+        "outputs": [
+            "paper/results_attention_full_retraining.json",
         ],
     },
 ]

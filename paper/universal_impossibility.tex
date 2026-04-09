@@ -516,11 +516,15 @@ Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
-Saliency map (ResNet-18) & Peak flip rate & 9.6\% & 78.8\% \\
-Token citation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
+Saliency map (ResNet-18) & Peak flip rate & 9.6\% & 78.8\%$^{\dagger}$ \\
+Token citation (DistilBERT) & Citation flip rate & 34.5\% & 100\%$^{\ddagger}$ \\
 Mech.\ interp.\ (circuits) & \multicolumn{3}{l}{\textit{85 valid circuits, Meloux et al., 2025}} \\
 Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 \bottomrule
+\multicolumn{4}{l}{$^{\dagger}$Prediction agreement is 78.8\%, reflecting sensitivity of ImageNet-pretrained} \\
+\multicolumn{4}{l}{\quad ResNet-18 to perturbation on CIFAR-10.} \\
+\multicolumn{4}{l}{$^{\ddagger}$Token citation extracted via attention rollout as a proxy; four of twenty} \\
+\multicolumn{4}{l}{\quad attribution models achieved 72--78\% held-out accuracy; all twenty included.} \\
 \end{tabular}
 \end{table}
 

@@ -81,7 +81,7 @@ saliency maps, token citation explanations, and mechanistic
 interpretability. For causal discovery, the Rashomon property is derived
 from first principles (Markov equivalence). The resolution---$G$-invariant
 aggregation---is proved Pareto-optimal among stable methods. The result is mechanically
-verified in the Lean~4 proof assistant (346 theorems, 0 unproved goals).
+verified in the Lean~4 proof assistant (349 theorems, 0 unproved goals).
 \end{abstract}
 
 \medskip
@@ -151,7 +151,7 @@ configurations, and decisive in its commitments.}
 \noindent
 The proof is four steps---decisiveness, stability, faithfulness,
 contradiction---and is mechanically verified in the Lean~4 proof
-assistant~\cite{demoura2021lean4} (73 files, 346 theorems, 72 axioms,
+assistant~\cite{demoura2021lean4} (74 files, 349 theorems, 72 axioms,
 0~\texttt{sorry}). The core impossibility requires zero axioms beyond
 the Rashomon property itself.
 
@@ -317,134 +317,35 @@ model explanations) are detailed in \emph{SI Appendix}.
 \subsection{Feature Attribution (Machine Learning)}
 \label{sec:instance-attr}
 
-Fix $P \geq 2$ features with collinearity groups. The configuration
-space~$\Params$ is the set of trained models (e.g., gradient-boosted
-trees, Lasso, neural networks); the observable space~$Y$ is the
-input--output function; the explanation space~$\sH$ is the set of
-attribution vectors $(\varphi_1, \ldots, \varphi_P)$ assigning importance
-to each feature; and the incompatibility relation declares two vectors
-incompatible when they rank the same collinear pair in opposite orders.
-Collinearity induces a Rashomon set of near-optimal models that differ
-only in which feature within a correlated group acts as the primary
-predictor~\cite{damour2022underspecification, fisher2019models}. The
-impossibility follows from Theorem~\ref{thm:universal}: no attribution
-method (\SHAP{}, LIME, Integrated Gradients) can simultaneously be
-faithful, stable, and decisive. This subsumes the result of
-\citet{bilodeau2024impossibility} as a special case.
+The 6-tuple: $\Params$ = trained models (GBDT, Lasso, neural networks); $Y$ = input--output function; $\sH$ = attribution vectors $(\varphi_1,\ldots,\varphi_P)$; $\incomp$ = opposite ranking of a collinear pair. Collinearity induces a Rashomon set of near-optimal models differing only in which correlated feature acts as primary predictor~\cite{damour2022underspecification,fisher2019models}. The impossibility follows from Theorem~\ref{thm:universal}, subsuming \citet{bilodeau2024impossibility} as a special case.
 
-For gradient-boosted trees with per-group correlation~$\rho$, the
-attribution ratio diverges as $1/(1-\rho^2)$ as $\rho \to 1$. For
-Lasso at any $\rho > 0$, one correlated feature is zeroed out entirely
-(infinite ratio). Empirically, SHAP rankings flip at a 33\% rate across
-equivalent models on standard benchmarks.
+Quantitatively: for GBDTs the attribution ratio diverges as $1/(1-\rho^2)$; for Lasso one feature is zeroed entirely (infinite ratio). Empirically, SHAP rankings flip at a 33\% rate across equivalent models.
 
 \subsection{Causal Discovery}
 \label{sec:instance-causal}
 
-The causal discovery instance is the strongest because the Rashomon
-property is \emph{derived from first principles} rather than axiomatized.
-
-The configuration space~$\Params$ is the set of directed acyclic graphs
-(DAGs) over a fixed vertex set~$V$. The observable space~$Y$ is the set
-of conditional independence (CI) structures---each element records, for
-every triple $(X_i, X_j \mid S)$, whether $X_i \perp\!\!\!\perp X_j
-\mid S$ holds. The observation map sends each DAG to the CI structure it
-encodes via $d$-separation (the Markov condition). Two DAGs map to the
-same CI structure if and only if they are \emph{Markov
-equivalent}~\cite{verma1991equivalence}. The explanation map is any
-orientation rule that returns a fully directed graph. The incompatibility
-relation declares two DAGs incompatible when they orient at least one
-edge in opposite directions.
+The 6-tuple: $\Params$ = DAGs over vertex set $V$; $Y$ = conditional independence (CI) structures; $\mathsf{observe}$ = $d$-separation Markov condition; $\sH$ = fully oriented DAGs; $\incomp$ = opposite orientation of some edge. Two DAGs are \emph{Markov equivalent} iff they encode the same CI structure~\cite{verma1991equivalence}.
 
 \begin{proposition}[Causal Rashomon Property---Derived]
 \label{prop:causal-rashomon}
-For any completed partially directed acyclic graph (CPDAG) containing at
-least one undirected edge $\{X, Y\}$, there exist Markov-equivalent DAGs
-$h, h'$ with opposite orientations of that edge. Hence the causal
-explanation system has the Rashomon property.
+Any CPDAG with an undirected edge $\{X,Y\}$ witnesses the Rashomon property: orient $X\to Y$ for $h$ and $Y\to X$ for $h'$; both are Markov-consistent yet $\incomp(h,h')$.
 \end{proposition}
 
-\begin{proof}
-An undirected edge in the CPDAG means both orientations are
-Markov-consistent. Let $h$ orient it as $X \to Y$ and $h'$ as $Y \to X$.
-Then $\mathsf{observe}(h) = \mathsf{observe}(h')$ (same CI structure) and
-$\incomp(h, h')$ (opposite orientations).
-\end{proof}
-
-The three-variable chain $X \to Y \to Z$ and fork $X \leftarrow Y \to Z$
-provide the canonical example: both encode $X \perp\!\!\!\perp Z \mid Y$
-(and no other CI relation), so they are Markov equivalent, yet they
-disagree on the $X$--$Y$ edge direction. No causal discovery algorithm
-can distinguish them from observational data alone.
-
-By Theorem~\ref{thm:universal}, no orientation rule can simultaneously be
-faithful (return the true DAG), stable (give the same answer for
-Markov-equivalent structures), and decisive (always commit to a fully
-oriented graph). This is the classical Markov equivalence
-underdetermination recast in our framework, with the Rashomon property
-derived rather than assumed. The resolution is to report
-CPDAGs~\cite{chickering2002optimal} rather than DAGs---trading
-decisiveness for faithfulness and stability, exactly as the theorem predicts.
+By Theorem~\ref{thm:universal}, no orientation rule can simultaneously be faithful, stable, and decisive. The resolution is to report CPDAGs~\cite{chickering2002optimal}---trading decisiveness for faithfulness and stability.
 
 \subsection{Mechanistic Interpretability}
 \label{sec:instance-mi}
 
-Mechanistic interpretability (MI) aims to reverse-engineer neural networks
-into human-understandable
-circuits~\cite{elhage2022toy,conmy2023automated,anthropic2025circuit}. The
-configuration space is the set of weight configurations; the observable
-space is the input--output function; the explanation space is the set of
-circuit decompositions; and the incompatibility relation declares two
-circuits incompatible when they attribute the same computation to
-contradictory subsets of network components.
+The 6-tuple: $\Params$ = weight configurations; $Y$ = input--output function; $\sH$ = circuit decompositions; $\incomp$ = contradictory attribution of the same computation to different network components. \citet{meloux2025everything} found \textbf{85 distinct valid circuits} for a single XOR task; \citet{sae_seeds_2025} show sparse autoencoders learn different features per seed.
 
-\citet{meloux2025everything} found \textbf{85 distinct valid circuits}
-with zero circuit error for a single XOR task, each admitting an average
-of 535.8 valid interpretations. Complementary evidence from
-\citet{sae_seeds_2025} shows that sparse autoencoders trained on the same
-data learn different features depending on the random seed.
-
-By Theorem~\ref{thm:universal}, no circuit explanation method can
-simultaneously be faithful (reflect the actual internal circuitry),
-stable (assign the same circuit to functionally equivalent networks), and
-decisive (commit to a single circuit). This result does not undermine
-MI---it clarifies that the goal should be to characterize the
-\emph{space} of valid circuits (the ``circuit equivalence class'') rather
-than to search for a single canonical decomposition. This mirrors the
-CPDAG resolution for causal discovery: report which circuit features are
-invariant across all valid decompositions (the ``skeleton'') and which are
-decomposition-dependent (the ``reversible edges'').
-
-For AI safety, the implication is direct: any safety argument that depends
-on a specific circuit being THE mechanism of a capability (e.g.,
-deception) must account for the possibility that functionally equivalent
-alternative circuits exist, potentially with different safety-relevant
-properties.
+By Theorem~\ref{thm:universal}, no circuit explanation can simultaneously be faithful, stable, and decisive. The resolution is to report the circuit equivalence class---features invariant across all valid decompositions form the ``skeleton''; decomposition-dependent features are the ``reversible edges.'' For AI safety: arguments that a specific circuit is THE mechanism of a capability must account for alternative circuits with potentially different safety properties.
 
 \subsection{Neural Degeneracy (Neuroscience)}
 \label{sec:instance-neuro}
 
-Marder and Goaillard~\cite{marder2006variability} documented that
-crustacean stomatogastric ganglia producing identical motor patterns are
-built from neurons with qualitatively different ionic conductance profiles.
-Edelman and Gally~\cite{edelman2001degeneracy} formalized this as
-\emph{degeneracy}: structurally distinct elements performing the same
-function. In our framework, the configuration space is the set of
-neural circuit parameterizations (ionic conductances, synaptic weights);
-the observable space is the motor pattern; and the explanation space
-assigns to each circuit a mechanistic account of which ion channels drive
-the rhythm.
+The 6-tuple: $\Params$ = neural circuit parameterizations (ionic conductances, synaptic weights); $Y$ = motor pattern output; $\sH$ = mechanistic accounts of which ion channels drive the rhythm; $\incomp$ = contradictory primary-channel attributions. Marder and Goaillard~\cite{marder2006variability} documented that crustacean stomatogastric ganglia with identical motor patterns arise from qualitatively different conductance profiles---\emph{degeneracy}~\cite{edelman2001degeneracy}---which is precisely the Rashomon property.
 
-Degeneracy is precisely the Rashomon property: two circuit configurations
-produce the same rhythmic output yet honestly report incompatible
-mechanistic explanations (e.g., ``the rhythm is driven by the
-$I_\mathrm{Ca}$ current'' versus ``the rhythm is driven by the
-$I_\mathrm{h}$ current''). By Theorem~\ref{thm:universal}, no
-mechanistic account of neural circuit function can simultaneously be
-faithful to the specific circuit, stable across degenerate circuits, and
-decisive about which ionic mechanism is primary. This connects directly to
-the MI instance (Section~\ref{sec:instance-mi}): artificial and biological
-neural circuits face the same structural impossibility.
+By Theorem~\ref{thm:universal}, no mechanistic account can simultaneously be faithful to the specific circuit, stable across degenerate circuits, and decisive about the primary ionic mechanism. Biological and artificial neural circuits face the same structural impossibility.
 
 \medskip
 
@@ -558,14 +459,19 @@ functional identity.}
 \toprule
 Instance & Metric & Value & Pred.\ equiv. \\
 \midrule
-Attribution & SHAP flip & 33\% & $>$99\% \\
+Attribution & SHAP flip & 33\%\textsuperscript{$\ddagger$} & $>$99\% \\
 Attention & Argmax flip & 60\% & 100\% \\
 Counterfactual & Dir.\ flip & 23.5\% & $\Delta$AUC$<$0.03 \\
 Concept probe & $1{-}|\cos|$ & 0.90 & 97.2\% \\
 Model selection & Best flip & 80\% & $\Delta$AUC$<$0.02 \\
-Saliency map & Peak flip & 9.6\% & 78.8\% \\
-Token citation & Citation flip & 34.5\% & 100\% \\
+Saliency map (GradCAM) & Peak flip & 9.6\% & 78.8\%\textsuperscript{$\dagger$} \\
+Token citation & Citation flip & 34.5\% & 100\%\textsuperscript{$\S$} \\
 \bottomrule
+\multicolumn{4}{l}{\textsuperscript{$\dagger$}Prediction agreement reflects sensitivity of ImageNet-pretrained} \\
+\multicolumn{4}{l}{\quad ResNet-18 to perturbation on CIFAR-10.} \\
+\multicolumn{4}{l}{\textsuperscript{$\ddagger$}Four of twenty models achieved 72--78\% held-out accuracy;} \\
+\multicolumn{4}{l}{\quad all twenty are included in the analysis.} \\
+\multicolumn{4}{l}{\textsuperscript{$\S$}Token citation extracted via attention rollout as a proxy.} \\
 \end{tabular}
 \end{table}
 
@@ -580,6 +486,11 @@ function of the random seed, not the function the model computes. Third,
 the 0\% instability for negative controls (instances where the Rashomon
 property does not hold, e.g., unique-solution linear regression),
 confirming that the theorem's boundary condition is empirically sharp.
+The GradCAM 78.8\% prediction agreement reflects sensitivity of
+ImageNet-pretrained ResNet-18 to perturbation on CIFAR-10. Four of
+twenty models in the attribution experiment achieved 72--78\% held-out
+accuracy; all twenty are included in the analysis. Token citations are
+extracted via attention rollout as a proxy for LLM self-explanation.
 
 Full experimental details---datasets, model architectures, perturbation
 protocols, confidence intervals, and negative controls---are in
@@ -588,42 +499,11 @@ protocols, confidence intervals, and negative controls---are in
 
 \subsection{Information-Theoretic Perspective}
 
-The algebraic impossibility (Theorem~\ref{thm:universal}) has a natural
-information-theoretic complement. Let $P$ be a probability measure over
-$\Params$.
-
 \begin{proposition}[Information-Theoretic Cost of Stability]
 \label{prop:info-theoretic}
 \emph{(Argued; paper proof.)}
-If $E$ is stable, then $I(E;\,\Params \mid Y) = 0$ and
-$I(E;\,\mathsf{explain}(\Params)) \leq I(Y;\,\mathsf{explain}(\Params))$.
-When $H(\mathsf{explain}(\Params) \mid Y) > 0$ (the system is
-underspecified), this bound is strictly less than
-$H(\mathsf{explain}(\Params))$, so any stable $E$ forfeits at least
-$H(\mathsf{explain}(\Params) \mid Y)$ bits of information about the native
-explanation.
+By the data processing inequality applied to $\mathsf{explain}(\Params) \to \Params \to Y \to E$, any stable map satisfies $I(E;\,\mathsf{explain}(\Params)) \leq I(Y;\,\mathsf{explain}(\Params))$. When $H(\mathsf{explain}(\Params) \mid Y) > 0$, this bound is strictly less than $H(\mathsf{explain}(\Params))$, so any stable $E$ forfeits at least $H(\mathsf{explain}(\Params) \mid Y)$ bits of the native explanation. This complements Theorem~\ref{thm:universal}: both identify the Rashomon property as root cause, but the information-theoretic bound additionally quantifies the minimum information loss.
 \end{proposition}
-
-\begin{proof}[Proof sketch]
-Stability means $E$ is a function of $Y$ alone: $E = g(Y)$ for some $g$.
-Hence $I(E;\,\Params \mid Y) = 0$. By the data processing inequality
-applied to the Markov chain $\mathsf{explain}(\Params) \to \Params \to Y
-\to E$, we obtain $I(E;\,\mathsf{explain}(\Params)) \leq
-I(Y;\,\mathsf{explain}(\Params))$. Decomposing:
-$I(Y;\,\mathsf{explain}(\Params)) = H(\mathsf{explain}(\Params)) -
-H(\mathsf{explain}(\Params) \mid Y)$. When $H(\mathsf{explain}(\Params)
-\mid Y) > 0$, the bound is strictly less than
-$H(\mathsf{explain}(\Params))$.
-\end{proof}
-
-The quantity $H(\mathsf{explain}(\Params) \mid Y)$ is the
-\emph{fundamental information gap}: the minimum information that any
-stable explanation must forfeit about the native explanation. This
-formulation complements the algebraic impossibility
-(Theorem~\ref{thm:universal}). Both identify the Rashomon property as the
-root cause, but the information-theoretic version additionally quantifies
-the minimum information loss. The Rashomon property holding with positive
-probability is equivalent to $H(\mathsf{explain}(\Params) \mid Y) > 0$.
 
 
 %%=======================================================================
@@ -671,46 +551,9 @@ Okasha~\cite{okasha2011theory} connected theory choice to Arrow's
 impossibility theorem~\cite{arrow1951social}; our result provides the
 complementary connection for underdetermination of explanation.
 
-\subsection{Regulatory Analysis: SR~11-7}
+\subsection{Regulatory Analysis}
 
-OCC SR~11-7~\cite{occ2011sr117} establishes three pillars for model
-validation in banking that map directly onto the trilemma. Section~III.A
-(\emph{Conceptual Soundness}) requires that ``the model's theoretical
-construct, \ldots\ assumptions, and limitations should be assessed''---this
-demands \emph{faithfulness}: the explanation must reflect the model's
-actual structure and assumptions. Section~III.B (\emph{Outcomes Analysis})
-requires ``comparing the model's outputs with the corresponding realized
-outcomes'' across ``model versions''---this demands \emph{stability}: the
-explanation must be consistent across model versions that produce
-equivalent outcomes. Section~IV (\emph{Effective Challenge}) requires
-``critical analysis by objective, informed parties'' yielding ``specific
-findings''---this demands \emph{decisiveness}: the challenge must produce
-specific, actionable findings, not hedged non-answers.
-
-These three requirements, as stated, cannot be simultaneously satisfied for
-any banking model with the Rashomon property---i.e., any model where
-multiple parameter configurations achieve equivalent predictive
-performance. For models trained with bagging, boosting, or stochastic
-gradient descent, the Rashomon property is generic
-(Section~\ref{sec:resolution}). Theorem~\ref{thm:universal} applies
-directly.
-
-Compliant model documentation under the trilemma should: (a)~state which
-property is prioritized for each model use case; (b)~use ensemble
-explanations (\DASH{}) for the stable $+$ faithful tradeoff, documenting
-where decisiveness is sacrificed; (c)~report explanation uncertainty bounds
-(confidence intervals on feature importance across the Rashomon set)
-alongside point estimates; and (d)~document the Rashomon set size and the
-resulting explanation variance as part of the model risk assessment.
-Effective challenge (Section~IV) is then directed at modeling choices---why
-this Rashomon set? why this loss threshold?---rather than at explanation
-artifacts that are mathematically underdetermined.
-
-The same analysis applies to EU AI Act Article~13~\cite{euaiact2024}
-(transparency) and NIST AI RMF MAP~1.5~\cite{nistai2023}
-(interpretability). In each case, the regulatory language implicitly
-assumes all three properties are jointly achievable; our theorem shows they
-are not.
+OCC SR~11-7~\cite{occ2011sr117} maps onto the trilemma: Conceptual Soundness demands \emph{faithfulness}, Outcomes Analysis across model versions demands \emph{stability}, and Effective Challenge demands \emph{decisiveness}. These three pillars cannot be simultaneously satisfied for any model with the Rashomon property---generic for models trained with bagging, boosting, or SGD. Compliant documentation should state which property is prioritized, use ensemble explanations (\DASH{}) for the stable+faithful tradeoff, and report Rashomon set size and explanation variance. The same analysis applies to EU AI Act Article~13~\cite{euaiact2024} and NIST AI RMF MAP~1.5~\cite{nistai2023}: each regulatory framework implicitly assumes all three properties are jointly achievable; Theorem~\ref{thm:universal} shows they are not. Actionable guidance for common practitioner goals is given in \emph{SI Appendix}, Table~S2.
 
 \subsection{AI Safety}
 
@@ -726,31 +569,6 @@ more. The constructive response is to build safety arguments on
 circuit-invariant properties---features that hold across the entire
 equivalence class---rather than on any single decomposition.
 
-\subsection{Practitioner Decision Guide}
-
-Table~\ref{tab:practitioner} provides actionable guidance. Each row
-corresponds to a common practitioner goal and specifies which desideratum
-is sacrificed, what method class achieves the remaining two, and example
-tools.
-
-\begin{table}[t]
-\centering
-\caption{Practitioner decision table: which desideratum to sacrifice for
-each goal.}
-\label{tab:practitioner}
-\small
-\begin{tabular}{@{}llll@{}}
-\toprule
-Your goal & Sacrifice & Method & Example tools \\
-\midrule
-Debug THIS model & Stability & Model's own explanation & \SHAP{}, GradCAM \\
-Monitor across retrains & Decisiveness & Aggregate over Rashomon set & \DASH{}, CPDAG \\
-Regulatory template & Faithfulness & Fixed rule-based explanation & Predefined feature lists \\
-Safety audit & Decisiveness & Conservative bounds & Worst-case over Rashomon set \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \subsection{Closing}
 
 No explanation of an underspecified system can simultaneously be faithful,
@@ -764,7 +582,7 @@ regime obtains and to communicate the tradeoff honestly.
 %%=======================================================================
 \section*{Materials and Methods}
 %%=======================================================================
-The Lean~4 formalization (73 files, 346 theorems, 72 axioms,
+The Lean~4 formalization (74 files, 349 theorems, 72 axioms,
 0~\texttt{sorry}) is available at [repository URL]. Experimental code and
 data are in \emph{SI Appendix}. The core impossibility theorem
 (\texttt{explanation\_impossibility}) depends on zero axioms beyond the

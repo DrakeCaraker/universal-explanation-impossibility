@@ -69,7 +69,7 @@ over equivalent hypotheses restore faithfulness-in-expectation and stability at 
 decisiveness.
 The impossibility is ubiquitous: any learning problem with more
 parameters than constraints admits a Rashomon set of positive measure.
-The framework is mechanically verified in Lean~4 (67~files, 319~theorems, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (74~files, 349~theorems, 0~\texttt{sorry}).
 \end{abstract}
 
 %%=======================================================================
@@ -105,7 +105,7 @@ We show there is \emph{one} structural cause.  We prove a \emph{Universal Explan
 (3)~Empirical validation for four instances confirming severe instability.
 (4)~A uniform resolution: $G$-invariant aggregation restores stability and faithfulness-in-expectation.
 (5)~Ubiquity: the impossibility holds generically when $\dim(\sH) > \dim(Y)$.
-(6)~Lean~4 formalization: 67~files, 319~theorems, 60~axioms, 0~\texttt{sorry}.
+(6)~Lean~4 formalization: 74~files, 349~theorems, 72~axioms, 0~\texttt{sorry}.
 
 \textbf{Related work} is discussed in Appendix~\ref{app:related}. This paper generalizes the attribution impossibility of \citet{bilodeau2024impossibility} from feature attribution to arbitrary explanation systems. The companion paper provides quantitative depth for the attribution instance; this paper supplies the abstract framework, five additional instances, and the ubiquity result.
 
@@ -324,6 +324,7 @@ Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
 Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
+Full retraining (DistilBERT) & Argmax flip rate & 19.9\% & 94.5\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -401,9 +402,9 @@ The theorem and all six instances are mechanically verified in Lean~4 \citep{dem
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 67 & \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 319 & Verified by \texttt{grep -c} \\
-Axioms & 60 & Domain-specific; core uses 0 \\
+Files & 74 & \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 349 & Verified by \texttt{grep -c} \\
+Axioms & 72 & Domain-specific; core uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 thm & Zero axiom deps \\
@@ -549,7 +550,7 @@ Family~B (faithful, stable, indecisive): report the Rashomon set or ensemble pre
 
 \begin{table}[h]
 \centering
-\caption{Axiom inventory (60 total). The core impossibility uses zero axioms.}
+\caption{Axiom inventory (72 total). The core impossibility uses zero axioms.}
 \label{tab:axioms}
 \small
 \begin{tabular}{lrl}

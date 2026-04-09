@@ -48,11 +48,12 @@ model variations while predictions remain stable.  \citet{turpin2024language}
 show that chain-of-thought explanations can be systematically unfaithful
 to the model's actual reasoning process.
 
-\begin{proposition}[Instance 8: LLM Self-Explanation Impossibility]
+\begin{proposition}[Instance 8: Token Citation Impossibility]
 \label{prop:llm-impossibility}
 If $\mathcal{S}_{\mathrm{llm}}$ has the Rashomon property, then no
-LLM self-explanation method can simultaneously be faithful, stable,
-and decisive.
+token citation explanation method can simultaneously be faithful, stable,
+and decisive. Token citations are extracted via attention rollout as a proxy
+for language model self-explanation.
 \end{proposition}
 
 \begin{proof}

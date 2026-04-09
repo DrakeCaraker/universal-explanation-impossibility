@@ -112,3 +112,9 @@ retrained models collapses the Rashomon set to a single equitable vector with
 $\E[\varphi_j] = \E[\varphi_k]$ for symmetric features $j, k$, restoring faithfulness
 (in expectation) and stability at the cost of decisiveness---collinear pairs are tied
 rather than arbitrarily ranked.
+
+\paragraph{Experimental note.}
+Four of twenty models in the attribution experiment achieved 72--78\% held-out
+accuracy; all twenty are included in the analysis. This range reflects genuine Rashomon
+set variation---functionally near-equivalent models that nonetheless differ in their
+attribution vectors, precisely the phenomenon the impossibility theorem characterizes.
