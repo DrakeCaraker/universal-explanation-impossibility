@@ -1,0 +1,149 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 4: Concept Probe Impossibility}
+\label{sec:instance-concept}
+%-----------------------------------------------------------------------
+
+\paragraph{Motivation.}
+Concept-based explanations---most prominently Testing with Concept Activation
+Vectors (TCAV; \citealt{kim2018tcav})---attempt to explain a neural network's
+behavior in human-interpretable terms by identifying \emph{concept directions}
+in representation space.  For example, the direction corresponding to
+``stripes'' in an image classifier's penultimate layer is found by fitting a
+linear probe that separates activations on striped versus non-striped inputs.
+This direction is then interpreted as the network's internal encoding of the
+concept, and the degree to which prediction scores change along it is reported
+as the explanation.
+
+The hope is that concept directions are a stable, faithful window into model
+internals.  We show this hope is mathematically impossible under
+underspecification: two models with identical predictions can encode the same
+concept in directions that are genuinely incompatible, so no concept probe can
+simultaneously be faithful, stable, and decisive.
+
+\paragraph{Instantiation.}
+We instantiate Definition~\ref{def:explanation-system} as follows.
+
+\begin{definition}[Concept Probe Explanation System]
+\label{def:concept-system}
+Let $c \in \mathbb{N}$ be the dimension of the representation space.  The
+\emph{concept probe explanation system} is the tuple
+$\mathcal{S}_{\mathrm{cp}} = (\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$ where:
+\begin{itemize}
+  \item $\Params = \Theta$ is the space of model weight configurations,
+    each $\theta \in \Theta$ specifying a neural network together with its
+    internal representations;
+  \item $\sH = \R^c$ is the space of \emph{concept activation vectors}---unit
+    directions in the $c$-dimensional representation space that a linear probe
+    associates with a target concept;
+  \item $Y$ is the space of predictions (input-output functions
+    $f_\theta : \mathcal{X} \to \mathcal{Y}$), serving as the observable
+    behavior of the model;
+  \item $\mathsf{obs}(\theta) = f_\theta$ is the \emph{observation map},
+    recording the input-output function computed by weights $\theta$;
+  \item $\mathsf{exp}(\theta) = v_\theta \in \R^c$ is the \emph{explanation
+    map}, returning the concept activation direction extracted by a linear
+    probe on the representations of $\theta$; and
+  \item $(v, v') \in \incomp$ iff $v$ and $v'$ are not related by a rotation
+    within the concept subspace---that is, they designate structurally distinct
+    directions that cannot both be reported as \emph{the} concept direction
+    without contradiction.
+\end{itemize}
+\end{definition}
+
+\paragraph{The Rashomon Property for concept probes.}
+The empirical literature provides direct evidence that the Rashomon property
+holds for concept directions.  \citet{bolukbasi2016man} demonstrate that gender
+directions vary substantially across word-embedding architectures trained on the
+same corpus: models with identical downstream task performance encode gender in
+directions that differ in orientation, dimension, and linearity.
+\citet{kim2018tcav} note that TCAV concept directions are representation-dependent
+and can shift when the network is retrained with a different random seed.
+\citet{ravfogel2020null} show via iterative nullspace projection that a single
+concept is not localized to one direction: removing the dominant linear probe
+direction still leaves residual concept structure, and the secondary directions
+are mutually incompatible with the primary.
+
+Formally, we require:
+\begin{definition}[Rashomon Property for Concept Probes]
+There exist weight configurations $\theta_1, \theta_2 \in \Theta$ such that
+\[
+  f_{\theta_1} = f_{\theta_2}
+  \quad \text{(same predictions)}
+  \qquad \text{and} \qquad
+  (v_{\theta_1},\, v_{\theta_2}) \in \incomp
+  \quad \text{(incompatible concept directions).}
+\]
+\end{definition}
+
+This is the formal content of Definition~\ref{def:rashomon} in
+$\mathcal{S}_{\mathrm{cp}}$: equivalent models (same observable behavior,
+hence $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$) report incompatible
+concept directions.  The condition holds in any overparameterized network
+class---the zero-loss manifold has dimension $\geq d - n > 0$ for hidden
+dimension $d > n$ training points, so there are infinitely many weight
+configurations with identical input-output behavior but geometrically distinct
+internal representations.
+
+\paragraph{The concept probe impossibility.}
+
+\begin{theorem}[Concept Probe Impossibility]
+\label{thm:concept-impossibility}
+If the concept probe explanation system $\mathcal{S}_{\mathrm{cp}}$ has the
+Rashomon property, then no explanation map $\mathsf{exp}$ can simultaneously
+be faithful, stable, and decisive.
+\end{theorem}
+
+\begin{proof}
+Immediate from Theorem~\ref{thm:universal} applied to
+$\mathcal{S}_{\mathrm{cp}}$.  Concretely: let $\theta_1, \theta_2$ witness the
+Rashomon property, so $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$ and
+$(v_{\theta_1}, v_{\theta_2}) \in \incomp$.  Faithfulness forces
+$\mathsf{exp}(\theta_i) = v_{\theta_i}$; decisiveness requires each
+$\mathsf{exp}(\theta_i)$ to be a specific direction; stability forces
+$\mathsf{exp}(\theta_1) = \mathsf{exp}(\theta_2)$.  But then
+$v_{\theta_1} = v_{\theta_2}$, contradicting $(v_{\theta_1}, v_{\theta_2}) \in
+\incomp$.
+\end{proof}
+
+The Lean~4 formalization of this instance is in
+\texttt{UniversalImpossibility/ConceptInstance.lean}.  The theorem
+\texttt{concept\_impossibility} is proved by a single application of
+\texttt{explanation\_impossibility} with zero additional axioms beyond the
+Rashomon property, which is stated as the axiom \texttt{conceptSystem} encoding
+the specific system tuple.
+
+\paragraph{Implications for probing-as-understanding.}
+Theorem~\ref{thm:concept-impossibility} has direct consequences for the
+practice of using concept probes as explanations of model internals.
+
+\begin{enumerate}
+\item \emph{Concept directions are not model-invariant facts.}
+  A TCAV direction is a fact about a specific weight configuration, not about
+  the function the network computes.  Two retraining runs that produce
+  functionally identical models (same accuracy, same predictions on held-out
+  data) may produce concept directions that are not related by rotation and
+  therefore cannot be reconciled into a single explanation.
+
+\item \emph{Faithfulness and stability cannot coexist.}
+  Requiring a probe to faithfully report the concept direction of the model it
+  was fitted to forces instability across retraining seeds.  Requiring
+  stability forces the probe to report a direction that is unfaithful to at
+  least one model in the Rashomon set.
+
+\item \emph{The resolution entails indecisiveness.}
+  The $G$-invariant resolution (Section~\ref{sec:resolution}) applied here
+  would average concept directions across equivalent models, yielding a
+  distribution over directions or a subspace rather than a single vector.
+  This restores faithfulness-in-expectation and stability at the cost of
+  decisiveness: the explanation no longer commits to a single direction, which
+  undermines the interpretive clarity that motivates concept probing in the
+  first place.
+\end{enumerate}
+
+The impossibility does not mean concept probes are uninformative, but it does
+mean that treating a single concept direction as \emph{the} faithful,
+reproducible encoding of a concept in a model is unjustified under
+underspecification.  Practitioners should report concept directions together
+with their variability across the Rashomon set---analogously to how
+\DASH{} reports SHAP values with their ensemble distribution rather than as a
+single point estimate.

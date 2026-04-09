@@ -1,0 +1,146 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 5: Causal Discovery Within a Markov Equivalence Class}
+\label{sec:instance-causal}
+%-----------------------------------------------------------------------
+
+We instantiate Theorem~\ref{thm:universal} for causal structure learning,
+where the fundamental obstruction is Markov equivalence: distinct directed
+acyclic graphs (DAGs) can be observationally indistinguishable yet disagree
+on causal edge directions.
+
+\paragraph{The explanation system.}
+Define the 6-tuple $\mathcal{S}_{\mathrm{causal}} =
+(\Params,\, \sH,\, Y,\, \mathsf{obs},\, \mathsf{exp},\, \incomp)$ as follows.
+
+\begin{itemize}
+  \item $\Params$ is the set of DAGs over a fixed vertex set $V$
+    (the space of possible causal structures, i.e., data-generating processes).
+  \item $\sH$ is the set of DAGs over $V$ used as \emph{explanations}: the
+    causal structure that a discovery algorithm commits to.  The attribution
+    map $\theta : \sH \to \Params$ sends each explanation DAG to the
+    underlying data-generating DAG it was fitted to.
+  \item $Y$ is the set of \emph{conditional independence (CI) structures}:
+    each $y \in Y$ records, for every triple $(X_i, X_j \mid S)$ of
+    variables, whether $X_i \perp\!\!\!\perp X_j \mid S$ holds in the
+    associated distribution.  Equivalently, $Y$ indexes Markov equivalence
+    classes.
+  \item $\mathsf{obs} : \sH \to Y$ maps each DAG $h \in \sH$ to the
+    CI structure it encodes (the set of $d$-separation statements implied by
+    $h$ via the Markov condition).  Two DAGs map to the same element of $Y$
+    if and only if they are \emph{Markov equivalent}.
+  \item $\mathsf{exp} : \sH \to \sH$ is an \emph{orientation rule}: given
+    a DAG $h \in \sH$ as fitted by an algorithm, the rule commits to a fully
+    oriented causal graph.  In practice, $\mathsf{exp}$ is any causal
+    discovery procedure (PC algorithm, GES, FCI, etc.) that returns a single
+    DAG rather than an equivalence class.
+  \item $\incomp \subseteq \sH \times \sH$ is the \emph{edge-reversal
+    incompatibility}: $(h, h') \in \incomp$ if there exists a directed edge
+    $X \to Y$ in $h$ and $Y \to X$ in $h'$ (or vice versa).  Two causal
+    explanations are incompatible when they assert opposite orientations for
+    at least one edge.
+\end{itemize}
+
+\paragraph{The Rashomon property: Markov equivalence.}
+The key structural fact is that Markov equivalence classes are non-trivial
+for nearly all graph structures of practical interest.
+
+\begin{definition}[Markov Equivalence]
+\label{def:markov-equiv}
+Two DAGs $h, h'$ over $V$ are \emph{Markov equivalent} if they encode
+the same set of conditional independence relations, i.e.,
+$\mathsf{obs}(h) = \mathsf{obs}(h')$.  A Markov equivalence class
+$[h]$ contains all DAGs with the same CI structure; it is represented
+by a \emph{completed partially directed acyclic graph} (CPDAG).
+\end{definition}
+
+\citet{verma1991equivalence} established that two DAGs are Markov equivalent
+if and only if they share the same skeleton (undirected graph) and the same
+set of v-structures (immoralities $X \to Z \leftarrow Y$ with no edge between
+$X$ and $Y$).  Consequently, any undirected edge in the CPDAG corresponds to
+a reversible orientation: there exist two Markov-equivalent DAGs that orient
+it in opposite directions.  \citet{chickering2002optimal} gave the canonical
+characterization of these classes and the GES algorithm that outputs CPDAGs
+rather than DAGs precisely to avoid committing to an arbitrary orientation.
+
+\begin{proposition}[Causal Rashomon Property]
+\label{prop:causal-rashomon}
+$\mathcal{S}_{\mathrm{causal}}$ has the Rashomon property: for any CPDAG
+containing at least one undirected edge $\{X, Y\}$, there exist DAGs
+$h, h' \in \sH$ with $\mathsf{obs}(h) = \mathsf{obs}(h')$ (same CI
+structure) yet $(h, h') \in \incomp$ (opposite orientations of $X$--$Y$).
+\end{proposition}
+
+\begin{proof}
+Let $h$ be any DAG in the equivalence class orienting the edge as $X \to Y$,
+and let $h'$ be the DAG obtained by reversing that edge to $Y \to X$ (which
+exists in the equivalence class precisely because the edge is undirected in
+the CPDAG).  By Markov equivalence, $\mathsf{obs}(h) = \mathsf{obs}(h')$.
+By definition of $\incomp$, $(h, h') \in \incomp$.
+\end{proof}
+
+This is the formalization captured in \texttt{CausalInstance.lean} and
+\texttt{CausalDiscovery.lean}: the \texttt{rashomon} field of
+\texttt{causalSystem} is exactly the witness pair $(h, h')$ from
+Proposition~\ref{prop:causal-rashomon}.
+
+\paragraph{Instance 5: causal discovery impossibility.}
+
+\begin{theorem}[Causal Discovery Impossibility --- Instance 5]
+\label{thm:causal-impossibility}
+The explanation system $\mathcal{S}_{\mathrm{causal}}$ has the Rashomon
+property.  Therefore, by Theorem~\ref{thm:universal}, no orientation rule
+$\mathsf{exp}$ can simultaneously be:
+\begin{enumerate}
+  \item \textbf{Faithful}: $\mathsf{exp}(h) = h$ for every DAG $h \in \sH$
+    (the returned DAG matches the true data-generating structure);
+  \item \textbf{Stable}: $\mathsf{exp}(h) = \mathsf{exp}(h')$ whenever
+    $\mathsf{obs}(h) = \mathsf{obs}(h')$ (Markov-equivalent structures
+    receive identical causal explanations); and
+  \item \textbf{Decisive}: $\mathsf{exp}$ always commits to a single fully
+    oriented DAG (never returns a partial orientation or equivalence class).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:causal-rashomon}, $\mathcal{S}_{\mathrm{causal}}$
+has the Rashomon property.  Apply Theorem~\ref{thm:universal}.
+\end{proof}
+
+This is verified in Lean~4 as \texttt{causal\_instance\_impossibility} in
+\texttt{CausalInstance.lean} (three axioms: \texttt{CausalConfig},
+\texttt{CausalExplanation}, \texttt{CausalObservable}), and as the
+self-contained \texttt{causal\_discovery\_impossibility} in
+\texttt{CausalDiscovery.lean} (zero additional axioms beyond the
+\texttt{CausalOrientationProblem} structure).
+
+\paragraph{Connection to the classical Markov equivalence problem.}
+Theorem~\ref{thm:causal-impossibility} is the classical Markov equivalence underdetermination
+recast in the universal framework.  The three properties above correspond
+exactly to the three goals that any ``complete'' causal discovery method would
+need to achieve: return the true DAG (faithfulness), be invariant to
+observationally equivalent parameterizations (stability), and produce a unique
+answer (decisiveness).  The Markov equivalence theorem of
+\citet{verma1991equivalence} has long been understood to block this
+combination; our contribution is to show it is a \emph{special case} of the
+single four-line proof of Theorem~\ref{thm:universal}.
+
+\paragraph{Resolution: CPDAGs as $G$-invariant explanations.}
+The uniform resolution of Section~\ref{sec:resolution} specializes to causal
+discovery as follows.  Let $G = [h]$ denote the Markov equivalence class
+(the symmetry group acting by edge reversals on the set of reversible edges).
+The $G$-invariant explanation map aggregates over all member DAGs:
+\[
+  \mathsf{exp}^*(h)
+  \;=\;
+  \mathrm{CPDAG}([h]),
+\]
+the completed partially directed acyclic graph representing the equivalence
+class.  This map is \textbf{faithful in expectation} (it captures all shared
+causal structure), \textbf{stable} by construction (all Markov-equivalent
+DAGs map to the same CPDAG), but \textbf{not decisive}: undirected edges in
+the CPDAG correspond precisely to the unresolvable orientation queries.
+Reporting the CPDAG is therefore the principled response to the
+impossibility---trading decisiveness for faithfulness and stability, exactly
+as predicted by Theorem~\ref{thm:universal}.  This justification for CPDAG
+reporting is formalized in \texttt{CausalDiscovery.lean} as
+\texttt{cpdag\_is\_stable}.

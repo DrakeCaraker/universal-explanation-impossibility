@@ -1,0 +1,118 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 3: Counterfactual Explanations Under Decision-Boundary
+  Multiplicity}
+\label{sec:instance-counterfactual}
+%-----------------------------------------------------------------------
+
+Counterfactual explanations answer the question: ``What is the smallest change
+to my input that would flip the model's prediction?''  They are the primary
+vehicle for \emph{algorithmic recourse}---actionable advice telling an
+individual how to obtain a different outcome \citep{ustun2019actionable,
+karimi2020algorithmic}.  We show that no counterfactual explanation method can
+simultaneously be faithful, stable, and decisive when multiple models fit the
+data equally well.
+
+\paragraph{The explanation system.}
+We instantiate the abstract framework
+(Definition~\ref{def:explanation-system}) as follows.
+\begin{itemize}
+  \item $\Params = \mathbf{\Theta}$: the space of \emph{model parameters},
+    each $\theta \in \Params$ defining a decision boundary
+    $\partial f_\theta = \{x \in \mathcal{X} : f_\theta(x) = \tau\}$ in the
+    input space $\mathcal{X} \subseteq \R^P$ for a threshold $\tau$.
+  \item $\sH = \mathcal{X}$: the \emph{input space} itself, where each
+    hypothesis $h \equiv x' \in \mathcal{X}$ represents a \emph{candidate
+    nearest contrastive example} (counterfactual) for a fixed query point
+    $x_0 \in \mathcal{X}$.  The attribution map $\theta: \sH \to \Params$ sends
+    $x'$ to the model parameters for which $x'$ is the nearest point with a
+    different prediction.
+  \item $Y$: the space of \emph{prediction vectors} on a held-out test set,
+    i.e., $Y = \{0, 1\}^n$ for $n$ test points.  The observation map
+    $\mathsf{obs}(\theta) = f_\theta|_{\mathcal{D}_{\mathrm{test}}}$ records
+    the model's predictions.
+\end{itemize}
+The \emph{explanation map} $\mathsf{exp}(\theta) = \arg\min_{x' :\,
+f_\theta(x') \neq f_\theta(x_0)} \|x' - x_0\|$ is the nearest counterfactual
+for query $x_0$ under model $\theta$.  The \emph{incompatibility relation}
+$\incomp$ declares two counterfactuals $x'_1 \incomp x'_2$ when they point in
+\emph{different directions} from $x_0$---formally, when
+$(x'_1 - x_0)^\top (x'_2 - x_0) < 0$ or, in the discrete-feature case, when
+they recommend mutually exclusive feature changes.
+
+\paragraph{The Rashomon property.}
+The Rashomon effect for decision boundaries is well-documented: within a small
+loss tolerance $\epsilon$, an exponential number of models may agree on test
+predictions while placing their decision boundaries in qualitatively different
+locations \citep{semenova2022existence, fisher2019models}.  Formally, the
+Rashomon set
+$\mathcal{R}_\epsilon = \{\theta \in \Params : \mathcal{L}(\theta) \leq
+\mathcal{L}(\theta^*) + \epsilon\}$
+generically contains models whose boundaries straddle the query point $x_0$
+from opposite sides.  Concretely:
+\begin{itemize}
+  \item \textbf{Model 1} $(\theta_1)$: decision boundary passes \emph{above}
+    $x_0$ in the relevant direction; the nearest counterfactual is $x'_1$
+    (move feature $j$ up).
+  \item \textbf{Model 2} $(\theta_2)$: decision boundary passes \emph{below}
+    $x_0$; the nearest counterfactual is $x'_2$ (move feature $j$ down).
+\end{itemize}
+Both $\theta_1$ and $\theta_2$ achieve identical test-set predictions
+($\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$), yet $x'_1 \incomp x'_2$.
+This is precisely the Rashomon property (Definition~\ref{def:rashomon}).
+
+\begin{proposition}[Instance 3: Counterfactual Impossibility]
+\label{prop:counterfactual-impossibility}
+Let $\mathcal{S}_{\mathrm{CF}}$ be the counterfactual explanation system above.
+If $\mathcal{S}_{\mathrm{CF}}$ has the Rashomon property---i.e., the Rashomon
+set $\mathcal{R}_\epsilon$ contains models with incompatible nearest
+counterfactuals for some query $x_0$---then no counterfactual explanation map
+$\mathsf{exp}$ can simultaneously be faithful, stable, and decisive.
+\end{proposition}
+
+\begin{proof}
+Direct application of Theorem~\ref{thm:universal} to
+$\mathcal{S}_{\mathrm{CF}}$.  The Rashomon property supplies hypotheses
+$\theta_1, \theta_2$ with $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$
+and $\mathsf{obs}_{\mathrm{CF}}(\theta_1) \incomp \mathsf{obs}_{\mathrm{CF}}(\theta_2)$.
+The four-line proof of Theorem~\ref{thm:universal} then yields a contradiction
+from faithfulness, stability, and decisiveness simultaneously.  This is
+mechanically verified as \texttt{counterfactual\_impossibility} in
+\texttt{UniversalImpossibility/CounterfactualInstance.lean}.
+\end{proof}
+
+\paragraph{Implications for recourse and actionable explanations.}
+Proposition~\ref{prop:counterfactual-impossibility} reveals a fundamental limit
+on the reliability of algorithmic recourse.  When multiple models achieve
+equivalent predictive performance, a deployed counterfactual system faces three
+unavoidable failure modes:
+
+\begin{enumerate}
+  \item \textbf{Recourse instability.}  An individual who retrains a lender's
+    model (e.g., after a software update) may receive incompatible
+    advice---``increase savings'' vs.\ ``reduce debt''---despite the model's
+    credit-scoring accuracy being unchanged.  Empirical evidence of this
+    instability is documented by \citet{marx2024uncertainty}.
+
+  \item \textbf{Fragility under model multiplicity.}  Frameworks for
+    \emph{algorithmic recourse under model uncertainty} \citep{karimi2020algorithmic}
+    must implicitly relax one of the three desiderata: they either aggregate
+    counterfactuals across the Rashomon set (sacrificing decisiveness) or
+    commit to a single model (sacrificing stability).
+
+  \item \textbf{Legal compliance risk.}  Regulatory frameworks requiring
+    ``actionable'' explanations \citep{euaiact2024} cannot mandate simultaneous
+    faithfulness, stability, and decisiveness for counterfactuals without
+    implicitly requiring a unique model---a requirement that underspecified
+    learning problems cannot fulfill.
+\end{enumerate}
+
+The uniform resolution (Section~\ref{sec:resolution}) applies here: a
+$G$-invariant counterfactual system averages the nearest counterfactual
+direction over the Rashomon set, producing a \emph{robust recourse direction}
+that is faithful in expectation and stable, at the cost of yielding a
+distribution over directions rather than a single decisive recommendation.
+Practically, this corresponds to reporting the set of \emph{Rashomon-stable
+recourses}---those counterfactuals that remain valid across all models in
+$\mathcal{R}_\epsilon$---as advocated by \citet{ustun2019actionable} and
+recently formalized via the \emph{multiplicity-robust recourse} framework
+\citep{karimi2020algorithmic}.

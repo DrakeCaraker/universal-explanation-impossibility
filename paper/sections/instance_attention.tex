@@ -1,0 +1,110 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 2: Attention Maps as Explanations}
+\label{sec:instance-attention}
+%-----------------------------------------------------------------------
+
+Attention mechanisms in transformer-based language models are frequently
+presented as explanations: the attention weight assigned to token $t$ is
+interpreted as a measure of how much the model ``attends to'' or relies on
+that token when producing its output \citep{jainwallace2019}.  We show that
+this interpretation is incompatible with the three desiderata under
+underspecification.
+
+\paragraph{The explanation system.}
+Let $T$ denote the number of tokens in the context.  We instantiate the
+general framework as the 6-tuple
+$\mathcal{S}_{\mathrm{attn}} = (\Params_{\mathrm{attn}},\,\sH_{\mathrm{attn}},\,Y_{\mathrm{attn}},\,\mathsf{obs}_{\mathrm{attn}},\,\mathsf{exp}_{\mathrm{attn}},\,\incomp_{\mathrm{attn}})$
+where:
+\begin{itemize}
+  \item $\Params_{\mathrm{attn}}$ is the space of neural network weight
+    configurations $\theta$ (query, key, value, and output projection matrices
+    at every layer and head);
+  \item $\sH_{\mathrm{attn}} = \Delta^T$ is the probability simplex over $T$
+    tokens---the space of attention distributions $\alpha \in \mathbb{R}^T$
+    with $\alpha_t \geq 0$ and $\sum_{t=1}^T \alpha_t = 1$;
+  \item $Y_{\mathrm{attn}}$ is the space of input-to-output functions
+    $f : \mathcal{X} \to \mathcal{Y}$, i.e., the observable
+    input$\to$output behavior of the network;
+  \item $\mathsf{obs}_{\mathrm{attn}}(\theta) = f_\theta$ is the function
+    computed by the network with weights $\theta$;
+  \item $\mathsf{exp}_{\mathrm{attn}}(\theta) = \alpha_\theta \in \Delta^T$
+    is the attention distribution produced by $\theta$ on a fixed input
+    $x \in \mathcal{X}$; and
+  \item $(\alpha,\,\alpha') \in \incomp_{\mathrm{attn}}$ if and only if
+    $\operatorname{argmax}_t \alpha_t \neq \operatorname{argmax}_t \alpha'_t$,
+    i.e., the two distributions assign peak attention to different tokens.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+\citet{damour2022underspecification} establish, both theoretically and
+empirically, that neural networks trained on the same data to the same loss
+level routinely differ in their internal representations despite producing
+equivalent predictions.  Applied to attention, this yields the Rashomon
+property for $\mathcal{S}_{\mathrm{attn}}$: there exist weight configurations
+$\theta_1, \theta_2$ such that
+\[
+  f_{\theta_1} \approx f_{\theta_2}
+  \quad\text{(equivalent predictions, same test loss)}
+  \quad\text{yet}\quad
+  \operatorname{argmax}_t (\alpha_{\theta_1})_t \neq
+  \operatorname{argmax}_t (\alpha_{\theta_2})_t.
+\]
+That is, two functionally equivalent networks attend maximally to
+\emph{different} tokens.  This is not an artifact of optimization noise:
+\citet{jainwallace2019} show directly that attention weights can be
+dramatically permuted---including adversarially---while leaving model
+predictions unchanged, providing a sharp empirical demonstration that
+attention is not a faithful explanation in the sense of
+Definition~\ref{def:faithful}.
+
+\paragraph{Instance 2: Attention Impossibility.}
+
+\begin{theorem}[Attention Map Impossibility]
+\label{thm:attention}
+The attention explanation system $\mathcal{S}_{\mathrm{attn}}$ has the
+Rashomon property.  Therefore, by Theorem~\ref{thm:universal}, no attention
+map $\mathsf{exp}_{\mathrm{attn}}$ can simultaneously be faithful (report the
+network's actual attention), stable (assign the same dominant token to
+equivalent networks), and decisive (commit to a unique most-attended token).
+\end{theorem}
+
+\begin{proof}
+By the Rashomon property, there exist $\theta_1, \theta_2$ with
+$\mathsf{obs}_{\mathrm{attn}}(\theta_1) = \mathsf{obs}_{\mathrm{attn}}(\theta_2)$
+(same input$\to$output function) and
+$(\alpha_{\theta_1}, \alpha_{\theta_2}) \in \incomp_{\mathrm{attn}}$
+(different argmax tokens).  The result then follows immediately from
+Theorem~\ref{thm:universal}.  The Lean~4 formalization is
+\texttt{attention\_impossibility} in
+\texttt{UniversalImpossibility/AttentionInstance.lean}.
+\end{proof}
+
+\paragraph{Implications for the attention-as-explanation debate.}
+Theorem~\ref{thm:attention} gives a structural resolution to the debate
+initiated by \citet{jainwallace2019} and \citet{wiegreffe2019attention}.
+That debate has proceeded largely on empirical grounds---does attention
+\emph{correlate} with feature importance?---but the impossibility is not
+contingent on correlation structure.  Even if attention weights were highly
+predictive of feature importance \emph{in expectation}, no attention-based
+explanation system can be simultaneously faithful to the specific model
+being explained, stable across equivalent models, and decisive about which
+token to highlight.
+
+The trilemma has a concrete consequence for practitioners: any attention
+visualization that commits to a single most-attended token (decisive) must
+either be unfaithful to some equivalent models or change its output when
+the model is retrained from a different random seed.  This is not a
+failure of implementation but a mathematical inevitability whenever two
+equally predictive networks disagree on their peak-attention token.
+
+The resolution prescribed by Section~\ref{sec:resolution} applies directly:
+a $G$-invariant attention explanation aggregates attention distributions
+across the Rashomon set of equivalent models, yielding an averaged
+distribution $\bar{\alpha} = \frac{1}{|\mathcal{R}|}\sum_{\theta \in \mathcal{R}} \alpha_\theta$
+that is faithful in expectation and stable by construction, but typically
+fails to be decisive (the averaged distribution may spread mass across
+multiple tokens, refusing to crown a single ``most-attended'' token).
+Reporting $\bar{\alpha}$ rather than $\alpha_{\theta}$ is the attention
+analog of reporting CPDAG edge confidences rather than a single causal
+orientation---an honest acknowledgment that the data do not uniquely
+determine an attention explanation.

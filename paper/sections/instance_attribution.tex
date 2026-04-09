@@ -1,0 +1,114 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 1: Feature Attribution Under Collinearity}
+\label{sec:instance-attribution}
+%-----------------------------------------------------------------------
+
+We instantiate the abstract framework (Definition~\ref{def:explanation-system}) for
+feature attribution, recovering the Attribution Impossibility of the companion paper
+as a corollary of Theorem~\ref{thm:universal}.
+
+\paragraph{The explanation system.}
+Fix $P \geq 2$ features partitioned into $L$ collinearity groups.  Within each group
+$\ell \in [L]$, every pair of features shares pairwise correlation $\rho \in (0,1)$;
+features across groups are independent.  The explanation system
+$\mathcal{S}_{\mathrm{attr}} = (\Params,\sH,Y,\mathsf{obs},\mathsf{exp},\incomp)$ is:
+
+\begin{itemize}
+  \item $\Params$: joint data-generating distributions over $\R^P$ with the collinearity
+    structure above (the ground truth the data encode).
+
+  \item $\sH$: trained models $f$ from a fixed model class (e.g.\ \GBDT{}, Lasso,
+    neural networks), indexed by random training seed; each $f$ is associated with its
+    data-generating distribution $\theta(f) \in \Params$ via the attribution map
+    $\theta: \sH \to \Params$.
+
+  \item $Y = (\mathrm{Fin}\,P \to \R)$: the space of feature-attribution vectors
+    $\boldsymbol{\varphi} = (\varphi_1,\ldots,\varphi_P)$, where $\varphi_j(f) \geq 0$
+    is the global importance of feature $j$ in model $f$ (e.g.\ mean absolute \SHAP{}
+    value \citep{lundberg2017unified}, gradient-based attributions
+    \citep{sundararajan2020many}, or LIME weight \citep{ribeiro2016should}).
+
+  \item $\mathsf{obs}: \sH \to Y$ assigns to each model $f$ the attribution vector it
+    ``honestly reports'': $\mathsf{obs}(f) = \boldsymbol{\varphi}(f)$.
+
+  \item $\mathsf{exp}: \sH \to Y$ is the attribution procedure under evaluation---the
+    practitioner's choice of explanation method applied to any model in $\sH$.
+
+  \item $\incomp$: the \emph{incompatibility relation} on $Y$ captures strict reversal
+    of a feature pair.  Formally, $\boldsymbol{\varphi} \incomp \boldsymbol{\varphi}'$
+    if there exists a group $\ell$ and distinct features $j, k \in \ell$ such that
+    \[
+      \varphi_j > \varphi_k \quad \text{and} \quad \varphi'_k > \varphi'_j.
+    \]
+    Two attribution vectors are incompatible when they rank the same collinear pair in
+    opposite orders; both orderings cannot simultaneously be correct.
+\end{itemize}
+
+\paragraph{Rashomon property.}
+Collinear features induce a Rashomon set \citep{rudin2024amazing,fisher2019models,
+damour2022underspecification} of near-optimal models that differ only in \emph{which}
+feature within a correlated group acts as the primary predictor.
+Formally, $\mathcal{S}_{\mathrm{attr}}$ has the Rashomon property
+(Definition~\ref{def:rashomon}): for any group $\ell$ and any distinct features
+$j, k \in \ell$, there exist models $f, f' \in \sH$ with $\theta(f) = \theta(f')$ (same
+data-generating distribution) such that
+\[
+  \varphi_j(f) > \varphi_k(f) \qquad \text{and} \qquad
+  \varphi_k(f') > \varphi_j(f').
+\]
+This is the \texttt{RashimonProperty} of \texttt{Trilemma.lean}: DGP symmetry within a
+group guarantees every feature can serve as the first-mover in sequential optimization
+(surjectivity axiom), so models with opposite collinear rankings both exist and achieve
+the same training loss up to $O(\rho^2)$ \citep{damour2022underspecification,fisher2019models}.
+
+\begin{definition}[Incompatible attribution rankings]
+\label{def:attr-incompatible}
+Two attribution vectors $\boldsymbol{\varphi}, \boldsymbol{\varphi}' \in Y$ are
+\emph{incompatible} if there exist distinct features $j, k$ in the same collinearity
+group such that $\varphi_j > \varphi_k$ and $\varphi'_k > \varphi'_j$.
+\end{definition}
+
+\paragraph{Instance 1 of the Universal Theorem.}
+
+\begin{corollary}[Attribution Impossibility]
+\label{cor:attribution}
+The explanation system $\mathcal{S}_{\mathrm{attr}}$ has the Rashomon property.
+Therefore, by Theorem~\ref{thm:universal}, no attribution map $\mathsf{exp}$ can
+simultaneously be faithful (attributions agree with the model's own values), stable
+(same attributions regardless of which equivalent model is explained), and decisive
+(every collinear pair is strictly ranked).
+\end{corollary}
+
+\begin{proof}
+The Rashomon property was established above.  The impossibility is then a direct
+application of Theorem~\ref{thm:universal} to $\mathcal{S}_{\mathrm{attr}}$.
+\end{proof}
+
+In the notation of the companion paper (the Attribution Impossibility paper), faithfulness
+corresponds to faithfulness (Definition~\ref{def:faithful}), stability to stability
+(Definition~\ref{def:stable}), and decisiveness to completeness (every feature pair is
+strictly ranked).  Corollary~\ref{cor:attribution} is the abstract-framework restatement
+of the companion Attribution Impossibility (Theorem~1 of the companion paper), verified as
+\texttt{attribution\_impossibility} in \texttt{Trilemma.lean} and as
+\texttt{attribution\_impossibility\_abstract} in \texttt{AttributionInstance.lean} (zero
+model-specific axiom dependencies in both cases).
+
+\paragraph{Quantitative depth.}
+The abstract impossibility is qualitative.  Architecture-specific structure supplies
+quantitative bounds on \emph{how badly} the violation occurs.  For \GBDT{} with
+per-group correlation $\rho$, the attribution ratio (dominant versus symmetric partner)
+diverges as $1/(1-\rho^2)$ as $\rho \to 1$ (Lean-verified in \texttt{Ratio.lean}; see
+also \citet{damour2022underspecification}).  For Lasso at any $\rho > 0$, one correlated
+feature is zeroed out entirely, yielding an infinite ratio
+(Lean-verified in \texttt{Lasso.lean}).
+For random forests with $T$ trees, ensemble averaging drives the ratio to
+$O(1/\sqrt{T})$---the lone converging case and the mechanism behind \DASH{}.
+
+\paragraph{Resolution.}
+The $G$-invariant resolution (Section~\ref{sec:resolution}) for this instance is
+\DASH{} (\textbf{D}iversified \textbf{A}ggregation of \textbf{SH}AP):
+averaging attribution vectors over an ensemble of
+retrained models collapses the Rashomon set to a single equitable vector with
+$\E[\varphi_j] = \E[\varphi_k]$ for symmetric features $j, k$, restoring faithfulness
+(in expectation) and stability at the cost of decisiveness---collinear pairs are tied
+rather than arbitrarily ranked.
