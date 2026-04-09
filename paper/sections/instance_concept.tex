@@ -112,6 +112,32 @@ The Lean~4 formalization of this instance is in
 Rashomon property, which is stated as the axiom \texttt{conceptSystem} encoding
 the specific system tuple.
 
+\paragraph{Empirical validation.}
+We validate Theorem~\ref{thm:concept-impossibility} by training 15 MLP
+classifiers (architecture 128--64, ReLU) on \texttt{sklearn load\_digits}
+with different random seeds.  All models achieve $> 95\%$ test accuracy
+with a \textbf{prediction agreement of 97.2\%} [95\% CI: 95.7--98.5\%],
+confirming functional equivalence.  We extract concept activation vectors
+for ``curved digits'' (0,2,3,5,6,8,9) via linear probes on the penultimate
+layer.  The mean $|\cos(\mathbf{v}_i, \mathbf{v}_j)|$ across model pairs
+is only \textbf{0.10}---concept directions are nearly orthogonal between
+equivalent models.  The \textbf{concept direction instability}
+($1 - |\cos|$) is \textbf{0.90} [CI: 0.89--0.91], and TCAV score standard
+deviation is \textbf{0.16}, meaning the same concept is scored anywhere
+from 0.10 to 0.69 depending on the random seed.  Full results appear in
+Table~\ref{tab:concept_probe} and Figure~\ref{fig:concept_instability}.
+
+\input{sections/table_concept}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/concept_probe_instability.pdf}
+\caption{Concept probe instability across 15 equivalent MLP models on
+  \texttt{load\_digits}.  Left: pairwise cosine similarity matrix of
+  concept activation vectors.  Right: TCAV score distribution.}
+\label{fig:concept_instability}
+\end{figure}
+
 \paragraph{Implications for probing-as-understanding.}
 Theorem~\ref{thm:concept-impossibility} has direct consequences for the
 practice of using concept probes as explanations of model internals.

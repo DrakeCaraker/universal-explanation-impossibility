@@ -79,6 +79,28 @@ Theorem~\ref{thm:universal}.  The Lean~4 formalization is
 \texttt{UniversalImpossibility/AttentionInstance.lean}.
 \end{proof}
 
+\paragraph{Empirical validation.}
+We validate Theorem~\ref{thm:attention} by training 10 DistilBERT models
+with small weight perturbations ($\sigma \in \{0.01, 0.02\}$) on 200
+sentences from SST-2.  Despite \textbf{100\% prediction agreement}
+(all models classify every sentence identically), the argmax attention
+token flips between model pairs at a rate of \textbf{60.0\%}
+[95\% CI: 59--61\%], and the mean Kendall $\tau$ correlation between
+attention distributions is only \textbf{0.30} [CI: 0.29--0.31], far below
+the $\tau = 1.0$ that stability would require.  Full results appear in
+Table~\ref{tab:attention} and Figure~\ref{fig:attention_instability}.
+
+\input{sections/table_attention}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/attention_instability.pdf}
+\caption{Attention map instability across 10 functionally equivalent DistilBERT models.
+  Left: distribution of pairwise Kendall $\tau$ correlations.
+  Right: argmax flip rate across model pairs.}
+\label{fig:attention_instability}
+\end{figure}
+
 \paragraph{Implications for the attention-as-explanation debate.}
 Theorem~\ref{thm:attention} gives a structural resolution to the debate
 initiated by \citet{jainwallace2019} and \citet{wiegreffe2019attention}.

@@ -80,6 +80,32 @@ mechanically verified as \texttt{counterfactual\_impossibility} in
 \texttt{UniversalImpossibility/CounterfactualInstance.lean}.
 \end{proof}
 
+\paragraph{Empirical validation.}
+We validate Proposition~\ref{prop:counterfactual-impossibility} by training
+20 XGBoost models on the German Credit dataset (differing only in random
+seed), achieving a mean AUC of 0.797 with spread $< 0.03$---confirming
+functional equivalence.  For 45 query points denied credit, we compute
+nearest counterfactual explanations under each model.  The
+\textbf{direction flip rate} is \textbf{23.5\%} [95\% CI: 20.6--26.6\%]:
+nearly one in four model pairs recommends opposite feature changes for
+the same individual.  \textbf{Cross-model recourse validity} is only
+\textbf{61.3\%} [CI: 55.8--66.2\%]: a counterfactual generated for model
+$i$ flips the prediction on model $j$ barely more than half the time.
+The most unstable feature is \texttt{checking\_status} at a 43\% flip
+rate.  Full results appear in Table~\ref{tab:counterfactual-instability}
+and Figure~\ref{fig:counterfactual_instability}.
+
+\input{sections/table_counterfactual}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/counterfactual_instability.pdf}
+\caption{Counterfactual explanation instability across 20 equivalent XGBoost models
+  on German Credit.  Left: direction flip rates by feature.
+  Right: cross-model recourse validity distribution.}
+\label{fig:counterfactual_instability}
+\end{figure}
+
 \paragraph{Implications for recourse and actionable explanations.}
 Proposition~\ref{prop:counterfactual-impossibility} reveals a fundamental limit
 on the reliability of algorithmic recourse.  When multiple models achieve
