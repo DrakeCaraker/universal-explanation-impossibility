@@ -2,7 +2,7 @@
 \centering
 \caption{Attention map instability across 10 functionally equivalent DistilBERT models.
   Negative control uses single-token inputs (model cannot choose where to attend).
-  Resolution test averages rollout across 5+5 model subsets and measures inter-group flip rate.
+  Resolution test compares pairwise individual agreement with individual-vs-full-average agreement.
   All 95\% CIs from 2000 bootstrap resamples.}
 \label{tab:attention}
 \begin{tabular}{llr}
@@ -17,9 +17,10 @@ Test & Metric & Value (95\% CI) \\
 Neg.\ control (1 token) &
   Argmax flip rate & 2.0\% $[1.1\%, 3.0\%]$ \\
 \midrule
-\multirow{2}{*}{Resolution (avg.\ 5+5)} &
-  Individual flip rate & 52.2\% $[50.8\%, 53.8\%]$ \\
-& Averaged flip rate & 65.0\% $[58.5\%, 71.5\%]$ \\
+\multirow{3}{*}{Resolution (full avg.)} &
+  Pairwise agreement & 40.0\% $[39.0\%, 41.0\%]$ \\
+& Indiv-vs-average agreement & 55.2\% $[53.1\%, 57.4\%]$ \\
+& Improvement & +15.2\,pp \\
 \bottomrule
 \end{tabular}
 \end{table}

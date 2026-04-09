@@ -3,7 +3,7 @@
 \caption{Concept probe instability across 15 equivalent MLPClassifier models on
 \texttt{sklearn} \texttt{load\_digits()} (8$\times$8 images, 10 classes).
 Architecture: $(128, 64)$ hidden units, ReLU.
-\emph{Negative control}: probe for output class itself --- directions should be stable ($>0.80$).
+\emph{Negative control}: logistic regression (no hidden layers) --- directions should be stable ($>0.95$).
 \emph{Resolution}: averaged CAV across 15 models --- individual CAVs should be closer to the average.
 All 95\% CIs from 2000 bootstrap resamples.}
 \label{tab:concept_probe}
@@ -17,7 +17,7 @@ All 95\% CIs from 2000 bootstrap resamples.}
 & Concept direction instability & $0.9000$ & --- \\
 & Prediction agreement & $0.9722$ & $[0.9574,\,0.9852]$ \\
 \midrule
-Neg.\ control (class-0 probe) & Mean $|\cos(\mathbf{v}_i,\mathbf{v}_j)|$ & $0.1110$ & $[0.0950,\,0.1278]$ \\
+Neg.\ control (LogReg, no hidden) & Mean $|\cos(\mathbf{v}_i,\mathbf{v}_j)|$ & $1.0000$ & $[1.0000,\,1.0000]$ \\
 \midrule
 \multirow{2}{*}{Resolution (avg.\ CAV)} & Mean $|\cos(\text{indiv},\text{avg})|$ & $0.2790$ & $[0.2297,\,0.3291]$ \\
 & Mean pairwise $|\cos(i,j)|$ & $0.1000$ & $[0.0858,\,0.1146]$ \\

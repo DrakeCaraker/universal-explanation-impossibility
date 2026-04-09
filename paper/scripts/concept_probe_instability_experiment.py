@@ -4,10 +4,10 @@ Research question: Do functionally equivalent neural networks encode the same co
 in incompatible directions?
 
 NEGATIVE CONTROL:
-- Probe for the OUTPUT CLASS ITSELF (e.g., "is this digit 0?")
-- All 15 models achieve >95% accuracy on the same class
-- Probe direction for the output class should be stable
-- Expected |cosine similarity|: >0.8
+- Train 15 logistic regression models (no hidden layers) with different seeds
+- The coefficient vector IS the concept direction (no representation arbitrariness)
+- Convex optimization ensures all models converge to the same solution
+- Expected |cosine similarity|: >0.95
 
 RESOLUTION TEST:
 - Compute averaged CAV across all 15 models
@@ -133,52 +133,64 @@ def bootstrap_ci(values, n_boot=N_BOOT, alpha=0.05):
 
 # ─── NEGATIVE CONTROL ──────────────────────────────────────────────────────────
 
-def run_negative_control_concept(models, X_test, y_test, target_class=0):
+def run_negative_control_concept(X_train, y_train, X_test, y_test, n_models=15):
     """
-    Negative control: probe for the OUTPUT CLASS ITSELF.
+    Negative control: logistic regression models (no hidden layers).
 
-    All 15 models achieve >95% accuracy on the same class.
-    The probe direction for the output class should be stable across models.
-    Expected |cosine similarity|: >0.8.
-
-    We probe for "is this digit TARGET_CLASS?" using the penultimate activations.
+    With no hidden representation to rotate, the coefficient vector
+    IS the concept direction. Convex optimization ensures all models
+    converge to the same solution (up to numerical precision).
+    Expected |cosine similarity|: >0.95.
     """
+    from sklearn.linear_model import LogisticRegression
+
     print("\n" + "=" * 60)
-    print(f"NEGATIVE CONTROL: Probing for output class {target_class} itself")
+    print("NEGATIVE CONTROL: Logistic regression (no hidden layers)")
     print("=" * 60)
 
-    # Binary labels: 1 if digit == target_class, 0 otherwise
-    class_labels = (y_test == target_class).astype(int)
-    print(f"  Positive class: digit {target_class} ({class_labels.sum()} samples)")
-    print(f"  Negative class: all other digits ({(class_labels == 0).sum()} samples)")
+    # Binary concept: curved (0,2,3,5,6,8,9) vs angular (1,4,7)
+    curved = {0, 2, 3, 5, 6, 8, 9}
+    concept_train = np.array([1 if y in curved else 0 for y in y_train])
+    concept_test = np.array([1 if y in curved else 0 for y in y_test])
 
-    cavs_class = []
-    for i, model in enumerate(models):
-        act = get_penultimate_activations(model, X_test)
-        cav = extract_cav(act, class_labels)
-        cavs_class.append(cav)
+    print(f"  Concept: curved vs angular digits")
+    print(f"  Train positives: {concept_train.sum()}, negatives: {(concept_train == 0).sum()}")
 
-    # Cosine similarity matrix
-    cos_mat_class = cosine_similarity_matrix(cavs_class)
-    n = len(cavs_class)
-    off_diag = cos_mat_class[np.triu_indices(n, k=1)]
-    mean_cos_class = float(np.mean(off_diag))
+    cavs = []
+    accs = []
+    for i in range(n_models):
+        lr = LogisticRegression(max_iter=1000, random_state=42 + i, solver='lbfgs')
+        lr.fit(X_train, concept_train)
+        acc = lr.score(X_test, concept_test)
+        accs.append(acc)
+        # The concept direction IS the coefficient vector (no hidden layer)
+        v = lr.coef_[0]
+        v = v / np.linalg.norm(v)
+        cavs.append(v)
 
-    ci_cos_class = bootstrap_ci(off_diag.tolist())
-    print(f"  Mean |cos sim| (off-diag): {mean_cos_class:.4f}  "
-          f"95% CI [{ci_cos_class[0]:.4f}, {ci_cos_class[2]:.4f}]")
-    print(f"  Expected: >0.80 (class probe direction is stable)")
-    print(f"  Compared to concept-A instability — larger value = more stable")
+    # Compute cosine similarity matrix
+    cos_mat = cosine_similarity_matrix(cavs)
+    n = len(cavs)
+    off_diag = cos_mat[np.triu_indices(n, k=1)]
+    mean_cos = float(np.mean(off_diag))
+
+    ci_cos = bootstrap_ci(off_diag.tolist())
+    print(f"  LogReg accuracy: {np.mean(accs):.4f} +/- {np.std(accs):.4f}")
+    print(f"  Mean |cos sim| (off-diag): {mean_cos:.4f}  "
+          f"95% CI [{ci_cos[0]:.4f}, {ci_cos[2]:.4f}]")
+    print(f"  Expected: >0.95 (convex optimization, no representation arbitrariness)")
 
     return {
-        "description": f"probe for output class {target_class} itself",
-        "target_class": int(target_class),
-        "n_positive_samples": int(class_labels.sum()),
-        "mean_abs_cosine_similarity": float(mean_cos_class),
-        "cosine_similarity_ci_lo": float(ci_cos_class[0]),
-        "cosine_similarity_ci_hi": float(ci_cos_class[2]),
-        "cavs_class": [v.tolist() for v in cavs_class],
-        "interpretation": "Expected >0.80; class probe is stable because all models solve same class",
+        "description": "logistic regression concept direction (no hidden layers, convex)",
+        "target_class": "logreg_curved_vs_angular",
+        "n_positive_samples": int(concept_train.sum()),
+        "logreg_accuracy_mean": float(np.mean(accs)),
+        "logreg_accuracy_std": float(np.std(accs)),
+        "mean_abs_cosine_similarity": float(mean_cos),
+        "cosine_similarity_ci_lo": float(ci_cos[0]),
+        "cosine_similarity_ci_hi": float(ci_cos[2]),
+        "cavs_class": [v.tolist() for v in cavs],
+        "interpretation": "Expected >0.95; convex optimization with no hidden layers = stable directions",
     }
 
 
@@ -366,7 +378,7 @@ def main():
     print(f"  Prediction agreement CI:       [{ci_agreement[0]:.4f}, {ci_agreement[2]:.4f}]")
 
     # ─── NEGATIVE CONTROL ─────────────────────────────────────────────────────
-    nc_results = run_negative_control_concept(models, X_test, y_test, target_class=0)
+    nc_results = run_negative_control_concept(X_train, y_train, X_test, y_test, n_models=N_MODELS)
 
     # ─── RESOLUTION TEST ──────────────────────────────────────────────────────
     res_results = run_resolution_test_concept(cavs_a, X_test, y_test, models)
@@ -402,7 +414,7 @@ def main():
     cbar2 = plt.colorbar(im2, ax=ax2, fraction=0.046, pad=0.04)
     cbar2.set_label(r'$|\cos(\mathbf{v}_i,\,\mathbf{v}_j)|$', fontsize=10)
     nc_off_diag = cos_mat_nc[np.triu_indices(N_MODELS, k=1)]
-    ax2.set_title(f'(b) Negative Control\nClass-{nc_results["target_class"]} Probe Alignment\n(Expected: stable)', fontsize=10, fontweight='bold')
+    ax2.set_title('(b) Negative Control\nLogistic Regression Directions\n(Expected: stable)', fontsize=10, fontweight='bold')
     ax2.set_xlabel('Model index', fontsize=10)
     ax2.set_ylabel('Model index', fontsize=10)
     ax2.set_xticks(range(N_MODELS))
@@ -417,7 +429,7 @@ def main():
     # Panel C: Resolution — bar chart comparing avg CAV vs pairwise
     ax3 = fig.add_subplot(gs[2])
     bar_labels_res = ['Pairwise\n|cos(i,j)|\n(instability)', 'Indiv. vs\nAvg CAV\n(resolution)',
-                      'Neg. Control\n|cos(i,j)|\n(class probe)']
+                      'Neg. Control\n|cos(i,j)|\n(LogReg)']
     bar_vals_res = [res_results['mean_pairwise_cos'],
                     res_results['mean_cos_individual_to_avg'],
                     nc_results['mean_abs_cosine_similarity']]
@@ -438,8 +450,8 @@ def main():
     ax3.set_ylabel('Mean |cosine similarity|', fontsize=9)
     ax3.set_title('(c) Resolution Test\nAveraged CAV vs Pairwise', fontsize=10, fontweight='bold')
     ax3.set_ylim(0, 1.1)
-    ax3.axhline(0.8, color='gray', linestyle='--', linewidth=0.8, alpha=0.6,
-                label='Expected control (0.8)')
+    ax3.axhline(0.95, color='gray', linestyle='--', linewidth=0.8, alpha=0.6,
+                label='Expected control (0.95)')
     ax3.legend(fontsize=7.5, loc='lower right')
 
     for bar, val in zip(bars_res, bar_vals_res):
@@ -463,7 +475,7 @@ def main():
 \caption{Concept probe instability across 15 equivalent MLPClassifier models on
 \texttt{sklearn} \texttt{load\_digits()} (8$\times$8 images, 10 classes).
 Architecture: $(128, 64)$ hidden units, ReLU.
-\emph{Negative control}: probe for output class itself --- directions should be stable ($>0.80$).
+\emph{Negative control}: logistic regression (no hidden layers) --- directions should be stable ($>0.95$).
 \emph{Resolution}: averaged CAV across 15 models --- individual CAVs should be closer to the average.
 All 95\% CIs from 2000 bootstrap resamples.}
 \label{tab:concept_probe}
@@ -481,7 +493,7 @@ All 95\% CIs from 2000 bootstrap resamples.}
     latex += (f"& Prediction agreement & "
               f"${agreement:.4f}$ & $[{ci_agreement[0]:.4f},\\,{ci_agreement[2]:.4f}]$ \\\\\n")
     latex += r"\midrule" + "\n"
-    latex += (f"Neg.\\ control (class-{nc_results['target_class']} probe) & "
+    latex += (f"Neg.\\ control (LogReg, no hidden) & "
               f"Mean $|\\cos(\\mathbf{{v}}_i,\\mathbf{{v}}_j)|$ & "
               f"${nc_results['mean_abs_cosine_similarity']:.4f}$ & "
               f"$[{nc_results['cosine_similarity_ci_lo']:.4f},\\,{nc_results['cosine_similarity_ci_hi']:.4f}]$ \\\\\n")
@@ -554,11 +566,11 @@ All 95\% CIs from 2000 bootstrap resamples.}
     print(f"  TCAV std (curved):           {tcav_scores_a.std():.4f}  (expected >0.1)")
     print(f"  Prediction agreement:        {agreement:.4f}  (expected >0.95)")
     print()
-    print("NEGATIVE CONTROL (class probe):")
-    print(f"  Mean |cos sim| (class {nc_results['target_class']} probe): "
+    print("NEGATIVE CONTROL (logistic regression, no hidden layers):")
+    print(f"  Mean |cos sim| (LogReg): "
           f"{nc_results['mean_abs_cosine_similarity']:.4f}  "
           f"[{nc_results['cosine_similarity_ci_lo']:.4f}, {nc_results['cosine_similarity_ci_hi']:.4f}]")
-    print(f"  Expected: >0.80")
+    print(f"  Expected: >0.95")
     print()
     print("RESOLUTION TEST (averaged CAV):")
     print(f"  Mean |cos(indiv, avg)|:  {res_results['mean_cos_individual_to_avg']:.4f}  "

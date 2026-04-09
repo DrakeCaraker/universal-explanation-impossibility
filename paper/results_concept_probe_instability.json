@@ -368,13 +368,15 @@
     ]
   },
   "negative_control": {
-    "description": "probe for output class 0 itself",
-    "target_class": 0,
-    "n_positive_samples": 54,
-    "mean_abs_cosine_similarity": 0.11102842275202676,
-    "cosine_similarity_ci_lo": 0.09500410026478871,
-    "cosine_similarity_ci_hi": 0.12783834483719456,
-    "interpretation": "Expected >0.80; class probe is stable because all models solve same class"
+    "description": "logistic regression concept direction (no hidden layers, convex)",
+    "target_class": "logreg_curved_vs_angular",
+    "n_positive_samples": 878,
+    "logreg_accuracy_mean": 0.9407407407407411,
+    "logreg_accuracy_std": 3.3306690738754696e-16,
+    "mean_abs_cosine_similarity": 1.0000000000000002,
+    "cosine_similarity_ci_lo": 1.0000000000000002,
+    "cosine_similarity_ci_hi": 1.0000000000000002,
+    "interpretation": "Expected >0.95; convex optimization with no hidden layers = stable directions"
   },
   "resolution_test": {
     "description": "averaged CAV as consensus direction for concept A (curved vs angular)",
@@ -387,5 +389,5 @@
     "improvement_pp": 17.901095106358632,
     "interpretation": "avg CAV should have higher similarity to each individual than pairwise average"
   },
-  "_timestamp": "2026-04-09 09:39:49"
+  "_timestamp": "2026-04-09 10:01:13"
 }

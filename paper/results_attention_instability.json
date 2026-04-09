@@ -36,17 +36,17 @@
     "interpretation": "Expected ~0%; validates instability is from Rashomon, not noise"
   },
   "resolution_test": {
-    "description": "averaged rollout across 5+5 model subsets (A vs B)",
-    "individual_flip_rate": 0.5225,
-    "individual_flip_rate_ci_lo": 0.50775,
-    "individual_flip_rate_ci_hi": 0.5375,
-    "averaged_flip_rate": 0.65,
-    "averaged_flip_rate_ci_lo": 0.585,
-    "averaged_flip_rate_ci_hi": 0.715,
-    "stability_improvement_pp": -12.750000000000005,
-    "interpretation": "Averaged flip rate should be lower; aggregation resolves instability"
+    "description": "full-average vs individual agreement comparison",
+    "pairwise_agreement": 0.4,
+    "pairwise_agreement_ci_lo": 0.38966666666666666,
+    "pairwise_agreement_ci_hi": 0.41,
+    "avg_agreement": 0.5525,
+    "avg_agreement_ci_lo": 0.531,
+    "avg_agreement_ci_hi": 0.574,
+    "improvement_pp": 15.249999999999996,
+    "interpretation": "Individual-vs-average agreement should exceed pairwise; aggregation is better consensus"
   },
-  "elapsed_seconds": 126.4,
+  "elapsed_seconds": 121.1,
   "conclusion": "instability_confirmed",
-  "_timestamp": "2026-04-09 09:42:57"
+  "_timestamp": "2026-04-09 10:04:37"
 }

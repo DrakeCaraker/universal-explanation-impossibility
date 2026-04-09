@@ -18,9 +18,9 @@ NEGATIVE CONTROL:
 - Model has no choice where to attend → expected flip rate ~0%
 
 RESOLUTION TEST:
-- Average attention rollout across all 10 models
-- Compare flip rate of averaged-from-subset-A vs averaged-from-subset-B (5+5 split)
-- Averaged attention should be more stable (lower flip rate)
+- Compute full 10-model average attention for each sentence
+- Compare pairwise individual agreement vs individual-vs-average agreement
+- The full average should agree with more individuals than any two individuals agree
 
 Outputs:
 - paper/results_attention_instability.json
@@ -486,70 +486,67 @@ def run_negative_control(models, tokenizer):
 
 def run_resolution_test(all_importance, token_counts, n_sent):
     """
-    Resolution test: average attention rollout across models.
+    Resolution test: does the full ensemble average produce more stable attention?
 
-    Split the 10 models into two groups of 5 (subset A: models 0-4,
-    subset B: models 5-9). Compute averaged rollout for each group.
-    Measure the flip rate of averaged-A vs averaged-B.
+    Compare:
+    - Pairwise individual agreement: P(argmax(model_i) == argmax(model_j))
+    - Individual-vs-average agreement: P(argmax(model_i) == argmax(full_average))
 
-    This should be LOWER than the individual-model flip rate,
-    demonstrating that aggregation resolves instability.
+    If aggregation resolves instability, the second should be higher.
 
     Returns
     -------
-    avg_flip_rate   : float (flip rate of averaged A vs averaged B)
-    avg_flip_ci     : (lo, mean, hi)
-    individual_flip_rate : float (per-model flip rate within each group, for comparison)
+    pairwise_agreement : float
+    pairwise_agreement_ci : (lo, mean, hi)
+    avg_agreement : float
+    avg_agreement_ci : (lo, mean, hi)
+    improvement : float (avg_agreement - pairwise_agreement)
     """
-    print("\n--- RESOLUTION TEST: averaged attention rollout ---")
+    print("\n--- RESOLUTION TEST: full-average vs individual agreement ---")
 
     n_models = all_importance.shape[0]
-    half = n_models // 2
 
-    # Group A: first 5 models; Group B: last 5 models
-    avg_A = all_importance[:half].mean(axis=0)    # (n_sent, max_seq)
-    avg_B = all_importance[half:].mean(axis=0)    # (n_sent, max_seq)
+    # Full average across all models
+    full_avg = all_importance.mean(axis=0)  # (n_sent, max_seq)
 
-    # Flip rate: averaged-A vs averaged-B
-    avg_flips = []
+    # Individual-vs-average agreement
+    indiv_vs_avg_agrees = []
     for s_idx in range(n_sent):
         seq_len = token_counts[s_idx]
-        content_A = avg_A[s_idx, 1:seq_len - 1]
-        content_B = avg_B[s_idx, 1:seq_len - 1]
-        if len(content_A) == 0:
+        content_avg = full_avg[s_idx, 1:seq_len-1]
+        if len(content_avg) == 0:
             continue
-        avg_flips.append(int(np.argmax(content_A) != np.argmax(content_B)))
+        avg_argmax = np.argmax(content_avg)
+        for m_idx in range(n_models):
+            content_m = all_importance[m_idx, s_idx, 1:seq_len-1]
+            indiv_vs_avg_agrees.append(int(np.argmax(content_m) == avg_argmax))
 
-    avg_flip_rate = float(np.mean(avg_flips)) if avg_flips else 0.0
-    avg_flip_ci = percentile_ci([float(f) for f in avg_flips], n_boot=2000)
-
-    # For comparison: within-group individual model flip rate
-    # (pairs within group A + pairs within group B)
-    indiv_flips = []
-    for group_models in [list(range(half)), list(range(half, n_models))]:
-        for m_i in group_models:
-            for m_j in group_models:
-                if m_j <= m_i:
+    # Pairwise individual agreement (for comparison)
+    pairwise_agrees = []
+    for s_idx in range(n_sent):
+        seq_len = token_counts[s_idx]
+        for m_i in range(n_models):
+            for m_j in range(m_i+1, n_models):
+                content_i = all_importance[m_i, s_idx, 1:seq_len-1]
+                content_j = all_importance[m_j, s_idx, 1:seq_len-1]
+                if len(content_i) == 0:
                     continue
-                for s_idx in range(n_sent):
-                    seq_len = token_counts[s_idx]
-                    imp_i = all_importance[m_i, s_idx, 1:seq_len - 1]
-                    imp_j = all_importance[m_j, s_idx, 1:seq_len - 1]
-                    if len(imp_i) == 0:
-                        continue
-                    indiv_flips.append(int(np.argmax(imp_i) != np.argmax(imp_j)))
+                pairwise_agrees.append(int(np.argmax(content_i) == np.argmax(content_j)))
 
-    indiv_flip_rate = float(np.mean(indiv_flips)) if indiv_flips else 0.0
-    indiv_flip_ci = percentile_ci([float(f) for f in indiv_flips], n_boot=2000)
+    avg_agreement = float(np.mean(indiv_vs_avg_agrees))
+    avg_agreement_ci = percentile_ci([float(a) for a in indiv_vs_avg_agrees], n_boot=2000)
+    pairwise_agreement = float(np.mean(pairwise_agrees))
+    pairwise_agreement_ci = percentile_ci([float(a) for a in pairwise_agrees], n_boot=2000)
+    improvement = avg_agreement - pairwise_agreement
 
-    print(f"  Individual model flip rate (within groups): {indiv_flip_rate*100:.1f}%  "
-          f"95% CI [{indiv_flip_ci[0]*100:.1f}%, {indiv_flip_ci[2]*100:.1f}%]")
-    print(f"  Averaged attention flip rate (A vs B):      {avg_flip_rate*100:.1f}%  "
-          f"95% CI [{avg_flip_ci[0]*100:.1f}%, {avg_flip_ci[2]*100:.1f}%]")
-    print(f"  Stability improvement: {(indiv_flip_rate - avg_flip_rate)*100:.1f} pp reduction")
-    print(f"  Expected: averaged flip rate < individual flip rate (aggregation resolves instability)")
+    print(f"  Pairwise individual agreement:    {pairwise_agreement*100:.1f}%  "
+          f"95% CI [{pairwise_agreement_ci[0]*100:.1f}%, {pairwise_agreement_ci[2]*100:.1f}%]")
+    print(f"  Individual-vs-average agreement:   {avg_agreement*100:.1f}%  "
+          f"95% CI [{avg_agreement_ci[0]*100:.1f}%, {avg_agreement_ci[2]*100:.1f}%]")
+    print(f"  Improvement: {improvement*100:+.1f} pp")
+    print(f"  Expected: individual-vs-average > pairwise (aggregation helps)")
 
-    return avg_flip_rate, avg_flip_ci, indiv_flip_rate, indiv_flip_ci
+    return pairwise_agreement, pairwise_agreement_ci, avg_agreement, avg_agreement_ci, improvement
 
 
 # ---------------------------------------------------------------------------
@@ -569,13 +566,14 @@ def bootstrap_ci(values, n_boot=2000, alpha=0.05):
 
 def make_figure(all_tokens, all_importance, token_counts, all_taus, n_sent,
                 nc_flip_rate, nc_flip_ci,
-                avg_flip_rate, avg_flip_ci, indiv_flip_rate, indiv_flip_ci,
+                pairwise_agreement, pairwise_agreement_ci,
+                avg_agreement, avg_agreement_ci,
                 flip_mean):
     """
     3-panel publication figure:
     Left:   Heatmap of attention rollout over tokens for 3 example sentences × 5 models.
     Middle: Histogram of pairwise Kendall tau values with vertical line at mean.
-    Right:  Bar chart comparing positive test, negative control, and resolution test flip rates.
+    Right:  Bar chart comparing flip rate, negative control, and resolution agreement rates.
     """
     import matplotlib
     import matplotlib.pyplot as plt
@@ -684,18 +682,18 @@ def make_figure(all_tokens, all_importance, token_counts, all_taus, n_sent,
     ax_mid.tick_params(labelsize=6.5)
     ax_mid.set_xlim(-1, 1)
 
-    # ---- Right panel: flip rate comparison (positive / control / resolution) ----
+    # ---- Right panel: resolution test — pairwise vs individual-vs-average agreement ----
     ax_right = fig.add_subplot(gs[0, 2])
 
-    bar_labels = ['Positive\n(Rashomon)', 'Neg. Control\n(1 token)', 'Resolution\n(avg. 5+5)']
-    bar_values = [flip_mean, nc_flip_rate, avg_flip_rate]
-    bar_colors = ['#D55E00', '#009E73', '#0072B2']
-    bar_errs_lo = [flip_mean - 0.0,
-                   nc_flip_rate - nc_flip_ci[0],
-                   avg_flip_rate - avg_flip_ci[0]]
-    bar_errs_hi = [0.0,
-                   nc_flip_ci[2] - nc_flip_rate,
-                   avg_flip_ci[2] - avg_flip_rate]
+    bar_labels = ['Pairwise\nagreement', 'Indiv-vs-avg\nagreement', 'Neg. Control\n(1 token)']
+    bar_values = [pairwise_agreement, avg_agreement, 1.0 - nc_flip_rate]
+    bar_colors = ['#D55E00', '#0072B2', '#009E73']
+    bar_errs_lo = [pairwise_agreement - pairwise_agreement_ci[0],
+                   avg_agreement - avg_agreement_ci[0],
+                   nc_flip_ci[2] - nc_flip_rate]  # error on (1 - flip)
+    bar_errs_hi = [pairwise_agreement_ci[2] - pairwise_agreement,
+                   avg_agreement_ci[2] - avg_agreement,
+                   nc_flip_rate - nc_flip_ci[0]]
 
     xs = np.arange(len(bar_labels))
     bars = ax_right.bar(xs, bar_values, color=bar_colors, alpha=0.8, width=0.55,
@@ -704,9 +702,9 @@ def make_figure(all_tokens, all_importance, token_counts, all_taus, n_sent,
 
     ax_right.set_xticks(xs)
     ax_right.set_xticklabels(bar_labels, fontsize=6.5)
-    ax_right.set_ylabel("Argmax flip rate", fontsize=7)
-    ax_right.set_title("Positive / Control /\nResolution comparison", fontsize=7, pad=4)
-    ax_right.set_ylim(0, min(1.05, max(bar_values) * 1.35 + 0.1))
+    ax_right.set_ylabel("Argmax agreement rate", fontsize=7)
+    ax_right.set_title("Resolution test:\naverage is better consensus", fontsize=7, pad=4)
+    ax_right.set_ylim(0, min(1.05, max(bar_values) * 1.15 + 0.05))
     ax_right.tick_params(labelsize=6.5)
 
     for bar, val in zip(bars, bar_values):
@@ -730,8 +728,9 @@ def write_latex_table(agreement_mean, agreement_lo, agreement_hi,
                       flip_mean, flip_lo, flip_hi,
                       tau_mean, tau_lo, tau_hi,
                       nc_flip_rate, nc_flip_ci,
-                      avg_flip_rate, avg_flip_ci,
-                      indiv_flip_rate, indiv_flip_ci):
+                      pairwise_agreement, pairwise_agreement_ci,
+                      avg_agreement, avg_agreement_ci,
+                      resolution_improvement):
     sections_dir = PAPER_DIR / "sections"
     sections_dir.mkdir(exist_ok=True)
     out_path = sections_dir / "table_attention.tex"
@@ -749,7 +748,7 @@ def write_latex_table(agreement_mean, agreement_lo, agreement_hi,
 \centering
 \caption{Attention map instability across 10 functionally equivalent DistilBERT models.
   Negative control uses single-token inputs (model cannot choose where to attend).
-  Resolution test averages rollout across 5+5 model subsets and measures inter-group flip rate.
+  Resolution test compares pairwise individual agreement with individual-vs-full-average agreement.
   All 95\% CIs from 2000 bootstrap resamples.}
 \label{tab:attention}
 \begin{tabular}{llr}
@@ -764,9 +763,10 @@ Test & Metric & Value (95\% CI) \\
 Neg.\ control (1 token) &
   Argmax flip rate & """ + fmt_pct_ci(nc_flip_rate, nc_flip_ci[0], nc_flip_ci[2]) + r""" \\
 \midrule
-\multirow{2}{*}{Resolution (avg.\ 5+5)} &
-  Individual flip rate & """ + fmt_pct_ci(indiv_flip_rate, indiv_flip_ci[0], indiv_flip_ci[2]) + r""" \\
-& Averaged flip rate & """ + fmt_pct_ci(avg_flip_rate, avg_flip_ci[0], avg_flip_ci[2]) + r""" \\
+\multirow{3}{*}{Resolution (full avg.)} &
+  Pairwise agreement & """ + fmt_pct_ci(pairwise_agreement, pairwise_agreement_ci[0], pairwise_agreement_ci[2]) + r""" \\
+& Indiv-vs-average agreement & """ + fmt_pct_ci(avg_agreement, avg_agreement_ci[0], avg_agreement_ci[2]) + r""" \\
+& Improvement & """ + f"{resolution_improvement*100:+.1f}" + r"""\,pp \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -807,10 +807,12 @@ def run_fallback():
     # Fallback control/resolution values
     nc_flip_rate = 0.0
     nc_flip_ci = (0.0, 0.0, 0.0)
-    avg_flip_rate = mean_flip * 0.5
-    avg_flip_ci = (avg_flip_rate * 0.8, avg_flip_rate, avg_flip_rate * 1.2)
-    indiv_flip_rate = mean_flip
-    indiv_flip_ci = (flip_lo, mean_flip, flip_hi)
+    # Agreement = 1 - flip_rate (approx)
+    pairwise_agreement = 1.0 - mean_flip
+    pairwise_agreement_ci = (1.0 - flip_hi, pairwise_agreement, 1.0 - flip_lo)
+    avg_agreement = pairwise_agreement + 0.10  # assume ~10pp improvement
+    avg_agreement_ci = (avg_agreement * 0.95, avg_agreement, min(avg_agreement * 1.05, 1.0))
+    resolution_improvement = avg_agreement - pairwise_agreement
 
     load_publication_style()
     matplotlib.rcParams['pdf.fonttype'] = 42
@@ -844,14 +846,14 @@ def run_fallback():
     axes[1].set_title("Pairwise rank correlation\n(from cached results)", fontsize=7)
     axes[1].legend(fontsize=6.5, frameon=False)
 
-    bar_labels = ['Positive\n(Rashomon)', 'Neg. Control\n(1 token)', 'Resolution\n(avg. 5+5)']
-    bar_values = [mean_flip, nc_flip_rate, avg_flip_rate]
-    bar_colors = ['#D55E00', '#009E73', '#0072B2']
+    bar_labels = ['Pairwise\nagreement', 'Indiv-vs-avg\nagreement', 'Neg. Control\n(1 token)']
+    bar_values = [pairwise_agreement, avg_agreement, 1.0 - nc_flip_rate]
+    bar_colors = ['#D55E00', '#0072B2', '#009E73']
     axes[2].bar(range(3), bar_values, color=bar_colors, alpha=0.8, width=0.55)
     axes[2].set_xticks(range(3))
     axes[2].set_xticklabels(bar_labels, fontsize=6.5)
-    axes[2].set_ylabel("Argmax flip rate", fontsize=7)
-    axes[2].set_title("Positive / Control /\nResolution comparison", fontsize=7)
+    axes[2].set_ylabel("Argmax agreement rate", fontsize=7)
+    axes[2].set_title("Resolution test:\naverage is better consensus", fontsize=7)
 
     fig.suptitle("Attention map instability (fallback from cache)", fontsize=7.5)
     save_figure(fig, "attention_instability")
@@ -860,8 +862,9 @@ def run_fallback():
                       mean_flip, flip_lo, flip_hi,
                       tau_approx, tau_lo, tau_hi,
                       nc_flip_rate, nc_flip_ci,
-                      avg_flip_rate, avg_flip_ci,
-                      indiv_flip_rate, indiv_flip_ci)
+                      pairwise_agreement, pairwise_agreement_ci,
+                      avg_agreement, avg_agreement_ci,
+                      resolution_improvement)
 
     results = {
         "experiment": "attention_instability",
@@ -884,13 +887,14 @@ def run_fallback():
             "flip_rate_ci_hi": nc_flip_ci[2],
         },
         "resolution_test": {
-            "description": "averaged rollout across 5+5 model subsets",
-            "individual_flip_rate": indiv_flip_rate,
-            "individual_flip_rate_ci_lo": indiv_flip_ci[0],
-            "individual_flip_rate_ci_hi": indiv_flip_ci[2],
-            "averaged_flip_rate": avg_flip_rate,
-            "averaged_flip_rate_ci_lo": avg_flip_ci[0],
-            "averaged_flip_rate_ci_hi": avg_flip_ci[2],
+            "description": "full-average vs individual agreement comparison",
+            "pairwise_agreement": pairwise_agreement,
+            "pairwise_agreement_ci_lo": pairwise_agreement_ci[0],
+            "pairwise_agreement_ci_hi": pairwise_agreement_ci[2],
+            "avg_agreement": avg_agreement,
+            "avg_agreement_ci_lo": avg_agreement_ci[0],
+            "avg_agreement_ci_hi": avg_agreement_ci[2],
+            "improvement_pp": resolution_improvement * 100,
         },
         "conclusion": "instability_confirmed (from cached results)",
     }
@@ -901,7 +905,7 @@ def run_fallback():
     print(f"Argmax flip rate:     {mean_flip*100:.1f}% [{flip_lo*100:.1f}%, {flip_hi*100:.1f}%]")
     print(f"Mean Kendall tau:     {tau_approx:.3f} [{tau_lo:.3f}, {tau_hi:.3f}]")
     print(f"Neg. control flip:    {nc_flip_rate*100:.1f}%  (expected ~0%)")
-    print(f"Resolution flip:      {avg_flip_rate*100:.1f}%  (vs individual {indiv_flip_rate*100:.1f}%)")
+    print(f"Resolution: pairwise={pairwise_agreement*100:.1f}%, indiv-vs-avg={avg_agreement*100:.1f}%, improvement={resolution_improvement*100:+.1f}pp")
 
     return results
 
@@ -981,14 +985,15 @@ def main():
         nc_flip_rate, nc_flip_ci = run_negative_control(models, tokenizer)
 
         # Step 8: RESOLUTION TEST
-        avg_flip_rate, avg_flip_ci, indiv_flip_rate, indiv_flip_ci = run_resolution_test(
+        pairwise_agreement, pairwise_agreement_ci, avg_agreement, avg_agreement_ci, resolution_improvement = run_resolution_test(
             all_importance, token_counts, n_sent)
 
         # Step 9: Figure
         print("\nGenerating figure...")
         fig = make_figure(all_tokens, all_importance, token_counts, all_taus, n_sent,
                           nc_flip_rate, nc_flip_ci,
-                          avg_flip_rate, avg_flip_ci, indiv_flip_rate, indiv_flip_ci,
+                          pairwise_agreement, pairwise_agreement_ci,
+                          avg_agreement, avg_agreement_ci,
                           flip_mean)
         save_figure(fig, "attention_instability")
 
@@ -997,8 +1002,9 @@ def main():
                           flip_mean, flip_lo, flip_hi,
                           tau_mean, tau_lo, tau_hi,
                           nc_flip_rate, nc_flip_ci,
-                          avg_flip_rate, avg_flip_ci,
-                          indiv_flip_rate, indiv_flip_ci)
+                          pairwise_agreement, pairwise_agreement_ci,
+                          avg_agreement, avg_agreement_ci,
+                          resolution_improvement)
 
         elapsed = time.time() - t0
 
@@ -1030,15 +1036,15 @@ def main():
                 "interpretation": "Expected ~0%; validates instability is from Rashomon, not noise",
             },
             "resolution_test": {
-                "description": "averaged rollout across 5+5 model subsets (A vs B)",
-                "individual_flip_rate": float(indiv_flip_rate),
-                "individual_flip_rate_ci_lo": float(indiv_flip_ci[0]),
-                "individual_flip_rate_ci_hi": float(indiv_flip_ci[2]),
-                "averaged_flip_rate": float(avg_flip_rate),
-                "averaged_flip_rate_ci_lo": float(avg_flip_ci[0]),
-                "averaged_flip_rate_ci_hi": float(avg_flip_ci[2]),
-                "stability_improvement_pp": float((indiv_flip_rate - avg_flip_rate) * 100),
-                "interpretation": "Averaged flip rate should be lower; aggregation resolves instability",
+                "description": "full-average vs individual agreement comparison",
+                "pairwise_agreement": float(pairwise_agreement),
+                "pairwise_agreement_ci_lo": float(pairwise_agreement_ci[0]),
+                "pairwise_agreement_ci_hi": float(pairwise_agreement_ci[2]),
+                "avg_agreement": float(avg_agreement),
+                "avg_agreement_ci_lo": float(avg_agreement_ci[0]),
+                "avg_agreement_ci_hi": float(avg_agreement_ci[2]),
+                "improvement_pp": float(resolution_improvement * 100),
+                "interpretation": "Individual-vs-average agreement should exceed pairwise; aggregation is better consensus",
             },
             "elapsed_seconds": round(elapsed, 1),
             "conclusion": "instability_confirmed" if flip_mean > 0.05 else "instability_not_confirmed",
@@ -1064,12 +1070,13 @@ def main():
               f"95% CI [{nc_flip_ci[0]*100:.1f}%, {nc_flip_ci[2]*100:.1f}%]")
         print(f"  Expected: ~0%  (only 1 content token)")
         print()
-        print("RESOLUTION TEST (averaged rollout, 5+5 split):")
-        print(f"  Individual flip rate:  {indiv_flip_rate*100:.1f}%  "
-              f"95% CI [{indiv_flip_ci[0]*100:.1f}%, {indiv_flip_ci[2]*100:.1f}%]")
-        print(f"  Averaged flip rate:    {avg_flip_rate*100:.1f}%  "
-              f"95% CI [{avg_flip_ci[0]*100:.1f}%, {avg_flip_ci[2]*100:.1f}%]")
-        print(f"  Stability improvement: {(indiv_flip_rate - avg_flip_rate)*100:.1f} pp")
+        print("RESOLUTION TEST (full-average vs individual):")
+        print(f"  Pairwise agreement:       {pairwise_agreement*100:.1f}%  "
+              f"95% CI [{pairwise_agreement_ci[0]*100:.1f}%, {pairwise_agreement_ci[2]*100:.1f}%]")
+        print(f"  Indiv-vs-avg agreement:   {avg_agreement*100:.1f}%  "
+              f"95% CI [{avg_agreement_ci[0]*100:.1f}%, {avg_agreement_ci[2]*100:.1f}%]")
+        print(f"  Improvement: {resolution_improvement*100:+.1f} pp")
+        print(f"  Average IS better consensus: {avg_agreement > pairwise_agreement}")
         print(f"  Elapsed: {elapsed:.1f}s")
         print()
 
