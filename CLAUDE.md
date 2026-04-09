@@ -1,12 +1,14 @@
-# The Attribution Impossibility — Lean 4 Formalization
+# Universal Explanation Impossibility — Lean 4 Formalization
 
-Lean 4 formalization of the impossibility theorem for feature attribution under collinearity. Target venue: NeurIPS 2026 (abstract May 4, paper May 6). Paper 3 in the 5-paper research program housed in [dash-shap](https://github.com/DrakeCaraker/dash-shap). The F5→F1→DASH stability API is in [dash-shap PR #255](https://github.com/DrakeCaraker/dash-shap/pull/255).
+Lean 4 formalization of the universal explanation impossibility theorem. Target venue: JMLR (primary). Companion attribution paper housed in [dash-shap](https://github.com/DrakeCaraker/dash-shap). The F5→F1→DASH stability API is in [dash-shap PR #255](https://github.com/DrakeCaraker/dash-shap/pull/255).
 
 ## What This Proves
 
-No single-model feature ranking can simultaneously be faithful (reflect the model's attributions), stable (consistent across equivalent models), and complete (rank all feature pairs) when features are collinear. The core theorem requires **zero model-specific axioms** — only the Rashomon property.
+No explanation of an underspecified system can be simultaneously faithful (reflect the system's actual structure), stable (consistent across observationally equivalent configurations), and decisive (commit to a single answer) when the Rashomon property holds. The core theorem (`explanation_impossibility` in `ExplanationSystem.lean`) requires **zero model-specific axioms** — only the Rashomon property as a hypothesis.
 
-Model-specific instantiations show GBDT has ratio 1/(1-ρ²) → ∞, Lasso has ratio ∞, neural nets have conditional violations, and random forests have bounded O(1/√T) violations. DASH (ensemble averaging) resolves the impossibility for balanced ensembles.
+This is a **meta-theorem**: it applies uniformly to all six explanation types — additive attributions (SHAP, IG, LIME), attention maps, counterfactual explanations, concept probes (TCAV), causal discovery (DAGs), and model selection — because each is an instance of the abstract `ExplanationSystem` structure.
+
+Model-specific instantiations from the companion attribution paper: GBDT has ratio 1/(1-ρ²) → ∞, Lasso has ratio ∞, neural nets have conditional violations, and random forests have bounded O(1/√T) violations. DASH (ensemble averaging) resolves the impossibility for balanced ensembles.
 
 ## Architecture
 
@@ -29,14 +31,30 @@ Strengthening:            ProportionalityLocal.lean (impossibility from per-mode
                           ApproximateEquity.lean (Rashomon from bounded proportionality)
                           Setup.lean (GBDTSetup structure bundling all axioms)
 Contrast:                 RandomForest.lean (bounded violations, no formal proofs)
+
+Universal framework (new):
+  ExplanationSystem.lean        — Abstract ExplanationSystem structure; explanation_impossibility
+  AttributionInstance.lean      — Additive attribution instance (SHAP, IG, LIME)
+  AttentionInstance.lean        — Attention map instance (DistilBERT)
+  CounterfactualInstance.lean   — Counterfactual explanation instance
+  ConceptInstance.lean          — Concept probe instance (TCAV)
+  CausalInstance.lean           — Causal discovery instance (DAG Markov equivalence)
+  ModelSelectionInstance.lean   — Model selection instance (Rashomon multiplicity)
+  UniversalImpossibility.lean   — Import hub; documents 6-instance inventory
+  UniversalResolution.lean      — G-invariant resolution framework; gInvariant_stable
+  UniversalDesignSpace.lean     — Universal design space dichotomy (Family A / Family B)
+  DASHResolution.lean           — DASH as G-invariant resolution for attributions
+  CPDAGResolution.lean          — CPDAG as G-invariant resolution for causal discovery
+  Ubiquity.lean                 — Structural ubiquity: dimensional argument + impossibility bridge
 ```
 
 ## File Structure
 
 ```
 UniversalImpossibility/
+  ── Core attribution (Levels 0–12 + strengthening) ──
   Defs.lean              — FeatureSpace, 13 axioms, stability/equity defs, consensus, variance from Mathlib
-  Trilemma.lean          — RashimonProperty, attribution_impossibility, attribution_impossibility_weak
+  Trilemma.lean          — RashomonProperty, attribution_impossibility, attribution_impossibility_weak
   Iterative.lean         — IterativeOptimizer abstraction
   General.lean           — GBDT instance, gbdt_impossibility, gbdtOptimizer
   SplitGap.lean          — split_gap_exact, split_gap_ge_half (pure algebra)
@@ -55,7 +73,7 @@ UniversalImpossibility/
   AlphaFaithful.lean     — α-faithfulness bound (S66-S67)
   UnfaithfulBound.lean   — Unfaithfulness ≥ 1/2, ties optimal (S9-S11)
   PathConvergence.lean   — Relaxation path convergence (S38, S40)
-  RashomonUniversality.lean — Rashomon from symmetry via feature swap (S3-S4)
+  RashomonUniversality.lean  — Rashomon from symmetry via feature swap (S3-S4)
   RashomonInevitability.lean — Impossibility is inescapable (S5-S6)
   ConditionalImpossibility.lean — Conditional SHAP impossibility + escape (S44)
   FlipRate.lean          — Exact GBDT flip rate, binary group = coin flip (S8)
@@ -69,18 +87,41 @@ UniversalImpossibility/
   SBDInstances.lean      — SBD instances + abstract aggregation (S51-S52, S58)
   FairnessAudit.lean     — Fairness audit impossibility (S56)
   EnsembleBound.lean     — DASH variance optimality + ensemble size (S22, S26)
+  ProportionalityLocal.lean — Impossibility from per-model c only
+  Qualitative.lean       — Impossibility from 2 axioms: dominance + surjectivity
+  ApproximateEquity.lean — Rashomon from bounded proportionality
+  Setup.lean             — GBDTSetup structure bundling all axioms
   Basic.lean             — Import hub
+  ── Universal framework (new, ExplanationSystem + instances) ──
+  ExplanationSystem.lean        — Abstract ExplanationSystem; explanation_impossibility (0 axioms)
+  AttributionInstance.lean      — Additive attribution instance (SHAP, IG, LIME)
+  AttentionInstance.lean        — Attention map instance (DistilBERT; 60% flip rate)
+  CounterfactualInstance.lean   — Counterfactual explanation instance
+  ConceptInstance.lean          — Concept probe instance (TCAV)
+  CausalInstance.lean           — Causal discovery instance (Markov equivalence)
+  ModelSelectionInstance.lean   — Model selection instance (Rashomon multiplicity)
+  UniversalImpossibility.lean   — Import hub; 6-instance inventory
+  UniversalResolution.lean      — G-invariant resolution; gInvariant_stable
+  UniversalDesignSpace.lean     — universal_design_space_dichotomy (Family A / B)
+  DASHResolution.lean           — DASH as G-invariant resolution for attributions
+  CPDAGResolution.lean          — CPDAG as G-invariant resolution for causal discovery
+  Ubiquity.lean                 — generic_underspecification, ubiquity_impossibility
 paper/
-  main.tex           — NeurIPS 2026 paper (10 pages)
-  supplement.tex     — Supplementary (79 pages)
-  references.bib     — 49 references
-  scripts/           — 51 scripts (figure generation, validation, diagnostics)
-  figures/           — PDF figures (ratio, instability, DASH, design space, SNR calibration, conditional threshold, etc.)
+  universal_impossibility.tex — JMLR universal paper (primary, this paper)
+  main.tex                    — NeurIPS 2026 companion attribution paper (10 pages)
+  main_jmlr.tex               — JMLR attribution paper (54 pages)
+  supplement.tex              — Supplementary for attribution paper (79 pages)
+  references.bib              — References
+  scripts/                    — Experiment scripts (figure generation, validation, diagnostics)
+    run_all_universal_experiments.py — Runner for the 4 universal experiments
+    README.md                  — How to reproduce all experiments
+  figures/                    — PDF figures (ratio, instability, DASH, design space, SNR calibration, etc.)
+  sections/                   — LaTeX section fragments for universal paper instances
 ```
 
-## Lean State: 54 files, 16 axioms, 305 theorems+lemmas, 0 sorry
+## Lean State: 67 files, 60 axioms, 319 theorems+lemmas, 0 sorry
 
-## Axiom Inventory (16 total)
+## Axiom Inventory (60 total)
 
 | Category | Axioms | Used by |
 |----------|--------|---------|
@@ -88,9 +129,11 @@ paper/
 | Core properties | firstMover_surjective, splitCount_firstMover, splitCount_nonFirstMover, proportionality_global, splitCount_crossGroup_symmetric, splitCount_crossGroup_stable | GBDT bounds |
 | Measure infrastructure | modelMeasurableSpace, modelMeasure | Variance (Mathlib connection) |
 | Query complexity | testing_constant, testing_constant_pos | Query complexity scaling |
+| Universal instances | AttentionConfig, AttentionMap, attention_rashomon, etc. | Per-instance Rashomon witnesses |
 
 **Axiom stratification (verified by `#print axioms`):**
-- **Core impossibility** (`attribution_impossibility`): ZERO behavioral axioms (only Model + attribution types)
+- **Core universal impossibility** (`explanation_impossibility`): ZERO axioms (Rashomon is a hypothesis)
+- **Core attribution impossibility** (`attribution_impossibility`): ZERO behavioral axioms (only Model + attribution types)
 - **Qualitative impossibility** (`impossibility_qualitative`): ZERO behavioral axioms (dominance + surjectivity as hypotheses)
 - **GBDT impossibility** (`gbdt_impossibility_local`): 4 axioms (surj, fm, nfm — NO proportionality_global)
 - **Quantitative impossibility** (`impossibility`): 5 axioms (+ proportionality_global for ratio)
@@ -106,7 +149,7 @@ paper/
 - `attribution_variance_nonneg` — theorem from Mathlib's variance_nonneg
 - `attribution_proportional` — backward-compatible theorem wrapper from proportionality_global
 
-The core impossibility theorem (Levels 0-1) uses **none** of these — only the Rashomon property as hypothesis.
+The core universal impossibility theorem (`explanation_impossibility`) uses **none** of these — only the Rashomon property as hypothesis.
 
 ## Building
 
@@ -119,12 +162,18 @@ make validate      # run 3 key experiments (~5 min)
 make setup         # full setup for new contributors
 ```
 
+## Two-Paper Structure
+
+- **Universal paper** (this repo, primary): `paper/universal_impossibility.tex` — The meta-theorem that unifies six explanation types via the abstract `ExplanationSystem` framework. Target: **JMLR**.
+- **Companion attribution paper**: `paper/main.tex` (NeurIPS 10pp) and `paper/main_jmlr.tex` (JMLR 54pp) — The attribution-specific impossibility with GBDT/Lasso/NeuralNet instantiations, quantitative bounds, DASH resolution, and empirical experiments.
+
 ## Submission
 
-- **JMLR** (primary target): `paper/main_jmlr.tex` (54 pages, `jmlr.cls` from TeX Live). JMLR class: https://jmlr.org/format/
-- **NeurIPS 2026** (backup): `paper/main.tex` (10 pages) + `paper/supplement.tex` (79 pages). Abstract May 4, Paper May 6. Official `neurips_2026.sty` (verified identical to neurips.cc download).
+- **JMLR** (primary for universal paper): `paper/universal_impossibility.tex`. JMLR class: https://jmlr.org/format/
+- **NeurIPS 2026** (companion attribution paper): `paper/main.tex` (10 pages) + `paper/supplement.tex` (79 pages). Abstract May 4, Paper May 6. Official `neurips_2026.sty` (verified identical to neurips.cc download).
 - **arXiv**: Run `paper/scripts/prepare_arxiv.sh` to uncomment authors and fill URLs.
-- Title: "The Attribution Impossibility: No Feature Ranking Is Faithful, Stable, and Complete Under Collinearity"
+- Universal paper title: "The Universal Explanation Impossibility: No Explanation Is Faithful, Stable, and Decisive Under Underspecification"
+- Attribution paper title: "The Attribution Impossibility: No Feature Ranking Is Faithful, Stable, and Complete Under Collinearity"
 - Authors: Drake Caraker, Bryan Arnold, David Rhoads
 - Companion code: [dash-shap PR #255](https://github.com/DrakeCaraker/dash-shap/pull/255)
 
@@ -140,7 +189,7 @@ make setup         # full setup for new contributors
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 305)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 319)
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.
