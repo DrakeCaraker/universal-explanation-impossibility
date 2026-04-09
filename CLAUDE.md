@@ -6,7 +6,7 @@ Lean 4 formalization of the universal explanation impossibility theorem. Target 
 
 No explanation of an underspecified system can be simultaneously faithful (reflect the system's actual structure), stable (consistent across observationally equivalent configurations), and decisive (commit to a single answer) when the Rashomon property holds. The core theorem (`explanation_impossibility` in `ExplanationSystem.lean`) requires **zero model-specific axioms** — only the Rashomon property as a hypothesis.
 
-This is a **meta-theorem**: it applies uniformly to all eight explanation types — additive attributions (SHAP, IG, LIME), attention maps, counterfactual explanations, concept probes (TCAV), causal discovery (DAGs), model selection, saliency maps (GradCAM), and LLM self-explanations — because each is an instance of the abstract `ExplanationSystem` structure.
+This is a **meta-theorem**: it applies uniformly to all nine explanation types — additive attributions (SHAP, IG, LIME), attention maps, counterfactual explanations, concept probes (TCAV), causal discovery (DAGs), model selection, saliency maps (GradCAM), LLM self-explanations, and mechanistic interpretability (circuit discovery) — because each is an instance of the abstract `ExplanationSystem` structure.
 
 Model-specific instantiations from the companion attribution paper: GBDT has ratio 1/(1-ρ²) → ∞, Lasso has ratio ∞, neural nets have conditional violations, and random forests have bounded O(1/√T) violations. DASH (ensemble averaging) resolves the impossibility for balanced ensembles.
 
@@ -40,7 +40,7 @@ Universal framework (new):
   ConceptInstance.lean          — Concept probe instance (TCAV)
   CausalInstance.lean           — Causal discovery instance (DAG Markov equivalence)
   ModelSelectionInstance.lean   — Model selection instance (Rashomon multiplicity)
-  UniversalImpossibility.lean   — Import hub; documents 8-instance inventory
+  UniversalImpossibility.lean   — Import hub; documents 9-instance inventory
   UniversalResolution.lean      — G-invariant resolution framework; gInvariant_stable
   UniversalDesignSpace.lean     — Universal design space dichotomy (Family A / Family B)
   DASHResolution.lean           — DASH as G-invariant resolution for attributions
@@ -98,9 +98,12 @@ UniversalImpossibility/
   AttentionInstance.lean        — Attention map instance (DistilBERT; 60% flip rate)
   CounterfactualInstance.lean   — Counterfactual explanation instance
   ConceptInstance.lean          — Concept probe instance (TCAV)
-  CausalInstance.lean           — Causal discovery instance (Markov equivalence)
+  CausalInstance.lean           — Causal discovery instance (Markov equivalence; Rashomon Derived)
   ModelSelectionInstance.lean   — Model selection instance (Rashomon multiplicity)
-  UniversalImpossibility.lean   — Import hub; 8-instance inventory
+  MechInterpInstance.lean       — Mechanistic interpretability instance (circuit non-uniqueness; mech_interp_impossibility)
+  MarkovEquivalence.lean        — Derives Rashomon property from Markov equivalence first principles
+  Necessity.lean                — Necessity of Rashomon property (possibility iff no Rashomon)
+  UniversalImpossibility.lean   — Import hub; 9-instance inventory
   UniversalResolution.lean      — G-invariant resolution; gInvariant_stable
   UniversalDesignSpace.lean     — universal_design_space_dichotomy (Family A / B)
   DASHResolution.lean           — DASH as G-invariant resolution for attributions
@@ -119,7 +122,7 @@ paper/
   sections/                   — LaTeX section fragments for universal paper instances
 ```
 
-## Lean State: 70 files, 68 axioms, 338 theorems+lemmas, 0 sorry
+## Lean State: 73 files, 72 axioms, 346 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (68 total)
 
@@ -164,7 +167,7 @@ make setup         # full setup for new contributors
 
 ## Two-Paper Structure
 
-- **Universal paper** (this repo, primary): `paper/universal_impossibility.tex` — The meta-theorem that unifies eight explanation types via the abstract `ExplanationSystem` framework. Target: **JMLR**.
+- **Universal paper** (this repo, primary): `paper/universal_impossibility.tex` — The meta-theorem that unifies nine explanation types via the abstract `ExplanationSystem` framework. Target: **JMLR**.
 - **Companion attribution paper**: `paper/main.tex` (NeurIPS 10pp) and `paper/main_jmlr.tex` (JMLR 54pp) — The attribution-specific impossibility with GBDT/Lasso/NeuralNet instantiations, quantitative bounds, DASH resolution, and empirical experiments.
 
 ## Submission
@@ -189,7 +192,7 @@ make setup         # full setup for new contributors
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 338)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 346)
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.

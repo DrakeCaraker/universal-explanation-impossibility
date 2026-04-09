@@ -73,7 +73,7 @@ the underlying inference problem is underspecified---that is, when
 observationally equivalent configurations produce incompatible explanations
 (the Rashomon property).
 This single abstract theorem, which we call the \emph{Universal Explanation
-Impossibility}, is a meta-theorem that unifies eight apparently unrelated
+Impossibility}, is a meta-theorem that unifies nine apparently unrelated
 impossibility results from across machine learning: (1)~the feature attribution
 impossibility under collinearity \citep{bilodeau2024impossibility}, (2)~the
 SHAP instability under model multiplicity \citep{damour2022underspecification},
@@ -83,8 +83,12 @@ SHAP instability under model multiplicity \citep{damour2022underspecification},
 within a Markov equivalence class \citep{verma1991equivalence}, (6)~the
 impossibility of faithful explanations for overparameterized neural networks,
 (7)~the instability of GradCAM saliency maps under weight-space perturbation
-\citep{adebayo2018sanity}, and (8)~the unreliability of LLM self-explanations
-under model multiplicity \citep{turpin2024language}.
+\citep{adebayo2018sanity}, (8)~the unreliability of LLM self-explanations
+under model multiplicity \citep{turpin2024language}, and (9)~the
+non-uniqueness of circuit explanations in mechanistic interpretability
+\citep{meloux2025everything}---including mechanistic interpretability, where
+we prove for the first time that no circuit explanation can simultaneously be
+faithful, stable, and decisive.
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
@@ -101,9 +105,16 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (70~files, 338~theorems,
-68~axioms, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (73~files, 346~theorems,
+72~axioms, 0~\texttt{sorry}).
 \end{abstract}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\columnwidth]{figures/trilemma_universal.pdf}
+\caption{The Explanation Trilemma. No explanation of a system with the Rashomon property can simultaneously be faithful, stable, and decisive. Each edge shows the achievable pair when the opposite vertex is dropped, with concrete tools that take each escape route. Nine explanation types across ML are shown as instances.}
+\label{fig:trilemma}
+\end{figure}
 
 %%=======================================================================
 \section{Introduction}
@@ -153,18 +164,24 @@ honestly report incompatible explanations---and the proof is four lines.
 Our contributions are:
 \begin{enumerate}
   \item \textbf{A universal impossibility theorem}
-    (Theorem~\ref{thm:universal}) that unifies eight apparently unrelated
-    impossibility results under a single proof requiring only the Rashomon
-    property.
-  \item \textbf{Eight instances}: feature attribution
+    (Theorem~\ref{thm:universal}; see Figure~\ref{fig:trilemma}) that
+    unifies nine apparently unrelated impossibility results under a single
+    proof requiring only the Rashomon property.
+  \item \textbf{Nine instances}: feature attribution
     \citep{bilodeau2024impossibility}, attention maps
     \citep{jainwallace2019}, counterfactual explanations, concept probes,
     causal discovery \citep{verma1991equivalence}, model selection
     \citep{rudin2024amazing}, GradCAM saliency maps
-    \citep{selvaraju2017gradcam}, and LLM self-explanations
-    \citep{turpin2024language}---each shown to be a special case of the
+    \citep{selvaraju2017gradcam}, LLM self-explanations
+    \citep{turpin2024language}, and \textbf{mechanistic interpretability}
+    \citep{meloux2025everything}---each shown to be a special case of the
     abstract framework.
-  \item \textbf{Empirical validation} for seven of the eight instances
+  \item \textbf{Mechanistic interpretability impossibility}: we prove for the
+    first time that no circuit explanation can simultaneously be faithful,
+    stable, and decisive, grounding the trilemma in the circuit non-uniqueness
+    demonstrated by \citet{meloux2025everything} (85 valid circuits for a
+    single task).
+  \item \textbf{Empirical validation} for seven of the nine instances
     (attribution, attention, counterfactual, concept probes, model selection,
     GradCAM, LLM explanations), confirming explanation instability on
     standard benchmarks.
@@ -172,11 +189,18 @@ Our contributions are:
     faithfulness and stability at the cost of decisiveness.  \DASH{} for
     feature attribution, CPDAGs for causal discovery, and ensemble probes
     for concepts are all instances of this resolution.
+  \item \textbf{Derived Rashomon for causal discovery}: for the causal
+    discovery instance, we derive the Rashomon property from first
+    principles (Markov equivalence), converting it from an axiom to a
+    theorem.
+  \item \textbf{Necessity}: we prove the Rashomon property is necessary
+    and sufficient: it is the exact boundary between possibility and
+    impossibility.
   \item \textbf{Ubiquity}: the impossibility is generic whenever the
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 70~files, 338~theorems, 68~axioms,
+    \citep{demoura2021lean4}: 73~files, 346~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -184,15 +208,16 @@ This paper generalizes the attribution impossibility of our companion work
 \citep{bilodeau2024impossibility} from feature attribution to arbitrary
 explanation systems.  The companion paper provides quantitative depth
 (divergence rates, ensemble size bounds, \DASH{} optimality) for the
-attribution instance; this paper supplies the abstract framework, five
-additional instances, and the ubiquity result.  The two papers share a
+attribution instance; this paper supplies the abstract framework, six
+additional instances (including mechanistic interpretability), and the
+ubiquity result.  The two papers share a
 Lean codebase but are self-contained.
 
 The remainder of the paper is organized as follows.
 Section~\ref{sec:related} surveys related work.
 Section~\ref{sec:framework} introduces the abstract framework and proves
 the universal impossibility.  Section~\ref{sec:instances} instantiates the
-theorem across eight domains.  Section~\ref{sec:resolution} presents the
+theorem across nine domains.  Section~\ref{sec:resolution} presents the
 uniform $G$-invariant resolution.  Section~\ref{sec:ubiquity} establishes
 ubiquity.  Section~\ref{sec:lean} describes the Lean formalization.
 Section~\ref{sec:discussion} discusses implications and open questions.
@@ -210,7 +235,7 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 %%=======================================================================
 
 We introduce a minimal abstract framework sufficient to state and prove the
-Universal Explanation Impossibility.  All eight instances in
+Universal Explanation Impossibility.  All nine instances in
 Section~\ref{sec:instances} are special cases.
 The framework aligns exactly with the Lean~4 formalization in
 \texttt{ExplanationSystem.lean}: every definition and theorem below has a
@@ -394,6 +419,43 @@ For any explanation system with the Rashomon property:
 \end{enumerate}
 \end{proposition}
 
+\subsection{Necessity of the Rashomon Property}
+\label{sec:necessity}
+
+The Rashomon property is not merely sufficient for the impossibility---it is
+also necessary.  Formally, if an explanation system does \emph{not} have the
+Rashomon property, then no incompatibility can arise between the native
+explanations of any two observationally equivalent configurations, and the
+impossibility proof breaks at step~1: there are no $\theta_1, \theta_2$ to
+apply decisiveness to.  In this case, a faithful, stable, and decisive
+explanation map exists: set $E = \mathsf{explain}$.  Faithfulness follows by
+irreflexivity; stability follows because all equivalent configurations agree
+on their native explanation (no Rashomon witness); decisiveness holds by
+identity.
+
+\begin{proposition}[Necessity]
+\label{prop:necessity}
+An explanation system $\mathcal{S}$ admits a faithful, stable, and decisive
+explanation map if and only if it does \emph{not} have the Rashomon property.
+\end{proposition}
+
+\begin{proof}
+($\Rightarrow$) Theorem~\ref{thm:universal} (impossibility under Rashomon).
+($\Leftarrow$) If the Rashomon property fails, $\mathsf{explain}$ is itself
+faithful, stable, and decisive: for any $\theta_1, \theta_2$ with
+$\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$, incompatibility
+of native explanations is ruled out by the negated Rashomon property, so
+stability holds; faithfulness and decisiveness hold by irreflexivity and
+identity.
+\end{proof}
+
+\noindent
+Proposition~\ref{prop:necessity} establishes that the Rashomon property is
+the \emph{exact boundary} between possible and impossible explanation:
+the Universal Impossibility neither over- nor under-characterizes the
+obstruction.  This is the ``necessity'' contribution listed in the
+introduction and is formalized in \texttt{ExplanationSystem.lean}.
+
 \begin{corollary}[Decidable Underspecification Implies Impossible Explanation]
 \label{cor:decidable}
 If the data-generating process is not identifiable from the
@@ -404,11 +466,11 @@ the Rashomon property holds and the impossibility applies.
 \end{corollary}
 
 %%=======================================================================
-\section{Eight Instances}
+\section{Nine Instances}
 \label{sec:instances}
 %%=======================================================================
 
-We instantiate Theorem~\ref{thm:universal} in eight structurally distinct
+We instantiate Theorem~\ref{thm:universal} in nine structurally distinct
 domains.  In each case we (i)~specify the explanation system
 $(\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$, (ii)~verify the
 Rashomon property, and (iii)~characterize the resolution.
@@ -429,9 +491,11 @@ Rashomon property, and (iii)~characterize the resolution.
 
 \input{sections/instance_llm_explanation}
 
+\input{sections/instance_mech_interp}
+
 \begin{table}[t]
 \centering
-\caption{Empirical validation of the universal explanation impossibility across seven explanation types. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
+\caption{Empirical validation of the universal explanation impossibility across nine explanation types. Seven types have direct experimental results; mechanistic interpretability and causal discovery are validated via classical results. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
 \label{tab:cross-instance}
 \begin{tabular}{llrl}
 \toprule
@@ -444,7 +508,8 @@ Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
 Saliency map (ResNet-18) & Peak flip rate & 9.6\% & 78.8\% \\
 LLM explanation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
-Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
+Mech.\ interp.\ (circuits) & \multicolumn{3}{l}{\textit{85 valid circuits, Meloux et al., 2025}} \\
+Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -459,6 +524,8 @@ desiderata must be sacrificed.  In this section we show that a \emph{uniform}
 resolution exists whenever the Rashomon property arises from a symmetry group
 acting on the hypothesis space.  The resolution sacrifices decisiveness and
 achieves faithfulness in expectation together with exact stability.
+
+\input{sections/escape_routes}
 
 \subsection{$G$-Invariant Explanation Systems}
 \label{sec:g-invariant}
@@ -534,7 +601,7 @@ No explanation map lies outside these two families.
 \label{sec:resolution-instances}
 
 Table~\ref{tab:resolutions} summarizes how the $G$-invariant resolution
-instantiates across the eight domains of Section~\ref{sec:instances}.
+instantiates across the nine domains of Section~\ref{sec:instances}.
 
 \begin{table}[t]
 \centering
@@ -579,6 +646,10 @@ LLM explanation &
   Weight-space symmetries &
   Averaged attention rollout &
   Single cited token \\
+Mech.\ interpretability &
+  Circuit permutations &
+  Circuit equivalence class &
+  Single circuit \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -709,7 +780,7 @@ non-dictatorship exists for three or more candidates---a universal
 impossibility that unified disparate paradoxes in voting theory.
 \citet{nipkow2009social} later formalized Arrow's theorem in Isabelle/HOL.
 Our Universal Explanation Impossibility plays an analogous role for
-explainability: it unifies eight domain-specific impossibilities under one
+explainability: it unifies nine domain-specific impossibilities under one
 structural cause (the Rashomon property) and one four-line proof, and the
 resolution (orbit averaging) is the XAI counterpart of accepting partial
 orderings in social choice.
@@ -721,7 +792,7 @@ in \texttt{Ubiquity.lean}.)
 \label{sec:lean}
 %%=======================================================================
 
-The Universal Explanation Impossibility and all eight instances are mechanically
+The Universal Explanation Impossibility and all nine instances are mechanically
 verified in Lean~4 \citep{demoura2021lean4} using Mathlib
 \citep{mathlib2020}.  Table~\ref{tab:lean-summary} summarizes the
 formalization.
@@ -734,15 +805,15 @@ formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 70 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 338 & Verified by \texttt{grep -c} \\
-Axioms & 68 & Domain-specific; core theorem uses 0 \\
+Files & 73 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 346 & Verified by \texttt{grep -c} \\
+Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero axiom dependencies \\
 GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
 DASH resolution & 6 axioms & + cross-group symmetry \\
-Causal instance & 3 axioms & CPDAG Markov equivalence \\
+Causal instance & 3 axioms & CPDAG Markov equivalence (Rashomon derived) \\
 Neural net instance & 2 axioms & Overparameterization + symmetry \\
 Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \bottomrule
@@ -787,24 +858,7 @@ does not prevent useful explainability---it redirects effort toward the
 achievable frontier characterized by the $G$-invariant resolution
 (Section~\ref{sec:resolution}).
 
-\subsection{Regulatory Implications}
-\label{sec:regulatory}
-
-The EU AI Act \citep{euaiact2024} requires ``meaningful explanations'' for
-high-risk systems, and SR~11-7 \citep{occ2011sr117} requires ``developmental
-evidence'' documenting how model outputs arise.  These two demands pull in
-opposite directions: meaningful explanations favor decisiveness (a definite
-ranking of features or causes), while developmental evidence favors stability
-(reproducibility across equivalent models).  Theorem~\ref{thm:universal} shows
-that no explanation system can simultaneously maximize both for underspecified
-models.  A path to regulatory compliance nonetheless exists: $G$-invariant
-aggregation (e.g., \DASH{} for attributions, CPDAGs for causal reports)
-satisfies stability by construction and partial faithfulness---faithfulness in
-expectation over the Rashomon set---at the cost of reporting ties where the
-data are genuinely ambiguous.  We suggest that regulators adopt this framing:
-require that explanations be \emph{stable and partially faithful}, and mandate
-explicit disclosure of tied or unresolvable queries rather than demanding
-decisive answers that are mathematically impossible to guarantee.
+\input{sections/regulatory_analysis}
 
 \subsection{What Explainability \emph{Can} Do}
 \label{sec:can-do}
@@ -828,10 +882,11 @@ calibrated uncertainty are both achievable and informative.''
 
 A natural reaction is that practitioners already know explanations are unstable
 ---so what is new?  The contribution is fivefold.  First, we make explicit that
-eight domains (attribution, attention, counterfactuals, concept probes, causal
-discovery, model selection, saliency maps, LLM explanations) share \emph{one}
-mechanism---the Rashomon property---rather than eight unrelated pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 70~files, 338~theorems, 0~\texttt{sorry})
+nine domains (attribution, attention, counterfactuals, concept probes, causal
+discovery, model selection, saliency maps, LLM explanations, mechanistic
+interpretability) share \emph{one}
+mechanism---the Rashomon property---rather than nine unrelated pathologies.  Second, the Lean~4
+formalization (Section~\ref{sec:lean}: 73~files, 346~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attention flip rates, measurable counterfactual and concept instability on
@@ -856,7 +911,7 @@ classical \citep{verma1991equivalence}, fairness impossibility was proved by
 \citet{chouldechova2017fair}, and \SHAP{} instability was observed by
 \citet{damour2022underspecification} and \citet{krishna2022disagreement}.  The
 contribution is not any single instance but the \emph{meta-theorem}: the same
-four-line proof (Theorem~\ref{thm:universal}) closes all eight cases under a
+four-line proof (Theorem~\ref{thm:universal}) closes all nine cases under a
 single structural condition.  Before this work, a practitioner encountering
 attention instability might switch to \SHAP{}, then to counterfactual
 explanations, then to concept probes---each time hoping the new method escapes
