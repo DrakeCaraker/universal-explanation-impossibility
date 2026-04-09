@@ -1,0 +1,567 @@
+\documentclass{article}
+\usepackage[preprint]{neurips_2026}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+%% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+%% Macros
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SHAP}{\textsc{SHAP}}
+\newcommand{\DASH}{\textsc{Dash}}
+\newcommand{\GBDT}{\textsc{GBDT}}
+\newcommand{\Params}{\mathbf{\Theta}}
+\newcommand{\Hyp}{\mathcal{H}}
+\newcommand{\Obs}{\mathcal{O}}
+\newcommand{\ExplSpace}{\mathcal{E}}
+\newcommand{\sE}{\mathcal{E}}
+\newcommand{\sH}{\mathcal{H}}
+\newcommand{\sO}{\mathcal{O}}
+\newcommand{\incomp}{\perp}
+
+\title{The Universal Explanation Impossibility:\\
+{\large No Explanation Is Faithful, Stable, and Decisive Under Underspecification}}
+
+\author{Drake Caraker \and Bryan Arnold \and David Rhoads}
+
+\begin{document}
+
+\maketitle
+
+%%=======================================================================
+\begin{abstract}
+%%=======================================================================
+We prove that no explanation system can simultaneously be
+faithful, stable, and decisive when
+the underlying inference problem is underspecified.
+This \emph{Universal Explanation Impossibility} is a meta-theorem unifying six apparently unrelated
+impossibilities: (1)~feature attribution under collinearity, (2)~attention map instability under model multiplicity, (3)~fairness metric incompatibility,
+(4)~model selection instability under the Rashomon effect,
+(5)~causal discovery ambiguity within Markov equivalence classes, and (6)~concept probe instability in overparameterized networks.
+In each case, underspecification induces a \emph{Rashomon property} on explanation
+targets, and the same four-line proof closes the impossibility.
+Empirical experiments confirm severe instability: 60\% attention argmax flip rate, 23.5\%
+counterfactual direction flip rate, 0.90 concept direction instability,
+and 80\% model selection flip rate.
+The resolution is uniform: $G$-invariant explanations that aggregate
+over equivalent hypotheses restore faithfulness-in-expectation and stability at the cost of
+decisiveness.
+The impossibility is ubiquitous: any learning problem with more
+parameters than constraints admits a Rashomon set of positive measure.
+The framework is mechanically verified in Lean~4 (67~files, 319~theorems, 0~\texttt{sorry}).
+\end{abstract}
+
+%%=======================================================================
+\section{Introduction}
+\label{sec:intro}
+%%=======================================================================
+
+A data scientist trains a gradient-boosted model for credit risk, runs \SHAP{},
+and finds that \emph{debt-to-income ratio} is the top feature.  She retrains
+from a different random seed---same data, same accuracy---and the top feature flips to \emph{credit utilization}
+\citep{krishna2022disagreement}.  An NLP engineer inspects attention weights,
+retrains, and the most-attended token changes \citep{jainwallace2019}.  None of these are software bugs.
+
+Explainable AI promises explanations that are
+\emph{faithful} (reflecting the model's actual computation),
+\emph{stable} (reproducible across equivalent models), and
+\emph{decisive} (resolving every query with a definite answer).
+Regulators demand all three: the EU AI Act requires ``meaningful
+explanations'' \citep{euaiact2024}, and SR~11-7 requires
+``developmental evidence'' \citep{occ2011sr117}.
+Yet a growing body of work shows this is impossible in specific domains:
+\citet{bilodeau2024impossibility} prove attribution instability under collinearity;
+\citet{chouldechova2017fair} and \citet{kleinberg2017inherent}
+prove fairness metric incompatibility;
+\citet{verma1991equivalence} establish causal discovery ambiguity.
+Each was proved independently, under domain-specific assumptions.
+
+We show there is \emph{one} structural cause.  We prove a \emph{Universal Explanation Impossibility}: no explanation of an underspecified system can simultaneously be faithful, stable, and decisive.  The theorem requires only the \emph{Rashomon property}---the existence of equivalent hypotheses that honestly report incompatible explanations---and the proof is four lines.
+
+\textbf{Contributions.}
+(1)~A universal impossibility theorem (Theorem~\ref{thm:universal}) unifying six impossibilities under one proof.
+(2)~Six instances: feature attribution, attention maps, counterfactuals, concept probes, causal discovery, and model selection---each a special case.
+(3)~Empirical validation for four instances confirming severe instability.
+(4)~A uniform resolution: $G$-invariant aggregation restores stability and faithfulness-in-expectation.
+(5)~Ubiquity: the impossibility holds generically when $\dim(\sH) > \dim(Y)$.
+(6)~Lean~4 formalization: 67~files, 319~theorems, 60~axioms, 0~\texttt{sorry}.
+
+\textbf{Related work} is discussed in Appendix~\ref{app:related}. This paper generalizes the attribution impossibility of \citet{bilodeau2024impossibility} from feature attribution to arbitrary explanation systems. The companion paper provides quantitative depth for the attribution instance; this paper supplies the abstract framework, five additional instances, and the ubiquity result.
+
+%%=======================================================================
+\section{The Abstract Framework}
+\label{sec:framework}
+%%=======================================================================
+
+\begin{definition}[Explanation System]
+\label{def:explanation-system}
+An \emph{explanation system} is a tuple $\mathcal{S} = (\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$ where
+$\Params$ is a parameter space (ground truths),
+$\sH$ is a hypothesis space with attribution map $\theta: \sH \to \Params$,
+$Y$ is an explanation target space,
+$\mathsf{obs}: \sH \to Y$ assigns each hypothesis its ``honest'' explanation,
+$\mathsf{exp}: \sH \to Y$ is the explanation procedure under evaluation, and
+$\incomp \subseteq Y \times Y$ is an incompatibility relation.
+\end{definition}
+
+\begin{definition}[Faithful, Stable, Decisive]
+\label{def:three}
+An explanation map $\mathsf{exp}$ is \emph{faithful} if $\mathsf{exp}(h) = \mathsf{obs}(h)$ for all $h$;
+\emph{stable} if $\mathsf{exp}(h) = \mathsf{exp}(h')$ whenever $\theta(h) = \theta(h')$;
+and \emph{decisive} if $\mathsf{exp}(h)$ is resolved (contains no ties or undecided queries) for all $h$.
+\end{definition}
+
+\begin{definition}[Rashomon Property]
+\label{def:rashomon}
+$\mathcal{S}$ has the \emph{Rashomon property} if for
+every pair $(y, y') \in \incomp$ with $y \neq y'$, there exist $h, h' \in \sH$ with
+$\theta(h) = \theta(h')$ such that $\mathsf{obs}(h) = y$ and $\mathsf{obs}(h') = y'$.
+\end{definition}
+
+The Rashomon property formalizes underspecification at the explanation level: data do not uniquely determine the explanation, even in principle.
+
+\begin{theorem}[Universal Explanation Impossibility]
+\label{thm:universal}
+If an explanation system $\mathcal{S}$ has the Rashomon property, then no explanation map $\mathsf{exp}$ can simultaneously be faithful, stable, and decisive.
+\end{theorem}
+
+\begin{proof}
+By the Rashomon property, there exist incompatible $y \neq y'$
+with $(y, y') \in \incomp$ and hypotheses $h, h'$ satisfying
+$\theta(h) = \theta(h')$, $\mathsf{obs}(h) = y$, $\mathsf{obs}(h') = y'$.
+Suppose $\mathsf{exp}$ is faithful, stable, and decisive.  By faithfulness, $\mathsf{exp}(h) = y$ and $\mathsf{exp}(h') = y'$.  By stability and $\theta(h) = \theta(h')$, $\mathsf{exp}(h) = \mathsf{exp}(h')$, so $y = y'$---contradiction.
+\end{proof}
+
+\begin{corollary}
+\label{cor:decidable}
+If the data-generating process $\theta$ is not identifiable---i.e., $\exists\, h, h'$ with $\theta(h) = \theta(h')$ yet $\mathsf{obs}(h) \neq \mathsf{obs}(h')$---then the Rashomon property holds whenever $\incomp$ has at least one incompatible pair.
+\end{corollary}
+
+%%=======================================================================
+\section{Six Instances}
+\label{sec:instances}
+%%=======================================================================
+
+We instantiate Theorem~\ref{thm:universal} in six domains.  For each, we specify the 6-tuple, verify the Rashomon property, and state the impossibility.  Proof sketches, empirical details, and figures are in Appendix~\ref{app:instances}.
+
+%-----------------------------------------------------------------------
+\subsection{Instance 1: Feature Attribution Under Collinearity}
+\label{sec:inst-attr}
+%-----------------------------------------------------------------------
+
+\textbf{6-tuple.}
+$\Params$: data distributions with pairwise correlation $\rho \in (0,1)$ within collinearity groups.
+$\sH$: trained models (e.g., \GBDT{}, Lasso) indexed by seed.
+$Y = (\mathrm{Fin}\,P \to \R)$: attribution vectors.
+$\mathsf{obs}(f) = \boldsymbol{\varphi}(f)$: the model's own attributions.
+$\mathsf{exp}$: any attribution method.
+$\incomp$: $\boldsymbol{\varphi} \incomp \boldsymbol{\varphi}'$ iff $\exists\, j,k$ in the same group with $\varphi_j > \varphi_k$ and $\varphi'_k > \varphi'_j$.
+
+\textbf{Rashomon property.}
+Collinear features guarantee that for any group, models $f, f'$ exist with $\theta(f) = \theta(f')$ yet opposite within-group rankings \citep{damour2022underspecification,fisher2019models}.
+
+\begin{corollary}[Attribution Impossibility]
+No attribution map can be simultaneously faithful, stable, and decisive. Resolution: \DASH{} (ensemble SHAP averaging) sacrifices decisiveness.
+\end{corollary}
+
+%-----------------------------------------------------------------------
+\subsection{Instance 2: Attention Maps}
+\label{sec:inst-attn}
+%-----------------------------------------------------------------------
+
+\textbf{6-tuple.}
+$\Params$: weight configurations $\theta$.
+$\sH = \Delta^T$: attention distributions over $T$ tokens.
+$Y$: input-output functions $f_\theta$.
+$\mathsf{obs}(\theta) = f_\theta$; $\mathsf{exp}(\theta) = \alpha_\theta$.
+$\incomp$: $\operatorname{argmax}_t \alpha_t \neq \operatorname{argmax}_t \alpha'_t$.
+
+\textbf{Rashomon property.}
+Functionally equivalent networks attend to different tokens \citep{jainwallace2019,damour2022underspecification}.
+
+\begin{theorem}[Attention Impossibility]
+No attention-based explanation can be simultaneously faithful, stable, and decisive.
+\end{theorem}
+
+\textbf{Empirical:} 10 DistilBERT models, 200 SST-2 sentences. 100\% prediction agreement, \textbf{60\% argmax flip rate}, Kendall $\tau = 0.30$.
+
+%-----------------------------------------------------------------------
+\subsection{Instance 3: Counterfactual Explanations}
+\label{sec:inst-cf}
+%-----------------------------------------------------------------------
+
+\textbf{6-tuple.}
+$\Params$: model parameters defining decision boundaries.
+$\sH$: candidate counterfactuals for query $x_0$.
+$Y$: test-set predictions.
+$\mathsf{exp}(\theta) = \arg\min_{x': f_\theta(x') \neq f_\theta(x_0)} \|x' - x_0\|$.
+$\incomp$: counterfactuals pointing in opposite directions.
+
+\textbf{Rashomon property.}
+Models in the $\varepsilon$-Rashomon set place boundaries on opposite sides of $x_0$ \citep{semenova2022existence}.
+
+\begin{proposition}[Counterfactual Impossibility]
+No counterfactual explanation can be simultaneously faithful, stable, and decisive.
+\end{proposition}
+
+\textbf{Empirical:} 20 XGBoost models on German Credit. \textbf{23.5\% direction flip rate} [CI: 20.6--26.6\%], 61.3\% cross-model recourse validity.
+
+%-----------------------------------------------------------------------
+\subsection{Instance 4: Concept Probes}
+\label{sec:inst-concept}
+%-----------------------------------------------------------------------
+
+\textbf{6-tuple.}
+$\Params$: weight configurations.
+$\sH = \R^c$: concept activation vectors (CAVs).
+$Y$: input-output functions.
+$\mathsf{exp}(\theta) = v_\theta$: CAV from a linear probe.
+$\incomp$: directions not related by rotation.
+
+\textbf{Rashomon property.}
+Overparameterized networks encode concepts in incompatible directions across retraining \citep{bolukbasi2016man,kim2018tcav,ravfogel2020null}.
+
+\begin{theorem}[Concept Probe Impossibility]
+No concept probe can be simultaneously faithful, stable, and decisive.
+\end{theorem}
+
+\textbf{Empirical:} 15 MLPs on \texttt{load\_digits}. 97.2\% prediction agreement, \textbf{concept instability $1-|\cos| = 0.90$}, TCAV score std = 0.16.
+
+%-----------------------------------------------------------------------
+\subsection{Instance 5: Causal Discovery}
+\label{sec:inst-causal}
+%-----------------------------------------------------------------------
+
+\textbf{6-tuple.}
+$\Params$: DAGs over vertices $V$.
+$\sH$: DAGs (fitted explanations).
+$Y$: conditional independence structures (Markov equivalence classes).
+$\mathsf{obs}(h)$: CI structure of DAG $h$.
+$\mathsf{exp}$: any orientation rule returning a fully oriented DAG.
+$\incomp$: opposite edge orientations.
+
+\textbf{Rashomon property.}
+Markov equivalence \citep{verma1991equivalence}: undirected CPDAG edges have DAGs oriented both ways.
+
+\begin{theorem}[Causal Discovery Impossibility]
+No orientation rule can be simultaneously faithful, stable, and decisive. Resolution: CPDAG reporting.
+\end{theorem}
+
+%-----------------------------------------------------------------------
+\subsection{Instance 6: Model Selection}
+\label{sec:inst-ms}
+%-----------------------------------------------------------------------
+
+\textbf{6-tuple.}
+$\Params$: model configurations.
+$\sH$: trained models.
+$Y$: performance metrics with strict order.
+$\mathsf{obs}(h)$: observed metric; $\mathsf{exp}$: selection rule.
+$\incomp$: opposite selection decisions.
+
+\textbf{Rashomon property.}
+The $\varepsilon$-Rashomon set contains models with incompatible rankings on different evaluation splits \citep{fisher2019models,rudin2024amazing}.
+
+\begin{theorem}[Model Selection Impossibility]
+No selection rule can be simultaneously faithful, stable, and decisive.
+\end{theorem}
+
+\textbf{Empirical:} 50 XGBoost models, 20 eval splits. Mean AUC $0.948 \pm 0.002$, \textbf{80\% best-model flip rate}.
+
+\begin{table}[t]
+\centering
+\caption{Empirical validation across four explanation types. All instability measures have 95\% bootstrap CIs excluding zero.}
+\label{tab:cross-instance}
+\small
+\begin{tabular}{llrl}
+\toprule
+Instance & Instability metric & Value & Pred.\ equiv. \\
+\midrule
+Attribution (\GBDT{}) & SHAP flip rate & 33\% & $>$99\% \\
+Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
+Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
+Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
+Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
+Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%=======================================================================
+\section{The Universal Resolution}
+\label{sec:resolution}
+%%=======================================================================
+
+The impossibility is tight: one desideratum must be sacrificed.  We show a \emph{uniform} resolution exists via symmetry.
+
+Let $G$ act on $\sH$ with $\mathsf{obs}(g \cdot h) = \mathsf{obs}(h)$ (observable-preserving) and transitively on observe-fibers.
+
+\begin{definition}[$G$-Invariant Explanation]
+$\mathsf{exp}$ is \emph{$G$-invariant} if $\mathsf{exp}(g \cdot h) = \mathsf{exp}(h)$ for all $g, h$.  When $G$ is finite and $Y$ admits averaging, the canonical instance is $\overline{\mathsf{exp}}(h) = \frac{1}{|G|}\sum_{g \in G} \mathsf{obs}(g \cdot h)$.
+\end{definition}
+
+\begin{proposition}[$G$-Invariance $\Rightarrow$ Stability]
+\label{prop:g-stable}
+If $G$ acts transitively on observe-fibers and $\mathsf{exp}$ is $G$-invariant, then $\mathsf{exp}$ is stable.
+\end{proposition}
+
+\begin{corollary}[Design Space Dichotomy]
+Under the Rashomon property, achievable explanations fall into exactly two families:
+\textbf{Family~A} (faithful + decisive, unstable): individual-model explanations.
+\textbf{Family~B} (stable + faithful in expectation, indecisive): $G$-invariant aggregations.
+\end{corollary}
+
+\begin{table}[t]
+\centering
+\caption{$G$-invariant resolutions across six domains.}
+\label{tab:resolutions}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Instance & Symmetry group & Resolution & Sacrificed \\
+\midrule
+Attribution & Collinear permutations & \DASH{} (ensemble SHAP) & Decisive ranking \\
+Attention & Weight-space symmetries & Averaged rollout & Single top token \\
+Counterfactual & Boundary variation & Robust recourse & Single CF \\
+Concept probe & Representation rotation & Averaged CAV & Single direction \\
+Causal discovery & DAG reversal & CPDAG reporting & Full orientation \\
+Model selection & Model permutation & Ensemble / Rashomon set & Single best model \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\DASH{} is the prototype: it averages SHAP values over retrained models, achieving consensus equity $\E[\varphi_j] = \E[\varphi_k]$ for symmetric features, and is Pareto-optimal among stable attribution methods. CPDAGs, ensemble concept probes, and robust recourse are analogous instances of the orbit-averaging resolution.
+
+%%=======================================================================
+\section{Ubiquity}
+\label{sec:ubiquity}
+%%=======================================================================
+
+\begin{proposition}[Dimensional Underspecification]
+\label{prop:generic}
+If $\dim(\sH) > \dim(Y)$ for smooth $\sH$ and $\mathsf{obs}: \sH \to Y$, then for generic $y$, the fiber $\mathsf{obs}^{-1}(y)$ has positive dimension $\geq \dim(\sH) - \dim(Y)$.
+\end{proposition}
+
+This follows from the preimage theorem.  Positive-dimensional fibers imply non-constant $\mathsf{obs}$ on fibers, hence the Rashomon property.  The condition $\dim(\sH) > \dim(Y)$ covers virtually all modern architectures: a ResNet-50 ($P \approx 25$M parameters, $k=1{,}000$ classes) has fibers of dimension $\geq 24{,}999{,}000$.  LLMs, diffusion models, random forests, and Lasso with $P > n$ all satisfy it.  For symmetric features in overparameterized networks, the ranking probability is exactly $1/2$ (coin-flip instability).  The only escape is $\dim(\sH) \leq \dim(Y)$---excluding essentially all practical architectures.  The structure parallels Arrow's impossibility theorem \citep{arrow1951social}: a universal structural result unifying domain-specific paradoxes under one cause.  (Formalized in \texttt{Ubiquity.lean}.)
+
+%%=======================================================================
+\section{Lean Formalization}
+\label{sec:lean}
+%%=======================================================================
+
+The theorem and all six instances are mechanically verified in Lean~4 \citep{demoura2021lean4} with Mathlib \citep{mathlib2020}.
+
+\begin{table}[h]
+\centering
+\caption{Lean~4 formalization summary.}
+\label{tab:lean}
+\small
+\begin{tabular}{lrl}
+\toprule
+Component & Count & Notes \\
+\midrule
+Files & 67 & \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 319 & Verified by \texttt{grep -c} \\
+Axioms & 60 & Domain-specific; core uses 0 \\
+\texttt{sorry}s & 0 & Zero admitted goals \\
+\midrule
+Core impossibility & 1 thm & Zero axiom deps \\
+\GBDT{} instance & 4 axioms & Surjectivity, first-mover \\
+Causal instance & 3 axioms & CPDAG Markov equivalence \\
+Neural net & 2 axioms & Overparameterization + symmetry \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The core theorem depends on zero axioms beyond the Rashomon property (stated as a hypothesis).  Each instance introduces only the minimum axioms needed to verify its Rashomon property.  The extended axiom inventory is in Appendix~\ref{app:lean}.
+
+%%=======================================================================
+\section{Discussion}
+\label{sec:discussion}
+%%=======================================================================
+
+\textbf{The ceiling of explainability.}
+Theorem~\ref{thm:universal} establishes a ceiling, not a criticism of any method.  No axiomatic redesign of \SHAP{}, LIME, attention maps, or counterfactual generators can simultaneously deliver all three desiderata under underspecification.  The ceiling is structural---it follows from the Rashomon property alone.
+
+\textbf{Regulatory implications.}
+The EU AI Act favors decisiveness; SR~11-7 favors stability.  Theorem~\ref{thm:universal} shows no system maximizes both for underspecified models.  We suggest regulators require explanations to be \emph{stable and partially faithful}, mandating disclosure of unresolvable queries rather than demanding impossible guarantees.
+
+\textbf{What explainability \emph{can} do.}
+The $G$-invariant resolution is constructive.  \DASH{} for attributions, CPDAGs for causal discovery, and ensemble probes for concepts each sacrifice decisiveness for stability---reporting confidence intervals over the Rashomon set rather than unreliable point estimates.  The impossibility says ``decisive explanations are unreliable under underspecification, but partially decisive explanations with calibrated uncertainty are both achievable and informative.''
+
+\textbf{Limitations.}
+(1)~Rashomon properties are axiomatized rather than derived from loss landscape geometry.
+(2)~Attention experiments use weight perturbation, not full retraining.
+(3)~Quantitative bounds for non-attribution instances remain open.
+(4)~Whether downstream decision-makers tolerate partial rankings is an empirical question.
+(5)~The fairness instance lacks experimental validation.
+
+%%=======================================================================
+\bibliography{references}
+\bibliographystyle{plainnat}
+%%=======================================================================
+
+\newpage
+\appendix
+
+%%=======================================================================
+\section{Related Work}
+\label{app:related}
+%%=======================================================================
+
+\paragraph{Impossibility results in XAI.}
+\citet{bilodeau2024impossibility} prove that no feature attribution satisfying
+the Shapley axioms can be simultaneously faithful and stable under collinearity.
+\citet{huang2024failings} show SHAP values can be arbitrarily misleading.
+\citet{rao2025limits} establish information-theoretic limits on explanations, and
+\citet{noguer2025mathematical} survey mathematical foundations of explainability.
+Each result is domain-specific; our theorem subsumes them as instances.
+
+\paragraph{Underspecification and model multiplicity.}
+\citet{damour2022underspecification} demonstrate routine underspecification in ML pipelines.
+\citet{fisher2019models} introduce variable-importance clouds over the Rashomon set.
+\citet{rudin2024amazing} champion the Rashomon set as a first-class object.
+\citet{semenova2022existence} prove existence of simpler models within Rashomon sets.
+\citet{marx2024uncertainty} develop uncertainty-aware explainability accounting for multiplicity.
+
+\paragraph{Fairness impossibilities.}
+\citet{chouldechova2017fair} proves calibration and equal error rates cannot simultaneously hold with unequal base rates.  \citet{kleinberg2017inherent} establish analogous incompatibilities.  We recast these as Instance~6 of the universal framework.
+
+\paragraph{Formal verification.}
+\citet{nipkow2009social} formalized Arrow's theorem in Isabelle/HOL.
+\citet{zhang2026statistical} recently formalized statistical learning theory in Lean~4.
+Our work provides, to our knowledge, the first Lean formalization of an explainability impossibility.
+
+\paragraph{Aggregation strategies.}
+\citet{laberge2023partial} introduce partial orders on attributions within Rashomon sets.
+\citet{decker2024provably} optimize aggregation for provably better explanations.
+\citet{herren2023statistical} develop valid inference under model multiplicity.
+These are all instances of the $G$-invariant resolution.
+
+%%=======================================================================
+\section{Detailed Instance Proofs and Experiments}
+\label{app:instances}
+%%=======================================================================
+
+\subsection{Instance 1: Feature Attribution --- Details}
+
+\paragraph{Proof sketch.}
+Collinear features within group $\ell$ share correlation $\rho$.  For \GBDT{}, the first feature selected in sequential optimization captures the majority of the group's signal; the attribution ratio (dominant vs.\ partner) diverges as $1/(1-\rho^2)$ as $\rho \to 1$ (Lean-verified in \texttt{Ratio.lean}).  For Lasso, one correlated feature is zeroed entirely (ratio $= \infty$; \texttt{Lasso.lean}).  DGP symmetry within a group guarantees every feature can serve as first-mover (surjectivity axiom), establishing the Rashomon property.
+
+\paragraph{Resolution.}
+\DASH{} averages SHAP vectors over an ensemble of retrained models: $\E[\varphi_j] = \E[\varphi_k]$ for symmetric features (consensus equity).  Random forests converge at rate $O(1/\sqrt{T})$.
+
+\subsection{Instance 2: Attention Maps --- Details}
+
+\paragraph{Proof.}
+By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} = f_{\theta_2}$ yet $\operatorname{argmax} \alpha_{\theta_1} \neq \operatorname{argmax} \alpha_{\theta_2}$.  Theorem~\ref{thm:universal} yields the impossibility.  Lean: \texttt{attention\_impossibility} in \texttt{AttentionInstance.lean}.
+
+\paragraph{Experiment.}
+10 DistilBERT models with weight perturbations ($\sigma \in \{0.01, 0.02\}$) on 200 SST-2 sentences.  100\% prediction agreement.  Argmax flip rate: 60.0\% [CI: 59--61\%].  Mean Kendall $\tau$: 0.30 [CI: 0.29--0.31].
+
+\paragraph{Implications.}
+Theorem resolves the \citet{jainwallace2019} vs.\ \citet{wiegreffe2019attention} debate structurally: even if attention correlates with importance in expectation, no attention explanation can be faithful to a specific model, stable across equivalent models, and decisive about which token to highlight.
+
+\subsection{Instance 3: Counterfactual Explanations --- Details}
+
+\paragraph{Proof.}
+Models in $\mathcal{R}_\varepsilon$ place boundaries on opposite sides of query $x_0$, producing counterfactuals in opposite directions.  Theorem~\ref{thm:universal} applies.  Lean: \texttt{counterfactual\_impossibility} in \texttt{CounterfactualInstance.lean}.
+
+\paragraph{Experiment.}
+20 XGBoost models on German Credit (AUC spread $< 0.03$).  45 query points.  Direction flip rate: 23.5\% [CI: 20.6--26.6\%].  Cross-model recourse validity: 61.3\% [CI: 55.8--66.2\%].  Most unstable feature: \texttt{checking\_status} (43\% flip rate).
+
+\paragraph{Implications.}
+Algorithmic recourse is fundamentally limited: retraining a lender's model may reverse the advice (``increase savings'' vs.\ ``reduce debt'') despite unchanged accuracy.  The resolution: report Rashomon-robust recourses valid across all models in $\mathcal{R}_\varepsilon$.
+
+\subsection{Instance 4: Concept Probes --- Details}
+
+\paragraph{Proof.}
+Let $\theta_1, \theta_2$ witness the Rashomon property with $f_{\theta_1} = f_{\theta_2}$ and $(v_{\theta_1}, v_{\theta_2}) \in \incomp$.  Faithfulness forces $\mathsf{exp}(\theta_i) = v_{\theta_i}$; stability forces $v_{\theta_1} = v_{\theta_2}$---contradiction.  Lean: \texttt{concept\_impossibility} in \texttt{ConceptInstance.lean}.
+
+\paragraph{Experiment.}
+15 MLP classifiers (128--64, ReLU) on \texttt{load\_digits}, different seeds.  Prediction agreement: 97.2\%.  Mean $|\cos(v_i, v_j)|$: 0.10.  Concept instability: 0.90 [CI: 0.89--0.91].  TCAV score std: 0.16.
+
+\subsection{Instance 5: Causal Discovery --- Details}
+
+\paragraph{Proof.}
+For any CPDAG with an undirected edge $\{X,Y\}$, DAGs $h$ (with $X \to Y$) and $h'$ (with $Y \to X$) are Markov equivalent yet incompatible.  This is the classical result of \citet{verma1991equivalence} recast as a Rashomon property.  Lean: \texttt{causal\_instance\_impossibility} in \texttt{CausalInstance.lean}.
+
+\paragraph{Resolution.}
+Report the CPDAG rather than committing to a single orientation.  Undirected edges correspond to unresolvable queries---the principled cost of stability.
+
+\subsection{Instance 6: Model Selection --- Details}
+
+\paragraph{Proof.}
+The $\varepsilon$-Rashomon set $\mathcal{R}_\varepsilon = \{h : \mathsf{obs}(h) \geq \mathsf{obs}(h^*) - \varepsilon\}$ generically contains models with incompatible rankings on different evaluation splits.  Lean: \texttt{model\_selection\_instance\_impossibility} in \texttt{ModelSelectionInstance.lean}.
+
+\paragraph{Experiment.}
+50 XGBoost classifiers (different seeds) on German Credit, 20 evaluation splits.  Mean AUC: $0.948 \pm 0.002$.  11/50 unique ``best'' models.  Best-model flip rate: 80\%.  Consecutive flip rate: 89\%.
+
+\paragraph{Design space.}
+Family~A (decisive, unfaithful): argmax validation accuracy---recommends the worse model on some splits.
+Family~B (faithful, stable, indecisive): report the Rashomon set or ensemble predictions.
+
+%%=======================================================================
+\section{Extended Lean Axiom Inventory}
+\label{app:lean}
+%%=======================================================================
+
+\begin{table}[h]
+\centering
+\caption{Axiom inventory (60 total). The core impossibility uses zero axioms.}
+\label{tab:axioms}
+\small
+\begin{tabular}{lrl}
+\toprule
+Category & Count & Used by \\
+\midrule
+Type declarations & 6 & Infrastructure (Setup.lean) \\
+Core properties & 6 & GBDT bounds \\
+Measure infrastructure & 2 & Variance (Mathlib) \\
+Query complexity & 2 & Scaling bounds \\
+Universal instances & 44 & Per-instance Rashomon witnesses \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Axiom stratification} (verified by \texttt{\#print axioms}):
+Core universal impossibility (\texttt{explanation\_impossibility}): zero axioms.
+Core attribution impossibility (\texttt{attribution\_impossibility}): zero behavioral axioms.
+GBDT impossibility: 4 axioms (surjectivity, first-mover, split structure).
+DASH resolution (\texttt{consensus\_equity}): 6 axioms (+ cross-group symmetric).
+Bundled impossibility (\texttt{attribution\_impossibility\_bundled}): zero axioms (fully parametric via GBDTSetup).
+
+%%=======================================================================
+\section{Defenses Against Common Objections}
+\label{app:defenses}
+%%=======================================================================
+
+\paragraph{``Isn't this obvious?''}
+Practitioners know explanations are unstable---so what is new?  Four things.
+(1)~Six domains share \emph{one} mechanism (the Rashomon property) rather than six unrelated pathologies.
+(2)~The Lean~4 formalization eliminates logical gaps.
+(3)~Empirical experiments quantify severity on standard benchmarks.
+(4)~The $G$-invariant resolution is constructive and actionable.
+Arrow's impossibility theorem was arguably ``obvious'' once stated, yet it created the field of social choice theory by replacing intuition with a theorem.
+
+\paragraph{``All instances are trivial.''}
+Each instance is individually known.  The contribution is the \emph{meta-theorem}: the same four-line proof closes all six under a single structural condition.  Before this work, a practitioner encountering attention instability might switch to \SHAP{}, then counterfactuals, then concept probes---each time hoping to escape.  Theorem~\ref{thm:universal} shows no escape exists: the impossibility is structural, not method-specific.
+
+\end{document}

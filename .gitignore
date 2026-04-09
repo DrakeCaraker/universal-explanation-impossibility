@@ -17,10 +17,12 @@ lake-packages/
 *.fdb_latexmk
 *.synctex.gz
 *.toc
-paper/main.pdf
-paper/main_jmlr.pdf
-paper/main_definitive.pdf
-paper/supplement.pdf
+
+# Universal paper build artifacts
+paper/universal_impossibility.pdf
+paper/universal_impossibility_monograph.pdf
+paper/universal_impossibility_jmlr.pdf
+paper/universal_impossibility_neurips.pdf
 paper/submission/
 
 # Claude Code / Alfred

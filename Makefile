@@ -1,4 +1,4 @@
-# Attribution Impossibility — Build System
+# Universal Explanation Impossibility — Build System
 # Usage: make help
 
 SHELL := /bin/bash
@@ -14,36 +14,33 @@ lean: ## Build all Lean 4 files (~5 min)
 
 PAPER_DIR := paper
 
-.PHONY: neurips jmlr definitive paper
+.PHONY: paper monograph jmlr neurips all-papers
 
-neurips: ## Compile NeurIPS version (10 pages)
-	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode main.tex && \
-		bibtex main && pdflatex -interaction=nonstopmode main.tex && \
-		pdflatex -interaction=nonstopmode main.tex
-	@echo "NeurIPS: $$(pdfinfo $(PAPER_DIR)/main.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
+paper: ## Build the primary universal paper (JMLR target)
+	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode universal_impossibility.tex && \
+		bibtex universal_impossibility && pdflatex -interaction=nonstopmode universal_impossibility.tex && \
+		pdflatex -interaction=nonstopmode universal_impossibility.tex
+	@echo "Universal paper: $$(pdfinfo $(PAPER_DIR)/universal_impossibility.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
 
-jmlr: ## Compile JMLR version (50 pages)
-	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode main_jmlr.tex && \
-		bibtex main_jmlr && pdflatex -interaction=nonstopmode main_jmlr.tex && \
-		pdflatex -interaction=nonstopmode main_jmlr.tex
-	@echo "JMLR: $$(pdfinfo $(PAPER_DIR)/main_jmlr.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
+monograph: ## Build the monograph / arXiv definitive version
+	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode universal_impossibility_monograph.tex && \
+		bibtex universal_impossibility_monograph && pdflatex -interaction=nonstopmode universal_impossibility_monograph.tex && \
+		pdflatex -interaction=nonstopmode universal_impossibility_monograph.tex
+	@echo "Monograph: $$(pdfinfo $(PAPER_DIR)/universal_impossibility_monograph.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
 
-definitive: ## Compile definitive version (59 pages)
-	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode main_definitive.tex && \
-		bibtex main_definitive && pdflatex -interaction=nonstopmode main_definitive.tex && \
-		pdflatex -interaction=nonstopmode main_definitive.tex
-	@echo "Definitive: $$(pdfinfo $(PAPER_DIR)/main_definitive.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
+jmlr: ## Build the JMLR submission version
+	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode universal_impossibility_jmlr.tex && \
+		bibtex universal_impossibility_jmlr && pdflatex -interaction=nonstopmode universal_impossibility_jmlr.tex && \
+		pdflatex -interaction=nonstopmode universal_impossibility_jmlr.tex
+	@echo "JMLR: $$(pdfinfo $(PAPER_DIR)/universal_impossibility_jmlr.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
 
-supplement: ## Compile supplement (76 pages)
-	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode supplement.tex && \
-		bibtex supplement && pdflatex -interaction=nonstopmode supplement.tex && \
-		pdflatex -interaction=nonstopmode supplement.tex
-	@echo "Supplement: $$(pdfinfo $(PAPER_DIR)/supplement.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
+neurips: ## Build the NeurIPS 2026 version
+	cd $(PAPER_DIR) && pdflatex -interaction=nonstopmode universal_impossibility_neurips.tex && \
+		bibtex universal_impossibility_neurips && pdflatex -interaction=nonstopmode universal_impossibility_neurips.tex && \
+		pdflatex -interaction=nonstopmode universal_impossibility_neurips.tex
+	@echo "NeurIPS: $$(pdfinfo $(PAPER_DIR)/universal_impossibility_neurips.pdf 2>/dev/null | grep Pages | awk '{print $$2}') pages"
 
-paper: neurips jmlr definitive supplement ## Compile all paper versions
-
-arxiv: ## Prepare arXiv preprint
-	cd $(PAPER_DIR) && bash scripts/prepare_arxiv.sh
+all-papers: monograph jmlr neurips ## Build all paper versions
 
 # ─── Verification ──────────────────────────────────────────────
 
@@ -54,8 +51,9 @@ counts: ## Show current theorem/axiom/sorry/file counts
 	@echo "Axioms:          $$(grep -c '^axiom' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
 	@echo "Sorry:           $$(grep -rc 'sorry' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
 	@echo "Files:           $$(ls UniversalImpossibility/*.lean | wc -l | tr -d ' ')"
+	@echo "Expected:        67 files / 319 theorems+lemmas / 60 axioms / 0 sorry"
 
-verify: counts ## Verify Lean builds + counts are consistent
+verify: counts ## Verify Lean builds + counts are consistent (target: 67/319/60/0)
 	@echo ""
 	@echo "--- Verifying Lean build ---"
 	lake build
@@ -70,21 +68,15 @@ verify: counts ## Verify Lean builds + counts are consistent
 SCRIPTS_DIR := paper/scripts
 FIGURES_DIR := paper/figures
 
-.PHONY: validate validate-quick experiments
+.PHONY: experiments validate validate-quick
 
-# Core validation scripts (run these for co-author review)
+experiments: ## Run all universal experiments (run_all_universal_experiments.py)
+	python3 $(SCRIPTS_DIR)/run_all_universal_experiments.py
+
 validate: ## Run 3 key validation experiments (~5 min)
 	python3 $(SCRIPTS_DIR)/validate_ratio.py
 	python3 $(SCRIPTS_DIR)/cross_implementation_validation.py
 	python3 $(SCRIPTS_DIR)/snr_calibration.py
-
-# All experiment scripts
-experiments: ## Run ALL experiment scripts (~30 min)
-	@for script in $(SCRIPTS_DIR)/*.py; do \
-		echo "=== Running $$(basename $$script) ==="; \
-		python3 "$$script" || echo "FAILED: $$script"; \
-		echo ""; \
-	done
 
 # Quick mode: skip scripts whose output figures are newer than the script
 validate-quick: ## Run only experiments with stale outputs
@@ -130,7 +122,7 @@ setup-python: ## Install Python dependencies only
 
 .PHONY: all clean
 
-all: lean paper verify ## Build everything and verify
+all: lean all-papers verify ## Build everything and verify
 
 clean: ## Remove LaTeX build artifacts
 	cd $(PAPER_DIR) && rm -f *.aux *.log *.out *.bbl *.blg *.fls *.fdb_latexmk *.synctex.gz *.toc

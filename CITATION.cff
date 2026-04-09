@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this formalization, please cite it as below."
-title: "The Attribution Impossibility: No Feature Ranking Is Faithful, Stable, and Complete Under Collinearity — Lean 4 Formalization"
+title: "The Universal Explanation Impossibility"
 type: software
 authors:
   - given-names: Drake
@@ -15,27 +15,29 @@ authors:
     family-names: Rhoads
     email: drhoads9@gmail.com
     orcid: "https://orcid.org/0009-0005-3015-5948"
-repository-code: "https://github.com/DrakeCaraker/dash-impossibility-lean"
-url: "https://github.com/DrakeCaraker/dash-impossibility-lean"
+repository-code: "https://github.com/DrakeCaraker/universal-explanation-impossibility"
+url: "https://github.com/DrakeCaraker/universal-explanation-impossibility"
 abstract: >-
-  Lean 4 formalization of the Attribution Impossibility: no feature
-  ranking can be simultaneously faithful, stable, and complete when
-  features are collinear. 305 type-checked theorems from 16 axioms
-  with 0 sorry across 54 files. Includes the core impossibility
-  (zero axiom dependencies), architecture-discriminating bounds
-  (GBDT, Lasso, neural networks), DASH resolution with Pareto
-  optimality, the Symmetric Bayes Dichotomy, and quantitative
-  results (Pr(unfaithfulness) = 1/2, Var(consensus) = sigma^2/M,
-  binary quantizer fraction 2/pi, Chebyshev query complexity).
+  Lean 4 formalization of the Universal Explanation Impossibility: no
+  explanation of an underspecified system can be simultaneously faithful,
+  stable, and decisive when the Rashomon property holds. The core theorem
+  (explanation_impossibility) carries zero axiom dependencies and is
+  instantiated across six explanation types — additive attributions
+  (SHAP, IG, LIME), attention maps, counterfactual explanations, concept
+  probes (TCAV), causal discovery (DAGs), and model selection. 319
+  type-checked theorems+lemmas from 60 axioms with 0 sorry across 67
+  files. Includes a constructive resolution via G-invariant aggregation
+  and universal design space dichotomy (Family A / Family B).
 keywords:
-  - feature attribution
+  - explainability
   - impossibility theorem
-  - Shapley values
-  - SHAP
+  - Rashomon effect
   - Lean 4
   - formal verification
-  - Rashomon effect
-  - ensemble methods
+  - feature attribution
+  - SHAP
+  - causal discovery
+  - model selection
 license: Apache-2.0
 version: "1.0.0"
 date-released: "2026-04-06"

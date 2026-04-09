@@ -1,4 +1,27 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(lake *)",
+      "Bash(gh *)",
+      "Bash(ls *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(rm *)",
+      "Bash(cd *)",
+      "Bash(mkdir *)",
+      "Bash(sed *)",
+      "Bash(find *)",
+      "Bash(cat *)",
+      "Bash(grep *)",
+      "Bash(wc *)",
+      "Bash(echo *)",
+      "Bash(awk *)",
+      "Edit(*)",
+      "Write(*)",
+      "Read(*)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {

@@ -100,17 +100,27 @@
     {
       "session_number": 10,
       "date": "2026-04-08",
-      "duration_bucket": "medium",
+      "duration_bucket": "long",
       "branch_type": "main",
       "commands_used": [],
       "graduated_this_session": [],
-      "feedback_memory_count": 4,
+      "feedback_memory_count": 0,
+      "bookmark_saved": false
+    },
+    {
+      "session_number": 11,
+      "date": "2026-04-09",
+      "duration_bucket": "long",
+      "branch_type": "main",
+      "commands_used": [],
+      "graduated_this_session": [],
+      "feedback_memory_count": 0,
       "bookmark_saved": false
     }
   ],
   "aggregates": {
-    "total_sessions": 10,
+    "total_sessions": 11,
     "total_patterns_graduated": 8,
-    "days_active": 10
+    "days_active": 11
   }
 }

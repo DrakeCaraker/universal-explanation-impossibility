@@ -1,6 +1,6 @@
 {
-  "title": "The Attribution Impossibility: No Feature Ranking Is Faithful, Stable, and Complete Under Collinearity — Lean 4 Formalization",
-  "description": "Lean 4 formalization proving that no feature ranking can be simultaneously faithful, stable, and complete when features are collinear. 305 type-checked theorems from 16 axioms with 0 sorry across 54 files.",
+  "title": "The Universal Explanation Impossibility",
+  "description": "Lean 4 formalization proving that no explanation of an underspecified system can be simultaneously faithful, stable, and decisive when the Rashomon property holds. The core theorem (explanation_impossibility) carries zero axiom dependencies and is instantiated across six explanation types: additive attributions (SHAP, IG, LIME), attention maps, counterfactual explanations, concept probes (TCAV), causal discovery (DAGs), and model selection. 319 type-checked theorems+lemmas from 60 axioms with 0 sorry across 67 files.",
   "upload_type": "software",
   "creators": [
     {
@@ -20,20 +20,21 @@
     }
   ],
   "keywords": [
-    "feature attribution",
+    "explainability",
     "impossibility theorem",
-    "Shapley values",
-    "SHAP",
+    "Rashomon effect",
     "Lean 4",
     "formal verification",
-    "Rashomon effect",
-    "ensemble methods"
+    "feature attribution",
+    "SHAP",
+    "causal discovery",
+    "model selection"
   ],
   "license": {"id": "Apache-2.0"},
   "related_identifiers": [
     {
-      "identifier": "https://github.com/DrakeCaraker/dash-shap",
-      "relation": "isSupplementTo",
+      "identifier": "https://github.com/DrakeCaraker/universal-explanation-impossibility",
+      "relation": "isIdenticalTo",
       "scheme": "url"
     }
   ],
