@@ -1,0 +1,33 @@
+{
+  "experiment": "attention_instability",
+  "source": "live_run",
+  "model": "distilbert-base-uncased",
+  "num_models": 10,
+  "sigma_values": [
+    0.01,
+    0.01,
+    0.01,
+    0.01,
+    0.01,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.02
+  ],
+  "num_sentences": 200,
+  "prediction_agreement": 1.0,
+  "prediction_agreement_ci_lo": 1.0,
+  "prediction_agreement_ci_hi": 1.0,
+  "argmax_flip_rate": 0.6,
+  "argmax_flip_rate_ci_lo": 0.5902222222222222,
+  "argmax_flip_rate_ci_hi": 0.6108916666666667,
+  "mean_kendall_tau": 0.2968227513227513,
+  "mean_kendall_tau_ci_lo": 0.28674164021164017,
+  "mean_kendall_tau_ci_hi": 0.3064316931216931,
+  "n_kendall_comparisons": 9000,
+  "n_flip_comparisons": 9000,
+  "elapsed_seconds": 128.0,
+  "conclusion": "instability_confirmed",
+  "_timestamp": "2026-04-08 21:18:06"
+}

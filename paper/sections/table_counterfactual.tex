@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Counterfactual explanation instability on German Credit (20 equivalent XGBoost models, AUC within 0.02).
+  \emph{Direction flip rate}: fraction of model pairs recommending opposite feature changes for the same query.
+  \emph{Cross-model validity}: fraction of CFs from model $i$ that still flip the prediction on model $j$.
+  \emph{Distance CV}: coefficient of variation of CF distances across models.
+  All 95\% bootstrap CIs from 500 resamples, $n=50$ query points.}
+\label{tab:counterfactual-instability}
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lcc}
+\toprule
+Metric & Mean & 95\% CI \\
+\midrule
+Mean AUC & 0.7968 & [0.7829, 0.8099] \\
+CF found rate & 0.854 & --- \\
+Direction flip rate (overall) & 0.235 & [0.206, 0.266] \\
+Cross-model recourse validity & 61.3\% & [55.8\%, 66.2\%] \\
+Distance instability (CV) & 0.328 & [0.281, 0.372] \\
+\bottomrule
+\end{tabular}
+\end{table}

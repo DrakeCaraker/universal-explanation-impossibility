@@ -1,0 +1,24 @@
+\begin{table}[ht]
+\centering
+\caption{Model selection instability on German Credit (credit-g).
+  50 XGBoost classifiers (differing only in random seed) are trained on a
+  single fixed 80/20 split and evaluated on 20 independent
+  random 80/20 evaluation splits. Despite near-identical mean AUC
+  ($0.948 \pm 0.0023$),
+  the identity of the ``best'' model changes across splits, confirming
+  Instance~6 of the Universal Explanation Impossibility.}
+\label{tab:model_selection_instability}
+\begin{tabular}{lc}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Models in Rashomon set & 50 \\
+Evaluation splits & 20 \\
+Unique ``best'' models & 11 / 50 \\
+Best-model flip rate & $80%$ \\
+Consecutive flip rate & $89%$ \\
+Mean AUC spread per split & $0.0197$ \\
+Overall mean AUC & $0.948 \pm 0.0023$ \\
+\bottomrule
+\end{tabular}
+\end{table}

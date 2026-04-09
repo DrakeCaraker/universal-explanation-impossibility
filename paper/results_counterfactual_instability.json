@@ -1,0 +1,37 @@
+{
+  "n_models": 20,
+  "n_queries": 45,
+  "auc_mean": 0.7968273809523809,
+  "auc_min": 0.7828571428571429,
+  "auc_max": 0.8098809523809524,
+  "auc_spread": 0.02702380952380945,
+  "cf_found_rate": 0.8544444444444445,
+  "direction_flip_rate": {
+    "mean": 0.2351881899243842,
+    "ci_lo": 0.20566590201234636,
+    "ci_hi": 0.26573100124126814
+  },
+  "cross_model_validity": {
+    "mean": 0.6128448901821477,
+    "ci_lo": 0.5582940134753673,
+    "ci_hi": 0.6615391081583082
+  },
+  "distance_cv": {
+    "mean": 0.32809781065300814,
+    "ci_lo": 0.2810625797383164,
+    "ci_hi": 0.3717173362929533
+  },
+  "top10_flip_rates": {
+    "checking_status_>=200": 0.43016053596258375,
+    "other_parties_none": 0.41840475287574264,
+    "savings_status_no known savings": 0.3783339653646821,
+    "other_payment_plans_none": 0.36506130704082923,
+    "purpose_education": 0.35178864871697635,
+    "purpose_used car": 0.3490077107824548,
+    "credit_history_all paid": 0.3483756794336999,
+    "employment_<1": 0.34647958538743523,
+    "personal_status_male single": 0.3453419289596764,
+    "employment_unemployed": 0.3434458349134117
+  },
+  "_timestamp": "2026-04-08 21:18:56"
+}

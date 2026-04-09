@@ -1,0 +1,61 @@
+% sections/related_work.tex — Related Work for the Universal Impossibility paper
+
+\paragraph{Impossibility results in XAI.}
+\citet{bilodeau2024impossibility} prove that no feature attribution satisfying
+the Shapley axioms can be simultaneously faithful and stable when features are
+collinear.  \citet{huang2024failings} show that SHAP values can be arbitrarily
+misleading for Boolean classifiers.  \citet{rao2025limits} establish
+algorithmic-information-theoretic limits on what any explanation method can
+convey, and \citet{noguer2025mathematical} survey the mathematical foundations
+of explainability more broadly.  Each of these results is proved in a
+domain-specific language under domain-specific assumptions.  Our contribution
+is a single abstract theorem that subsumes them as instances, showing the
+impossibility arises from underspecification itself rather than from any
+particular axiom system.
+
+\paragraph{Underspecification and model multiplicity.}
+\citet{damour2022underspecification} demonstrate that modern ML pipelines are
+routinely underspecified: models with identical in-distribution performance
+diverge on deployment-relevant properties.
+\citet{fisher2019models} introduce \emph{model reliance} and
+\emph{variable-importance clouds} that visualize how feature importance varies
+across the set of near-optimal models.
+\citet{rudin2024amazing} champion the \emph{Rashomon set}---the collection of
+models with near-best loss---as a first-class object of study.
+\citet{semenova2022existence} prove the existence of simpler models within
+Rashomon sets, and \citet{marx2024uncertainty} develop uncertainty-aware
+explainability that accounts for multiplicity.  Our framework formalizes the
+bridge between underspecification and explanation impossibility: the Rashomon
+property (Definition~\ref{def:rashomon}) is precisely the condition under which
+equivalent hypotheses yield incompatible explanations.
+
+\paragraph{Fairness impossibilities.}
+\citet{chouldechova2017fair} proves that calibration and equal false-positive /
+false-negative rates cannot simultaneously hold when base rates differ across
+groups.  \citet{kleinberg2017inherent} establish an analogous incompatibility
+for a broader class of fairness constraints.  We recast these as Instance~6 of
+the universal impossibility: the explanation system maps each classifier to a
+fairness certificate, and the Rashomon property holds whenever the underlying
+population has unequal base rates.
+
+\paragraph{Formal verification of impossibility theorems.}
+\citet{nipkow2009social} formalized Arrow's impossibility theorem in
+Isabelle/HOL, demonstrating that social-choice impossibilities can be
+mechanically verified.  \citet{demoura2021lean4} introduced Lean~4 as a
+combined theorem prover and programming language.
+\citet{zhang2026statistical} recently formalized statistical learning theory in
+Lean~4.  Our work provides, to our knowledge, the first Lean formalization of
+an impossibility theorem in explainability, covering all six instances and the
+$G$-invariant resolution (67~files, 319~theorems, 0~\texttt{sorry}).
+
+\paragraph{Aggregation and resolution strategies.}
+\citet{laberge2023partial} introduce a partial order on feature attributions
+within the Rashomon set, extracting consensus rankings where they exist.
+\citet{decker2024provably} optimize aggregation of feature attributions for
+provably better explanations.
+\citet{herren2023statistical} develop statistical inference methods for feature
+rankings that are valid under model multiplicity.  We show that these diverse
+strategies are all instances of the $G$-invariant resolution
+(Section~\ref{sec:resolution}): they aggregate over the symmetry group of
+equivalent hypotheses, restoring stability and faithfulness-in-expectation at
+the cost of decisiveness.
