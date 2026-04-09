@@ -1,0 +1,141 @@
+%-----------------------------------------------------------------------
+\subsection{Instance: Mechanistic Interpretability (Circuit Discovery)}
+\label{sec:instance-mech-interp}
+%-----------------------------------------------------------------------
+
+Mechanistic interpretability (MI) has emerged as a central paradigm for
+AI safety research, aiming to reverse-engineer neural networks into
+human-understandable circuits~\citep{elhage2022toy,conmy2023automated,anthropic2025circuit}.
+We instantiate Theorem~\ref{thm:universal} for circuit discovery, where
+the fundamental obstruction is that functionally equivalent networks admit
+multiple valid circuit decompositions.
+
+\paragraph{The explanation system.}
+Define the 6-tuple $\mathcal{S}_{\mathrm{circuit}} =
+(\Params,\, \sH,\, Y,\, \mathsf{obs},\, \mathsf{exp},\, \incomp)$ as follows.
+
+\begin{itemize}
+  \item $\Params$ is the set of neural network weight configurations
+    (architecture plus trained parameters).
+  \item $\sH$ is the set of \emph{circuit decompositions}: subgraphs of the
+    computational graph together with an interpretation of which components
+    implement which sub-computations (e.g., ``heads 1.3 and 2.1 form an
+    induction circuit'').
+  \item $Y$ is the set of input--output functions: each $y \in Y$ is the
+    function $f_\theta : \mathcal{X} \to \mathcal{Y}$ computed by the network
+    on the domain of interest.
+  \item $\mathsf{obs} : \Params \to Y$ maps each weight configuration
+    $\theta$ to the function it computes.
+  \item $\mathsf{exp} : \Params \to \sH$ maps each network to its circuit
+    decomposition---the internal computational mechanism identified by a
+    circuit discovery method.
+  \item $\incomp \subseteq \sH \times \sH$ is the \emph{component-attribution
+    incompatibility}: $(h, h') \in \incomp$ if $h$ and $h'$ attribute the same
+    computation to disjoint or contradictory subsets of network components (e.g.,
+    $h$ says the computation is implemented by heads in layer 2, while $h'$ says
+    it is implemented by heads in layer 4).
+\end{itemize}
+
+\paragraph{The Rashomon property: circuit multiplicity.}
+\citet{meloux2025everything} provide striking empirical evidence that the
+Rashomon property holds for circuit discovery.  For a simple XOR task, they
+identified \textbf{85 distinct valid circuits} with \emph{zero circuit error}
+(each circuit perfectly reproduces the network's behavior on the task).
+Moreover, each circuit admitted an average of \textbf{535.8 valid
+interpretations}---different assignments of computational roles to
+components, all equally faithful to the network's input--output behavior.
+
+Complementary evidence comes from \citet{sae_seeds_2025}, who show that
+sparse autoencoders trained on the \emph{same} data learn \emph{different}
+features depending on the random seed, demonstrating that even the
+feature-level decomposition underlying circuit identification is not unique.
+
+\begin{proposition}[Circuit Rashomon Property]
+\label{prop:circuit-rashomon}
+$\mathcal{S}_{\mathrm{circuit}}$ has the Rashomon property: there exist
+networks $\theta_1, \theta_2 \in \Params$ with
+$\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$ (identical I/O behavior)
+yet $(\mathsf{exp}(\theta_1), \mathsf{exp}(\theta_2)) \in \incomp$
+(incompatible circuit decompositions).
+\end{proposition}
+
+\begin{proof}
+Consider any pair of distinct valid circuits from the 85 found by
+\citet{meloux2025everything}: by construction, both achieve zero circuit
+error (same I/O behavior on the task), yet they attribute the computation
+to different subsets of network components.
+\end{proof}
+
+\paragraph{Instance: mechanistic interpretability impossibility.}
+
+\begin{theorem}[Mechanistic Interpretability Impossibility]
+\label{thm:mech-interp-impossibility}
+The explanation system $\mathcal{S}_{\mathrm{circuit}}$ has the Rashomon
+property.  Therefore, by Theorem~\ref{thm:universal}, no circuit
+explanation method $\mathsf{exp}$ can simultaneously be:
+\begin{enumerate}
+  \item \textbf{Faithful}: $\mathsf{exp}(\theta)$ reflects the actual
+    internal circuitry of network $\theta$;
+  \item \textbf{Stable}: $\mathsf{exp}(\theta_1) = \mathsf{exp}(\theta_2)$
+    whenever $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$ (functionally
+    equivalent networks receive the same circuit explanation); and
+  \item \textbf{Decisive}: $\mathsf{exp}$ commits to a single circuit
+    decomposition (rather than reporting the space of valid circuits).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:circuit-rashomon},
+$\mathcal{S}_{\mathrm{circuit}}$ has the Rashomon property.
+Apply Theorem~\ref{thm:universal}.
+\end{proof}
+
+This is verified in Lean~4 as \texttt{mech\_interp\_impossibility} in
+\texttt{MechInterpInstance.lean} (three type axioms: \texttt{CircuitConfig},
+\texttt{CircuitExplanation}, \texttt{CircuitObservable}, plus the
+\texttt{circuitSystem} axiom encoding the Rashomon witness).
+
+\paragraph{Critical framing: what this does and does not say.}
+This result does \emph{not} undermine mechanistic interpretability---it
+clarifies what MI can and cannot achieve.  Circuit discovery methods such as
+activation patching~\citep{conmy2023automated}, sparse probing~\citep{elhage2022toy},
+and circuit tracing~\citep{anthropic2025circuit} remain powerful tools for
+understanding neural network internals.  What the impossibility establishes
+is that the \emph{search for THE circuit}---a single, definitive
+decomposition---is provably constrained: any method that commits to a
+unique answer must sacrifice either faithfulness or stability.
+
+The constructive path forward is to \emph{characterize the space of valid
+circuits}, not to search for a single canonical one.  This is precisely
+the direction that leading MI work is already moving toward:
+\citet{anthropic2025circuit} report confidence levels rather than single
+circuits, and \citet{conmy2023automated} frame automated circuit discovery
+as search over a structured space.
+
+\paragraph{Resolution: circuit equivalence classes.}
+The uniform resolution of Section~\ref{sec:resolution} specializes to
+mechanistic interpretability as follows.  Let $G = [C]$ denote the
+equivalence class of circuits that reproduce the same I/O behavior.
+The $G$-invariant explanation aggregates over all valid circuits:
+\[
+  \mathsf{exp}^*(\theta)
+  \;=\;
+  \{C \in \sH : C \text{ is a valid circuit for } f_\theta\},
+\]
+the set of all circuit decompositions consistent with the network's
+behavior.  This map is \textbf{faithful in expectation} (it captures
+all structure shared across valid circuits), \textbf{stable} by
+construction (functionally equivalent networks have the same set of
+valid circuits), but \textbf{not decisive}: it returns a set rather
+than a single circuit.  The unresolvable queries---which specific
+components ``really'' implement a computation when multiple valid
+assignments exist---correspond precisely to the undirected edges in
+the causal discovery analogy (Section~\ref{sec:instance-causal}).
+
+Reporting the full equivalence class is the principled response to the
+impossibility, trading decisiveness for faithfulness and stability, exactly
+as predicted by Theorem~\ref{thm:universal}.  This reframes the MI
+research agenda: the goal is not to find the one true circuit, but to
+characterize which circuit features are \emph{invariant} across all valid
+decompositions (the ``skeleton'' of the circuit space) and which are
+decomposition-dependent (the ``reversible edges'').
