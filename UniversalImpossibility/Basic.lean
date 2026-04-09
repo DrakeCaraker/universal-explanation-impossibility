@@ -62,3 +62,4 @@ import UniversalImpossibility.UniversalResolution
 import UniversalImpossibility.DASHResolution
 import UniversalImpossibility.CPDAGResolution
 import UniversalImpossibility.UniversalDesignSpace
+import UniversalImpossibility.Ubiquity
