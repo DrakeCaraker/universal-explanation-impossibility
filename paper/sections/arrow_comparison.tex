@@ -1,0 +1,313 @@
+% arrow_comparison.tex — Self-contained section for monograph
+% \input this into the main document; requires references.bib entries for
+% arrow1951social, nipkow2009social, okasha2011theory, gibbard1973manipulation,
+% satterthwaite1975strategy.
+
+\section{The Structural Parallel Between Arrow's Impossibility and the Explanation Trilemma}
+\label{sec:arrow-comparison}
+
+Two impossibility theorems constrain aggregation under conflicting
+desiderata: Arrow's impossibility theorem in social choice
+\citep{arrow1951social} and the universal explanation impossibility
+developed in this work. Both assert that a small set of individually
+reasonable properties cannot be jointly satisfied. This section maps
+the axioms of each theorem onto the other, identifies the precise point
+where the correspondence breaks, and characterizes the complementary
+regimes in which the two results operate.
+
+%% ===================================================================
+\subsection{Formal setup}
+\label{sec:arrow-setup}
+
+\paragraph{Arrow's theorem.}
+Let $A$ be a finite set of alternatives with $|A| \geq 3$, and let
+$N = \{1, \ldots, n\}$ with $n \geq 2$ be a set of voters. Write
+$\mathcal{L}(A)$ for the set of strict linear orders on~$A$ (complete,
+transitive, antisymmetric, irreflexive). A \emph{preference profile}
+is a tuple $\pi = (\pi_1, \ldots, \pi_n) \in \mathcal{L}(A)^N$.
+A \emph{social welfare function} is a map
+$F : \mathcal{L}(A)^N \to \mathcal{L}(A)$. Arrow's theorem states
+that no~$F$ satisfies all four of the following axioms:
+\begin{enumerate}[label=\textbf{A\arabic*.},leftmargin=2.5em]
+  \item \textbf{Unrestricted Domain (UD).}\; $F$ is defined on all
+    of~$\mathcal{L}(A)^N$.
+  \item \textbf{Weak Pareto (WP).}\; If $a \succ_{\pi_i} b$ for every
+    voter~$i$, then $a \succ_{F(\pi)} b$.
+  \item \textbf{Independence of Irrelevant Alternatives (IIA).}\;
+    For all $a, b \in A$: if profiles $\pi$ and $\pi'$ agree on every
+    voter's ranking of~$a$ versus~$b$, then $F(\pi)$ and $F(\pi')$
+    agree on~$a$ versus~$b$.
+  \item \textbf{Non-Dictatorship (ND).}\; There is no voter~$i$ such
+    that $F(\pi) = \pi_i$ for all~$\pi$.
+\end{enumerate}
+
+\paragraph{The explanation impossibility.}
+An \textsc{ExplanationSystem}$(\Theta, H, Y, \mathrm{observe},
+\mathrm{explain}, \mathrm{incompatible})$ consists of a configuration
+space~$\Theta$, an explanation space~$H$, an observable space~$Y$, an
+observation map $\mathrm{observe} : \Theta \to Y$, a native explanation
+map $\mathrm{explain} : \Theta \to H$, and an irreflexive
+incompatibility relation on~$H$. We say the system has the
+\emph{Rashomon property} if there exist $\theta_1, \theta_2 \in \Theta$
+with $\mathrm{observe}(\theta_1) = \mathrm{observe}(\theta_2)$ and
+$\mathrm{incompatible}(\mathrm{explain}(\theta_1),
+\mathrm{explain}(\theta_2))$. For any such system, no explanation
+$E : \Theta \to H$ is simultaneously:
+\begin{enumerate}[label=\textbf{E\arabic*.},leftmargin=2.5em]
+  \item \textbf{Faithful.}\; $\neg\,\mathrm{incompatible}(E(\theta),
+    \mathrm{explain}(\theta))$ for all~$\theta$.
+  \item \textbf{Stable.}\; $\mathrm{observe}(\theta_1) =
+    \mathrm{observe}(\theta_2) \implies E(\theta_1) = E(\theta_2)$.
+  \item \textbf{Decisive.}\; $\mathrm{incompatible}(\mathrm{explain}(\theta), h)
+    \implies \mathrm{incompatible}(E(\theta), h)$ for all~$\theta, h$.
+\end{enumerate}
+This is \texttt{explanation\_impossibility} in the Lean formalization,
+proved from the Rashomon property alone with zero auxiliary axioms.
+
+%% ===================================================================
+\subsection{The axiom correspondence}
+\label{sec:arrow-axiom-map}
+
+We now map each Arrow axiom to the explanation framework. The mapping
+uses the \emph{query-relative} formulation (Lean:
+\texttt{QueryRelative.lean}), in which incompatibility is parameterized
+by a query space~$Q$, with each query $q \in Q$ inducing its own
+incompatibility relation $\mathrm{incomp}_q$ on~$H$.
+
+\begin{table}[ht]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lllc@{}}
+\toprule
+\textbf{Arrow axiom} & \textbf{Explanation property} & \textbf{Quality} \\
+\midrule
+IIA & Query-relative stability & Exact \\
+Weak Pareto & Faithfulness (restricted) & Partial \\
+Non-Dictatorship & (no analog) & None \\
+Unrestricted Domain & (implicit totality) & Structural \\
+\bottomrule
+\end{tabular}
+\caption{Axiom correspondence between Arrow's theorem and the explanation
+impossibility. Only IIA admits an exact translation.}
+\label{tab:arrow-map}
+\end{table}
+
+\paragraph{IIA \boldmath$\longleftrightarrow$ query-relative stability
+  (exact).}
+Fix a pair $q = (a,b) \in A \times A$ as a query. Define the
+query-relative observation map
+$\mathrm{observe}_q(\pi) = (\mathbf{1}[a \succ_{\pi_i} b])_{i \in N}$,
+the vector of individual pairwise preferences restricted to~$(a,b)$.
+IIA states: if $\mathrm{observe}_q(\pi) = \mathrm{observe}_q(\pi')$,
+then the social ranking of~$a$ versus~$b$ agrees under $F(\pi)$ and
+$F(\pi')$. This is precisely query-relative stability
+(Lean: \texttt{q\_faithful}, \texttt{q\_decisive} in
+\texttt{QueryRelative.lean}) applied to the pairwise query~$q$:
+$E$'s answer to ``does $a$ rank above~$b$?''\ depends only on the
+pairwise observations. The correspondence is exact; no content is
+lost or added.
+
+\paragraph{Weak Pareto \boldmath$\longleftrightarrow$ faithfulness
+  (partial).}
+WP says: if every voter ranks $a \succ b$, then $F$ ranks $a \succ b$.
+Faithfulness says: $E(\theta)$ never contradicts
+$\mathrm{explain}(\theta)$. The mapping is indirect. If we set
+$\mathrm{explain}(\pi) = F(\pi)$, then faithfulness requires that
+$E$ not contradict~$F$. If $F$ satisfies WP, faithfulness of~$E$
+to~$F$ automatically respects Pareto---but only transitively.
+Pareto constrains~$F$ directly (unanimous preferences are respected);
+faithfulness constrains~$E$ relative to~$F$. This is a genuine
+structural difference: Pareto is a first-order constraint on the
+aggregation map, while faithfulness is a second-order constraint on
+an \emph{explanation of} the aggregation map.
+
+\paragraph{Non-Dictatorship (no analog).}
+ND constrains the internal structure of~$F$: no single voter
+determines the output. The explanation framework has no comparable
+axiom. Our three properties---faithful, stable, decisive---constrain
+an external explanation~$E$ relative to a given system~$S$; they
+say nothing about the internal structure of the system's own
+maps. In Arrow's framework, $F$ is \emph{both} the system
+and the object being evaluated. In our framework, $\mathrm{explain}$
+is the system's native output, and $E$ is a separate map that
+interprets it. The $E/F$ split has no counterpart in social choice.
+
+\paragraph{Unrestricted Domain (structural).}
+Both frameworks implicitly assume totality: $F$ is defined on all
+profiles, and $E$ is defined on all configurations. UD plays the same
+structural role in each---it ensures the impossibility is not
+circumvented by restricting the domain.
+
+%% ===================================================================
+\subsection{Why the embedding fails}
+\label{sec:arrow-embedding-fails}
+
+The axiom correspondence of Section~\ref{sec:arrow-axiom-map}
+suggests a natural question: is Arrow's theorem an instance of the
+explanation impossibility? The answer is no, and the reason is precise.
+
+\begin{quote}
+\textbf{Key insight.}\; \emph{IIA prevents the Rashomon property from
+holding.}
+\end{quote}
+
+To apply the explanation impossibility, we need the Rashomon property:
+two configurations $\theta_1, \theta_2$ with the same observation
+but incompatible explanations. In the social choice mapping with
+query $q = (a,b)$, the observation is
+$\mathrm{observe}_q(\pi) = (\mathbf{1}[a \succ_{\pi_i} b])_{i \in N}$
+and the explanation is the social ranking of~$a$ versus~$b$ under~$F(\pi)$.
+Rashomon at query~$q$ would require two profiles $\pi, \pi'$ with
+$\mathrm{observe}_q(\pi) = \mathrm{observe}_q(\pi')$ but
+$F(\pi)$ and $F(\pi')$ disagreeing on~$(a,b)$.
+
+But this is \emph{exactly what IIA forbids}. If $F$ satisfies IIA,
+then $\mathrm{observe}_q(\pi) = \mathrm{observe}_q(\pi')$ implies
+that $F(\pi)$ and $F(\pi')$ agree on~$(a,b)$. The social ranking
+of any pair is a deterministic function of the individual pairwise
+preferences. There is no Rashomon ambiguity for any query: the
+observation uniquely determines the explanation.
+
+The two theorems therefore operate in \emph{complementary regimes}:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Regime} & \textbf{Impossibility} \\
+\midrule
+Rashomon present, IIA not assumed &
+  No $E$ is faithful + stable + decisive \\
+IIA enforced, no pairwise Rashomon &
+  Only dictatorships satisfy WP + ND \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The explanation impossibility says: when the map from observations to
+explanations is many-to-one (Rashomon), you cannot explain faithfully,
+stably, and decisively. Arrow's theorem says: when the map from
+observations to the social ranking is \emph{required} to be
+one-to-one per query (IIA), the only aggregation rules that also
+respect unanimity are dictatorial. Different failure modes of
+aggregation, activated by opposite structural assumptions.
+
+This complementarity is not a deficiency of either theorem. It
+reflects a genuine difference in what each result constrains.
+The explanation impossibility is about \emph{underspecification}:
+multiple models fit the data, and no single explanation can
+faithfully represent them all. Arrow's theorem is about
+\emph{preference diversity}: multiple voters have conflicting
+orderings, and no aggregation rule can satisfy a short list of
+fairness criteria. Underspecification and preference diversity are
+distinct sources of impossibility, and neither subsumes the other.
+
+%% ===================================================================
+\subsection{What the theorems share}
+\label{sec:arrow-shared-structure}
+
+Despite the embedding failure, the theorems share substantial
+structure:
+
+\begin{enumerate}
+  \item \textbf{Both are impossibility results about aggregation.}\;
+    Arrow aggregates individual preferences into a social ordering;
+    the explanation impossibility aggregates a Rashomon set of models
+    into a single explanation.
+
+  \item \textbf{Both have three independent desiderata.}\; Once
+    unrestricted domain (or totality of~$E$) is factored out as a
+    structural assumption, Arrow has WP, IIA, and ND; the explanation
+    impossibility has faithfulness, stability, and decisiveness.
+
+  \item \textbf{Both are tight.}\; Dropping any single axiom makes
+    the remaining set satisfiable. For Arrow: dropping ND yields
+    dictatorship; dropping IIA yields Borda count; dropping WP yields
+    anti-dictatorships. For the explanation impossibility: dropping
+    decisiveness yields $G$-invariant projections (e.g., CPDAG, DASH);
+    dropping stability yields the native explanation; dropping
+    faithfulness yields an arbitrary constant.
+
+  \item \textbf{Both have the same proof shape.}\; Short diagonal
+    arguments. Arrow's proof (in the Geanakoplos version) constructs
+    a pivotal voter by toggling an alternative between the top and
+    bottom of one voter's ranking. The explanation impossibility
+    constructs a contradiction by chaining decisiveness, stability,
+    and faithfulness through two Rashomon-equivalent configurations.
+    Both are four-to-five-step proofs.
+
+  \item \textbf{Both have been formalized in proof assistants.}\;
+    \citet{nipkow2009social} formalized Arrow's theorem and
+    the Gibbard--Satterthwaite theorem \citep{gibbard1973manipulation,
+    satterthwaite1975strategy} in Isabelle/HOL.
+    The explanation impossibility is formalized in Lean~4 (this work),
+    with zero axiom dependencies.
+
+  \item \textbf{Both involve a map from a product space to a
+    codomain, where natural conditions are jointly unsatisfiable.}\;
+    Arrow: $F : \mathcal{L}(A)^N \to \mathcal{L}(A)$, conditions
+    WP + IIA + ND. Explanation: $E : \Theta \to H$, conditions
+    faithful + stable + decisive. The abstract shape is the same:
+    a function from a structured input to a structured output,
+    subject to three constraints that form an inconsistent triad.
+\end{enumerate}
+
+The shared structure is categorical in nature. Both theorems say:
+given a map from a product of structured objects to a codomain,
+imposing compatibility with each factor (faithfulness/Pareto),
+locality (stability/IIA), and non-degeneracy
+(decisiveness/non-dictatorship) yields a contradiction. The
+difference is in what prevents joint satisfaction:
+\emph{underspecification} (multiple models fit the same data) versus
+\emph{preference diversity} (multiple voters hold conflicting
+orderings).
+
+%% ===================================================================
+\subsection{Implications}
+\label{sec:arrow-implications}
+
+\paragraph{Independence, not generalization.}
+The explanation impossibility is not a generalization of Arrow's
+theorem. The two results are logically independent: neither implies
+the other. Their shared abstract structure reflects a common
+pattern---the impossibility of aggregation under conflicting
+locality and non-degeneracy constraints---not a subsumption
+relationship. Any claim that one ``contains'' the other would require
+either fabricating a Rashomon property where IIA prevents one from
+existing, or fabricating a non-dictatorship axiom where the
+explanation framework provides none.
+
+\paragraph{The query-relative bridge.}
+The identification IIA = query-relative stability could not have been
+stated without the query parameterization of the explanation
+impossibility (Section~\ref{sec:arrow-setup};
+Lean: \texttt{QueryRelative.lean}). The standard
+(non-query-relative) framework has a single global incompatibility
+relation, which does not capture IIA's pairwise structure. The
+query-relative generalization is therefore not merely a technical
+refinement: it is the precise bridge between the two frameworks.
+
+\paragraph{Toward a unified categorical framework.}
+A unified framework subsuming both theorems would need to abstract
+over the \emph{source of impossibility}: Rashomon (many-to-one
+observation map) versus preference diversity (many voters with
+conflicting orderings). In both cases, a structured input space
+admits conflicting ``local views'' that no global map can reconcile.
+Formalizing this common pattern---perhaps as a sheaf-theoretic
+obstruction or a failure of a limit in a suitable category---is a
+direction for future work.
+
+\paragraph{Relation to Okasha (2011).}
+\citet{okasha2011theory} applied Arrow's theorem \emph{to} theory
+choice, arguing that Kuhnian criteria (accuracy, simplicity,
+scope, fruitfulness, consistency) play the role of voters, and
+scientific theories play the role of alternatives. This is a
+different exercise from ours. Okasha asks: does Arrow's theorem
+constrain theory choice? We ask: how does Arrow's theorem
+\emph{compare structurally} with the explanation impossibility?
+Okasha's analysis uses Arrow as a tool; ours uses Arrow as a
+point of comparison. The findings are complementary: Okasha shows
+that preference aggregation is relevant to philosophy of science;
+we show that the explanation impossibility, while structurally
+parallel, operates in a complementary regime where IIA is absent
+and Rashomon is present.
