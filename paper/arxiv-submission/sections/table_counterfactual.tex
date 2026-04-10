@@ -1,7 +1,7 @@
 \begin{table}[t]
 \centering
 \caption{Counterfactual explanation instability on German Credit (20 equivalent XGBoost models, AUC within 0.03).
-  \emph{Negative control}: synthetic data with class\_sep=3.0 and subsample=1.0 --- near-identical decision boundaries, expected flip rate $<5\%$.
+  \emph{Negative control}: synthetic data with class\_sep=3.0 and subsample=1.0 --- near-identical decision boundaries, expected flip rate $<5\%$.  On the well-separated synthetic data, no counterfactuals were found (the decision boundary is so clear that no small perturbation crosses it), confirming that the Rashomon property is absent.
   \emph{Resolution}: consensus CF (feature-wise median direction) --- fraction of individual CFs consistent with consensus.
   All 95\% bootstrap CIs from 500 resamples.}
 \label{tab:counterfactual-instability}

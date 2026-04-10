@@ -6,11 +6,13 @@ import UniversalImpossibility.ConceptInstance
 import UniversalImpossibility.CausalInstance
 import UniversalImpossibility.ModelSelectionInstance
 import UniversalImpossibility.MechInterpInstance
+import UniversalImpossibility.SaliencyInstance
+import UniversalImpossibility.LLMExplanationInstance
 
 /-!
 # Universal Impossibility
 
-All seven explanation types are instances of the abstract ExplanationSystem.
+All nine explanation types are instances of the abstract ExplanationSystem.
 The impossibility theorem applies uniformly to all of them via a single
 proof: `explanation_impossibility`.
 

@@ -3,7 +3,7 @@
 \caption{Model selection instability on German Credit (credit-g).
   \emph{Positive test}: 50 diverse XGBoost classifiers (differing in seed + subsample=0.8) on 20 splits.
   \emph{Negative control}: 50 \emph{identical} classifiers (same seed, subsample=1.0) --- expected flip rate $<10\%$.
-  \emph{Resolution}: ensemble (average probabilities) is more stable than best-single.
+  \emph{Resolution}: Ensemble prediction achieves comparable AUC to the best single model (0.951 vs 0.958) but does not reduce cross-split variance, suggesting that for model selection, the resolution operates through prediction averaging rather than AUC stabilization.
   All 95\% bootstrap CIs from 2000 resamples.}
 \label{tab:model_selection_instability}
 \begin{tabular}{llc}
