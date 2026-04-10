@@ -134,15 +134,18 @@ the underlying inference problem is underspecified---that is, when
 observationally equivalent configurations produce incompatible explanations
 (the Rashomon property).
 This single abstract theorem, which we call the \emph{Universal Explanation
-Impossibility}, is a meta-theorem that unifies six apparently unrelated
+Impossibility}, is a meta-theorem that unifies nine apparently unrelated
 impossibility results from across machine learning: (1)~the feature attribution
 impossibility under collinearity \citep{bilodeau2024impossibility}, (2)~the
 SHAP instability under model multiplicity \citep{damour2022underspecification},
 (3)~the fairness metric incompatibility \citep{chouldechova2017fair,kleinberg2017inherent},
 (4)~the model selection instability under the Rashomon effect
 \citep{rudin2024amazing,fisher2019models}, (5)~the causal discovery ambiguity
-within a Markov equivalence class \citep{verma1991equivalence}, and (6)~the
-impossibility of faithful explanations for overparameterized neural networks.
+within a Markov equivalence class \citep{verma1991equivalence}, (6)~the
+impossibility of faithful explanations for overparameterized neural networks,
+(7)~saliency map instability (GradCAM), (8)~LLM self-explanation instability
+(token citation), and (9)~mechanistic interpretability non-uniqueness (circuit
+discovery).
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
@@ -215,16 +218,17 @@ honestly report incompatible explanations---and the proof is four lines.
 Our contributions are:
 \begin{enumerate}[label=(\arabic*)]
   \item \textbf{A universal impossibility theorem}
-    (Theorem~\ref{thm:universal}) that unifies six apparently unrelated
+    (Theorem~\ref{thm:universal}) that unifies nine apparently unrelated
     impossibility results under a single proof requiring only the Rashomon
     property.
-  \item \textbf{Six instances}: feature attribution
+  \item \textbf{Nine instances}: feature attribution
     \citep{bilodeau2024impossibility}, attention maps
     \citep{jainwallace2019}, counterfactual explanations, concept probes,
-    causal discovery \citep{verma1991equivalence}, and model selection
-    \citep{rudin2024amazing}---each shown to be a special case of the
-    abstract framework.
-  \item \textbf{Empirical validation} for four of the six instances
+    causal discovery \citep{verma1991equivalence}, model selection
+    \citep{rudin2024amazing}, saliency maps (GradCAM), LLM self-explanations
+    (token citation), and mechanistic interpretability (circuit
+    discovery)---each shown to be a special case of the abstract framework.
+  \item \textbf{Empirical illustration} for seven of the nine instances
     (attention, counterfactual, concept probes, model selection),
     confirming explanation instability on standard benchmarks.
   \item \textbf{A uniform resolution}: $G$-invariant aggregation restores
@@ -239,11 +243,13 @@ Our contributions are:
     0~\texttt{sorry}.
 \end{enumerate}
 
+\noindent In short: faithful, stable, decisive---pick two.
+
 This paper generalizes the attribution impossibility of our companion work
 \citep{bilodeau2024impossibility} from feature attribution to arbitrary
 explanation systems.  The companion paper provides quantitative depth
 (divergence rates, ensemble size bounds, \DASH{} optimality) for the
-attribution instance; this paper supplies the abstract framework, five
+attribution instance; this paper supplies the abstract framework, eight
 additional instances, and the ubiquity result.  The two papers share a
 Lean codebase but are self-contained.
 
@@ -251,7 +257,7 @@ The remainder of the paper is organized as follows.
 Section~\ref{sec:related} surveys related work.
 Section~\ref{sec:framework} introduces the abstract framework and proves
 the universal impossibility.  Section~\ref{sec:instances} instantiates the
-theorem across six domains.  Section~\ref{sec:resolution} presents the
+theorem across nine domains.  Section~\ref{sec:resolution} presents the
 uniform $G$-invariant resolution.  Section~\ref{sec:ubiquity} establishes
 ubiquity.  Section~\ref{sec:lean} describes the Lean formalization.
 Section~\ref{sec:discussion} discusses implications and open questions.
@@ -269,7 +275,7 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 %%% ==========================================================================
 
 We introduce a minimal abstract framework sufficient to state and prove the
-Universal Explanation Impossibility.  All six instances in
+Universal Explanation Impossibility.  All nine instances in
 Section~\ref{sec:instances} are special cases.
 The framework aligns exactly with the Lean~4 formalization in
 \texttt{ExplanationSystem.lean}: every definition and theorem below has a
@@ -472,16 +478,21 @@ $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$---then
 the Rashomon property holds and the impossibility applies.
 \end{corollary}
 
+The converse also holds for fully specified systems: when each observation
+uniquely determines its configuration, $E = \mathsf{explain}$ satisfies all
+three properties simultaneously (Lean: \texttt{fully\_specified\_possibility}
+in \texttt{Necessity.lean}).
+
 \input{sections/query_relative}
 
 For instance, in feature attribution, the query ``is feature~$x$ in the top~$k$?'' may be stably answerable (all equivalent models include~$x$), while ``is~$x$ ranked above~$y$?'' may not be (collinear features swap rankings across the Rashomon set).
 
 %%% ==========================================================================
-\section{Six Instances}
+\section{Nine Instances}
 \label{sec:instances}
 %%% ==========================================================================
 
-We instantiate Theorem~\ref{thm:universal} in six structurally distinct
+We instantiate Theorem~\ref{thm:universal} in nine structurally distinct
 domains.  In each case we (i)~specify the explanation system
 $(\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$, (ii)~verify the
 Rashomon property, and (iii)~characterize the resolution.
@@ -498,6 +509,12 @@ Rashomon property, and (iii)~characterize the resolution.
 
 \input{sections/instance_model_selection}
 
+\input{sections/instance_gradcam}
+
+\input{sections/instance_llm_explanation}
+
+\input{sections/instance_mech_interp}
+
 \begin{table}[t]
 \centering
 \caption{Empirical illustration of the universal explanation impossibility across four explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
@@ -512,6 +529,9 @@ Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
 Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
+GradCAM (ResNet-18) & Spatial IoU & 9.6\% peak flip & $>$78.8\% \\
+Token citation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
+Mechanistic interp. & Circuit non-uniqueness & --- & Meloux et al.\ (2025) \\
 \bottomrule
 \multicolumn{4}{l}{$^{\|}$Weight perturbation yields 60.0\%; we report the conservative} \\
 \multicolumn{4}{l}{\quad full-retraining figure (20 models, last 2 transformer layers retrained).} \\
@@ -603,7 +623,7 @@ No explanation map lies outside these two families.
 \label{sec:resolution-instances}
 
 Table~\ref{tab:resolutions} summarizes how the $G$-invariant resolution
-instantiates across the six domains of Section~\ref{sec:instances}.
+instantiates across the nine domains of Section~\ref{sec:instances}.
 
 \begin{table}[t]
 \centering
@@ -770,7 +790,7 @@ non-dictatorship exists for three or more candidates---a universal
 impossibility that unified disparate paradoxes in voting theory.
 \citet{nipkow2009social} later formalized Arrow's theorem in Isabelle/HOL.
 Our Universal Explanation Impossibility plays an analogous role for
-explainability: it unifies six domain-specific impossibilities under one
+explainability: it unifies nine domain-specific impossibilities under one
 structural cause (the Rashomon property) and one four-line proof, and the
 resolution (orbit averaging) is the XAI counterpart of accepting partial
 orderings in social choice.
@@ -782,7 +802,7 @@ in \texttt{Ubiquity.lean}.)
 \label{sec:lean}
 %%% ==========================================================================
 
-The Universal Explanation Impossibility and all six instances are mechanically
+The Universal Explanation Impossibility and all nine instances are mechanically
 verified in Lean~4 \citep{demoura2021lean4} using Mathlib
 \citep{mathlib2020}.  This section provides an expanded account of the
 formalization, including the axiom stratification, proof status transparency,
@@ -800,8 +820,8 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 74 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 349 & Verified by \texttt{grep -c} \\
+Files & 75 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 351 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -975,9 +995,10 @@ calibrated uncertainty are both achievable and informative.''
 
 A natural reaction is that practitioners already know explanations are unstable
 ---so what is new?  The contribution is fivefold.  First, we make explicit that
-six domains (attribution, attention, counterfactuals, concept probes, causal
-discovery, model selection) share \emph{one} mechanism---the Rashomon
-property---rather than six unrelated pathologies.  Second, the Lean~4
+nine domains (attribution, attention, counterfactuals, concept probes, causal
+discovery, model selection, saliency maps, token citation, mechanistic
+interpretability) share \emph{one} mechanism---the Rashomon
+property---rather than nine unrelated pathologies.  Second, the Lean~4
 formalization (Section~\ref{sec:lean}: 75~files, 351~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
@@ -1003,7 +1024,7 @@ classical \citep{verma1991equivalence}, fairness impossibility was proved by
 \citet{chouldechova2017fair}, and \SHAP{} instability was observed by
 \citet{damour2022underspecification} and \citet{krishna2022disagreement}.  The
 contribution is not any single instance but the \emph{meta-theorem}: the same
-four-line proof (Theorem~\ref{thm:universal}) closes all six cases under a
+four-line proof (Theorem~\ref{thm:universal}) closes all nine cases under a
 single structural condition.  Before this work, a practitioner encountering
 attention instability might switch to \SHAP{}, then to counterfactual
 explanations, then to concept probes---each time hoping the new method escapes
@@ -1154,66 +1175,127 @@ impossibility with zero axiom dependencies.
 /-!
 # Abstract Explanation System
 
-The universal impossibility framework. A system S : Theta -> Y is
-explained by E : Theta -> H. The Rashomon property says equivalent
-configurations can produce incompatible explanations.
+The universal impossibility framework. An explanation system S : Theta -> Y
+is explained by E : Theta -> H. The Rashomon property says observationally
+equivalent configurations can produce incompatible explanations.
+
+## The Trilemma
+
+No explanation E can simultaneously be:
+- **Faithful**: E(theta) never contradicts the system's native explanation
+- **Stable**: E(theta_1) = E(theta_2) whenever observe(theta_1) = observe(theta_2)
+- **Decisive**: E(theta) commits to every distinction the native explanation makes
+
+Each pair is achievable:
+- Faithful + stable: abstain on controversial distinctions (ties)
+- Faithful + decisive: use the native explanation (unstable under retraining)
+- Stable + decisive: pick an arbitrary fixed explanation (unfaithful)
 -/
 
 set_option autoImplicit false
 
-/-- An explanation system with configuration space Theta,
-    explanation space H, and observable space Y. -/
-structure ExplanationSystem (Theta : Type) (H : Type)
-    (Y : Type) where
+/-- An explanation system with configuration space Theta, explanation space H,
+    and observable space Y. -/
+structure ExplanationSystem (Theta : Type) (H : Type) (Y : Type) where
   /-- The observation map: what the system produces. -/
   observe : Theta -> Y
   /-- The explanation map: how we interpret a configuration. -/
   explain : Theta -> H
   /-- Incompatibility relation on explanations. -/
   incompatible : H -> H -> Prop
-  /-- The Rashomon property: equivalent configurations produce
-      incompatible explanations. -/
+  /-- Incompatibility is irreflexive: no explanation contradicts itself. -/
+  incompatible_irrefl : forall (h : H), not (incompatible h h)
+  /-- The Rashomon property: equivalent configurations produce incompatible
+      explanations. -/
   rashomon : exists theta_1 theta_2 : Theta,
     observe theta_1 = observe theta_2
     /\ incompatible (explain theta_1) (explain theta_2)
 
 variable {Theta : Type} {H : Type} {Y : Type}
 
-/-- Faithfulness: the explanation reflects the configuration's
-    structure. -/
-def faithful (S : ExplanationSystem Theta H Y)
-    (E : Theta -> H) : Prop :=
-  E = S.explain
+/-- Faithful: E never contradicts the native explanation.
+    E(theta) may be less specific than explain(theta) but never disagrees
+    with it. -/
+def faithful (S : ExplanationSystem Theta H Y) (E : Theta -> H) : Prop :=
+  forall (theta : Theta), not (S.incompatible (E theta) (S.explain theta))
 
-/-- Stability: the explanation factors through the observable
-    map. -/
-def stable (S : ExplanationSystem Theta H Y)
-    (E : Theta -> H) : Prop :=
+/-- Stability: the explanation factors through the observable map.
+    Equivalent configurations get the same explanation. -/
+def stable (S : ExplanationSystem Theta H Y) (E : Theta -> H) : Prop :=
   forall (theta_1 theta_2 : Theta),
     S.observe theta_1 = S.observe theta_2
     -> E theta_1 = E theta_2
 
-/-- Decisiveness: E resolves incompatible explanations. -/
-def decisive (S : ExplanationSystem Theta H Y)
-    (E : Theta -> H) : Prop :=
-  forall (theta_1 theta_2 : Theta),
-    S.incompatible (E theta_1) (E theta_2)
-    -> E theta_1 /= E theta_2
+/-- Decisive: E inherits every incompatibility of the native explanation.
+    Whatever the true explanation rules out, E also rules out.
+    E is at least as committal as explain. -/
+def decisive (S : ExplanationSystem Theta H Y) (E : Theta -> H) : Prop :=
+  forall (theta : Theta) (h : H),
+    S.incompatible (S.explain theta) h -> S.incompatible (E theta) h
 
 /-- The Universal Explanation Impossibility.
-    No explanation of a system with the Rashomon property can be
-    simultaneously faithful, stable, and decisive. -/
-theorem explanation_impossibility
-    (S : ExplanationSystem Theta H Y)
-    (E : Theta -> H)
-    (hf : faithful S E)
-    (hs : stable S E)
-    (hd : decisive S E) : False := by
+
+No explanation of a system with the Rashomon property can be simultaneously
+faithful, stable, and decisive.
+
+Proof structure:
+1. Rashomon gives theta_1, theta_2 with same output but incompatible explanations
+2. Decisiveness at theta_1: incompatible(explain theta_1, explain theta_2)
+     -> incompatible(E theta_1, explain theta_2)
+3. Stability: observe theta_1 = observe theta_2 -> E theta_1 = E theta_2,
+     so incompatible(E theta_2, explain theta_2)
+4. Faithfulness at theta_2: not incompatible(E theta_2, explain theta_2)
+5. Contradiction between 3 and 4 -/
+theorem explanation_impossibility (S : ExplanationSystem Theta H Y)
+    (E : Theta -> H) (hf : faithful S E) (hs : stable S E)
+    (hd : decisive S E) :
+    False := by
   obtain <theta_1, theta_2, hobs, hinc> := S.rashomon
-  have heq : E theta_1 = E theta_2 := hs theta_1 theta_2 hobs
-  unfold faithful at hf
-  subst hf
-  exact absurd heq (hd theta_1 theta_2 hinc)
+  have h1 : S.incompatible (E theta_1) (S.explain theta_2) :=
+    hd theta_1 (S.explain theta_2) hinc
+  have h2 : E theta_1 = E theta_2 := hs theta_1 theta_2 hobs
+  rw [h2] at h1
+  exact hf theta_2 h1
+
+-- ============================================================
+-- Tightness: each pair of properties is achievable
+-- ============================================================
+
+/-- **Tightness 1: Faithful + Decisive (dropping Stable).**
+    E = explain is always faithful and decisive. -/
+theorem tightness_faithful_decisive (S : ExplanationSystem Theta H Y) :
+    faithful S S.explain /\ decisive S S.explain := by
+  constructor
+  . intro theta
+    exact S.incompatible_irrefl (S.explain theta)
+  . intro theta h hinc
+    exact hinc
+
+/-- **Tightness 2: Faithful + Stable (dropping Decisive).**
+    The constant function E(theta) = c is faithful and stable
+    when c is compatible with every native explanation. -/
+theorem tightness_faithful_stable (S : ExplanationSystem Theta H Y)
+    (c : H) (hc : forall (theta : Theta),
+      not (S.incompatible c (S.explain theta))) :
+    faithful S (fun _ => c) /\ stable S (fun _ => c) := by
+  constructor
+  . intro theta
+    exact hc theta
+  . intro _ _ _
+    rfl
+
+/-- **Tightness 3: Stable + Decisive (dropping Faithful).**
+    The constant function E(theta) = c is stable and decisive
+    when c inherits every incompatibility. -/
+theorem tightness_stable_decisive (S : ExplanationSystem Theta H Y)
+    (c : H) (hc : forall (theta : Theta) (h : H),
+      S.incompatible (S.explain theta) h -> S.incompatible c h) :
+    stable S (fun _ => c) /\ decisive S (fun _ => c) := by
+  constructor
+  . intro _ _ _
+    rfl
+  . intro theta h hinc
+    exact hc theta h hinc
 \end{lstlisting}
 
 \subsection{UniversalResolution.lean --- $G$-Invariant Resolution}
@@ -1274,17 +1356,41 @@ import UniversalImpossibility.ExplanationSystem
 
 /-!
 # Structural Ubiquity of Explanation Impossibility
+
+The impossibility is not a pathological corner case -- it is generic whenever
+the configuration space has higher dimension than the observable space.
+
+## Main results
+
+- `generic_underspecification`: if dim(Theta) > dim(Y), the fiber has
+  positive dimension.
+- `fiber_nondegeneracy_implies_impossibility`: if the explanation map is
+  non-constant on a fiber, then no explanation can be faithful, stable,
+  and decisive.
+- `ubiquity_impossibility`: constructs an ExplanationSystem from witness
+  data and derives the impossibility via `explanation_impossibility`.
 -/
 
 set_option autoImplicit false
 
-/-- Generic underspecification: dim(Theta) > dim(Y) implies
-    positive-dimensional fibers. -/
-theorem generic_underspecification
-    {n m : Nat} (h : m < n) : n - m > 0 := by
+-- ============================================================
+-- Dimensional argument
+-- ============================================================
+
+/-- Generic underspecification: if the configuration space has higher
+    dimension than the observable space, the system is generically
+    underspecified. -/
+theorem generic_underspecification {n m : Nat} (h : m < n) :
+    n - m > 0 := by
   omega
 
-/-- Non-degeneracy implies impossibility. -/
+-- ============================================================
+-- Non-degeneracy -> impossibility bridge
+-- ============================================================
+
+/-- If two configurations have the same observable output but incompatible
+    explanations, and the incompatibility relation is irreflexive, then
+    no explanation can be faithful, stable, and decisive. -/
 theorem fiber_nondegeneracy_implies_impossibility
     {Theta H Y : Type}
     (observe : Theta -> Y) (explain : Theta -> H)
@@ -1293,27 +1399,35 @@ theorem fiber_nondegeneracy_implies_impossibility
     (hobs : observe theta_1 = observe theta_2)
     (hinc : incomp (explain theta_1) (explain theta_2))
     (E : Theta -> H)
-    (hf : E = explain)
+    (hf : forall (theta : Theta), not (incomp (E theta) (explain theta)))
     (hs : forall a b : Theta,
       observe a = observe b -> E a = E b)
-    (hd : forall a b : Theta,
-      incomp (E a) (E b) -> E a /= E b) :
+    (hd : forall (theta : Theta) (h : H),
+      incomp (explain theta) h -> incomp (E theta) h) :
     False := by
-  subst hf
-  exact absurd (hs theta_1 theta_2 hobs)
-    (hd theta_1 theta_2 hinc)
+  have h1 : incomp (E theta_1) (explain theta_2) :=
+    hd theta_1 (explain theta_2) hinc
+  have h2 : E theta_1 = E theta_2 := hs theta_1 theta_2 hobs
+  rw [h2] at h1
+  exact hf theta_2 h1
 
-/-- Given witness data, construct an ExplanationSystem and
-    derive the impossibility. -/
+-- ============================================================
+-- Connection to ExplanationSystem
+-- ============================================================
+
+/-- Given concrete witness data, construct an ExplanationSystem and derive
+    the impossibility. -/
 theorem ubiquity_impossibility
     {Theta H Y : Type}
     (observe : Theta -> Y) (explain : Theta -> H)
     (incomp : H -> H -> Prop)
+    (incomp_irrefl : forall (h : H), not (incomp h h))
     (theta_1 theta_2 : Theta)
     (hobs : observe theta_1 = observe theta_2)
     (hinc : incomp (explain theta_1) (explain theta_2)) :
     let S : ExplanationSystem Theta H Y :=
       { observe, explain, incompatible := incomp,
+        incompatible_irrefl := incomp_irrefl,
         rashomon := <theta_1, theta_2, hobs, hinc> }
     forall (E : Theta -> H),
       faithful S E -> stable S E -> decisive S E
@@ -1325,11 +1439,11 @@ theorem ubiquity_impossibility
 \subsection{Instance Theorems}
 \label{app:lean-instances}
 
-Each of the six instances follows the same pattern: axiomatize the domain types,
+Each of the nine instances follows the same pattern: axiomatize the domain types,
 bundle them into an \texttt{ExplanationSystem}, and apply
 \texttt{explanation\_impossibility}.  We list the theorem statements here.
 
-\begin{lstlisting}[caption={Six instance impossibility theorems}]
+\begin{lstlisting}[caption={Nine instance impossibility theorems}]
 -- Attribution (AttributionInstance.lean)
 theorem attribution_impossibility_abstract
     (E : AttrConfig -> AttrExplanation)
@@ -1377,6 +1491,30 @@ theorem model_selection_instance_impossibility
     (hs : stable msSystem E)
     (hd : decisive msSystem E) : False :=
   explanation_impossibility msSystem E hf hs hd
+
+-- GradCAM (GradCAMInstance.lean)
+theorem gradcam_impossibility
+    (E : GradCAMConfig -> SaliencyMap)
+    (hf : faithful gradcamSystem E)
+    (hs : stable gradcamSystem E)
+    (hd : decisive gradcamSystem E) : False :=
+  explanation_impossibility gradcamSystem E hf hs hd
+
+-- LLM Self-Explanation (LLMExplanationInstance.lean)
+theorem llm_explanation_impossibility
+    (E : LLMConfig -> TokenCitation)
+    (hf : faithful llmSystem E)
+    (hs : stable llmSystem E)
+    (hd : decisive llmSystem E) : False :=
+  explanation_impossibility llmSystem E hf hs hd
+
+-- Mechanistic Interpretability (MechInterpInstance.lean)
+theorem mech_interp_impossibility
+    (E : MechInterpConfig -> Circuit)
+    (hf : faithful mechInterpSystem E)
+    (hs : stable mechInterpSystem E)
+    (hd : decisive mechInterpSystem E) : False :=
+  explanation_impossibility mechInterpSystem E hf hs hd
 \end{lstlisting}
 
 %%% ==========================================================================
@@ -1568,7 +1706,7 @@ Best-model flip rate: 80\%.  Consecutive flip rate: 89\%.  Unique winners:
 $0.948 \pm 0.0023$.
 
 %%% ==========================================================================
-\section{Proof Sketches for All Six Instances}
+\section{Proof Sketches for All Nine Instances}
 \label{app:proof-sketches}
 %%% ==========================================================================
 
@@ -1576,7 +1714,7 @@ Each instance follows the same four-step proof structure: (1)~establish the
 Rashomon property, (2)~faithfulness forces $E = \mathsf{obs}$,
 (3)~decisiveness forces $E(\theta_1) \neq E(\theta_2)$,
 (4)~stability forces $E(\theta_1) = E(\theta_2)$, yielding a contradiction.
-Below we spell out the domain-specific content for all six instances.
+Below we spell out the domain-specific content for all nine instances.
 
 \subsection{Instance 1: Feature Attribution}
 \label{app:proof-attribution}
