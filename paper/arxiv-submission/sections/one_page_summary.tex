@@ -1,0 +1,96 @@
+%% one_page_summary.tex
+%% LaTeX fragment; \input at the start of \section{Introduction}.
+%% Requires: booktabs, amsthm, amsmath (all loaded in the master file).
+
+%%---------------------------------------------------------------------------
+\paragraph{Framework.}
+An \emph{explanation system} $\mathcal{S} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ pairs a parameter space $\Params$ with a hypothesis
+class $\sH$ equipped with a native explanation map $\mathsf{obs}: \sH \to Y$
+and a practitioner explanation map $\mathsf{exp}: \sH \to Y$, where $\incomp$
+is an incompatibility relation on $Y$.
+A system has the \emph{Rashomon property} if there exist observationally
+equivalent hypotheses $h \sim h'$ (same $\theta \in \Params$) such that
+$\mathsf{obs}(h) \incomp \mathsf{obs}(h')$---that is, the data do not
+determine the explanation even after fixing the task.
+Three desiderata for $\mathsf{exp}$ are then natural: \emph{faithfulness}
+($\mathsf{exp}$ never contradicts $\mathsf{obs}$), \emph{stability} ($h \sim
+h'$ implies $\mathsf{exp}(h) = \mathsf{exp}(h')$), and \emph{decisiveness}
+($\mathsf{exp}$ inherits every incompatibility pair from $\mathsf{obs}$).
+
+%%---------------------------------------------------------------------------
+\begin{theorem}[Universal Explanation Impossibility]
+\label{thm:universal-summary}
+No explanation $\mathsf{exp}$ can simultaneously be faithful, stable, and
+decisive for any system with the Rashomon property.
+\end{theorem}
+
+\noindent\emph{Proof sketch.}
+Let $h \sim h'$ with $\mathsf{obs}(h) \incomp \mathsf{obs}(h')$.
+Decisiveness forces $\mathsf{exp}(h) \incomp \mathsf{exp}(h')$.
+Stability forces $\mathsf{exp}(h) = \mathsf{exp}(h')$.
+No explanation can be both incompatible with itself and equal to itself;
+contradiction.
+(Lean-verified in \texttt{ExplanationSystem.lean} with zero axiom
+dependencies.)\hfill$\square$
+
+%%---------------------------------------------------------------------------
+\paragraph{Tightness.}
+The impossibility is tight: each of the three pairs of properties is
+simultaneously achievable, confirming all three conditions are necessary.
+Dropping faithfulness yields fixed-rule explanations (stable and decisive
+but ignoring model internals).
+Dropping stability yields single-model explanations such as \SHAP{} or
+GradCAM (faithful and decisive but varying on retrain).
+Dropping decisiveness yields $G$-invariant aggregation methods such as
+\DASH{}, CPDAGs, and ensemble probes (faithful in expectation and stable but
+returning equivalence classes rather than single answers).
+
+%%---------------------------------------------------------------------------
+\paragraph{Nine instances.}
+Table~\ref{tab:summary-instances} records the nine explanation types covered
+by the framework, their Rashomon mechanism, and the empirical instability
+magnitude measured across functionally equivalent models.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Nine instances of the Universal Explanation Impossibility with
+empirical instability results.}
+\label{tab:summary-instances}
+\begin{tabular}{llll}
+\toprule
+Instance & Rashomon mechanism & Instability metric & Result \\
+\midrule
+Attribution   & Collinearity / Rashomon set & Feature-rank flip rate
+              & $>50\%$ (GBDT)\\
+Attention     & Weight-space multiplicity   & Argmax flip rate
+              & $60.0\%$ \\
+Counterfactual & Model multiplicity         & Direction flip rate
+              & $23.5\%$ \\
+Concept       & Hidden-layer symmetry       & Direction instability
+              & $0.90$ (cosine) \\
+Causal        & Markov equivalence class    & DAG flip rate
+              & $100\%$ (within MEC) \\
+Model Sel.    & Rashomon multiplicity       & Best-model flip rate
+              & $80.0\%$ \\
+GradCAM       & Weight perturbation         & Peak-pixel flip rate
+              & $9.6\%$ \\
+LLM Expl.     & Attention multiplicity      & Citation flip rate
+              & $34.5\%$ \\
+Mech.\ Interp. & Circuit multiplicity       & Circuit flip rate
+              & (argued) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%---------------------------------------------------------------------------
+\paragraph{Resolution and implications.}
+Every instance admits a $G$-invariant resolution: aggregating $\mathsf{exp}$
+over the orbit of equivalent hypotheses restores faithfulness-in-expectation
+and stability at the cost of decisiveness, and \DASH{}, CPDAGs, and ensemble
+concept probes are concrete realizations.
+The impossibility is ubiquitous---any learning problem whose parameter
+dimension exceeds the data dimension admits a Rashomon set of positive
+measure---so the trilemma applies to virtually all modern overparameterized
+models, and practitioners must explicitly choose which property to sacrifice.

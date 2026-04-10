@@ -106,11 +106,11 @@ $v_{\theta_1} = v_{\theta_2}$, contradicting $(v_{\theta_1}, v_{\theta_2}) \in
 \end{proof}
 
 The Lean~4 formalization of this instance is in
-\texttt{ConceptInstance.lean}.  The theorem
+\texttt{UniversalImpossibility/ConceptInstance.lean}.  The theorem
 \texttt{concept\_impossibility} is proved by a single application of
-\texttt{explanation\_impossibility} with zero additional axioms beyond
-the Rashomon property, which is stated as the axiom
-\texttt{conceptSystem} encoding the specific system tuple.
+\texttt{explanation\_impossibility} with zero additional axioms beyond the
+Rashomon property, which is stated as the axiom \texttt{conceptSystem} encoding
+the specific system tuple.
 
 \paragraph{Empirical illustration.}
 We validate Theorem~\ref{thm:concept-impossibility} by training 15 MLP

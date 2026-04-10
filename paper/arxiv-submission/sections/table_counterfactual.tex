@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\caption{Counterfactual explanation instability on German Credit (20 equivalent XGBoost models, AUC within 0.03).
+  \emph{Negative control}: synthetic data with class\_sep=3.0 and subsample=1.0 --- near-identical decision boundaries, expected flip rate $<5\%$.
+  \emph{Resolution}: consensus CF (feature-wise median direction) --- fraction of individual CFs consistent with consensus.
+  All 95\% bootstrap CIs from 500 resamples.}
+\label{tab:counterfactual-instability}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{llcc}
+\toprule
+Test & Metric & Mean & 95\% CI \\
+\midrule
+\multirow{5}{*}{Positive (Rashomon)} & Mean AUC & 0.7968 & [0.7829, 0.8099] \\
+& CF found rate & 0.854 & --- \\
+& Direction flip rate & 0.235 & [0.207, 0.263] \\
+& Cross-model validity & 61.3\% & [56.1\%, 66.4\%] \\
+& Distance CV & 0.328 & [0.293, 0.372] \\
+\midrule
+Neg.\ control (class\_sep=3) & Direction flip rate & 0.000 & [0.000, 0.000] \\
+\midrule
+Resolution (consensus CF) & Consistency with consensus & 0.927 & [0.900, 0.955] \\
+\bottomrule
+\end{tabular}
+\end{table}

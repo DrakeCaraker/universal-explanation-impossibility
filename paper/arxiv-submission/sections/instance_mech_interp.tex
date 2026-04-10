@@ -90,9 +90,9 @@ $\mathcal{S}_{\mathrm{circuit}}$ has the Rashomon property.
 Apply Theorem~\ref{thm:universal}.
 \end{proof}
 
-This is verified in Lean~4 as
-\texttt{mech\_interp\_impossibility} in
-\texttt{MechInterpInstance.lean} (three type axioms plus the
+This is verified in Lean~4 as \texttt{mech\_interp\_impossibility} in
+\texttt{MechInterpInstance.lean} (three type axioms: \texttt{CircuitConfig},
+\texttt{CircuitExplanation}, \texttt{CircuitObservable}, plus the
 \texttt{circuitSystem} axiom encoding the Rashomon witness).
 
 \paragraph{Critical framing: what this does and does not say.}

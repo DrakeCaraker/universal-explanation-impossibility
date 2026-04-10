@@ -26,10 +26,6 @@
 \usepackage{listings}
 \usepackage{microtype}
 
-%% ---- Widow/orphan control ----
-\widowpenalty=10000
-\clubpenalty=10000
-
 %% ---- Hyperref configuration ----
 \hypersetup{
   colorlinks=true,
@@ -290,10 +286,7 @@ machine-checked counterpart.
 \begin{definition}[Explanation System]
 \label{def:explanation-system}
 An \emph{explanation system} is a tuple
-\[
-  \mathcal{S} = (\Params, \sH, Y, \mathsf{observe}, \mathsf{explain}, \incomp)
-\]
-where:
+$\mathcal{S} = (\Params, \sH, Y, \mathsf{observe}, \mathsf{explain}, \incomp)$ where:
 \begin{itemize}
   \item $\Params$ is a \emph{configuration space} (the set of possible
     configurations, e.g., random seeds, hyperparameter settings);
@@ -427,11 +420,11 @@ This mirrors the Lean proof exactly (\texttt{explanation\_impossibility} in
 \end{remark}
 
 \begin{remark}
-The simplicity of the proof---four steps from the Rashomon
-property to contradiction---is a feature of the framework, not a
-limitation of the result.  The intellectual content lies in identifying the
-right definitions: faithful as non-contradiction, stable as factoring
-through observations, decisive as inheriting incompatibilities.  The
+The simplicity of the proof---four steps from the Rashomon property to
+contradiction---is a feature of the framework, not a limitation of the
+result. The intellectual content lies in identifying the right
+definitions: faithful as non-contradiction, stable as factoring through
+observations, decisive as inheriting incompatibilities. The
 contribution is the axiomatic framework and its unification of nine
 domains, not the proof technique.
 \end{remark}
@@ -526,23 +519,22 @@ Rashomon property, and (iii)~characterize the resolution.
 \centering
 \caption{Empirical illustration of the universal explanation impossibility across four explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
 \label{tab:cross-instance}
-\small
-\begin{tabular}{@{}llrl@{}}
+\begin{tabular}{llrl}
 \toprule
-Instance & Instability metric & Value & Pred.\ equiv. \\
+Instance & Instability metric & Value & Prediction equiv. \\
 \midrule
 Attribution (GBDT) & SHAP flip rate & 33\% & $>$99\% \\
 Attention (DistilBERT) & Argmax flip rate & 19.9\%$^{\|}$ & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
-Causal discovery & \multicolumn{3}{l@{}}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
+Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 GradCAM (ResNet-18) & Spatial IoU & 9.6\% peak flip & $>$78.8\% \\
 Token citation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
-Mech.\ interp. & Circuit non-uniq. & --- & Meloux et al.\ (2025) \\
+Mechanistic interp. & Circuit non-uniqueness & --- & Meloux et al.\ (2025) \\
 \bottomrule
-\multicolumn{4}{@{}l@{}}{$^{\|}$Weight perturbation yields 60.0\%; we report the conservative full-retraining} \\
-\multicolumn{4}{@{}l@{}}{\quad figure (20 models, last 2 transformer layers retrained).} \\
+\multicolumn{4}{l}{$^{\|}$Weight perturbation yields 60.0\%; we report the conservative} \\
+\multicolumn{4}{l}{\quad full-retraining figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
 
@@ -557,7 +549,7 @@ resolution exists whenever the Rashomon property arises from a symmetry group
 acting on the hypothesis space.  The resolution sacrifices decisiveness and
 achieves faithfulness in expectation together with exact stability.
 
-\subsection[G-Invariant Explanation Systems]{$G$-Invariant Explanation Systems}
+\subsection{$G$-Invariant Explanation Systems}
 \label{sec:g-invariant}
 
 Let $G$ be a group acting on the hypothesis space~$\sH$.  The action is
@@ -640,17 +632,34 @@ instantiates across the nine domains of Section~\ref{sec:instances}.
   resolution, and the property sacrificed.}
 \label{tab:resolutions}
 \small
-\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}llll@{}}
 \toprule
 Instance & Symmetry group $G$ & Resolution & Sacrificed \\
 \midrule
-Attribution & Collinear-feat.\ perms. & \DASH{} (ens.\ SHAP avg.) & Decisive rank. \\
-Attention & Weight-space symm. & Avg.\ attention rollout & Single top token \\
-Counterfactual & Dec.-boundary var. & Rashomon-robust recourse & Single CF \\
-Concept probe & Repr.\ rotation & Averaged CAV / subspace & Single direction \\
-Causal disc. & DAG rev.\ in Markov cl. & CPDAG reporting & Fully oriented \\
-Model sel. & Model perm.\ in $\mathcal{R}$ & Ensemble / $\mathcal{R}$ report & Single best \\
+Attribution &
+  Collinear-feature permutations &
+  \DASH{} (ensemble SHAP averaging) &
+  Decisive ranking \\
+Attention &
+  Weight-space symmetries &
+  Averaged attention rollout &
+  Single top token \\
+Counterfactual &
+  Decision-boundary variation &
+  Rashomon-robust recourse &
+  Single counterfactual \\
+Concept probe &
+  Representation rotation &
+  Averaged CAV / subspace &
+  Single direction \\
+Causal discovery &
+  DAG reversal within Markov class &
+  CPDAG reporting &
+  Fully oriented graph \\
+Model selection &
+  Model permutation in Rashomon set &
+  Ensemble / Rashomon set report &
+  Single best model \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -752,10 +761,9 @@ faithful explanation ranks $j$ above $k$ is exactly $1/2$.
 \end{corollary}
 
 \noindent
-This is the neural-network instantiation of the symmetric Bayes
-result formalized in \texttt{Symmetric\-Bayes.lean}: the symmetry
-of the fiber under feature permutation forces uniform marginals on
-the ranking.
+This is the neural-network instantiation of the symmetric Bayes result
+formalized in \texttt{SymmetricBayes.lean}: the symmetry of the fiber
+under feature permutation forces uniform marginals on the ranking.
 
 \subsection{Prevalence}
 \label{sec:prevalence}
@@ -766,12 +774,11 @@ output), diffusion models, graph neural networks, random forests with
 hundreds of trees, and Lasso regression with more features than observations
 all satisfy it.  Even linear regression with collinear features produces a
 positive-dimensional fiber (the collinear subspace).
-\citet{damour2022underspecification} document this across NLP,
-computer vision, and medical imaging, finding that
-underspecification---and hence explanation instability---is ubiquitous
-in deployed systems.  The only escape is a model class so constrained
-that $\dim(\sH) \leq \dim(Y)$, which excludes essentially all modern
-architectures of practical interest.
+\citet{damour2022underspecification} document this across NLP, computer
+vision, and medical imaging, finding that underspecification---and hence
+explanation instability---is ubiquitous in deployed systems.  The only
+escape is a model class so constrained that $\dim(\sH) \leq \dim(Y)$, which
+excludes essentially all modern architectures of practical interest.
 
 \subsection{Analogy: Arrow's Impossibility Theorem}
 \label{sec:arrow-analogy}
@@ -805,7 +812,7 @@ and the complete file inventory.
 
 Table~\ref{tab:lean-summary} summarizes the formalization.
 
-\begin{table}[ht]
+\begin{table}[h]
 \centering
 \caption{Summary of the Lean~4 formalization.}
 \label{tab:lean-summary}
@@ -837,13 +844,13 @@ this by providing complete transparency on the axiom stratification.
 Table~\ref{tab:axiom-strat} reports which theorems depend on which axioms,
 verified by \texttt{\#print axioms} in Lean~4.
 
-\begin{table}[ht]
+\begin{table}[h]
 \centering
 \caption{Axiom stratification for key theorems, verified by \texttt{\#print axioms}.
   ``Zero axioms'' means the theorem depends only on the hypotheses stated in its
   signature---no global axioms are used.}
 \label{tab:axiom-strat}
-\footnotesize
+\small
 \begin{tabular}{@{}lrl@{}}
 \toprule
 Theorem & Axioms & Description \\
@@ -852,14 +859,14 @@ Theorem & Axioms & Description \\
 \texttt{attribution\_impossibility} & 0 & Core attribution impossibility \\
 \texttt{impossibility\_qualitative} & 0 & From dominance + surjectivity \\
 \texttt{gbdt\_impossibility\_local} & 4 & surj, fm, nfm (no proportionality) \\
-\texttt{impossibility} (quantitative) & 5 & + \texttt{proportionality\_global} \\
+\texttt{impossibility} (quantitative) & 5 & + \texttt{proportionality\_global} for ratio \\
 \texttt{consensus\_equity} & 6 & + cross-group symmetric \\
 \texttt{attribution\_impossibility\_bundled} & 0 & Fully parametric via \texttt{GBDTSetup} \\
-\texttt{attention\_impossibility} & 4 & Config, Map, Observable, system \\
-\texttt{counterfactual\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{concept\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{causal\_instance\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{model\_sel\_instance\_impossibility} & 4 & Config, Explanation, Observable, system \\
+\texttt{attention\_impossibility} & 4 & AttentionConfig, Map, Observable, system \\
+\texttt{counterfactual\_impossibility} & 4 & CFConfig, Explanation, Observable, system \\
+\texttt{concept\_impossibility} & 4 & ConceptConfig, Explanation, Observable, system \\
+\texttt{causal\_instance\_impossibility} & 4 & CausalConfig, Explanation, Observable, system \\
+\texttt{model\_selection\_instance\_impossibility} & 4 & MSConfig, Explanation, Observable, system \\
 \texttt{gInvariant\_stable} & 0 & $G$-invariance implies stability \\
 \texttt{ubiquity\_impossibility} & 0 & Constructs system from witnesses \\
 \bottomrule
@@ -880,12 +887,10 @@ literature being formalized.
 We distinguish four levels of verification:
 
 \begin{enumerate}[label=(\alph*)]
-  \item \textbf{Proved} (zero axiom dependencies): The theorem
-    follows from pure logic and stated hypotheses.  Examples:
-    {\raggedright\texttt{explanation\_impossibility},
-    \texttt{attribution\_impossibility},
-    \texttt{gInvariant\_stable}, and
-    \texttt{ubiquity\_impossibility}.\par}
+  \item \textbf{Proved} (zero axiom dependencies): The theorem follows from
+    pure logic and stated hypotheses.  Examples: \texttt{explanation\_impossibility},
+    \texttt{attribution\_impossibility}, \texttt{gInvariant\_stable},
+    \texttt{ubiquity\_impossibility}.
 
   \item \textbf{Derived} (from axioms): The theorem follows from a small set
     of domain-specific axioms.  Examples: \texttt{gbdt\_impossibility\_local}
@@ -893,15 +898,15 @@ We distinguish four levels of verification:
     independently verifiable (e.g., the surjectivity axiom for GBDT follows
     from the symmetry of collinear features under the data-generating process).
 
-  \item \textbf{Argued} (supplement proof only): The result has a
-    rigorous proof sketch in the supplement or companion paper but has
-    not been mechanized in Lean~4.  Example: the Pareto optimality of
-    orbit averaging (Theorem~\ref{thm:orbit-average}(iv)).
+  \item \textbf{Argued} (supplement proof only): The result has a rigorous
+    proof sketch in the supplement or companion paper but has not been
+    mechanized in Lean~4.  Example: the Pareto optimality of orbit averaging
+    (Theorem~\ref{thm:orbit-average}(iv)).
 
   \item \textbf{Empirical}: The result is supported by computational
-    experiments but not formally proved.  Examples: the specific flip
-    rates (19.9\% attention under full retraining, 23.5\%
-    counterfactual, etc.)\ reported in Section~\ref{sec:instances}.
+    experiments but not formally proved.  Examples: the specific flip rates
+    (19.9\% attention under full retraining, 23.5\% counterfactual, etc.) reported in
+    Section~\ref{sec:instances}.
 \end{enumerate}
 
 \subsection{Formerly Axiomatized, Now Derived}
@@ -910,22 +915,16 @@ Several results that were initially axiomatized have since been derived from
 more primitive axioms, strengthening the formalization:
 
 \begin{itemize}
-  \item \texttt{spearman\_classical\_bound} $\to$
-    \texttt{spearman\_instability\_bound} in \texttt{SpearmanDef.lean}:
-    derived from split-count structure.
+  \item \texttt{spearman\_classical\_bound} $\to$ \texttt{spearman\_instability\_bound}
+    in \texttt{SpearmanDef.lean}: derived from split-count structure.
   \item \texttt{le\_cam\_lower\_bound} in \texttt{QueryComplexity.lean}:
     provable by \texttt{not\_lt.mp} (a tautology in any linear order).
-  \item \texttt{consensus\_variance\_bound} in
-    \texttt{Defs.lean}: from\\
-    \texttt{attribution\_variance\_nonneg} +
-    \texttt{Nat.cast\_nonneg}.
-  \item \texttt{attribution\_sum\_symmetric} in
-    \texttt{SymmetryDerive.lean}: from proportionality +
-    split-count + cross-group + balance.
-  \item \texttt{attribution\_variance} and\\
-    \texttt{attribution\_variance\_nonneg}: from Mathlib's\\
-    \texttt{ProbabilityTheory.variance} and
-    \texttt{variance\_nonneg}.
+  \item \texttt{consensus\_variance\_bound} in \texttt{Defs.lean}: from
+    \texttt{attribution\_variance\_nonneg} + \texttt{Nat.cast\_nonneg}.
+  \item \texttt{attribution\_sum\_symmetric} in \texttt{SymmetryDerive.lean}:
+    derived from proportionality + split-count + cross-group + balance.
+  \item \texttt{attribution\_variance} and \texttt{attribution\_variance\_nonneg}:
+    from Mathlib's \texttt{ProbabilityTheory.variance} and \texttt{variance\_nonneg}.
 \end{itemize}
 
 \subsection{Lean Proof of the Core Theorem}
@@ -974,7 +973,7 @@ require that explanations be \emph{stable and partially faithful}, and mandate
 explicit disclosure of tied or unresolvable queries rather than demanding
 decisive answers that are mathematically impossible to guarantee.
 
-\subsection[What Explainability Can Do]{What Explainability \emph{Can} Do}
+\subsection{What Explainability \emph{Can} Do}
 \label{sec:can-do}
 
 The $G$-invariant resolution (Section~\ref{sec:resolution}) is constructive, not
@@ -991,7 +990,7 @@ not say ``explanations are useless''; it says ``decisive explanations are
 unreliable under underspecification, but partially decisive explanations with
 calibrated uncertainty are both achievable and informative.''
 
-\subsection[The Isn't This Obvious Defense]{The ``Isn't This Obvious?'' Defense}
+\subsection{The ``Isn't This Obvious?'' Defense}
 \label{sec:obvious}
 
 A natural reaction is that practitioners already know explanations are unstable
@@ -1016,7 +1015,7 @@ committee chair knows that voting rules are imperfect.  Yet its formalization
 created the field of social choice theory, precisely because it replaced
 intuition with a theorem that could be built upon.
 
-\subsection[The All Instances Are Trivial Defense]{The ``All Instances Are Trivial'' Defense}
+\subsection{The ``All Instances Are Trivial'' Defense}
 \label{sec:trivial}
 
 A reviewer might object that each individual instance is already known: attention
@@ -1138,8 +1137,8 @@ anonymous reviewers whose feedback improved the clarity of the manuscript.
 This work was conducted independently and received no external funding.
 
 %%% ==========================================================================
-\bibliographystyle{plainnat}
 \bibliography{references}
+\bibliographystyle{plainnat}
 %%% ==========================================================================
 
 %%% ==========================================================================
@@ -1299,7 +1298,7 @@ theorem tightness_stable_decisive (S : ExplanationSystem Theta H Y)
     exact hc theta h hinc
 \end{lstlisting}
 
-\subsection[UniversalResolution.lean --- G-Invariant Resolution]{UniversalResolution.lean --- $G$-Invariant Resolution}
+\subsection{UniversalResolution.lean --- $G$-Invariant Resolution}
 \label{app:lean-resolution}
 
 This file formalizes the resolution framework: if a group $G$ acts transitively
@@ -1747,12 +1746,9 @@ This is the \texttt{RashomonProperty} of \texttt{Trilemma.lean}.
 \end{enumerate}
 
 \paragraph{Lean.}
-{\raggedright
-\texttt{attribution\_impossibility} in \texttt{Trilemma.lean}
-(0~axioms);
+\texttt{attribution\_impossibility} in \texttt{Trilemma.lean} (0 axioms);
 \texttt{attribution\_impossibility\_abstract} in
-\texttt{AttributionInstance.lean}
-(0~additional axioms beyond system).\par}
+\texttt{AttributionInstance.lean} (0 additional axioms beyond system).
 
 \subsection{Instance 2: Attention Maps}
 \label{app:proof-attention}
@@ -1801,7 +1797,8 @@ in opposite directions \citep{semenova2022existence,fisher2019models}.
 
 \paragraph{Proof.}
 Same four-step structure.  Lean:
-\texttt{counterfactual\_impossibility} in \texttt{Counterfactual\-Instance.lean}.
+\texttt{counterfactual\_impossibility} in
+\texttt{CounterfactualInstance.lean}.
 
 \subsection{Instance 4: Concept Probes}
 \label{app:proof-concept}
@@ -1842,13 +1839,9 @@ undirected edge contains two DAGs in the same equivalence class with that edge
 oriented in opposite directions.
 
 \paragraph{Proof.}
-Same four-step structure.
-
-{\raggedright\noindent\textit{Lean:}
-\texttt{causal\_instance\_impossibility} in
-\texttt{CausalInstance.lean};
-\texttt{causal\_discovery\_impossibility} in
-\texttt{CausalDiscovery.lean}.\par}
+Same four-step structure.  Lean:
+\texttt{causal\_instance\_impossibility} in \texttt{CausalInstance.lean};
+\texttt{causal\_discovery\_impossibility} in \texttt{CausalDiscovery.lean}.
 
 \subsection{Instance 6: Model Selection}
 \label{app:proof-model-selection}
@@ -1867,13 +1860,10 @@ performance that are ranked differently on different evaluation splits
 \citep{fisher2019models,rudin2024amazing,semenova2022existence}.
 
 \paragraph{Proof.}
-Same four-step structure.
-
-{\raggedright\noindent\textit{Lean:}
-\texttt{model\_selection\_instance\_impossibility}
-in \texttt{ModelSelectionInstance.lean};
-\texttt{model\_selection\_impossibility}
-in \texttt{ModelSelection.lean}.\par}
+Same four-step structure.  Lean:
+\texttt{model\_selection\_instance\_impossibility} in
+\texttt{ModelSelectionInstance.lean};
+\texttt{model\_selection\_impossibility} in \texttt{ModelSelection.lean}.
 
 %%% ==========================================================================
 \end{document}

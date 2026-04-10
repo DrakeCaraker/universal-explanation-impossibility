@@ -1,0 +1,150 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 6: Model Selection Under the Rashomon Effect}
+\label{sec:instance-selection}
+%-----------------------------------------------------------------------
+
+Model selection---choosing a single best model from a trained set---is perhaps
+the most commonplace decision in applied machine learning.  Yet when many models
+achieve near-identical performance, any selection procedure is navigating a
+\emph{Rashomon set}: a collection of models that are, by the available evidence,
+equally defensible choices.  We show that this setting is an instance of
+Theorem~\ref{thm:universal}, and that the resulting instability is not a
+failure of any particular selection criterion but a mathematical inevitability.
+
+\paragraph{Explanation system.}
+We instantiate the abstract framework as follows.
+
+\begin{definition}[Model Selection Explanation System]
+\label{def:ms-system}
+The \emph{model selection explanation system} is the tuple
+$\mathcal{S}_{\mathrm{sel}} = (\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$ where:
+\begin{itemize}
+  \item $\Params = \mathbf{\Theta}$ is the space of \emph{model configurations}
+    (hyperparameter settings, architecture choices, training seeds, or any
+    parameterization of the model class under comparison);
+
+  \item $\sH$ is the \emph{hypothesis space} of trained models; each
+    $h \in \sH$ corresponds to a configuration $\theta(h) \in \Params$ via
+    the attribution map $\theta: \sH \to \Params$;
+
+  \item $Y$ is the space of \emph{performance metrics} (validation loss,
+    accuracy, AUC, or any scalar summary of model quality on a held-out
+    evaluation set); formally, $Y$ is equipped with a strict total order
+    $>$ representing ``performs better than'';
+
+  \item $\mathsf{obs}: \sH \to Y$ maps each hypothesis to its
+    \emph{observed performance metric} on the evaluation set;
+
+  \item $\mathsf{exp}: \sH \to Y$ is the \emph{selection rule}---the
+    criterion used to rank or choose among models; and
+
+  \item $\incomp\;\subseteq Y \times Y$ is defined by $(y, y') \in \incomp$
+    whenever $y \neq y'$ and the two metrics imply opposite selection
+    decisions (i.e., the model recommended under $y$ is strictly
+    disfavored under $y'$).
+\end{itemize}
+\end{definition}
+
+\paragraph{The Rashomon property for model selection.}
+The central empirical finding motivating the Rashomon effect is that, across
+many supervised learning tasks, large sets of models achieve near-optimal
+performance while differing substantially in structure, predictions, and
+feature usage \citep{breiman2001random,fisher2019models,rudin2024amazing}.
+Formally, define the \emph{$\varepsilon$-Rashomon set} as
+\[
+  \mathcal{R}_\varepsilon = \bigl\{ h \in \sH : \mathsf{obs}(h) \geq \mathsf{obs}(h^*) - \varepsilon \bigr\},
+\]
+where $h^*$ is the empirical risk minimizer and $\varepsilon > 0$ is a
+tolerance.  The Rashomon property holds for $\mathcal{S}_{\mathrm{sel}}$
+whenever $\mathcal{R}_\varepsilon$ contains pairs of models that are
+(i)~indistinguishable in performance ($\theta(h) = \theta(h')$ in the sense
+that they share the same configuration class) yet
+(ii)~produce incompatible selection metrics on different evaluation samples.
+
+\begin{proposition}[Rashomon Property for Model Selection]
+\label{prop:ms-rashomon}
+If the $\varepsilon$-Rashomon set $\mathcal{R}_\varepsilon$ contains
+two models $h, h' \in \sH$ with $\theta(h) = \theta(h')$ such that
+$\mathsf{obs}(h) \neq \mathsf{obs}(h')$, then $\mathcal{S}_{\mathrm{sel}}$
+satisfies the Rashomon property (Definition~\ref{def:rashomon}).
+\end{proposition}
+
+\noindent
+This is immediate from the definition: $\mathsf{obs}(h)$ and
+$\mathsf{obs}(h')$ are incompatible (one favors $h$, the other $h'$), and
+both are witnessed by models sharing the same underlying configuration.
+The condition is generically satisfied: \citet{fisher2019models} show
+that the Rashomon set has positive measure for any model class with more
+free parameters than identifiable constraints, and
+\citet{semenova2022existence} establish that simpler models almost always
+exist inside the Rashomon set alongside complex ones.
+
+\paragraph{Lean formalization.}
+The model selection impossibility is mechanically verified in two Lean~4
+files.  \texttt{ModelSelection.lean} formalizes the \emph{Model Rashomon
+Property}---for any two distinct candidate models, there exist evaluation
+instances ranking them in opposite orders---and proves
+\texttt{model\_selection\_impossibility}: no stable complete ranking
+can be faithful to all evaluation instances.  The proof is a three-line
+\texttt{linarith} argument from the Rashomon witnesses.
+\texttt{ModelSelectionInstance.lean} instantiates the abstract
+\texttt{ExplanationSystem} framework from
+\texttt{ExplanationSystem.lean} and derives
+\texttt{model\_selection\_instance\_impossibility} as a direct corollary
+of the universal theorem via \texttt{explanation\_impossibility}.
+
+\paragraph{Instance 6 (Model Selection Impossibility).}
+
+\begin{theorem}[Model Selection Impossibility]
+\label{thm:model-selection}
+The model selection explanation system $\mathcal{S}_{\mathrm{sel}}$
+(Definition~\ref{def:ms-system}) satisfies the Rashomon property
+whenever the $\varepsilon$-Rashomon set has positive measure.
+Consequently, by Theorem~\ref{thm:universal}, no selection rule
+$\mathsf{exp}: \sH \to Y$ can simultaneously be:
+\begin{enumerate}
+  \item \textbf{Faithful:} $\mathsf{exp}(h) = \mathsf{obs}(h)$ for all $h$
+    (the selected model is the one the evaluation metric actually endorses);
+  \item \textbf{Stable:} $\mathsf{exp}(h) = \mathsf{exp}(h')$ whenever
+    $\theta(h) = \theta(h')$ (the same configuration always yields the same
+    selection); and
+  \item \textbf{Decisive:} $\mathsf{exp}(h)$ is a strict recommendation
+    for every $h$ (no ties or abstentions are reported).
+\end{enumerate}
+\end{theorem}
+
+\paragraph{Design space.}
+The model selection design space mirrors the attribution design space
+exactly (proved in \texttt{ModelSelectionDesignSpace.lean}): every
+selection rule falls into one of two families.
+\begin{itemize}
+  \item \textbf{Family~A} (decisive and unfaithful): the rule always
+    picks a winner, but on some evaluation split it recommends the
+    worse-performing model.  Standard single-criterion selection rules
+    (e.g., argmax validation accuracy) fall here whenever the Rashomon
+    set is non-trivial.
+  \item \textbf{Family~B} (faithful and stable, not decisive): the rule
+    declares a tie among Rashomon-set members, explicitly surfacing the
+    ambiguity.  This corresponds to reporting the Rashomon set
+    $\mathcal{R}_\varepsilon$ rather than a single selected model.
+\end{itemize}
+
+\paragraph{Implications.}
+Theorem~\ref{thm:model-selection} formalizes and sharpens the empirical
+observation of \citet{fisher2019models} that ``all models are wrong, but
+many are useful'': when many models are equally useful by the available
+metric, any decisive selection is \emph{necessarily} unfaithful on some
+evaluation.  The instability practitioners observe when re-running
+AutoML pipelines, changing random seeds, or switching validation folds
+is not a software bug---it is the Rashomon property in action.
+
+The resolution is the same as for feature attribution
+(Section~\ref{sec:instance-attribution}): replace decisive selection
+with a $G$-invariant aggregation over the Rashomon set.  Concretely,
+this means reporting ensemble predictions across $\mathcal{R}_\varepsilon$,
+using partial orders that render near-optimal models incomparable, or
+applying Rashomon-aware model selection criteria
+\citep{semenova2022existence,herren2023statistical}.  Each of these
+trades decisiveness for the pair (faithful, stable), which
+Theorem~\ref{thm:universal} shows is the only achievable combination
+under underspecification.

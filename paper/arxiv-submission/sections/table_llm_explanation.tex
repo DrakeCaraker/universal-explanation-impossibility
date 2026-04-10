@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{LLM Explanation Instability (Attention-Based Fallback).
+  10 perturbed DistilBERT models ($\sigma=0.01$), 100 sentences.
+  ``Citation overlap'' = Jaccard similarity of top-3 cited tokens.
+  ``Flip rate'' = fraction of model pairs where the \#1 cited token differs.
+  95\% CIs via bootstrap.}
+\label{tab:llm_explanation_instability}
+\begin{tabular}{lcc}
+\toprule
+Metric & Value & 95\% CI \\
+\midrule
+Prediction agreement & 100.0\% & --- \\
+\midrule
+\multicolumn{3}{l}{\emph{Positive test (all 100 sentences)}} \\
+Citation overlap (Jaccard) & 0.798 & [0.791, 0.806] \\
+Explanation flip rate (\#1 token) & 0.345 & [0.332, 0.359] \\
+\midrule
+\multicolumn{3}{l}{\emph{Negative control (20 single-content-token sentences: forced top-1 citation)}} \\
+Citation overlap (Jaccard) & 1.000 & [1.000, 1.000] \\
+Flip rate & 0.000 & [0.000, 0.000] \\
+\midrule
+\multicolumn{3}{l}{\emph{Resolution test (consensus top-3 vs individual top-3)}} \\
+Consensus overlap (Jaccard) & 0.857 & [0.843, 0.871] \\
+\bottomrule
+\end{tabular}
+\end{table}

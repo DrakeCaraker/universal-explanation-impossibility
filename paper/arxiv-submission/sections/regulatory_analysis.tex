@@ -1,0 +1,47 @@
+% Regulatory Analysis subsection — standalone LaTeX fragment
+% Intended to replace or expand \subsection{Regulatory Implications} in universal_impossibility.tex
+% FOCUSED on SR 11-7, with brief notes on EU AI Act and NIST AI RMF
+
+\subsection{Regulatory Analysis: SR~11-7}
+\label{sec:regulatory-analysis}
+
+OCC SR~11-7 \citep{occ2011sr117} establishes three pillars for model
+validation in banking that map directly onto the trilemma. Section~III.A
+(\emph{Conceptual Soundness}) requires that ``the model's theoretical
+construct, \ldots\ assumptions, and limitations should be assessed''---this
+demands \emph{faithfulness}: the explanation must reflect the model's
+actual structure and assumptions. Section~III.B (\emph{Outcomes Analysis})
+requires ``comparing the model's outputs with the corresponding realized
+outcomes'' across ``model versions''---this demands \emph{stability}: the
+explanation must be consistent across model versions that produce
+equivalent outcomes. Section~IV (\emph{Effective Challenge}) requires
+``critical analysis by objective, informed parties'' yielding ``specific
+findings''---this demands \emph{decisiveness}: the challenge must produce
+specific, actionable findings, not hedged non-answers.
+
+These three requirements, as stated, cannot be simultaneously satisfied for
+any banking model with the Rashomon property---i.e., any model where
+multiple parameter configurations achieve equivalent predictive
+performance. For models trained with bagging, boosting, or stochastic
+gradient descent, the Rashomon property is generic
+(Section~\ref{sec:resolution}). Theorem~\ref{thm:universal} applies
+directly.
+
+Compliant model documentation under the trilemma should: (a)~state which
+property is prioritized for each model use case; (b)~use ensemble
+explanations (\DASH{}) for the stable $+$ faithful tradeoff, documenting
+where decisiveness is sacrificed; (c)~report explanation uncertainty bounds
+(confidence intervals on feature importance across the Rashomon set)
+alongside point estimates; and (d)~document the Rashomon set size and the
+resulting explanation variance as part of the model risk assessment.
+Effective challenge (Section~IV) is then directed at modeling choices---why
+this Rashomon set? why this loss threshold?---rather than at explanation
+artifacts that are mathematically underdetermined.
+
+The same analysis applies to EU AI Act Article~13 \citep{euaiact2024}
+(transparency) and NIST AI RMF MAP~1.5 \citep{nistai2023}
+(interpretability). In each case, the regulatory language implicitly
+assumes all three properties are jointly achievable; our theorem shows they
+are not. Regulations should be reformulated as explicit tradeoffs: specify
+which property is required, which may be relaxed, and what resolution
+method is acceptable.

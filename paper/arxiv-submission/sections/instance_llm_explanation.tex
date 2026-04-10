@@ -1,0 +1,97 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 8: Token Citation Explanations Under Model Multiplicity}
+\label{sec:instance-llm}
+%-----------------------------------------------------------------------
+
+Large language models are increasingly asked to explain their own
+predictions: ``Classify this review as positive or negative and explain
+which words drove your decision.''  We formalize such self-explanations
+as citation-based summaries---template explanations citing the top-$k$
+most-attended tokens---and show that they inherit the impossibility of
+Theorem~\ref{thm:universal}.  Recent work on unfaithful chain-of-thought
+reasoning \citep{turpin2024language} and measuring faithfulness of LLM
+explanations \citep{lanham2023measuring} motivates the concern that LLM
+self-explanations are unreliable even for models that agree on predictions.
+
+\paragraph{The explanation system.}
+We instantiate the abstract framework
+(Definition~\ref{def:explanation-system}) as the 6-tuple
+$\mathcal{S}_{\mathrm{llm}} = (\Params_{\mathrm{llm}},\,
+\sH_{\mathrm{llm}},\,Y_{\mathrm{llm}},\,\mathsf{obs}_{\mathrm{llm}},\,
+\mathsf{exp}_{\mathrm{llm}},\,\incomp_{\mathrm{llm}})$ where:
+\begin{itemize}
+  \item $\Params_{\mathrm{llm}}$ is the space of transformer weight
+    configurations $\theta$ (attention heads, feed-forward layers, embeddings);
+  \item $\sH_{\mathrm{llm}} = \binom{[T]}{k}$ is the set of size-$k$
+    subsets of token positions, representing the $k$ tokens cited in the
+    explanation (we use $k = 3$);
+  \item $Y_{\mathrm{llm}}$ is the prediction space (e.g., binary sentiment
+    labels);
+  \item $\mathsf{obs}_{\mathrm{llm}}(\theta)$ is the predicted label for
+    input sentence $x$;
+  \item $\mathsf{exp}_{\mathrm{llm}}(\theta)$ extracts the top-$k$ content
+    tokens by attention rollout importance as the ``cited evidence''; and
+  \item $(S_1, S_2) \in \incomp_{\mathrm{llm}}$ when
+    the highest-ranked token differs: $\max(S_1) \neq \max(S_2)$ under
+    the attention ordering---i.e., the explanations disagree on the primary
+    evidence token.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+The attention rollout instability documented in
+Section~\ref{sec:instance-attention} directly implies the Rashomon property
+for $\mathcal{S}_{\mathrm{llm}}$: models with identical predictions but
+different attention distributions cite different tokens as primary evidence.
+\citet{ye2022unreliability} demonstrate empirically that LLM-generated
+explanations are unreliable, changing substantially under minor prompt or
+model variations while predictions remain stable.  \citet{turpin2024language}
+show that chain-of-thought explanations can be systematically unfaithful
+to the model's actual reasoning process.
+
+\begin{proposition}[Instance 8: Token Citation Impossibility]
+\label{prop:llm-impossibility}
+If $\mathcal{S}_{\mathrm{llm}}$ has the Rashomon property, then no
+token citation explanation method can simultaneously be faithful, stable,
+and decisive. Token citations are extracted via attention rollout as a proxy
+for language model self-explanation.
+\end{proposition}
+
+\begin{proof}
+Direct application of Theorem~\ref{thm:universal} to
+$\mathcal{S}_{\mathrm{llm}}$.
+\end{proof}
+
+\paragraph{Empirical illustration.}
+We validate Proposition~\ref{prop:llm-impossibility} using 10 perturbed
+DistilBERT models ($\sigma = 0.01$, matching the attention experiment)
+on 100 sentiment sentences.  Despite \textbf{100\% prediction agreement},
+the \textbf{explanation flip rate} (fraction of model pairs citing a
+different primary token) is \textbf{34.5\%} [95\% CI: 33.2--35.9\%],
+and the mean pairwise \textbf{citation overlap} (Jaccard similarity of
+top-3 token sets) is only \textbf{0.798} [CI: 0.791--0.806].
+The \textbf{negative control} (top quartile of sentences by pairwise
+Jaccard consensus, 26 sentences) achieves perfect citation overlap
+(Jaccard = 1.000), confirming that instability is concentrated in
+genuinely ambiguous sentences.
+The \textbf{resolution test} (consensus top-3 from averaged attention
+rollout) yields Jaccard overlap of \textbf{0.857} [CI: 0.842--0.871],
+a \textbf{+5.8\%} improvement over pairwise overlap, confirming that
+orbit averaging reduces citation instability.
+Full results appear in Table~\ref{tab:llm_explanation_instability}.
+
+\input{sections/table_llm_explanation}
+
+\paragraph{Implications for regulatory requirements on LLM explanations.}
+The EU AI Act \citep{euaiact2024} requires ``meaningful explanations'' for
+high-risk AI systems, and practitioners increasingly rely on LLM
+self-explanations to satisfy this requirement.
+Proposition~\ref{prop:llm-impossibility} and the 34.5\% flip rate
+demonstrate that such explanations are structurally unreliable: retraining
+(or fine-tuning) the same architecture on the same data can change which
+tokens the model cites as evidence, even when the prediction itself is
+unchanged.  This is not a failure of any particular prompting strategy or
+explanation method; it is a mathematical consequence of underspecification.
+Regulators should require that LLM explanations be accompanied by
+stability audits---e.g., reporting citation overlap across multiple model
+instances---rather than treating a single model's self-explanation as
+ground truth.

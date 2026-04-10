@@ -1,0 +1,93 @@
+%-----------------------------------------------------------------------
+\subsection{Instance 7: Saliency Maps (GradCAM) Under Weight-Space
+  Multiplicity}
+\label{sec:instance-gradcam}
+%-----------------------------------------------------------------------
+
+Gradient-weighted Class Activation Mapping (GradCAM)
+\citep{selvaraju2017gradcam} is the dominant saliency method for
+convolutional neural networks: it highlights spatial regions that drive a
+classification decision by weighting the final convolutional feature maps
+by their class-specific gradients.  GradCAM saliency maps are widely used
+for model debugging, clinical imaging, and regulatory documentation.  We
+show that no saliency map explanation can be faithful, stable, and decisive
+under weight-space underspecification.
+
+\paragraph{The explanation system.}
+Let $H \times W$ denote the spatial resolution of the final convolutional
+feature maps.  We instantiate the abstract framework
+(Definition~\ref{def:explanation-system}) as the 6-tuple
+$\mathcal{S}_{\mathrm{sal}} = (\Params_{\mathrm{sal}},\,
+\sH_{\mathrm{sal}},\,Y_{\mathrm{sal}},\,\mathsf{obs}_{\mathrm{sal}},\,
+\mathsf{exp}_{\mathrm{sal}},\,\incomp_{\mathrm{sal}})$ where:
+\begin{itemize}
+  \item $\Params_{\mathrm{sal}}$ is the space of CNN weight configurations
+    $\theta$ (convolutional filters, batch-norm parameters, classifier head);
+  \item $\sH_{\mathrm{sal}} = [0,1]^{H \times W}$ is the space of
+    ReLU-activated GradCAM heatmaps, normalized to $[0,1]$;
+  \item $Y_{\mathrm{sal}}$ is the space of input-to-output prediction
+    functions $f_\theta : \mathcal{X} \to \mathcal{Y}$;
+  \item $\mathsf{obs}_{\mathrm{sal}}(\theta) = f_\theta$ records the
+    observable prediction behavior;
+  \item $\mathsf{exp}_{\mathrm{sal}}(\theta)$ is the GradCAM heatmap
+    produced by $\theta$ on a fixed input image $x_0$; and
+  \item $(\mathsf{h}_1, \mathsf{h}_2) \in \incomp_{\mathrm{sal}}$ when
+    $\operatorname{argmax}_{(i,j)}\, \mathsf{h}_1 \neq
+    \operatorname{argmax}_{(i,j)}\, \mathsf{h}_2$---the two heatmaps
+    place peak activation at different spatial locations.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+Sanity checks for saliency methods \citep{adebayo2018sanity} demonstrate
+that saliency maps from networks that differ only in their random
+initialization can diverge substantially while maintaining identical test
+accuracy.  \citet{hooker2019benchmark} further show that saliency-guided
+feature removal affects models inconsistently across retraining runs.
+These findings establish the Rashomon property for
+$\mathcal{S}_{\mathrm{sal}}$: there exist weight configurations $\theta_1,
+\theta_2$ with $f_{\theta_1} \approx f_{\theta_2}$ yet peak GradCAM
+activation at different spatial locations.
+
+\begin{proposition}[Instance 7: Saliency Map Impossibility]
+\label{prop:gradcam-impossibility}
+If $\mathcal{S}_{\mathrm{sal}}$ has the Rashomon property, then no
+saliency map explanation can simultaneously be faithful, stable, and
+decisive.
+\end{proposition}
+
+\begin{proof}
+Direct application of Theorem~\ref{thm:universal} to
+$\mathcal{S}_{\mathrm{sal}}$.
+\end{proof}
+
+\paragraph{Empirical illustration.}
+We validate Proposition~\ref{prop:gradcam-impossibility} by creating 10
+perturbed ResNet-18 models on CIFAR-10 ($\sigma = 0.02$ Gaussian weight
+noise).  With \textbf{78.8\% prediction agreement} (confirming approximate
+functional equivalence; prediction agreement is 78.8\%, reflecting
+sensitivity of ImageNet-pretrained ResNet-18 to perturbation on CIFAR-10),
+the \textbf{peak flip rate} is \textbf{9.6\%}
+[95\% CI: 8.8--10.5\%]: nearly one in ten model pairs places peak GradCAM
+activation at a different spatial location despite the same prediction.
+The mean pairwise spatial IoU (top-20\% threshold) is \textbf{95.4\%}
+[CI: 95.3--95.5\%], confirming high but imperfect overlap.
+The negative control (identical weights) yields 100\% IoU and 0\% flip
+rate.  The resolution test (averaged GradCAM heatmaps) yields a mean IoU
+of \textbf{96.9\%}---a \textbf{+1.5\%} improvement over pairwise IoU,
+confirming that orbit averaging reduces instability.
+Full results appear in Table~\ref{tab:gradcam}.
+
+\input{sections/table_gradcam}
+
+\paragraph{Moderate instability compared to attention.}
+The 9.6\% peak flip rate for GradCAM is substantially lower than the 60\%
+argmax flip rate for attention maps (Section~\ref{sec:instance-attention}).
+This disparity reflects the structural constraint imposed by spatial
+locality: GradCAM operates on $7 \times 7$ or $8 \times 8$ feature maps
+where neighboring activations are highly correlated, whereas token-level
+attention distributes mass across an unstructured sequence.  Spatial
+smoothness constrains the degree to which perturbations can rearrange
+saliency, producing a tighter Rashomon set for the peak-location
+incompatibility relation.  Nevertheless, the impossibility still holds:
+even moderate instability suffices for the Rashomon property, and the 9.6\%
+flip rate is statistically significant with a bootstrap CI excluding zero.
