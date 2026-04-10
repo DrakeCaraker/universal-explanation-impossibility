@@ -72,12 +72,15 @@ $\mathsf{exp}$ can simultaneously be faithful, stable, and decisive.
 \begin{proof}
 Direct application of Theorem~\ref{thm:universal} to
 $\mathcal{S}_{\mathrm{CF}}$.  The Rashomon property supplies hypotheses
-$\theta_1, \theta_2$ with $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$
-and $\mathsf{obs}_{\mathrm{CF}}(\theta_1) \incomp \mathsf{obs}_{\mathrm{CF}}(\theta_2)$.
-The four-line proof of Theorem~\ref{thm:universal} then yields a contradiction
-from faithfulness, stability, and decisiveness simultaneously.  This is
-mechanically verified as \texttt{counterfactual\_impossibility} in
-\texttt{UniversalImpossibility/CounterfactualInstance.lean}.
+$\theta_1, \theta_2$ with
+$\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$ and
+$\mathsf{exp}_{\mathrm{CF}}(\theta_1) \incomp
+\mathsf{exp}_{\mathrm{CF}}(\theta_2)$.
+The four-line proof of Theorem~\ref{thm:universal} then yields a
+contradiction from faithfulness, stability, and decisiveness
+simultaneously.  This is mechanically verified as
+\texttt{counterfactual\_impossibility} in
+\texttt{Counterfactual\-Instance.lean}.
 \end{proof}
 
 \paragraph{Empirical illustration.}

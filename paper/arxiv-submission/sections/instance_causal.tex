@@ -106,12 +106,13 @@ By Proposition~\ref{prop:causal-rashomon}, $\mathcal{S}_{\mathrm{causal}}$
 has the Rashomon property.  Apply Theorem~\ref{thm:universal}.
 \end{proof}
 
-This is verified in Lean~4 as \texttt{causal\_instance\_impossibility} in
-\texttt{CausalInstance.lean} (three axioms: \texttt{CausalConfig},
-\texttt{CausalExplanation}, \texttt{CausalObservable}), and as the
-self-contained \texttt{causal\_discovery\_impossibility} in
-\texttt{CausalDiscovery.lean} (zero additional axioms beyond the
-\texttt{CausalOrientationProblem} structure).
+{\raggedright
+This is verified in Lean~4 as
+\texttt{causal\_instance\_impossibility} in
+\texttt{CausalInstance.lean} (three axioms), and as the
+self-contained \texttt{causal\_discovery\_impossibility}
+in \texttt{CausalDiscovery.lean} (zero additional axioms
+beyond the \texttt{CausalOrientationProblem} structure).\par}
 
 \paragraph{Connection to the classical Markov equivalence problem.}
 Theorem~\ref{thm:causal-impossibility} is the classical Markov equivalence underdetermination

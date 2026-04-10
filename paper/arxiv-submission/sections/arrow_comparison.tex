@@ -3,8 +3,7 @@
 % arrow1951social, nipkow2009social, okasha2011theory, gibbard1973manipulation,
 % satterthwaite1975strategy.
 
-\section{The Structural Parallel Between Arrow's Impossibility and the Explanation Trilemma}
-\label{sec:arrow-comparison}
+% Section heading is in the parent file (universal_impossibility_monograph.tex)
 
 Two impossibility theorems constrain aggregation under conflicting
 desiderata: Arrow's impossibility theorem in social choice
@@ -42,24 +41,27 @@ that no~$F$ satisfies all four of the following axioms:
 \end{enumerate}
 
 \paragraph{The explanation impossibility.}
-An \textsc{ExplanationSystem}$(\Theta, H, Y, \mathrm{observe},
-\mathrm{explain}, \mathrm{incompatible})$ consists of a configuration
-space~$\Theta$, an explanation space~$H$, an observable space~$Y$, an
-observation map $\mathrm{observe} : \Theta \to Y$, a native explanation
-map $\mathrm{explain} : \Theta \to H$, and an irreflexive
-incompatibility relation on~$H$. We say the system has the
-\emph{Rashomon property} if there exist $\theta_1, \theta_2 \in \Theta$
-with $\mathrm{observe}(\theta_1) = \mathrm{observe}(\theta_2)$ and
-$\mathrm{incompatible}(\mathrm{explain}(\theta_1),
-\mathrm{explain}(\theta_2))$. For any such system, no explanation
+An \textsc{ExplanationSystem}
+$(\Theta, H, Y, \mathrm{obs}, \mathrm{exp}, \mathrm{incomp})$
+consists of a configuration space~$\Theta$, an explanation
+space~$H$, an observable space~$Y$, an observation map
+$\mathrm{obs} : \Theta \to Y$, a native explanation map
+$\mathrm{exp} : \Theta \to H$, and an irreflexive incompatibility
+relation on~$H$. We say the system has the \emph{Rashomon property}
+if there exist $\theta_1, \theta_2 \in \Theta$ with
+$\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$ and
+$\mathrm{incomp}(\mathrm{exp}(\theta_1),
+\mathrm{exp}(\theta_2))$. For any such system, no explanation
 $E : \Theta \to H$ is simultaneously:
 \begin{enumerate}[label=\textbf{E\arabic*.},leftmargin=2.5em]
-  \item \textbf{Faithful.}\; $\neg\,\mathrm{incompatible}(E(\theta),
-    \mathrm{explain}(\theta))$ for all~$\theta$.
+  \item \textbf{Faithful.}\;
+    $\neg\,\mathrm{incomp}(E(\theta),\,\mathrm{explain}(\theta))$
+    for all~$\theta$.
   \item \textbf{Stable.}\; $\mathrm{observe}(\theta_1) =
-    \mathrm{observe}(\theta_2) \implies E(\theta_1) = E(\theta_2)$.
-  \item \textbf{Decisive.}\; $\mathrm{incompatible}(\mathrm{explain}(\theta), h)
-    \implies \mathrm{incompatible}(E(\theta), h)$ for all~$\theta, h$.
+    \mathrm{observe}(\theta_2) \Rightarrow E(\theta_1) = E(\theta_2)$.
+  \item \textbf{Decisive.}\;
+    $\mathrm{incomp}(\mathrm{explain}(\theta), h)
+    \Rightarrow \mathrm{incomp}(E(\theta), h)$ for all~$\theta, h$.
 \end{enumerate}
 This is \texttt{explanation\_impossibility} in the Lean formalization,
 proved from the Rashomon property alone with zero auxiliary axioms.

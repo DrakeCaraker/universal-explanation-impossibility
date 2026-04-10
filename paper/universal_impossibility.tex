@@ -44,9 +44,7 @@
 \newcommand{\sO}{\mathcal{O}}
 \newcommand{\incomp}{\perp}                  % incompatibility relation
 
-\title{The Universal Explanation Impossibility:\\
-{\large No Explanation Is Faithful, Stable, and Decisive\\
-Under Underspecification}}
+\title{The Limits of Explanation}
 
 % Author block hidden for anonymous review.
 % Uncomment for camera-ready / arXiv preprint:
@@ -246,7 +244,7 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 %%=======================================================================
 
 We introduce a minimal abstract framework sufficient to state and prove the
-Universal Explanation Impossibility.  All nine instances in
+Explanation Impossibility.  All nine instances in
 Section~\ref{sec:instances} are special cases.
 The framework aligns exactly with the Lean~4 formalization in
 \texttt{ExplanationSystem.lean}: every definition and theorem below has a
@@ -357,7 +355,7 @@ explanation targets.
 
 \subsection{Main Theorem}
 
-\begin{theorem}[Universal Explanation Impossibility]
+\begin{theorem}[Explanation Impossibility]
 \label{thm:universal}
 If an explanation system $\mathcal{S}$ has the Rashomon property, then no
 explanation map $E$ can simultaneously be faithful, stable, and decisive.
@@ -515,7 +513,7 @@ Rashomon property, and (iii)~characterize the resolution.
 
 \begin{table}[t]
 \centering
-\caption{Empirical illustration of the universal explanation impossibility across nine explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. Seven types have direct experimental results; mechanistic interpretability and causal discovery are validated via classical results. All instability measures have 95\% bootstrap confidence intervals excluding zero.}
+\caption{Empirical illustration of the limits of explanation across nine explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. Seven types have direct experimental results; mechanistic interpretability and causal discovery are validated via classical results. All instability measures have 95\% bootstrap confidence intervals excluding zero.}
 \label{tab:cross-instance}
 \begin{tabular}{llrl}
 \toprule
@@ -727,7 +725,7 @@ of the \DASH{} optimality result and is formalized in
 \label{sec:ubiquity}
 %%=======================================================================
 
-Is the Universal Explanation Impossibility a pathological corner case, or a
+Is the Explanation Impossibility a pathological corner case, or a
 generic phenomenon?  In this section we show that it is the latter: the
 Rashomon property---and hence the impossibility---holds whenever the model
 has more parameters than observational constraints, a condition satisfied by
@@ -806,7 +804,7 @@ satisfying unanimity, independence of irrelevant alternatives, and
 non-dictatorship exists for three or more candidates---a universal
 impossibility that unified disparate paradoxes in voting theory.
 \citet{nipkow2009social} later formalized Arrow's theorem in Isabelle/HOL.
-Our Universal Explanation Impossibility plays an analogous role for
+Our Explanation Impossibility plays an analogous role for
 explainability: it unifies nine domain-specific impossibilities under one
 structural cause (the Rashomon property) and one four-line proof, and the
 resolution (orbit averaging) is the XAI counterpart of accepting partial
@@ -819,7 +817,7 @@ in \texttt{Ubiquity.lean}.)
 \label{sec:lean}
 %%=======================================================================
 
-The Universal Explanation Impossibility and all nine instances are mechanically
+The Explanation Impossibility and all nine instances are mechanically
 verified in Lean~4 \citep{demoura2021lean4} using Mathlib
 \citep{mathlib2020}.  Table~\ref{tab:lean-summary} summarizes the
 formalization.
@@ -872,7 +870,7 @@ paper proof exactly.  The formalization also includes:
 \subsection{The Ceiling of Explainability}
 \label{sec:ceiling}
 
-The Universal Explanation Impossibility (Theorem~\ref{thm:universal}) establishes
+The Explanation Impossibility (Theorem~\ref{thm:universal}) establishes
 a \emph{ceiling}, not a criticism of any particular method.  No axiomatic
 redesign of \SHAP{}, LIME, attention maps, or counterfactual generators can
 simultaneously deliver faithfulness, stability, and decisiveness whenever the
@@ -951,7 +949,7 @@ $G$-invariant resolution uniformly.
 \subsection{Implications Beyond Machine Learning}
 \label{sec:beyond-ml}
 
-The Universal Explanation Impossibility is not specific to machine learning.
+The Explanation Impossibility is not specific to machine learning.
 We briefly sketch five domains where the theorem applies directly.
 
 \paragraph{Philosophy of science: formalizing Quine--Duhem.}
