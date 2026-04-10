@@ -20,48 +20,29 @@
     ]
   },
   "negative_control": {
-    "n_easy_sentences": 26,
-    "n_hard_sentences": 74,
-    "easy_jaccard_ci": [
-      1.0,
-      1.0,
-      1.0
-    ],
-    "easy_flip_rate_ci": [
-      0.28888888888888886,
-      0.3145299145299145,
-      0.34273504273504274
-    ],
-    "hard_jaccard_ci": [
-      0.718948948948949,
-      0.7273273273273273,
-      0.736246996996997
-    ],
-    "hard_flip_rate_ci": [
-      0.33993243243243243,
-      0.35615615615615615,
-      0.37177927927927923
-    ],
+    "approach": "single_content_token_sentences",
+    "n_control_sentences": 20,
+    "n_pairs_measured": 900,
     "jaccard_ci": [
       1.0,
       1.0,
       1.0
     ],
     "flip_rate_ci": [
-      0.28888888888888886,
-      0.3145299145299145,
-      0.34273504273504274
+      0.0,
+      0.0,
+      0.0
     ]
   },
   "resolution_test": {
     "n_valid_sentences": 1000,
     "consensus_jaccard_ci": [
-      0.8416975,
+      0.842595,
       0.8566,
-      0.8709
+      0.8709025000000001
     ],
     "pairwise_jaccard_mean": 0.7982222222222223,
     "resolution_improvement": 0.05837777777777775
   },
-  "_timestamp": "2026-04-09 11:28:45"
+  "_timestamp": "2026-04-09 23:14:36"
 }

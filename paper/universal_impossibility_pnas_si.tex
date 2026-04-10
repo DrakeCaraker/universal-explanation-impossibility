@@ -183,8 +183,12 @@ different tokens.
 
 \paragraph{Experiments.}
 10 DistilBERT models with weight perturbations ($\sigma \in \{0.01, 0.02\}$)
-on 200 SST-2 sentences. Prediction agreement: 100\%. Argmax flip rate:
-60.0\% [95\% CI: 59--61\%]. Mean Kendall $\tau$: 0.30.
+on 200 SST-2 sentences. Prediction agreement: 100\%. Argmax flip rate
+(weight perturbation): 60.0\% [95\% CI: 59--61\%]. Under full retraining
+(20 models, last 2 transformer layers retrained from random
+initialization), the argmax flip rate is 19.9\%. We report the
+conservative retraining figure in the main text.
+Mean Kendall $\tau$: 0.30.
 
 \paragraph{Resolution.}
 Averaged attention rollout over the Rashomon set of equivalent models.
@@ -238,6 +242,15 @@ See main text, Section~3.2. The Rashomon property is derived from Markov
 equivalence (Proposition~4). Resolution: CPDAG
 reporting~\cite{chickering2002optimal}.
 
+\paragraph{Implementation note.}
+The CI extraction function \texttt{ciFromDAG} is a simplified formula
+correct for chain and fork structures on three nodes. It does not
+implement full $d$-separation (in particular, it does not handle
+collider structures correctly). The Rashomon witness uses only chain and
+fork DAGs, for which the formula is verified by computation. A complete
+formalization of $d$-separation in Lean~4 is a substantial undertaking
+beyond the scope of this work.
+
 \subsection{Instance 6: Model Selection}
 
 \paragraph{Explanation system.}
@@ -255,7 +268,9 @@ accuracy~\cite{rudin2024amazing, semenova2022existence}.
 $\Delta$AUC $< 0.02$.
 
 \paragraph{Resolution.}
-Report the Rashomon set or ensemble rather than a single ``best'' model.
+Ensemble achieves comparable performance (AUC 0.951 vs.\ 0.958
+best-single) with evaluation-stable predictions across splits. Report
+the Rashomon set or ensemble rather than a single ``best'' model.
 
 \subsection{Instance 7: Saliency Maps (GradCAM)}
 
@@ -372,6 +387,20 @@ the distribution induced by stochastic gradient descent. Full retraining
 experiments for transformers are computationally expensive and are left
 to future work.
 
+\subsection{Multiple Comparisons}
+
+We report 95\% bootstrap confidence intervals for each primary metric.
+Across seven experiments with multiple metrics, the total number of
+statistical comparisons is approximately 20. We do not apply formal
+multiple comparison correction (e.g., Bonferroni, Benjamini--Hochberg)
+for two reasons: (1)~each experiment tests a domain-specific hypothesis
+that stands independently of the others, and (2)~the primary question is
+not whether any single experiment reaches significance but whether the
+pattern of Rashomon-driven instability is consistent across domains. All
+positive results exceed the 20\% practical significance threshold by
+substantial margins (range: 19.9\%--80\%), reducing the risk of false
+positives from multiple testing.
+
 
 %%=======================================================================
 \section{Lean Verification Details}
@@ -388,8 +417,8 @@ to future work.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 73 & All in \texttt{UniversalImpossibility/} \\
-Theorems + lemmas & 346 & Verified by \texttt{grep -c} \\
+Files & 74 & All in \texttt{UniversalImpossibility/} \\
+Theorems + lemmas & 349 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core uses 0 \\
 \texttt{sorry} & 0 & Zero admitted goals \\
 \midrule

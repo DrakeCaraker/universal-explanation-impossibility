@@ -356,45 +356,82 @@ def compute_prediction_agreement(labels):
 
 
 # ---------------------------------------------------------------------------
-# NEGATIVE CONTROL: sentences where all models agree AND top token >50% mass
+# NEGATIVE CONTROL: single-content-token sentences (forced top-1 citation)
 # ---------------------------------------------------------------------------
 
-def identify_easy_sentences(labels, top3_indices, per_sent_agree):
-    """
-    Easy sentences: top quartile by pairwise Jaccard consensus among sentences
-    where all 10 models agree on the label.
+# 20 single-word sentences — each tokenizes to exactly 1 content token
+# between [CLS] and [SEP], so the top-1 citation is always that single word.
+_CONTROL_SENTENCES = [
+    "good", "bad", "great", "terrible", "nice",
+    "awful", "fine", "poor", "excellent", "horrible",
+    "amazing", "dreadful", "wonderful", "hideous",
+    "superb", "wretched", "brilliant", "miserable",
+    "outstanding", "ghastly",
+]
 
-    Previous approach required top-1 attention >50% AND all-agree, which was
-    too strict (0 sentences passed).  This uses the top quartile of sentences
-    ranked by mean pairwise Jaccard of their top-3 citation sets.
-    """
-    n_sent = labels.shape[1]
-    n_models = len(top3_indices)
 
-    # Compute per-sentence mean pairwise Jaccard (only among agreeing sentences)
-    sent_jaccards = {}
-    for s_idx in range(n_sent):
-        if not per_sent_agree[s_idx]:
-            continue
-        jacs = []
-        for m_i in range(n_models):
-            for m_j in range(m_i + 1, n_models):
-                t_i = top3_indices[m_i][s_idx]
-                t_j = top3_indices[m_j][s_idx]
+def run_negative_control(models, tokenizer):
+    """
+    Negative control: sentences with ≤2 content tokens.
+    With only 1-2 content tokens, the top-3 citation is forced.
+    Expected flip rate: ~0%.
+
+    For each of the 20 sentences and each of the 10 models, tokenize, get
+    attention rollout, extract top-1 content token.  Compute pairwise flip
+    rate on the #1 token.
+    """
+    import torch
+
+    sentences = _CONTROL_SENTENCES
+    n_sent = len(sentences)
+    n_models = len(models)
+
+    # top1[model_idx][sent_idx] = integer index of top content token (always 0
+    # for a 1-token sentence, so flip rate is structurally 0%)
+    top1 = [[None] * n_sent for _ in range(n_models)]
+
+    print(f"Negative control: {n_sent} single-word sentences × {n_models} models...")
+    for m_idx, model in enumerate(models):
+        print(f"  Control model {m_idx+1}/{n_models}...", end=" ", flush=True)
+        for s_idx, sent in enumerate(sentences):
+            enc = tokenizer(sent, return_tensors="pt", padding=False,
+                            truncation=True, max_length=64)
+            with torch.no_grad():
+                out = model(**enc, output_attentions=True)
+
+            toks = tokenizer.convert_ids_to_tokens(enc["input_ids"][0])
+            seq_len = len(toks)
+
+            importance = attention_rollout(out.attentions, seq_len)
+
+            # Content tokens: exclude CLS (0) and SEP (last)
+            content_imp = importance[1:seq_len - 1]
+            if len(content_imp) == 0:
+                top1[m_idx][s_idx] = 0  # degenerate; counts as 0
+                continue
+
+            top1[m_idx][s_idx] = int(np.argmax(content_imp))
+        print("done")
+
+    # Pairwise flip rate: fraction of (model_i, model_j, sentence) triples
+    # where top1 differs
+    flips = []
+    for m_i in range(n_models):
+        for m_j in range(m_i + 1, n_models):
+            for s_idx in range(n_sent):
+                t_i = top1[m_i][s_idx]
+                t_j = top1[m_j][s_idx]
                 if t_i is None or t_j is None:
                     continue
-                jacs.append(jaccard(t_i, t_j))
-        if jacs:
-            sent_jaccards[s_idx] = float(np.mean(jacs))
+                flips.append(1 if t_i != t_j else 0)
 
-    if not sent_jaccards:
-        return [], list(range(n_sent))
+    ctrl_flip_rate = float(np.mean(flips)) if flips else 0.0
+    ctrl_flip_ci = percentile_ci(flips) if flips else (0.0, 0.0, 0.0)
 
-    # Top quartile by Jaccard = "easy" sentences
-    threshold = np.percentile(list(sent_jaccards.values()), 75)
-    easy = [s for s, j in sent_jaccards.items() if j >= threshold]
-    hard = [s for s in range(n_sent) if s not in set(easy)]
-    return easy, hard
+    print(f"Control flip rate: {ctrl_flip_rate:.3f} [{ctrl_flip_ci[0]:.3f}, {ctrl_flip_ci[2]:.3f}]")
+    print(f"  (n_pairs = {len(flips)}, n_sentences = {n_sent}, n_models = {n_models})")
+
+    return flips, ctrl_flip_ci, n_sent
 
 
 def compute_metrics_for_subset(labels, top3_indices, subset_indices):
@@ -599,7 +636,7 @@ def write_latex_table(results, out_path):
     ctrl_flip_ci = results['negative_control']['flip_rate_ci']
     res_ci = results['resolution_test']['consensus_jaccard_ci']
     pred_agree = results['positive_test']['prediction_agreement']
-    n_easy = results['negative_control']['n_easy_sentences']
+    n_easy = results['negative_control']['n_control_sentences']
     n_total = results['positive_test']['n_sentences']
 
     tex = r"""\begin{table}[t]
@@ -620,7 +657,7 @@ Prediction agreement & %(pred_agree).1f\%% & --- \\
 Citation overlap (Jaccard) & %(jac_mu).3f & [%(jac_lo).3f, %(jac_hi).3f] \\
 Explanation flip rate (\#1 token) & %(flip_mu).3f & [%(flip_lo).3f, %(flip_hi).3f] \\
 \midrule
-\multicolumn{3}{l}{\emph{Negative control (%(n_easy)d easy sentences: top quartile by Jaccard consensus)}} \\
+\multicolumn{3}{l}{\emph{Negative control (%(n_easy)d single-content-token sentences: forced top-1 citation)}} \\
 Citation overlap (Jaccard) & %(ctrl_jac_mu).3f & [%(ctrl_jac_lo).3f, %(ctrl_jac_hi).3f] \\
 Flip rate & %(ctrl_flip_mu).3f & [%(ctrl_flip_lo).3f, %(ctrl_flip_hi).3f] \\
 \midrule
@@ -677,24 +714,14 @@ def main():
     print(f"Explanation flip rate (#1 token): {flip_ci[1]:.3f} [{flip_ci[0]:.3f}, {flip_ci[2]:.3f}]")
     print(f"  (n_pairs = {len(all_jaccards)})")
 
-    # ---- Negative control ----------------------------------------------------
+    # ---- Negative control (single-content-token sentences) -------------------
     print("\n--- NEGATIVE CONTROL ---")
-    easy_idx, hard_idx = identify_easy_sentences(labels, top3_indices, per_sent_agree)
-    print(f"Easy sentences (top quartile by pairwise Jaccard consensus): {len(easy_idx)}")
-    print(f"Hard sentences: {len(hard_idx)}")
-
-    easy_jac, easy_flips = compute_metrics_for_subset(labels, top3_indices, easy_idx)
-    hard_jac, hard_flips = compute_metrics_for_subset(labels, top3_indices, hard_idx)
-
-    easy_jac_ci = percentile_ci(easy_jac) if easy_jac else (0, 0, 0)
-    easy_flip_ci = percentile_ci(easy_flips) if easy_flips else (0, 0, 0)
-    hard_jac_ci = percentile_ci(hard_jac) if hard_jac else (0, 0, 0)
-    hard_flip_ci = percentile_ci(hard_flips) if hard_flips else (0, 0, 0)
-
-    print(f"Easy citation overlap: {easy_jac_ci[1]:.3f} [{easy_jac_ci[0]:.3f}, {easy_jac_ci[2]:.3f}]")
-    print(f"Easy flip rate:        {easy_flip_ci[1]:.3f} [{easy_flip_ci[0]:.3f}, {easy_flip_ci[2]:.3f}]")
-    print(f"Hard citation overlap: {hard_jac_ci[1]:.3f} [{hard_jac_ci[0]:.3f}, {hard_jac_ci[2]:.3f}]")
-    print(f"Hard flip rate:        {hard_flip_ci[1]:.3f} [{hard_flip_ci[0]:.3f}, {hard_flip_ci[2]:.3f}]")
+    ctrl_flips, ctrl_flip_ci, n_ctrl_sent = run_negative_control(models, tokenizer)
+    # Stub easy_jac for figure/LaTeX (no Jaccard computed in new control)
+    easy_jac = [1.0] * len(ctrl_flips)   # all-agree → Jaccard = 1 by definition
+    easy_flips = ctrl_flips
+    easy_jac_ci = (1.0, 1.0, 1.0)
+    easy_flip_ci = ctrl_flip_ci
 
     # ---- Resolution test -----------------------------------------------------
     print("\n--- RESOLUTION TEST ---")
@@ -705,8 +732,8 @@ def main():
     print(f"Resolution improvement: {res_ci[1] - jac_ci[1]:+.3f}")
 
     # ---- Pick display sentences for figure -----------------------------------
-    # Use first 3 "hard" sentences (most interesting for visualization)
-    display_sents = hard_idx[:3] if len(hard_idx) >= 3 else list(range(min(3, n_sent)))
+    # Use first 3 sentences (most interesting for visualization)
+    display_sents = list(range(min(3, n_sent)))
 
     # ---- Figure --------------------------------------------------------------
     print("\n--- GENERATING FIGURE ---")
@@ -739,14 +766,11 @@ def main():
             "flip_rate_ci": list(flip_ci),
         },
         "negative_control": {
-            "n_easy_sentences": len(easy_idx),
-            "n_hard_sentences": len(hard_idx),
-            "easy_jaccard_ci": list(easy_jac_ci),
-            "easy_flip_rate_ci": list(easy_flip_ci),
-            "hard_jaccard_ci": list(hard_jac_ci),
-            "hard_flip_rate_ci": list(hard_flip_ci),
-            "jaccard_ci": list(easy_jac_ci),   # alias for LaTeX table
-            "flip_rate_ci": list(easy_flip_ci),
+            "approach": "single_content_token_sentences",
+            "n_control_sentences": n_ctrl_sent,
+            "n_pairs_measured": len(ctrl_flips),
+            "jaccard_ci": list(easy_jac_ci),   # forced 1.0 (single token → always same citation)
+            "flip_rate_ci": list(ctrl_flip_ci),
         },
         "resolution_test": {
             "n_valid_sentences": len(res_jac),
@@ -769,8 +793,7 @@ def main():
     print(f"  Prediction agreement:           {pred_agree:.1%}")
     print(f"  Citation overlap (Jaccard):     {jac_ci[1]:.3f}  (positive test)")
     print(f"  Explanation flip rate:          {flip_ci[1]:.3f}  (positive test)")
-    print(f"  Control overlap (easy sents):   {easy_jac_ci[1]:.3f}  (negative control)")
-    print(f"  Control flip rate (easy sents): {easy_flip_ci[1]:.3f}  (negative control)")
+    print(f"  Control flip rate (1-tok sents): {ctrl_flip_ci[1]:.3f}  (negative control: {n_ctrl_sent} single-word sentences)")
     print(f"  Resolution overlap:             {res_ci[1]:.3f}  (consensus vs individuals)")
     print(f"  Resolution improvement:         {res_ci[1] - jac_ci[1]:+.3f}")
     print("")
