@@ -1,0 +1,13 @@
+% Query-relative paragraph — \input this where appropriate
+
+The impossibility is query-relative.
+Parameterize incompatibility by a query space~$Q$:
+for each question~$q$ (e.g., ``is feature~$x$ ranked above~$y$?''),
+the impossibility holds if and only if the Rashomon set produces
+incompatible answers to~$q$ (Lean: \texttt{query\_impossibility}).
+Questions where the Rashomon set agrees---such as
+``is feature~$x$ relevant?'' when all equivalent models
+include~$x$ in the top~$k$---admit faithful, stable, decisive answers.
+The framework thus replaces ``explanation is impossible'' with a
+precise characterization of \emph{which questions} are and are not
+stably answerable.

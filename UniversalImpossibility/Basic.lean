@@ -69,3 +69,4 @@ import UniversalImpossibility.UniversalDesignSpace
 import UniversalImpossibility.Ubiquity
 import UniversalImpossibility.Necessity
 import UniversalImpossibility.QuantitativeBound
+import UniversalImpossibility.QueryRelative

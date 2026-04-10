@@ -159,7 +159,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (74~files, 349~theorems,
+The framework is mechanically verified in Lean~4 (75~files, 351~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -235,7 +235,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 74~files, 349~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 75~files, 351~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -471,6 +471,10 @@ $\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$ yet
 $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$---then
 the Rashomon property holds and the impossibility applies.
 \end{corollary}
+
+\input{sections/query_relative}
+
+For instance, in feature attribution, the query ``is feature~$x$ in the top~$k$?'' may be stably answerable (all equivalent models include~$x$), while ``is~$x$ ranked above~$y$?'' may not be (collinear features swap rankings across the Rashomon set).
 
 %%% ==========================================================================
 \section{Six Instances}
@@ -974,7 +978,7 @@ A natural reaction is that practitioners already know explanations are unstable
 six domains (attribution, attention, counterfactuals, concept probes, causal
 discovery, model selection) share \emph{one} mechanism---the Rashomon
 property---rather than six unrelated pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 74~files, 349~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 75~files, 351~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attention flip rates, measurable counterfactual and concept instability on
@@ -1063,6 +1067,10 @@ background condition.  Like Arrow's theorem, the proof is short once the
 axioms are identified; the contribution lies in identifying the right
 axiomatic framework.
 
+\input{sections/quantitative_remark}
+
+The per-fiber bound (Proposition~\ref{prop:tightness} in the main text) is the qualitative skeleton of this inequality. The full measure-theoretic development, including domain-specific instances and tightness analysis, is the subject of ongoing work.
+
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}
 
@@ -1124,7 +1132,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 74 files in
+formalization.  The complete codebase comprises 75 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 

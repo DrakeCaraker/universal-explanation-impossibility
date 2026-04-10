@@ -70,7 +70,7 @@ over equivalent hypotheses restore faithfulness-in-expectation and stability at 
 decisiveness.
 The impossibility is ubiquitous: any learning problem with more
 parameters than constraints admits a Rashomon set of positive measure.
-The framework is mechanically verified in Lean~4 (74~files, 349~theorems, 72~axioms, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (75~files, 351~theorems, 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
 %%=======================================================================
@@ -107,7 +107,7 @@ A practitioner who discovers SHAP instability cannot escape by switching to atte
 (3)~Empirical validation for seven instances confirming severe instability.
 (4)~A uniform resolution: $G$-invariant aggregation restores stability and faithfulness-in-expectation.
 (5)~Ubiquity: the impossibility holds generically when $\dim(\sH) > \dim(Y)$.
-(6)~Lean~4 formalization: 74~files, 349~theorems, 72~axioms, 0~\texttt{sorry}.
+(6)~Lean~4 formalization: 75~files, 351~theorems, 72~axioms, 0~\texttt{sorry}.
 
 \textbf{Related work} is discussed in Appendix~\ref{app:related}. This paper generalizes the attribution impossibility of \citet{bilodeau2024impossibility} from feature attribution to arbitrary explanation systems. The companion paper (arXiv:XXXX.XXXXX) provides quantitative depth for the attribution instance; this paper supplies the abstract framework, eight additional instances, and the ubiquity result. For causal discovery, the Rashomon property is derived from first principles (Markov equivalence).
 
@@ -181,6 +181,8 @@ $\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$ yet
 $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$, then
 the Rashomon property holds and the impossibility applies.
 \end{corollary}
+
+\input{sections/query_relative}
 
 %%=======================================================================
 \section{Nine Instances}
@@ -435,6 +437,8 @@ The EU AI Act favors decisiveness; SR~11-7 favors stability.  Theorem~\ref{thm:u
 
 \textbf{What explainability \emph{can} do.}
 The $G$-invariant resolution is constructive.  \DASH{} for attributions, CPDAGs for causal discovery, and ensemble probes for concepts each sacrifice decisiveness for stability---reporting confidence intervals over the Rashomon set rather than unreliable point estimates.  The impossibility says ``decisive explanations are unreliable under underspecification, but partially decisive explanations with calibrated uncertainty are both achievable and informative.''
+
+\input{sections/quantitative_remark}
 
 \textbf{Limitations.}
 (1)~Rashomon properties are axiomatized rather than derived from loss landscape geometry.
