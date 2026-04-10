@@ -381,13 +381,31 @@
   "resolution_test": {
     "description": "averaged CAV as consensus direction for concept A (curved vs angular)",
     "mean_cos_individual_to_avg": 0.27897164058185453,
-    "cos_individual_to_avg_ci_lo": 0.22969059872289688,
-    "cos_individual_to_avg_ci_hi": 0.3290791321774343,
+    "cos_individual_to_avg_ci_lo": 0.22634152674243352,
+    "cos_individual_to_avg_ci_hi": 0.32734205279587447,
     "mean_pairwise_cos": 0.09996068951826818,
-    "pairwise_cos_ci_lo": 0.08577222976744714,
-    "pairwise_cos_ci_hi": 0.11460077322921981,
+    "pairwise_cos_ci_lo": 0.08565846528320846,
+    "pairwise_cos_ci_hi": 0.11455097759406539,
     "improvement_pp": 17.901095106358632,
     "interpretation": "avg CAV should have higher similarity to each individual than pairwise average"
   },
-  "_timestamp": "2026-04-09 10:01:13"
+  "random_baseline_mean_cos": 0.08981952228829525,
+  "random_baseline_ci": [
+    0.07725225571099563,
+    0.08981952228829525,
+    0.10275904161611822
+  ],
+  "random_baseline": {
+    "n_random_vectors": 15,
+    "dim": 64,
+    "random_baseline_mean_cos": 0.08981952228829525,
+    "random_baseline_ci": [
+      0.07725225571099563,
+      0.08981952228829525,
+      0.10275904161611822
+    ],
+    "real_cav_mean_cos": 0.09996068951826818,
+    "difference": 0.010141167229972936
+  },
+  "_timestamp": "2026-04-10 14:05:55"
 }

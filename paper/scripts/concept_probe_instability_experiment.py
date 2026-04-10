@@ -377,6 +377,44 @@ def main():
     print(f"  TCAV-B std CI:                 [{ci_tcav_b[0]:.4f}, {ci_tcav_b[2]:.4f}]")
     print(f"  Prediction agreement CI:       [{ci_agreement[0]:.4f}, {ci_agreement[2]:.4f}]")
 
+    # ─── RANDOM BASELINE ──────────────────────────────────────────────────────
+    print("\n" + "=" * 60)
+    print("RANDOM BASELINE: 15 random unit vectors in 64D")
+    print("=" * 60)
+
+    rng_baseline = np.random.RandomState(99)
+    n_random = 15
+    random_vecs = rng_baseline.randn(n_random, HIDDEN_LAYER_SIZES[-1])  # 64D
+    random_vecs = random_vecs / np.linalg.norm(random_vecs, axis=1, keepdims=True)
+
+    n_rv = len(random_vecs)
+    rand_off_diag = []
+    for i in range(n_rv):
+        for j in range(i + 1, n_rv):
+            rand_off_diag.append(abs(np.dot(random_vecs[i], random_vecs[j])))
+    rand_off_diag = np.array(rand_off_diag)
+    rand_mean_cos = float(np.mean(rand_off_diag))
+    rand_ci = bootstrap_ci(rand_off_diag.tolist())
+
+    print(f"  Random baseline mean |cos sim| (off-diag): {rand_mean_cos:.4f}  "
+          f"95% CI [{rand_ci[0]:.4f}, {rand_ci[2]:.4f}]")
+    print(f"  Real CAVs mean |cos sim|:                  {mean_off_diag:.4f}")
+    if abs(mean_off_diag - rand_mean_cos) < 0.05:
+        print(f"  Interpretation: Real |cos| ≈ random baseline — concept directions are as diverse "
+              f"as random vectors, consistent with representation arbitrariness under the Rashomon property.")
+    else:
+        print(f"  Interpretation: Real |cos| differs from random baseline by "
+              f"{abs(mean_off_diag - rand_mean_cos):.4f}.")
+
+    random_baseline_results = {
+        "n_random_vectors": n_random,
+        "dim": int(HIDDEN_LAYER_SIZES[-1]),
+        "random_baseline_mean_cos": float(rand_mean_cos),
+        "random_baseline_ci": [float(rand_ci[0]), float(rand_ci[1]), float(rand_ci[2])],
+        "real_cav_mean_cos": float(mean_off_diag),
+        "difference": float(mean_off_diag - rand_mean_cos),
+    }
+
     # ─── NEGATIVE CONTROL ─────────────────────────────────────────────────────
     nc_results = run_negative_control_concept(X_train, y_train, X_test, y_test, n_models=N_MODELS)
 
@@ -475,6 +513,7 @@ def main():
 \caption{Concept probe instability across 15 equivalent MLPClassifier models on
 \texttt{sklearn} \texttt{load\_digits()} (8$\times$8 images, 10 classes).
 Architecture: $(128, 64)$ hidden units, ReLU.
+\emph{Random baseline}: 15 random unit vectors in 64D --- expected $|\cos| \approx$ real CAVs if directions are arbitrary.
 \emph{Negative control}: logistic regression (no hidden layers) --- directions should be stable ($>0.95$).
 \emph{Resolution}: averaged CAV across 15 models --- individual CAVs should be closer to the average.
 All 95\% CIs from 2000 bootstrap resamples.}
@@ -492,6 +531,11 @@ All 95\% CIs from 2000 bootstrap resamples.}
               f"${concept_direction_instability:.4f}$ & --- \\\\\n")
     latex += (f"& Prediction agreement & "
               f"${agreement:.4f}$ & $[{ci_agreement[0]:.4f},\\,{ci_agreement[2]:.4f}]$ \\\\\n")
+    latex += r"\midrule" + "\n"
+    latex += (f"Random baseline (15 rand.\ vecs, 64D) & "
+              f"Mean $|\\cos(\\mathbf{{v}}_i,\\mathbf{{v}}_j)|$ & "
+              f"${rand_mean_cos:.4f}$ & "
+              f"$[{rand_ci[0]:.4f},\\,{rand_ci[2]:.4f}]$ \\\\\n")
     latex += r"\midrule" + "\n"
     latex += (f"Neg.\\ control (LogReg, no hidden) & "
               f"Mean $|\\cos(\\mathbf{{v}}_i,\\mathbf{{v}}_j)|$ & "
@@ -550,6 +594,9 @@ All 95\% CIs from 2000 bootstrap resamples.}
         },
         'negative_control': {k: v for k, v in nc_results.items() if k != 'cavs_class'},
         'resolution_test': {k: v for k, v in res_results.items() if k != 'averaged_cav'},
+        'random_baseline_mean_cos': float(rand_mean_cos),
+        'random_baseline_ci': [float(rand_ci[0]), float(rand_ci[1]), float(rand_ci[2])],
+        'random_baseline': random_baseline_results,
     }
     save_results(results, 'concept_probe_instability')
 
@@ -565,6 +612,17 @@ All 95\% CIs from 2000 bootstrap resamples.}
     print(f"  Concept direction instab.:   {concept_direction_instability:.4f}")
     print(f"  TCAV std (curved):           {tcav_scores_a.std():.4f}  (expected >0.1)")
     print(f"  Prediction agreement:        {agreement:.4f}  (expected >0.95)")
+    print()
+    print("RANDOM BASELINE (15 random unit vectors, 64D):")
+    print(f"  Real CAVs mean |cos sim|:    {mean_off_diag:.4f}  "
+          f"[{ci_instability[0]:.4f}, {ci_instability[2]:.4f}]")
+    print(f"  Random baseline mean |cos|:  {rand_mean_cos:.4f}  "
+          f"[{rand_ci[0]:.4f}, {rand_ci[2]:.4f}]")
+    if abs(mean_off_diag - rand_mean_cos) < 0.05:
+        print(f"  Concept directions are as diverse as random vectors, consistent with "
+              f"representation arbitrariness under the Rashomon property.")
+    else:
+        print(f"  Difference (real - random): {mean_off_diag - rand_mean_cos:+.4f}")
     print()
     print("NEGATIVE CONTROL (logistic regression, no hidden layers):")
     print(f"  Mean |cos sim| (LogReg): "

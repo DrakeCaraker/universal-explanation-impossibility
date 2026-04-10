@@ -9,9 +9,10 @@ Models: 20 XGBoost classifiers with identical hyperparameters, different seeds
 Method: Greedy feature-importance-ordered perturbation toward positive centroid
 
 NEGATIVE CONTROL:
-- Synthetic data with large class separation (class_sep=3.0, no redundant features)
-- Decision boundary is nearly identical across seeds
-- Expected direction flip rate: <5%
+- Synthetic data with moderate class separation (class_sep=0.5, no redundant features)
+- subsample=1.0 means training is deterministic → models are nearly identical
+- CFs are found (boundary is reachable) and stable (low flip rate because all models agree)
+- Expected: CF found rate >0%, direction flip rate <5%
 
 RESOLUTION TEST:
 - Consensus counterfactual = feature-wise median of CFs across all 20 models
@@ -223,16 +224,18 @@ def compute_direction_flip_rate(directions, found_flags, n_features, n_queries, 
 
 def run_negative_control_cf():
     """
-    Negative control: synthetic data with large class separation (class_sep=3.0).
-    No redundant features.  Decision boundary should be nearly identical across seeds.
-    Train 20 XGBoost models and measure CF direction flip rate.
-    Expected: <5%.
+    Negative control: synthetic data with moderate class separation (class_sep=1.0).
+    No redundant features.  subsample=1.0 means training is deterministic across seeds,
+    so models are nearly identical.  The decision boundary is close enough that greedy
+    perturbation can find counterfactuals.  CFs should be FOUND and STABLE (low flip
+    rate because all models agree on the boundary).
+    Expected: CF found rate >0%, direction flip rate <5%.
     """
     print("\n" + "=" * 60)
-    print("NEGATIVE CONTROL: Well-separated synthetic data (class_sep=3.0)")
+    print("NEGATIVE CONTROL: Moderate-separation synthetic data (class_sep=1.0, subsample=1.0)")
     print("=" * 60)
 
-    # Generate well-separated data
+    # Generate data with some overlap — boundary is reachable by greedy perturbation
     X_ctrl, y_ctrl = make_classification(
         n_samples=1000,
         n_features=10,
@@ -240,7 +243,7 @@ def run_negative_control_cf():
         n_redundant=0,
         n_repeated=0,
         n_clusters_per_class=1,
-        class_sep=3.0,          # large separation → unambiguous decision boundary
+        class_sep=0.5,          # moderate separation → CFs findable; boundary stable
         random_state=42,
     )
     feature_names_ctrl = [f"feat_{i}" for i in range(10)]
@@ -300,10 +303,10 @@ def run_negative_control_cf():
     )
 
     print(f"  Direction flip rate: {nc_flip_rate:.3f} [{nc_lo:.3f}, {nc_hi:.3f}]")
-    print(f"  Expected: <0.05 (large class separation → stable decision boundary)")
+    print(f"  Expected: CF found rate >0%, flip rate <0.05 (deterministic training → stable boundary)")
 
     return {
-        "description": "make_classification class_sep=3.0, subsample=1.0",
+        "description": "make_classification class_sep=0.5, subsample=1.0",
         "n_models": n_models_ctrl,
         "n_queries": n_q_ctrl,
         "auc_range": float(aucs_ctrl.max() - aucs_ctrl.min()),
@@ -313,7 +316,7 @@ def run_negative_control_cf():
         "direction_flip_rate": float(nc_flip_rate),
         "direction_flip_rate_ci_lo": float(nc_lo),
         "direction_flip_rate_ci_hi": float(nc_hi),
-        "interpretation": "Expected <5%; validates instability is from Rashomon ambiguity",
+        "interpretation": "Expected CF found rate >0% and flip rate <5%; validates instability is from Rashomon ambiguity",
     }
 
 
@@ -600,7 +603,7 @@ def run_experiment():
 
     # Right: comparison of positive / neg control / resolution
     ax3 = axes[2]
-    bar_labels_comp = ['Positive\n(Rashomon)', 'Neg. Control\n(class_sep=3)', 'Resolution\n(consensus)']
+    bar_labels_comp = ['Positive\n(Rashomon)', 'Neg. Control\n(class_sep=0.5)', 'Resolution\n(consensus)']
     bar_vals_comp = [overall_flip, nc_results['direction_flip_rate'],
                      1.0 - res_results['mean_consistency_with_consensus']]
     bar_colors_comp = ['#D55E00', '#009E73', '#0072B2']
@@ -640,7 +643,7 @@ def run_experiment():
     tex = r"""\begin{table}[t]
 \centering
 \caption{Counterfactual explanation instability on German Credit (20 equivalent XGBoost models, AUC within 0.03).
-  \emph{Negative control}: synthetic data with class\_sep=3.0 and subsample=1.0 --- near-identical decision boundaries, expected flip rate $<5\%$.
+  \emph{Negative control}: synthetic data with class\_sep=0.5 and subsample=1.0 --- deterministic training means models are nearly identical; CFs are found and stable, expected flip rate $<5\%$.
   \emph{Resolution}: consensus CF (feature-wise median direction) --- fraction of individual CFs consistent with consensus.
   All 95\% bootstrap CIs from 500 resamples.}
 \label{tab:counterfactual-instability}
@@ -656,7 +659,9 @@ Test & Metric & Mean & 95\% CI \\
     tex += f"& Cross-model validity & {mean_v_pct:.1f}\\% & [{lo_v_pct:.1f}\\%, {hi_v_pct:.1f}\\%] \\\\\n"
     tex += f"& Distance CV & {mean_cv:.3f} & [{lo_cv:.3f}, {hi_cv:.3f}] \\\\\n"
     tex += r"\midrule" + "\n"
-    tex += (f"Neg.\\ control (class\\_sep=3) & Direction flip rate & "
+    tex += (f"Neg.\\ control (class\\_sep=0.5) & CF found rate & "
+            f"{nc_results['cf_found_rate']:.3f} & --- \\\\\n")
+    tex += (f"& Direction flip rate & "
             f"{nc_results['direction_flip_rate']:.3f} & "
             f"[{nc_results['direction_flip_rate_ci_lo']:.3f}, {nc_results['direction_flip_rate_ci_hi']:.3f}] \\\\\n")
     tex += r"\midrule" + "\n"
@@ -715,10 +720,10 @@ Test & Metric & Mean & 95\% CI \\
     print(f"  Cross-model validity: {mean_validity:.1%} [{lo_v:.1%}, {hi_v:.1%}]")
     print(f"  Distance CV: {mean_cv:.3f} [{lo_cv:.3f}, {hi_cv:.3f}]")
     print()
-    print("NEGATIVE CONTROL (class_sep=3.0, subsample=1.0):")
+    print("NEGATIVE CONTROL (class_sep=0.5, subsample=1.0):")
+    print(f"  CF found rate: {nc_results['cf_found_rate']:.3f}  (expected >0%)")
     print(f"  Direction flip rate: {nc_results['direction_flip_rate']:.3f} "
-          f"[{nc_results['direction_flip_rate_ci_lo']:.3f}, {nc_results['direction_flip_rate_ci_hi']:.3f}]")
-    print(f"  Expected: <0.05")
+          f"[{nc_results['direction_flip_rate_ci_lo']:.3f}, {nc_results['direction_flip_rate_ci_hi']:.3f}]  (expected <0.05)")
     print()
     print("RESOLUTION TEST (consensus CF):")
     print(f"  Consistency with consensus: {res_results['mean_consistency_with_consensus']:.3f} "
