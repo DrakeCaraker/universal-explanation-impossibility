@@ -54,10 +54,10 @@ faithful (never contradicting the system's native explanation), stable
 (consistent across observationally equivalent configurations), and decisive
 (inheriting every incompatibility of the native explanation) when
 the underlying inference problem is underspecified.
-This \emph{Universal Explanation Impossibility} is a meta-theorem unifying six apparently unrelated
-impossibilities: (1)~feature attribution under collinearity, (2)~attention map instability under model multiplicity, (3)~fairness metric incompatibility,
-(4)~model selection instability under the Rashomon effect,
-(5)~causal discovery ambiguity within Markov equivalence classes, and (6)~concept probe instability in overparameterized networks.
+This \emph{Universal Explanation Impossibility} is a meta-theorem unifying nine apparently unrelated
+impossibilities: (1)~feature attribution, (2)~attention maps, (3)~counterfactual explanations,
+(4)~concept probes, (5)~causal discovery, (6)~model selection, (7)~saliency maps (GradCAM),
+(8)~token citation explanations, and (9)~mechanistic interpretability.
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show each pair of
 properties is achievable, confirming the impossibility is non-trivial.
@@ -70,7 +70,7 @@ over equivalent hypotheses restore faithfulness-in-expectation and stability at 
 decisiveness.
 The impossibility is ubiquitous: any learning problem with more
 parameters than constraints admits a Rashomon set of positive measure.
-The framework is mechanically verified in Lean~4 (74~files, 349~theorems, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (74~files, 349~theorems, 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
 %%=======================================================================
@@ -99,16 +99,17 @@ prove fairness metric incompatibility;
 Each was proved independently, under domain-specific assumptions.
 
 We show there is \emph{one} structural cause.  We prove a \emph{Universal Explanation Impossibility}: no explanation of an underspecified system can simultaneously be faithful, stable, and decisive.  The theorem requires only the \emph{Rashomon property}---the existence of equivalent hypotheses that honestly report incompatible explanations---and the proof is four lines.
+A practitioner who discovers SHAP instability cannot escape by switching to attention maps, counterfactual explanations, or concept probes --- the impossibility follows each method for the same structural reason.
 
 \textbf{Contributions.}
-(1)~A universal impossibility theorem (Theorem~\ref{thm:universal}) unifying six impossibilities under one proof.
-(2)~Six instances: feature attribution, attention maps, counterfactuals, concept probes, causal discovery, and model selection---each a special case.
-(3)~Empirical validation for four instances confirming severe instability.
+(1)~A universal impossibility theorem (Theorem~\ref{thm:universal}) unifying nine impossibilities under one proof.
+(2)~Nine instances: feature attribution, attention maps, counterfactuals, concept probes, causal discovery, model selection, saliency maps (GradCAM), token citation explanations, and mechanistic interpretability---each a special case.
+(3)~Empirical validation for seven instances confirming severe instability.
 (4)~A uniform resolution: $G$-invariant aggregation restores stability and faithfulness-in-expectation.
 (5)~Ubiquity: the impossibility holds generically when $\dim(\sH) > \dim(Y)$.
 (6)~Lean~4 formalization: 74~files, 349~theorems, 72~axioms, 0~\texttt{sorry}.
 
-\textbf{Related work} is discussed in Appendix~\ref{app:related}. This paper generalizes the attribution impossibility of \citet{bilodeau2024impossibility} from feature attribution to arbitrary explanation systems. The companion paper provides quantitative depth for the attribution instance; this paper supplies the abstract framework, five additional instances, and the ubiquity result.
+\textbf{Related work} is discussed in Appendix~\ref{app:related}. This paper generalizes the attribution impossibility of \citet{bilodeau2024impossibility} from feature attribution to arbitrary explanation systems. The companion paper (arXiv:XXXX.XXXXX) provides quantitative depth for the attribution instance; this paper supplies the abstract framework, eight additional instances, and the ubiquity result. For causal discovery, the Rashomon property is derived from first principles (Markov equivalence).
 
 %%=======================================================================
 \section{The Abstract Framework}
@@ -162,6 +163,8 @@ Suppose $E$ is faithful, stable, and decisive.
 Steps (2) and (3) contradict.
 \end{proof}
 
+The theorem is tight: dropping any one property makes the remaining two simultaneously achievable (Proposition~\ref{prop:tightness}).
+
 \begin{proposition}[Tightness]
 \label{prop:tightness}
 Each pair of properties is achievable:
@@ -180,11 +183,11 @@ the Rashomon property holds and the impossibility applies.
 \end{corollary}
 
 %%=======================================================================
-\section{Six Instances}
+\section{Nine Instances}
 \label{sec:instances}
 %%=======================================================================
 
-We instantiate Theorem~\ref{thm:universal} in six domains.  For each, we specify the 6-tuple, verify the Rashomon property, and state the impossibility.  Proof sketches, empirical details, and figures are in Appendix~\ref{app:instances}.
+We instantiate Theorem~\ref{thm:universal} in nine domains.  For each, we specify the 6-tuple, verify the Rashomon property, and state the impossibility.  Proof sketches, empirical details, and figures are in Appendix~\ref{app:instances}.
 
 %-----------------------------------------------------------------------
 \subsection{Instance 1: Feature Attribution Under Collinearity}
@@ -357,7 +360,7 @@ Under the Rashomon property, achievable explanations fall into exactly two famil
 
 \begin{table}[t]
 \centering
-\caption{$G$-invariant resolutions across six domains.}
+\caption{$G$-invariant resolutions across nine domains.}
 \label{tab:resolutions}
 \small
 \begin{tabular}{@{}llll@{}}
@@ -393,7 +396,7 @@ This follows from the preimage theorem.  Positive-dimensional fibers imply non-c
 \label{sec:lean}
 %%=======================================================================
 
-The theorem and all six instances are mechanically verified in Lean~4 \citep{demoura2021lean4} with Mathlib \citep{mathlib2020}.
+The theorem and all nine instances are mechanically verified in Lean~4 \citep{demoura2021lean4} with Mathlib \citep{mathlib2020}.
 
 \begin{table}[h]
 \centering
@@ -582,7 +585,7 @@ Bundled impossibility (\texttt{attribution\_impossibility\_bundled}): zero axiom
 
 \paragraph{``Isn't this obvious?''}
 Practitioners know explanations are unstable---so what is new?  Five things.
-(1)~Six domains share \emph{one} mechanism (the Rashomon property) rather than six unrelated pathologies.
+(1)~Nine domains share \emph{one} mechanism (the Rashomon property) rather than nine unrelated pathologies.
 (2)~The Lean~4 formalization eliminates logical gaps.
 (3)~Empirical experiments quantify severity on standard benchmarks.
 (4)~The $G$-invariant resolution is constructive and actionable.
@@ -590,6 +593,6 @@ Practitioners know explanations are unstable---so what is new?  Five things.
 Arrow's impossibility theorem was arguably ``obvious'' once stated, yet it created the field of social choice theory by replacing intuition with a theorem.
 
 \paragraph{``All instances are trivial.''}
-Each instance is individually known.  The contribution is the \emph{meta-theorem}: the same four-line proof closes all six under a single structural condition.  Before this work, a practitioner encountering attention instability might switch to \SHAP{}, then counterfactuals, then concept probes---each time hoping to escape.  Theorem~\ref{thm:universal} shows no escape exists: the impossibility is structural, not method-specific.
+Each instance is individually known.  The contribution is the \emph{meta-theorem}: the same four-line proof closes all nine under a single structural condition.  Before this work, a practitioner encountering attention instability might switch to \SHAP{}, then counterfactuals, then concept probes---each time hoping to escape.  Theorem~\ref{thm:universal} shows no escape exists: the impossibility is structural, not method-specific.
 
 \end{document}
