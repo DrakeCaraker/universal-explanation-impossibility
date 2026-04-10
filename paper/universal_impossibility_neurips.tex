@@ -13,13 +13,13 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 
-%% Theorem environments
+%% Theorem environments (separate counters)
 \newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
 
 %% Macros
 \newcommand{\R}{\mathbb{R}}
@@ -61,7 +61,8 @@ impossibilities: (1)~feature attribution under collinearity, (2)~attention map i
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show each pair of
 properties is achievable, confirming the impossibility is non-trivial.
-Empirical experiments confirm severe instability: 60\% attention argmax flip rate, 23.5\%
+Empirical experiments confirm severe instability: 19.9\% attention argmax flip rate
+(under full retraining; 60\% under weight perturbation), 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 and 80\% model selection flip rate.
 The resolution is uniform: $G$-invariant explanations that aggregate
@@ -224,7 +225,7 @@ Functionally equivalent networks attend to different tokens \citep{jainwallace20
 No attention-based explanation can be simultaneously faithful, stable, and decisive.
 \end{theorem}
 
-\textbf{Empirical:} 10 DistilBERT models, 200 SST-2 sentences. 100\% prediction agreement, \textbf{60\% argmax flip rate}, Kendall $\tau = 0.30$.
+\textbf{Empirical:} 10 DistilBERT models, 200 SST-2 sentences. 100\% prediction agreement, \textbf{19.9\% argmax flip rate} under full retraining (60\% under weight perturbation), Kendall $\tau = 0.30$.
 
 %-----------------------------------------------------------------------
 \subsection{Instance 3: Counterfactual Explanations}
@@ -319,13 +320,14 @@ No selection rule can be simultaneously faithful, stable, and decisive.
 Instance & Instability metric & Value & Pred.\ equiv. \\
 \midrule
 Attribution (\GBDT{}) & SHAP flip rate & 33\% & $>$99\% \\
-Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
+Attention (DistilBERT) & Argmax flip rate & 19.9\%$^{*}$ & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
 Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
-Full retraining (DistilBERT) & Argmax flip rate & 19.9\% & 94.5\% \\
 \bottomrule
+\multicolumn{4}{l}{$^{*}$Weight perturbation yields 60.0\%; we report the conservative} \\
+\multicolumn{4}{l}{\quad full-retraining figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
 
@@ -499,7 +501,7 @@ Collinear features within group $\ell$ share correlation $\rho$.  For \GBDT{}, t
 By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} = f_{\theta_2}$ yet $\operatorname{argmax} \alpha_{\theta_1} \neq \operatorname{argmax} \alpha_{\theta_2}$.  Theorem~\ref{thm:universal} yields the impossibility.  Lean: \texttt{attention\_impossibility} in \texttt{AttentionInstance.lean}.
 
 \paragraph{Experiment.}
-10 DistilBERT models with weight perturbations ($\sigma \in \{0.01, 0.02\}$) on 200 SST-2 sentences.  100\% prediction agreement.  Argmax flip rate: 60.0\% [CI: 59--61\%].  Mean Kendall $\tau$: 0.30 [CI: 0.29--0.31].
+10 DistilBERT models with weight perturbations ($\sigma \in \{0.01, 0.02\}$) on 200 SST-2 sentences.  100\% prediction agreement.  Argmax flip rate (weight perturbation): 60.0\% [CI: 59--61\%]; under full retraining (20 models, last 2 transformer layers retrained from random initialization): 19.9\%.  We report the conservative retraining figure in the main text.  Mean Kendall $\tau$: 0.30 [CI: 0.29--0.31].
 
 \paragraph{Implications.}
 Theorem resolves the \citet{jainwallace2019} vs.\ \citet{wiegreffe2019attention} debate structurally: even if attention correlates with importance in expectation, no attention explanation can be faithful to a specific model, stable across equivalent models, and decisive about which token to highlight.

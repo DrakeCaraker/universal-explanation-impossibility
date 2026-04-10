@@ -13,7 +13,7 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{subcaption}
-\usepackage{natbib}
+\usepackage[numbers,sort&compress]{natbib}
 \usepackage{microtype}
 
 %% 9pt body text to approximate PNAS style
@@ -21,13 +21,13 @@
 \renewcommand{\normalsize}{\fontsize{9}{11}\selectfont}
 \normalsize
 
-%% Theorem environments
+%% Theorem environments (separate counters so Definition 1, Theorem 1, etc.)
 \newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
 
 %% Macros
 \newcommand{\R}{\mathbb{R}}
@@ -62,6 +62,18 @@
   \begin{@twocolumnfalse}
   \maketitle
 
+% Classification
+\footnotetext{Classification: Computer Sciences; Applied Mathematics}
+
+% Author contributions
+\footnotetext{Author contributions: D.C. designed research, developed the framework, wrote Lean proofs, ran experiments, and wrote the paper. B.A. and D.R. contributed to the attribution impossibility foundation and reviewed the manuscript.}
+
+% Competing interests
+\footnotetext{The authors declare no competing interests.}
+
+% Data availability
+\footnotetext{Data, code, and Lean proofs are available at \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}.}
+
 %%=======================================================================
 \begin{abstract}
 %%=======================================================================
@@ -89,19 +101,17 @@ verified in the Lean~4 proof assistant (349 theorems, 0 unproved goals).
 \noindent\textbf{Significance.}\quad
 Explainability is central to trustworthy AI, scientific inference, and
 regulatory compliance. We prove a universal impossibility: no method of
-explaining an underspecified system can simultaneously be faithful to the
-system, stable across equivalent configurations, and decisive in its
-commitments. This proves an impossibility theorem for explanation under observational equivalence---formalizing,
-to our knowledge for the first time, the explanatory consequences of contrastive
+explaining an underspecified system can simultaneously be faithful,
+stable across equivalent configurations, and decisive.
+This formalizes the explanatory consequences of contrastive
 underdetermination~\cite{laudan1991empirical}. Prior formal analyses of underdetermination
 in Bayesian frameworks~\cite{dorling1979bayesian,howson2006scientific} did not yield
 impossibility results for explanation methods. The impossibility
-applies to nine major explanation paradigms in machine learning---from
-SHAP values to neural network circuit analysis---and extends to scientific
+applies to nine explanation paradigms in machine learning---from
+SHAP values to circuit analysis---and extends to scientific
 explanation and medical diagnosis. The constructive
 resolution (aggregate over equivalent configurations) provides
-a provably stable tradeoff among explanation methods. The entire proof is mechanically verified,
-eliminating logical gaps in the formal proofs.
+a provably stable tradeoff. The entire proof is mechanically verified.
 
 \medskip
 
@@ -324,7 +334,7 @@ model explanations) are detailed in \emph{SI Appendix}.
 \subsection{Feature Attribution (Machine Learning)}
 \label{sec:instance-attr}
 
-The 6-tuple: $\Params$ = trained models (GBDT, Lasso, neural networks); $Y$ = input--output function; $\sH$ = attribution vectors $(\varphi_1,\ldots,\varphi_P)$; $\incomp$ = opposite ranking of a collinear pair. Collinearity induces a Rashomon set of near-optimal models differing only in which correlated feature acts as primary predictor~\cite{damour2022underspecification,fisher2019models}. The impossibility follows from Theorem~\ref{thm:universal}, subsuming \citet{bilodeau2024impossibility} as a special case.
+The 6-tuple: $\Params$ = trained models (GBDT, Lasso, neural networks); $Y$ = input--output function; $\sH$ = attribution vectors $(\varphi_1,\ldots,\varphi_P)$; $\incomp$ = opposite ranking of a collinear pair. Collinearity induces a Rashomon set of near-optimal models differing only in which correlated feature acts as primary predictor~\cite{damour2022underspecification,fisher2019models}. The impossibility follows from Theorem~\ref{thm:universal}, subsuming \cite{bilodeau2024impossibility} as a special case.
 
 Quantitatively: for GBDTs the attribution ratio diverges as $1/(1-\rho^2)$; for Lasso one feature is zeroed entirely (infinite ratio). Empirically, SHAP rankings flip at a 33\% rate across equivalent models.
 
@@ -343,7 +353,7 @@ By Theorem~\ref{thm:universal}, no orientation rule can simultaneously be faithf
 \subsection{Mechanistic Interpretability}
 \label{sec:instance-mi}
 
-The 6-tuple: $\Params$ = weight configurations; $Y$ = input--output function; $\sH$ = circuit decompositions; $\incomp$ = contradictory attribution of the same computation to different network components. \citet{meloux2025everything} found \textbf{85 distinct valid circuits} for a single XOR task; \citet{paulo2025sae} show sparse autoencoders learn different features per seed.
+The 6-tuple: $\Params$ = weight configurations; $Y$ = input--output function; $\sH$ = circuit decompositions; $\incomp$ = contradictory attribution of the same computation to different network components. \cite{meloux2025everything} found \textbf{85 distinct valid circuits} for a single XOR task; \cite{paulo2025sae} show sparse autoencoders learn different features per seed.
 
 By Theorem~\ref{thm:universal}, no circuit explanation can simultaneously be faithful, stable, and decisive. The resolution is to report the circuit equivalence class---features invariant across all valid decompositions form the ``skeleton''; decomposition-dependent features are the ``reversible edges.'' For AI safety: arguments that a specific circuit is THE mechanism of a capability must account for alternative circuits with potentially different safety properties.
 
@@ -565,7 +575,7 @@ OCC SR~11-7~\cite{occ2011sr117}, EU AI Act Article~13~\cite{euaiact2024}, and NI
 If a safety argument depends on a specific circuit being THE mechanism of
 a capability, the impossibility requires accounting for alternative
 circuits with potentially different safety properties. The 85 valid
-circuits found by \citet{meloux2025everything} for a simple XOR task
+circuits found by \cite{meloux2025everything} for a simple XOR task
 suggest real-world capabilities will admit far more. Safety arguments
 should target circuit-invariant properties.
 
@@ -593,7 +603,7 @@ obtains and to communicate the tradeoff honestly.
 \section*{Materials and Methods}
 %%=======================================================================
 The Lean~4 formalization (74 files, 349 theorems, 72 axioms,
-0~\texttt{sorry}) is available at [repository URL]. Experimental code and
+0~\texttt{sorry}) is available at \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}. Experimental code and
 data are in \emph{SI Appendix}. The core impossibility theorem
 (\texttt{explanation\_impossibility}) depends on zero axioms beyond the
 Rashomon property. Full axiom inventory and theorem list are in
@@ -604,7 +614,7 @@ Rashomon property. Full axiom inventory and theorem list are in
 
 %%=======================================================================
 \bibliography{references}
-\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 %%=======================================================================
 
 \end{document}

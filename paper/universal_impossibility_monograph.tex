@@ -68,13 +68,13 @@
   literate={/\\}{$\wedge$}2 {/=}{$\neq$}2,
 }
 
-%% ---- Theorem environments ----
+%% ---- Theorem environments (separate counters) ----
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{remark}{Remark}[section]
 \newtheorem{axiom_env}{Axiom}
 
 %% ---- Macros (shared with main paper) ----
@@ -147,7 +147,8 @@ The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
 Empirical experiments on four instances confirm severe instability among
-functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
+functionally equivalent models: 19.9\% attention argmax flip rate
+(under full retraining; 60\% under weight perturbation), 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 and 80\% model selection flip rate.
 The resolution is uniform: $G$-invariant explanation systems that aggregate
@@ -413,6 +414,16 @@ This mirrors the Lean proof exactly (\texttt{explanation\_impossibility} in
 \end{remark}
 
 \begin{remark}
+The simplicity of the proof---four steps from the Rashomon property to
+contradiction---is a feature of the framework, not a limitation of the
+result. The intellectual content lies in identifying the right
+definitions: faithful as non-contradiction, stable as factoring through
+observations, decisive as inheriting incompatibilities. The
+contribution is the axiomatic framework and its unification of nine
+domains, not the proof technique.
+\end{remark}
+
+\begin{remark}
 The theorem is deliberately parameter-free: it requires no regularity
 conditions on $\sH$, no metric structure on $Y$, and no probabilistic
 assumptions.  All quantitative depth (divergence rates, sample complexity,
@@ -485,20 +496,21 @@ Rashomon property, and (iii)~characterize the resolution.
 
 \begin{table}[t]
 \centering
-\caption{Empirical validation of the universal explanation impossibility across four explanation types. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
+\caption{Empirical illustration of the universal explanation impossibility across four explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
 \label{tab:cross-instance}
 \begin{tabular}{llrl}
 \toprule
 Instance & Instability metric & Value & Prediction equiv. \\
 \midrule
 Attribution (GBDT) & SHAP flip rate & 33\% & $>$99\% \\
-Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
+Attention (DistilBERT) & Argmax flip rate & 19.9\%$^{\|}$ & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
-Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
-Full retraining (DistilBERT) & Argmax flip rate & 19.9\% & 94.5\% \\
+Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 \bottomrule
+\multicolumn{4}{l}{$^{\|}$Weight perturbation yields 60.0\%; we report the conservative} \\
+\multicolumn{4}{l}{\quad full-retraining figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
 
@@ -869,7 +881,7 @@ We distinguish four levels of verification:
 
   \item \textbf{Empirical}: The result is supported by computational
     experiments but not formally proved.  Examples: the specific flip rates
-    (60\% attention, 23.5\% counterfactual, etc.) reported in
+    (19.9\% attention under full retraining, 23.5\% counterfactual, etc.) reported in
     Section~\ref{sec:instances}.
 \end{enumerate}
 
@@ -996,6 +1008,60 @@ is structural (it follows from the Rashomon property), not method-specific.
 Recognizing this unifies the practitioner's response: rather than debugging each
 method individually, one diagnoses the Rashomon property and applies the
 $G$-invariant resolution uniformly.
+
+\subsection{Implications Beyond Machine Learning}
+\label{sec:beyond-ml}
+
+The Universal Explanation Impossibility is not specific to machine learning.
+
+\paragraph{Philosophy of science: formalizing Quine--Duhem.}
+Quine \citep{quine1951dogmas} and Duhem \citep{duhem1906aim} argued that
+empirical evidence underdetermines theory choice.  Theorem~\ref{thm:universal}
+proves an impossibility theorem for explanation under observational
+equivalence---formalizing, to our knowledge for the first time, the explanatory
+consequences of what philosophers of science call contrastive
+underdetermination \citep{laudan1991empirical}. Prior formal analyses of
+underdetermination in Bayesian
+frameworks \citep{dorling1979bayesian,howson2006scientific} did not yield
+impossibility results for explanation methods. The $G$-invariant
+resolution is structurally reminiscent of epistemic structural
+realism \citep{worrall1989structural}: stable explanatory content is what
+is invariant across equivalent configurations. The connection is suggestive;
+a rigorous mapping would require engaging with the ontological commitments
+of structural realism, which our descriptive framework does not address.
+Dropping decisiveness corresponds to van
+Fraassen's \citep{vanfraassen1980scientific} constructive empiricist stance
+that science aims for empirical adequacy, not full theoretical truth.
+Okasha \citep{okasha2011theory} connected theory choice to Arrow's impossibility
+in social choice; our result provides the complementary connection for
+underdetermination of explanation.
+
+\paragraph{Neuroscience: degeneracy as the Rashomon property.}
+Marder and Goaillard \citep{marder2006variability} documented that crustacean
+stomatogastric ganglia producing identical motor patterns are built from
+qualitatively different ionic conductance profiles.  Edelman and Gally
+\citep{edelman2001degeneracy} formalized this as \emph{degeneracy}:
+structurally distinct elements performing the same function.  Degeneracy is
+precisely the Rashomon property in our framework.
+
+\paragraph{Economics: partial identification.}
+Manski \citep{manski2003partial} developed partial identification theory for
+settings where observational data do not pin down a unique model.  The
+identified set corresponds to an observe-fiber in our framework; partial
+identification is the economic instantiation of the Rashomon property.
+
+\paragraph{Medical diagnosis.}
+When multiple conditions produce the same symptoms, diagnosis faces the
+trilemma.  Differential diagnosis is precisely $G$-invariant resolution:
+it sacrifices decisiveness for faithfulness and stability.
+
+\paragraph{Arrow's theorem as structural analogy.}
+The result shares structural features with Arrow's impossibility
+theorem \citep{arrow1951social}: three individually reasonable desiderata
+that are pairwise satisfiable but jointly impossible under a natural
+background condition.  Like Arrow's theorem, the proof is short once the
+axioms are identified; the contribution lies in identifying the right
+axiomatic framework.
 
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}

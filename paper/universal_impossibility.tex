@@ -17,13 +17,13 @@
 \usepackage{xcolor}
 \usepackage{subcaption}
 
-%% Theorem environments (shared style with main.tex)
+%% Theorem environments (separate counters)
 \newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
 \newtheorem{axiom}{Axiom}
 
 %% Macros (shared with main.tex)
@@ -88,7 +88,8 @@ The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems confirm each pair of
 properties is achievable.
 Empirical experiments on seven instances confirm severe instability among
-functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
+functionally equivalent models: 19.9\% attention argmax flip rate
+(under full retraining; 60\% under weight perturbation), 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 80\% model selection flip rate, 9.6\% GradCAM peak flip rate, and 34.5\%
 token citation flip rate.
@@ -97,7 +98,7 @@ configurations restores faithfulness-in-expectation and stability at
 the cost of decisiveness, and is proved Pareto-optimal among stable methods.
 The impossibility is ubiquitous: any system with strictly more parameters
 than observational constraints admits a Rashomon set of positive measure.
-The framework is mechanically verified in Lean~4 (73~files, 346~theorems,
+The framework is mechanically verified in Lean~4 (74~files, 349~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -210,7 +211,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 73~files, 346~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 74~files, 349~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -475,6 +476,15 @@ $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$---then
 the Rashomon property holds and the impossibility applies.
 \end{corollary}
 
+\noindent
+The simplicity of the proof---four steps from the Rashomon property to
+contradiction---is a feature of the framework, not a limitation of the
+result. The intellectual content lies in identifying the right
+definitions: faithful as non-contradiction, stable as factoring through
+observations, decisive as inheriting incompatibilities. The
+contribution is the axiomatic framework and its unification of nine
+domains, not the proof technique.
+
 %%=======================================================================
 \section{Nine Instances}
 \label{sec:instances}
@@ -505,14 +515,14 @@ Rashomon property, and (iii)~characterize the resolution.
 
 \begin{table}[t]
 \centering
-\caption{Empirical validation of the universal explanation impossibility across nine explanation types. Seven types have direct experimental results; mechanistic interpretability and causal discovery are validated via classical results. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
+\caption{Empirical illustration of the universal explanation impossibility across nine explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. Seven types have direct experimental results; mechanistic interpretability and causal discovery are validated via classical results. All instability measures have 95\% bootstrap confidence intervals excluding zero.}
 \label{tab:cross-instance}
 \begin{tabular}{llrl}
 \toprule
 Instance & Instability metric & Value & Prediction equiv. \\
 \midrule
 Attribution (GBDT) & SHAP flip rate & 33\% & $>$99\% \\
-Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
+Attention (DistilBERT) & Argmax flip rate & 19.9\%$^{\S}$ & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
@@ -523,8 +533,9 @@ Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); 
 \bottomrule
 \multicolumn{4}{l}{$^{\dagger}$Prediction agreement is 78.8\%, reflecting sensitivity of ImageNet-pretrained} \\
 \multicolumn{4}{l}{\quad ResNet-18 to perturbation on CIFAR-10.} \\
-\multicolumn{4}{l}{$^{\ddagger}$Token citation extracted via attention rollout as a proxy; four of twenty} \\
-\multicolumn{4}{l}{\quad attribution models achieved 72--78\% held-out accuracy; all twenty included.} \\
+\multicolumn{4}{l}{$^{\ddagger}$Token citation extracted via attention rollout as a proxy.} \\
+\multicolumn{4}{l}{$^{\S}$Weight perturbation yields 60.0\%; we report the conservative} \\
+\multicolumn{4}{l}{\quad full-retraining figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
 
@@ -787,8 +798,10 @@ excludes essentially all modern architectures of practical interest.
 \subsection{Analogy: Arrow's Impossibility Theorem}
 \label{sec:arrow-analogy}
 
-The structure of our result parallels Arrow's impossibility theorem in social
-choice theory \citep{arrow1951social}.  Arrow showed that no voting rule
+The result shares structural features with Arrow's impossibility theorem in social
+choice theory \citep{arrow1951social}: three individually reasonable desiderata
+that are pairwise satisfiable but jointly impossible under a natural
+background condition.  Arrow showed that no voting rule
 satisfying unanimity, independence of irrelevant alternatives, and
 non-dictatorship exists for three or more candidates---a universal
 impossibility that unified disparate paradoxes in voting theory.
@@ -819,8 +832,8 @@ formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 73 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 346 & Verified by \texttt{grep -c} \\
+Files & 74 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 349 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -900,7 +913,7 @@ nine domains (attribution, attention, counterfactuals, concept probes, causal
 discovery, model selection, saliency maps, token citation, mechanistic
 interpretability) share \emph{one}
 mechanism---the Rashomon property---rather than nine unrelated pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 73~files, 346~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 74~files, 349~theorems, 0~\texttt{sorry})
 eliminates logical gaps in the formal proofs that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attention flip rates, measurable counterfactual and concept instability on
@@ -943,17 +956,23 @@ We briefly sketch five domains where the theorem applies directly.
 
 \paragraph{Philosophy of science: formalizing Quine--Duhem.}
 Quine \citep{quine1951dogmas} and Duhem \citep{duhem1906aim} argued that
-empirical evidence underdetermines theory choice.  Van Fraassen
-\citep{vanfraassen1980scientific} elevated this to a central argument for
-constructive empiricism.  Despite a century of philosophical discussion, a core consequence of the
-thesis has not, to our knowledge, been formalized as a mathematical theorem with a precise
-boundary condition.  Theorem~\ref{thm:universal} provides that
-formalization: the configuration space corresponds to theories, the
-observable space to data, the Rashomon property to the existence of
-empirically equivalent theories with incompatible explanations, and the
-necessity result (Proposition~\ref{prop:necessity}) supplies the exact
-boundary that philosophical formulations lack.  Okasha
-\citep{okasha2011theory} connected theory choice to Arrow's impossibility
+empirical evidence underdetermines theory choice.  Theorem~\ref{thm:universal}
+proves an impossibility theorem for explanation under observational
+equivalence---formalizing, to our knowledge for the first time, the explanatory
+consequences of what philosophers of science call contrastive
+underdetermination \citep{laudan1991empirical}. Prior formal analyses of
+underdetermination in Bayesian
+frameworks \citep{dorling1979bayesian,howson2006scientific} did not yield
+impossibility results for explanation methods. The $G$-invariant
+resolution is structurally reminiscent of epistemic structural
+realism \citep{worrall1989structural}: stable explanatory content is what
+is invariant across equivalent configurations. The connection is suggestive;
+a rigorous mapping would require engaging with the ontological commitments
+of structural realism, which our descriptive framework does not address.
+Dropping decisiveness corresponds to van
+Fraassen's \citep{vanfraassen1980scientific} constructive empiricist stance
+that science aims for empirical adequacy, not full theoretical truth.
+Okasha \citep{okasha2011theory} connected theory choice to Arrow's impossibility
 in social choice; our result provides the complementary connection for
 underdetermination of explanation.
 

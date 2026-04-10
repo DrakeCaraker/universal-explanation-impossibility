@@ -80,15 +80,18 @@ Theorem~\ref{thm:universal}.  The Lean~4 formalization is
 \end{proof}
 
 \paragraph{Empirical validation.}
-We validate Theorem~\ref{thm:attention} by training 10 DistilBERT models
-with small weight perturbations ($\sigma \in \{0.01, 0.02\}$) on 200
-sentences from SST-2.  Despite \textbf{100\% prediction agreement}
-(all models classify every sentence identically), the argmax attention
-token flips between model pairs at a rate of \textbf{60.0\%}
-[95\% CI: 59--61\%], and the mean Kendall $\tau$ correlation between
-attention distributions is only \textbf{0.30} [CI: 0.29--0.31], far below
-the $\tau = 1.0$ that stability would require.  Full results appear in
-Table~\ref{tab:attention} and Figure~\ref{fig:attention_instability}.
+We validate Theorem~\ref{thm:attention} using two protocols.
+Under weight perturbation (10 DistilBERT models, $\sigma \in \{0.01, 0.02\}$,
+200 SST-2 sentences), the argmax flip rate is 60.0\% [95\% CI: 59--61\%].
+Under full retraining (20 models, last 2 transformer layers retrained from
+random initialization), the argmax flip rate is \textbf{19.9\%}; we report
+this more conservative figure as the primary result.
+Despite \textbf{100\% prediction agreement}
+(all models classify every sentence identically), the mean Kendall $\tau$
+correlation between attention distributions is only \textbf{0.30}
+[CI: 0.29--0.31], far below the $\tau = 1.0$ that stability would require.
+Full results appear in Table~\ref{tab:attention} and
+Figure~\ref{fig:attention_instability}.
 
 \input{sections/table_attention}
 

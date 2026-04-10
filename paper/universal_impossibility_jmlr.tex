@@ -80,7 +80,8 @@ The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
 Empirical experiments on four instances confirm severe instability among
-functionally equivalent models: 60\% attention argmax flip rate, 23.5\%
+functionally equivalent models: 19.9\% attention argmax flip rate
+(under full retraining; 60\% under weight perturbation), 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
 and 80\% model selection flip rate.
 The resolution is uniform: $G$-invariant explanation systems that aggregate
@@ -425,13 +426,14 @@ Rashomon property, and (iii)~characterize the resolution.
 Instance & Instability metric & Value & Prediction equiv. \\
 \midrule
 Attribution (GBDT) & SHAP flip rate & 33\% & $>$99\% \\
-Attention (DistilBERT) & Argmax flip rate & 60.0\% & 100\% \\
+Attention (DistilBERT) & Argmax flip rate & 19.9\%$^{*}$ & 100\% \\
 Counterfactual (XGBoost) & Direction flip rate & 23.5\% & $\Delta$AUC $<$ 0.03 \\
 Concept probe (MLP) & $1 - |\cos|$ & 0.90 & 97.2\% \\
 Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02 \\
-Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991)}} \\
-Full retraining (DistilBERT) & Argmax flip rate & 19.9\% & 94.5\% \\
+Causal discovery & \multicolumn{3}{l}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 \bottomrule
+\multicolumn{4}{l}{$^{*}$Weight perturbation yields 60.0\%; we report the conservative} \\
+\multicolumn{4}{l}{\quad full-retraining figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
 

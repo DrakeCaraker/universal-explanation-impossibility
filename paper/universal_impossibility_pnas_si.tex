@@ -13,16 +13,22 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{subcaption}
-\usepackage{natbib}
+\usepackage[numbers,sort&compress]{natbib}
 \usepackage{longtable}
 
-%% Theorem environments
+%% Theorem environments (separate counters, matching PNAS main)
 \newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+%% S-prefix for SI numbering
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{S\arabic{section}.\arabic{subsection}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
 
 %% Macros
 \newcommand{\R}{\mathbb{R}}
@@ -56,7 +62,7 @@
 \label{sec:si-proofs}
 %%=======================================================================
 
-\subsection{Proof of Proposition 2 (Tightness)}
+\subsection{Proof of Tightness (Main Text Proposition 1)}
 
 \begin{proof}
 We construct three witnesses, one for each achievable pair.
@@ -92,10 +98,10 @@ must, since it inherits incompatibilities from both sides of the Rashomon
 witness.
 \end{proof}
 
-\subsection{Proof of Proposition 3 (Necessity)}
+\subsection{Proof of Necessity (Main Text Proposition 2)}
 
 \begin{proof}
-($\Rightarrow$) If the Rashomon property holds, Theorem~1 shows no
+($\Rightarrow$) If the Rashomon property holds, the main theorem shows no
 faithful, stable, and decisive $E$ exists.
 
 ($\Leftarrow$) If the Rashomon property fails, then for all $\theta_1,
@@ -122,7 +128,7 @@ Set $E = \mathsf{explain}$.
 \end{itemize}
 \end{proof}
 
-\subsection{Proof of Proposition 4 ($G$-Invariance Implies Stability)}
+\subsection{Proof of $G$-Invariance Implies Stability (Main Text Proposition 3)}
 
 \begin{proof}
 Let $\theta_1, \theta_2$ with $\mathsf{observe}(\theta_1) =
@@ -239,7 +245,7 @@ Averaged concept activation vector or subspace over the Rashomon set.
 \subsection{Instance 5: Causal Discovery}
 
 See main text, Section~3.2. The Rashomon property is derived from Markov
-equivalence (Proposition~4). Resolution: CPDAG
+equivalence. Resolution: CPDAG
 reporting~\cite{chickering2002optimal}.
 
 \paragraph{Implementation note.}
@@ -554,7 +560,7 @@ Safety audit & Decisiveness & Conservative bounds & Worst-case over Rashomon set
 The EU AI Act~\cite{euaiact2024} requires ``appropriate transparency'' and
 ``meaningful information about the logic involved'' for high-risk systems.
 ``Meaningful'' implies faithfulness and decisiveness; ``appropriate'' across
-model versions implies stability. Theorem~1 shows all three
+model versions implies stability. The main theorem shows all three
 simultaneously is impossible under the Rashomon property.
 
 \emph{Resolution.} Report $G$-invariant explanations with explicit
@@ -592,7 +598,7 @@ challenge at modeling choices rather than explanation artifacts.
 Quine~\cite{quine1951dogmas} argued that ``any statement can be held true
 come what may, if we make drastic enough adjustments elsewhere in the
 system.'' Duhem~\cite{duhem1906aim} held that no physical hypothesis can
-be tested in isolation. Theorem~1 formalizes this: the configuration
+be tested in isolation. The main theorem formalizes this: the configuration
 space is the space of theories, the observable space is empirical data,
 and the Rashomon property captures the existence of empirically adequate
 theories with incompatible explanations.
@@ -624,7 +630,7 @@ decisiveness (single diagnosis) for faithfulness and stability.
 
 %%=======================================================================
 \bibliography{references}
-\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 %%=======================================================================
 
 \end{document}
