@@ -336,7 +336,7 @@ By Theorem~\ref{thm:universal}, no orientation rule can simultaneously be faithf
 \subsection{Mechanistic Interpretability}
 \label{sec:instance-mi}
 
-The 6-tuple: $\Params$ = weight configurations; $Y$ = input--output function; $\sH$ = circuit decompositions; $\incomp$ = contradictory attribution of the same computation to different network components. \citet{meloux2025everything} found \textbf{85 distinct valid circuits} for a single XOR task; \citet{sae_seeds_2025} show sparse autoencoders learn different features per seed.
+The 6-tuple: $\Params$ = weight configurations; $Y$ = input--output function; $\sH$ = circuit decompositions; $\incomp$ = contradictory attribution of the same computation to different network components. \citet{meloux2025everything} found \textbf{85 distinct valid circuits} for a single XOR task; \citet{paulo2025sae} show sparse autoencoders learn different features per seed.
 
 By Theorem~\ref{thm:universal}, no circuit explanation can simultaneously be faithful, stable, and decisive. The resolution is to report the circuit equivalence class---features invariant across all valid decompositions form the ``skeleton''; decomposition-dependent features are the ``reversible edges.'' For AI safety: arguments that a specific circuit is THE mechanism of a capability must account for alternative circuits with potentially different safety properties.
 
