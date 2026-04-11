@@ -950,7 +950,7 @@ $G$-invariant resolution uniformly.
 \label{sec:beyond-ml}
 
 The Explanation Impossibility is not specific to machine learning.
-We briefly sketch five domains where the theorem applies directly.
+We briefly sketch eight domains where the theorem applies directly.
 
 \paragraph{Philosophy of science: formalizing Quine--Duhem.}
 Quine \citep{quine1951dogmas} and Duhem \citep{duhem1906aim} argued that
@@ -1000,6 +1000,41 @@ listing all conditions consistent with the symptoms---is precisely
 $G$-invariant resolution.  It sacrifices decisiveness (commitment to a
 single diagnosis) to gain faithfulness and stability, exactly as
 Theorem~\ref{thm:universal} predicts.
+
+\paragraph{Physics: gauge invariance as the Rashomon property.}
+In electromagnetism, infinitely many gauge potentials $A_\mu$ produce the
+same observable field tensor $F_{\mu\nu}$; the gauge group acts transitively
+on each fiber \citep{yang1954conservation}.  A method that reports the
+``true'' gauge potential is faithful and decisive but unstable across gauge
+transformations; gauge-invariant quantities ($F_{\mu\nu}$, Wilson loops) are
+faithful and stable but sacrifice decisiveness about the potential.  Gauge
+fixing---selecting one representative per equivalence class via a symmetry
+condition (Coulomb, Lorenz, axial)---is precisely the $G$-invariant
+resolution of Theorem~\ref{thm:universal}, a solution physics arrived at a
+century before machine learning encountered the same structural problem
+\citep{faddeev1967feynman}.
+
+\paragraph{Psychometrics: factor indeterminacy.}
+In exploratory factor analysis, the factor loading matrix is identified only
+up to rotation: infinitely many rotated solutions explain the same covariance
+structure \citep{thurstone1947multiple}.  The ``explanation'' (which latent
+factors underlie the data?) is underdetermined by observables (the
+correlation matrix), and different rotations yield incompatible factor
+interpretations---the Rashomon property.  Varimax
+\citep{kaiser1958varimax} and other rotation criteria are $G$-invariant
+resolutions: they select the rotation satisfying a symmetry condition
+(simple structure) rather than committing to an arbitrary orientation.
+Thurstone was grappling with the trilemma in 1947.
+
+\paragraph{Climate and hydrology: equifinality.}
+\citet{beven1993prophecy} coined \emph{equifinality} for the observation
+that many parameter configurations of a hydrological model produce
+acceptably similar fits to observed data---a direct instantiation of the
+Rashomon property.  The Generalized Likelihood Uncertainty Estimation
+(GLUE) framework \citep{beven1993prophecy} reports the full set of
+behavioral parameter sets rather than a single best-fit model: this is
+$G$-invariant resolution applied to environmental modeling, sacrificing
+decisiveness (one parameter vector) for faithfulness and stability.
 
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}
