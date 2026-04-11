@@ -217,12 +217,17 @@ paper.
 
 ## Strategy for follow-up paper
 
-**Venue**: General-audience (Science, Nature, or PNAS) rather than ML-specific.
+See `RESEARCH_ROADMAP.md` (repo root) for the full venue strategy, timeline,
+and sequencing of all papers. The cross-science paper draft is at
+`paper/cross_science_impossibility_draft.tex`.
 
-**Title candidate**: "The Impossibility of Explanation: A Universal Theorem
-Across Science"
+**Venue**: PNAS first, then Science if needed. See roadmap for full ranking.
 
-**Core contribution**: Formally instantiate the theorem in 5+ non-ML domains.
+**Title**: "One Theorem, Twelve Names: A Universal Law of Explanation Across Science"
+
+**Draft**: `paper/cross_science_impossibility_draft.tex`
+
+**Core contribution**: Formally instantiate the theorem in 7+ non-ML domains.
 Show that each community independently discovered the Rashomon property (under
 different names: gauge freedom, degeneracy, equifinality, factor indeterminacy,
 Markov equivalence, partial identification) and converged on structurally
