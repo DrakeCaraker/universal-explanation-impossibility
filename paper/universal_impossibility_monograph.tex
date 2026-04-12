@@ -132,19 +132,16 @@ faithful (never contradicting the system's native explanation), stable
 the underlying inference problem is underspecified---that is, when
 observationally equivalent configurations produce incompatible explanations
 (the Rashomon property).
-This single abstract theorem, which we call the \emph{Universal Explanation
+This single abstract theorem, which we call the \emph{Explanation
 Impossibility}, is a meta-theorem that unifies nine apparently unrelated
-impossibility results from across machine learning: (1)~the feature attribution
-impossibility under collinearity \citep{bilodeau2024impossibility}, (2)~the
-SHAP instability under model multiplicity \citep{damour2022underspecification},
-(3)~the fairness metric incompatibility \citep{chouldechova2017fair,kleinberg2017inherent},
-(4)~the model selection instability under the Rashomon effect
-\citep{rudin2024amazing,fisher2019models}, (5)~the causal discovery ambiguity
-within a Markov equivalence class \citep{verma1991equivalence}, (6)~the
-impossibility of faithful explanations for overparameterized neural networks,
-(7)~saliency map instability (GradCAM), (8)~token citation explanation instability,
-and (9)~mechanistic interpretability non-uniqueness (circuit
-discovery).
+impossibility results from across machine learning: (1)~feature attribution
+under collinearity \citep{bilodeau2024impossibility}, (2)~attention map
+instability, (3)~counterfactual explanation instability, (4)~concept probe
+(TCAV) instability, (5)~causal discovery ambiguity within Markov equivalence
+classes \citep{verma1991equivalence}, (6)~model selection instability under
+the Rashomon effect \citep{rudin2024amazing,fisher2019models}, (7)~saliency
+map (GradCAM) instability, (8)~token citation explanation instability,
+and (9)~mechanistic interpretability non-uniqueness.
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
@@ -577,7 +574,7 @@ $g \in G$ and $h \in \sH$,
 When $G$ is finite and $Y$ admits averaging, the canonical $G$-invariant map
 is the \emph{orbit average}:
 \[
-  \overline{\mathsf{exp}}(h) \;=\; \frac{1}{|G|}\sum_{g \in G} \mathsf{obs}(g \cdot h).
+  \overline{\mathsf{exp}}(h) \;=\; \frac{1}{|G|}\sum_{g \in G} \mathsf{exp}(g \cdot h).
 \]
 
 \begin{proposition}[$G$-Invariance Implies Stability]
@@ -674,12 +671,12 @@ higher expected faithfulness.
 Let $\mathcal{S}$ be an explanation system whose Rashomon property arises
 from a finite group $G$ acting on $\sH$ and acting transitively on
 observe-fibers.  Then the orbit-averaged map
-$\overline{\mathsf{exp}}(h) = \frac{1}{|G|}\sum_{g \in G}\mathsf{obs}(g \cdot h)$
+$\overline{\mathsf{exp}}(h) = \frac{1}{|G|}\sum_{g \in G}\mathsf{exp}(g \cdot h)$
 is:
 \begin{enumerate}[label=(\roman*)]
   \item well-defined (independent of orbit representative),
   \item stable (Proposition~\ref{prop:g-invariant-stable}),
-  \item faithful in expectation: $\E_{g \sim \mathrm{Unif}(G)}[\mathsf{obs}(g \cdot h)] = \overline{\mathsf{exp}}(h)$, and
+  \item faithful in expectation: $\E_{g \sim \mathrm{Unif}(G)}[\mathsf{exp}(g \cdot h)] = \overline{\mathsf{exp}}(h)$, and
   \item Pareto-optimal among stable maps: no stable map achieves strictly
     higher pointwise faithfulness on every fiber.
 \end{enumerate}

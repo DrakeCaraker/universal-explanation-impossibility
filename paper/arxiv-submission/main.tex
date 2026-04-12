@@ -132,19 +132,16 @@ faithful (never contradicting the system's native explanation), stable
 the underlying inference problem is underspecified---that is, when
 observationally equivalent configurations produce incompatible explanations
 (the Rashomon property).
-This single abstract theorem, which we call the \emph{Universal Explanation
+This single abstract theorem, which we call the \emph{Explanation
 Impossibility}, is a meta-theorem that unifies nine apparently unrelated
-impossibility results from across machine learning: (1)~the feature attribution
-impossibility under collinearity \citep{bilodeau2024impossibility}, (2)~the
-SHAP instability under model multiplicity \citep{damour2022underspecification},
-(3)~the fairness metric incompatibility \citep{chouldechova2017fair,kleinberg2017inherent},
-(4)~the model selection instability under the Rashomon effect
-\citep{rudin2024amazing,fisher2019models}, (5)~the causal discovery ambiguity
-within a Markov equivalence class \citep{verma1991equivalence}, (6)~the
-impossibility of faithful explanations for overparameterized neural networks,
-(7)~saliency map instability (GradCAM), (8)~LLM self-explanation instability
-(token citation), and (9)~mechanistic interpretability non-uniqueness (circuit
-discovery).
+impossibility results from across machine learning: (1)~feature attribution
+under collinearity \citep{bilodeau2024impossibility}, (2)~attention map
+instability, (3)~counterfactual explanation instability, (4)~concept probe
+(TCAV) instability, (5)~causal discovery ambiguity within Markov equivalence
+classes \citep{verma1991equivalence}, (6)~model selection instability under
+the Rashomon effect \citep{rudin2024amazing,fisher2019models}, (7)~saliency
+map (GradCAM) instability, (8)~token citation explanation instability,
+and (9)~mechanistic interpretability non-uniqueness.
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
@@ -224,8 +221,8 @@ Our contributions are:
     \citep{bilodeau2024impossibility}, attention maps
     \citep{jainwallace2019}, counterfactual explanations, concept probes,
     causal discovery \citep{verma1991equivalence}, model selection
-    \citep{rudin2024amazing}, saliency maps (GradCAM), LLM self-explanations
-    (token citation), and mechanistic interpretability (circuit
+    \citep{rudin2024amazing}, saliency maps (GradCAM), token citation explanations,
+    and mechanistic interpretability (circuit
     discovery)---each shown to be a special case of the abstract framework.
   \item \textbf{Empirical illustration} for seven of the nine instances
     (attribution, attention, counterfactual, concept probes, model selection, saliency maps, and token citation),
@@ -577,7 +574,7 @@ $g \in G$ and $h \in \sH$,
 When $G$ is finite and $Y$ admits averaging, the canonical $G$-invariant map
 is the \emph{orbit average}:
 \[
-  \overline{\mathsf{exp}}(h) \;=\; \frac{1}{|G|}\sum_{g \in G} \mathsf{obs}(g \cdot h).
+  \overline{\mathsf{exp}}(h) \;=\; \frac{1}{|G|}\sum_{g \in G} \mathsf{exp}(g \cdot h).
 \]
 
 \begin{proposition}[$G$-Invariance Implies Stability]
@@ -674,12 +671,12 @@ higher expected faithfulness.
 Let $\mathcal{S}$ be an explanation system whose Rashomon property arises
 from a finite group $G$ acting on $\sH$ and acting transitively on
 observe-fibers.  Then the orbit-averaged map
-$\overline{\mathsf{exp}}(h) = \frac{1}{|G|}\sum_{g \in G}\mathsf{obs}(g \cdot h)$
+$\overline{\mathsf{exp}}(h) = \frac{1}{|G|}\sum_{g \in G}\mathsf{exp}(g \cdot h)$
 is:
 \begin{enumerate}[label=(\roman*)]
   \item well-defined (independent of orbit representative),
   \item stable (Proposition~\ref{prop:g-invariant-stable}),
-  \item faithful in expectation: $\E_{g \sim \mathrm{Unif}(G)}[\mathsf{obs}(g \cdot h)] = \overline{\mathsf{exp}}(h)$, and
+  \item faithful in expectation: $\E_{g \sim \mathrm{Unif}(G)}[\mathsf{exp}(g \cdot h)] = \overline{\mathsf{exp}}(h)$, and
   \item Pareto-optimal among stable maps: no stable map achieves strictly
     higher pointwise faithfulness on every fiber.
 \end{enumerate}
@@ -692,6 +689,12 @@ averaging can be computed (or approximated by Monte Carlo sampling over the
 Rashomon set).  Theorem~\ref{thm:orbit-average} is the abstract counterpart
 of the \DASH{} optimality result and is formalized in
 \texttt{UniversalResolution.lean}.
+The resolution strategy---restricting to $G$-invariant explanation maps---is
+structurally analogous to the invariant decision procedures justified by the
+Hunt--Stein theorem \citep{lehmann2005testing}: just as the Hunt--Stein theorem
+guarantees that invariant tests are minimax optimal when a group acts on the
+parameter space, the $G$-invariant aggregation is Pareto-optimal among stable
+explanation methods.
 
 %%% ==========================================================================
 \section{Ubiquity}

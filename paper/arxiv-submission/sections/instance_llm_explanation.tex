@@ -69,8 +69,9 @@ the \textbf{explanation flip rate} (fraction of model pairs citing a
 different primary token) is \textbf{34.5\%} [95\% CI: 33.2--35.9\%],
 and the mean pairwise \textbf{citation overlap} (Jaccard similarity of
 top-3 token sets) is only \textbf{0.798} [CI: 0.791--0.806].
-The \textbf{negative control} (top quartile of sentences by pairwise
-Jaccard consensus, 26 sentences) achieves perfect citation overlap
+The \textbf{negative control} (20 single-content-token sentences, each
+tokenizing to [CLS] word [SEP], forcing a single citation target) achieves
+perfect citation overlap
 (Jaccard = 1.000), confirming that instability is concentrated in
 genuinely ambiguous sentences.
 The \textbf{resolution test} (consensus top-3 from averaged attention

@@ -1,7 +1,7 @@
 \begin{table}[ht]
 \centering
 \caption{GradCAM Saliency Map Instability (ResNet-18, CIFAR-10).
-  Ten functionally equivalent models (pretrained ResNet-18 + Gaussian perturbations, $\sigma=0.02$).
+  Ten functionally equivalent models (pretrained ResNet-18 + Gaussian perturbations, $\sigma=0.0005$).
   Spatial IoU uses top-20\% threshold; peak flip rate counts pairs where argmax differs by $>$2 pixels.
   Negative control uses identical weights (model 0 for all 10 slots).
   Resolution test averages heatmaps; mean IoU vs.\ average exceeds pairwise IoU.
