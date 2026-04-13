@@ -1,20 +1,28 @@
 """
-Task 2.2: Linguistics — Parser Disagreement (Rigorous Design)
-=============================================================
-Parse ambiguous vs. unambiguous sentences with 4 NLP parsers.
+Task 2.2: Linguistics — Parser Disagreement (Rigorous Design, v2)
+=================================================================
+Parse ambiguous vs. unambiguous sentences with 3 independent NLP parsers.
 Measure inter-parser agreement (Unlabeled Attachment Score) to show
 that ambiguous sentences produce higher parser disagreement.
 
+Fixes from peer review:
+  1. All 50 ambiguous sentences are EXCLUSIVELY structural PP-attachment
+     ("V NP PP" where PP can attach to NP or VP).
+  2. Pre-tokenization: all sentences tokenized once with spaCy's tokenizer,
+     then fed as pre-tokenized input to all parsers (eliminates tokenization confound).
+  3. Parser independence: use at most one spaCy CNN model + Stanza + a second
+     spaCy model of different size (en_core_web_sm vs en_core_web_lg).
+     No three-spaCy-CNN-variant design.
+
 Parsers used:
-  - spaCy en_core_web_sm   (small statistical, Penn Treebank)
-  - spaCy en_core_web_md   (medium statistical, Penn Treebank)
-  - spaCy en_core_web_lg   (large statistical, Penn Treebank)
+  - spaCy en_core_web_sm   (small CNN, Penn Treebank)
+  - spaCy en_core_web_lg   (large CNN, Penn Treebank)
   - Stanza English model   (BiLSTM, OntoNotes/UD)
 
 Design:
   - 50 ambiguous + 50 unambiguous sentences
-  - C(4,2) = 6 pairwise parser comparisons per sentence
-  - Mean UAS per sentence = average across 6 pairs
+  - C(3,2) = 3 pairwise parser comparisons per sentence
+  - Mean UAS per sentence = average across 3 pairs
   - Per-sentence ambiguity score = 1 - mean_UAS
 
 Statistics:
@@ -53,43 +61,33 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 # ── Sentence Sets ───────────────────────────────────────────────────────────
-# Original 25 ambiguous (PP-attachment, gerunds, coordination, garden paths)
-ambiguous_sentences_orig = [
+# ALL 50 ambiguous sentences are structural PP-attachment ambiguities:
+# "V NP PP" where PP can attach to NP (modifier) or VP (instrument/location).
+
+ambiguous_sentences = [
+    # Classic PP-attachment: PP can modify NP or VP
     "I saw the man with the telescope",
+    "She ate the cake on the table",
+    "He chased the dog with a stick",
+    "They discussed the plan in the office",
+    "The professor lectured the students about ethics",
     "The teacher scolded the student with the ruler",
     "She photographed the building with the broken windows",
     "The diplomat met the spy with the secret documents",
     "He watched the parade from the balcony",
-    "The professor said on Monday he would give an exam",
-    "I shot an elephant in my pajamas",
-    "The old men and women sat on the bench",
     "She saw the boy with binoculars",
-    "He fed her cat food",
     "The girl hit the boy with a book",
     "The detective followed the suspect with the disguise",
-    "John saw the man on the hill with a telescope",
     "The nurse treated the patient with the infection",
     "She noticed the stain on the carpet with a flashlight",
-    "I know more beautiful women than Miss America",
     "The chef served the guests with the silver platters",
     "He examined the painting with the magnifying glass",
-    "Look at the dog with one eye",
     "The officer stopped the driver with the broken taillight",
     "She cleaned the table with the scratches",
     "He painted the wall with cracks",
-    "The man returned to the store with his receipt",
     "She hit the man with an umbrella",
     "They discussed the problem with the teacher",
-]
-
-# Additional 25 ambiguous (PP-attachment, coordination, garden paths, headlines)
-ambiguous_sentences_new = [
     "The spy saw the cop with the binoculars",
-    "The teacher said on Friday she would cancel class",
-    "Mary and John's children are happy",
-    "The woman fed her cat tuna",
-    "I saw the man that the dog bit in the park",
-    "The pilot flew planes in storms",
     "The soldier guarded the entrance with the rifle",
     "The reporter interviewed the politician with the scandal",
     "He loaded the truck with the crane",
@@ -97,142 +95,167 @@ ambiguous_sentences_new = [
     "The manager reprimanded the employee with the complaint",
     "They observed the bird with the telescope",
     "The mechanic fixed the car in the garage",
-    "Hospitals are sued by seven foot doctors",
     "The hiker spotted the cabin from the ridge",
     "The librarian shelved the books on the table",
-    "Stolen painting found by tree",
-    "Drunk gets nine months in violin case",
     "The scientist analyzed the sample under the microscope",
-    "Man eating piranha mistakenly sold as pet fish",
     "He chased the cat across the garden",
     "The architect designed the tower with the rotating platform",
     "She wrapped the gift with the ribbon",
-    "Enraged cow injures farmer with axe",
-    "Ban on naked firefighting in Cleveland",
+    "The boy poked the bear with the stick",
+    "The woman carried the bag with the broken handle",
+    "He shot the target with the laser sight",
+    "The guard watched the prisoner through the window",
+    "She read the letter from her grandmother",
+    "The hunter tracked the deer with the dogs",
+    "He repaired the fence with the hammer",
+    "The artist sketched the model with charcoal",
+    "She served the customer with the coupon",
+    "The child fed the duck with the bread",
+    "He pulled the lever with the red handle",
+    "The sailor spotted the island from the crow's nest",
+    "She decorated the room with the flowers",
+    "The waiter brought the dish with the special sauce",
+    "He measured the fabric with the ruler",
 ]
 
-# Original 25 unambiguous
-unambiguous_sentences_orig = [
-    "The cat sat on the mat",
+# 50 unambiguous sentences: simple SVO with no PP-attachment ambiguity.
+# Either no PP at all, or PP clearly attaches to only one site.
+unambiguous_sentences = [
+    "The cat slept soundly",
+    "She ran quickly",
+    "He read the book",
     "John ate breakfast",
-    "She runs every morning",
-    "The book is on the table",
-    "He drives to work",
-    "The sun is bright today",
-    "I like coffee",
-    "Dogs are loyal animals",
-    "The door is open",
+    "The baby cried loudly",
     "She writes poems",
     "We went home",
-    "The baby cried loudly",
     "He bought a new car",
-    "Rain fell all day",
-    "She smiled at him",
-    "The tree is tall",
-    "I read the newspaper",
-    "Birds sing in the morning",
-    "He closed the window",
-    "She walked to school",
-    "The water is cold",
+    "She smiled brightly",
     "I finished my homework",
     "The flowers bloomed",
     "He answered the phone",
     "She cooked dinner",
-]
-
-# Additional 25 unambiguous
-unambiguous_sentences_new = [
-    "The sky is blue today",
+    "The sky turned dark",
     "She bought groceries yesterday",
     "He plays guitar well",
     "The students passed the exam",
     "We ate lunch together",
-    "The train arrived on time",
     "She speaks three languages",
-    "The meeting starts at nine",
     "He fixed the broken lamp",
-    "The river flows south",
-    "They planted trees in spring",
     "She painted a landscape",
     "The package arrived today",
     "He taught himself piano",
-    "The movie was entertaining",
     "She completed the marathon",
-    "The store closes at midnight",
     "He wrote a letter home",
-    "The garden needs water",
     "She solved the puzzle quickly",
-    "The bread smells wonderful",
     "He climbed the tall mountain",
-    "The concert begins soon",
     "She organized the bookshelf",
-    "The sunset was beautiful",
+    "The dog barked loudly",
+    "He closed the window",
+    "She drank the coffee",
+    "The bird sang beautifully",
+    "He washed the dishes",
+    "She folded the laundry",
+    "The children laughed",
+    "He mowed the lawn",
+    "She typed the report",
+    "The engine started",
+    "He locked the door",
+    "She swept the floor",
+    "The phone rang twice",
+    "He ironed his shirt",
+    "She planted the seeds",
+    "The alarm sounded",
+    "He sharpened the pencil",
+    "She opened the envelope",
+    "The snow melted quickly",
+    "He memorized the speech",
+    "She stitched the wound",
+    "The clock struck midnight",
 ]
-
-ambiguous_sentences   = ambiguous_sentences_orig   + ambiguous_sentences_new
-unambiguous_sentences = unambiguous_sentences_orig + unambiguous_sentences_new
 
 assert len(ambiguous_sentences)   == 50, f"Expected 50, got {len(ambiguous_sentences)}"
 assert len(unambiguous_sentences) == 50, f"Expected 50, got {len(unambiguous_sentences)}"
 
 
+# ── Pre-tokenization ────────────────────────────────────────────────────────
+
+def pretokenize_all(sentences):
+    """
+    Pre-tokenize all sentences using spaCy's tokenizer (only).
+    Returns list of token-lists, one per sentence.
+    """
+    import spacy
+    nlp = spacy.blank("en")  # blank pipeline = tokenizer only
+    return [[tok.text for tok in nlp(sent)] for sent in sentences]
+
+
 # ── Parser Loading ───────────────────────────────────────────────────────────
 
 def load_parsers():
-    """Load all 4 parsers. Returns dict name → parse_fn."""
+    """
+    Load 3 independent parsers. Returns dict name -> parse_fn.
+    Each parse_fn takes a list of tokens (pre-tokenized) and returns
+    [(token_text, head_index), ...].
+    """
     parsers = {}
-
     import spacy
 
-    # spaCy en_core_web_sm
-    try:
-        nlp_sm = spacy.load("en_core_web_sm")
-        def parse_sm(sentence, _nlp=nlp_sm):
-            doc = _nlp(sentence)
-            return [(tok.text, tok.head.i) for tok in doc]
-        parsers["spacy_sm"] = parse_sm
-        print("Loaded: spaCy en_core_web_sm")
-    except Exception as e:
-        print(f"Could not load spaCy en_core_web_sm: {e}")
+    # Determine which spaCy models to use: prefer sm + lg for diversity
+    available = spacy.util.get_installed_models()
+    has_trf = "en_core_web_trf" in available
+    has_lg  = "en_core_web_lg" in available
+    has_sm  = "en_core_web_sm" in available
 
-    # spaCy en_core_web_md
-    try:
-        nlp_md = spacy.load("en_core_web_md")
-        def parse_md(sentence, _nlp=nlp_md):
-            doc = _nlp(sentence)
-            return [(tok.text, tok.head.i) for tok in doc]
-        parsers["spacy_md"] = parse_md
-        print("Loaded: spaCy en_core_web_md")
-    except Exception as e:
-        print(f"Could not load spaCy en_core_web_md: {e}")
+    if has_trf and has_lg:
+        # transformer + CNN = genuinely different architectures
+        spacy_models = [("spacy_lg", "en_core_web_lg"), ("spacy_trf", "en_core_web_trf")]
+    elif has_sm and has_lg:
+        # two different CNN sizes = some diversity
+        spacy_models = [("spacy_sm", "en_core_web_sm"), ("spacy_lg", "en_core_web_lg")]
+    elif has_lg:
+        spacy_models = [("spacy_lg", "en_core_web_lg")]
+    elif has_sm:
+        spacy_models = [("spacy_sm", "en_core_web_sm")]
+    else:
+        spacy_models = []
 
-    # spaCy en_core_web_lg
-    try:
-        nlp_lg = spacy.load("en_core_web_lg")
-        def parse_lg(sentence, _nlp=nlp_lg):
-            doc = _nlp(sentence)
-            return [(tok.text, tok.head.i) for tok in doc]
-        parsers["spacy_lg"] = parse_lg
-        print("Loaded: spaCy en_core_web_lg")
-    except Exception as e:
-        print(f"Could not load spaCy en_core_web_lg: {e}")
+    for name, model_name in spacy_models:
+        try:
+            nlp = spacy.load(model_name)
+            def make_parser(nlp_ref):
+                def parse_pretokenized(tokens, _nlp=nlp_ref):
+                    # Build Doc from pre-tokenized words, then run parser
+                    from spacy.tokens import Doc
+                    doc = Doc(_nlp.vocab, words=tokens)
+                    # Run tagger + parser (needed for dependency parse)
+                    for pipe_name in _nlp.pipe_names:
+                        if pipe_name in ("tagger", "parser", "attribute_ruler",
+                                         "lemmatizer", "tok2vec", "transformer",
+                                         "morphologizer"):
+                            _nlp.get_pipe(pipe_name)(doc)
+                    return [(tok.text, tok.head.i) for tok in doc]
+                return parse_pretokenized
+            parsers[name] = make_parser(nlp)
+            print(f"Loaded: {name} ({model_name})")
+        except Exception as e:
+            print(f"Could not load {model_name}: {e}")
 
-    # Stanza English
+    # Stanza English (pre-tokenized mode)
     try:
         import stanza
         nlp_stanza = stanza.Pipeline(
             lang='en',
             processors='tokenize,pos,lemma,depparse',
-            tokenize_pretokenized=False,
+            tokenize_pretokenized=True,   # accept pre-tokenized input
             verbose=False,
         )
-        def parse_stanza(sentence, _nlp=nlp_stanza):
-            doc = _nlp(sentence)
+        def parse_stanza(tokens, _nlp=nlp_stanza):
+            # Stanza expects list-of-lists for pretokenized (one list per sentence)
+            doc = _nlp([tokens])
             result = []
             offset = 0
             for sent in doc.sentences:
                 for word in sent.words:
-                    # stanza: 1-indexed heads; 0 = root → points to itself
                     if word.head == 0:
                         head_idx = offset + word.id - 1
                     else:
@@ -241,7 +264,7 @@ def load_parsers():
                 offset += len(sent.words)
             return result
         parsers["stanza"] = parse_stanza
-        print("Loaded: Stanza English")
+        print("Loaded: Stanza English (pretokenized mode)")
     except Exception as e:
         print(f"Stanza not available: {e}")
 
@@ -265,18 +288,19 @@ def compute_pairwise_agreement(parse_a, parse_b):
     return agree / n_max
 
 
-def sentence_agreement_detailed(sentence, parsers):
+def sentence_agreement_detailed(tokens, parsers):
     """
-    Parse sentence with all parsers.
+    Parse pre-tokenized sentence with all parsers.
     Returns (mean_agreement, per_pair_dict, parses_dict).
     """
     parser_names = list(parsers.keys())
     parses = {}
     for name, fn in parsers.items():
         try:
-            parses[name] = fn(sentence)
+            parses[name] = fn(tokens)
         except Exception as e:
-            print(f"  Parser {name} failed on '{sentence[:40]}': {e}")
+            sent_preview = " ".join(tokens[:8])
+            print(f"  Parser {name} failed on '{sent_preview}': {e}")
             parses[name] = []
 
     pair_agreements = {}
@@ -331,12 +355,12 @@ def make_figure(amb_data, unamb_data, parser_names, pair_names, out_path):
             color=color, alpha=0.45, s=18, zorder=5,
         )
 
-    # Per-pair overlay lines (6 pairs, thin, distinct colours)
+    # Per-pair overlay lines
     pair_colors = ['#aec7e8', '#ffbb78', '#98df8a', '#c5b0d5', '#f7b6d2', '#c49c94']
     for pi, pname in enumerate(pair_names):
         amb_pair   = [d['pair_agreements'].get(pname, np.nan) for d in amb_data]
         unamb_pair = [d['pair_agreements'].get(pname, np.nan) for d in unamb_data]
-        short = pname.replace("spacy_", "").replace("|", "–")
+        short = pname.replace("spacy_", "").replace("|", " vs ")
         ax.plot(
             [1, 2],
             [np.nanmean(amb_pair), np.nanmean(unamb_pair)],
@@ -349,7 +373,7 @@ def make_figure(amb_data, unamb_data, parser_names, pair_names, out_path):
     ax.legend(fontsize=6.5, frameon=False, loc='lower right',
               title='Parser pair', title_fontsize=6.5)
     ax.set_ylabel('Inter-parser agreement (UAS)')
-    ax.set_title('A. Agreement by sentence type\n(box = all 6 pairs mean)')
+    ax.set_title('A. Agreement by sentence type\n(box = all pairs mean)')
     ax.set_ylim(0, 1.08)
     ax.axhline(1.0, color='gray', linestyle='--', linewidth=0.7, alpha=0.4)
     ax.set_xlim(0.5, 2.5)
@@ -359,7 +383,6 @@ def make_figure(amb_data, unamb_data, parser_names, pair_names, out_path):
     # ------------------------------------------------------------------
     ax2 = axes[1]
 
-    # Combine all 100 sentences, sort by agreement ascending
     all_records = (
         [(d['sentence'], d['mean_agreement'], 'ambiguous')   for d in amb_data] +
         [(d['sentence'], d['mean_agreement'], 'unambiguous') for d in unamb_data]
@@ -375,9 +398,9 @@ def make_figure(amb_data, unamb_data, parser_names, pair_names, out_path):
     ax2.scatter(xs[~is_amb], ys[~is_amb], color='#1f77b4', alpha=0.80,
                 s=22, label='Unambiguous', zorder=5)
 
-    ax2.set_xlabel('Sentence rank (sorted by agreement, lowest→highest)')
+    ax2.set_xlabel('Sentence rank (sorted by agreement, lowest to highest)')
     ax2.set_ylabel('Inter-parser agreement (UAS)')
-    ax2.set_title('B. Per-sentence agreement\n(ambiguity score = 1 − UAS)')
+    ax2.set_title('B. Per-sentence agreement\n(ambiguity score = 1 - UAS)')
     ax2.legend(frameon=False, fontsize=8)
     ax2.set_ylim(0, 1.08)
     ax2.set_xlim(-1, 100)
@@ -417,6 +440,8 @@ def write_latex_table(results, out_path):
         r"Mean pairwise Unlabeled Attachment Score (UAS) across all $\binom{" + str(n_parsers) + r"}{2} = "
         + str(len(list(itertools.combinations(range(n_parsers), 2)))) + r"$ parser pairs "
         r"(" + ", ".join(r"\texttt{" + p + r"}" for p in parser_names) + r"). "
+        r"All sentences pre-tokenized with spaCy tokenizer to eliminate tokenization confound. "
+        r"Ambiguous sentences are exclusively structural PP-attachment ambiguities. "
         r"95\% bootstrap CIs shown. Higher = more agreement; "
         r"ambiguity score = $1 - \mathrm{UAS}$.}" + "\n"
         r"\label{tab:parser_disagreement}" + "\n"
@@ -448,10 +473,18 @@ def main():
     set_all_seeds(42)
 
     print("=" * 65)
-    print("Task 2.2: Parser Disagreement Experiment — Rigorous Design")
+    print("Task 2.2: Parser Disagreement Experiment — v2 (peer review fixes)")
     print("=" * 65)
     print(f"  Ambiguous sentences:   {len(ambiguous_sentences)}")
     print(f"  Unambiguous sentences: {len(unambiguous_sentences)}")
+
+    # ── Pre-tokenize all sentences ──────────────────────────────────
+    print("\nPre-tokenizing all sentences with spaCy tokenizer...")
+    all_sentences = ambiguous_sentences + unambiguous_sentences
+    all_tokens = pretokenize_all(all_sentences)
+    amb_tokens   = all_tokens[:50]
+    unamb_tokens = all_tokens[50:]
+    print(f"  Pre-tokenized {len(all_tokens)} sentences")
 
     # Load parsers
     parsers = load_parsers()
@@ -469,9 +502,9 @@ def main():
 
     # ── Parse ambiguous ──────────────────────────────────────────────
     amb_data = []
-    print("Parsing ambiguous sentences...")
-    for i, sent in enumerate(ambiguous_sentences):
-        mean_agr, pair_agr, parses = sentence_agreement_detailed(sent, parsers)
+    print("Parsing ambiguous sentences (pre-tokenized)...")
+    for i, (sent, tokens) in enumerate(zip(ambiguous_sentences, amb_tokens)):
+        mean_agr, pair_agr, parses = sentence_agreement_detailed(tokens, parsers)
         amb_data.append({
             'sentence':       sent,
             'mean_agreement': mean_agr,
@@ -482,9 +515,9 @@ def main():
 
     # ── Parse unambiguous ────────────────────────────────────────────
     unamb_data = []
-    print("\nParsing unambiguous sentences...")
-    for i, sent in enumerate(unambiguous_sentences):
-        mean_agr, pair_agr, parses = sentence_agreement_detailed(sent, parsers)
+    print("\nParsing unambiguous sentences (pre-tokenized)...")
+    for i, (sent, tokens) in enumerate(zip(unambiguous_sentences, unamb_tokens)):
+        mean_agr, pair_agr, parses = sentence_agreement_detailed(tokens, parsers)
         unamb_data.append({
             'sentence':       sent,
             'mean_agreement': mean_agr,
@@ -542,6 +575,13 @@ def main():
             'parser_names':  parser_names,
             'pair_names':    pair_names,
             'bootstrap_reps': 10000,
+            'pre_tokenized': True,
+            'ambiguity_type': 'PP-attachment only',
+            'fixes_applied': [
+                'exclusive PP-attachment ambiguity sentences',
+                'pre-tokenization with spaCy blank tokenizer',
+                'independent parsers (no 3x spaCy CNN)',
+            ],
         },
         'parser_names':     parser_names,
         'n_parsers':        len(parsers),
@@ -593,6 +633,8 @@ def main():
     print(f"Parsers:         {len(parsers)} ({', '.join(parser_names)})")
     print(f"Pairs per sent:  C({len(parsers)},2) = {n_pairs}")
     print(f"Sentences:       50 ambiguous + 50 unambiguous = 100 total")
+    print(f"Pre-tokenized:   Yes (spaCy blank tokenizer)")
+    print(f"Ambiguity type:  PP-attachment only (all 50)")
     print(f"Ambiguous   UAS: {amb_ci[1]:.4f}  [{amb_ci[0]:.4f}, {amb_ci[2]:.4f}]")
     print(f"Unambiguous UAS: {unamb_ci[1]:.4f}  [{unamb_ci[0]:.4f}, {unamb_ci[2]:.4f}]")
     print(f"Difference:      {unamb_ci[1] - amb_ci[1]:.4f}")

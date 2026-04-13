@@ -172,7 +172,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (84~files, 381~theorems,
+The framework is mechanically verified in Lean~4 (87~files, 390~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -258,7 +258,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 84~files, 381~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 87~files, 390~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -1023,15 +1023,15 @@ We distinguish four levels of verification:
     independently verifiable (e.g., the surjectivity axiom for GBDT follows
     from the symmetry of collinear features under the data-generating process).
 
-  \item \textbf{Axiomatized} (Rashomon assumed): Seven of the nine ML instances
-    (attention, counterfactual, concept, model selection, saliency, token citation,
-    mechanistic interpretability) axiomatize the \texttt{ExplanationSystem}
-    including the Rashomon property as a single opaque axiom.  The impossibility
-    follows trivially from the abstract theorem.  These instances verify that
-    the abstract types are well-formed but do not constructively witness the
-    Rashomon property from domain-specific first principles.  By contrast, all
-    eight cross-domain scientific instances (and the causal ML instance)
-    constructively derive Rashomon via \texttt{decide} with zero axioms.
+  \item \textbf{Axiomatized} (Rashomon assumed): Four of the nine ML instances
+    (concept, saliency, token citation, mechanistic interpretability) axiomatize
+    the \texttt{ExplanationSystem} including the Rashomon property as a single
+    opaque axiom.  These instances verify that the abstract types are well-formed
+    but do not constructively witness Rashomon from first principles.  By
+    contrast, all eight cross-domain scientific instances, the causal ML instance,
+    and three additional constructive ML instances (attention, model selection,
+    counterfactual) derive Rashomon via \texttt{decide} with zero axioms ---
+    bringing the total constructive instances to 12 of 17.
 
   \item \textbf{Argued} (supplement proof only): The result has a
     rigorous proof sketch in the supplement or companion paper but has
@@ -1411,7 +1411,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 84~files, 381~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 87~files, 390~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -2064,7 +2064,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 84 files in
+formalization.  The complete codebase comprises 87 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 
