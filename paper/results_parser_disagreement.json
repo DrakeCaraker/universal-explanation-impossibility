@@ -1,0 +1,284 @@
+{
+  "parser_names": [
+    "spacy_sm",
+    "spacy_md",
+    "stanza"
+  ],
+  "n_parsers": 3,
+  "n_ambiguous": 25,
+  "n_unambiguous": 25,
+  "ambiguous_mean_uas": 0.7512910052910052,
+  "ambiguous_ci": [
+    0.6863367724867726,
+    0.7512910052910052,
+    0.8131119047619048
+  ],
+  "unambiguous_mean_uas": 0.8346666666666667,
+  "unambiguous_ci": [
+    0.7480000000000001,
+    0.8346666666666667,
+    0.9137888888888888
+  ],
+  "wilcoxon_statistic": -1.5037208752252644,
+  "wilcoxon_pvalue": 0.13265325186910493,
+  "cohens_d": 0.42609738403194525,
+  "ambiguous_agreements": [
+    0.8095238095238096,
+    0.6666666666666666,
+    0.26666666666666666,
+    1.0,
+    0.4666666666666666,
+    0.8333333333333334,
+    0.7619047619047619,
+    0.7777777777777777,
+    0.7777777777777777,
+    0.7333333333333334,
+    0.8333333333333334,
+    1.0,
+    0.7000000000000001,
+    0.7333333333333334,
+    0.8095238095238096,
+    0.75,
+    0.6666666666666666,
+    0.5238095238095237,
+    0.5714285714285714,
+    1.0,
+    1.0,
+    0.7777777777777777,
+    0.7037037037037037,
+    0.8095238095238096,
+    0.8095238095238096
+  ],
+  "unambiguous_agreements": [
+    0.7777777777777777,
+    1.0,
+    1.0,
+    0.5555555555555555,
+    1.0,
+    0.4666666666666666,
+    1.0,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.6666666666666666,
+    0.5,
+    1.0,
+    0.7333333333333334,
+    1.0,
+    0.6666666666666666,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "ambiguous_details": [
+    {
+      "sentence": "I saw the man with the telescope",
+      "agreement": 0.8095238095238096
+    },
+    {
+      "sentence": "The chicken is ready to eat",
+      "agreement": 0.6666666666666666
+    },
+    {
+      "sentence": "Visiting relatives can be boring",
+      "agreement": 0.26666666666666666
+    },
+    {
+      "sentence": "They are hunting dogs",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "Flying planes can be dangerous",
+      "agreement": 0.4666666666666666
+    },
+    {
+      "sentence": "The professor said on Monday he would give an exam",
+      "agreement": 0.8333333333333334
+    },
+    {
+      "sentence": "I shot an elephant in my pajamas",
+      "agreement": 0.7619047619047619
+    },
+    {
+      "sentence": "The old men and women sat on the bench",
+      "agreement": 0.7777777777777777
+    },
+    {
+      "sentence": "She saw the boy with binoculars",
+      "agreement": 0.7777777777777777
+    },
+    {
+      "sentence": "He fed her cat food",
+      "agreement": 0.7333333333333334
+    },
+    {
+      "sentence": "The girl hit the boy with a book",
+      "agreement": 0.8333333333333334
+    },
+    {
+      "sentence": "We saw her duck",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "John saw the man on the hill with a telescope",
+      "agreement": 0.7000000000000001
+    },
+    {
+      "sentence": "Time flies like an arrow",
+      "agreement": 0.7333333333333334
+    },
+    {
+      "sentence": "The horse raced past the barn fell",
+      "agreement": 0.8095238095238096
+    },
+    {
+      "sentence": "I know more beautiful women than Miss America",
+      "agreement": 0.75
+    },
+    {
+      "sentence": "Every student thinks he is smart",
+      "agreement": 0.6666666666666666
+    },
+    {
+      "sentence": "The shooting of the hunters was terrible",
+      "agreement": 0.5238095238095237
+    },
+    {
+      "sentence": "Look at the dog with one eye",
+      "agreement": 0.5714285714285714
+    },
+    {
+      "sentence": "Kids make nutritious snacks",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "Free whales",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "He painted the wall with cracks",
+      "agreement": 0.7777777777777777
+    },
+    {
+      "sentence": "The man returned to the store with his receipt",
+      "agreement": 0.7037037037037037
+    },
+    {
+      "sentence": "She hit the man with an umbrella",
+      "agreement": 0.8095238095238096
+    },
+    {
+      "sentence": "They discussed the problem with the teacher",
+      "agreement": 0.8095238095238096
+    }
+  ],
+  "unambiguous_details": [
+    {
+      "sentence": "The cat sat on the mat",
+      "agreement": 0.7777777777777777
+    },
+    {
+      "sentence": "John ate breakfast",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "She runs every morning",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "The book is on the table",
+      "agreement": 0.5555555555555555
+    },
+    {
+      "sentence": "He drives to work",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "The sun is bright today",
+      "agreement": 0.4666666666666666
+    },
+    {
+      "sentence": "I like coffee",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "Dogs are loyal animals",
+      "agreement": 0.5
+    },
+    {
+      "sentence": "The door is open",
+      "agreement": 0.5
+    },
+    {
+      "sentence": "She writes poems",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "We went home",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "The baby cried loudly",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "He bought a new car",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "Rain fell all day",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "She smiled at him",
+      "agreement": 0.6666666666666666
+    },
+    {
+      "sentence": "The tree is tall",
+      "agreement": 0.5
+    },
+    {
+      "sentence": "I read the newspaper",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "Birds sing in the morning",
+      "agreement": 0.7333333333333334
+    },
+    {
+      "sentence": "He closed the window",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "She walked to school",
+      "agreement": 0.6666666666666666
+    },
+    {
+      "sentence": "The water is cold",
+      "agreement": 0.5
+    },
+    {
+      "sentence": "I finished my homework",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "The flowers bloomed",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "He answered the phone",
+      "agreement": 1.0
+    },
+    {
+      "sentence": "She cooked dinner",
+      "agreement": 1.0
+    }
+  ],
+  "_timestamp": "2026-04-12 19:25:45"
+}

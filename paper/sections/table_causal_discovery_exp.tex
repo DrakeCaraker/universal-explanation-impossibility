@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\centering
+\caption{Causal discovery algorithm agreement on the Asia DAG (8 nodes, linear Gaussian). \emph{Overall} counts edges present in either graph; \emph{Orientation} counts directed edges with consistent orientation. At $N=1{,}000$ algorithms disagree due to finite-sample underspecification; at $N=100{,}000$ they converge.}
+\label{tab:causal_discovery_agreement}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{$N=1{,}000$} & \multicolumn{2}{c}{$N=100{,}000$} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Algorithm pair & Overall & Orient. & Overall & Orient. \\
+\midrule
+PC($\alpha$=0.05) vs GES(BIC) & 0.250 & 0.500 & 0.625 & 1.000 \\
+PC($\alpha$=0.05) vs PC($\alpha$=0.01) & 0.000 & 0.000 & 0.625 & 1.000 \\
+GES(BIC) vs PC($\alpha$=0.01) & 0.250 & 0.500 & 0.625 & 1.000 \\
+\midrule
+Mean (95\% CI) & \multicolumn{2}{c}{0.167 [0.000, 0.250]} & \multicolumn{2}{c}{0.625 [0.625, 0.625]} \\
+\bottomrule
+\end{tabular}
+\end{table}

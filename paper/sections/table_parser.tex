@@ -1,0 +1,16 @@
+\begin{table}[h]
+\centering
+\caption{Inter-parser dependency agreement on ambiguous vs. unambiguous sentences.
+Mean pairwise Unlabeled Attachment Score (UAS) between 3 parsers
+(\texttt{spacy_sm}, \texttt{spacy_md}, \texttt{stanza}).
+95\% bootstrap confidence intervals shown. Higher = more agreement.}
+\label{tab:parser_disagreement}
+\begin{tabular}{lccc}
+\toprule
+Sentence type & $N$ & Mean UAS (95\% CI) & Wilcoxon $p$ \\
+\midrule
+Ambiguous  & 25 & 0.751 (0.686, 0.813) & \multirow{2}{*}{0.1327} \\
+Unambiguous & 25 & 0.835 (0.748, 0.914) & \\
+\bottomrule
+\end{tabular}
+\end{table}
