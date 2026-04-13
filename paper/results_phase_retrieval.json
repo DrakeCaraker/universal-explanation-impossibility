@@ -31,7 +31,11 @@
         "n_pairwise": 190,
         "feature_agreement": 1.0
       },
-      "rmsd_ratio_general_over_positive": 1.7712977503813718
+      "rmsd_ratio_general_over_positive": 1.7712977503813718,
+      "mann_whitney_per_N": {
+        "statistic": 35097.0,
+        "p_value": 2.2131085808418985e-57
+      }
     },
     "32": {
       "N": 32,
@@ -49,7 +53,11 @@
         "n_pairwise": 190,
         "feature_agreement": 0.9954545454545455
       },
-      "rmsd_ratio_general_over_positive": 1.7185763082256793
+      "rmsd_ratio_general_over_positive": 1.7185763082256793,
+      "mann_whitney_per_N": {
+        "statistic": 35933.0,
+        "p_value": 6.196958726547439e-63
+      }
     },
     "64": {
       "N": 64,
@@ -67,7 +75,11 @@
         "n_pairwise": 190,
         "feature_agreement": 0.9925
       },
-      "rmsd_ratio_general_over_positive": 1.7583718697444994
+      "rmsd_ratio_general_over_positive": 1.7583718697444994,
+      "mann_whitney_per_N": {
+        "statistic": 36100.0,
+        "p_value": 4.48171804597088e-64
+      }
     },
     "128": {
       "N": 128,
@@ -85,8 +97,17 @@
         "n_pairwise": 190,
         "feature_agreement": 0.9836956521739129
       },
-      "rmsd_ratio_general_over_positive": 1.4790266716679037
+      "rmsd_ratio_general_over_positive": 1.4790266716679037,
+      "mann_whitney_per_N": {
+        "statistic": 36100.0,
+        "p_value": 4.48171804597088e-64
+      }
     }
   },
-  "_timestamp": "2026-04-12 19:14:21"
+  "statistical_test_overall": {
+    "test": "Mann-Whitney U (one-sided: general > positive, all N combined)",
+    "statistic": 570510.0,
+    "p_value": 4.9677276944191366e-238
+  },
+  "_timestamp": "2026-04-12 19:50:05"
 }

@@ -39,6 +39,7 @@ import json
 import warnings
 import itertools
 from pathlib import Path
+from scipy.stats import mannwhitneyu
 
 warnings.filterwarnings("ignore")
 
@@ -456,6 +457,43 @@ def write_latex_table(results_small: dict, results_large: dict,
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+N_SEEDS = 10  # number of random seeds per condition for statistical test
+BASE_SEEDS = list(range(10, 10 + N_SEEDS))  # seeds 10..19
+
+
+def run_multi_seed(n_samples: int, seeds: list, condition_label: str) -> dict:
+    """
+    Run the experiment with multiple random seeds. For each seed, collect the
+    mean overall pairwise agreement across the 3 algorithm pairs.
+    Returns list of per-seed mean overall agreements.
+    """
+    per_seed_mean_agreements = []
+    all_seed_results = []
+
+    print(f"\n{'='*60}")
+    print(f"Multi-seed run: {condition_label} (N={n_samples:,}, {len(seeds)} seeds)")
+    print(f"{'='*60}")
+
+    for seed in seeds:
+        rng = np.random.default_rng(seed)
+        res = run_experiment(n_samples=n_samples, rng=rng,
+                             label=f'{condition_label}_seed{seed}')
+        per_seed_mean_agreements.append(res['mean_overall_agreement'])
+        all_seed_results.append(res)
+
+    print(f"\n  {condition_label} per-seed mean agreements: "
+          f"{[f'{v:.3f}' for v in per_seed_mean_agreements]}")
+    print(f"  {condition_label} overall mean: {np.mean(per_seed_mean_agreements):.3f}  "
+          f"std: {np.std(per_seed_mean_agreements):.3f}")
+
+    return {
+        'n_samples': n_samples,
+        'seeds': seeds,
+        'per_seed_mean_agreements': per_seed_mean_agreements,
+        'all_seed_results': all_seed_results,
+    }
+
+
 def main():
     set_all_seeds(42)
     rng_small = np.random.default_rng(42)
@@ -467,15 +505,30 @@ def main():
     print("Methods: PC(α=0.05), GES(BIC), PC(α=0.01)")
     print("=" * 60)
 
-    # Main experiment: N=1000
+    # Single-run experiments for figure / table (original behaviour)
     results_small = run_experiment(n_samples=1000, rng=rng_small, label='small')
-
-    # Negative control: N=100,000
     results_large = run_experiment(n_samples=100_000, rng=rng_large, label='large')
 
-    # Bootstrap CIs on overall agreement
+    # Bootstrap CIs on overall agreement (single-run)
     ci_small = bootstrap_ci_agreement(results_small['overall_agreements'])
     ci_large = bootstrap_ci_agreement(results_large['overall_agreements'])
+
+    # ── Multi-seed statistical test ────────────────────────────────────────
+    print("\n" + "=" * 60)
+    print(f"MULTI-SEED STATISTICAL TEST ({N_SEEDS} seeds each condition)")
+    print("=" * 60)
+
+    multi_small = run_multi_seed(1000, BASE_SEEDS, 'N=1000')
+    multi_large = run_multi_seed(100_000, BASE_SEEDS, 'N=100000')
+
+    # Mann-Whitney U test: N=100,000 agreements > N=1,000 agreements
+    mw_stat, mw_p = mannwhitneyu(
+        multi_large['per_seed_mean_agreements'],
+        multi_small['per_seed_mean_agreements'],
+        alternative='greater',
+    )
+
+    print(f"\n  Mann-Whitney U (N=100k > N=1k): stat={mw_stat:.1f}, p={mw_p:.4e}")
 
     print("\n" + "=" * 60)
     print("SUMMARY")
@@ -486,13 +539,27 @@ def main():
           f"95% CI [{ci_large[0]:.3f}, {ci_large[2]:.3f}]")
     print(f"Orientation disagree pairs (N=1k): {results_small['n_orientation_disagree_pairs']}")
     print(f"Orientation disagree pairs (N=100k): {results_large['n_orientation_disagree_pairs']}")
+    print(f"Multi-seed MW test p-value: {mw_p:.4e}")
 
-    # Figure
+    # Figure (uses single-run results for clean presentation)
     make_figure(results_small, results_large, 'causal_discovery_exp')
 
-    # LaTeX table
+    # LaTeX table (single-run) + append p-value footnote
     tex_path = SECTIONS_DIR / 'table_causal_discovery_exp.tex'
     write_latex_table(results_small, results_large, ci_small, ci_large, tex_path)
+    # Append statistical test result to table
+    with open(tex_path, 'r') as f:
+        tex_content = f.read()
+    # Insert before \end{table}
+    footnote = (
+        f"\\vspace{{2pt}}\n"
+        f"\\noindent\\small Mann--Whitney $U$ test ({N_SEEDS} seeds each condition, "
+        f"$N$=100{{{','}}}000 vs $N$=1{{{','}}}000): $p = {mw_p:.3e}$.\n"
+    )
+    tex_content = tex_content.replace(r'\end{table}', footnote + r'\end{table}')
+    with open(tex_path, 'w') as f:
+        f.write(tex_content)
+    print(f"Updated LaTeX table with p-value: {tex_path}")
 
     # Results JSON
     output = {
@@ -512,6 +579,13 @@ def main():
         'pairwise_large': results_large['pairwise_comparisons'],
         'ci_small': {'lo': ci_small[0], 'mean': ci_small[1], 'hi': ci_small[2]},
         'ci_large': {'lo': ci_large[0], 'mean': ci_large[1], 'hi': ci_large[2]},
+        'statistical_test': {
+            'test': f'Mann-Whitney U ({N_SEEDS} seeds each condition, N=100k > N=1k)',
+            'statistic': float(mw_stat),
+            'p_value': float(mw_p),
+            'n_small_per_seed_agreements': multi_small['per_seed_mean_agreements'],
+            'n_large_per_seed_agreements': multi_large['per_seed_mean_agreements'],
+        },
         'interpretation': (
             f"At N=1,000, mean pairwise edge agreement is {ci_small[1]:.3f} "
             f"[{ci_small[0]:.3f}, {ci_small[2]:.3f}], with "
@@ -519,6 +593,7 @@ def main():
             f"At N=100,000 (negative control), agreement rises to {ci_large[1]:.3f} "
             f"[{ci_large[0]:.3f}, {ci_large[2]:.3f}] with "
             f"{results_large['n_orientation_disagree_pairs']} disagreement pairs. "
+            f"Multi-seed Mann-Whitney U test ({N_SEEDS} seeds each): p={mw_p:.3e}. "
             "This demonstrates that finite-sample underspecification prevents any single "
             "algorithm from being simultaneously faithful, stable, and decisive."
         )

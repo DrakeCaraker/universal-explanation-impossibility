@@ -37,6 +37,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy import linalg
 from scipy.sparse.linalg import lsqr as scipy_lsqr
+from scipy.stats import mannwhitneyu
 
 # ── Constants ──────────────────────────────────────────────────────────────
 M = 10          # number of equations (fixed)
@@ -174,12 +175,16 @@ def run_experiment():
     ys = np.array([d_mean_rmsd[d] for d in d_vals])
     slope, intercept = np.polyfit(xs, ys, 1)
 
+    # ── Mann-Whitney U test: underdetermined vs control ────────────────────
+    mw_stat, mw_p = mannwhitneyu(all_underdet_rmsds, control_rmsds, alternative='greater')
+
     print("\n=== Linear Solver Experiment Results ===")
     print(f"  Underdetermined RMSD: {ci_mean:.4f}  95% CI [{ci_lo:.4f}, {ci_hi:.4f}]")
     print(f"  Control (d=0) RMSD:   {ctl_mean:.4f}  95% CI [{ctl_lo:.4f}, {ctl_hi:.4f}]")
     print(f"  Trend: slope = {slope:.5f}, intercept = {intercept:.5f}")
     print(f"  d=1 mean RMSD: {d_mean_rmsd[1]:.4f}")
     print(f"  d=50 mean RMSD: {d_mean_rmsd[50]:.4f}")
+    print(f"  Mann-Whitney U (underdetermined > control): stat={mw_stat:.1f}, p={mw_p:.4e}")
 
     # ── Figure ─────────────────────────────────────────────────────────────
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10, 4.5))
@@ -261,6 +266,11 @@ $d = n - m$ & $n$ & Mean RMSD & 95\% CI low & 95\% CI high \\
         # Control row
         f.write(r"\midrule" + "\n")
         f.write(f"  0 (control) & {M:3d} & {ctl_mean:.4f} & {ctl_lo:.4f} & {ctl_hi:.4f} \\\\\n")
+        f.write(r"\midrule" + "\n")
+        f.write(
+            f"  \\multicolumn{{5}}{{l}}{{Mann--Whitney $U$ test "
+            f"(underdetermined $>$ control): $p = {mw_p:.3e}$}} \\\\\n"
+        )
         f.write(r"""\bottomrule
 \end{tabular}
 \end{table}
@@ -290,6 +300,11 @@ $d = n - m$ & $n$ & Mean RMSD & 95\% CI low & 95\% CI high \\
             "ci_95_lo": ctl_lo,
             "ci_95_hi": ctl_hi,
             "n_pairwise_observations": len(control_rmsds),
+        },
+        "statistical_test": {
+            "test": "Mann-Whitney U (one-sided: underdetermined > control)",
+            "statistic": float(mw_stat),
+            "p_value": float(mw_p),
         },
         "trend": {
             "slope": float(slope),

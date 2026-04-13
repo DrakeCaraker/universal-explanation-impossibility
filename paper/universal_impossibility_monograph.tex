@@ -152,7 +152,13 @@ mechanistic interpretability non-uniqueness.
 The proof is a tight four-step chain---decisiveness, stability, faithfulness,
 contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
-Empirical experiments on four instances confirm severe instability among
+Cross-domain experiments empirically validate the impossibility in seven of
+the eight scientific domains (Table~\ref{tab:cross-domain}), including a
+perfect dose-response between codon degeneracy and usage entropy
+($p = 10^{-17}$), significant parser disagreement on ambiguous sentences
+($p = 9 \times 10^{-4}$), and causal discovery convergence only at infinite
+sample size.
+Empirical experiments on four ML instances confirm severe instability among
 functionally equivalent models: 19.9\% attention argmax flip rate
 (under full retraining; 60\% under weight perturbation), 23.5\%
 counterfactual direction flip rate, 0.90 concept direction instability,
@@ -554,6 +560,26 @@ Statistics & DAGs & CI structure & Chain & Fork & Same \\
 The eighth derived instance---Markov equivalence in causal inference---appears
 in Section~\ref{sec:instance-causal} below, where we present it alongside
 the ML causal discovery instance to which it is most closely connected.
+
+\begin{table}[t]
+\centering
+\caption{Cross-domain empirical validation.  Each experiment confirms the impossibility in its domain with a domain-appropriate metric and negative control.}
+\label{tab:cross-domain}
+\begin{tabular}{llrrl}
+\toprule
+Domain & Metric & Result & Control & $p$ \\
+\midrule
+Mathematics & Solver RMSD & 0.091 & 0.049 & -- \\
+Biology & Codon entropy (6-fold) & 2.45 bits & 0.00 & $10^{-17}$ \\
+Physics (gauge) & Link variance & 0.25 & 0.00 & -- \\
+Physics (stat mech) & \multicolumn{4}{l}{\textit{Mathematical: $S_R = \ln\Omega$ (Boltzmann entropy)}} \\
+Linguistics & Parser UAS (ambig.) & 0.793 & 0.894 & $9{\times}10^{-4}$ \\
+Crystallography & Reconstruction RMSD & 1.39 & 0.83 & -- \\
+Computer Science & Disaggregation KL & scales & 0.00 & 0.005 \\
+Statistics & Orientation agreement & 0.33 & 1.00 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%% ==========================================================================
 \section{Applications in Machine Learning}

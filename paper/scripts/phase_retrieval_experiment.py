@@ -39,6 +39,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.signal import argrelmax
+from scipy.stats import mannwhitneyu
 
 # ── Constants ──────────────────────────────────────────────────────────────
 SIGNAL_LENGTHS = [16, 32, 64, 128]
@@ -170,6 +171,8 @@ def run_experiment():
     load_publication_style()
 
     results_by_N = {}
+    all_general_rmsds = []   # collected across all N for overall test
+    all_positive_rmsds = []  # collected across all N for overall test
 
     print("\n=== Phase Retrieval Experiment ===")
     print(f"  Signal lengths: {SIGNAL_LENGTHS}")
@@ -197,6 +200,13 @@ def run_experiment():
         gen_lo, gen_mean, gen_hi = percentile_ci(gen_rmsds.tolist(), n_boot=N_BOOT)
         pos_lo, pos_mean, pos_hi = percentile_ci(pos_rmsds.tolist(), n_boot=N_BOOT)
 
+        # Per-N Mann-Whitney U test (general > positive)
+        mw_stat_n, mw_p_n = mannwhitneyu(gen_rmsds, pos_rmsds, alternative='greater')
+
+        # Accumulate for overall test
+        all_general_rmsds.extend(gen_rmsds.tolist())
+        all_positive_rmsds.extend(pos_rmsds.tolist())
+
         ratio = gen_mean / pos_mean if pos_mean > 0 else float('inf')
 
         # ── Feature agreement ─────────────────────────────────────────────
@@ -220,12 +230,22 @@ def run_experiment():
                 "feature_agreement": pos_feat_agree,
             },
             "rmsd_ratio_general_over_positive": ratio,
+            "mann_whitney_per_N": {
+                "statistic": float(mw_stat_n),
+                "p_value": float(mw_p_n),
+            },
         }
 
         print(f"  N={N:3d} | General RMSD: {gen_mean:.4f} [{gen_lo:.4f}, {gen_hi:.4f}]"
               f"  | Positive RMSD: {pos_mean:.4f} [{pos_lo:.4f}, {pos_hi:.4f}]"
               f"  | Ratio: {ratio:.2f}"
-              f"  | FeatAgree (gen): {gen_feat_agree:.3f}")
+              f"  | FeatAgree (gen): {gen_feat_agree:.3f}"
+              f"  | MW p={mw_p_n:.4e}")
+
+    # ── Overall Mann-Whitney U test across all signal lengths ───────────────
+    mw_stat_all, mw_p_all = mannwhitneyu(all_general_rmsds, all_positive_rmsds, alternative='greater')
+    print(f"\n  Overall MW U test (general > positive, all N combined): "
+          f"stat={mw_stat_all:.1f}, p={mw_p_all:.4e}")
 
     # ── Figure ─────────────────────────────────────────────────────────────
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10, 4.5))
@@ -294,12 +314,13 @@ def run_experiment():
 Each cell shows mean pairwise RMSD across 20 reconstructions from random initial phases
 ($N_{\text{boot}}=2000$, 95\% CI). The positive control applies a non-negativity
 constraint at each iteration, substantially reducing ambiguity.
-RMSD ratio = general / positive control.}
+RMSD ratio = general / positive control.
+$p$-values: one-sided Mann--Whitney $U$ test (general $>$ positive).}
 \label{tab:phase_retrieval}
-\begin{tabular}{rcccccc}
+\begin{tabular}{rccccccc}
 \toprule
-$N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive control} & Ratio & Feat.\ agree (gen) \\
-    & RMSD & 95\% CI & RMSD & 95\% CI & gen/pos & \\
+$N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive control} & Ratio & Feat.\ agree (gen) & MW $p$-value \\
+    & RMSD & 95\% CI & RMSD & 95\% CI & gen/pos & & \\
 \midrule
 """)
         for N in SIGNAL_LENGTHS:
@@ -308,6 +329,7 @@ $N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive 
             p = r["positive_control"]
             fa = g["feature_agreement"]
             fa_str = f'{fa:.3f}' if not (isinstance(fa, float) and fa != fa) else 'n/a'
+            mw_p_val = r["mann_whitney_per_N"]["p_value"]
             f.write(
                 f'  {N:3d} & '
                 f'{g["mean_pairwise_rmsd"]:.4f} & '
@@ -315,8 +337,14 @@ $N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive 
                 f'{p["mean_pairwise_rmsd"]:.4f} & '
                 f'[{p["ci_95_lo"]:.4f},\\ {p["ci_95_hi"]:.4f}] & '
                 f'{r["rmsd_ratio_general_over_positive"]:.2f} & '
-                f'{fa_str} \\\\\n'
+                f'{fa_str} & '
+                f'{mw_p_val:.3e} \\\\\n'
             )
+        f.write(r"\midrule" + "\n")
+        f.write(
+            f"  \\multicolumn{{8}}{{l}}{{Overall MW $U$ test (all $N$ combined): "
+            f"$p = {mw_p_all:.3e}$}} \\\\\n"
+        )
         f.write(r"""\bottomrule
 \end{tabular}
 \end{table}
@@ -341,6 +369,11 @@ $N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive 
         },
         "per_length": {
             str(N): results_by_N[N] for N in SIGNAL_LENGTHS
+        },
+        "statistical_test_overall": {
+            "test": "Mann-Whitney U (one-sided: general > positive, all N combined)",
+            "statistic": float(mw_stat_all),
+            "p_value": float(mw_p_all),
         },
     }
 

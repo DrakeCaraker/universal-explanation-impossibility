@@ -29,6 +29,11 @@
     "ci_95_hi": 0.06716792626780566,
     "n_pairwise_observations": 120
   },
+  "statistical_test": {
+    "test": "Mann-Whitney U (one-sided: underdetermined > control)",
+    "statistic": 47838.0,
+    "p_value": 6.298867234191689e-09
+  },
   "trend": {
     "slope": -0.0015456374317081654,
     "intercept": 0.1306917149504193
@@ -937,5 +942,5 @@
       "mean_pairwise_rmsd": 0.0645736550955394
     }
   ],
-  "_timestamp": "2026-04-12 19:07:46"
+  "_timestamp": "2026-04-12 19:49:58"
 }

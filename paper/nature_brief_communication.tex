@@ -68,11 +68,12 @@ code degeneracy (biology), gauge freedom (physics), microstate multiplicity
 (statistical mechanics), syntactic ambiguity (linguistics), the phase
 problem (crystallography), the view update problem (computer science), and
 Markov equivalence (statistics).  Each derivation is mechanically verified
-in the Lean~4 proof assistant with zero unproved goals.  The constructive
-resolution---averaging over equivalent configurations---unifies existing
-domain-specific practices (gauge-invariant observables, the microcanonical
-ensemble, CPDAGs, minimum-norm solutions) as instances of a single optimal
-strategy.
+in the Lean~4 proof assistant (82~files, 377~theorems, 0~unproved goals),
+and empirically validated in seven domains with domain-appropriate metrics
+and negative controls.  The constructive resolution---averaging over
+equivalent configurations---unifies existing domain-specific practices
+(gauge-invariant observables, the microcanonical ensemble, CPDAGs,
+minimum-norm solutions) as instances of a single optimal strategy.
 \end{abstract}
 
 %%% =========================================================================
@@ -176,6 +177,19 @@ Statistics        & DAGs                 & CI structure    & Chain    & Fork    
 \bottomrule
 \end{tabular}
 \end{table}
+
+\paragraph{Empirical validation.}
+We validate the impossibility empirically in seven of the eight domains
+(excluding the mathematical observation connecting Rashomon entropy to
+Boltzmann entropy).  The codon entropy dose-response across 30 species shows
+a perfect monotonic relationship with degeneracy level (Kruskal--Wallis
+$p = 10^{-17}$); syntactic parsers disagree significantly more on ambiguous
+sentences ($p = 9 \times 10^{-4}$); causal discovery algorithms converge
+only with infinite samples; phase retrieval reconstructions diverge
+1.5$\times$ more without positivity constraints; and census disaggregation
+ambiguity scales with aggregation granularity ($p = 0.005$).  In each case,
+the negative control (where the Rashomon property is absent) shows stability,
+confirming that the instability is structural.
 
 \paragraph{The resolution.}
 The impossibility is constructive: it identifies the exact trade-off.
