@@ -1,0 +1,23 @@
+\begin{table}[h]
+\centering
+\caption{Gerchberg-Saxton phase retrieval ambiguity for 1D signals of varying length.
+Each cell shows mean pairwise RMSD across 20 reconstructions from random initial phases
+($N_{\text{boot}}=2000$, 95\% CI). The positive control applies a non-negativity
+constraint at each iteration, substantially reducing ambiguity.
+RMSD ratio = general / positive control.
+$p$-values: one-sided Mann--Whitney $U$ test (general $>$ positive).}
+\label{tab:phase_retrieval}
+\begin{tabular}{rccccccc}
+\toprule
+$N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive control} & Ratio & Feat.\ agree (gen) & MW $p$-value \\
+    & RMSD & 95\% CI & RMSD & 95\% CI & gen/pos & & \\
+\midrule
+   16 & 1.3242 & [1.2916,\ 1.3588] & 0.7476 & [0.7232,\ 0.7707] & 1.77 & 0.975 & 2.213e-57 \\
+   32 & 1.4448 & [1.4197,\ 1.4700] & 0.8407 & [0.8194,\ 0.8604] & 1.72 & 1.000 & 6.197e-63 \\
+   64 & 1.4337 & [1.4116,\ 1.4556] & 0.8153 & [0.8058,\ 0.8247] & 1.76 & 0.984 & 4.482e-64 \\
+  128 & 1.3679 & [1.3560,\ 1.3799] & 0.9248 & [0.9166,\ 0.9325] & 1.48 & 0.992 & 4.482e-64 \\
+\midrule
+  \multicolumn{8}{l}{Overall MW $U$ test (all $N$ combined): $p = 4.968e-238$} \\
+\bottomrule
+\end{tabular}
+\end{table}

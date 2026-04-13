@@ -45,6 +45,14 @@ genuinely ambiguous, no deterministic parser can correctly report the syntactic
 structure without either being unfaithful to one reading or unstable across
 equivalent inputs.
 
+\paragraph{Empirical illustration.}
+Four syntactic parsers (spaCy small/medium/large, Stanza) applied to 50
+ambiguous and 50 unambiguous sentences show mean inter-parser agreement (UAS) of
+0.793 for ambiguous sentences versus 0.894 for unambiguous (Wilcoxon
+$p = 8.9 \times 10^{-4}$, Cohen's $d = 0.69$).  The most disagreed sentences
+are structurally ambiguous (`Visiting relatives can be boring,' UAS~$= 0.40$);
+14 unambiguous sentences achieve perfect consensus.
+
 \paragraph{Resolution: packed parse forests.}
 The standard resolution in NLP is to report a \emph{packed parse forest}
 \citep{jurafsky2024}: a compact representation of all valid parse trees for
