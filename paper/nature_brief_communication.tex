@@ -184,15 +184,15 @@ We validate the impossibility empirically in seven of the eight domains
 Boltzmann entropy).  All seven empirical tests reach statistical significance
 ($p < 0.05$).  Underdetermined linear solvers show elevated pairwise RMSD
 (0.091 vs.\ 0.049 for fully determined controls; Mann-Whitney
-$p = 6.3 \times 10^{-9}$); the codon entropy dose-response across 30 species
+$p = 6.3 \times 10^{-9}$); the codon entropy dose-response across 50 species
 shows a perfect monotonic relationship with degeneracy level (Kruskal--Wallis
 $p = 10^{-17}$); syntactic parsers disagree significantly more on ambiguous
-sentences ($p = 9 \times 10^{-4}$); causal discovery algorithms show
-orientation agreement of only 0.33 at finite sample size ($p = 2.4 \times
-10^{-5}$ across 10 random seeds per condition); phase retrieval
+sentences ($p = 1.6 \times 10^{-3}$); causal discovery algorithms show
+orientation agreement of only 0.33 at finite sample size ($p = 4.4 \times
+10^{-38}$ across 100 random seeds per condition); phase retrieval
 reconstructions diverge 1.5--1.8$\times$ more without positivity constraints
 (Mann-Whitney $p < 10^{-57}$ per signal length); and census disaggregation
-ambiguity scales with aggregation granularity ($p = 0.005$).  In each case,
+ambiguity scales with aggregation granularity ($p = 7.9 \times 10^{-37}$).  In each case,
 the negative control (where the Rashomon property is absent) shows stability,
 confirming that the instability is structural.
 
@@ -230,12 +230,11 @@ converse).  Moreover, the impossibility is \emph{query-relative}: some
 questions about a system are stably answerable (those on which all
 equivalent configurations agree) and others are not.  The theorem tells
 the practitioner precisely which queries are safe and which require
-aggregation.  More broadly, the severity of the impossibility and the
-structure of the available resolutions are parameterized by the symmetry
-group of the equivalence class---connecting explainability to the
-representation theory of groups, with a hierarchy from abelian (unique
-canonical resolution) through non-abelian (resolution multiplicity) to
-non-compact (resolution divergence requiring regularization).
+aggregation.  More broadly, the difficulty of finding good explanations depends on the
+mathematical symmetries of the equivalence class---ranging from cases
+where a unique optimal explanation exists, through cases where multiple
+reasonable explanations compete, to cases where additional constraints
+are needed to make the problem well-posed.
 
 %%% =========================================================================
 %%% Figure 2: The Trilemma Triangle

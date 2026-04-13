@@ -563,7 +563,7 @@ the ML causal discovery instance to which it is most closely connected.
 
 \begin{table}[t]
 \centering
-\caption{Cross-domain empirical validation.  Each experiment confirms the impossibility in its domain with a domain-appropriate metric and negative control.  With 15 simultaneous tests (8 cross-domain + 7 ML), the Bonferroni-corrected threshold is $\alpha = 0.05/15 = 0.003$.  All experiments survive this correction except the census disaggregation ($p = 0.005 > 0.003$), which should be interpreted as suggestive rather than conclusive at the family-wise level.}
+\caption{Cross-domain empirical validation.  Each experiment confirms the impossibility in its domain with a domain-appropriate metric and negative control.  With 15 simultaneous tests (8 cross-domain + 7 ML), the Bonferroni-corrected threshold is $\alpha = 0.05/15 = 0.003$.  All experiments survive this correction.}
 \label{tab:cross-domain}
 \begin{tabular}{llrrl}
 \toprule
@@ -1134,11 +1134,11 @@ Biology
   & Codon usage tables \\[2pt]
 Physics (gauge)
   & Gauge transforms
-  & $\mathbb{Z}_2^{|V|}$ (finite abelian)
+  & $\mathbb{Z}_2^{|V|-1}$ (finite abelian)
   & Wilson loops \\[2pt]
 Stat.\ mechanics
   & Microstate permutations
-  & $S_\Omega$ (finite, non-abelian)
+  & $S_\Omega$ (finite; abelian for $\Omega\leq 2$, non-abelian for $\Omega\geq 3$)
   & Microcanonical ensemble \\[2pt]
 Linguistics
   & Parse-tree permutations
@@ -1154,7 +1154,7 @@ Computer science
   & Complement views \\[2pt]
 Statistics
   & Edge reversals in MEC
-  & Finite (non-abelian)
+  & Finite (abelian for small MECs, non-abelian otherwise)
   & CPDAG reporting \\
 \bottomrule
 \end{tabular}
@@ -1191,7 +1191,7 @@ to the ML resolution \DASH{} (averaging SHAP values over an ensemble of
 near-optimal models): both are the $G$-invariant projection for their
 respective symmetry groups.  The companion paper demonstrates that this
 gauge-theory-inspired resolution reduces attribution instability by up to
-148\% on real-world datasets (Breast Cancer: \DASH{} achieves 92.5\%
+146\% on real-world datasets (Breast Cancer: \DASH{} achieves 92.5\%
 stability vs.\ 37.6\% for single-model SHAP) and reduces model-selection
 variance by 60\% (crossed ANOVA).  Moreover, the stability improvement scales
 with the Rashomon set size: at low collinearity ($\rho = 0$), single-model
@@ -1234,15 +1234,15 @@ The group structure determines the character of the impossibility and the
 available resolutions:
 
 \begin{enumerate}
-  \item \textbf{Finite abelian $G$} (gauge theory $\mathbb{Z}_2^{|V|}$,
-    statistical mechanics $S_2$, biology $S_k$ for small $k$).
+  \item \textbf{Finite abelian $G$} (gauge theory $\mathbb{Z}_2^{|V|-1}$,
+    statistical mechanics $S_2$, biology $S_k$ for $k \leq 2$).
     The orbit average is canonical and unique.  All characters are
     one-dimensional, so the invariant projection has no ambiguity.
     The faithfulness bound is $1/|G|$.  These are the ``easy'' cases:
     the impossibility is real but the resolution is completely determined.
 
-  \item \textbf{Finite non-abelian $G$} (causal discovery with $\geq 3$
-    reversible edges, molecular point groups in chemistry).
+  \item \textbf{Finite non-abelian $G$} (biology $S_k$ for $k \geq 3$,
+    causal discovery with $\geq 3$ reversible edges, molecular point groups in chemistry).
     Multiple inequivalent invariant projections may exist, corresponding
     to different choices of which non-trivial irreducible representations
     to retain.  The resolution choice itself becomes ambiguous---a
@@ -1270,6 +1270,8 @@ available resolutions:
     compact case.  This is the ``fundamentally hard'' regime: the
     impossibility is severe and the resolution is non-canonical.
 \end{enumerate}
+
+\noindent This ordering is a partial order, not a total order: compact non-abelian groups (e.g., $\mathrm{SO}(3)$) exhibit features of both items~2 and~3.
 
 \paragraph{Predictions.}
 This hierarchy generates testable predictions not currently verified in the

@@ -15,6 +15,8 @@
 
 import UniversalImpossibility.MeasureHypotheses
 
+set_option autoImplicit false
+
 open MeasureTheory
 
 variable {fs : FeatureSpace}
