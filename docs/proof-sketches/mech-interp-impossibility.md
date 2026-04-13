@@ -15,7 +15,7 @@ By Meloux et al. (ICLR 2025, "Everything, Everywhere, All at Once: Is Mechanisti
   - f_{theta_1} = f_{theta_2} (identical input-output behavior)
   - C_{theta_1} and C_{theta_2} are incompatible (attribute computation to different components)
 
-Additional evidence from Bricken et al. (2025): sparse autoencoders trained on the same data learn different features, demonstrating that even the feature-level decomposition is not unique.
+Additional evidence from Paulo and Belrose (2025): sparse autoencoders trained on the same data learn different features, demonstrating that even the feature-level decomposition is not unique.
 
 Incompatibility: C_{theta_1} and C_{theta_2} attribute the same computation to disjoint or contradictory subgraphs of the network.
 

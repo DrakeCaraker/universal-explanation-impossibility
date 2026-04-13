@@ -8,10 +8,18 @@ misleading for Boolean classifiers.  \citet{rao2025limits} establish
 algorithmic-information-theoretic limits on what any explanation method can
 convey, and \citet{noguer2025mathematical} survey the mathematical foundations
 of explainability more broadly.  Each of these results is proved in a
-domain-specific language under domain-specific assumptions.  Our contribution
-is a single abstract theorem that subsumes them as instances, showing the
-impossibility arises from underspecification itself rather than from any
-particular axiom system.
+domain-specific language under domain-specific assumptions.  Our result
+complements Bilodeau et al.\ (2024): they prove impossibility under Shapley
+axioms for feature attributions; we prove impossibility under faithfulness,
+stability, and decisiveness for arbitrary explanation systems.  The conditions
+are incomparable---neither strictly implies the other---but both identify the
+Rashomon property as the root cause.  Our contribution is a single abstract
+theorem that unifies them as instances, showing the impossibility arises from
+underspecification itself rather than from any particular axiom system.
+\citet{krishna2022disagreement} document the complementary ``disagreement
+problem'': different explanation methods produce different attributions for the
+same model.  Our result addresses a distinct phenomenon---any single method
+produces different explanations across equivalent models.
 
 \paragraph{Underspecification and model multiplicity.}
 \citet{damour2022underspecification} demonstrate that modern ML pipelines are

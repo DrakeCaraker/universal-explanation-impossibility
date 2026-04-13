@@ -72,13 +72,13 @@
   literate={/\\}{$\wedge$}2 {/=}{$\neq$}2,
 }
 
-%% ---- Theorem environments (separate counters) ----
+%% ---- Theorem environments (shared counter) ----
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{corollary}{Corollary}[section]
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}{Proposition}[section]
-\newtheorem{remark}{Remark}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
 \newtheorem{axiom_env}{Axiom}
 
 %% ---- Macros (shared with main paper) ----
@@ -537,6 +537,13 @@ Mech.\ interp. & Circuit non-uniq. & --- & Meloux et al.\ (2025) \\
 \multicolumn{4}{@{}l@{}}{\quad figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
+
+\paragraph{Instance overlap and independence.}
+We note that instances 2 (attention), 7 (saliency), and 8 (token citation)
+share a common Rashomon mechanism---weight-space multiplicity affecting
+internal representations.  They differ in modality and metric but are not
+structurally independent.  A conservative count identifies six genuinely
+distinct Rashomon mechanisms across the nine instances.
 
 %%% ==========================================================================
 \section{The Universal Resolution}
@@ -1040,19 +1047,27 @@ The Explanation Impossibility is not specific to machine learning.
 
 \paragraph{Philosophy of science: formalizing Quine--Duhem.}
 Quine \citep{quine1951dogmas} and Duhem \citep{duhem1906aim} argued that
-empirical evidence underdetermines theory choice.  Theorem~\ref{thm:universal}
+empirical evidence underdetermines theory choice
+(Duhem on the impossibility of testing hypotheses in isolation; Quine on
+confirmational holism---sharing the core implication that observational
+equivalence leaves explanation underdetermined).  Theorem~\ref{thm:universal}
 proves an impossibility theorem for explanation under observational
 equivalence---formalizing, to our knowledge for the first time, the explanatory
-consequences of what philosophers of science call contrastive
-underdetermination \citep{laudan1991empirical}. Prior formal analyses of
-underdetermination in Bayesian
+consequences of the Duhem-Quine thesis of holist underdetermination
+\citep{laudan1991empirical}; note that Laudan himself was skeptical of the
+underdetermination thesis, but the citation documents the philosophical context.
+Prior formal analyses of underdetermination in Bayesian
 frameworks \citep{dorling1979bayesian,howson2006scientific} did not yield
 impossibility results for explanation methods. The $G$-invariant
 resolution is structurally reminiscent of epistemic structural
-realism \citep{worrall1989structural}: stable explanatory content is what
-is invariant across equivalent configurations. The connection is suggestive;
-a rigorous mapping would require engaging with the ontological commitments
-of structural realism, which our descriptive framework does not address.
+realism \citep{worrall1989structural}
+(Worrall's argument is diachronic---structural content survives theory change
+across scientific revolutions; our framework is synchronic---structural content
+is shared across equivalent models within one paradigm): stable explanatory
+content is what is invariant across equivalent configurations. The connection
+is suggestive; a rigorous mapping would require engaging with the ontological
+commitments of structural realism, which our descriptive framework does not
+address.
 Dropping decisiveness corresponds to van
 Fraassen's \citep{vanfraassen1980scientific} constructive empiricist stance
 that science aims for empirical adequacy, not full theoretical truth.

@@ -126,11 +126,21 @@
       "graduated_this_session": [],
       "feedback_memory_count": 0,
       "bookmark_saved": false
+    },
+    {
+      "session_number": 13,
+      "date": "2026-04-12",
+      "duration_bucket": "long",
+      "branch_type": "main",
+      "commands_used": [],
+      "graduated_this_session": [],
+      "feedback_memory_count": 0,
+      "bookmark_saved": false
     }
   ],
   "aggregates": {
-    "total_sessions": 12,
+    "total_sessions": 13,
     "total_patterns_graduated": 8,
-    "days_active": 12
+    "days_active": 13
   }
 }
