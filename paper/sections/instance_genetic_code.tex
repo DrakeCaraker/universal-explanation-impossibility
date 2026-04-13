@@ -36,12 +36,19 @@ and decisive (distinguish every pair of distinct codons).  In biological terms:
 knowing the protein sequence does not uniquely determine the DNA sequence.
 
 \paragraph{Empirical illustration.}
-Across 30 species and 100 amino acid positions, codon usage entropy shows a
-perfect monotonic dose-response with degeneracy level: 1-fold (Met/Trp):
-$H = 0.00$~bits, 2-fold: $0.97$, 3-fold: $1.56$, 4-fold: $1.91$, 6-fold:
-$2.45$ (Kruskal--Wallis $p = 1.07 \times 10^{-17}$, Spearman
-$\rho = 1.000$).  The negative control (Met and Trp positions, degeneracy~1)
-has entropy exactly~0 by construction.
+Across 50 simulated species with realistic GC content (0.35--0.65) and 100
+conserved amino acid positions, codon usage entropy shows a perfect monotonic
+dose-response with degeneracy level: 1-fold (Met/Trp): $H = 0.00$~bits,
+2-fold: $0.98$, 3-fold: $1.58$, 4-fold: $1.95$, 6-fold: $2.51$
+(Kruskal--Wallis $p = 2.3 \times 10^{-18}$, Spearman $\rho = 1.000$).
+The negative control (Met and Trp positions, degeneracy~1) has entropy
+exactly~0 by construction---this follows from the structure of the genetic
+code itself (one codon for Met, one for Trp) and holds for all species,
+real or simulated.
+\emph{Note:} Species codon preferences are simulated from GC-biased models;
+the genetic code structure (codon-to-amino-acid mapping) is the real standard
+code.  The dose-response prediction follows from the code's degeneracy
+structure and is robust to the simulation parameters.
 
 \paragraph{Resolution: codon usage tables.}
 The standard resolution in molecular biology is \emph{codon usage tables},

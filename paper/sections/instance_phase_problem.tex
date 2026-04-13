@@ -7,12 +7,17 @@ The \emph{phase problem} is the central challenge of X-ray crystallography:
 diffraction experiments measure the squared magnitudes $|F(\mathbf{k})|^2$ of
 the structure factors, but the phases are lost.  Multiple electron density
 distributions can produce identical diffraction patterns.
-\citet{hauptman1985} shared the 1985 Nobel Prize in Chemistry for developing
-direct methods that partially recover the phases, but the fundamental
-ambiguity remains.
+\citet{hauptman1953solution} developed direct methods that partially recover
+the phases---work recognized with the 1985 Nobel Prize in Chemistry
+\citep{karle1956structure}---but the fundamental ambiguity remains.
 
 \paragraph{The explanation system.}
-We formalize the simplest case: a 2-element discrete signal.
+We formalize a minimal witness: a 2-element discrete signal.
+\emph{Note:} For $N = 2$, the phase ambiguity is limited to permutation and
+sign (the set $\{(a,b), (b,a), (-a,-b), \ldots\}$ sharing $a^2+b^2$).
+For general $N$, the phase ambiguity grows combinatorially, which is why the
+phase problem is hard in practice.  Our 2-element witness establishes that the
+Rashomon property holds; the full crystallographic problem is strictly harder.
 Define $\mathcal{S}_{\mathrm{phase}} = (\Params, \sH, Y, \mathsf{obs},
 \mathsf{exp}, \incomp)$ as follows:
 \begin{itemize}
@@ -52,7 +57,7 @@ autocorrelation function of the electron density, which is computable
 directly from $|F(\mathbf{k})|^2$ without phase information.  The Patterson
 map is the $G$-invariant observable: the symmetry group of phase rotations
 acts on the signal space, and the autocorrelation is invariant under this
-action.  Modern direct methods \citep{hauptman1985} go further by exploiting
+action.  Modern direct methods \citep{hauptman1953solution,karle1956structure} go further by exploiting
 probabilistic constraints among phases, but even these methods cannot
 eliminate the fundamental ambiguity without additional experimental data
 (e.g., anomalous scattering or isomorphous replacement).

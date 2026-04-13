@@ -8,8 +8,8 @@ set_option autoImplicit false
 In crystallography, the diffraction pattern measures |F(k)|², the squared
 magnitude of the structure factor. Multiple electron density distributions
 produce the same diffraction pattern. This is the "phase problem" — the
-central challenge of X-ray crystallography (Hauptman & Karle, Nobel Prize
-1985).
+central challenge of X-ray crystallography (Hauptman & Karle 1953;
+Karle & Hauptman 1956; Nobel Prize 1985).
 
 We constructively prove that the Rashomon property holds for the phase
 problem by exhibiting two 2-element signals with the same energy

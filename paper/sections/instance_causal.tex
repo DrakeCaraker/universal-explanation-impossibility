@@ -80,8 +80,16 @@ By definition of $\incomp$, $(h, h') \in \incomp$.
 
 This is the formalization captured in \texttt{CausalInstance.lean} and
 \texttt{CausalDiscovery.lean}: the \texttt{rashomon} field of
-\texttt{causalSystem} is exactly the witness pair $(h, h')$ from
-Proposition~\ref{prop:causal-rashomon}.
+\texttt{causalSystem} is a concrete witness pair $(h, h')$ from
+Proposition~\ref{prop:causal-rashomon} (specifically, the 3-node chain vs.\
+fork).  \emph{Note:} The Lean formalization uses the broader relation
+$\texttt{incompatible}(h_1, h_2) \iff h_1 \ne h_2$ rather than the
+edge-reversal relation defined above.  Since $(h_1 \ne h_2)$ implies
+edge-reversal incompatibility for Markov-equivalent DAGs with a reversed edge,
+the impossibility under the broader relation implies the impossibility under
+the narrower one \emph{a fortiori}.  The paper's edge-reversal definition is
+the scientifically meaningful one; the Lean code uses the broader relation for
+simplicity of formalization.
 
 \paragraph{Instance 5: causal discovery impossibility.}
 
@@ -117,9 +125,14 @@ beyond the \texttt{CausalOrientationProblem} structure).\par}
 \paragraph{Empirical illustration.}
 Three causal discovery algorithms (PC with $\alpha = 0.05$, PC with
 $\alpha = 0.01$, GES) on 1{,}000 samples from the Asia network show
-orientation agreement of only 0.33 (Mann-Whitney $p = 2.4 \times 10^{-5}$ across 10 random seeds per condition).  At $N = 100{,}000$, all algorithms
-converge to the same CPDAG with orientation agreement~1.0, confirming that
-finite-sample ambiguity (not algorithmic limitation) drives the disagreement.
+overall edge agreement of only 0.17 and \emph{orientation} agreement of 0.33
+(Mann-Whitney $p = 4.4 \times 10^{-38}$ across 100 random seeds per condition).
+At $N = 100{,}000$, orientation agreement reaches~1.0 (all algorithms agree on
+every directed edge), though overall agreement is 0.625 because the three
+undirected edges in the CPDAG are counted as non-agreeing by the overall
+metric.  This distinction is important: the algorithms converge to the
+\emph{same CPDAG}, confirming that finite-sample ambiguity (not algorithmic
+limitation) drives the small-$N$ disagreement.
 
 \paragraph{Connection to the classical Markov equivalence problem.}
 Theorem~\ref{thm:causal-impossibility} is the classical Markov equivalence underdetermination

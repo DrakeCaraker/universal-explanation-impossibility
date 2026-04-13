@@ -563,22 +563,26 @@ the ML causal discovery instance to which it is most closely connected.
 
 \begin{table}[t]
 \centering
-\caption{Cross-domain empirical validation.  Each experiment confirms the impossibility in its domain with a domain-appropriate metric and negative control.}
+\caption{Cross-domain empirical validation.  Each experiment confirms the impossibility in its domain with a domain-appropriate metric and negative control.  With 15 simultaneous tests (8 cross-domain + 7 ML), the Bonferroni-corrected threshold is $\alpha = 0.05/15 = 0.003$.  All experiments survive this correction except the census disaggregation ($p = 0.005 > 0.003$), which should be interpreted as suggestive rather than conclusive at the family-wise level.}
 \label{tab:cross-domain}
 \begin{tabular}{llrrl}
 \toprule
 Domain & Metric & Result & Control & $p$ \\
 \midrule
 Mathematics & Solver RMSD & 0.091 & 0.049 & $6.3{\times}10^{-9}$ \\
-Biology & Codon entropy (6-fold) & 2.45 bits & 0.00 & $10^{-17}$ \\
+Biology$^\dagger$ & Codon entropy (6-fold) & 2.51 bits & 0.00 & $2.3{\times}10^{-18}$ \\
 Physics (gauge) & Link variance & 0.25 & 0.00 & -- \\
 Physics (stat mech) & \multicolumn{4}{l}{\textit{Mathematical: $S_R = \ln\Omega$ (Boltzmann entropy)}} \\
-Linguistics & Parser UAS (ambig.) & 0.793 & 0.894 & $9{\times}10^{-4}$ \\
+Linguistics & Parser UAS (ambig.) & 0.821 & 0.894 & $1.6{\times}10^{-3}$ \\
 Crystallography & Reconstruction RMSD & 1.39 & 0.83 & $5{\times}10^{-238}$ \\
-Computer Science & Disaggregation KL & scales & 0.00 & 0.005 \\
-Statistics & Orientation agreement & 0.33 & 1.00 & $2.4{\times}10^{-5}$ \\
+Computer Science & Disaggregation KL & 0.00--1.76 & 0.00 & $7.9{\times}10^{-37}$ \\
+Statistics & Orientation agreement & 0.33 & 1.00 & $4.4{\times}10^{-38}$ \\
 \bottomrule
 \end{tabular}
+
+\smallskip
+\noindent{\footnotesize $^\dagger$\,Simulated species with realistic GC content; genetic code structure is real.
+Census uses real 2020 U.S.\ county structure. Causal: 100 seeds.}
 \end{table}
 
 %%% ==========================================================================
@@ -980,11 +984,24 @@ Theorem & Axioms & Description \\
 
 The critical observation is that the core theorem
 \texttt{explanation\_impossibility} uses \textbf{zero axioms}---it is pure
-constructive logic.  Each instance introduces axioms only to assert that the
-Rashomon property holds in its specific domain (e.g., that there exist
-neural network weights with the same predictions but different attention
-distributions).  These axioms are the mathematical content of the empirical
-literature being formalized.
+constructive logic.  The formalization stratifies into two categories:
+
+\begin{itemize}
+  \item \textbf{Constructively derived} (8 cross-domain instances): The
+    Rashomon property is proved from concrete witnesses with zero behavioral
+    axioms.  The Lean code constructs explicit pairs (e.g., $(1,1)$ and
+    $(0,2)$ for the linear system, chain vs.\ fork DAGs for Markov
+    equivalence) and verifies $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)
+    \wedge \theta_1 \ne \theta_2$ by \texttt{decide}.  These are minimal
+    witnesses of domain-specific phenomena, not complete formalizations of the
+    respective theories.
+
+  \item \textbf{Axiomatized} (9 ML instances): The Rashomon property is
+    assumed as a domain axiom (e.g., ``there exist neural network weights with
+    the same predictions but different attention distributions'').  These
+    axioms are the mathematical content of the empirical literature being
+    formalized and are independently verifiable from the cited sources.
+\end{itemize}
 
 \subsection{Proof Status Transparency}
 \label{sec:proof-status}
@@ -1046,6 +1063,103 @@ The mechanized proof of the universal impossibility mirrors the paper proof
 exactly.  The complete Lean~4 statement and proof is given in
 Appendix~\ref{app:lean}.
 
+\subsection{Why This Result Is Non-Trivial}
+\label{sec:non-trivial}
+
+A natural objection is that the impossibility is tautological: ``of course
+you cannot explain an underspecified system perfectly.''  Four lines of
+evidence refute this characterization.
+
+\paragraph{1.\ Tightness: the triple is the exact obstruction.}
+Each \emph{pair} of \{faithful, stable, decisive\} is simultaneously
+achievable---three Lean-verified witnesses establish this
+(Proposition~\ref{prop:tightness}).  A faithful-and-decisive map simply
+reports the native explanation; a faithful-and-stable map outputs a neutral
+constant; a stable-and-decisive map outputs a maximally committal constant.
+The impossibility is \emph{specifically} the conjunction of all three.
+A tautology would make even pairs unachievable; here every pair is
+constructively realized.
+
+\paragraph{2.\ Necessity: the Rashomon property is the exact boundary.}
+The converse is proved in Lean (\texttt{fully\_specified\_possibility} in
+\texttt{Necessity.lean}): if the system has \emph{no} Rashomon
+property---every observation uniquely determines its configuration---then
+all three properties are simultaneously achievable.  The Rashomon property
+is therefore both sufficient \emph{and} necessary for the impossibility.
+This is not a vague ``things are hard when the problem is hard'' statement;
+it is a precise logical equivalence: the impossibility holds \emph{if and
+only if} the Rashomon property holds.
+
+\paragraph{3.\ Resolution optimality: the $G$-invariant projection is
+Pareto-optimal.}
+The resolution is not arbitrary.  The orbit-averaging map is Pareto-optimal
+among all stable explanation maps: no stable map can achieve strictly higher
+pointwise faithfulness on every observe-fiber.  This means the trade-off
+identified by the theorem is \emph{tight}---the practitioner cannot do better
+by being clever.
+
+\paragraph{4.\ Independent convergence: eight fields discovered the same
+resolution.}
+If the impossibility were trivial, one would not expect eight independent
+scientific communities---spanning physics, biology, statistics, linguistics,
+crystallography, computer science, statistical mechanics, and
+mathematics---to converge on structurally the same resolution strategy
+(orbit averaging) over more than a century of independent work
+(Table~\ref{tab:structural-differences}).
+Our framework explains \emph{why} they converged---they were independently
+solving the same impossibility---and proves the resolution they found is
+optimal.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Structural differences across the eight derived instances.}
+  The eight cross-domain instances are not notational variants of a single
+  example: they differ in symmetry group, group type, and resolution strategy.
+  Their independent convergence on orbit averaging is explained by the
+  $G$-invariant resolution framework.}
+\label{tab:structural-differences}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Domain & Symmetry group $G$ & Group type & Resolution \\
+\midrule
+Mathematics
+  & Null space translations
+  & $\mathbb{R}^{n-r}$ (cont., abelian)
+  & Pseudoinverse \\[2pt]
+Biology
+  & Synonymous substitutions
+  & $S_k$, $k \leq 6$ (finite)
+  & Codon usage tables \\[2pt]
+Physics (gauge)
+  & Gauge transforms
+  & $\mathbb{Z}_2^{|V|}$ (finite abelian)
+  & Wilson loops \\[2pt]
+Stat.\ mechanics
+  & Microstate permutations
+  & $S_\Omega$ (finite, non-abelian)
+  & Microcanonical ensemble \\[2pt]
+Linguistics
+  & Parse-tree permutations
+  & $S_k$ (finite)
+  & Packed parse forests \\[2pt]
+Crystallography
+  & Phase rotations
+  & $U(1)^n$ (cont., abelian)
+  & Patterson maps \\[2pt]
+Computer science
+  & Hidden-column permutations
+  & $S_k$ (finite)
+  & Complement views \\[2pt]
+Statistics
+  & Edge reversals in MEC
+  & Finite (non-abelian)
+  & CPDAG reporting \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 %%% ==========================================================================
 \section{Discussion: What Explainability Can and Cannot Do}
 \label{sec:discussion}
@@ -1066,6 +1180,26 @@ impossibility constrains what practitioners may promise about explanations but
 does not prevent useful explainability---it redirects effort toward the
 achievable frontier characterized by the $G$-invariant resolution
 (Section~\ref{sec:resolution}).
+
+\subsection{Cross-Domain Transfer: From Gauge Theory to ML}
+\label{sec:transfer}
+
+The universal framework is not merely descriptive---it enables knowledge
+transfer between domains.  The gauge theory resolution (restricting to
+observables invariant under gauge transformations) is mathematically identical
+to the ML resolution \DASH{} (averaging SHAP values over an ensemble of
+near-optimal models): both are the $G$-invariant projection for their
+respective symmetry groups.  The companion paper demonstrates that this
+gauge-theory-inspired resolution reduces attribution instability by up to
+148\% on real-world datasets (Breast Cancer: \DASH{} achieves 92.5\%
+stability vs.\ 37.6\% for single-model SHAP) and reduces model-selection
+variance by 60\% (crossed ANOVA).  Moreover, the stability improvement scales
+with the Rashomon set size: at low collinearity ($\rho = 0$), single-model
+methods are nearly as stable as \DASH{}; at high collinearity
+($\rho = 0.95$), the gap widens to 2.6 percentage points on synthetic data
+and dramatically more on real data with correlated features.  This dose-response
+was predicted by the theorem: larger Rashomon sets produce more instability,
+and orbit averaging provides proportionally larger improvements.
 
 \subsection{Regulatory Implications}
 \label{sec:regulatory}

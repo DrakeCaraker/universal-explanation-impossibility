@@ -1,22 +1,16 @@
 \begin{table}[h]
 \centering
-\caption{Codon entropy by degeneracy level across 30 simulated species
-($N_{pos}=100$ cytochrome c positions; GC content $\in [0.30, 0.70]$).
-Observed entropy is Shannon entropy of codon usage across species per position.
-GC-null is expected entropy if codon choice is determined solely by species GC content.
-Max entropy = $\log_2(\text{degeneracy})$.
-Kruskal-Wallis $H=85.71$, $p < 10^{-10}$;
-Spearman $\rho=1.000$ (degeneracy $\to$ mean entropy).}
+\caption{Codon entropy by degeneracy level across 50 simulated species ($N_{\text{pos}}=100$ positions; GC content $\in [0.35, 0.65]$). The standard genetic code structure is real; species codon preferences are simulated from GC-biased models with Dirichlet biological noise. Kruskal-Wallis $H=88.86$, $p< 10^{-10}$; Spearman $\rho=1.000$ (degeneracy $\to$ mean entropy).}
 \label{tab:codon_entropy}
 \begin{tabular}{ccccccc}
 \toprule
-Degeneracy & $N_{\text{pos}}$ & Obs.\ $\bar{H}$ & Obs.\ SD & GC-null $\bar{H}$ & Max $H$ & Obs/Max \\
+Deg. & $N_{\text{pos}}$ & Obs.\ $\bar{H}$ & Obs.\ SD & GC-null $\bar{H}$ & Max $H$ & Obs/Max \\
 \midrule
-  1 & 10 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & --- \\
-  2 & 49 & 0.9724 & 0.0311 & 0.9983 & 1.0000 & 0.972 \\
-  3 & 5 & 1.5614 & 0.0143 & 1.5843 & 1.5850 & 0.985 \\
-  4 & 26 & 1.9115 & 0.1063 & 1.9983 & 2.0000 & 0.956 \\
-  6 & 10 & 2.4544 & 0.0537 & 2.5801 & 2.5850 & 0.949 \\
+  1 & 3 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & --- \\
+  2 & 38 & 0.9843 & 0.0230 & 0.9992 & 1.0000 & 0.984 \\
+  3 & 1 & 1.5844 & 0.0000 & 1.5846 & 1.5850 & 1.000 \\
+  4 & 28 & 1.9494 & 0.0437 & 1.9992 & 2.0000 & 0.975 \\
+  6 & 30 & 2.5132 & 0.0418 & 2.5831 & 2.5850 & 0.972 \\
 \bottomrule
 \end{tabular}
 \end{table}

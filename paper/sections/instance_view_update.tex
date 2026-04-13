@@ -5,10 +5,13 @@
 
 The \emph{view update problem} asks: given a database view (a projection of
 the base relation), how can updates to the view be translated back to the
-base relation?  \citet{bancilhon1981update} proved that when the view function
-is not injective, there is no unique translation---a result discovered 45
-years before our framework, making it one of the earliest instances of
-the Explanation Impossibility in disguise.
+base relation?  \citet{bancilhon1981update} characterized exactly when unique
+translation is possible via the \emph{complement view} framework: a view
+admits a unique update translator if and only if a complement view exists such
+that the pair forms a lossless decomposition.  As a corollary, non-injective
+views without complements have no unique translation---a structural observation
+that our framework captures as a minimal witness of the Explanation
+Impossibility.
 
 \paragraph{The explanation system.}
 Define $\mathcal{S}_{\mathrm{view}} = (\Params, \sH, Y, \mathsf{obs},
@@ -35,9 +38,11 @@ By Theorem~\ref{thm:universal}, no translation from views back to base
 relations can simultaneously be faithful (the translated row matches the
 actual base row), stable (all rows with the same view receive the same
 translation), and decisive (the translation distinguishes every pair of
-distinct base rows).  This is precisely the classical result of
-\citet{bancilhon1981update}: non-injective views cannot be uniquely
-translated back.
+distinct base rows).  This captures the impossibility corollary of \citet{bancilhon1981update}'s
+complement framework: when no complement view exists, the non-injective view
+admits no unique translation.  Our Lean formalization provides a minimal
+constructive witness of this structural phenomenon, not a full encoding of the
+complement lattice theory.
 
 \paragraph{Resolution: complement views.}
 The classical resolution \citep{bancilhon1981update} is to use
@@ -50,16 +55,21 @@ view.  This sacrifices decisiveness (no single row is selected) to achieve
 stability and faithfulness.
 
 \paragraph{Empirical illustration.}
-Synthetic census disaggregation: for 50 states with 1--98 counties, the
-KL-divergence between the true county distribution and Dirichlet-sampled
-alternatives scales with the number of counties (Pearson $r = 0.39$,
-$p = 0.005$).  States with 1 county have KL~$= 0$ exactly.
+Census disaggregation using real U.S.\ state and county structure (2020 Census
+Bureau county counts, Zipf-distributed populations scaled to actual state
+totals): the KL-divergence between the true county distribution and
+Dirichlet-sampled alternatives scales strongly with the number of counties
+(Spearman $\rho = 0.98$, $p = 7.9 \times 10^{-37}$; Pearson $r = 0.82$,
+$p = 2.5 \times 10^{-13}$).  KL ranges from 0.00 (DC, 1 county) to 1.76
+(Texas, 254 counties).  The negative control (DC) has KL~$= 0$ exactly.
 
 \paragraph{Historical note.}
-The view update problem was identified by \citet{bancilhon1981update} in 1981,
-making it one of the oldest instances of the Explanation Impossibility in the
-literature.  The fact that it shares the same formal structure as gauge
-invariance in physics, syntactic ambiguity in linguistics, and the phase
+The view update problem was identified by \citet{bancilhon1981update} in 1981.
+Our Lean formalization captures a minimal witness (a 2-row, 2-column Boolean
+database with a single-column projection) that exhibits the core structural
+phenomenon---non-injective observation implies Rashomon---rather than
+formalizing the full complement lattice theory.  The structural parallel with
+gauge invariance in physics, syntactic ambiguity in linguistics, and the phase
 problem in crystallography was not previously recognized.
 
 \paragraph{Lean formalization.}

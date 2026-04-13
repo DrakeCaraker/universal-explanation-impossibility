@@ -457,8 +457,8 @@ def write_latex_table(results_small: dict, results_large: dict,
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
-N_SEEDS = 10  # number of random seeds per condition for statistical test
-BASE_SEEDS = list(range(10, 10 + N_SEEDS))  # seeds 10..19
+N_SEEDS = 100  # number of random seeds per condition for statistical test
+BASE_SEEDS = list(range(10, 10 + N_SEEDS))  # seeds 10..109
 
 
 def run_multi_seed(n_samples: int, seeds: list, condition_label: str) -> dict:

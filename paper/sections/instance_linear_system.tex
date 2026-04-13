@@ -41,8 +41,13 @@ underdetermined linear system can simultaneously be:
 \paragraph{Empirical illustration.}
 Five solvers (pseudoinverse, LSQR, Tikhonov, random null-space) applied to 100
 underdetermined systems show mean pairwise RMSD of 0.091, compared to 0.049 for
-fully determined controls (Mann-Whitney $p = 6.3 \times 10^{-9}$).  Disagreement is elevated across all null space
-dimensions $d > 0$.
+fully determined controls (Mann-Whitney $p = 6.3 \times 10^{-9}$).
+Disagreement is elevated across all null space dimensions $d > 0$.
+\emph{Note:} RMSD does not increase monotonically with $d$ because three of
+the four non-random solvers converge to near-minimum-norm solutions; the
+disagreement is therefore dominated by the single random null-space projection
+solver.  The key finding is the positive/zero separation ($d > 0$ vs.\ $d = 0$),
+not a smooth scaling relationship.
 
 \paragraph{Resolution: minimum-norm solutions.}
 The classical resolution is the Moore--Penrose pseudoinverse

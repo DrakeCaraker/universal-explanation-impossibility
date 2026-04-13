@@ -30,11 +30,11 @@
   "n_pairs": 6,
   "n_ambiguous": 50,
   "n_unambiguous": 50,
-  "ambiguous_mean_uas": 0.7934046416546419,
+  "ambiguous_mean_uas": 0.8209892977392979,
   "ambiguous_ci": [
-    0.7539203433140935,
-    0.7934046416546419,
-    0.8310039291726792
+    0.7963159722222222,
+    0.8209892977392979,
+    0.8411622354497355
   ],
   "unambiguous_mean_uas": 0.8943333333333334,
   "unambiguous_ci": [
@@ -42,33 +42,33 @@
     0.8943333333333334,
     0.9348333333333332
   ],
-  "wilcoxon_statistic": -3.322821179970328,
-  "wilcoxon_pvalue": 0.0008911201943750173,
-  "cohens_d": 0.6912804156661797,
-  "top25_amb_frac": 0.6,
+  "wilcoxon_statistic": -3.1608164128970864,
+  "wilcoxon_pvalue": 0.0015732762506674488,
+  "cohens_d": 0.6031681623590297,
+  "top25_amb_frac": 0.4,
   "bot25_unamb_frac": 1.0,
   "ambiguous_agreements": [
     0.8571428571428572,
-    0.75,
-    0.39999999999999997,
-    1.0,
-    0.6000000000000001,
+    0.8333333333333334,
+    0.875,
+    0.8518518518518517,
+    0.8095238095238096,
     0.8666666666666667,
     0.8095238095238094,
     0.8333333333333334,
     0.8333333333333334,
     0.7333333333333333,
     0.875,
-    1.0,
+    0.8333333333333334,
     0.7666666666666666,
-    0.7999999999999999,
-    0.8571428571428572,
+    0.875,
+    0.7666666666666666,
     0.8125,
-    0.75,
-    0.6428571428571428,
+    0.8888888888888888,
+    0.875,
     0.6666666666666666,
-    1.0,
-    1.0,
+    0.8888888888888888,
+    0.8571428571428572,
     0.8333333333333334,
     0.7777777777777777,
     0.8571428571428572,
@@ -79,23 +79,23 @@
     0.8333333333333334,
     0.8181818181818182,
     0.8333333333333334,
-    0.7142857142857143,
-    1.0,
     0.8333333333333334,
     0.875,
-    0.5,
-    1.0,
-    1.0,
+    0.8571428571428572,
+    0.8571428571428572,
+    0.875,
+    0.8571428571428572,
+    0.875,
     0.7857142857142857,
-    0.7777777777777777,
-    0.611111111111111,
+    0.875,
+    0.875,
     0.7999999999999999,
     0.8571428571428572,
-    0.75,
+    0.8333333333333334,
     0.5416666666666666,
-    0.6000000000000001,
-    0.7857142857142857,
-    0.9444444444444443,
+    0.8571428571428572,
+    0.8888888888888888,
+    0.8571428571428572,
     0.8333333333333334,
     0.6111111111111113
   ],
@@ -166,55 +166,55 @@
       }
     },
     {
-      "sentence": "The chicken is ready to eat",
-      "mean_agreement": 0.75,
-      "ambiguity_score": 0.25,
+      "sentence": "The teacher scolded the student with the ruler",
+      "mean_agreement": 0.8333333333333334,
+      "ambiguity_score": 0.16666666666666663,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
-        "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.5,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.5,
-        "spacy_lg|stanza": 0.5
+        "spacy_sm|spacy_lg": 0.875,
+        "spacy_sm|stanza": 0.75,
+        "spacy_md|spacy_lg": 0.875,
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
-      "sentence": "Visiting relatives can be boring",
-      "mean_agreement": 0.39999999999999997,
-      "ambiguity_score": 0.6000000000000001,
-      "pair_agreements": {
-        "spacy_sm|spacy_md": 0.6,
-        "spacy_sm|spacy_lg": 0.6,
-        "spacy_sm|stanza": 0.2,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.0,
-        "spacy_lg|stanza": 0.0
-      }
-    },
-    {
-      "sentence": "They are hunting dogs",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
+      "sentence": "She photographed the building with the broken windows",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
+        "spacy_sm|stanza": 0.75,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
-      "sentence": "Flying planes can be dangerous",
-      "mean_agreement": 0.6000000000000001,
-      "ambiguity_score": 0.3999999999999999,
+      "sentence": "The diplomat met the spy with the secret documents",
+      "mean_agreement": 0.8518518518518517,
+      "ambiguity_score": 0.14814814814814825,
       "pair_agreements": {
-        "spacy_sm|spacy_md": 1.0,
-        "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.2,
+        "spacy_sm|spacy_md": 0.8888888888888888,
+        "spacy_sm|spacy_lg": 0.8888888888888888,
+        "spacy_sm|stanza": 0.7777777777777778,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.2,
-        "spacy_lg|stanza": 0.2
+        "spacy_md|stanza": 0.7777777777777778,
+        "spacy_lg|stanza": 0.7777777777777778
+      }
+    },
+    {
+      "sentence": "He watched the parade from the balcony",
+      "mean_agreement": 0.8095238095238096,
+      "ambiguity_score": 0.19047619047619035,
+      "pair_agreements": {
+        "spacy_sm|spacy_md": 0.8571428571428571,
+        "spacy_sm|spacy_lg": 1.0,
+        "spacy_sm|stanza": 0.7142857142857143,
+        "spacy_md|spacy_lg": 0.8571428571428571,
+        "spacy_md|stanza": 0.7142857142857143,
+        "spacy_lg|stanza": 0.7142857142857143
       }
     },
     {
@@ -296,16 +296,16 @@
       }
     },
     {
-      "sentence": "We saw her duck",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
+      "sentence": "The detective followed the suspect with the disguise",
+      "mean_agreement": 0.8333333333333334,
+      "ambiguity_score": 0.16666666666666663,
       "pair_agreements": {
-        "spacy_sm|spacy_md": 1.0,
-        "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
+        "spacy_sm|spacy_md": 0.875,
+        "spacy_sm|spacy_lg": 0.875,
+        "spacy_sm|stanza": 0.75,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
@@ -322,29 +322,29 @@
       }
     },
     {
-      "sentence": "Time flies like an arrow",
-      "mean_agreement": 0.7999999999999999,
-      "ambiguity_score": 0.20000000000000007,
+      "sentence": "The nurse treated the patient with the infection",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.6,
+        "spacy_sm|stanza": 0.75,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.6,
-        "spacy_lg|stanza": 0.6
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
-      "sentence": "The horse raced past the barn fell",
-      "mean_agreement": 0.8571428571428572,
-      "ambiguity_score": 0.1428571428571428,
+      "sentence": "She noticed the stain on the carpet with a flashlight",
+      "mean_agreement": 0.7666666666666666,
+      "ambiguity_score": 0.2333333333333334,
       "pair_agreements": {
-        "spacy_sm|spacy_md": 1.0,
+        "spacy_sm|spacy_md": 0.9,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.7142857142857143,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.7142857142857143,
-        "spacy_lg|stanza": 0.7142857142857143
+        "spacy_sm|stanza": 0.6,
+        "spacy_md|spacy_lg": 0.9,
+        "spacy_md|stanza": 0.6,
+        "spacy_lg|stanza": 0.6
       }
     },
     {
@@ -361,29 +361,29 @@
       }
     },
     {
-      "sentence": "Every student thinks he is smart",
-      "mean_agreement": 0.75,
-      "ambiguity_score": 0.25,
+      "sentence": "The chef served the guests with the silver platters",
+      "mean_agreement": 0.8888888888888888,
+      "ambiguity_score": 0.11111111111111116,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.5,
+        "spacy_sm|stanza": 0.7777777777777778,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.5,
-        "spacy_lg|stanza": 0.5
+        "spacy_md|stanza": 0.7777777777777778,
+        "spacy_lg|stanza": 0.7777777777777778
       }
     },
     {
-      "sentence": "The shooting of the hunters was terrible",
-      "mean_agreement": 0.6428571428571428,
-      "ambiguity_score": 0.3571428571428572,
+      "sentence": "He examined the painting with the magnifying glass",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.2857142857142857,
+        "spacy_sm|stanza": 0.75,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.2857142857142857,
-        "spacy_lg|stanza": 0.2857142857142857
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
@@ -400,29 +400,29 @@
       }
     },
     {
-      "sentence": "Kids make nutritious snacks",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
+      "sentence": "The officer stopped the driver with the broken taillight",
+      "mean_agreement": 0.8888888888888888,
+      "ambiguity_score": 0.11111111111111116,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
+        "spacy_sm|stanza": 0.7777777777777778,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
+        "spacy_md|stanza": 0.7777777777777778,
+        "spacy_lg|stanza": 0.7777777777777778
       }
     },
     {
-      "sentence": "Free whales",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
+      "sentence": "She cleaned the table with the scratches",
+      "mean_agreement": 0.8571428571428572,
+      "ambiguity_score": 0.1428571428571428,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
+        "spacy_sm|stanza": 0.7142857142857143,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
+        "spacy_md|stanza": 0.7142857142857143,
+        "spacy_lg|stanza": 0.7142857142857143
       }
     },
     {
@@ -556,46 +556,20 @@
       }
     },
     {
-      "sentence": "Local high school dropouts cut in half",
-      "mean_agreement": 0.7142857142857143,
-      "ambiguity_score": 0.2857142857142857,
-      "pair_agreements": {
-        "spacy_sm|spacy_md": 0.7142857142857143,
-        "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.7142857142857143,
-        "spacy_md|spacy_lg": 0.7142857142857143,
-        "spacy_md|stanza": 0.42857142857142855,
-        "spacy_lg|stanza": 0.7142857142857143
-      }
-    },
-    {
-      "sentence": "Red tape holds up new bridge",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
-      "pair_agreements": {
-        "spacy_sm|spacy_md": 1.0,
-        "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
-      }
-    },
-    {
-      "sentence": "Miners refuse to work after death",
+      "sentence": "The soldier guarded the entrance with the rifle",
       "mean_agreement": 0.8333333333333334,
       "ambiguity_score": 0.16666666666666663,
       "pair_agreements": {
-        "spacy_sm|spacy_md": 1.0,
+        "spacy_sm|spacy_md": 0.875,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.6666666666666666,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.6666666666666666,
-        "spacy_lg|stanza": 0.6666666666666666
+        "spacy_sm|stanza": 0.75,
+        "spacy_md|spacy_lg": 0.875,
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
-      "sentence": "Eye drops off shelf",
+      "sentence": "The reporter interviewed the politician with the scandal",
       "mean_agreement": 0.875,
       "ambiguity_score": 0.125,
       "pair_agreements": {
@@ -608,42 +582,68 @@
       }
     },
     {
-      "sentence": "British left waffles on Falklands",
-      "mean_agreement": 0.5,
-      "ambiguity_score": 0.5,
+      "sentence": "He loaded the truck with the crane",
+      "mean_agreement": 0.8571428571428572,
+      "ambiguity_score": 0.1428571428571428,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.0,
+        "spacy_sm|stanza": 0.7142857142857143,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.0,
-        "spacy_lg|stanza": 0.0
+        "spacy_md|stanza": 0.7142857142857143,
+        "spacy_lg|stanza": 0.7142857142857143
       }
     },
     {
-      "sentence": "Teacher strikes idle kids",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
+      "sentence": "She described the house on the hill",
+      "mean_agreement": 0.8571428571428572,
+      "ambiguity_score": 0.1428571428571428,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
+        "spacy_sm|stanza": 0.7142857142857143,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
+        "spacy_md|stanza": 0.7142857142857143,
+        "spacy_lg|stanza": 0.7142857142857143
       }
     },
     {
-      "sentence": "Police begin campaign to run down jaywalkers",
-      "mean_agreement": 1.0,
-      "ambiguity_score": 0.0,
+      "sentence": "The manager reprimanded the employee with the complaint",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
+        "spacy_sm|stanza": 0.75,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 1.0,
-        "spacy_lg|stanza": 1.0
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
+      }
+    },
+    {
+      "sentence": "They observed the bird with the telescope",
+      "mean_agreement": 0.8571428571428572,
+      "ambiguity_score": 0.1428571428571428,
+      "pair_agreements": {
+        "spacy_sm|spacy_md": 1.0,
+        "spacy_sm|spacy_lg": 1.0,
+        "spacy_sm|stanza": 0.7142857142857143,
+        "spacy_md|spacy_lg": 1.0,
+        "spacy_md|stanza": 0.7142857142857143,
+        "spacy_lg|stanza": 0.7142857142857143
+      }
+    },
+    {
+      "sentence": "The mechanic fixed the car in the garage",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
+      "pair_agreements": {
+        "spacy_sm|spacy_md": 1.0,
+        "spacy_sm|spacy_lg": 1.0,
+        "spacy_sm|stanza": 0.75,
+        "spacy_md|spacy_lg": 1.0,
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
@@ -660,29 +660,29 @@
       }
     },
     {
-      "sentence": "New study of obesity looks for larger test group",
-      "mean_agreement": 0.7777777777777777,
-      "ambiguity_score": 0.22222222222222232,
+      "sentence": "The hiker spotted the cabin from the ridge",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.5555555555555556,
+        "spacy_sm|stanza": 0.75,
         "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.5555555555555556,
-        "spacy_lg|stanza": 0.5555555555555556
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
-      "sentence": "Juvenile court to try shooting defendant",
-      "mean_agreement": 0.611111111111111,
-      "ambiguity_score": 0.38888888888888895,
+      "sentence": "The librarian shelved the books on the table",
+      "mean_agreement": 0.875,
+      "ambiguity_score": 0.125,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
-        "spacy_sm|spacy_lg": 0.6666666666666666,
-        "spacy_sm|stanza": 0.3333333333333333,
-        "spacy_md|spacy_lg": 0.6666666666666666,
-        "spacy_md|stanza": 0.3333333333333333,
-        "spacy_lg|stanza": 0.6666666666666666
+        "spacy_sm|spacy_lg": 1.0,
+        "spacy_sm|stanza": 0.75,
+        "spacy_md|spacy_lg": 1.0,
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
@@ -712,16 +712,16 @@
       }
     },
     {
-      "sentence": "Include your children when baking cookies",
-      "mean_agreement": 0.75,
-      "ambiguity_score": 0.25,
+      "sentence": "The scientist analyzed the sample under the microscope",
+      "mean_agreement": 0.8333333333333334,
+      "ambiguity_score": 0.16666666666666663,
       "pair_agreements": {
-        "spacy_sm|spacy_md": 1.0,
+        "spacy_sm|spacy_md": 0.875,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.5,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.5,
-        "spacy_lg|stanza": 0.5
+        "spacy_sm|stanza": 0.75,
+        "spacy_md|spacy_lg": 0.875,
+        "spacy_md|stanza": 0.75,
+        "spacy_lg|stanza": 0.75
       }
     },
     {
@@ -738,42 +738,42 @@
       }
     },
     {
-      "sentence": "Queen Mary having bottom scraped",
-      "mean_agreement": 0.6000000000000001,
-      "ambiguity_score": 0.3999999999999999,
+      "sentence": "He chased the cat across the garden",
+      "mean_agreement": 0.8571428571428572,
+      "ambiguity_score": 0.1428571428571428,
       "pair_agreements": {
         "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 0.2,
-        "spacy_md|spacy_lg": 1.0,
-        "spacy_md|stanza": 0.2,
-        "spacy_lg|stanza": 0.2
-      }
-    },
-    {
-      "sentence": "Two Soviet ships collide, one dies",
-      "mean_agreement": 0.7857142857142857,
-      "ambiguity_score": 0.2142857142857143,
-      "pair_agreements": {
-        "spacy_sm|spacy_md": 0.8571428571428571,
-        "spacy_sm|spacy_lg": 1.0,
         "spacy_sm|stanza": 0.7142857142857143,
-        "spacy_md|spacy_lg": 0.8571428571428571,
-        "spacy_md|stanza": 0.5714285714285714,
+        "spacy_md|spacy_lg": 1.0,
+        "spacy_md|stanza": 0.7142857142857143,
         "spacy_lg|stanza": 0.7142857142857143
       }
     },
     {
-      "sentence": "Safety experts say school bus passengers should be belted",
-      "mean_agreement": 0.9444444444444443,
-      "ambiguity_score": 0.05555555555555569,
+      "sentence": "The architect designed the tower with the rotating platform",
+      "mean_agreement": 0.8888888888888888,
+      "ambiguity_score": 0.11111111111111116,
       "pair_agreements": {
-        "spacy_sm|spacy_md": 0.8888888888888888,
+        "spacy_sm|spacy_md": 1.0,
         "spacy_sm|spacy_lg": 1.0,
-        "spacy_sm|stanza": 1.0,
-        "spacy_md|spacy_lg": 0.8888888888888888,
-        "spacy_md|stanza": 0.8888888888888888,
-        "spacy_lg|stanza": 1.0
+        "spacy_sm|stanza": 0.7777777777777778,
+        "spacy_md|spacy_lg": 1.0,
+        "spacy_md|stanza": 0.7777777777777778,
+        "spacy_lg|stanza": 0.7777777777777778
+      }
+    },
+    {
+      "sentence": "She wrapped the gift with the ribbon",
+      "mean_agreement": 0.8571428571428572,
+      "ambiguity_score": 0.1428571428571428,
+      "pair_agreements": {
+        "spacy_sm|spacy_md": 1.0,
+        "spacy_sm|spacy_lg": 1.0,
+        "spacy_sm|stanza": 0.7142857142857143,
+        "spacy_md|spacy_lg": 1.0,
+        "spacy_md|stanza": 0.7142857142857143,
+        "spacy_lg|stanza": 0.7142857142857143
       }
     },
     {
@@ -1458,410 +1458,410 @@
   "ranked_sentences": [
     {
       "rank": 1,
-      "sentence": "Visiting relatives can be boring",
-      "ambiguity_score": 0.6000000000000001,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 2,
       "sentence": "Mary and John's children are happy",
       "ambiguity_score": 0.5,
       "label": "ambiguous"
     },
     {
-      "rank": 3,
-      "sentence": "British left waffles on Falklands",
-      "ambiguity_score": 0.5,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 4,
+      "rank": 2,
       "sentence": "Man eating piranha mistakenly sold as pet fish",
       "ambiguity_score": 0.45833333333333337,
       "label": "ambiguous"
     },
     {
-      "rank": 5,
-      "sentence": "Flying planes can be dangerous",
-      "ambiguity_score": 0.3999999999999999,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 6,
-      "sentence": "Queen Mary having bottom scraped",
-      "ambiguity_score": 0.3999999999999999,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 7,
+      "rank": 3,
       "sentence": "The sun is bright today",
       "ambiguity_score": 0.3999999999999999,
       "label": "unambiguous"
     },
     {
-      "rank": 8,
+      "rank": 4,
       "sentence": "The sky is blue today",
       "ambiguity_score": 0.3999999999999999,
       "label": "unambiguous"
     },
     {
-      "rank": 9,
-      "sentence": "Juvenile court to try shooting defendant",
-      "ambiguity_score": 0.38888888888888895,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 10,
+      "rank": 5,
       "sentence": "Ban on naked firefighting in Cleveland",
       "ambiguity_score": 0.38888888888888873,
       "label": "ambiguous"
     },
     {
-      "rank": 11,
+      "rank": 6,
       "sentence": "Dogs are loyal animals",
       "ambiguity_score": 0.375,
       "label": "unambiguous"
     },
     {
-      "rank": 12,
+      "rank": 7,
       "sentence": "The door is open",
       "ambiguity_score": 0.375,
       "label": "unambiguous"
     },
     {
-      "rank": 13,
+      "rank": 8,
       "sentence": "The tree is tall",
       "ambiguity_score": 0.375,
       "label": "unambiguous"
     },
     {
-      "rank": 14,
+      "rank": 9,
       "sentence": "The water is cold",
       "ambiguity_score": 0.375,
       "label": "unambiguous"
     },
     {
-      "rank": 15,
+      "rank": 10,
       "sentence": "The movie was entertaining",
       "ambiguity_score": 0.375,
       "label": "unambiguous"
     },
     {
-      "rank": 16,
+      "rank": 11,
       "sentence": "The sunset was beautiful",
       "ambiguity_score": 0.375,
       "label": "unambiguous"
     },
     {
-      "rank": 17,
-      "sentence": "The shooting of the hunters was terrible",
-      "ambiguity_score": 0.3571428571428572,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 18,
+      "rank": 12,
       "sentence": "Look at the dog with one eye",
       "ambiguity_score": 0.33333333333333337,
       "label": "ambiguous"
     },
     {
-      "rank": 19,
+      "rank": 13,
       "sentence": "The book is on the table",
       "ambiguity_score": 0.33333333333333337,
       "label": "unambiguous"
     },
     {
-      "rank": 20,
-      "sentence": "Local high school dropouts cut in half",
-      "ambiguity_score": 0.2857142857142857,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 21,
+      "rank": 14,
       "sentence": "He fed her cat food",
       "ambiguity_score": 0.2666666666666667,
       "label": "ambiguous"
     },
     {
-      "rank": 22,
-      "sentence": "The chicken is ready to eat",
-      "ambiguity_score": 0.25,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 23,
-      "sentence": "Every student thinks he is smart",
-      "ambiguity_score": 0.25,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 24,
-      "sentence": "Include your children when baking cookies",
-      "ambiguity_score": 0.25,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 25,
+      "rank": 15,
       "sentence": "She smiled at him",
       "ambiguity_score": 0.25,
       "label": "unambiguous"
     },
     {
-      "rank": 26,
+      "rank": 16,
       "sentence": "She walked to school",
       "ambiguity_score": 0.25,
       "label": "unambiguous"
     },
     {
-      "rank": 27,
+      "rank": 17,
       "sentence": "John saw the man on the hill with a telescope",
       "ambiguity_score": 0.2333333333333334,
       "label": "ambiguous"
     },
     {
-      "rank": 28,
+      "rank": 18,
+      "sentence": "She noticed the stain on the carpet with a flashlight",
+      "ambiguity_score": 0.2333333333333334,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 19,
       "sentence": "He wrote a letter home",
       "ambiguity_score": 0.2333333333333334,
       "label": "unambiguous"
     },
     {
-      "rank": 29,
+      "rank": 20,
       "sentence": "The man returned to the store with his receipt",
       "ambiguity_score": 0.22222222222222232,
       "label": "ambiguous"
     },
     {
-      "rank": 30,
-      "sentence": "New study of obesity looks for larger test group",
-      "ambiguity_score": 0.22222222222222232,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 31,
+      "rank": 21,
       "sentence": "Hospitals are sued by seven foot doctors",
       "ambiguity_score": 0.2142857142857143,
       "label": "ambiguous"
     },
     {
-      "rank": 32,
-      "sentence": "Two Soviet ships collide, one dies",
-      "ambiguity_score": 0.2142857142857143,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 33,
-      "sentence": "Time flies like an arrow",
-      "ambiguity_score": 0.20000000000000007,
-      "label": "ambiguous"
-    },
-    {
-      "rank": 34,
+      "rank": 22,
       "sentence": "Stolen painting found by tree",
       "ambiguity_score": 0.20000000000000007,
       "label": "ambiguous"
     },
     {
-      "rank": 35,
+      "rank": 23,
       "sentence": "Birds sing in the morning",
       "ambiguity_score": 0.20000000000000007,
       "label": "unambiguous"
     },
     {
-      "rank": 36,
+      "rank": 24,
       "sentence": "The train arrived on time",
       "ambiguity_score": 0.20000000000000007,
       "label": "unambiguous"
     },
     {
-      "rank": 37,
+      "rank": 25,
       "sentence": "The meeting starts at nine",
       "ambiguity_score": 0.20000000000000007,
       "label": "unambiguous"
     },
     {
-      "rank": 38,
+      "rank": 26,
       "sentence": "They planted trees in spring",
       "ambiguity_score": 0.20000000000000007,
       "label": "unambiguous"
     },
     {
-      "rank": 39,
+      "rank": 27,
       "sentence": "The store closes at midnight",
       "ambiguity_score": 0.20000000000000007,
       "label": "unambiguous"
     },
     {
-      "rank": 40,
+      "rank": 28,
       "sentence": "I shot an elephant in my pajamas",
       "ambiguity_score": 0.19047619047619058,
       "label": "ambiguous"
     },
     {
-      "rank": 41,
+      "rank": 29,
+      "sentence": "He watched the parade from the balcony",
+      "ambiguity_score": 0.19047619047619035,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 30,
       "sentence": "I know more beautiful women than Miss America",
       "ambiguity_score": 0.1875,
       "label": "ambiguous"
     },
     {
-      "rank": 42,
+      "rank": 31,
       "sentence": "I saw the man that the dog bit in the park",
       "ambiguity_score": 0.18181818181818177,
       "label": "ambiguous"
     },
     {
-      "rank": 43,
+      "rank": 32,
+      "sentence": "The teacher scolded the student with the ruler",
+      "ambiguity_score": 0.16666666666666663,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 33,
       "sentence": "The old men and women sat on the bench",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 44,
+      "rank": 34,
       "sentence": "She saw the boy with binoculars",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 45,
+      "rank": 35,
+      "sentence": "The detective followed the suspect with the disguise",
+      "ambiguity_score": 0.16666666666666663,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 36,
       "sentence": "He painted the wall with cracks",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 46,
+      "rank": 37,
       "sentence": "The spy saw the cop with the binoculars",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 47,
+      "rank": 38,
       "sentence": "The woman fed her cat tuna",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 48,
+      "rank": 39,
       "sentence": "The pilot flew planes in storms",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 49,
-      "sentence": "Miners refuse to work after death",
+      "rank": 40,
+      "sentence": "The soldier guarded the entrance with the rifle",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 50,
+      "rank": 41,
+      "sentence": "The scientist analyzed the sample under the microscope",
+      "ambiguity_score": 0.16666666666666663,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 42,
       "sentence": "Enraged cow injures farmer with axe",
       "ambiguity_score": 0.16666666666666663,
       "label": "ambiguous"
     },
     {
-      "rank": 51,
+      "rank": 43,
       "sentence": "The cat sat on the mat",
       "ambiguity_score": 0.16666666666666663,
       "label": "unambiguous"
     },
     {
-      "rank": 52,
+      "rank": 44,
+      "sentence": "The diplomat met the spy with the secret documents",
+      "ambiguity_score": 0.14814814814814825,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 45,
       "sentence": "The teacher said on Friday she would cancel class",
       "ambiguity_score": 0.14814814814814825,
       "label": "ambiguous"
     },
     {
-      "rank": 53,
+      "rank": 46,
       "sentence": "I saw the man with the telescope",
       "ambiguity_score": 0.1428571428571428,
       "label": "ambiguous"
     },
     {
-      "rank": 54,
-      "sentence": "The horse raced past the barn fell",
+      "rank": 47,
+      "sentence": "She cleaned the table with the scratches",
       "ambiguity_score": 0.1428571428571428,
       "label": "ambiguous"
     },
     {
-      "rank": 55,
+      "rank": 48,
       "sentence": "She hit the man with an umbrella",
       "ambiguity_score": 0.1428571428571428,
       "label": "ambiguous"
     },
     {
-      "rank": 56,
+      "rank": 49,
       "sentence": "They discussed the problem with the teacher",
       "ambiguity_score": 0.1428571428571428,
       "label": "ambiguous"
     },
     {
-      "rank": 57,
+      "rank": 50,
+      "sentence": "He loaded the truck with the crane",
+      "ambiguity_score": 0.1428571428571428,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 51,
+      "sentence": "She described the house on the hill",
+      "ambiguity_score": 0.1428571428571428,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 52,
+      "sentence": "They observed the bird with the telescope",
+      "ambiguity_score": 0.1428571428571428,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 53,
       "sentence": "Drunk gets nine months in violin case",
       "ambiguity_score": 0.1428571428571428,
       "label": "ambiguous"
     },
     {
-      "rank": 58,
+      "rank": 54,
+      "sentence": "He chased the cat across the garden",
+      "ambiguity_score": 0.1428571428571428,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 55,
+      "sentence": "She wrapped the gift with the ribbon",
+      "ambiguity_score": 0.1428571428571428,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 56,
       "sentence": "The professor said on Monday he would give an exam",
       "ambiguity_score": 0.1333333333333333,
       "label": "ambiguous"
     },
     {
-      "rank": 59,
+      "rank": 57,
+      "sentence": "She photographed the building with the broken windows",
+      "ambiguity_score": 0.125,
+      "label": "ambiguous"
+    },
+    {
+      "rank": 58,
       "sentence": "The girl hit the boy with a book",
       "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
+      "rank": 59,
+      "sentence": "The nurse treated the patient with the infection",
+      "ambiguity_score": 0.125,
+      "label": "ambiguous"
+    },
+    {
       "rank": 60,
-      "sentence": "Eye drops off shelf",
+      "sentence": "He examined the painting with the magnifying glass",
       "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
       "rank": 61,
-      "sentence": "Safety experts say school bus passengers should be belted",
-      "ambiguity_score": 0.05555555555555569,
+      "sentence": "The reporter interviewed the politician with the scandal",
+      "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
       "rank": 62,
-      "sentence": "They are hunting dogs",
-      "ambiguity_score": 0.0,
+      "sentence": "The manager reprimanded the employee with the complaint",
+      "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
       "rank": 63,
-      "sentence": "We saw her duck",
-      "ambiguity_score": 0.0,
+      "sentence": "The mechanic fixed the car in the garage",
+      "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
       "rank": 64,
-      "sentence": "Kids make nutritious snacks",
-      "ambiguity_score": 0.0,
+      "sentence": "The hiker spotted the cabin from the ridge",
+      "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
       "rank": 65,
-      "sentence": "Free whales",
-      "ambiguity_score": 0.0,
+      "sentence": "The librarian shelved the books on the table",
+      "ambiguity_score": 0.125,
       "label": "ambiguous"
     },
     {
       "rank": 66,
-      "sentence": "Red tape holds up new bridge",
-      "ambiguity_score": 0.0,
+      "sentence": "The chef served the guests with the silver platters",
+      "ambiguity_score": 0.11111111111111116,
       "label": "ambiguous"
     },
     {
       "rank": 67,
-      "sentence": "Teacher strikes idle kids",
-      "ambiguity_score": 0.0,
+      "sentence": "The officer stopped the driver with the broken taillight",
+      "ambiguity_score": 0.11111111111111116,
       "label": "ambiguous"
     },
     {
       "rank": 68,
-      "sentence": "Police begin campaign to run down jaywalkers",
-      "ambiguity_score": 0.0,
+      "sentence": "The architect designed the tower with the rotating platform",
+      "ambiguity_score": 0.11111111111111116,
       "label": "ambiguous"
     },
     {
@@ -2057,5 +2057,5 @@
       "label": "unambiguous"
     }
   ],
-  "_timestamp": "2026-04-12 19:42:03"
+  "_timestamp": "2026-04-12 21:13:14"
 }

@@ -141,7 +141,7 @@ different constituent structures \citep{chomsky1957}.
 %
 In \emph{crystallography}, the signals $(1,0)$ and $(0,1)$ have the same
 energy ($1^2 + 0^2 = 0^2 + 1^2$): same diffraction intensity, different
-electron densities \citep{hauptman1985}.
+electron densities \citep{hauptman1953solution}.
 %
 In \emph{computer science}, the database rows $(\texttt{true},
 \texttt{true})$ and $(\texttt{true}, \texttt{false})$ project to the same
@@ -197,33 +197,30 @@ the negative control (where the Rashomon property is absent) shows stability,
 confirming that the instability is structural.
 
 \paragraph{The resolution.}
-The impossibility is constructive: it identifies the exact trade-off.
-The resolution is to average over equivalent configurations, sacrificing
-decisiveness to gain stability and faithfulness in expectation.  Remarkably,
-practitioners in each domain have independently converged on this strategy.
-In physics, one works with gauge-invariant observables---field strengths,
-not potentials \citep{jackson1999}.
-In statistical mechanics, the microcanonical ensemble assigns equal
-probability to all microstates sharing a macrostate, rather than selecting
-one.
-In statistics, one reports a CPDAG (completed partially directed acyclic
-graph)---the equivalence class of indistinguishable causal graphs---rather
-than committing to a single DAG \citep{verma1991equivalence}.
-In mathematics, the minimum-norm solution (the Moore--Penrose pseudoinverse)
-is the unique solution closest to the origin, effectively averaging over
-the solution space.
-In biology, codon usage tables report frequencies across synonymous codons
-rather than selecting one.
-In crystallography, Patterson maps---the autocorrelation of the diffraction
-data---extract the information that survives the loss of phase
-\citep{hauptman1985}.
-In linguistics, packed parse forests represent all parses simultaneously
-rather than committing to one.
+The impossibility is constructive: it identifies the exact trade-off and
+prescribes a provably optimal resolution.  The strategy is to average over
+equivalent configurations, sacrificing decisiveness to achieve stability and
+faithfulness in expectation.  We prove that this orbit-averaging resolution
+is \emph{Pareto-optimal}: among all stable explanation maps, no alternative
+can achieve strictly higher pointwise faithfulness on every equivalence class.
+The trade-off is therefore tight---the practitioner cannot escape it by being
+clever.
+
+Remarkably, practitioners in eight independent fields have converged on
+precisely this strategy over more than a century of independent work.
+In physics, one works with gauge-invariant observables \citep{jackson1999}.
+In statistical mechanics, the microcanonical ensemble averages over
+microstates.
+In statistics, one reports a CPDAG \citep{verma1991equivalence}.
+In mathematics, the pseudoinverse selects the minimum-norm solution.
+In biology, codon usage tables report synonymous codon frequencies.
+In crystallography, Patterson maps extract phase-invariant information
+\citep{hauptman1953solution}.
+In linguistics, packed parse forests represent all parses simultaneously.
 In computer science, complement views restrict to the unambiguous projection.
-Our theorem proves that this orbit-averaging strategy is automatically
-stable: any explanation that is invariant under the symmetry group relating
-equivalent configurations is guaranteed to produce the same output for
-the same observations.
+Our framework explains \emph{why} these communities converged: each was
+independently solving the same impossibility, and orbit averaging is the
+unique Pareto-optimal stable resolution.
 
 \paragraph{Necessity and the query-relative version.}
 The Rashomon property is the \emph{exact} boundary of the impossibility.
