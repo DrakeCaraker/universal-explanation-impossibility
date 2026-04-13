@@ -1,0 +1,63 @@
+%-----------------------------------------------------------------------
+\subsection{Syntactic Ambiguity (Linguistics)}
+\label{sec:instance-syntax}
+%-----------------------------------------------------------------------
+
+Syntactic ambiguity is pervasive in natural language
+\citep{chomsky1957,jurafsky2024}.  The classic example is prepositional phrase
+(PP) attachment: the sentence fragment ``V NP PP'' admits two parse trees:
+\begin{itemize}
+  \item \textbf{Left-attach}: $(\text{V}\;(\text{NP}\;\text{PP}))$ --- the PP
+    modifies the NP;
+  \item \textbf{Right-attach}: $((\text{V}\;\text{NP})\;\text{PP})$ --- the PP
+    modifies the verb.
+\end{itemize}
+For instance, ``saw the man with the telescope'' can mean either ``saw
+[the man who had the telescope]'' or ``[saw the man] [using the telescope].''
+Both bracketings yield the same surface token sequence $[\text{V}, \text{NP},
+\text{PP}]$ but assign different constituent structures.
+
+\paragraph{The explanation system.}
+Define $\mathcal{S}_{\mathrm{syntax}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \texttt{Bracketing}$ (parse trees);
+  \item $Y = \texttt{List Token}$ (the surface token sequence);
+  \item $\mathsf{obs} = \texttt{yield}$ (the linearization of the parse tree);
+  \item $\mathsf{exp} = \mathrm{id}$ (the parse tree is the ``explanation''
+    of the sentence);
+  \item $\incomp(b_1, b_2) \iff b_1 \ne b_2$.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+The witnesses are \texttt{leftAttach} and \texttt{rightAttach}, which satisfy
+$\texttt{yield}(\texttt{leftAttach}) = [\text{V}, \text{NP}, \text{PP}] =
+\texttt{yield}(\texttt{rightAttach})$ and
+$\texttt{leftAttach} \ne \texttt{rightAttach}$.
+The Rashomon property is constructively witnessed with zero axioms.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no parser can simultaneously be faithful
+(return the actual parse tree), stable (assign the same parse to all token
+sequences with the same yield), and decisive (distinguish every pair of
+distinct parse trees).  In computational linguistics: when a sentence is
+genuinely ambiguous, no deterministic parser can correctly report the syntactic
+structure without either being unfaithful to one reading or unstable across
+equivalent inputs.
+
+\paragraph{Resolution: packed parse forests.}
+The standard resolution in NLP is to report a \emph{packed parse forest}
+\citep{jurafsky2024}: a compact representation of all valid parse trees for
+the input.  This is the $G$-invariant aggregation over the symmetry group of
+syntactic rearrangements within the same yield fiber.  Chart parsers (CYK,
+Earley) naturally produce packed forests.  The resolution sacrifices
+decisiveness (no single tree is selected) to achieve stability and
+faithfulness.
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{Token} (an inductive with constructors \texttt{V},
+\texttt{NP}, \texttt{PP}), \texttt{Bracketing} (with constructors
+\texttt{leftAttach} and \texttt{rightAttach}), and
+\texttt{syntaxSystem : ExplanationSystem Bracketing Bracketing (List Token)}.
+The impossibility is \texttt{syntactic\_ambiguity\_impossibility} in
+\texttt{SyntacticAmbiguity.lean}, derived with zero axioms.

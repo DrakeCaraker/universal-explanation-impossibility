@@ -1,0 +1,68 @@
+%-----------------------------------------------------------------------
+\subsection{Gauge Freedom (Physics)}
+\label{sec:instance-gauge-theory}
+%-----------------------------------------------------------------------
+
+Gauge invariance is a foundational principle of modern physics: physically
+measurable quantities are invariant under gauge transformations, but the
+mathematical description of the field is not
+\citep{jackson1999}.  We formalize a discrete $\mathbb{Z}_2$ gauge
+theory on a triangle graph (three vertices, three edges) to exhibit the
+Explanation Impossibility in physics.
+
+\paragraph{The explanation system.}
+Define $\mathcal{S}_{\mathrm{gauge}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \texttt{EdgeConfig}$: each configuration assigns a
+    $\mathbb{Z}_2$ (Boolean) label to each of the three edges
+    $e_{01}, e_{12}, e_{02}$;
+  \item $Y = \texttt{Bool}$: the \emph{holonomy} around the triangle,
+    $h(g) = e_{01} \oplus e_{12} \oplus e_{02}$, the discrete analogue of
+    the Wilson loop;
+  \item $\mathsf{obs} = \texttt{holonomy}$;
+  \item $\mathsf{exp} = \mathrm{id}$ (the full edge configuration is the
+    ``explanation'');
+  \item $\incomp(g_1, g_2) \iff g_1 \ne g_2$.
+\end{itemize}
+
+A \emph{gauge transform at vertex~0} flips the two incident edges
+($e_{01}$ and $e_{02}$), leaving $e_{12}$ unchanged.
+
+\paragraph{The Rashomon property.}
+The witnesses are $g_1 = (\mathtt{true}, \mathtt{false}, \mathtt{false})$
+and $g_2 = (\mathtt{false}, \mathtt{false}, \mathtt{true})$.  They satisfy
+$\texttt{holonomy}(g_1) = \mathtt{false} = \texttt{holonomy}(g_2)$ and
+$g_1 \ne g_2$.  Moreover, $g_2$ is the gauge transform of $g_1$ at vertex~0.
+The Rashomon property is constructively witnessed with zero axioms.
+
+\paragraph{Universal gauge invariance.}
+The theorem \texttt{gauge\_preserves\_holonomy} is proved for \emph{all}
+configurations, not just the two witnesses: for every $g \in \texttt{EdgeConfig}$,
+$\texttt{holonomy}(\texttt{gaugeAt0}(g)) = \texttt{holonomy}(g)$.  The proof
+proceeds by case analysis on all $2^3 = 8$ configurations.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no description of a gauge field can
+simultaneously be faithful (report the actual edge configuration), stable
+(assign the same description to gauge-equivalent configurations), and decisive
+(distinguish every pair of distinct configurations).  In the language of
+physics: one cannot simultaneously specify a particular gauge potential,
+demand gauge invariance of the specification, and retain the ability to
+distinguish gauge-equivalent potentials.
+
+\paragraph{Resolution: gauge-invariant observables.}
+The resolution in physics is well known: restrict attention to
+\emph{gauge-invariant observables} such as the holonomy (Wilson loops),
+field strengths, or scattering amplitudes.  In our framework, the holonomy
+is the $G$-invariant projection: the gauge group acts on configurations,
+and the holonomy is the unique function constant on each gauge orbit.
+The resolution sacrifices decisiveness (one cannot recover the gauge
+potential from the holonomy alone) to achieve stability and faithfulness.
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{EdgeConfig} (a structure with fields
+\texttt{e01 e12 e02 : Bool}), \texttt{holonomy} (the observation map),
+and \texttt{gaugeSystem : ExplanationSystem EdgeConfig EdgeConfig Bool}.
+The impossibility is \texttt{gauge\_impossibility} in
+\texttt{GaugeTheory.lean}, derived with zero axioms.

@@ -1,0 +1,58 @@
+%-----------------------------------------------------------------------
+\subsection{Underdetermined Linear Systems (Mathematics)}
+\label{sec:instance-linear-system}
+%-----------------------------------------------------------------------
+
+The most elementary instance of the Explanation Impossibility arises in
+numerical linear algebra.  Consider the system $Ax = b$ with $A = [1\;\;1]$
+and $b = 2$.  The solution set $\{x \in \mathbb{R}^2 : x_1 + x_2 = 2\}$ is a
+line, not a point: both $x^{(1)} = (1,1)$ and $x^{(2)} = (0,2)$ satisfy
+$Ax = b$.  Every STEM student encounters this situation in their first
+linear algebra course.
+
+\paragraph{The explanation system.}
+Define $\mathcal{S}_{\mathrm{lin}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \mathbb{Z}^2$ (solution vectors);
+  \item $Y = \mathbb{Z}$ (the observable: $Ax$);
+  \item $\mathsf{obs}(v) = v_1 + v_2$ (dot product with $A = [1\;\;1]$);
+  \item $\mathsf{exp} = \mathrm{id}$ (the solution itself is the ``explanation'');
+  \item $\incomp(v, v') \iff v \ne v'$.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+The witnesses $v^{(1)} = (1,1)$ and $v^{(2)} = (0,2)$ satisfy
+$\mathsf{obs}(v^{(1)}) = 1 + 1 = 2 = 0 + 2 = \mathsf{obs}(v^{(2)})$
+and $v^{(1)} \ne v^{(2)}$.  The Rashomon property is constructively witnessed
+with zero axioms.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no method of choosing a solution to an
+underdetermined linear system can simultaneously be:
+\begin{enumerate}
+  \item \textbf{Faithful}: the chosen solution agrees with the actual solution;
+  \item \textbf{Stable}: all solutions with the same image receive the same
+    choice; and
+  \item \textbf{Decisive}: the choice distinguishes every pair of distinct
+    solutions.
+\end{enumerate}
+
+\paragraph{Resolution: minimum-norm solutions.}
+The classical resolution is the Moore--Penrose pseudoinverse
+$x^+ = A^+(Ax)$, which selects the minimum-norm element of the solution
+set.  This is precisely a $G$-invariant projection: the symmetry group
+$G$ acts by translations along the null space of $A$, and $x^+$ is the unique
+element of each fiber that is invariant under the orthogonal complement of
+$\ker(A)$.  The pseudoinverse sacrifices decisiveness (it cannot distinguish
+solutions within the same fiber) to achieve stability and faithfulness
+in expectation.
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{Vec2} (a structure with fields \texttt{x y : Int}),
+\texttt{dotA} (the observation map $v \mapsto v.x + v.y$), and
+\texttt{linearSystem : ExplanationSystem Vec2 Vec2 Int} with
+\texttt{observe := dotA}, \texttt{explain := id}, and
+\texttt{incompatible := ($\ne$)}.
+The impossibility is \texttt{linear\_system\_impossibility} in
+\texttt{LinearSystem.lean}, derived with zero axioms.

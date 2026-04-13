@@ -1,0 +1,59 @@
+%-----------------------------------------------------------------------
+\subsection{The Phase Problem (Crystallography)}
+\label{sec:instance-phase-problem}
+%-----------------------------------------------------------------------
+
+The \emph{phase problem} is the central challenge of X-ray crystallography:
+diffraction experiments measure the squared magnitudes $|F(\mathbf{k})|^2$ of
+the structure factors, but the phases are lost.  Multiple electron density
+distributions can produce identical diffraction patterns.
+\citet{hauptman1985} shared the 1985 Nobel Prize in Chemistry for developing
+direct methods that partially recover the phases, but the fundamental
+ambiguity remains.
+
+\paragraph{The explanation system.}
+We formalize the simplest case: a 2-element discrete signal.
+Define $\mathcal{S}_{\mathrm{phase}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \texttt{Signal2}$ (a pair of integers $(a, b)$
+    representing the signal);
+  \item $Y = \mathbb{Z}$ (the \emph{energy}: $a^2 + b^2$, modeling $|F|^2$);
+  \item $\mathsf{obs} = \texttt{energy}$;
+  \item $\mathsf{exp} = \mathrm{id}$ (the signal itself is the ``explanation''
+    of the diffraction data);
+  \item $\incomp(s_1, s_2) \iff s_1 \ne s_2$.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+The witnesses are $s_1 = (1, 0)$ and $s_2 = (0, 1)$, which satisfy
+$\texttt{energy}(s_1) = 1^2 + 0^2 = 1 = 0^2 + 1^2 = \texttt{energy}(s_2)$
+and $s_1 \ne s_2$.  The Rashomon property is constructively witnessed with
+zero axioms.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no method of determining a signal from its
+energy (diffraction intensity) can simultaneously be faithful (report the
+actual signal), stable (assign the same signal to all inputs with the same
+energy), and decisive (distinguish every pair of distinct signals).
+In crystallographic terms: the magnitude of the structure factor does not
+uniquely determine the electron density.
+
+\paragraph{Resolution: Patterson maps.}
+The classical partial resolution is the \emph{Patterson map}---the
+autocorrelation function of the electron density, which is computable
+directly from $|F(\mathbf{k})|^2$ without phase information.  The Patterson
+map is the $G$-invariant observable: the symmetry group of phase rotations
+acts on the signal space, and the autocorrelation is invariant under this
+action.  Modern direct methods \citep{hauptman1985} go further by exploiting
+probabilistic constraints among phases, but even these methods cannot
+eliminate the fundamental ambiguity without additional experimental data
+(e.g., anomalous scattering or isomorphous replacement).
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{Signal2} (a structure with fields
+\texttt{a b : Int}), \texttt{energy} (the observation map
+$s \mapsto s.a \cdot s.a + s.b \cdot s.b$), and
+\texttt{phaseSystem : ExplanationSystem Signal2 Signal2 Int}.
+The impossibility is \texttt{phase\_impossibility} in
+\texttt{PhaseProblem.lean}, derived with zero axioms.

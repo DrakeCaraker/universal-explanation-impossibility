@@ -1,0 +1,65 @@
+%-----------------------------------------------------------------------
+\subsection{The View Update Problem (Computer Science)}
+\label{sec:instance-view-update}
+%-----------------------------------------------------------------------
+
+The \emph{view update problem} asks: given a database view (a projection of
+the base relation), how can updates to the view be translated back to the
+base relation?  \citet{bancilhon1981update} proved that when the view function
+is not injective, there is no unique translation---a result discovered 45
+years before our framework, making it one of the earliest instances of
+the Explanation Impossibility in disguise.
+
+\paragraph{The explanation system.}
+Define $\mathcal{S}_{\mathrm{view}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \texttt{Row}$ (database rows with two Boolean columns
+    \texttt{colA} and \texttt{colB});
+  \item $Y = \texttt{Bool}$ (the view: the projection onto \texttt{colA});
+  \item $\mathsf{obs} = \texttt{view}$, where $\texttt{view}(r) = r.\texttt{colA}$;
+  \item $\mathsf{exp} = \mathrm{id}$ (the full row is the ``explanation'' of
+    the view);
+  \item $\incomp(r_1, r_2) \iff r_1 \ne r_2$.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+The witnesses are $r_1 = (\mathtt{true}, \mathtt{true})$ and
+$r_2 = (\mathtt{true}, \mathtt{false})$, which satisfy
+$\texttt{view}(r_1) = \mathtt{true} = \texttt{view}(r_2)$ and
+$r_1 \ne r_2$.  The Rashomon property is constructively witnessed with
+zero axioms.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no translation from views back to base
+relations can simultaneously be faithful (the translated row matches the
+actual base row), stable (all rows with the same view receive the same
+translation), and decisive (the translation distinguishes every pair of
+distinct base rows).  This is precisely the classical result of
+\citet{bancilhon1981update}: non-injective views cannot be uniquely
+translated back.
+
+\paragraph{Resolution: complement views.}
+The classical resolution \citep{bancilhon1981update} is to use
+\emph{complement views}: additional projections that, together with the
+original view, uniquely determine the base row.  In our framework, the
+complement view is the additional $G$-invariant information needed to
+collapse the fiber to a single point.  When no complement is available, the
+resolution is to report the entire fiber: all base rows consistent with the
+view.  This sacrifices decisiveness (no single row is selected) to achieve
+stability and faithfulness.
+
+\paragraph{Historical note.}
+The view update problem was identified by \citet{bancilhon1981update} in 1981,
+making it one of the oldest instances of the Explanation Impossibility in the
+literature.  The fact that it shares the same formal structure as gauge
+invariance in physics, syntactic ambiguity in linguistics, and the phase
+problem in crystallography was not previously recognized.
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{Row} (a structure with fields
+\texttt{colA colB : Bool}), \texttt{view} (the observation map
+$r \mapsto r.\texttt{colA}$), and
+\texttt{viewUpdateSystem : ExplanationSystem Row Row Bool}.
+The impossibility is \texttt{view\_update\_impossibility} in
+\texttt{ViewUpdate.lean}, derived with zero axioms.

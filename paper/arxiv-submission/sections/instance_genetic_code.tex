@@ -1,0 +1,54 @@
+%-----------------------------------------------------------------------
+\subsection{Genetic Code Degeneracy (Biology)}
+\label{sec:instance-genetic-code}
+%-----------------------------------------------------------------------
+
+The genetic code is \emph{degenerate}: 61 sense codons encode only 20 amino
+acids, so multiple codons map to the same amino acid.  For example, the
+codons UCU and UCC both encode Serine.  This degeneracy is the biological
+analogue of the Rashomon property: two distinct codons (configurations)
+produce the same amino acid (observable) but carry incompatible nucleotide
+information (explanations).
+
+\paragraph{The explanation system.}
+Define $\mathcal{S}_{\mathrm{genetic}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \{\text{Codon}\}$ (RNA codons);
+  \item $Y = \{\text{AminoAcid}\}$ (the 20 amino acids);
+  \item $\mathsf{obs} = \texttt{translate}$ (the codon-to-amino-acid map);
+  \item $\mathsf{exp} = \mathrm{id}$ (the codon itself is the ``explanation''
+    of the translation);
+  \item $\incomp(c_1, c_2) \iff c_1 \ne c_2$.
+\end{itemize}
+
+\paragraph{The Rashomon property.}
+The witnesses UCU and UCC satisfy
+$\texttt{translate}(\text{UCU}) = \text{Ser} = \texttt{translate}(\text{UCC})$
+and $\text{UCU} \ne \text{UCC}$.  The Rashomon property is constructively
+witnessed with zero axioms.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no method of inferring the codon from the
+amino acid can simultaneously be faithful (report a codon consistent with the
+actual one), stable (assign the same codon to all synonymous translations),
+and decisive (distinguish every pair of distinct codons).  In biological terms:
+knowing the protein sequence does not uniquely determine the DNA sequence.
+
+\paragraph{Resolution: codon usage tables.}
+The standard resolution in molecular biology is \emph{codon usage tables},
+which report the frequency distribution over synonymous codons for each amino
+acid.  This is the orbit average over the symmetry group of synonymous
+substitutions: rather than committing to a single codon, one reports the
+expected codon usage across the degenerate fiber.  The resolution sacrifices
+decisiveness (no single codon is selected) to achieve stability and
+faithfulness in expectation.
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{Codon} (an inductive with constructors
+\texttt{UCU} and \texttt{UCC}), \texttt{AminoAcid} (with constructor
+\texttt{Ser}), and \texttt{geneticCodeSystem : ExplanationSystem Codon Codon
+AminoAcid} with \texttt{observe := translate}, \texttt{explain := id}, and
+\texttt{incompatible := ($\ne$)}.
+The impossibility is \texttt{genetic\_code\_impossibility} in
+\texttt{GeneticCode.lean}, derived with zero axioms.
