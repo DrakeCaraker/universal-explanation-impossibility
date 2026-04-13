@@ -111,8 +111,374 @@
     "success": true,
     "n_sequences": 120,
     "message": "Successfully downloaded and analysed 120 real cytochrome c CDS sequences from 120 species via NCBI RefSeq.",
-    "real_data_used_in_figure": true
+    "real_entropy_by_degeneracy": {
+      "1": [
+        -0.0,
+        -0.0
+      ],
+      "2": [
+        0.9197198103677473,
+        0.9935393436871842,
+        0.9868884753797076,
+        0.7394010819385923,
+        0.9925270159830353,
+        0.8008704168437659,
+        0.9467907913831478,
+        0.9598233475451451,
+        0.9974653882383318
+      ],
+      "3": [
+        1.4886158818439346
+      ],
+      "4": [
+        1.6023376794729594,
+        1.826920136674796,
+        1.766400727325574,
+        1.8364384212806546,
+        1.8774172367201616
+      ],
+      "6": [
+        2.2882759567637576,
+        1.964933099436082,
+        2.3366504189960615
+      ]
+    },
+    "real_entropy_by_amino_acid": {
+      "Met": {
+        "entropy": -0.0,
+        "degeneracy": 1,
+        "total_codons": 363,
+        "codon_counts": {
+          "ATG": 363
+        }
+      },
+      "Trp": {
+        "entropy": -0.0,
+        "degeneracy": 1,
+        "total_codons": 125,
+        "codon_counts": {
+          "TGG": 125
+        }
+      },
+      "Phe": {
+        "entropy": 0.9197198103677473,
+        "degeneracy": 2,
+        "total_codons": 466,
+        "codon_counts": {
+          "TTT": 310,
+          "TTC": 156
+        }
+      },
+      "Tyr": {
+        "entropy": 0.9935393436871842,
+        "degeneracy": 2,
+        "total_codons": 497,
+        "codon_counts": {
+          "TAC": 272,
+          "TAT": 225
+        }
+      },
+      "His": {
+        "entropy": 0.9868884753797076,
+        "degeneracy": 2,
+        "total_codons": 312,
+        "codon_counts": {
+          "CAT": 135,
+          "CAC": 177
+        }
+      },
+      "Gln": {
+        "entropy": 0.7394010819385923,
+        "degeneracy": 2,
+        "total_codons": 359,
+        "codon_counts": {
+          "CAG": 284,
+          "CAA": 75
+        }
+      },
+      "Asn": {
+        "entropy": 0.9925270159830353,
+        "degeneracy": 2,
+        "total_codons": 590,
+        "codon_counts": {
+          "AAT": 325,
+          "AAC": 265
+        }
+      },
+      "Lys": {
+        "entropy": 0.8008704168437659,
+        "degeneracy": 2,
+        "total_codons": 2127,
+        "codon_counts": {
+          "AAG": 1609,
+          "AAA": 518
+        }
+      },
+      "Asp": {
+        "entropy": 0.9467907913831478,
+        "degeneracy": 2,
+        "total_codons": 452,
+        "codon_counts": {
+          "GAT": 287,
+          "GAC": 165
+        }
+      },
+      "Glu": {
+        "entropy": 0.9598233475451451,
+        "degeneracy": 2,
+        "total_codons": 894,
+        "codon_counts": {
+          "GAG": 552,
+          "GAA": 342
+        }
+      },
+      "Cys": {
+        "entropy": 0.9974653882383318,
+        "degeneracy": 2,
+        "total_codons": 270,
+        "codon_counts": {
+          "TGT": 127,
+          "TGC": 143
+        }
+      },
+      "Ile": {
+        "entropy": 1.4886158818439346,
+        "degeneracy": 3,
+        "total_codons": 775,
+        "codon_counts": {
+          "ATT": 283,
+          "ATC": 355,
+          "ATA": 137
+        }
+      },
+      "Val": {
+        "entropy": 1.6023376794729594,
+        "degeneracy": 4,
+        "total_codons": 375,
+        "codon_counts": {
+          "GTT": 205,
+          "GTG": 66,
+          "GTA": 16,
+          "GTC": 88
+        }
+      },
+      "Ala": {
+        "entropy": 1.826920136674796,
+        "degeneracy": 4,
+        "total_codons": 792,
+        "codon_counts": {
+          "GCC": 239,
+          "GCT": 299,
+          "GCA": 196,
+          "GCG": 58
+        }
+      },
+      "Pro": {
+        "entropy": 1.766400727325574,
+        "degeneracy": 4,
+        "total_codons": 406,
+        "codon_counts": {
+          "CCA": 133,
+          "CCT": 138,
+          "CCC": 118,
+          "CCG": 17
+        }
+      },
+      "Thr": {
+        "entropy": 1.8364384212806546,
+        "degeneracy": 4,
+        "total_codons": 968,
+        "codon_counts": {
+          "ACC": 180,
+          "ACT": 372,
+          "ACA": 322,
+          "ACG": 94
+        }
+      },
+      "Gly": {
+        "entropy": 1.8774172367201616,
+        "degeneracy": 4,
+        "total_codons": 1589,
+        "codon_counts": {
+          "GGT": 345,
+          "GGC": 506,
+          "GGA": 570,
+          "GGG": 168
+        }
+      },
+      "Leu": {
+        "entropy": 2.2882759567637576,
+        "degeneracy": 6,
+        "total_codons": 735,
+        "codon_counts": {
+          "CTC": 168,
+          "TTA": 67,
+          "CTG": 237,
+          "TTG": 181,
+          "CTA": 48,
+          "CTT": 34
+        }
+      },
+      "Ser": {
+        "entropy": 1.964933099436082,
+        "degeneracy": 6,
+        "total_codons": 290,
+        "codon_counts": {
+          "TCT": 149,
+          "TCC": 61,
+          "TCA": 32,
+          "AGT": 30,
+          "TCG": 7,
+          "AGC": 11
+        }
+      },
+      "Arg": {
+        "entropy": 2.3366504189960615,
+        "degeneracy": 6,
+        "total_codons": 250,
+        "codon_counts": {
+          "CGA": 33,
+          "AGA": 59,
+          "AGG": 69,
+          "CGC": 48,
+          "CGG": 38,
+          "CGT": 3
+        }
+      }
+    },
+    "real_kruskal_wallis": {
+      "H_stat": 16.94130925507901,
+      "p_value": 0.0019843644423766034
+    },
+    "real_spearman": {
+      "rho": 0.9999999999999999,
+      "p_value": 1.4042654220543672e-24
+    },
+    "n_organisms": 120,
+    "organisms": [
+      "Agelaius phoeniceus",
+      "Agelaius tricolor",
+      "Anas platyrhynchos",
+      "Anomaloglossus baeobatrachus",
+      "Anser brachyrhynchus",
+      "Aptenodytes patagonicus",
+      "Aquarana catesbeiana",
+      "Arvicanthis niloticus",
+      "Ascaphus truei",
+      "Athene noctua",
+      "Balearica regulorum gibbericeps",
+      "Bos indicus",
+      "Bos taurus",
+      "Buteo buteo",
+      "Callithrix jacchus",
+      "Callorhinus ursinus",
+      "Callospermophilus lateralis",
+      "Calonectris borealis",
+      "Camelus bactrianus",
+      "Canis aureus",
+      "Canis lupus baileyi",
+      "Canis lupus familiaris",
+      "Caprimulgus europaeus",
+      "Caretta caretta",
+      "Carettochelys insculpta",
+      "Castor canadensis",
+      "Chelonoidis abingdonii",
+      "Chlorocebus sabaeus",
+      "Ciconia boyciana",
+      "Cnephaeus nilssonii",
+      "Crocuta crocuta",
+      "Dasypus novemcinctus",
+      "Dendrobates tinctorius",
+      "Desmodus rotundus",
+      "Engystomops pustulosus",
+      "Equus caballus",
+      "Equus przewalskii",
+      "Eretmochelys imbricata",
+      "Erithacus rubecula",
+      "Erythrolamprus reginae",
+      "Excalfactoria chinensis",
+      "Falco punctatus",
+      "Gallus gallus",
+      "Giraffa tippelskirchi",
+      "Gorilla gorilla gorilla",
+      "Grus grus",
+      "Halichoerus grypus",
+      "Heliangelus exortis",
+      "Herpailurus yagouaroundi",
+      "Homo sapiens",
+      "Hyperoodon ampullatus",
+      "Ictidomys tridecemlineatus",
+      "Larus michahellis",
+      "Lepidochelys kempii",
+      "Leptodactylus fuscus",
+      "Leptonychotes weddellii",
+      "Lithobates pipiens",
+      "Lonchura striata",
+      "Macaca fascicularis",
+      "Macaca mulatta",
+      "Macrotis lagotis",
+      "Manis javanica",
+      "Marmota flaviventris",
+      "Martes martes",
+      "Mesoplodon bidens",
+      "Microcaecilia unicolor",
+      "Microcebus murinus",
+      "Microtus pennsylvanicus",
+      "Mixophyes fleayi",
+      "Mus musculus",
+      "Muscardinus avellanarius",
+      "Mycteria americana",
+      "Myxine glutinosa",
+      "Natator depressus",
+      "Nesoenas mayeri",
+      "Numenius arquata",
+      "Opisthocomus hoazin",
+      "Pan troglodytes",
+      "Panthera onca",
+      "Paroedura picta",
+      "Patagioenas fasciata",
+      "Pelecanus crispus",
+      "Pelodiscus sinensis",
+      "Peromyscus maniculatus bairdii",
+      "Phalacrocorax aristotelis",
+      "Phascolarctos cinereus",
+      "Phyllobates terribilis",
+      "Physeter macrocephalus",
+      "Pithys albifrons albifrons",
+      "Pituophis catenifer annectens",
+      "Plecotus auritus",
+      "Podarcis cretensis",
+      "Podarcis muralis",
+      "Pogona vitticeps",
+      "Psittacula echo",
+      "Pyxicephalus adspersus",
+      "Ranitomeya variabilis",
+      "Rattus norvegicus",
+      "Rhinatrema bivittatum",
+      "Rhinoderma darwinii",
+      "Rhinolophus sinicus",
+      "Saimiri boliviensis",
+      "Sminthopsis crassicaudata",
+      "Spermophilus citellus",
+      "Stenella coeruleoalba",
+      "Strix aluco",
+      "Strix uralensis",
+      "Sus scrofa",
+      "Taeniopygia guttata",
+      "Tamandua tetradactyla",
+      "Tenrec ecaudatus",
+      "Tetrao urogallus",
+      "Tursiops truncatus",
+      "Urocitellus parryii",
+      "Vicugna pacos",
+      "Vipera berus",
+      "Vulpes vulpes",
+      "Xenopus laevis",
+      "Xenopus tropicalis",
+      "Zonotrichia albicollis"
+    ]
   },
+  "real_data_used_in_figure": true,
   "real_data_summary_by_degeneracy": {
     "1": {
       "n_positions": 2,
@@ -140,5 +506,5 @@
       "std_entropy": 0.16501328486651748
     }
   },
-  "_timestamp": "2026-04-12 23:04:23"
+  "_timestamp": "2026-04-13 00:33:55"
 }

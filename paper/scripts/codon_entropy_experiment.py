@@ -784,13 +784,8 @@ def run_experiment():
             ),
         },
         "dose_response":  dose_response,
-        "entrez_attempt": {
-            "attempted":     entrez_result["attempted"],
-            "success":       entrez_result["success"],
-            "n_sequences":   entrez_result["n_sequences"],
-            "message":       entrez_result["message"],
-            "real_data_used_in_figure": has_real,
-        },
+        "entrez_attempt": entrez_result,
+        "real_data_used_in_figure": has_real,
     }
 
     # If real data succeeded, include per-degeneracy real summaries

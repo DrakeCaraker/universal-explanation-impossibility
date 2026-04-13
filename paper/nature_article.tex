@@ -81,11 +81,12 @@ problem, the view update problem, and Markov equivalence---each requiring
 zero shared axioms.  The framework is mechanically verified in the Lean~4
 proof assistant (82~files, 377~theorems, 0~unproved goals), and empirically
 validated in seven domains with real data and negative controls.
-The constructive resolution---averaging over equivalent configurations---is
-provably Pareto-optimal and unifies existing domain-specific practices
+The constructive resolution---projecting onto the subspace invariant under
+the symmetry group of equivalent configurations---is provably
+Pareto-optimal and unifies existing domain-specific practices
 (gauge-invariant observables, the microcanonical ensemble, CPDAGs,
-minimum-norm solutions) as instances of a single strategy that eight
-independent fields converged upon over more than a century.
+minimum-norm solutions) as instances of a single $G$-invariant strategy
+that eight independent fields converged upon over more than a century.
 \end{abstract}
 
 %%% =========================================================================
@@ -164,7 +165,7 @@ goals), and empirically validated with real data in seven of the eight
 domains.  The impossibility is tight: each pair of properties is achievable,
 and the Rashomon property is the exact boundary (a Lean-verified converse
 shows all three properties are simultaneously achievable when Rashomon is
-absent).  The orbit-averaging resolution---which sacrifices decisiveness
+absent).  The $G$-invariant resolution---which sacrifices decisiveness
 to achieve stability and faithfulness in expectation---is provably
 Pareto-optimal, explaining why eight independent scientific communities
 converged on the same strategy and proving that no better alternative exists.
@@ -249,9 +250,10 @@ In \emph{mathematics}, the underdetermined system $x_1 + x_2 = 2$ admits
 the solutions $(1,1)$ and $(0,2)$: same sum, different components.  Any
 system $Ax = b$ with more unknowns than equations has a non-trivial null
 space, and the dimension of that null space controls the degree of
-underspecification.  Our experiment confirms that solver disagreement
-(pairwise RMSD) increases monotonically with null-space dimension
-(Fig.~\ref{fig:dose-response}A).
+underspecification.  Our experiment confirms that underdetermined systems
+produce significantly higher solver disagreement (pairwise RMSD) than
+fully determined controls ($p = 6.3 \times 10^{-9}$;
+Fig.~\ref{fig:dose-response}A).
 
 In \emph{biology}, the codons UCU and UCC both encode the amino acid
 serine: same protein fragment, different nucleotide
@@ -263,10 +265,11 @@ NCBI RefSeq, codon usage entropy increases perfectly monotonically with
 degeneracy level (Fig.~\ref{fig:dose-response}B).
 
 In \emph{physics} (gauge theory), two edge-label configurations on a
-triangle graph can share the same holonomy---the discrete analogue of a
-Wilson loop---while differing in their local edge assignments, related by
-a gauge transformation~\citep{jackson1999}.  The impossibility formalizes
-a familiar principle: local gauge assignments are unphysical, and only
+triangle graph can share the same holonomy---the product of labels around
+a closed loop, which is the only quantity unchanged by local
+relabellings (gauge transformations)---while differing in their local
+edge assignments~\citep{jackson1999}.  The impossibility formalizes a
+familiar principle: local gauge assignments are unphysical, and only
 gauge-invariant quantities have physical meaning.
 
 In \emph{statistical mechanics}, the microstates $(H,T)$ and $(T,H)$ both
@@ -309,7 +312,9 @@ mathematical structure.  The eight instances are not notational variants
 of a single example: they involve fundamentally different symmetry groups
 (Fig.~\ref{fig:structural}), ranging from continuous translations in
 $\R^{n-r}$ (mathematics) to finite permutation groups $S_k$ (biology,
-linguistics) to the continuous abelian group $U(1)^n$ (crystallography).
+linguistics) to the trivial ambiguity group
+$\mathbb{Z}_2 \times \mathbb{Z}_n \times \mathbb{Z}_2$ of sign, shift,
+and reversal (crystallography).
 
 %%% Figure 1: 8-panel dose-response
 \begin{figure}[t]
@@ -373,15 +378,13 @@ instability, and zero underspecification should produce zero instability.
 
 Fig.~\ref{fig:dose-response} shows the results across all seven domains.
 All seven empirical tests reach statistical significance ($p < 0.05$).
-In mathematics, underdetermined linear solvers show elevated pairwise RMSD
-that increases with null-space dimension ($p = 6.3 \times 10^{-9}$); when
-the system is fully determined (negative control), all four solvers agree
-exactly.  In biology, codon usage entropy across 120 eukaryotic
-cytochrome~c sequences from NCBI RefSeq shows a perfect monotonic
-relationship with degeneracy level (Kruskal--Wallis $p = 2.0 \times
-10^{-3}$, Spearman $\rho = 1.0$); methionine and tryptophan
-(degeneracy~1, one codon each) have entropy identically zero---a
-biochemical guarantee that serves as an ideal negative control.  In
+In mathematics, underdetermined linear solvers show significantly elevated
+pairwise RMSD relative to fully determined controls ($p = 6.3 \times
+10^{-9}$).  In biology, per-amino-acid codon usage entropy across 120
+eukaryotic cytochrome~c sequences from NCBI RefSeq increases monotonically
+with degeneracy level (Kruskal--Wallis $p = 2.0 \times 10^{-3}$ across
+20~amino acids in 5 groups); methionine and tryptophan (degeneracy~1) have
+entropy identically zero by the structure of the genetic code.  In
 linguistics, syntactic parsers disagree significantly more on structurally
 ambiguous sentences than on unambiguous controls ($p = 1.6 \times
 10^{-3}$).  In statistics, causal discovery algorithms show orientation
@@ -390,7 +393,7 @@ agreement improves at $N = 100{,}000$ as statistical power increases.  In
 crystallography, phase retrieval reconstructions diverge $1.5$--$1.8\times$
 more without positivity constraints, which reduce the size of the Rashomon
 set ($p < 10^{-57}$).  In computer science, census disaggregation ambiguity
-scales with aggregation granularity ($p = 7.9 \times 10^{-37}$); the
+scales with aggregation granularity ($p = 8.0 \times 10^{-37}$); the
 District of Columbia (one county-equivalent) has KL divergence of exactly
 zero.
 
@@ -405,24 +408,28 @@ $p = 0.008$.
 \subsection*{The resolution}
 
 The impossibility is constructive: it identifies the exact trade-off and
-prescribes a provably optimal resolution.  The strategy is to average over
-equivalent configurations, projecting explanations onto the subspace
-invariant under the symmetry group of the equivalence class.  This
-\emph{orbit-averaging} resolution sacrifices decisiveness---the explanation
-no longer commits to every distinction the internal structure makes---but
-achieves stability and faithfulness in expectation.
+prescribes a provably optimal resolution.  The strategy is to project
+explanations onto the subspace invariant under the symmetry group of
+the equivalence class---a \emph{$G$-invariant resolution}.  When the
+explanation space admits averaging (as in statistical mechanics and
+biology), this reduces to orbit averaging; when it does not (as in
+causal discovery and linguistics), it takes the form of
+equivalence-class reporting.  In every case, the resolution sacrifices
+decisiveness---the explanation no longer commits to every distinction
+the internal structure makes---but achieves stability and faithfulness
+in expectation.
 
 We prove that this resolution is \emph{Pareto-optimal}: among all stable
 explanation maps, no alternative can achieve strictly higher pointwise
 faithfulness on every equivalence class.  More precisely, if $E'$ is any
-stable map and $\bar{E}$ is the orbit average, then there exists at least
-one equivalence class on which $\bar{E}$ is at least as faithful as $E'$.
-The trade-off is therefore tight---the practitioner cannot escape it by
-being clever.  Any deviation from orbit averaging must sacrifice
-faithfulness somewhere, and the orbit average minimizes this sacrifice
-uniformly.  This is not merely an existence result: the orbit average is
-constructive, computable (for finite groups), and uniquely determined by
-the symmetry structure of the equivalence class.
+stable map and $\bar{E}$ is the $G$-invariant projection, then there
+exists at least one equivalence class on which $\bar{E}$ is at least as
+faithful as $E'$.  The trade-off is therefore tight---the practitioner
+cannot escape it by being clever.  Any deviation from the $G$-invariant
+resolution must sacrifice faithfulness somewhere.  This is not merely an
+existence result: the resolution is constructive, computable (for finite
+groups), and uniquely determined by the symmetry structure of the
+equivalence class.
 
 Remarkably, practitioners in eight independent fields have converged on
 precisely this strategy over more than a century of independent work
@@ -437,8 +444,8 @@ Markov equivalence class rather than committing to any single directed
 graph, sacrificing the ability to assert a specific causal direction in
 exchange for stability across equivalent structures.  In mathematics, the
 pseudoinverse selects the minimum-norm solution, which is the unique
-element of the solution set closest to the origin---an orbit average over
-null-space translations.  In biology, codon usage tables report the
+element of the solution set closest to the origin---the $G$-invariant
+projection for the translation group of the null space.  In biology, codon usage tables report the
 frequency distribution over synonymous codons rather than committing to a
 single codon at each position.  In crystallography, Patterson
 maps~\citep{hauptman1953solution} extract phase-invariant information from
@@ -459,7 +466,7 @@ microcanonical ensemble to Boltzmann in the 1870s; Patterson maps in
 crystallography to the 1930s; the pseudoinverse in mathematics to
 Penrose in 1955; codon usage tables in biology to the 1960s following the
 cracking of the genetic code; CPDAGs in statistics to Verma and Pearl in
-1990; packed parse forests in linguistics to the 1990s; and complement
+1990; packed parse forests in linguistics to the 1980s; and complement
 views in database theory to Bancilhon and Spyratos in 1981.  These
 developments span more than a century, across fields with no shared
 literature and no awareness of one another's resolutions.  A physicist
@@ -472,12 +479,14 @@ cross-pollination.
 Our framework explains \emph{why} these eight communities converged
 independently.  Each was confronting the same impossibility---faithfulness,
 stability, and decisiveness cannot coexist under underspecification---and
-orbit averaging is the unique Pareto-optimal stable resolution.  The
-convergence is not coincidental; it is mathematically inevitable.  The
-framework also explains the variation: the specific form of the orbit
-average differs across domains because the symmetry group differs
-(Fig.~\ref{fig:structural}), but the abstract mathematical operation---
-projection onto the $G$-invariant subspace---is identical.
+the $G$-invariant resolution is the unique Pareto-optimal stable strategy.
+The convergence is not coincidental; it is mathematically inevitable.  The
+framework also explains the variation: the specific form of the resolution
+differs across domains because the symmetry group differs
+(Fig.~\ref{fig:structural})---orbit averaging for vector-valued
+explanations, equivalence-class reporting for combinatorial ones---but the
+abstract mathematical operation, projection onto the $G$-invariant
+subspace, is identical in every case.
 
 %%% Figure 2: Structural differences
 \begin{figure}[t]
@@ -485,11 +494,12 @@ projection onto the $G$-invariant subspace---is identical.
 \caption{\textbf{Structural differences across the eight derived instances.}
   The eight instances are not notational variants of a single example: they
   differ in symmetry group, group type, and orbit structure.  Their
-  independent convergence on orbit averaging---despite operating on
-  fundamentally different mathematical objects---is explained by the
-  $G$-invariant resolution framework.  All sacrifice decisiveness, but via
-  different group structures (discrete vs.\ continuous, abelian vs.\
-  non-abelian, finite vs.\ infinite).}
+  independent convergence on $G$-invariant resolution strategies---despite
+  operating on different mathematical objects---is explained by the
+  Pareto-optimality of the $G$-invariant projection.  All sacrifice
+  decisiveness, but the symmetry groups span five distinct families
+  ($\R^d$, $\mathbb{Z}_2^k$, $S_k$, $\mathbb{Z}_2 \times
+  \mathbb{Z}_n \times \mathbb{Z}_2$, and MEC edge permutations).}
 \label{fig:structural}
 \small
 \setlength{\tabcolsep}{3pt}
@@ -518,8 +528,8 @@ Linguistics
   & $S_k$ (finite)
   & Packed parse forests \\[2pt]
 Crystallography
-  & Phase rotations
-  & $U(1)^n$ (cont., abelian)
+  & Sign, shift, reversal
+  & $\mathbb{Z}_2 \times \mathbb{Z}_n \times \mathbb{Z}_2$ (finite)
   & Patterson maps \\[2pt]
 Computer science
   & Hidden-col.\ permutations
@@ -686,12 +696,12 @@ stability, and decisiveness unachievable.  The resolution predicts that
 ensemble methods (which average over the Rashomon set) should outperform
 single-model explanations in stability, a prediction confirmed empirically
 in the companion paper on ensemble feature attribution.  These findings
-are relevant to emerging regulatory frameworks---including the EU AI Act
-and FDA guidance on clinical AI---that require model explanations to be
-reliable and reproducible.  The impossibility theorem implies that such
-requirements cannot be met by any single-model explanation method when the
-Rashomon property holds; only ensemble-based approaches can provide the
-stability that regulators demand.
+are relevant to emerging regulatory frameworks---including the EU AI Act's
+transparency requirements for high-risk AI systems and FDA guidance on AI
+in medical devices---which increasingly emphasize the need for reliable
+model interpretability.  The impossibility theorem suggests that when the
+Rashomon property holds, single-model explanation methods face inherent
+stability limitations that ensemble-based approaches can mitigate.
 
 A structural parallel exists with Arrow's impossibility
 theorem~\citep{arrow1951social}, which proves that no voting system can
@@ -850,9 +860,12 @@ are parsed by four parsers (spaCy sm/md/lg, Stanza).  Pairwise unlabeled
 attachment score (UAS) is compared between groups.  Test: Wilcoxon
 rank-sum.
 
-\emph{Crystallography.}  Phase retrieval via Gerchberg--Saxton is applied
-to signals of length 4--256.  Reconstruction RMSD is compared with and
-without positivity constraints (which reduce the Rashomon set).  Test:
+\emph{Crystallography.}  Phase retrieval via the error-reduction algorithm (Gerchberg--Saxton
+variant) is applied to signals of length 16, 32, 64, and 128.  Reconstruction RMSD is compared with and
+without positivity constraints (which reduce the Rashomon set).
+20~independent reconstructions per condition yield $\binom{20}{2} = 190$
+pairwise RMSDs; we report per-condition summary statistics and test using
+the 20~per-reconstruction mean RMSDs as independent units.  Test:
 Mann--Whitney $U$.
 
 \emph{Computer science.}  County-level population disaggregation from
