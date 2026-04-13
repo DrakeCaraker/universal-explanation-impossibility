@@ -466,20 +466,10 @@ distinguishes between equivalent configurations---and in exchange achieves
 stability (the same answer regardless of which equivalent configuration is
 queried) and faithfulness in expectation (the averaged answer is compatible
 with the system's actual structure on average over the equivalence class).
-The historical timeline of this convergence underscores its independence:
-gauge invariance in physics dates to Weyl in the 1920s; the
-microcanonical ensemble to Boltzmann in the 1870s; Patterson maps in
-crystallography to the 1930s; the pseudoinverse in mathematics to
-Penrose in 1955; codon usage tables in biology to the 1960s following the
-cracking of the genetic code; CPDAGs in statistics to Verma and Pearl in
-1990; packed parse forests in linguistics to the 1980s; and complement
-views in database theory to Bancilhon and Spyratos in 1981.  These
-developments span more than a century, across fields with no shared
-literature and no awareness of one another's resolutions.  A physicist
-developing gauge-invariant observables was not reading the crystallography
-literature on Patterson maps; a statistician constructing CPDAGs was not
-drawing on the theory of codon usage tables.  The convergence occurred
-because the mathematical structure forced it, not because of intellectual
+These developments span more than a century---from Boltzmann's
+microcanonical ensemble in the 1870s to CPDAGs in 1990---across fields
+with no shared literature.  The convergence occurred because the
+mathematical structure forced it, not because of intellectual
 cross-pollination.
 
 Our framework explains \emph{why} these eight communities converged
@@ -568,6 +558,20 @@ Statistics
 \bottomrule
 \end{tabular}
 \end{figure}
+
+The symmetry group and its representation determine not only the existence
+but the \emph{form} of the optimal resolution.  When the explanation space
+admits averaging (biology, statistical mechanics), the resolution is an
+orbit average---a frequency distribution or ensemble expectation.  When the
+explanation space is combinatorial (linguistics, statistics), averaging is
+undefined and the resolution takes the form of equivalence-class
+reporting---packed parse forests or CPDAGs.  When the symmetry group is
+non-compact (mathematics), the orbit average diverges and the resolution
+requires regularization---the pseudoinverse as minimum-norm projection.
+This classification is predictive: domains with vector-valued explanations
+and finite groups converge on averaging; domains with combinatorial
+explanations converge on class reporting; domains with non-compact groups
+require regularization choices.
 
 The impossibility is also \emph{query-relative}: some questions about a
 system are stably answerable---those on which all equivalent configurations
