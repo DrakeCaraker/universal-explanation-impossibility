@@ -62,6 +62,13 @@ Dirichlet-sampled alternatives scales strongly with the number of counties
 (Spearman $\rho = 0.98$, $p = 7.9 \times 10^{-37}$; Pearson $r = 0.82$,
 $p = 2.5 \times 10^{-13}$).  KL ranges from 0.00 (DC, 1 county) to 1.76
 (Texas, 254 counties).  The negative control (DC) has KL~$= 0$ exactly.
+Pairwise KL divergence between Dirichlet-sampled alternatives (the Rashomon
+set diameter) also scales with aggregation granularity (Spearman $\rho = 0.697$,
+$p = 1.35 \times 10^{-8}$).  Distribution entropy of the county population
+vector correlates strongly with county count (Spearman $\rho = 0.892$,
+$p = 1.7 \times 10^{-18}$), confirming that the entropy of the true
+distribution---not just its distance from Dirichlet alternatives---increases
+with the degree of underspecification.
 
 \paragraph{Historical note.}
 The view update problem was identified by \citet{bancilhon1981update} in 1981.

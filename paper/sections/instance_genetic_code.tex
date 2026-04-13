@@ -53,7 +53,19 @@ acids show entropy exceeding the GC-null prediction---but the structural
 capacity for variation is created by the Rashomon property (degeneracy)
 itself.  Without degeneracy, entropy is identically zero regardless of
 GC content.
-Data: NCBI RefSeq cytochrome~c CDS, searched via
+
+A per-position analysis using Clustal Omega alignment across the same 120
+species identifies 89~conserved positions.  Grouping these positions by the
+consensus amino acid's degeneracy level and computing per-position codon
+usage entropy confirms the dose-response at finer resolution:
+Kruskal--Wallis $p = 3.5 \times 10^{-9}$ across degeneracy groups.  The
+GC-content null model accounts for the majority of observed entropy: only
+4.7\% of degenerate positions exceed the GC-null prediction, confirming
+that GC bias is the primary driver of codon choice \emph{within} each
+degeneracy class, while the degeneracy structure itself creates the
+capacity for variation.
+
+\noindent Data: NCBI RefSeq cytochrome~c CDS, searched via
 \texttt{CYCS[Gene] AND mRNA[Filter] AND refseq[Filter]}, deduplicated by
 organism.
 

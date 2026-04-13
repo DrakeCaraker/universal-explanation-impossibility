@@ -48,8 +48,11 @@ uniquely determine the electron density.
 Gerchberg--Saxton phase retrieval from magnitude-only data produces 20
 reconstructions with mean pairwise RMSD of 1.32--1.44 for unconstrained signals
 (lengths 16--128), compared to 0.75--0.92 for positive signals where the
-positivity constraint reduces phase ambiguity (ratio 1.5--1.8$\times$;
-Mann-Whitney $p < 10^{-57}$ per signal length).
+positivity constraint reduces phase ambiguity (ratio 1.5--1.8$\times$).
+Statistical significance is assessed using the $N = 20$ per-reconstruction
+mean RMSDs as independent units (not the 190 pairwise RMSDs, which are
+pseudoreplicated): Mann--Whitney $U$, $p = 3.4 \times 10^{-8}$ per signal
+length.
 
 \paragraph{Resolution: Patterson maps.}
 The classical partial resolution is the \emph{Patterson map}---the

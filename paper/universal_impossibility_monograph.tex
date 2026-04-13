@@ -1121,45 +1121,72 @@ optimal.
 \label{tab:structural-differences}
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lllll@{}}
+\begin{tabular}{@{}llllll@{}}
 \toprule
-Domain & Symmetry group $G$ & Group type & Resolution \\
+Domain & Group $G$ & Objects permuted & Type & Resolution & Form \\
 \midrule
 Mathematics
-  & Null space translations
-  & $\mathbb{R}^{n-r}$ (cont., abelian)
-  & Pseudoinverse \\[2pt]
+  & $\R^{n-r}$
+  & Solution offsets
+  & Cont., abelian
+  & Pseudoinverse
+  & Projection \\[2pt]
 Biology
-  & Synonymous substitutions
-  & $S_k$, $k \leq 6$ (finite)
-  & Codon usage tables \\[2pt]
-Physics (gauge)
-  & Gauge transforms
-  & $\mathbb{Z}_2^{|V|-1}$ (finite abelian)
-  & Wilson loops \\[2pt]
-Stat.\ mechanics
-  & Microstate permutations
-  & $S_\Omega$ (finite; abelian for $\Omega\leq 2$, non-abelian for $\Omega\geq 3$)
-  & Microcanonical ensemble \\[2pt]
+  & $S_k$\;($k{\leq}6$)
+  & Synonymous codons
+  & Finite
+  & Codon tables
+  & Averaging \\[2pt]
+Physics
+  & $\mathbb{Z}_2^{|V|-1}$
+  & Edge labels
+  & Finite, abelian
+  & Wilson loops
+  & Invariant fn. \\[2pt]
+Stat.\ mech.
+  & $S_\Omega$
+  & Microstates
+  & Finite
+  & Microcanon.
+  & Averaging \\[2pt]
 Linguistics
-  & Parse-tree permutations
-  & $S_k$ (finite)
-  & Packed parse forests \\[2pt]
-Crystallography
-  & Phase rotations
-  & $\mathbb{Z}_2 \times \mathbb{Z}_n \times \mathbb{Z}_2$ (finite)
-  & Patterson maps \\[2pt]
-Computer science
-  & Hidden-column permutations
-  & $S_k$ (finite)
-  & Complement views \\[2pt]
+  & $S_k$
+  & Parse trees
+  & Finite
+  & Parse forests
+  & Enumeration \\[2pt]
+Crystallogr.
+  & $\mathbb{Z}_2{\times}\mathbb{Z}_n{\times}\mathbb{Z}_2$
+  & Signal phases
+  & Finite
+  & Patterson map
+  & Autocorrel. \\[2pt]
+Comp.\ sci.
+  & $S_k$
+  & Hidden columns
+  & Finite
+  & Compl.\ views
+  & Projection \\[2pt]
 Statistics
-  & Edge reversals in MEC
-  & Finite (abelian for small MECs, non-abelian otherwise)
-  & CPDAG reporting \\
+  & MEC perms.
+  & DAG orientations
+  & Finite
+  & CPDAG
+  & Class report \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+The framework also explains the variation across domains: the specific form
+of the resolution differs because the symmetry group and representation
+differ, even when the abstract group is the same.  Four instances use the
+symmetric group $S_k$, but they act on different mathematical
+objects---synonymous codons, microstates, parse trees, database
+columns---and yield different resolution forms: frequency averaging for
+biology and statistical mechanics, equivalence-class enumeration for
+linguistics, and subquery projection for computer science.  The abstract
+mathematical operation---projection onto the $G$-invariant subspace---is
+identical; the computational realization is domain-specific.
 
 %%% ==========================================================================
 \section{Discussion: What Explainability Can and Cannot Do}
@@ -1303,6 +1330,20 @@ fiber-by-fiber, as happens in ML when different regions of feature space have
 different Rashomon set sizes.  The groupoid generalization would connect this
 work to the theory of stacks in algebraic geometry and to fiber bundles in
 differential geometry.  We leave these extensions to future work.
+
+\paragraph{Character theory and the information trade-off.}
+Character theory quantifies the trade-off precisely.  For the symmetric
+group $S_k$ acting on $\R^k$ by permutation of coordinates, the
+representation decomposes into the trivial representation (dimension~1)
+and the standard representation (dimension~$k - 1$).  The $G$-invariant
+subspace is exactly the trivial representation: $\dim(V^G) = 1$, while
+$\dim(V) = k$.  The resolution therefore preserves exactly $1/k$ of the
+information---the orbit average retains the mean and discards the
+$k - 1$ ``directional'' degrees of freedom.  This connects the
+dose-response (entropy scaling with degeneracy $k$) directly to
+representation-theoretic structure: the ratio
+$\dim(V^G) / \dim(V) = 1/k$ determines the fraction of explanation
+content that survives projection onto the invariant subspace.
 
 \paragraph{The deeper claim.}
 If the group-theoretic parameterization is correct in full generality, then

@@ -44,7 +44,7 @@
   \\[4pt]
   \textsuperscript{1}\textit{Oura Health, San Francisco, CA}
   \\[2pt]
-  \textsuperscript{2}\textit{Independent Researchers}
+  \textsuperscript{2}\textit{Independent}
   \\[2pt]
   \textsuperscript{*}\textit{Corresponding author:} \texttt{drakecaraker@gmail.com}
 }
@@ -70,7 +70,7 @@ code degeneracy (biology), gauge freedom (physics), microstate multiplicity
 (statistical mechanics), syntactic ambiguity (linguistics), the phase
 problem (crystallography), the view update problem (computer science), and
 Markov equivalence (statistics).  Each derivation is mechanically verified
-in the Lean~4 proof assistant (82~files, 377~theorems, 0~unproved goals),
+in the Lean~4 proof assistant (83~files, 378~theorems, 0~unproved goals),
 and empirically validated in seven domains with domain-appropriate metrics
 and negative controls.  The constructive resolution---averaging over
 equivalent configurations---unifies existing domain-specific practices
@@ -113,7 +113,7 @@ stable, and decisive simultaneously.  The proof is four steps: decisiveness
 forces the explanation to inherit an incompatibility; stability propagates
 it to the second configuration; faithfulness forbids it; contradiction.
 The entire framework is mechanically verified in Lean~4
-\citep{demoura2021lean4} (82~files, 377~theorems, 0~unproved goals).
+\citep{demoura2021lean4} (83~files, 378~theorems, 0~unproved goals).
 Lean-verified tightness theorems confirm that every pair of properties is
 achievable, so the impossibility is tight.  An axiom substitution analysis
 shows that weakening any single definition collapses the result, confirming
@@ -188,7 +188,7 @@ Boltzmann entropy).  All seven empirical tests reach statistical significance
 (0.091 vs.\ 0.049 for fully determined controls; Mann-Whitney
 $p = 6.3 \times 10^{-9}$); the codon entropy dose-response across 120 eukaryotic cytochrome~c
 sequences from NCBI RefSeq shows a perfect monotonic relationship with
-degeneracy level (Kruskal--Wallis $p = 2.0 \times 10^{-3}$, Spearman
+degeneracy level (Kruskal--Wallis $p = 3.5 \times 10^{-9}$, 89 conserved positions, Spearman
 $\rho = 1.0$); syntactic parsers disagree significantly more on ambiguous
 sentences ($p = 1.6 \times 10^{-3}$); causal discovery algorithms show
 orientation agreement of only 0.33 at finite sample size ($p = 4.4 \times
@@ -300,8 +300,8 @@ report what is invariant; disclose what is not.
 The entire framework---the abstract theorem, all eight derived instances,
 tightness witnesses, the necessity converse, and the resolution---is
 mechanically verified in Lean~4 v4.30.0-rc1 \citep{demoura2021lean4} using
-Mathlib \citep{mathlib2020}.  The formalization comprises 82~files,
-377~theorems and lemmas, 72~axioms (all domain-specific; the core theorem
+Mathlib \citep{mathlib2020}.  The formalization comprises 83~files,
+378~theorems and lemmas, 72~axioms (all domain-specific; the core theorem
 uses zero), and 0~\texttt{sorry} (unproved goals).  Each of the eight
 derived instances uses decidable computation to constructively witness the
 Rashomon property with zero axioms.  The $G$-invariant resolution framework
