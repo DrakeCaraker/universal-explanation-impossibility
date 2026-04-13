@@ -70,3 +70,9 @@ import UniversalImpossibility.Ubiquity
 import UniversalImpossibility.Necessity
 import UniversalImpossibility.QuantitativeBound
 import UniversalImpossibility.QueryRelative
+import UniversalImpossibility.GeneticCode
+import UniversalImpossibility.LinearSystem
+import UniversalImpossibility.ViewUpdate
+import UniversalImpossibility.PhaseProblem
+import UniversalImpossibility.GaugeTheory
+import UniversalImpossibility.SyntacticAmbiguity
