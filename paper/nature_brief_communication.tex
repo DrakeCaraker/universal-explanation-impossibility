@@ -39,10 +39,12 @@
 
 \author{%
   Drake Caraker\textsuperscript{1,*},
-  Bryan Arnold\textsuperscript{1},
-  David Rhoads\textsuperscript{1}
+  Bryan Arnold\textsuperscript{2},
+  David Rhoads\textsuperscript{2}
   \\[4pt]
-  \textsuperscript{1}\textit{Independent Researchers}
+  \textsuperscript{1}\textit{Oura Health, San Francisco, CA}
+  \\[2pt]
+  \textsuperscript{2}\textit{Independent Researchers}
   \\[2pt]
   \textsuperscript{*}\textit{Corresponding author:} \texttt{drakecaraker@gmail.com}
 }
@@ -184,9 +186,10 @@ We validate the impossibility empirically in seven of the eight domains
 Boltzmann entropy).  All seven empirical tests reach statistical significance
 ($p < 0.05$).  Underdetermined linear solvers show elevated pairwise RMSD
 (0.091 vs.\ 0.049 for fully determined controls; Mann-Whitney
-$p = 6.3 \times 10^{-9}$); the codon entropy dose-response across 50 species
-shows a perfect monotonic relationship with degeneracy level (Kruskal--Wallis
-$p = 10^{-17}$); syntactic parsers disagree significantly more on ambiguous
+$p = 6.3 \times 10^{-9}$); the codon entropy dose-response across 120 eukaryotic cytochrome~c
+sequences from NCBI RefSeq shows a perfect monotonic relationship with
+degeneracy level (Kruskal--Wallis $p = 2.0 \times 10^{-3}$, Spearman
+$\rho = 1.0$); syntactic parsers disagree significantly more on ambiguous
 sentences ($p = 1.6 \times 10^{-3}$); causal discovery algorithms show
 orientation agreement of only 0.33 at finite sample size ($p = 4.4 \times
 10^{-38}$ across 100 random seeds per condition); phase retrieval
@@ -315,14 +318,14 @@ Faithfulness at $\theta_2$ requires $E(\theta_2)$ to be compatible with
 $\mathrm{exp}(\theta_2)$.  Contradiction.
 
 \paragraph{Code and data availability.}
-The Lean~4 formalization is available at
+The Lean~4 formalization and all experiment scripts are available at
 \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}.
-The nine machine learning instances (feature attribution, attention maps,
-counterfactual explanations, concept probes, causal discovery, model
-selection, saliency maps, token citation, and mechanistic interpretability),
-together with empirical validation experiments for seven of these, are
-documented in the Supporting Information (the full 61-page monograph,
-available on arXiv).
+Biology data: 120 eukaryotic cytochrome~c CDS sequences from NCBI RefSeq.
+Census data: U.S.\ Census Bureau 2020 county-level population counts.
+Causal discovery: 100 random seeds per condition on the Asia network.
+The nine machine learning instances, together with empirical validation
+experiments for seven of these, are documented in the Supporting
+Information (the full 61-page monograph).
 
 %%% =========================================================================
 %%% References

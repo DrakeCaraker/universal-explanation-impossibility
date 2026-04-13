@@ -1,10 +1,11 @@
 {
   "experiment": "codon_entropy",
-  "description": "Codon entropy by degeneracy level across 50 simulated species with realistic GC content (0.35\u20130.65). The genetic code structure is real (standard code); species codon preferences are simulated from GC-biased models.",
+  "description": "Codon entropy by degeneracy level across 120 real cytochrome c CDS sequences from NCBI RefSeq, supplemented by 50 simulated species. Real genomic data is the primary result.",
+  "primary_data_source": "real (NCBI RefSeq)",
   "data_provenance": {
     "genetic_code": "Standard genetic code (NCBI table 1) \u2014 biochemical fact.",
-    "gc_content_range": "Uniform(0.35, 0.65) \u2014 from real eukaryote data.",
-    "species": "50 simulated (GC-biased Dirichlet model).",
+    "real_sequences": "120 cytochrome c CDS from NCBI RefSeq (diverse eukaryotes). Primary data source.",
+    "simulated_species": "50 simulated (GC-biased Dirichlet model) \u2014 secondary validation.",
     "negative_control": "Met/Trp (deg=1): entropy = 0 for ALL species, real or simulated, because AUG and UGG are the only codons for Met and Trp."
   },
   "config": {
@@ -107,10 +108,37 @@
   },
   "entrez_attempt": {
     "attempted": true,
-    "success": false,
-    "n_sequences": 0,
-    "message": "NCBI search returned 0 sequences (need \u226530 for real analysis; total found: 0). Proceeding with simulated-only analysis.",
-    "real_data_used_in_figure": false
+    "success": true,
+    "n_sequences": 120,
+    "message": "Successfully downloaded and analysed 120 real cytochrome c CDS sequences from 120 species via NCBI RefSeq.",
+    "real_data_used_in_figure": true
   },
-  "_timestamp": "2026-04-12 21:14:39"
+  "real_data_summary_by_degeneracy": {
+    "1": {
+      "n_positions": 2,
+      "mean_entropy": 0.0,
+      "std_entropy": 0.0
+    },
+    "2": {
+      "n_positions": 9,
+      "mean_entropy": 0.9263361857074064,
+      "std_entropy": 0.08812452250071405
+    },
+    "3": {
+      "n_positions": 1,
+      "mean_entropy": 1.4886158818439346,
+      "std_entropy": 0.0
+    },
+    "4": {
+      "n_positions": 5,
+      "mean_entropy": 1.7819028402948291,
+      "std_entropy": 0.09654806987072748
+    },
+    "6": {
+      "n_positions": 3,
+      "mean_entropy": 2.1966198250653,
+      "std_entropy": 0.16501328486651748
+    }
+  },
+  "_timestamp": "2026-04-12 23:04:23"
 }
