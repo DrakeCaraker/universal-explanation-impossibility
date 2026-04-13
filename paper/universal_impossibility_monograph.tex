@@ -172,7 +172,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (83~files, 378~theorems,
+The framework is mechanically verified in Lean~4 (84~files, 381~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -258,7 +258,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 83~files, 378~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 84~files, 381~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -576,7 +576,7 @@ Physics (gauge) & Link variance & 0.25 & 0.00 & -- \\
 Physics (stat mech) & \multicolumn{4}{l}{\textit{Mathematical: $S_R = \ln\Omega$ (Boltzmann entropy)}} \\
 Linguistics & Parser UAS (ambig.) & 0.821 & 0.894 & $1.6{\times}10^{-3}$ \\
 Crystallography & Reconstruction RMSD & 1.39 & 0.83 & $5{\times}10^{-238}$ \\
-Computer Science & Disaggregation KL & 0.00--1.76 & 0.00 & $1.2{\times}10^{-4}$ \\
+Computer Science & Disaggregation KL & 0.00--2.53 & 0.00 & $1.2{\times}10^{-4}$ \\
 Statistics & Orientation agreement & 0.33 & 1.00 & $4.4{\times}10^{-38}$ \\
 \bottomrule
 \end{tabular}
@@ -1401,7 +1401,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 83~files, 378~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 84~files, 381~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -1602,12 +1602,12 @@ construct (Figure~\ref{fig:ensemble-causal}).
   \label{fig:ensemble-causal}
 \end{figure}
 
-\subsection{Phase Transition in Explanation Stability}
+\subsection{Stability Transition in Explanation Systems}
 \label{sec:phase-transition}
 
 The gauge-theoretic formulation (Section~\ref{sec:resolution}) shows that the
 coupling parameter $\beta$ controls stability via a $\operatorname{sech}^2(\beta)$
-response function.  The framework predicts an analogous phase transition in ML:
+response function.  The framework predicts an analogous stability transition in ML:
 as the Rashomon tolerance $\varepsilon$ increases, stability should undergo a
 sigmoid-shaped transition from near-perfect to unstable, with the critical
 threshold $\varepsilon_c$ decreasing as collinearity $\rho$ increases (because
@@ -1646,7 +1646,7 @@ theory maps onto the sigmoid stability curve observed empirically
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/phase_transition.pdf}
-  \caption{Phase transition in SHAP stability as Rashomon tolerance
+  \caption{Stability transition in SHAP stability as Rashomon tolerance
     $\varepsilon$ increases, at four collinearity levels.  Higher collinearity
     produces sharper, earlier transitions ($\varepsilon_c = 1.51$ at
     $\rho = 0.9$), analogous to the gauge-theoretic
@@ -1847,13 +1847,17 @@ the role of Planck's constant~$\hbar$: when $r = 0$ there is no constraint
 (no Rashomon), when $r = 1$ we have $D = 0$ (total loss of decisiveness), and
 the general case interpolates smoothly.
 
-\subsection{The Noether Correspondence}
+\subsection{The Invariance Correspondence (Discrete Analogue of Noether's Principle)}
 \label{sec:bridge-noether}
 
 Noether's theorem \citep{noether1918invariante} establishes that every
 continuous symmetry of the Lagrangian implies a conserved quantity.  The
-explanation framework provides an exact discrete analogue: every Rashomon
-symmetry implies a class of stably answerable queries.
+explanation framework provides an analogous discrete result: every Rashomon
+symmetry implies a class of stably answerable queries.  We note that this
+result is an application of classical invariant theory (Burnside's lemma,
+Molien's theorem) to the explanation framework, not a direct consequence of
+Noether's theorem, which requires continuous symmetry and a variational
+principle.
 
 Let $G$ be a finite group acting on the configuration space~$\Theta$,
 preserving the observation map ($\mathrm{obs}(g \cdot \theta) =
@@ -1862,7 +1866,7 @@ $q\colon \mathcal{H} \to \R$ is \emph{stably answerable} if
 $q(\mathrm{explain}(\theta_1)) = q(\mathrm{explain}(\theta_2))$ whenever
 $\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$.
 
-\begin{proposition}[Discrete Noether theorem]
+\begin{proposition}[Invariance theorem]
 \label{prop:noether}
 A query $q$ is stably answerable if and only if $q \in V^G$ (the
 $G$-invariant subspace).  The number of independent stably answerable queries
@@ -1874,7 +1878,7 @@ is $\dim(V^G) = (1/|G|) \sum_{g \in G} \chi(g)$, by the character formula.
   \small
   \begin{tabular}{@{}ll@{}}
     \toprule
-    \textbf{Noether's Theorem} & \textbf{Explanation Framework} \\
+    \textbf{Noether's Theorem (continuous)} & \textbf{Explanation Framework (discrete)} \\
     \midrule
     Symmetry group $G$ & Rashomon group $G$ \\
     $G$ preserves Lagrangian $L$ & $G$ preserves obs \\
@@ -1882,7 +1886,7 @@ is $\dim(V^G) = (1/|G|) \sum_{g \in G} \chi(g)$, by the character formula.
     $\dim(G)$ conserved quantities & $\dim(V^G)$ stable queries \\
     \bottomrule
   \end{tabular}
-  \caption{Noether correspondence.  Rashomon symmetry~$\to$~stable queries
+  \caption{Invariance correspondence.  Rashomon symmetry~$\to$~stable queries
     is the discrete analogue of continuous symmetry~$\to$~conservation laws.}
   \label{tab:noether-dictionary}
 \end{table}
@@ -2050,7 +2054,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 83 files in
+formalization.  The complete codebase comprises 84 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 

@@ -90,11 +90,12 @@ that eight independent fields converged upon over more than a century.
 Cross-domain transfer experiments confirm the framework's predictive
 power: an ML ensemble method transferred to causal discovery reduces
 instability fourfold, and a character-theoretic bound derived from
-genetics correctly predicts protein sequence diversity.
-The framework reveals that Fisher's sufficiency criterion, the
-Rao-Blackwell theorem, and the EM algorithm are instances of the same
-resolution strategy, and gives a $1/n$ ceiling on neural network
-interpretability from character theory.
+genetics predicts the rank ordering of protein sequence diversity
+(Spearman $\rho = 0.88$, $p = 0.004$), serving as a neutral-evolution
+upper bound that systematic deviations below quantify selective pressure.
+The framework provides a common formalization connecting Fisher's sufficiency criterion, the
+Rao-Blackwell theorem, and the EM algorithm to the same resolution
+structure, and gives a $1/n$ ceiling on neuron-level network interpretability under permutation symmetry---a bound that does not apply to circuit-level analysis, which is invariant under relabeling.
 \end{abstract}
 
 %%% =========================================================================
@@ -700,9 +701,9 @@ mechanics to the view update problem in database
 theory~\citep{bancilhon1981update} to feature attribution instability in
 machine learning~\citep{bilodeau2024impossibility}.  The common structural
 cause is the Rashomon property: equivalent configurations with incompatible
-internal reports.  The common resolution is orbit averaging.  That eight
+internal reports.  The common resolution is the G-invariant projection---orbit averaging for vector-valued explanations, equivalence-class reporting for combinatorial ones.  That eight
 independent communities arrived at the same strategy is not coincidence but
-mathematical inevitability: orbit averaging is the unique Pareto-optimal
+mathematical inevitability: the G-invariant projection is the unique Pareto-optimal
 stable resolution.
 
 The theorem reframes the question ``why are explanations unstable?''\ as
@@ -768,10 +769,10 @@ optimality is guaranteed.
 
 Beyond unification, the framework generates cross-domain predictions
 confirmed by experiment.  First, applying the ML ensemble resolution
-(DASH) to causal discovery produces a 4-fold reduction in orientation
-flip rate (Wilcoxon $p < 10^{-10}$)---a practical algorithm transferred
-from machine learning to statistics via the framework's resolution
-theory.  Second, the gauge theory analogy predicts a phase transition in
+(DASH) to causal discovery reduces orientation flip rate fourfold
+(Wilcoxon $p < 10^{-10}$) at the cost of reduced decisiveness
+(0.21 vs.\ 0.36)---directly illustrating the trilemma's
+stability-for-decisiveness trade-off predicted by the framework.  Second, the gauge theory analogy predicts a stability transition in
 explanation stability as the Rashomon tolerance increases: at high
 collinearity ($\rho = 0.9$), stability undergoes a sigmoid-shaped
 transition from near-perfect to near-random, with a critical tolerance
@@ -780,22 +781,20 @@ a falsification test confirms the framework's boundary: across three
 domains, removing the Rashomon property restores simultaneous
 achievability of all three properties, with instability ratios exceeding
 $10^6$.  Fourth, the character-theoretic prediction that information loss
-scales as $1/k$ for $S_k$, derived from codon degeneracy, correctly
-predicts the shape of protein sequence diversity across structural
+scales as $1/k$ for $S_k$, derived from codon degeneracy, predicts the rank ordering of protein sequence diversity across structural
 positions (Spearman $\rho = 0.88$, $p = 0.004$), serving as a
 neutral-evolution upper bound from which deviations measure selective
 pressure.
 
 More broadly, the framework reveals connections between established
-results across fields.  Fisher's concept of sufficiency (1920) IS the
+results across fields.  Fisher's concept of sufficiency (1920) is structurally analogous to the
 framework's stability condition: a statistic $T$ is sufficient if and
 only if it defines a stable explanation map, and the Rao-Blackwell
 theorem (that conditioning on a sufficient statistic improves any
-estimator) IS the framework's Pareto-optimality of orbit averaging.
+estimator) parallels the framework's Pareto-optimality of orbit averaging---a connection anticipated by the invariance perspective on sufficiency~\citep{halmos1949application}.
 The framework also gives a quantitative ceiling on AI interpretability:
 for a network with $n$ hidden units, the permutation symmetry $S_n$
-implies that at most $1/n$ of the internal representation is stably
-interpretable---a prediction testable on trained networks.
+implies that at most $1/n$ of neuron-level representation is stably interpretable under hidden-unit permutation symmetry. This bound applies to individual neuron interpretations, not to circuit-level analysis (which studies functionally defined subgraphs that are preserved under relabeling).
 
 %%% =========================================================================
 %%% Methods
@@ -964,6 +963,16 @@ included in the repository.
 The Lean~4 formalization and all experiment scripts are available at
 \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}
 under the Apache~2.0 licence.
+
+\section*{Acknowledgements}
+We acknowledge the use of Claude (Anthropic) as an AI coding assistant
+for experiment scripting, Lean proof development, and manuscript
+preparation. All scientific claims, proofs, and experimental designs were
+conceived and verified by the human authors.
+
+\section*{Competing interests}
+The authors declare no competing interests. D.C.'s employment at Oura
+Health is unrelated to this work.
 
 %%% =========================================================================
 %%% References
