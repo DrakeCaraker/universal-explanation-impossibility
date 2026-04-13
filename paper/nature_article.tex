@@ -571,7 +571,11 @@ requires regularization---the pseudoinverse as minimum-norm projection.
 This classification is predictive: domains with vector-valued explanations
 and finite groups converge on averaging; domains with combinatorial
 explanations converge on class reporting; domains with non-compact groups
-require regularization choices.
+require regularization choices.  Character theory quantifies the trade-off:
+for the symmetric group $S_k$ acting on $\R^k$, the resolution preserves
+exactly $1/k$ of the information---connecting the dose-response
+(instability scaling with degeneracy) directly to representation-theoretic
+structure.
 
 The impossibility is also \emph{query-relative}: some questions about a
 system are stably answerable---those on which all equivalent configurations
@@ -671,14 +675,11 @@ Rashomon witness; the impossibility follows automatically.
 \label{fig:trilemma}
 \end{figure}
 
-To put the scale in context, the formalization is comparable in size to
-other landmark verification efforts: the Flyspeck project (Kepler
-conjecture) involved approximately 300~lemmas in HOL Light, and the
-Gonthier proof of the four-colour theorem comprised approximately
-400~lemmas in Coq.  At 378~theorems and lemmas across 83~files, this
-formalization is among the larger cross-domain verification projects in
-Lean~4.  The complete source code, with build instructions, is publicly
-available (see Code Availability).
+At 378~theorems and lemmas across 83~files, this formalization is among
+the larger cross-domain verification projects in Lean~4, comparable in
+scale to the Flyspeck project ($\sim$300~lemmas) and Gonthier's
+four-colour theorem ($\sim$400~lemmas).  The complete source code is
+publicly available (see Code Availability).
 
 %%% =========================================================================
 %%% Discussion
