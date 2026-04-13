@@ -1,0 +1,23 @@
+\begin{table}[ht]
+\centering
+\caption{%
+  Mean KL-divergence from Dirichlet-sampled disaggregations to the
+  true county distribution, grouped by number of counties.
+  The $n=1$ control has KL$\,{=}\,0$ (unique disaggregation).
+  Higher county count ↔ higher KL, confirming the impossibility scaling.
+  Synthetic data: 50 states, 100 samples each, $\alpha=1$ Dirichlet prior.
+}
+\label{tab:census_disaggregation}
+\begin{tabular}{lrrr}
+\toprule
+Counties & States & Mean KL & Std KL \\
+\midrule
+$n=1$ & 1 & 0.0000 & 0.0000 \\
+$2$–$9$ & 3 & 0.7687 & 0.0530 \\
+$10$–$24$ & 7 & 0.9693 & 0.1221 \\
+$25$–$49$ & 10 & 0.9764 & 0.0889 \\
+$50$–$74$ & 13 & 1.0005 & 0.1037 \\
+$75$–$100$ & 16 & 0.9943 & 0.0548 \\
+\bottomrule
+\end{tabular}
+\end{table}

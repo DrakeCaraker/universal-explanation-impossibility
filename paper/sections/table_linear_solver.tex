@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\caption{Pairwise RMSD between four linear solvers for underdetermined systems $Ax=b$
+($m=10$ equations, $n=m+d$ unknowns, 2 random systems per $d$ value).
+Control: $d=0$ (square, fully determined). Bootstrap 95\% CIs over all pairwise solver comparisons.}
+\label{tab:linear_solver}
+\begin{tabular}{rcccc}
+\toprule
+$d = n - m$ & $n$ & Mean RMSD & 95\% CI low & 95\% CI high \\
+\midrule
+    1 &  11 & 0.1608 & 0.0855 & 0.2514 \\
+    5 &  15 & 0.1304 & 0.0660 & 0.1946 \\
+   10 &  20 & 0.1121 & 0.0562 & 0.1679 \\
+   20 &  30 & 0.0914 & 0.0457 & 0.1370 \\
+   30 &  40 & 0.0791 & 0.0396 & 0.1186 \\
+   40 &  50 & 0.0707 & 0.0354 & 0.1061 \\
+   50 &  60 & 0.0646 & 0.0323 & 0.0969 \\
+\midrule
+  0 (control) &  10 & 0.0488 & 0.0330 & 0.0672 \\
+\bottomrule
+\end{tabular}
+\end{table}

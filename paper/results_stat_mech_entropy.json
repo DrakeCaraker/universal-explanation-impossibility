@@ -1,0 +1,32 @@
+{
+  "observation": "stat_mech_entropy",
+  "type": "Mathematical Observation (not an experiment)",
+  "description": "Rashomon entropy S_R(k) = ln C(N,k) = Boltzmann entropy. Max achievable faithfulness = 1/C(N,k) decays exponentially in S_R. For N binary spins in macrostate k: Omega(k) = C(N,k) microstates, each equally consistent with the macrostate (Rashomon property).",
+  "N_values": [
+    10,
+    20,
+    50
+  ],
+  "key_values": {
+    "10": {
+      "k_at_max_entropy": 5,
+      "omega_at_max": 252,
+      "S_R_at_max": 5.529429087511423,
+      "max_faithfulness_at_max_entropy": 0.003968253968253968
+    },
+    "20": {
+      "k_at_max_entropy": 10,
+      "omega_at_max": 184756,
+      "S_R_at_max": 12.126791314602455,
+      "max_faithfulness_at_max_entropy": 5.412544112234515e-06
+    },
+    "50": {
+      "k_at_max_entropy": 25,
+      "omega_at_max": 126410606437752,
+      "S_R_at_max": 32.47055650581199,
+      "max_faithfulness_at_max_entropy": 7.910728602448617e-15
+    }
+  },
+  "interpretation": "The Rashomon entropy of a binary spin system is identical to the Boltzmann entropy S = k_B ln Omega. This is not a coincidence: both count the degeneracy \u2014 the number of microstates (or explanations) consistent with the macrostate (or observable). The maximum achievable faithfulness of any single explanation is 1/Omega = exp(-S_R), which decays exponentially in the entropy. Near maximum entropy (k \u2248 N/2), faithfulness approaches zero: no single explanation can be faithful. This gives a sharp thermodynamic lower bound on explanation quality.",
+  "_timestamp": "2026-04-12 19:10:34"
+}

@@ -1,0 +1,92 @@
+{
+  "experiment": "phase_retrieval",
+  "description": "Gerchberg-Saxton phase retrieval ambiguity on 1D signals. Mean pairwise RMSD across 20 reconstructions from random initial phases. General (no real-space constraint) vs. positive control (non-negativity clip).",
+  "config": {
+    "signal_lengths": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "n_reconstructions": 20,
+    "gs_iterations": 500,
+    "n_boot": 2000,
+    "feature_window": 2,
+    "seed": 42
+  },
+  "per_length": {
+    "16": {
+      "N": 16,
+      "general": {
+        "mean_pairwise_rmsd": 1.3241763555618342,
+        "ci_95_lo": 1.2916476301102933,
+        "ci_95_hi": 1.3587781150685085,
+        "n_pairwise": 190,
+        "feature_agreement": 0.975
+      },
+      "positive_control": {
+        "mean_pairwise_rmsd": 0.7475741191884484,
+        "ci_95_lo": 0.7231549358071374,
+        "ci_95_hi": 0.7707483002088781,
+        "n_pairwise": 190,
+        "feature_agreement": 1.0
+      },
+      "rmsd_ratio_general_over_positive": 1.7712977503813718
+    },
+    "32": {
+      "N": 32,
+      "general": {
+        "mean_pairwise_rmsd": 1.4448420883614483,
+        "ci_95_lo": 1.4196960506569016,
+        "ci_95_hi": 1.469974030100534,
+        "n_pairwise": 190,
+        "feature_agreement": 1.0
+      },
+      "positive_control": {
+        "mean_pairwise_rmsd": 0.8407203575691997,
+        "ci_95_lo": 0.8193611253355831,
+        "ci_95_hi": 0.8604187026412158,
+        "n_pairwise": 190,
+        "feature_agreement": 0.9954545454545455
+      },
+      "rmsd_ratio_general_over_positive": 1.7185763082256793
+    },
+    "64": {
+      "N": 64,
+      "general": {
+        "mean_pairwise_rmsd": 1.4336707758420035,
+        "ci_95_lo": 1.411564480878948,
+        "ci_95_hi": 1.455644514039948,
+        "n_pairwise": 190,
+        "feature_agreement": 0.9842105263157895
+      },
+      "positive_control": {
+        "mean_pairwise_rmsd": 0.8153399178584012,
+        "ci_95_lo": 0.805824407551302,
+        "ci_95_hi": 0.8246678082069903,
+        "n_pairwise": 190,
+        "feature_agreement": 0.9925
+      },
+      "rmsd_ratio_general_over_positive": 1.7583718697444994
+    },
+    "128": {
+      "N": 128,
+      "general": {
+        "mean_pairwise_rmsd": 1.3678580482313314,
+        "ci_95_lo": 1.3559719227993945,
+        "ci_95_hi": 1.3798640288751423,
+        "n_pairwise": 190,
+        "feature_agreement": 0.9918604651162791
+      },
+      "positive_control": {
+        "mean_pairwise_rmsd": 0.9248366337361537,
+        "ci_95_lo": 0.916636030530725,
+        "ci_95_hi": 0.9324967895040935,
+        "n_pairwise": 190,
+        "feature_agreement": 0.9836956521739129
+      },
+      "rmsd_ratio_general_over_positive": 1.4790266716679037
+    }
+  },
+  "_timestamp": "2026-04-12 19:14:21"
+}

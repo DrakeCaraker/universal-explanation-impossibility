@@ -1,0 +1,65 @@
+{
+  "experiment": "gauge_lattice",
+  "description": "Z2 lattice gauge theory: within-orbit link variance vs lattice size. Gauge orbits sampled by applying random gauge transformations to base configs. All orbit members share the same plaquette values (gauge-invariant), but differ in link values (gauge-variant).",
+  "lattice_sizes": [
+    4,
+    6,
+    8,
+    10
+  ],
+  "n_base_configs": 20,
+  "n_orbit_samples": 500,
+  "mean_within_orbit_link_variance": [
+    0.24951905000000005,
+    0.24948392222222232,
+    0.24949659374999994,
+    0.24950755600000002
+  ],
+  "mean_within_orbit_plaquette_variance": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "control_2x2": {
+    "max_within_orbit_plaquette_variance": 0.0,
+    "mean_within_orbit_plaquette_variance": 0.0,
+    "status": "PASSED"
+  },
+  "by_size": {
+    "4": {
+      "n_links_per_config": 32,
+      "n_plaquettes": 16,
+      "n_base_configs": 20,
+      "n_orbit_samples": 500,
+      "mean_within_orbit_link_variance": 0.24951905000000005,
+      "mean_within_orbit_plaquette_variance": 0.0
+    },
+    "6": {
+      "n_links_per_config": 72,
+      "n_plaquettes": 36,
+      "n_base_configs": 20,
+      "n_orbit_samples": 500,
+      "mean_within_orbit_link_variance": 0.24948392222222232,
+      "mean_within_orbit_plaquette_variance": 0.0
+    },
+    "8": {
+      "n_links_per_config": 128,
+      "n_plaquettes": 64,
+      "n_base_configs": 20,
+      "n_orbit_samples": 500,
+      "mean_within_orbit_link_variance": 0.24949659374999994,
+      "mean_within_orbit_plaquette_variance": 0.0
+    },
+    "10": {
+      "n_links_per_config": 200,
+      "n_plaquettes": 100,
+      "n_base_configs": 20,
+      "n_orbit_samples": 500,
+      "mean_within_orbit_link_variance": 0.24950755600000002,
+      "mean_within_orbit_plaquette_variance": 0.0
+    }
+  },
+  "interpretation": "Within each gauge orbit (same plaquette configuration), link values vary substantially across gauge-equivalent configs \u2014 approaching the Bernoulli(0.5) baseline as N grows (more gauge freedom). Plaquette values are exactly preserved (variance = 0) \u2014 they are the physical, gauge-invariant observables. This is a direct physical instance of the Rashomon property: many link configurations (explanations) are consistent with the same plaquette configuration (observable). No single link configuration is 'the truth'.",
+  "_timestamp": "2026-04-12 19:10:23"
+}

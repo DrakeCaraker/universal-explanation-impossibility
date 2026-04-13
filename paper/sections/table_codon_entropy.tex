@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\caption{Codon entropy by degeneracy level across 30 simulated species
+($N_{pos}=100$ cytochrome c positions; GC content $\in [0.30, 0.70]$).
+Observed entropy is Shannon entropy of codon usage across species per position.
+GC-null is expected entropy if codon choice is determined solely by species GC content.
+Max entropy = $\log_2(\text{degeneracy})$.
+Kruskal-Wallis $H=85.71$, $p < 10^{-10}$;
+Spearman $\rho=1.000$ (degeneracy $\to$ mean entropy).}
+\label{tab:codon_entropy}
+\begin{tabular}{ccccccc}
+\toprule
+Degeneracy & $N_{\text{pos}}$ & Obs.\ $\bar{H}$ & Obs.\ SD & GC-null $\bar{H}$ & Max $H$ & Obs/Max \\
+\midrule
+  1 & 10 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & --- \\
+  2 & 49 & 0.9724 & 0.0311 & 0.9983 & 1.0000 & 0.972 \\
+  3 & 5 & 1.5614 & 0.0143 & 1.5843 & 1.5850 & 0.985 \\
+  4 & 26 & 1.9115 & 0.1063 & 1.9983 & 2.0000 & 0.956 \\
+  6 & 10 & 2.4544 & 0.0537 & 2.5801 & 2.5850 & 0.949 \\
+\bottomrule
+\end{tabular}
+\end{table}

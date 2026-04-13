@@ -1,0 +1,1387 @@
+{
+  "experiment": "codon_entropy",
+  "description": "Codon entropy dose-response by degeneracy level. 30 species, 100 positions, GC content 0.3\u20130.7. Approach 3 (biologically realistic synthetic).",
+  "config": {
+    "n_species": 30,
+    "n_positions": 100,
+    "gc_min": 0.3,
+    "gc_max": 0.7,
+    "seed": 42,
+    "degeneracy_levels": [
+      1,
+      2,
+      3,
+      4,
+      6
+    ]
+  },
+  "summary_by_degeneracy": [
+    {
+      "degeneracy": 1,
+      "n_positions": 10,
+      "obs_entropy_mean": 0.0,
+      "obs_entropy_std": 0.0,
+      "null_entropy_mean": 0.0,
+      "null_entropy_std": 0.0,
+      "max_entropy": 0.0,
+      "obs_over_max": null
+    },
+    {
+      "degeneracy": 2,
+      "n_positions": 49,
+      "obs_entropy_mean": 0.9723782268852811,
+      "obs_entropy_std": 0.031133231837804545,
+      "null_entropy_mean": 0.998258695829115,
+      "null_entropy_std": 6.913357098761609e-17,
+      "max_entropy": 1.0,
+      "obs_over_max": 0.9723782268852811
+    },
+    {
+      "degeneracy": 3,
+      "n_positions": 5,
+      "obs_entropy_mean": 1.5614196038339443,
+      "obs_entropy_std": 0.014252723435453878,
+      "null_entropy_mean": 1.5842953646778435,
+      "null_entropy_std": 0.0,
+      "max_entropy": 1.584962500721156,
+      "obs_over_max": 0.9851460858685932
+    },
+    {
+      "degeneracy": 4,
+      "n_positions": 26,
+      "obs_entropy_mean": 1.9115393599218196,
+      "obs_entropy_std": 0.10633604372715762,
+      "null_entropy_mean": 1.9982586958291146,
+      "null_entropy_std": 0.0,
+      "max_entropy": 2.0,
+      "obs_over_max": 0.9557696799609098
+    },
+    {
+      "degeneracy": 6,
+      "n_positions": 10,
+      "obs_entropy_mean": 2.454391640345315,
+      "obs_entropy_std": 0.05373260129745656,
+      "null_entropy_mean": 2.5801372072463833,
+      "null_entropy_std": 0.0020189449182143326,
+      "max_entropy": 2.584962500721156,
+      "obs_over_max": 0.9494882961205766
+    }
+  ],
+  "kruskal_wallis": {
+    "H_stat": 85.71368890708482,
+    "p_value": 1.0704005474908897e-17,
+    "interpretation": "Entropy differs significantly across degeneracy levels"
+  },
+  "spearman_correlation": {
+    "rho": 0.9999999999999999,
+    "p_value": 1.4042654220543672e-24,
+    "interpretation": "Positive monotonic trend: higher degeneracy \u2192 higher entropy"
+  },
+  "gc_null_comparison": {
+    "n_degenerate_positions": 90,
+    "n_obs_greater_than_null": 5,
+    "fraction_obs_gt_null": 0.05555555555555555,
+    "interpretation": "GC content largely explains observed entropy"
+  },
+  "dose_response": {
+    "degeneracy_1_mean_entropy": 0.0,
+    "degeneracy_2_mean_entropy": 0.9723782268852811,
+    "degeneracy_4_mean_entropy": 1.9115393599218196,
+    "degeneracy_6_mean_entropy": 2.454391640345315,
+    "entropy_increase_2_to_6_bits": 1.482013413460034,
+    "deg2_obs_over_max": 0.9723782268852811,
+    "deg4_obs_over_max": 0.9557696799609098,
+    "deg6_obs_over_max": 0.9494882961205766,
+    "note": "Degeneracy 1 (Met/Trp) always H=0 (only 1 codon); fold increase undefined."
+  },
+  "per_position_records": [
+    {
+      "position": 0,
+      "amino_acid": "Ser",
+      "degeneracy": 6,
+      "observed_entropy": 2.511080496244278,
+      "gc_null_entropy": 2.583221196550271,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        4,
+        8,
+        5,
+        4,
+        3,
+        6
+      ]
+    },
+    {
+      "position": 1,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 2,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 3,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.8812908992306927,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        9,
+        21
+      ]
+    },
+    {
+      "position": 4,
+      "amino_acid": "Leu",
+      "degeneracy": 6,
+      "observed_entropy": 2.4527021654271746,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        3,
+        7,
+        8,
+        5,
+        2,
+        5
+      ]
+    },
+    {
+      "position": 5,
+      "amino_acid": "Tyr",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 6,
+      "amino_acid": "Ala",
+      "degeneracy": 4,
+      "observed_entropy": 1.7147366491799203,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        2,
+        7,
+        15,
+        6
+      ]
+    },
+    {
+      "position": 7,
+      "amino_acid": "Leu",
+      "degeneracy": 6,
+      "observed_entropy": 2.4682734124061354,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        4,
+        9,
+        5,
+        3,
+        3,
+        6
+      ]
+    },
+    {
+      "position": 8,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        19,
+        11
+      ]
+    },
+    {
+      "position": 9,
+      "amino_acid": "Trp",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 10,
+      "amino_acid": "Arg",
+      "degeneracy": 6,
+      "observed_entropy": 2.449912566762747,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        7,
+        2,
+        7,
+        4,
+        3,
+        7
+      ]
+    },
+    {
+      "position": 11,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.9724897668749515,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        6,
+        10,
+        7
+      ]
+    },
+    {
+      "position": 12,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        12,
+        18
+      ]
+    },
+    {
+      "position": 13,
+      "amino_acid": "Ile",
+      "degeneracy": 3,
+      "observed_entropy": 1.584962500721156,
+      "gc_null_entropy": 1.5842953646778435,
+      "max_entropy": 1.584962500721156,
+      "codon_counts": [
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "position": 14,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        14,
+        16
+      ]
+    },
+    {
+      "position": 15,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.926887581733263,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        9,
+        7,
+        10,
+        4
+      ]
+    },
+    {
+      "position": 16,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        19,
+        11
+      ]
+    },
+    {
+      "position": 17,
+      "amino_acid": "Ala",
+      "degeneracy": 4,
+      "observed_entropy": 1.9838711132181528,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        6,
+        8,
+        9,
+        7
+      ]
+    },
+    {
+      "position": 18,
+      "amino_acid": "Gly",
+      "degeneracy": 4,
+      "observed_entropy": 1.8593598634344994,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        8,
+        3,
+        12
+      ]
+    },
+    {
+      "position": 19,
+      "amino_acid": "Tyr",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        14,
+        16
+      ]
+    },
+    {
+      "position": 20,
+      "amino_acid": "Leu",
+      "degeneracy": 6,
+      "observed_entropy": 2.489246428509158,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        4,
+        3,
+        8,
+        3,
+        6,
+        6
+      ]
+    },
+    {
+      "position": 21,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        18,
+        12
+      ]
+    },
+    {
+      "position": 22,
+      "amino_acid": "Tyr",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 23,
+      "amino_acid": "Trp",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 24,
+      "amino_acid": "Gln",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        14,
+        16
+      ]
+    },
+    {
+      "position": 25,
+      "amino_acid": "Glu",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        12,
+        18
+      ]
+    },
+    {
+      "position": 26,
+      "amino_acid": "Tyr",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        11,
+        19
+      ]
+    },
+    {
+      "position": 27,
+      "amino_acid": "Leu",
+      "degeneracy": 6,
+      "observed_entropy": 2.535709665282943,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        5,
+        4,
+        6,
+        5,
+        3,
+        7
+      ]
+    },
+    {
+      "position": 28,
+      "amino_acid": "Ile",
+      "degeneracy": 3,
+      "observed_entropy": 1.5709505944546684,
+      "gc_null_entropy": 1.5842953646778435,
+      "max_entropy": 1.584962500721156,
+      "codon_counts": [
+        12,
+        9,
+        9
+      ]
+    },
+    {
+      "position": 29,
+      "amino_acid": "Trp",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 30,
+      "amino_acid": "Glu",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        12,
+        18
+      ]
+    },
+    {
+      "position": 31,
+      "amino_acid": "Tyr",
+      "degeneracy": 2,
+      "observed_entropy": 1.0,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        15,
+        15
+      ]
+    },
+    {
+      "position": 32,
+      "amino_acid": "Ala",
+      "degeneracy": 4,
+      "observed_entropy": 1.9344518194827178,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        5,
+        8,
+        11,
+        6
+      ]
+    },
+    {
+      "position": 33,
+      "amino_acid": "Thr",
+      "degeneracy": 4,
+      "observed_entropy": 1.9907646497355018,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        7,
+        7,
+        9
+      ]
+    },
+    {
+      "position": 34,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.9838711132181526,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        9,
+        7,
+        6,
+        8
+      ]
+    },
+    {
+      "position": 35,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        16,
+        14
+      ]
+    },
+    {
+      "position": 36,
+      "amino_acid": "Ala",
+      "degeneracy": 4,
+      "observed_entropy": 1.9838711132181528,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "position": 37,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        14,
+        16
+      ]
+    },
+    {
+      "position": 38,
+      "amino_acid": "Thr",
+      "degeneracy": 4,
+      "observed_entropy": 1.903795668197918,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        6,
+        11,
+        4,
+        9
+      ]
+    },
+    {
+      "position": 39,
+      "amino_acid": "Val",
+      "degeneracy": 4,
+      "observed_entropy": 1.944623214254579,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        6,
+        5,
+        9,
+        10
+      ]
+    },
+    {
+      "position": 40,
+      "amino_acid": "Leu",
+      "degeneracy": 6,
+      "observed_entropy": 2.355913095175825,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        4,
+        4,
+        4,
+        9,
+        1,
+        8
+      ]
+    },
+    {
+      "position": 41,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.9344518194827178,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        11,
+        6,
+        5,
+        8
+      ]
+    },
+    {
+      "position": 42,
+      "amino_acid": "Val",
+      "degeneracy": 4,
+      "observed_entropy": 1.9838711132181528,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        8,
+        7,
+        6,
+        9
+      ]
+    },
+    {
+      "position": 43,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.9182958340544896,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        20,
+        10
+      ]
+    },
+    {
+      "position": 44,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.9413453560000673,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        5,
+        11,
+        7,
+        7
+      ]
+    },
+    {
+      "position": 45,
+      "amino_acid": "Val",
+      "degeneracy": 4,
+      "observed_entropy": 1.9838711132181528,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        6,
+        9,
+        8
+      ]
+    },
+    {
+      "position": 46,
+      "amino_acid": "Met",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 47,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        16,
+        14
+      ]
+    },
+    {
+      "position": 48,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 49,
+      "amino_acid": "Met",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 50,
+      "amino_acid": "Ile",
+      "degeneracy": 3,
+      "observed_entropy": 1.549397853339606,
+      "gc_null_entropy": 1.5842953646778435,
+      "max_entropy": 1.584962500721156,
+      "codon_counts": [
+        11,
+        7,
+        12
+      ]
+    },
+    {
+      "position": 51,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        16,
+        14
+      ]
+    },
+    {
+      "position": 52,
+      "amino_acid": "Cys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        12,
+        18
+      ]
+    },
+    {
+      "position": 53,
+      "amino_acid": "Ser",
+      "degeneracy": 6,
+      "observed_entropy": 2.4220460141423747,
+      "gc_null_entropy": 2.583221196550271,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        3,
+        9,
+        2,
+        4,
+        7,
+        5
+      ]
+    },
+    {
+      "position": 54,
+      "amino_acid": "Gly",
+      "degeneracy": 4,
+      "observed_entropy": 1.9907646497355018,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        7,
+        7,
+        9
+      ]
+    },
+    {
+      "position": 55,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 56,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        19,
+        11
+      ]
+    },
+    {
+      "position": 57,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        16,
+        14
+      ]
+    },
+    {
+      "position": 58,
+      "amino_acid": "Met",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 59,
+      "amino_acid": "His",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        14,
+        16
+      ]
+    },
+    {
+      "position": 60,
+      "amino_acid": "Glu",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        14,
+        16
+      ]
+    },
+    {
+      "position": 61,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9182958340544896,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        20,
+        10
+      ]
+    },
+    {
+      "position": 62,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.8812908992306927,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        21,
+        9
+      ]
+    },
+    {
+      "position": 63,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        17,
+        13
+      ]
+    },
+    {
+      "position": 64,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 65,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        18,
+        12
+      ]
+    },
+    {
+      "position": 66,
+      "amino_acid": "Ile",
+      "degeneracy": 3,
+      "observed_entropy": 1.549397853339606,
+      "gc_null_entropy": 1.5842953646778435,
+      "max_entropy": 1.584962500721156,
+      "codon_counts": [
+        7,
+        12,
+        11
+      ]
+    },
+    {
+      "position": 67,
+      "amino_acid": "Trp",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 68,
+      "amino_acid": "Met",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 69,
+      "amino_acid": "Thr",
+      "degeneracy": 4,
+      "observed_entropy": 1.8989295636909351,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        12,
+        5,
+        8,
+        5
+      ]
+    },
+    {
+      "position": 70,
+      "amino_acid": "His",
+      "degeneracy": 2,
+      "observed_entropy": 1.0,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        15,
+        15
+      ]
+    },
+    {
+      "position": 71,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        16,
+        14
+      ]
+    },
+    {
+      "position": 72,
+      "amino_acid": "Ile",
+      "degeneracy": 3,
+      "observed_entropy": 1.5523892173146852,
+      "gc_null_entropy": 1.5842953646778435,
+      "max_entropy": 1.584962500721156,
+      "codon_counts": [
+        8,
+        9,
+        13
+      ]
+    },
+    {
+      "position": 73,
+      "amino_acid": "Lys",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        12,
+        18
+      ]
+    },
+    {
+      "position": 74,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.8812908992306927,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        21,
+        9
+      ]
+    },
+    {
+      "position": 75,
+      "amino_acid": "Met",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 76,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        18,
+        12
+      ]
+    },
+    {
+      "position": 77,
+      "amino_acid": "His",
+      "degeneracy": 2,
+      "observed_entropy": 0.9967916319816366,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        16,
+        14
+      ]
+    },
+    {
+      "position": 78,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.9344518194827178,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        11,
+        8,
+        6,
+        5
+      ]
+    },
+    {
+      "position": 79,
+      "amino_acid": "Ala",
+      "degeneracy": 4,
+      "observed_entropy": 1.8309595631140105,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        9,
+        9,
+        2,
+        10
+      ]
+    },
+    {
+      "position": 80,
+      "amino_acid": "Phe",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        17,
+        13
+      ]
+    },
+    {
+      "position": 81,
+      "amino_acid": "Met",
+      "degeneracy": 1,
+      "observed_entropy": -0.0,
+      "gc_null_entropy": -0.0,
+      "max_entropy": 0.0,
+      "codon_counts": [
+        30
+      ]
+    },
+    {
+      "position": 82,
+      "amino_acid": "His",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        19,
+        11
+      ]
+    },
+    {
+      "position": 83,
+      "amino_acid": "Ala",
+      "degeneracy": 4,
+      "observed_entropy": 1.9838711132181528,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        8,
+        9,
+        6,
+        7
+      ]
+    },
+    {
+      "position": 84,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        11,
+        19
+      ]
+    },
+    {
+      "position": 85,
+      "amino_acid": "Asp",
+      "degeneracy": 2,
+      "observed_entropy": 0.9480782435939055,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        19,
+        11
+      ]
+    },
+    {
+      "position": 86,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.916716186961402,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        8,
+        11,
+        4
+      ]
+    },
+    {
+      "position": 87,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.8464393446710154,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        12,
+        9,
+        6,
+        3
+      ]
+    },
+    {
+      "position": 88,
+      "amino_acid": "Glu",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        12,
+        18
+      ]
+    },
+    {
+      "position": 89,
+      "amino_acid": "Val",
+      "degeneracy": 4,
+      "observed_entropy": 1.9575437330180632,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        8,
+        10,
+        7,
+        5
+      ]
+    },
+    {
+      "position": 90,
+      "amino_acid": "Ser",
+      "degeneracy": 6,
+      "observed_entropy": 2.4825887305018326,
+      "gc_null_entropy": 2.583221196550271,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        8,
+        5,
+        5,
+        4,
+        6,
+        2
+      ]
+    },
+    {
+      "position": 91,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 0.9709505944546686,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        18,
+        12
+      ]
+    },
+    {
+      "position": 92,
+      "amino_acid": "Gly",
+      "degeneracy": 4,
+      "observed_entropy": 1.9628980971151295,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        7,
+        9,
+        9,
+        5
+      ]
+    },
+    {
+      "position": 93,
+      "amino_acid": "Arg",
+      "degeneracy": 6,
+      "observed_entropy": 2.3764438290006864,
+      "gc_null_entropy": 2.578815497544717,
+      "max_entropy": 2.584962500721156,
+      "codon_counts": [
+        3,
+        5,
+        9,
+        1,
+        6,
+        6
+      ]
+    },
+    {
+      "position": 94,
+      "amino_acid": "Tyr",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 95,
+      "amino_acid": "His",
+      "degeneracy": 2,
+      "observed_entropy": 0.9871377743721863,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        13,
+        17
+      ]
+    },
+    {
+      "position": 96,
+      "amino_acid": "Asn",
+      "degeneracy": 2,
+      "observed_entropy": 1.0,
+      "gc_null_entropy": 0.998258695829115,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        15,
+        15
+      ]
+    },
+    {
+      "position": 97,
+      "amino_acid": "Val",
+      "degeneracy": 4,
+      "observed_entropy": 1.8497120352661516,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        13,
+        5,
+        8,
+        4
+      ]
+    },
+    {
+      "position": 98,
+      "amino_acid": "Pro",
+      "degeneracy": 4,
+      "observed_entropy": 1.4854752972273344,
+      "gc_null_entropy": 1.9982586958291146,
+      "max_entropy": 2.0,
+      "codon_counts": [
+        0,
+        15,
+        6,
+        9
+      ]
+    },
+    {
+      "position": 99,
+      "amino_acid": "Cys",
+      "degeneracy": 2,
+      "observed_entropy": 1.0,
+      "gc_null_entropy": 0.9982586958291149,
+      "max_entropy": 1.0,
+      "codon_counts": [
+        15,
+        15
+      ]
+    }
+  ],
+  "_timestamp": "2026-04-12 19:16:08"
+}
