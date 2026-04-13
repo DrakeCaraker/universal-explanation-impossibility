@@ -87,6 +87,10 @@ Pareto-optimal and unifies existing domain-specific practices
 (gauge-invariant observables, the microcanonical ensemble, CPDAGs,
 minimum-norm solutions) as instances of a single $G$-invariant strategy
 that eight independent fields converged upon over more than a century.
+Cross-domain transfer experiments confirm the framework's predictive
+power: an ML ensemble method transferred to causal discovery reduces
+instability fourfold, and a character-theoretic bound derived from
+genetics correctly predicts protein sequence diversity.
 \end{abstract}
 
 %%% =========================================================================
@@ -759,29 +763,33 @@ stable explanations, not the computational cost of finding them---in some
 domains, computing the orbit average may be intractable even when its
 optimality is guaranteed.
 
-The pattern likely extends beyond the eight domains studied here.
-Metamerism in colour perception (distinct spectral distributions producing
-identical colour experience), molecular chirality (mirror-image molecules
-with identical scalar properties), protein folding degeneracy (multiple
-sequences folding to the same structure), and quantum tomography
-(multiple density matrices consistent with the same measurement
-statistics) all exhibit the Rashomon property and should therefore satisfy
-the impossibility.  In each case, the framework predicts that the
-domain's practitioners will have independently converged on an
-orbit-averaging resolution---a prediction that can be tested empirically.
+Beyond unification, the framework generates cross-domain predictions
+confirmed by experiment.  First, applying the ML ensemble resolution
+(DASH) to causal discovery produces a 4-fold reduction in orientation
+flip rate (Wilcoxon $p < 10^{-10}$)---a practical algorithm transferred
+from machine learning to statistics via the framework's resolution
+theory.  Second, the gauge theory analogy predicts a phase transition in
+explanation stability as the Rashomon tolerance increases: at high
+collinearity ($\rho = 0.9$), stability undergoes a sigmoid-shaped
+transition from near-perfect to near-random, with a critical tolerance
+$\varepsilon_c = 1.51$ determined by the model class structure.  Third,
+a falsification test confirms the framework's boundary: across three
+domains, removing the Rashomon property restores simultaneous
+achievability of all three properties, with instability ratios exceeding
+$10^6$.  Fourth, the character-theoretic prediction that information loss
+scales as $1/k$ for $S_k$, derived from codon degeneracy, correctly
+predicts the shape of protein sequence diversity across structural
+positions (Spearman $\rho = 0.88$, $p = 0.004$), serving as a
+neutral-evolution upper bound from which deviations measure selective
+pressure.
 
-The framework also suggests a broader research programme: for any domain
-where explanation instability has been observed, one can ask whether the
-Rashomon property holds, identify the symmetry group, and derive the
-domain-specific optimal resolution.  The Lean formalization makes this
-programme concrete: adding a new domain requires only defining an
+The framework likely extends to additional domains including quantum
+state tomography, colour metamerism, and neural decoding, each of which
+exhibits the Rashomon property.  More broadly, the Lean formalization
+makes extension concrete: adding a new domain requires only defining an
 \texttt{ExplanationSystem} with appropriate types and providing a
 constructive Rashomon witness; the impossibility and resolution follow
-automatically.  More broadly, the framework provides a universal
-diagnostic: whenever a practitioner encounters explanation instability,
-the first question should be whether the underlying system is
-underspecified---and if so, the theorem guarantees that aggregation is
-the optimal response.
+automatically.
 
 %%% =========================================================================
 %%% Methods

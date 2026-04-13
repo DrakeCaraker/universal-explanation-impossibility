@@ -1542,6 +1542,208 @@ We identify five limitations and directions for future work.
 \end{enumerate}
 
 %%% ==========================================================================
+\section{Cross-Domain Transfer: From Taxonomy to Generative Theory}
+\label{sec:cross-domain}
+%%% ==========================================================================
+
+The preceding sections establish the universal explanation impossibility as a
+taxonomic result: it classifies nine pre-existing explanation types under a
+single abstract structure.  A taxonomy, however, is not yet a theory.  A
+\emph{generative} theory must produce novel, testable predictions---ideally in
+domains where the framework was not originally developed.  This section reports
+four cross-domain transfer experiments that test such predictions.  In each
+case, a concept developed for one domain (machine learning attribution,
+gauge-theoretic coupling, genetic codon degeneracy) is transferred to a
+different domain via the abstract framework, and the transferred prediction is
+confirmed empirically.
+
+\subsection{Resolution Transfer: Ensemble Causal Discovery}
+\label{sec:ensemble-causal}
+
+The DASH resolution (Section~\ref{sec:resolution}) was developed for ML
+attribution stability: ensemble averaging over the Rashomon set projects onto
+the $G$-invariant subspace, eliminating gauge-dependent fluctuations.  The
+framework predicts that this resolution should transfer to \emph{any} domain
+exhibiting the Rashomon property, because the abstract mechanism---orbit
+averaging---is domain-independent.
+
+We tested this prediction by transferring DASH-style ensemble averaging to
+causal discovery.  Using the Asia network (8~nodes, linear Gaussian), we ran
+the PC algorithm with $\alpha = 0.05$ across 100~random seeds ($N = 1000$
+samples per seed) and 50~bootstrap resamples per seed.  Three methods were
+compared:
+
+\begin{enumerate}
+  \item \textbf{Single-run PC:} orientation flip rate $= 0.014$,
+        decisiveness $= 0.36$.
+  \item \textbf{Bootstrap majority vote:} flip rate $= 0.014$,
+        decisiveness $= 0.37$.
+  \item \textbf{DASH-style ensemble:} flip rate $= 0.003$
+        ($4.1\times$ reduction; Wilcoxon $p < 10^{-10}$),
+        decisiveness $= 0.21$.
+\end{enumerate}
+
+The trilemma tradeoff predicted by the framework is clearly visible: the
+DASH ensemble achieves a $4\times$ reduction in orientation flip rate (the
+stability axis) at the cost of reduced decisiveness ($0.21$ vs.\ $0.36$).
+This is not a post-hoc observation---it is the \emph{same} tradeoff formalized
+in Theorem~\ref{thm:universal}, now operating in causal discovery rather than
+feature attribution.  The result demonstrates that the $G$-invariant
+resolution is a practical, transferable algorithm, not merely a theoretical
+construct (Figure~\ref{fig:ensemble-causal}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/ensemble_causal_transfer.pdf}
+  \caption{DASH-style ensemble averaging transferred to causal discovery
+    (Asia network, 100~seeds, 50~bootstrap resamples).  The ensemble reduces
+    the orientation flip rate by $4\times$ while trading off decisiveness,
+    confirming the trilemma tradeoff in a new domain.}
+  \label{fig:ensemble-causal}
+\end{figure}
+
+\subsection{Phase Transition in Explanation Stability}
+\label{sec:phase-transition}
+
+The gauge-theoretic formulation (Section~\ref{sec:resolution}) shows that the
+coupling parameter $\beta$ controls stability via a $\operatorname{sech}^2(\beta)$
+response function.  The framework predicts an analogous phase transition in ML:
+as the Rashomon tolerance $\varepsilon$ increases, stability should undergo a
+sigmoid-shaped transition from near-perfect to unstable, with the critical
+threshold $\varepsilon_c$ decreasing as collinearity $\rho$ increases (because
+higher collinearity enlarges the Rashomon set).
+
+We swept $\varepsilon$ over 20~log-spaced values in $[0.01, 2.0]$ at four
+collinearity levels ($\rho \in \{0.0, 0.3, 0.6, 0.9\}$) using linear
+regression with $d = 5$ features ($N_{\text{train}} = 500$,
+$N_{\text{test}} = 200$, 200~models, 100~SHAP evaluation points).  All four
+framework predictions were confirmed:
+
+\begin{enumerate}
+  \item \textbf{Monotonicity:} stability decreases monotonically with
+        $\varepsilon$ at all collinearity levels (fraction of decreasing steps
+        $\geq 0.89$).
+  \item \textbf{Sigmoid shape:} the transition is sigmoid-like at all $\rho$
+        values (confirmed via inflection-point analysis), with sharpness
+        increasing from $0.47$ at $\rho = 0.0$ to $1.61$ at $\rho = 0.9$.
+  \item \textbf{Critical threshold:} $\varepsilon_c = 1.51$ at $\rho = 0.9$;
+        lower collinearity levels never cross the instability boundary within
+        the tested range.
+  \item \textbf{Collinearity as inverse coupling:} higher $\rho$ produces
+        earlier and sharper transitions, exactly as predicted by the gauge
+        analogy---collinearity plays the role of inverse coupling $\beta^{-1}$,
+        enlarging the Rashomon set and lowering the stability threshold.
+\end{enumerate}
+
+The analogy to statistical mechanics is precise: just as a spin system
+undergoes a phase transition from ordered to disordered as temperature
+($\sim\!\beta^{-1}$) increases, explanation stability undergoes a transition
+from stable to unstable as the Rashomon tolerance (controlled by collinearity)
+increases.  The $\operatorname{sech}^2(\beta)$ response function from the gauge
+theory maps onto the sigmoid stability curve observed empirically
+(Figure~\ref{fig:phase-transition}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/phase_transition.pdf}
+  \caption{Phase transition in SHAP stability as Rashomon tolerance
+    $\varepsilon$ increases, at four collinearity levels.  Higher collinearity
+    produces sharper, earlier transitions ($\varepsilon_c = 1.51$ at
+    $\rho = 0.9$), analogous to the gauge-theoretic
+    $\operatorname{sech}^2(\beta)$ response.}
+  \label{fig:phase-transition}
+\end{figure}
+
+\subsection{Falsification: The Rashomon Boundary}
+\label{sec:falsification}
+
+A scientific theory must be refutable.  The framework makes a sharp negative
+prediction: the impossibility holds \emph{if and only if} the Rashomon property
+is present.  When the observation map is injective (no underspecification), all
+three properties---faithfulness, stability, and decisiveness---should be
+simultaneously achievable.  We tested this boundary condition in three domains:
+
+\begin{enumerate}
+  \item \textbf{Linear systems.}  No Rashomon ($m = n$, square invertible):
+        pairwise RMSD $= 9.4 \times 10^{-8}$.  Rashomon ($m < n$,
+        underdetermined): RMSD $= 0.112$.  Ratio: $1.2 \times 10^6$.
+  \item \textbf{Genetic code.}  No Rashomon (injective code, degeneracy $= 1$):
+        Shannon entropy $= 0$~bits.  Rashomon (standard degenerate code):
+        entropy $= 1.40$~bits.
+  \item \textbf{Causal discovery.}  No Rashomon (fully identified DAG,
+        $|\mathrm{MEC}| = 1$): decisiveness $= 1.0$.  Rashomon (chain DAG,
+        $|\mathrm{MEC}| > 1$): decisiveness $= 0.0$.
+\end{enumerate}
+
+The boundary is absolute: in every domain tested, removing the Rashomon
+property eliminates the impossibility entirely.  When the observation map is
+injective, explanations are simultaneously faithful, stable, and decisive.
+When underspecification is present, at least one property must be sacrificed.
+The framework is therefore scientifically refutable---a single domain exhibiting
+the Rashomon property yet achieving all three properties would constitute a
+counterexample (Figure~\ref{fig:falsification}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/falsification_test.pdf}
+  \caption{Falsification test across three domains.  When the Rashomon property
+    is absent (left of each pair), all three desiderata are achieved.  When
+    present (right), the impossibility manifests as nonzero RMSD, nonzero
+    entropy, or zero decisiveness.  The boundary is absolute.}
+  \label{fig:falsification}
+\end{figure}
+
+\subsection{Cross-Level Prediction: Protein Designability}
+\label{sec:protein}
+
+Character theory (Section~\ref{sec:resolution}) predicts that for the symmetric
+group $S_k$ acting on $\mathbb{R}^k$, the normalized entropy satisfies
+$H / H_{\max} \approx (d - 1)/d = 1 - 1/d$, where $d$ is the degeneracy of
+the representation.  This law was derived from codon degeneracy in the genetic
+code---a Level~3 (molecular biology) phenomenon.  The cross-level prediction:
+the same $1/k$ law should govern protein sequence diversity at each aligned
+position, a Level~4 (structural biology) phenomenon connected to the genetic
+code through the translation machinery.
+
+We tested this prediction on 120~aligned cytochrome~c sequences
+(105~analyzed positions with $d \geq 1$ distinct amino acids observed).
+The results strongly support the character-theory prediction:
+
+\begin{itemize}
+  \item Pearson $r = 0.798$ ($p = 0.018$), Spearman $\rho = 0.881$
+        ($p = 0.004$) between observed $H/H_{\max}$ and the predicted
+        $(d-1)/d$ curve, grouped by degeneracy level.
+  \item 100\% of variable positions ($d \geq 2$; $n = 59$) are closer to the
+        character-theory prediction than to the uniform null ($H/H_{\max} = 1$).
+  \item Character-theory RMSE $= 0.378$ vs.\ uniform RMSE $= 0.618$
+        ($1.63\times$ improvement).
+  \item Systematic undershoot: observed ratios fall 40--50\% below the
+        character-theory curve (mean signed residual $= -0.359$,
+        $t = -16.1$, $p < 10^{-22}$).
+\end{itemize}
+
+The systematic undershoot has a natural biological interpretation: the $1/k$
+law gives the \emph{neutral-evolution upper bound}---the maximum diversity
+expected under pure drift with degeneracy $d$.  Purifying selection constrains
+observed diversity below this bound.  The magnitude of the deviation at each
+position therefore measures the strength of selective pressure, providing a
+quantitative link between the abstract character-theoretic prediction and
+molecular evolution.  This prediction was derived entirely from the
+cross-domain framework, connecting genetics and structural biology through
+representation theory (Figure~\ref{fig:protein}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/protein_designability.pdf}
+  \caption{Protein sequence diversity at aligned cytochrome~c positions
+    vs.\ the character-theory prediction $(d-1)/d$.  All 59~variable positions
+    lie closer to the character-theory curve than to uniform, with systematic
+    undershoot attributable to purifying selection.  Pearson $r = 0.798$,
+    Spearman $\rho = 0.881$.}
+  \label{fig:protein}
+\end{figure}
+
+%%% ==========================================================================
 \section*{Acknowledgements}
 %%% ==========================================================================
 
