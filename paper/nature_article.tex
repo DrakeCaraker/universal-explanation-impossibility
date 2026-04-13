@@ -138,6 +138,19 @@ of equivalent configurations.  Yet no framework has connected these
 strategies, explained why they converge on the same mathematical structure,
 or proved that they are optimal.
 
+The recognition that underspecification creates fundamental limits is not
+new within individual fields.  The phase problem has been understood since
+at least Patterson's work in the 1930s~\citep{hauptman1953solution}.
+Markov equivalence was formalized by Verma and
+Pearl~\citep{verma1991equivalence} in the early 1990s.  The view update
+problem was identified by Bancilhon and
+Spyratos~\citep{bancilhon1981update} in 1981.  Gauge invariance has been
+a cornerstone of modern physics since Weyl's work in the 1920s.  What has
+been missing is the realization that these are all manifestations of a
+single mathematical phenomenon---and that the domain-specific resolutions
+are all instances of a single provably optimal strategy.  The present work
+provides that unification.
+
 Here we prove a universal impossibility theorem: when a system has the
 \emph{Rashomon property}---when there exist two configurations with the
 same observable output but incompatible internal structures---no explanation
@@ -188,16 +201,35 @@ $\mathrm{exp}(\theta_2)$.  Stability forces $E(\theta_1) = E(\theta_2)$.
 Faithfulness at $\theta_2$ requires $E(\theta_2)$ to be compatible with
 $\mathrm{exp}(\theta_2)$.  Contradiction.
 
-The impossibility is tight in three senses.  First, \emph{each pair of
-properties is achievable}: we construct Lean-verified witnesses showing
-that faithful-and-stable, faithful-and-decisive, and stable-and-decisive
-explanation maps all exist.  The impossibility is specifically the triple,
-not any pair.  Second, the Rashomon property is the \emph{exact boundary}:
-when it is absent---when each observation uniquely determines the internal
-structure---all three properties are simultaneously achievable.  This
-converse is a separate Lean-verified theorem, confirming that the Rashomon
-property is both sufficient and necessary for the impossibility.  Third,
-an axiom substitution analysis shows that weakening any single
+The impossibility is tight in three senses (Fig.~\ref{fig:trilemma}).
+First, \emph{each pair of properties is achievable}: we construct
+Lean-verified witnesses showing that faithful-and-stable,
+faithful-and-decisive, and stable-and-decisive explanation maps all exist.
+The faithful-and-stable witness drops decisiveness by mapping every
+configuration to a single ``uninformative'' explanation that is compatible
+with all internal reports---stable because it ignores the input, faithful
+because it never contradicts, but not decisive because it draws no
+distinctions.  The faithful-and-decisive witness drops stability by simply
+returning the system's own internal report---faithful and decisive by
+construction, but unstable because equivalent configurations with different
+internal reports receive different explanations.  The stable-and-decisive
+witness drops faithfulness by mapping all configurations with the same
+observable to an arbitrary but fixed decisive explanation---stable by
+construction and decisive because it preserves all distinctions, but
+potentially unfaithful at configurations whose internal report conflicts
+with the chosen explanation.  The impossibility is specifically the triple,
+not any pair.
+
+Second, the Rashomon property is the \emph{exact boundary}: when it is
+absent---when each observation uniquely determines the internal
+structure---all three properties are simultaneously achievable.  In this
+case, the identity map $E(\theta) = \mathsf{exp}(\theta)$ is faithful,
+stable (because equivalent configurations have identical internal
+reports), and decisive.  This converse is a separate Lean-verified theorem,
+confirming that the Rashomon property is both sufficient and necessary for
+the impossibility.
+
+Third, an axiom substitution analysis shows that weakening any single
 definition---replacing faithfulness with a weaker consistency notion,
 or stability with approximate stability, or decisiveness with partial
 commitment---collapses the result.  The three definitions are therefore
@@ -332,24 +364,41 @@ Statistics        & DAGs                 & CI structure    & Chain    & Fork    
 
 We validate the impossibility empirically in seven of the eight domains
 (excluding the mathematical observation connecting Rashomon entropy to
-Boltzmann entropy).  Fig.~\ref{fig:dose-response} shows the dose-response
-relationship between the degree of underspecification and explanation
-instability in each domain.  All seven empirical tests reach statistical
-significance ($p < 0.05$): underdetermined linear solvers show elevated
-pairwise RMSD ($p = 6.3 \times 10^{-9}$); codon usage entropy across 120
-eukaryotic cytochrome~c sequences from NCBI RefSeq shows a perfect monotonic
+Boltzmann entropy).  The experimental design follows a common structure
+across all domains: we vary the degree of underspecification (the
+``Rashomon dose'') and measure explanation instability, with a negative
+control in which the Rashomon property is absent.  The theorem predicts
+a monotonic dose-response: more underspecification should produce more
+instability, and zero underspecification should produce zero instability.
+
+Fig.~\ref{fig:dose-response} shows the results across all seven domains.
+All seven empirical tests reach statistical significance ($p < 0.05$).
+In mathematics, underdetermined linear solvers show elevated pairwise RMSD
+that increases with null-space dimension ($p = 6.3 \times 10^{-9}$); when
+the system is fully determined (negative control), all four solvers agree
+exactly.  In biology, codon usage entropy across 120 eukaryotic
+cytochrome~c sequences from NCBI RefSeq shows a perfect monotonic
 relationship with degeneracy level (Kruskal--Wallis $p = 2.0 \times
-10^{-3}$, Spearman $\rho = 1.0$); syntactic parsers disagree significantly
-more on structurally ambiguous sentences ($p = 1.6 \times 10^{-3}$);
-causal discovery algorithms show orientation agreement of only 0.33 at
-finite sample size ($p = 4.4 \times 10^{-38}$); phase retrieval
-reconstructions diverge $1.5$--$1.8\times$ more without positivity
-constraints ($p < 10^{-57}$); and census disaggregation ambiguity scales
-with aggregation granularity ($p = 7.9 \times 10^{-37}$).  In each case,
-the negative control (where the Rashomon property is absent) shows
-stability, confirming that the instability is structural rather than
-artefactual.  Across all seven domains, the predicted direction holds:
-binomial test $p = 0.008$.
+10^{-3}$, Spearman $\rho = 1.0$); methionine and tryptophan
+(degeneracy~1, one codon each) have entropy identically zero---a
+biochemical guarantee that serves as an ideal negative control.  In
+linguistics, syntactic parsers disagree significantly more on structurally
+ambiguous sentences than on unambiguous controls ($p = 1.6 \times
+10^{-3}$).  In statistics, causal discovery algorithms show orientation
+agreement of only 0.33 at finite sample size ($p = 4.4 \times 10^{-38}$);
+agreement improves at $N = 100{,}000$ as statistical power increases.  In
+crystallography, phase retrieval reconstructions diverge $1.5$--$1.8\times$
+more without positivity constraints, which reduce the size of the Rashomon
+set ($p < 10^{-57}$).  In computer science, census disaggregation ambiguity
+scales with aggregation granularity ($p = 7.9 \times 10^{-37}$); the
+District of Columbia (one county-equivalent) has KL divergence of exactly
+zero.
+
+In each case, the negative control confirms that instability vanishes when
+the Rashomon property is absent, ruling out the possibility that the
+observed instability is an artefact of methodology or noise.  Across all
+seven domains, the predicted monotonic direction holds: binomial test
+$p = 0.008$.
 
 %%% =========================================================================
 
@@ -365,10 +414,15 @@ achieves stability and faithfulness in expectation.
 
 We prove that this resolution is \emph{Pareto-optimal}: among all stable
 explanation maps, no alternative can achieve strictly higher pointwise
-faithfulness on every equivalence class.  The trade-off is therefore
-tight---the practitioner cannot escape it by being clever.  Any deviation
-from orbit averaging must sacrifice faithfulness somewhere, and the orbit
-average minimizes this sacrifice uniformly.
+faithfulness on every equivalence class.  More precisely, if $E'$ is any
+stable map and $\bar{E}$ is the orbit average, then there exists at least
+one equivalence class on which $\bar{E}$ is at least as faithful as $E'$.
+The trade-off is therefore tight---the practitioner cannot escape it by
+being clever.  Any deviation from orbit averaging must sacrifice
+faithfulness somewhere, and the orbit average minimizes this sacrifice
+uniformly.  This is not merely an existence result: the orbit average is
+constructive, computable (for finite groups), and uniquely determined by
+the symmetry structure of the equivalence class.
 
 Remarkably, practitioners in eight independent fields have converged on
 precisely this strategy over more than a century of independent work
@@ -399,11 +453,31 @@ distinguishes between equivalent configurations---and in exchange achieves
 stability (the same answer regardless of which equivalent configuration is
 queried) and faithfulness in expectation (the averaged answer is compatible
 with the system's actual structure on average over the equivalence class).
+The historical timeline of this convergence underscores its independence:
+gauge invariance in physics dates to Weyl in the 1920s; the
+microcanonical ensemble to Boltzmann in the 1870s; Patterson maps in
+crystallography to the 1930s; the pseudoinverse in mathematics to
+Penrose in 1955; codon usage tables in biology to the 1960s following the
+cracking of the genetic code; CPDAGs in statistics to Verma and Pearl in
+1990; packed parse forests in linguistics to the 1990s; and complement
+views in database theory to Bancilhon and Spyratos in 1981.  These
+developments span more than a century, across fields with no shared
+literature and no awareness of one another's resolutions.  A physicist
+developing gauge-invariant observables was not reading the crystallography
+literature on Patterson maps; a statistician constructing CPDAGs was not
+drawing on the theory of codon usage tables.  The convergence occurred
+because the mathematical structure forced it, not because of intellectual
+cross-pollination.
+
 Our framework explains \emph{why} these eight communities converged
 independently.  Each was confronting the same impossibility---faithfulness,
 stability, and decisiveness cannot coexist under underspecification---and
 orbit averaging is the unique Pareto-optimal stable resolution.  The
-convergence is not coincidental; it is mathematically inevitable.
+convergence is not coincidental; it is mathematically inevitable.  The
+framework also explains the variation: the specific form of the orbit
+average differs across domains because the symmetry group differs
+(Fig.~\ref{fig:structural}), but the abstract mathematical operation---
+projection onto the $G$-invariant subspace---is identical.
 
 %%% Figure 2: Structural differences
 \begin{figure}[t]
@@ -462,8 +536,17 @@ Statistics
 The impossibility is also \emph{query-relative}: some questions about a
 system are stably answerable---those on which all equivalent configurations
 agree---and others are not.  The theorem tells the practitioner precisely
-which queries are safe and which require aggregation.  More broadly, the
-difficulty of explanation depends on the mathematical symmetries of the
+which queries are safe and which require aggregation.  In the gauge theory
+setting, this distinction is familiar: gauge-invariant quantities (charges,
+field strengths) are stably answerable; gauge-dependent quantities (the
+vector potential at a point) are not.  In the causal inference setting, the
+distinction maps to the difference between identifiable and
+non-identifiable causal effects: some causal questions can be settled from
+observational data alone, while others require interventional experiments
+to break the Markov equivalence.  In the biological setting, the amino acid
+sequence is stably determined (all synonymous codons produce the same
+protein), but the specific codon at each position is not.  More broadly,
+the difficulty of explanation depends on the mathematical symmetries of the
 equivalence class, ranging from cases where a unique optimal explanation
 exists to cases where additional constraints are needed to make the problem
 well-posed.
@@ -497,6 +580,21 @@ to Mathlib's probability theory), and instance-specific witnesses.  A
 complete axiom inventory with stratification---which axioms are used by
 which theorems---is provided in the Supporting Information.  The core
 universal impossibility uses none of them.
+
+Mechanical verification serves a specific purpose in this context.  The
+impossibility theorem itself is short (four steps), but the claim that it
+applies uniformly across eight domains rests on eight separate derivations,
+each of which must correctly formalize a domain-specific concept (holonomy,
+Markov equivalence, codon translation, etc.) and constructively witness
+the Rashomon property.  A subtle error in any one derivation---an
+incorrect formalization of holonomy, a mistaken claim about codon
+degeneracy---would invalidate the universality claim.  The proof assistant
+eliminates this risk: each derivation is independently checked against the
+abstract framework, and the 0-sorry guarantee means no step is assumed
+without proof.  The formalization is also a reusable artefact: future
+researchers can add new domain instances by defining an
+\texttt{ExplanationSystem} with domain-specific types and providing a
+Rashomon witness; the impossibility follows automatically.
 
 %%% Figure 3: Trilemma triangle
 \begin{figure}[t]
@@ -587,7 +685,13 @@ contradictory internal structure---makes simultaneous faithfulness,
 stability, and decisiveness unachievable.  The resolution predicts that
 ensemble methods (which average over the Rashomon set) should outperform
 single-model explanations in stability, a prediction confirmed empirically
-in the companion paper on ensemble feature attribution.
+in the companion paper on ensemble feature attribution.  These findings
+are relevant to emerging regulatory frameworks---including the EU AI Act
+and FDA guidance on clinical AI---that require model explanations to be
+reliable and reproducible.  The impossibility theorem implies that such
+requirements cannot be met by any single-model explanation method when the
+Rashomon property holds; only ensemble-based approaches can provide the
+stability that regulators demand.
 
 A structural parallel exists with Arrow's impossibility
 theorem~\citep{arrow1951social}, which proves that no voting system can
@@ -599,7 +703,9 @@ subsumes the other, but both illustrate the same meta-pattern---symmetry
 forces trade-offs.  A key difference is that the explanation impossibility
 is constructive: it not only proves that the three properties cannot
 coexist, but identifies the unique optimal trade-off and proves that
-existing scientific practice already implements it.
+existing scientific practice already implements it.  In this sense, the
+theorem is simultaneously a negative result (the impossibility) and a
+positive one (the optimality of existing practice).
 
 Several limitations merit acknowledgement.  The eight derivations use
 minimal witnesses (two-element configuration sets), which suffice for the
@@ -616,16 +722,26 @@ optimality is guaranteed.
 The pattern likely extends beyond the eight domains studied here.
 Metamerism in colour perception (distinct spectral distributions producing
 identical colour experience), molecular chirality (mirror-image molecules
-with identical scalar properties), and protein folding degeneracy
-(multiple sequences folding to the same structure) all exhibit the Rashomon
-property and should therefore satisfy the impossibility.  The framework
-also suggests a research programme: for any domain where explanation
-instability has been observed, one can ask whether the Rashomon property
-holds, identify the symmetry group, and derive the domain-specific optimal
-resolution.  More broadly, the framework provides a universal diagnostic:
-whenever a practitioner encounters explanation instability, the first
-question should be whether the underlying system is underspecified---and
-if so, the theorem guarantees that aggregation is the optimal response.
+with identical scalar properties), protein folding degeneracy (multiple
+sequences folding to the same structure), and quantum tomography
+(multiple density matrices consistent with the same measurement
+statistics) all exhibit the Rashomon property and should therefore satisfy
+the impossibility.  In each case, the framework predicts that the
+domain's practitioners will have independently converged on an
+orbit-averaging resolution---a prediction that can be tested empirically.
+
+The framework also suggests a broader research programme: for any domain
+where explanation instability has been observed, one can ask whether the
+Rashomon property holds, identify the symmetry group, and derive the
+domain-specific optimal resolution.  The Lean formalization makes this
+programme concrete: adding a new domain requires only defining an
+\texttt{ExplanationSystem} with appropriate types and providing a
+constructive Rashomon witness; the impossibility and resolution follow
+automatically.  More broadly, the framework provides a universal
+diagnostic: whenever a practitioner encounters explanation instability,
+the first question should be whether the underlying system is
+underspecified---and if so, the theorem guarantees that aggregation is
+the optimal response.
 
 %%% =========================================================================
 %%% Methods
@@ -751,9 +867,24 @@ Spearman rank correlation (county count vs.\ mean KL).
 condition at $N = 1{,}000$ and $N = 100{,}000$.  Orientation agreement on
 directed edges is compared across seeds.  Test: Mann--Whitney $U$.
 
-All statistical tests use $\alpha = 0.05$.  Bootstrap 95\% confidence
-intervals (2,000 resamples) are reported where applicable.  All experiment
-scripts are provided in the repository.
+All statistical tests use $\alpha = 0.05$.  Non-parametric tests
+(Mann--Whitney $U$, Kruskal--Wallis, Wilcoxon rank-sum) are used
+throughout to avoid distributional assumptions.  Bootstrap 95\% confidence
+intervals (2,000 resamples, percentile method) are reported where
+applicable.  No multiple-comparison correction is applied across domains,
+as each domain constitutes an independent test of the theorem's prediction
+in a different scientific context; the binomial test across all seven
+domains ($p = 0.008$) provides a combined significance assessment.  All
+random experiments use fixed seeds for reproducibility.
+
+\paragraph{Reproducibility.}
+All experiment scripts, data processing code, and figure generation code
+are provided in the repository.  The complete experimental pipeline can be
+reproduced with \texttt{make validate} ($\sim$5~min).  The Lean
+formalization can be rebuilt with \texttt{lake build} ($\sim$5~min).
+All paper versions can be compiled with \texttt{make paper}.  The biology
+experiment requires an internet connection (NCBI Entrez API) and
+BioPython; all other experiments are self-contained.
 
 %%% =========================================================================
 %%% Data and Code Availability
