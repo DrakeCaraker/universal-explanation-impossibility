@@ -79,7 +79,7 @@ scientific domains---underdetermined linear systems, genetic code degeneracy,
 gauge freedom, microstate multiplicity, syntactic ambiguity, the phase
 problem, the view update problem, and Markov equivalence---each requiring
 zero shared axioms.  The framework is mechanically verified in the Lean~4
-proof assistant (83~files, 378~theorems, 0~unproved goals), and empirically
+proof assistant (84~files, 381~theorems, 0~unproved goals), and empirically
 validated in seven domains with real data and negative controls.
 The constructive resolution---projecting onto the subspace invariant under
 the symmetry group of equivalent configurations---is provably
@@ -164,12 +164,12 @@ can be simultaneously faithful, stable, and decisive
 first principles in eight scientific domains, each requiring zero shared
 axioms (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).
 The entire framework is mechanically verified in the Lean~4 proof
-assistant~\citep{demoura2021lean4} (83~files, 378~theorems, 0~unproved
+assistant~\citep{demoura2021lean4} (84~files, 381~theorems, 0~unproved
 goals), and empirically validated with real data in seven of the eight
 domains.  The impossibility is tight: each pair of properties is achievable,
-and the Rashomon property is necessary for the impossibility (a
-Lean-verified contrapositive shows that if all three properties hold,
-Rashomon must be absent).  The $G$-invariant resolution---which sacrifices decisiveness
+and the Rashomon property is the exact boundary (a Lean-verified
+biconditional shows the impossibility holds if and only if Rashomon
+is present).  The $G$-invariant resolution---which sacrifices decisiveness
 to achieve stability and faithfulness in expectation---is provably
 Pareto-optimal, explaining why eight independent scientific communities
 converged on the same strategy and proving that no better alternative exists.
@@ -225,13 +225,12 @@ potentially unfaithful at configurations whose internal report conflicts
 with the chosen explanation.  The impossibility is specifically the triple,
 not any pair.
 
-Second, the Rashomon property is \emph{necessary} for the impossibility:
-a Lean-verified contrapositive shows that if all three properties hold for
-any explanation map, the Rashomon property must be absent.  When the
-observation map is injective (each observation uniquely determines the
-configuration), the identity map $E(\theta) = \mathsf{exp}(\theta)$
-achieves all three properties simultaneously.  The Rashomon property is
-thus the dividing line between achievability and impossibility.
+Second, the Rashomon property is the \emph{exact boundary}: a
+Lean-verified biconditional shows that the Rashomon property holds if and
+only if the impossibility holds.  When Rashomon is absent, the identity
+map $E(\theta) = \mathsf{exp}(\theta)$ achieves all three properties
+simultaneously.  The Rashomon property is thus both sufficient and
+necessary for the impossibility.
 
 Third, an axiom substitution analysis shows that weakening any single
 definition---replacing faithfulness with a weaker consistency notion,
@@ -608,7 +607,7 @@ tightness witnesses, the necessity converse, and the $G$-invariant
 resolution---is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} using the Mathlib mathematical
 library~\citep{mathlib2020}.  The formalization comprises 82~source files
-containing 378~theorems and lemmas, with 0~\texttt{sorry} declarations
+containing 381~theorems and lemmas, with 0~\texttt{sorry} declarations
 (Lean's marker for unproved goals).  Every theorem in the paper has a
 corresponding machine-checked proof.
 
@@ -679,7 +678,7 @@ Rashomon witness; the impossibility follows automatically.
 \label{fig:trilemma}
 \end{figure}
 
-At 378~theorems and lemmas across 83~files, this formalization is among
+At 381~theorems and lemmas across 84~files, this formalization is among
 the larger cross-domain verification projects in Lean~4, comparable in
 scale to the Flyspeck project ($\sim$300~lemmas) and Gonthier's
 four-colour theorem ($\sim$400~lemmas).  The complete source code is
