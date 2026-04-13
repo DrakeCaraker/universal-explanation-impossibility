@@ -107,7 +107,22 @@ This situation is not a pathology of any single field; it is a structural
 feature of underspecified inference, present whenever the mapping from
 internal structure to observable output is many-to-one.
 
-Practitioners in each field have independently developed strategies to cope.
+The consequences are practical and far-reaching.  In clinical genomics, the
+inability to uniquely determine a coding sequence from an amino acid
+sequence limits the precision of variant interpretation.  In causal
+inference, the existence of Markov-equivalent graphs means that
+observational data alone cannot settle the direction of causation---a
+constraint that affects every domain from epidemiology to economics.  In
+machine learning, the recent literature on the Rashomon
+effect~\citep{bilodeau2024impossibility} has documented that competing
+models with near-identical predictive accuracy can produce contradictory
+explanations, undermining the reliability of model interpretation in
+high-stakes settings.  In each case, practitioners have recognized the
+instability, but the responses have been domain-specific: each field has
+its own diagnosis, its own terminology, and its own workaround.
+
+Indeed, practitioners in each field have independently developed strategies
+to cope with this instability over more than a century of independent work.
 In physics, one restricts attention to gauge-invariant
 observables~\citep{jackson1999}.
 In statistics, one reports a completed partially directed acyclic graph
@@ -117,10 +132,11 @@ In crystallography, Patterson maps extract phase-invariant
 information~\citep{hauptman1953solution}.
 In biology, codon usage tables report synonymous codon
 frequencies~\citep{crick1966codon}.
-These strategies were developed over more than a century of independent work,
-with domain-specific justifications in each field.  No framework has
-connected them or explained why they converge on the same mathematical
-structure.
+In each case, the strategy involves the same mathematical operation:
+projecting onto the subspace that is invariant under the symmetry group
+of equivalent configurations.  Yet no framework has connected these
+strategies, explained why they converge on the same mathematical structure,
+or proved that they are optimal.
 
 Here we prove a universal impossibility theorem: when a system has the
 \emph{Rashomon property}---when there exist two configurations with the
@@ -198,38 +214,70 @@ internal structure, constructively witnessing the Rashomon property using
 only the domain's own mathematical definitions.
 
 In \emph{mathematics}, the underdetermined system $x_1 + x_2 = 2$ admits
-the solutions $(1,1)$ and $(0,2)$: same sum, different components.
-%
+the solutions $(1,1)$ and $(0,2)$: same sum, different components.  Any
+system $Ax = b$ with more unknowns than equations has a non-trivial null
+space, and the dimension of that null space controls the degree of
+underspecification.  Our experiment confirms that solver disagreement
+(pairwise RMSD) increases monotonically with null-space dimension
+(Fig.~\ref{fig:dose-response}A).
+
 In \emph{biology}, the codons UCU and UCC both encode the amino acid
 serine: same protein fragment, different nucleotide
-sequences~\citep{crick1966codon}.
-%
+sequences~\citep{crick1966codon}.  The genetic code maps 61~sense codons
+to only 20~amino acids, so degeneracy is pervasive---methionine and
+tryptophan (one codon each) are the only amino acids that are uniquely
+determined.  Across 120~eukaryotic cytochrome~c coding sequences from
+NCBI RefSeq, codon usage entropy increases perfectly monotonically with
+degeneracy level (Fig.~\ref{fig:dose-response}B).
+
 In \emph{physics} (gauge theory), two edge-label configurations on a
-triangle graph share the same holonomy---the discrete analogue of a Wilson
-loop---but differ in their local assignments, related by a gauge
-transformation~\citep{jackson1999}.
-%
+triangle graph can share the same holonomy---the discrete analogue of a
+Wilson loop---while differing in their local edge assignments, related by
+a gauge transformation~\citep{jackson1999}.  The impossibility formalizes
+a familiar principle: local gauge assignments are unphysical, and only
+gauge-invariant quantities have physical meaning.
+
 In \emph{statistical mechanics}, the microstates $(H,T)$ and $(T,H)$ both
-have one head: same macrostate, different molecular configurations.
-%
+have one head: same macrostate, different molecular configurations.  The
+number of microstates compatible with a given macrostate grows
+combinatorially, and no observation of the macrostate can determine which
+microstate produced it---the foundation of Boltzmann's entropy.
+
 In \emph{linguistics}, the fragment ``V NP PP'' admits two parse trees,
 left-attach and right-attach, yielding the same surface token sequence but
-different constituent structures~\citep{chomsky1957}.
-%
+different constituent structures~\citep{chomsky1957}.  Structural ambiguity
+is endemic in natural language: our experiment shows that four standard
+parsers disagree significantly more on structurally ambiguous sentences
+than on unambiguous controls (Fig.~\ref{fig:dose-response}E).
+
 In \emph{crystallography}, the signals $(1,0)$ and $(0,1)$ have the same
 energy ($1^2 + 0^2 = 0^2 + 1^2$): same diffraction intensity, different
-electron densities~\citep{hauptman1953solution}.
-%
+electron densities~\citep{hauptman1953solution}.  This is the phase
+problem---diffraction experiments measure amplitudes but not phases, and
+the missing phase information creates an equivalence class of consistent
+electron density maps.
+
 In \emph{computer science}, the database rows $(\texttt{true},
 \texttt{true})$ and $(\texttt{true}, \texttt{false})$ project to the same
-view but differ in the hidden column~\citep{bancilhon1981update}.
-%
+view but differ in the hidden column~\citep{bancilhon1981update}.  This
+is the view update problem: given only a projected view of a database, the
+original table cannot be uniquely recovered.  Using U.S.\ Census Bureau
+2020~data, we show that disaggregation ambiguity scales with the number
+of counties per state (Fig.~\ref{fig:dose-response}G).
+
 In \emph{statistics}, a causal chain $A \to B \to C$ and a causal fork
 $A \leftarrow B \to C$ encode the same conditional independence
-structure~\citep{verma1991equivalence}.
-%
+structure~\citep{verma1991equivalence}.  Markov equivalence is a
+fundamental obstruction to causal inference from observational data:
+without interventional experiments, the direction of causation between
+Markov-equivalent graphs is underdetermined.
+
 Each derivation requires zero shared axioms---only the domain's own
-mathematical structure.
+mathematical structure.  The eight instances are not notational variants
+of a single example: they involve fundamentally different symmetry groups
+(Fig.~\ref{fig:structural}), ranging from continuous translations in
+$\R^{n-r}$ (mathematics) to finite permutation groups $S_k$ (biology,
+linguistics) to the continuous abelian group $U(1)^n$ (crystallography).
 
 %%% Figure 1: 8-panel dose-response
 \begin{figure}[t]
@@ -324,25 +372,38 @@ average minimizes this sacrifice uniformly.
 
 Remarkably, practitioners in eight independent fields have converged on
 precisely this strategy over more than a century of independent work
-(Fig.~\ref{fig:structural}).
-In physics, one works with gauge-invariant observables~\citep{jackson1999}.
-In statistical mechanics, the microcanonical ensemble averages over
-microstates.
-In statistics, one reports a CPDAG rather than committing to a single
-causal direction~\citep{verma1991equivalence}.
-In mathematics, the pseudoinverse selects the minimum-norm solution.
-In biology, codon usage tables report synonymous codon frequencies.
-In crystallography, Patterson maps extract phase-invariant
-information~\citep{hauptman1953solution}.
-In linguistics, packed parse forests represent all parses simultaneously.
-In computer science, complement views restrict to the unambiguous
-projection~\citep{bancilhon1981update}.
+(Fig.~\ref{fig:structural}).  In physics, gauge-invariant
+observables~\citep{jackson1999} discard the local gauge assignment (losing
+decisiveness about edge labels) to achieve stability across gauge-equivalent
+configurations.  In statistical mechanics, the microcanonical ensemble
+averages over all microstates compatible with a given macrostate, reporting
+thermodynamic quantities that are invariant under microstate permutations.
+In statistics, a CPDAG~\citep{verma1991equivalence} represents the entire
+Markov equivalence class rather than committing to any single directed
+graph, sacrificing the ability to assert a specific causal direction in
+exchange for stability across equivalent structures.  In mathematics, the
+pseudoinverse selects the minimum-norm solution, which is the unique
+element of the solution set closest to the origin---an orbit average over
+null-space translations.  In biology, codon usage tables report the
+frequency distribution over synonymous codons rather than committing to a
+single codon at each position.  In crystallography, Patterson
+maps~\citep{hauptman1953solution} extract phase-invariant information from
+diffraction data, discarding the unrecoverable phase to achieve stability.
+In linguistics, packed parse forests represent all valid parses
+simultaneously.  In computer science, complement
+views~\citep{bancilhon1981update} restrict queries to the unambiguous
+projection of the database.
 
-Our framework explains \emph{why} these communities converged.  Each was
-independently confronting the same impossibility---faithfulness, stability,
-and decisiveness cannot coexist under underspecification---and orbit
-averaging is the unique Pareto-optimal stable resolution.  The convergence
-is not coincidental; it is mathematically inevitable.
+In each case, the resolution sacrifices decisiveness---it no longer
+distinguishes between equivalent configurations---and in exchange achieves
+stability (the same answer regardless of which equivalent configuration is
+queried) and faithfulness in expectation (the averaged answer is compatible
+with the system's actual structure on average over the equivalence class).
+Our framework explains \emph{why} these eight communities converged
+independently.  Each was confronting the same impossibility---faithfulness,
+stability, and decisiveness cannot coexist under underspecification---and
+orbit averaging is the unique Pareto-optimal stable resolution.  The
+convergence is not coincidental; it is mathematically inevitable.
 
 %%% Figure 2: Structural differences
 \begin{figure}[t]
@@ -508,7 +569,25 @@ eliminate it) or methodological (the Rashomon property is absent, and
 instability reflects a fixable deficiency).  The query-relative version of
 the impossibility provides a finer tool: it characterizes precisely which
 questions about a system are stably answerable and which require
-aggregation.
+aggregation.  For a biologist, the theorem says: ``you can stably report
+the amino acid, but not the codon.''  For a statistician: ``you can stably
+report the CPDAG, but not the DAG.''  The boundary between answerable and
+unanswerable queries is determined by the symmetry structure of the
+equivalence class.
+
+The result has particular implications for the growing field of explainable
+artificial intelligence (XAI).  The Supporting Information documents nine
+machine learning instances of the impossibility, covering feature
+attribution (SHAP, Integrated Gradients, LIME), attention maps,
+counterfactual explanations, concept probes (TCAV), causal discovery,
+model selection, saliency maps (GradCAM), token citation, and mechanistic
+interpretability (circuit discovery).  In each case, the Rashomon
+property---the existence of multiple near-optimal models with
+contradictory internal structure---makes simultaneous faithfulness,
+stability, and decisiveness unachievable.  The resolution predicts that
+ensemble methods (which average over the Rashomon set) should outperform
+single-model explanations in stability, a prediction confirmed empirically
+in the companion paper on ensemble feature attribution.
 
 A structural parallel exists with Arrow's impossibility
 theorem~\citep{arrow1951social}, which proves that no voting system can
@@ -517,7 +596,10 @@ that individually reasonable desiderata become jointly unsatisfiable under
 symmetry.  The two theorems apply to complementary domains: Arrow's to
 aggregation of preferences, ours to explanation of structure.  Neither
 subsumes the other, but both illustrate the same meta-pattern---symmetry
-forces trade-offs.
+forces trade-offs.  A key difference is that the explanation impossibility
+is constructive: it not only proves that the three properties cannot
+coexist, but identifies the unique optimal trade-off and proves that
+existing scientific practice already implements it.
 
 Several limitations merit acknowledgement.  The eight derivations use
 minimal witnesses (two-element configuration sets), which suffice for the
@@ -526,21 +608,24 @@ empirical validations use domain-appropriate but not exhaustive datasets:
 120~cytochrome~c sequences rather than whole-proteome analysis, 50~states
 rather than international census data.  The resolution framework assumes
 the equivalence class is known, which in practice requires domain
-expertise.  The nine machine learning instances documented in the
-Supporting Information provide a bridge to applied settings, but the
-practical impact of the impossibility on deployed systems remains an
-empirical question.
+expertise to determine.  Finally, the theorem addresses the existence of
+stable explanations, not the computational cost of finding them---in some
+domains, computing the orbit average may be intractable even when its
+optimality is guaranteed.
 
 The pattern likely extends beyond the eight domains studied here.
 Metamerism in colour perception (distinct spectral distributions producing
 identical colour experience), molecular chirality (mirror-image molecules
 with identical scalar properties), and protein folding degeneracy
 (multiple sequences folding to the same structure) all exhibit the Rashomon
-property and should therefore satisfy the impossibility.  More broadly,
-the framework provides a universal diagnostic: whenever a practitioner
-encounters explanation instability, the first question should be whether
-the underlying system is underspecified---and if so, the theorem guarantees
-that aggregation is the optimal response.
+property and should therefore satisfy the impossibility.  The framework
+also suggests a research programme: for any domain where explanation
+instability has been observed, one can ask whether the Rashomon property
+holds, identify the symmetry group, and derive the domain-specific optimal
+resolution.  More broadly, the framework provides a universal diagnostic:
+whenever a practitioner encounters explanation instability, the first
+question should be whether the underlying system is underspecified---and
+if so, the theorem guarantees that aggregation is the optimal response.
 
 %%% =========================================================================
 %%% Methods
@@ -581,6 +666,32 @@ Rashomon witness using \texttt{decide} or \texttt{native\_decide}
 the witness with no axioms.  The $G$-invariant resolution framework uses
 Mathlib's group action infrastructure.  Compilation: \texttt{lake build}
 ($\sim$5~min on a modern laptop).
+
+\paragraph{Proof structure (detailed).}
+Let $\mathcal{S}$ be an explanation system with the Rashomon property,
+witnessed by $\theta_1, \theta_2$.  Suppose for contradiction that $E$ is
+faithful, stable, and decisive.  (1)~Decisiveness applied to $\theta_1$
+and $\theta_2$: since $\mathsf{exp}(\theta_1) \incomp
+\mathsf{exp}(\theta_2)$, we have $E(\theta_1) \incomp E(\theta_2)$.
+(2)~Stability: since $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$,
+we have $E(\theta_1) = E(\theta_2)$.  (3)~Combining: $E(\theta_2) \incomp
+E(\theta_2)$, so the incompatibility relation holds reflexively on
+$E(\theta_2)$.  (4)~Faithfulness at $\theta_2$: requires
+$\lnot(\mathsf{exp}(\theta_2) \incomp E(\theta_2))$, but since
+$E(\theta_2) = E(\theta_1)$ and $E(\theta_1) \incomp E(\theta_2)$,
+faithfulness is violated.  Contradiction.  The Lean proof mirrors this
+chain exactly.
+
+\paragraph{Resolution framework.}
+The $G$-invariant resolution is formalized as follows.  Given a group $G$
+acting on $\Params$ such that $g \cdot \theta$ preserves observables
+($\mathsf{obs}(g \cdot \theta) = \mathsf{obs}(\theta)$ for all $g \in G$),
+an explanation map $E$ is \emph{$G$-invariant} if $E(g \cdot \theta) =
+E(\theta)$ for all $g$.  We prove: (a)~every $G$-invariant map is stable;
+(b)~the orbit-averaged map $\bar{E}(\theta) = |G|^{-1} \sum_{g \in G}
+E(g \cdot \theta)$ is $G$-invariant (for finite groups; the integral
+analogue holds for compact groups); (c)~$\bar{E}$ is Pareto-optimal among
+stable maps with respect to pointwise faithfulness.
 
 \paragraph{Derived instances.}
 Each of the eight cross-domain instances defines an \texttt{ExplanationSystem}
