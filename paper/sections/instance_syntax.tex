@@ -7,10 +7,10 @@ Syntactic ambiguity is pervasive in natural language
 \citep{chomsky1957,jurafsky2024}.  The classic example is prepositional phrase
 (PP) attachment: the sentence fragment ``V NP PP'' admits two parse trees:
 \begin{itemize}
-  \item \textbf{Left-attach}: $(\text{V}\;(\text{NP}\;\text{PP}))$ --- the PP
-    modifies the NP;
-  \item \textbf{Right-attach}: $((\text{V}\;\text{NP})\;\text{PP})$ --- the PP
-    modifies the verb.
+  \item \textbf{NP-attachment} (low attachment): $(\text{V}\;(\text{NP}\;\text{PP}))$
+    --- the PP modifies the NP;
+  \item \textbf{VP-attachment} (high attachment): $((\text{V}\;\text{NP})\;\text{PP})$
+    --- the PP modifies the verb.
 \end{itemize}
 For instance, ``saw the man with the telescope'' can mean either ``saw
 [the man who had the telescope]'' or ``[saw the man] [using the telescope].''
@@ -49,9 +49,13 @@ equivalent inputs.
 Four syntactic parsers (spaCy small/medium/large, Stanza) applied to 50
 ambiguous and 50 unambiguous sentences show mean inter-parser agreement (UAS) of
 0.821 for ambiguous sentences versus 0.894 for unambiguous (Wilcoxon
-$p = 1.6 \times 10^{-3}$, Cohen's $d = 0.60$).  The most disagreed sentences
-are structurally ambiguous (`Visiting relatives can be boring,' UAS~$= 0.40$);
-14 unambiguous sentences achieve perfect consensus.
+$p = 1.6 \times 10^{-3}$, Cohen's $d = 0.60$).
+\emph{Caveats:} Three of the four parsers (spaCy variants) share training data
+and architecture, inflating within-family agreement.  The ambiguous set includes
+mixed ambiguity types (PP-attachment, coordination scope, headline ambiguity),
+not exclusively PP-attachment.  Parsers tokenize independently, introducing a
+confound.  These limitations weaken the empirical illustration but do not affect
+the Lean-verified impossibility, which depends only on the constructive witness.
 
 \paragraph{Resolution: packed parse forests.}
 The standard resolution in NLP is to report a \emph{packed parse forest}
@@ -64,8 +68,9 @@ faithfulness.
 
 \paragraph{Lean formalization.}
 The Lean~4 types are \texttt{Token} (an inductive with constructors \texttt{V},
-\texttt{NP}, \texttt{PP}), \texttt{Bracketing} (with constructors
-\texttt{leftAttach} and \texttt{rightAttach}), and
+\texttt{NP}, \texttt{PP} representing phrasal categories, not surface tokens),
+\texttt{Bracketing} (with constructors \texttt{leftAttach} and
+\texttt{rightAttach}, corresponding to NP-attachment and VP-attachment), and
 \texttt{syntaxSystem : ExplanationSystem Bracketing Bracketing (List Token)}.
 The impossibility is \texttt{syntactic\_ambiguity\_impossibility} in
 \texttt{SyntacticAmbiguity.lean}, derived with zero axioms.

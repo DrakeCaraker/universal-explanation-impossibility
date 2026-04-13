@@ -43,11 +43,13 @@ Four solvers (pseudoinverse, LSQR, Tikhonov, random null-space) applied to 100
 underdetermined systems show mean pairwise RMSD of 0.091, compared to 0.049 for
 fully determined controls (Mann-Whitney $p = 6.3 \times 10^{-9}$).
 Disagreement is elevated across all null space dimensions $d > 0$.
-\emph{Note:} RMSD does not increase monotonically with $d$ because three of
-the four non-random solvers converge to near-minimum-norm solutions; the
-disagreement is therefore dominated by the single random null-space projection
-solver.  The key finding is the positive/zero separation ($d > 0$ vs.\ $d = 0$),
-not a smooth scaling relationship.
+\emph{Note:} Within the underdetermined group, RMSD actually \emph{decreases}
+with $d$ (slope $= -0.0015$), because three of the four solvers converge to
+near-minimum-norm solutions, and the random null-space projection's
+per-component contribution dilutes as $1/\sqrt{d}$.  The key finding is the
+presence/absence separation ($d > 0$ vs.\ $d = 0$), not a monotonic scaling.
+The control ($d = 0$) has RMSD $= 0.049$ (not exactly zero) due to
+Tikhonov regularization bias ($\lambda = 0.01$).
 
 \paragraph{Resolution: minimum-norm solutions.}
 The classical resolution is the Moore--Penrose pseudoinverse

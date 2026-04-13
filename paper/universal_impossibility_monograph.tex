@@ -1023,6 +1023,16 @@ We distinguish four levels of verification:
     independently verifiable (e.g., the surjectivity axiom for GBDT follows
     from the symmetry of collinear features under the data-generating process).
 
+  \item \textbf{Axiomatized} (Rashomon assumed): Seven of the nine ML instances
+    (attention, counterfactual, concept, model selection, saliency, token citation,
+    mechanistic interpretability) axiomatize the \texttt{ExplanationSystem}
+    including the Rashomon property as a single opaque axiom.  The impossibility
+    follows trivially from the abstract theorem.  These instances verify that
+    the abstract types are well-formed but do not constructively witness the
+    Rashomon property from domain-specific first principles.  By contrast, all
+    eight cross-domain scientific instances (and the causal ML instance)
+    constructively derive Rashomon via \texttt{decide} with zero axioms.
+
   \item \textbf{Argued} (supplement proof only): The result has a
     rigorous proof sketch in the supplement or companion paper but has
     not been mechanized in Lean~4.  Example: the Pareto optimality of
