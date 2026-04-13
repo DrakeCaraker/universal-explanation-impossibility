@@ -1,0 +1,1013 @@
+{
+  "experiment": "ensemble_causal_discovery_transfer",
+  "dag": "Asia (8 nodes, linear Gaussian)",
+  "n_samples": 1000,
+  "n_seeds": 100,
+  "n_bootstrap": 50,
+  "dash_threshold": 0.7,
+  "methods": [
+    "Single-run PC(0.05)",
+    "Bootstrap majority vote",
+    "DASH-style ensemble"
+  ],
+  "true_edges": [
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      4,
+      7
+    ]
+  ],
+  "summary": {
+    "single_run": {
+      "accuracy_mean": 0.76,
+      "accuracy_std": 0.14106735979665885,
+      "decisiveness_mean": 0.3625,
+      "decisiveness_std": 0.07806247497997998,
+      "cross_seed_agreement": 0.9377489177489178,
+      "flip_rate": 0.013528138528138525
+    },
+    "bootstrap_vote": {
+      "accuracy_mean": 0.7671666666666667,
+      "accuracy_std": 0.1443655660698446,
+      "decisiveness_mean": 0.37375,
+      "decisiveness_std": 0.07805246632874582,
+      "cross_seed_agreement": 0.9408441558441558,
+      "flip_rate": 0.013694083694083693
+    },
+    "dash_ensemble": {
+      "accuracy_mean": 0.7594086021505375,
+      "accuracy_std": 0.18997313920067568,
+      "decisiveness_mean": 0.20625,
+      "decisiveness_std": 0.17354304221143527,
+      "cross_seed_agreement": 0.9295310245310243,
+      "flip_rate": 0.0033333333333333335
+    }
+  },
+  "pairwise_tests_stability": {
+    "bootstrap_vote_gt_single": {
+      "test": "Wilcoxon signed-rank (one-sided, cross-seed agreement)",
+      "statistic": 1032585.5,
+      "p_value": 7.253335209272156e-19
+    },
+    "dash_gt_single": {
+      "test": "Wilcoxon signed-rank (one-sided, cross-seed agreement)",
+      "statistic": 2613041.5,
+      "p_value": 0.9999999967644787
+    },
+    "dash_gt_vote": {
+      "test": "Wilcoxon signed-rank (one-sided, cross-seed agreement)",
+      "statistic": 2057518.5,
+      "p_value": 1.0
+    }
+  },
+  "pairwise_tests_flip_rate": {
+    "vote_lower_than_single": {
+      "statistic": 58528.0,
+      "p_value": 0.849378880245869
+    },
+    "dash_lower_than_single": {
+      "statistic": 998991.0,
+      "p_value": 1.572101948010037e-309
+    },
+    "dash_lower_than_vote": {
+      "statistic": 1031766.0,
+      "p_value": 0.0
+    }
+  },
+  "prediction": {
+    "ensemble_improves_stability": true,
+    "ensemble_reduces_flips": true,
+    "dash_pareto_optimal": false
+  },
+  "per_seed_results": [
+    {
+      "seed": 10,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 11,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 12,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 13,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 14,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 15,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 16,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 17,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 1.0,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 18,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 19,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.0,
+      "dash_dec": 0.125
+    },
+    {
+      "seed": 20,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": 0.75,
+      "dash_dec": 0.5
+    },
+    {
+      "seed": 21,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 22,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": 1.0,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 23,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 24,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 25,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 26,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 27,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 28,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 29,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 30,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 31,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 32,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 33,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 34,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 35,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 36,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 37,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.5,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 38,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 39,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 40,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 41,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 42,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 43,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 44,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 45,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 46,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 47,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": 0.75,
+      "dash_dec": 0.5
+    },
+    {
+      "seed": 48,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 49,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 50,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.5,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 51,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 52,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 53,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 54,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 55,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 56,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 57,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 58,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.375,
+      "dash_acc": 1.0,
+      "dash_dec": 0.125
+    },
+    {
+      "seed": 59,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 60,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 61,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 62,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 63,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 64,
+      "single_acc": 1.0,
+      "single_dec": 0.625,
+      "vote_acc": 1.0,
+      "vote_dec": 0.625,
+      "dash_acc": 1.0,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 65,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.5,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 66,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 67,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 68,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 69,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 70,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 71,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 72,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 73,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 74,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 75,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": 0.75,
+      "dash_dec": 0.5
+    },
+    {
+      "seed": 76,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 77,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 78,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 79,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 80,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.8,
+      "vote_dec": 0.625,
+      "dash_acc": 1.0,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 81,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 82,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 83,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 1.0,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 84,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 85,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 86,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 87,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 88,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 89,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 90,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 91,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 92,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 93,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 94,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 95,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 96,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 97,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 98,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 1.0,
+      "vote_dec": 0.5,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 99,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 100,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 101,
+      "single_acc": 0.6666666666666666,
+      "single_dec": 0.375,
+      "vote_acc": 0.6666666666666666,
+      "vote_dec": 0.375,
+      "dash_acc": 0.6666666666666666,
+      "dash_dec": 0.375
+    },
+    {
+      "seed": 102,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 103,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 104,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 105,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    },
+    {
+      "seed": 106,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.25,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 107,
+      "single_acc": 0.75,
+      "single_dec": 0.5,
+      "vote_acc": 0.75,
+      "vote_dec": 0.5,
+      "dash_acc": 1.0,
+      "dash_dec": 0.25
+    },
+    {
+      "seed": 108,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.375,
+      "dash_acc": 1.0,
+      "dash_dec": 0.125
+    },
+    {
+      "seed": 109,
+      "single_acc": 1.0,
+      "single_dec": 0.25,
+      "vote_acc": 1.0,
+      "vote_dec": 0.375,
+      "dash_acc": NaN,
+      "dash_dec": 0.0
+    }
+  ],
+  "interpretation": "Cross-domain transfer test: DASH-style ensemble averaging applied to causal discovery (Asia DAG, N=1000, 100 seeds). Cross-seed orientation stability \u2014 the key metric for orbit averaging \u2014 shows: Single-run agreement=0.9377, Bootstrap-vote=0.9408, DASH=0.9295. Flip rates: Single=0.0135, Vote=0.0137, DASH=0.0033. Accuracy (correct/directed): Single=0.760, Vote=0.767, DASH=0.759. Decisiveness: Single=0.362, Vote=0.374, DASH=0.206. Ensemble improves stability: CONFIRMED. Ensemble reduces flips: CONFIRMED. DASH Pareto-optimal (less decisive, more stable): NOT CONFIRMED.",
+  "_timestamp": "2026-04-13 03:06:52"
+}

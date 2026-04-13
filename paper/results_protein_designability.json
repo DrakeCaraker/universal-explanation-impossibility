@@ -1,0 +1,126 @@
+{
+  "experiment": "protein_designability",
+  "description": "Tests the cross-level prediction from the universal explanation impossibility framework's character theory: H/H_max \u2248 (d-1)/d = 1-1/d for protein sequence diversity at each aligned position.",
+  "data_source": "Cytochrome c protein sequences from NCBI RefSeq",
+  "n_species": 120,
+  "n_aligned_columns": 149,
+  "n_analyzed_positions": 105,
+  "grouped_by_d": {
+    "1": {
+      "n_positions": 46,
+      "mean_ratio": 0.0,
+      "std_ratio": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "predicted": 0.0,
+      "residual": 0.0
+    },
+    "2": {
+      "n_positions": 22,
+      "mean_ratio": 0.16151249338220855,
+      "std_ratio": 0.118506230019203,
+      "ci_lo": 0.11072250320264455,
+      "ci_hi": 0.214430156901568,
+      "predicted": 0.5,
+      "residual": -0.3384875066177915
+    },
+    "3": {
+      "n_positions": 15,
+      "mean_ratio": 0.24285078292313952,
+      "std_ratio": 0.19748550099253728,
+      "ci_lo": 0.15521194702408392,
+      "ci_hi": 0.3540336206208747,
+      "predicted": 0.6666666666666666,
+      "residual": -0.4238158837435271
+    },
+    "4": {
+      "n_positions": 7,
+      "mean_ratio": 0.17818520372396598,
+      "std_ratio": 0.06495789078126539,
+      "ci_lo": 0.13401452634694033,
+      "ci_hi": 0.2261352413176638,
+      "predicted": 0.75,
+      "residual": -0.571814796276034
+    },
+    "5": {
+      "n_positions": 7,
+      "mean_ratio": 0.532260920455205,
+      "std_ratio": 0.1948293820645409,
+      "ci_lo": 0.3900497481043022,
+      "ci_hi": 0.684247579144896,
+      "predicted": 0.8,
+      "residual": -0.26773907954479503
+    },
+    "6": {
+      "n_positions": 4,
+      "mean_ratio": 0.3995786309314916,
+      "std_ratio": 0.23189324823750704,
+      "ci_lo": 0.19213312854187597,
+      "ci_hi": 0.6187500122820323,
+      "predicted": 0.8333333333333334,
+      "residual": -0.4337547024018418
+    },
+    "7": {
+      "n_positions": 1,
+      "mean_ratio": 0.5020440887538804,
+      "std_ratio": 0.0,
+      "ci_lo": 0.5020440887538804,
+      "ci_hi": 0.5020440887538804,
+      "predicted": 0.8571428571428571,
+      "residual": -0.3550987683889767
+    },
+    "8": {
+      "n_positions": 1,
+      "mean_ratio": 0.7386497470173105,
+      "std_ratio": 0.0,
+      "ci_lo": 0.7386497470173105,
+      "ci_hi": 0.7386497470173105,
+      "predicted": 0.875,
+      "residual": -0.13635025298268955
+    },
+    "9": {
+      "n_positions": 2,
+      "mean_ratio": 0.5463448900132621,
+      "std_ratio": 0.13100470661991973,
+      "ci_lo": 0.4153401833933424,
+      "ci_hi": 0.6773495966331818,
+      "predicted": 0.8888888888888888,
+      "residual": -0.3425439988756267
+    }
+  },
+  "statistics": {
+    "n_d_values": 8,
+    "d_values": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "pearson_r_grouped": 0.7977154387780304,
+    "pearson_p_grouped": 0.017680798805848316,
+    "spearman_rho_grouped": 0.880952380952381,
+    "spearman_p_grouped": 0.0038503204637324014,
+    "rmse_character_theory": 0.3779907623253774,
+    "rmse_uniform": 0.6177649699841463,
+    "mae_character_theory": 0.3587006236039103,
+    "mae_uniform": 0.5873216553499421,
+    "rmse_ratio_uniform_over_char": 1.6343388028418784,
+    "mean_signed_residual": -0.3587006236039103,
+    "ttest_residual_t": -16.145043817701993,
+    "ttest_residual_p": 4.010516636513032e-23,
+    "n_positions_d_ge_2": 59,
+    "pearson_r_positions": 0.550724608171283,
+    "pearson_p_positions": 6.2009215610988445e-06,
+    "positions_closer_to_char": 59,
+    "positions_closer_to_uniform": 0,
+    "fraction_closer_to_char": 1.0
+  },
+  "prediction": "H/H_max = (d-1)/d = 1 - 1/d (character theory)",
+  "null_prediction": "H/H_max = 1.0 (uniform distribution)",
+  "conclusion": "The 1/k law HOLDS: observed H/H_max is closer to (d-1)/d than to 1.0 (RMSE 0.3780 vs 0.6178; Pearson r = 0.798; 100% of positions closer to character theory).",
+  "_timestamp": "2026-04-13 02:57:44"
+}

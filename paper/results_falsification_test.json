@@ -1,0 +1,413 @@
+{
+  "experiment": "falsification_test",
+  "description": "Tests the framework's boundary prediction: when the Rashomon property is absent (injective observation map), all three properties (faithful, stable, decisive) are simultaneously achievable. When Rashomon is present, instability emerges.",
+  "linear_systems": {
+    "domain": "linear_systems",
+    "metric": "pairwise_RMSD",
+    "no_rashomon": {
+      "condition": "square invertible (m=n=10)",
+      "n_systems": 50,
+      "mean": 9.349554962108667e-08,
+      "max": 1.5490118995397342e-06,
+      "all_values": [
+        2.033662054185799e-09,
+        1.6709585137781713e-11,
+        1.2223002887719844e-12,
+        1.0884107089320087e-06,
+        1.0479062881314557e-08,
+        4.773245992192594e-09,
+        2.414543876347139e-10,
+        2.508775629415232e-09,
+        1.1605439294344554e-10,
+        1.9066514291722684e-11,
+        3.029401856026143e-07,
+        1.5313817262398226e-08,
+        2.648187963995589e-08,
+        2.80502284894672e-08,
+        1.0271423415397392e-08,
+        2.472282685950349e-10,
+        3.511935267151034e-08,
+        1.9355371397167842e-08,
+        6.042900283395836e-10,
+        7.608516920579516e-13,
+        2.074153512615299e-08,
+        1.668439235937734e-11,
+        2.4365025009999215e-08,
+        8.583635467329147e-10,
+        1.442528411217014e-08,
+        2.035388839813923e-07,
+        1.5490118995397342e-06,
+        4.975425616682683e-10,
+        3.457660380377347e-11,
+        3.57277323719371e-10,
+        1.2253331767625754e-11,
+        6.413338251631322e-10,
+        7.546168091093633e-07,
+        2.3407371074413616e-08,
+        6.9796416919964376e-12,
+        2.3265660439503112e-10,
+        8.917255654847928e-10,
+        9.426512994880593e-11,
+        2.0043676380142858e-08,
+        5.3173309376325903e-11,
+        9.15916509403879e-09,
+        1.885464627557174e-11,
+        3.518680445212627e-07,
+        6.64056264453718e-08,
+        1.533559838163236e-11,
+        6.783921122021601e-08,
+        2.7032304904407627e-11,
+        1.1056812020791157e-08,
+        7.468128867188573e-09,
+        8.745386987143515e-11
+      ],
+      "ttest_vs_0": {
+        "t": 2.31722999620514,
+        "p": 0.02471215847926349
+      },
+      "prediction": "RMSD ~ 0",
+      "confirmed": true
+    },
+    "rashomon": {
+      "condition": "underdetermined (m=10, n=20)",
+      "n_systems": 50,
+      "mean": 0.11218796553954508,
+      "max": 0.11302941804954321,
+      "all_values": [
+        0.11197289190658576,
+        0.11236517202553879,
+        0.11191003807258927,
+        0.11199234444303463,
+        0.11211249595776217,
+        0.11207586256674386,
+        0.11276761186321765,
+        0.11195010383391298,
+        0.11190996521995104,
+        0.111970183262396,
+        0.11207086883651991,
+        0.11215923581604718,
+        0.1119650315073852,
+        0.11241652290127091,
+        0.11226411140102051,
+        0.11210533461516042,
+        0.11205536167677756,
+        0.11248210295616563,
+        0.11223596677273219,
+        0.111982376070985,
+        0.11203071593038555,
+        0.11210551794259505,
+        0.11212186780748702,
+        0.11203307904774219,
+        0.11235238469828128,
+        0.11208567000164499,
+        0.11218473206841593,
+        0.11250397042517803,
+        0.11236139640040295,
+        0.11207045911399437,
+        0.11217613426722994,
+        0.1121543457290954,
+        0.11201613000259647,
+        0.11286159496685415,
+        0.11195732362977967,
+        0.11196486311078872,
+        0.11244750628478933,
+        0.11219690367167838,
+        0.11209372945719438,
+        0.11204044132352209,
+        0.11276655340799906,
+        0.11198123043722058,
+        0.11207767682486601,
+        0.11202917486278706,
+        0.11219827853981577,
+        0.11215607336354849,
+        0.1120994044288615,
+        0.11302941804954321,
+        0.11242535621267313,
+        0.11211276326448623
+      ],
+      "ttest_vs_0": {
+        "t": 3140.180848005461,
+        "p": 1.2989730672603718e-131
+      },
+      "prediction": "RMSD > 0",
+      "confirmed": true
+    }
+  },
+  "genetic_code": {
+    "domain": "genetic_code",
+    "metric": "Shannon_entropy_bits",
+    "no_rashomon": {
+      "condition": "injective code (degeneracy=1 for all)",
+      "n_amino_acids": 20,
+      "n_species": 50,
+      "mean_entropy": 0.0,
+      "all_zero": true,
+      "per_aa": {
+        "Phe": 0.0,
+        "Leu": 0.0,
+        "Ile": 0.0,
+        "Met": 0.0,
+        "Val": 0.0,
+        "Ser": 0.0,
+        "Pro": 0.0,
+        "Thr": 0.0,
+        "Ala": 0.0,
+        "Tyr": 0.0,
+        "His": 0.0,
+        "Gln": 0.0,
+        "Asn": 0.0,
+        "Lys": 0.0,
+        "Asp": 0.0,
+        "Glu": 0.0,
+        "Cys": 0.0,
+        "Trp": 0.0,
+        "Arg": 0.0,
+        "Gly": 0.0
+      },
+      "prediction": "entropy = 0",
+      "confirmed": true
+    },
+    "rashomon": {
+      "condition": "standard genetic code (degeneracy > 1)",
+      "n_amino_acids_deg_gt1": 18,
+      "n_species": 50,
+      "mean_entropy": 1.398059302439937,
+      "ttest_vs_0": {
+        "t": 9.73731155988724,
+        "p": 2.283945555648785e-08
+      },
+      "per_aa": {
+        "Phe": {
+          "mean_entropy": 0.7928168937211582,
+          "degeneracy": 2
+        },
+        "Leu": {
+          "mean_entropy": 2.390582557782586,
+          "degeneracy": 6
+        },
+        "Ile": {
+          "mean_entropy": 1.3687071909150896,
+          "degeneracy": 3
+        },
+        "Met": {
+          "mean_entropy": 0.0,
+          "degeneracy": 1
+        },
+        "Val": {
+          "mean_entropy": 1.8393932377268862,
+          "degeneracy": 4
+        },
+        "Ser": {
+          "mean_entropy": 2.3865878475499525,
+          "degeneracy": 6
+        },
+        "Pro": {
+          "mean_entropy": 1.7551052795181823,
+          "degeneracy": 4
+        },
+        "Thr": {
+          "mean_entropy": 1.8445571026095735,
+          "degeneracy": 4
+        },
+        "Ala": {
+          "mean_entropy": 1.769906704019608,
+          "degeneracy": 4
+        },
+        "Tyr": {
+          "mean_entropy": 0.8369188917653014,
+          "degeneracy": 2
+        },
+        "His": {
+          "mean_entropy": 0.9098004340976708,
+          "degeneracy": 2
+        },
+        "Gln": {
+          "mean_entropy": 0.9058022976647697,
+          "degeneracy": 2
+        },
+        "Asn": {
+          "mean_entropy": 0.7558552214410598,
+          "degeneracy": 2
+        },
+        "Lys": {
+          "mean_entropy": 0.8129072823822474,
+          "degeneracy": 2
+        },
+        "Asp": {
+          "mean_entropy": 0.9151744885394975,
+          "degeneracy": 2
+        },
+        "Glu": {
+          "mean_entropy": 0.8916907404907058,
+          "degeneracy": 2
+        },
+        "Cys": {
+          "mean_entropy": 0.8942348860167981,
+          "degeneracy": 2
+        },
+        "Trp": {
+          "mean_entropy": 0.0,
+          "degeneracy": 1
+        },
+        "Arg": {
+          "mean_entropy": 2.3485559866010797,
+          "degeneracy": 6
+        },
+        "Gly": {
+          "mean_entropy": 1.7464704010766954,
+          "degeneracy": 4
+        }
+      },
+      "prediction": "entropy > 0",
+      "confirmed": true
+    }
+  },
+  "causal_discovery": {
+    "domain": "causal_discovery",
+    "metric": "decisiveness (fraction of edges directed)",
+    "no_rashomon": {
+      "condition": "fully identified DAG (all v-structures, MEC=1)",
+      "n_seeds": 50,
+      "n_samples": 100000,
+      "alpha": 0.01,
+      "mean_decisiveness": 1.0,
+      "all_values": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ttest_vs_1": {
+        "t": 0.0,
+        "p": 1.0
+      },
+      "prediction": "decisiveness = 1.0",
+      "confirmed": true
+    },
+    "rashomon": {
+      "condition": "chain DAG (no v-structures, MEC>1)",
+      "n_seeds": 50,
+      "n_samples": 100000,
+      "alpha": 0.01,
+      "mean_decisiveness": 0.0,
+      "all_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ttest_vs_1": {
+        "t": -Infinity,
+        "p": 0.0
+      },
+      "prediction": "decisiveness < 1.0",
+      "confirmed": true
+    }
+  },
+  "all_predictions_confirmed": true,
+  "summary": {
+    "no_rashomon_predictions": {
+      "linear_RMSD_approx_0": true,
+      "codon_entropy_eq_0": true,
+      "causal_decisiveness_eq_1": true
+    },
+    "rashomon_predictions": {
+      "linear_RMSD_gt_0": true,
+      "codon_entropy_gt_0": true,
+      "causal_decisiveness_lt_1": true
+    }
+  },
+  "_timestamp": "2026-04-13 03:02:27"
+}
