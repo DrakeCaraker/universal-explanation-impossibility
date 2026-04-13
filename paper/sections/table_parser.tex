@@ -1,16 +1,15 @@
 \begin{table}[h]
 \centering
-\caption{Inter-parser dependency agreement on ambiguous vs. unambiguous sentences.
-Mean pairwise Unlabeled Attachment Score (UAS) between 3 parsers
-(\texttt{spacy_sm}, \texttt{spacy_md}, \texttt{stanza}).
-95\% bootstrap confidence intervals shown. Higher = more agreement.}
+\caption{Inter-parser dependency agreement on ambiguous vs.\ unambiguous sentences. Mean pairwise Unlabeled Attachment Score (UAS) across all $\binom{4}{2} = 6$ parser pairs (\texttt{spacy_sm}, \texttt{spacy_md}, \texttt{spacy_lg}, \texttt{stanza}). 95\% bootstrap CIs shown. Higher = more agreement; ambiguity score = $1 - \mathrm{UAS}$.}
 \label{tab:parser_disagreement}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-Sentence type & $N$ & Mean UAS (95\% CI) & Wilcoxon $p$ \\
+Sentence type & $N$ & $N_{\text{pairs}}$ & Mean UAS (95\% CI) & Wilcoxon $p$ \\
 \midrule
-Ambiguous  & 25 & 0.751 (0.686, 0.813) & \multirow{2}{*}{0.1327} \\
-Unambiguous & 25 & 0.835 (0.748, 0.914) & \\
+Ambiguous    & 50 & 6 & 0.793 (0.754, 0.831) & \multirow{2}{*}{0.0009} \\
+Unambiguous  & 50 & 6 & 0.894 (0.851, 0.935) & \\
+\midrule
+\multicolumn{4}{l}{Cohen's $d$ (unambiguous $-$ ambiguous)} & 0.691 \\
 \bottomrule
 \end{tabular}
 \end{table}
