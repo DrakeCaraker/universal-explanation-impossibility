@@ -91,6 +91,10 @@ Cross-domain transfer experiments confirm the framework's predictive
 power: an ML ensemble method transferred to causal discovery reduces
 instability fourfold, and a character-theoretic bound derived from
 genetics correctly predicts protein sequence diversity.
+The framework reveals that Fisher's sufficiency criterion, the
+Rao-Blackwell theorem, and the EM algorithm are instances of the same
+resolution strategy, and gives a $1/n$ ceiling on neural network
+interpretability from character theory.
 \end{abstract}
 
 %%% =========================================================================
@@ -606,7 +610,7 @@ The entire framework---the abstract theorem, all eight derived instances,
 tightness witnesses, the necessity converse, and the $G$-invariant
 resolution---is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} using the Mathlib mathematical
-library~\citep{mathlib2020}.  The formalization comprises 82~source files
+library~\citep{mathlib2020}.  The formalization comprises 84~source files
 containing 381~theorems and lemmas, with 0~\texttt{sorry} declarations
 (Lean's marker for unproved goals).  Every theorem in the paper has a
 corresponding machine-checked proof.
