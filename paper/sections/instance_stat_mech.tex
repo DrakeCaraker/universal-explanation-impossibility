@@ -1,0 +1,58 @@
+%-----------------------------------------------------------------------
+\subsection{Microstate Degeneracy (Statistical Mechanics)}
+\label{sec:instance-stat-mech}
+%-----------------------------------------------------------------------
+
+In statistical mechanics, a \emph{macrostate} (e.g., temperature, pressure)
+is compatible with many \emph{microstates} (specific molecular configurations).
+This coarse-graining---physically distinct configurations producing the same
+observable---is the foundational example of underspecification in physics.
+
+\paragraph{The explanation system.}
+Define $\mathcal{S}_{\mathrm{stat}} = (\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ as follows:
+\begin{itemize}
+  \item $\Params = \sH = \texttt{CoinPair}$: a microstate is a pair of coins,
+    each Heads or Tails;
+  \item $Y = \mathbb{N}$: the macrostate, defined as the number of heads;
+  \item $\mathsf{obs} = \texttt{numHeads}$;
+  \item $\mathsf{exp} = \mathrm{id}$ (the full microstate is the
+    ``explanation'');
+  \item $\incomp(c_1, c_2) \iff c_1 \ne c_2$.
+\end{itemize}
+
+The permutation group $S_2$ acts on microstates by swapping the two coins:
+$(H,T) \mapsto (T,H)$.  The macrostate is invariant under this action.
+
+\paragraph{The Rashomon property.}
+The witnesses are $(H,T)$ and $(T,H)$.  Both have macrostate $\texttt{numHeads} = 1$,
+and they are distinct microstates.  Moreover, $(T,H) = \texttt{swapCoins}(H,T)$:
+they are related by the $S_2$ permutation.  The Rashomon property is constructively
+witnessed with zero axioms.
+
+\paragraph{Universal permutation invariance.}
+The theorem \texttt{swap\_preserves\_macrostate} is proved for \emph{all}
+configurations, not just the two witnesses: for every $c \in \texttt{CoinPair}$,
+$\texttt{numHeads}(\texttt{swapCoins}(c)) = \texttt{numHeads}(c)$.  The proof
+proceeds by case analysis on all $2^2 = 4$ configurations.
+
+\paragraph{The impossibility.}
+By Theorem~\ref{thm:universal}, no description of a thermodynamic system can
+simultaneously be faithful (specify a particular microstate), stable (assign the
+same description to macrostate-equivalent configurations), and decisive
+(distinguish every pair of distinct microstates).
+
+\paragraph{Resolution: the microcanonical ensemble.}
+The microcanonical ensemble---the uniform distribution over microstates at fixed
+macrostate---is structurally analogous to the $G$-invariant resolution.  For
+permutation-symmetric systems, the connection is precise: the permutation group
+acts on microstates, and the orbit average produces the macrostate.  Boltzmann's
+program of replacing specific microstates with statistical distributions over
+macrostates is an instance of the resolution strategy this paper formalizes.
+
+\paragraph{Lean formalization.}
+The Lean~4 types are \texttt{CoinPair} (a structure with fields
+\texttt{coin1 coin2 : Bool}), \texttt{numHeads} (the observation map),
+and \texttt{statMechSystem : ExplanationSystem CoinPair CoinPair Nat}.
+The impossibility is \texttt{stat\_mech\_impossibility} in
+\texttt{StatisticalMechanics.lean}, derived with zero axioms.

@@ -76,3 +76,4 @@ import UniversalImpossibility.ViewUpdate
 import UniversalImpossibility.PhaseProblem
 import UniversalImpossibility.GaugeTheory
 import UniversalImpossibility.SyntacticAmbiguity
+import UniversalImpossibility.StatisticalMechanics

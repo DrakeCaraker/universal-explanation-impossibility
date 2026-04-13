@@ -135,8 +135,9 @@ observationally equivalent configurations produce incompatible explanations
 This single abstract theorem, which we call the \emph{Explanation
 Impossibility}, is a meta-theorem whose reach extends far beyond machine
 learning.  We derive the impossibility as a zero-axiom consequence in
-seven scientific domains: the degeneracy of the genetic code (biology),
-gauge freedom in electromagnetism (physics), syntactic ambiguity in natural
+eight scientific domains: the degeneracy of the genetic code (biology),
+gauge freedom in electromagnetism (physics), microstate degeneracy in
+statistical mechanics (physics), syntactic ambiguity in natural
 language (linguistics), the phase problem in crystallography,
 underdetermined linear systems (mathematics), the database view update
 problem (computer science), and Markov equivalence in causal inference
@@ -164,7 +165,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (81~files, 372~theorems,
+The framework is mechanically verified in Lean~4 (82~files, 377~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -221,12 +222,13 @@ Our contributions are:
 \begin{enumerate}[label=(\arabic*)]
   \item \textbf{A universal impossibility theorem}
     (Theorem~\ref{thm:universal}) that unifies impossibility results
-    across seven sciences and nine ML explanation types under a single
+    across eight sciences and nine ML explanation types under a single
     proof requiring only the Rashomon property.
-  \item \textbf{Seven derived instances across seven sciences}
+  \item \textbf{Eight derived instances across eight sciences}
     (Section~\ref{sec:derived-instances}): underdetermined linear systems
     (mathematics), genetic code degeneracy (biology), gauge freedom
-    (physics), syntactic ambiguity (linguistics), the phase problem
+    (physics), microstate degeneracy in statistical mechanics (physics),
+    syntactic ambiguity (linguistics), the phase problem
     (crystallography), the view update problem (computer science), and
     Markov equivalence (statistics)---each derived with zero axioms from
     domain-specific first principles.
@@ -249,7 +251,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 81~files, 372~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 82~files, 377~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -267,7 +269,7 @@ The remainder of the paper is organized as follows.
 Section~\ref{sec:related} surveys related work.
 Section~\ref{sec:framework} introduces the abstract framework and proves
 the universal impossibility.
-Section~\ref{sec:derived-instances} derives the impossibility in seven
+Section~\ref{sec:derived-instances} derives the impossibility in eight
 scientific domains with zero axioms.
 Section~\ref{sec:ml-instances} instantiates the
 theorem across nine ML explanation types.
@@ -505,19 +507,19 @@ in \texttt{Necessity.lean}).
 For instance, in feature attribution, the query ``is feature~$x$ in the top~$k$?'' may be stably answerable (all equivalent models include~$x$), while ``is~$x$ ranked above~$y$?'' may not be (collinear features swap rankings across the Rashomon set).
 
 %%% ==========================================================================
-\section{Derived Instances Across Seven Sciences}
+\section{Derived Instances Across Eight Sciences}
 \label{sec:derived-instances}
 %%% ==========================================================================
 
 Before turning to machine learning, we demonstrate the universality of
 Theorem~\ref{thm:universal} by deriving it as a zero-axiom consequence in
-seven scientific domains.  Each instance constructively witnesses the Rashomon
+eight scientific domains.  Each instance constructively witnesses the Rashomon
 property from domain-specific first principles---no axioms are assumed beyond
 the definitions.  Table~\ref{tab:unification} summarizes the common structure.
 
 \begin{table}[t]
 \centering
-\caption{Seven derived instances of the Explanation Impossibility across seven sciences. Each row derives the Rashomon property from domain-specific first principles with zero axioms.}
+\caption{Eight derived instances of the Explanation Impossibility across eight sciences. Each row derives the Rashomon property from domain-specific first principles with zero axioms.}
 \label{tab:unification}
 \begin{tabular}{llllll}
 \toprule
@@ -525,7 +527,8 @@ Domain & $\Params$ & $Y$ & Witness 1 & Witness 2 & Same $Y$? \\
 \midrule
 Mathematics & Solutions of $Ax=b$ & $Ax$ & $(1,1)$ & $(0,2)$ & $2=2$ \\
 Biology & Codons & Amino acids & UCU & UCC & Ser=Ser \\
-Physics & Gauge configs & Holonomy & $(T,F,F)$ & $(F,F,T)$ & $F=F$ \\
+Physics (gauge) & Gauge configs & Holonomy & $(T,F,F)$ & $(F,F,T)$ & $F=F$ \\
+Physics (stat.\ mech.) & Microstates & Num.\ heads & $(H,T)$ & $(T,H)$ & $1=1$ \\
 Linguistics & Parse trees & Token sequence & $((V\;NP)\;PP)$ & $(V\;(NP\;PP))$ & Same \\
 Crystallography & Signals & Energy & $(1,0)$ & $(0,1)$ & $1=1$ \\
 Computer Science & DB rows & View & $(T,T)$ & $(T,F)$ & $T=T$ \\
@@ -540,13 +543,15 @@ Statistics & DAGs & CI structure & Chain & Fork & Same \\
 
 \input{sections/instance_gauge_theory}
 
+\input{sections/instance_stat_mech}
+
 \input{sections/instance_syntax}
 
 \input{sections/instance_phase_problem}
 
 \input{sections/instance_view_update}
 
-The seventh derived instance---Markov equivalence in causal inference---appears
+The eighth derived instance---Markov equivalence in causal inference---appears
 in Section~\ref{sec:instance-causal} below, where we present it alongside
 the ML causal discovery instance to which it is most closely connected.
 
@@ -864,9 +869,9 @@ in \texttt{Ubiquity.lean}.)
 \label{sec:lean}
 %%% ==========================================================================
 
-The Explanation Impossibility, all seven derived instances, and all nine ML
+The Explanation Impossibility, all eight derived instances, and all nine ML
 instances are mechanically verified in Lean~4 \citep{demoura2021lean4} using
-Mathlib \citep{mathlib2020}.  The seven derived instances are particularly
+Mathlib \citep{mathlib2020}.  The eight derived instances are particularly
 notable: each derives the Rashomon property constructively with zero axioms,
 confirming that the impossibility in each science follows from first
 principles alone.  This section provides an expanded account of the
@@ -885,13 +890,13 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 81 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 372 & Verified by \texttt{grep -c} \\
+Files & 82 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 377 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero axiom dependencies \\
-7 derived instances & 0 axioms each & Biology, physics, linguistics, \ldots \\
+8 derived instances & 0 axioms each & Biology, physics $\times 2$, linguistics, \ldots \\
 GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
 DASH resolution & 6 axioms & + cross-group symmetry \\
 Causal instance & 3 axioms & CPDAG Markov equivalence \\
@@ -1075,10 +1080,10 @@ calibrated uncertainty are both achievable and informative.''
 
 A natural reaction is that practitioners already know explanations are unstable
 ---so what is new?  The contribution is fivefold.  First, we make explicit that
-seven scientific domains and nine ML explanation types share \emph{one}
-mechanism---the Rashomon property---rather than sixteen unrelated
+eight scientific domains and nine ML explanation types share \emph{one}
+mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 81~files, 372~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 82~files, 377~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -1103,7 +1108,7 @@ classical \citep{verma1991equivalence}, fairness impossibility was proved by
 \citet{chouldechova2017fair}, and \SHAP{} instability was observed by
 \citet{damour2022underspecification} and \citet{krishna2022disagreement}.  The
 contribution is not any single instance but the \emph{meta-theorem}: the same
-four-line proof (Theorem~\ref{thm:universal}) closes all sixteen cases---seven
+four-line proof (Theorem~\ref{thm:universal}) closes all seventeen cases---eight
 derived scientific instances and nine ML instances---under a
 single structural condition.  Before this work, a practitioner encountering
 attention instability might switch to \SHAP{}, then to counterfactual
@@ -1176,6 +1181,8 @@ background condition.  Like Arrow's theorem, the proof is short once the
 axioms are identified; the contribution lies in identifying the right
 axiomatic framework.
 
+The pattern extends to many further domains: metamerism in color perception (where the cone response matrix is the observation map, making it an instance of the linear system pattern), molecular chirality (where enantiomers share achiral observables), and others.
+
 \input{sections/quantitative_remark}
 
 The per-fiber bound (Proposition~\ref{prop:tightness} in the main text) is the qualitative skeleton of this inequality. The full measure-theoretic development, including domain-specific instances and tightness analysis, is the subject of ongoing work.
@@ -1188,8 +1195,8 @@ We identify five limitations and directions for future work.
   \item \textbf{Axiomatized Rashomon properties for ML instances.}  The
     Rashomon property for each ML instance is axiomatized---verified to hold
     under stated assumptions---rather than derived from first principles of the
-    learning algorithm.  (The seven non-ML derived instances in
-    Section~\ref{sec:derived-instances} are the exception: each derives the
+    learning algorithm.  (The eight non-ML derived instances in
+    Section~\ref{sec:derived-instances} are the exceptions: each derives the
     Rashomon property constructively with zero axioms.)  Deriving the Rashomon
     property from, e.g., the loss landscape geometry of gradient descent would
     strengthen the ML results.
@@ -1251,7 +1258,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 81 files in
+formalization.  The complete codebase comprises 82 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 
