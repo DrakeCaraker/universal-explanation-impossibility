@@ -782,13 +782,16 @@ positions (Spearman $\rho = 0.88$, $p = 0.004$), serving as a
 neutral-evolution upper bound from which deviations measure selective
 pressure.
 
-The framework likely extends to additional domains including quantum
-state tomography, colour metamerism, and neural decoding, each of which
-exhibits the Rashomon property.  More broadly, the Lean formalization
-makes extension concrete: adding a new domain requires only defining an
-\texttt{ExplanationSystem} with appropriate types and providing a
-constructive Rashomon witness; the impossibility and resolution follow
-automatically.
+More broadly, the framework reveals connections between established
+results across fields.  Fisher's concept of sufficiency (1920) IS the
+framework's stability condition: a statistic $T$ is sufficient if and
+only if it defines a stable explanation map, and the Rao-Blackwell
+theorem (that conditioning on a sufficient statistic improves any
+estimator) IS the framework's Pareto-optimality of orbit averaging.
+The framework also gives a quantitative ceiling on AI interpretability:
+for a network with $n$ hidden units, the permutation symmetry $S_n$
+implies that at most $1/n$ of the internal representation is stably
+interpretable---a prediction testable on trained networks.
 
 %%% =========================================================================
 %%% Methods
