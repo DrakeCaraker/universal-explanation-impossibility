@@ -8,6 +8,7 @@ import UniversalImpossibility.ModelSelectionInstance
 import UniversalImpossibility.MechInterpInstance
 import UniversalImpossibility.SaliencyInstance
 import UniversalImpossibility.LLMExplanationInstance
+import UniversalImpossibility.CausalExplanationSystem
 
 /-!
 # Universal Impossibility

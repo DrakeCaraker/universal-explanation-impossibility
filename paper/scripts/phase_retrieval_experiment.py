@@ -125,6 +125,25 @@ def pairwise_rmsd_matrix(reconstructions: np.ndarray) -> np.ndarray:
     return np.array(rmsds)
 
 
+def per_reconstruction_mean_rmsd(reconstructions: np.ndarray) -> np.ndarray:
+    """
+    For each of the n reconstructions, compute its mean RMSD to all other
+    (n-1) reconstructions.  Returns an array of length n — one independent
+    summary statistic per reconstruction.
+    """
+    n = reconstructions.shape[0]
+    means = np.zeros(n)
+    for i in range(n):
+        rmsds_i = []
+        for j in range(n):
+            if i == j:
+                continue
+            diff = reconstructions[i] - reconstructions[j]
+            rmsds_i.append(float(np.sqrt(np.mean(diff ** 2))))
+        means[i] = np.mean(rmsds_i)
+    return means
+
+
 def feature_agreement(true_signal: np.ndarray,
                       reconstructions: np.ndarray,
                       window: int = FEATURE_WINDOW) -> float:
@@ -193,19 +212,26 @@ def run_experiment():
         gen_recons = run_reconstructions(gen_magnitudes,  positivity=False, seed_offset=idx * 10 + 1)
         pos_recons = run_reconstructions(pos_magnitudes, positivity=True,  seed_offset=idx * 10 + 2)
 
-        # ── Pairwise RMSDs ────────────────────────────────────────────────
+        # ── Pairwise RMSDs (kept for visualization) ─────────────────────
         gen_rmsds = pairwise_rmsd_matrix(gen_recons)
         pos_rmsds = pairwise_rmsd_matrix(pos_recons)
 
         gen_lo, gen_mean, gen_hi = percentile_ci(gen_rmsds.tolist(), n_boot=N_BOOT)
         pos_lo, pos_mean, pos_hi = percentile_ci(pos_rmsds.tolist(), n_boot=N_BOOT)
 
-        # Per-N Mann-Whitney U test (general > positive)
-        mw_stat_n, mw_p_n = mannwhitneyu(gen_rmsds, pos_rmsds, alternative='greater')
+        # Legacy pairwise Mann-Whitney (pseudoreplicated — kept for reference)
+        mw_stat_n_legacy, mw_p_n_legacy = mannwhitneyu(gen_rmsds, pos_rmsds, alternative='greater')
 
-        # Accumulate for overall test
-        all_general_rmsds.extend(gen_rmsds.tolist())
-        all_positive_rmsds.extend(pos_rmsds.tolist())
+        # ── Per-reconstruction mean RMSD (independent summary stats) ──
+        gen_per_recon = per_reconstruction_mean_rmsd(gen_recons)
+        pos_per_recon = per_reconstruction_mean_rmsd(pos_recons)
+
+        # Corrected test: Mann-Whitney U on N=20 vs N=20 independent means
+        mw_stat_n, mw_p_n = mannwhitneyu(gen_per_recon, pos_per_recon, alternative='greater')
+
+        # Accumulate per-reconstruction means for overall test
+        all_general_rmsds.extend(gen_per_recon.tolist())
+        all_positive_rmsds.extend(pos_per_recon.tolist())
 
         ratio = gen_mean / pos_mean if pos_mean > 0 else float('inf')
 
@@ -220,6 +246,7 @@ def run_experiment():
                 "ci_95_lo": gen_lo,
                 "ci_95_hi": gen_hi,
                 "n_pairwise": len(gen_rmsds),
+                "per_reconstruction_mean_rmsd": gen_per_recon.tolist(),
                 "feature_agreement": gen_feat_agree,
             },
             "positive_control": {
@@ -227,12 +254,21 @@ def run_experiment():
                 "ci_95_lo": pos_lo,
                 "ci_95_hi": pos_hi,
                 "n_pairwise": len(pos_rmsds),
+                "per_reconstruction_mean_rmsd": pos_per_recon.tolist(),
                 "feature_agreement": pos_feat_agree,
             },
             "rmsd_ratio_general_over_positive": ratio,
             "mann_whitney_per_N": {
+                "test": "Mann-Whitney U on per-reconstruction mean RMSDs (N=20 vs N=20)",
                 "statistic": float(mw_stat_n),
                 "p_value": float(mw_p_n),
+                "n_per_group": N_RECONSTRUCTIONS,
+            },
+            "pairwise_legacy": {
+                "test": "Mann-Whitney U on C(20,2)=190 pairwise RMSDs (PSEUDOREPLICATED — do not cite)",
+                "statistic": float(mw_stat_n_legacy),
+                "p_value": float(mw_p_n_legacy),
+                "n_per_group": len(gen_rmsds),
             },
         }
 
@@ -240,11 +276,13 @@ def run_experiment():
               f"  | Positive RMSD: {pos_mean:.4f} [{pos_lo:.4f}, {pos_hi:.4f}]"
               f"  | Ratio: {ratio:.2f}"
               f"  | FeatAgree (gen): {gen_feat_agree:.3f}"
-              f"  | MW p={mw_p_n:.4e}")
+              f"  | MW p(corrected)={mw_p_n:.4e}"
+              f"  | MW p(legacy)={mw_p_n_legacy:.4e}")
 
     # ── Overall Mann-Whitney U test across all signal lengths ───────────────
+    # Corrected: uses per-reconstruction means (N=80 vs N=80, 20 per signal length)
     mw_stat_all, mw_p_all = mannwhitneyu(all_general_rmsds, all_positive_rmsds, alternative='greater')
-    print(f"\n  Overall MW U test (general > positive, all N combined): "
+    print(f"\n  Overall MW U test (corrected, per-recon means, N={len(all_general_rmsds)} vs N={len(all_positive_rmsds)}): "
           f"stat={mw_stat_all:.1f}, p={mw_p_all:.4e}")
 
     # ── Figure ─────────────────────────────────────────────────────────────
@@ -315,7 +353,8 @@ Each cell shows mean pairwise RMSD across 20 reconstructions from random initial
 ($N_{\text{boot}}=2000$, 95\% CI). The positive control applies a non-negativity
 constraint at each iteration, substantially reducing ambiguity.
 RMSD ratio = general / positive control.
-$p$-values: one-sided Mann--Whitney $U$ test (general $>$ positive).}
+$p$-values: one-sided Mann--Whitney $U$ test on per-reconstruction mean RMSDs
+($N=20$ vs $N=20$ independent summaries; general $>$ positive).}
 \label{tab:phase_retrieval}
 \begin{tabular}{rccccccc}
 \toprule
@@ -371,9 +410,12 @@ $N$ & \multicolumn{2}{c}{General (no constraint)} & \multicolumn{2}{c}{Positive 
             str(N): results_by_N[N] for N in SIGNAL_LENGTHS
         },
         "statistical_test_overall": {
-            "test": "Mann-Whitney U (one-sided: general > positive, all N combined)",
+            "test": "Mann-Whitney U on per-reconstruction mean RMSDs (one-sided: general > positive, all N combined)",
             "statistic": float(mw_stat_all),
             "p_value": float(mw_p_all),
+            "n_general": len(all_general_rmsds),
+            "n_positive": len(all_positive_rmsds),
+            "note": "Each reconstruction contributes one independent mean-RMSD value, avoiding pseudoreplication from pairwise dependencies.",
         },
     }
 

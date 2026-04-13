@@ -287,13 +287,28 @@ for s in states:
         samples   = rng.dirichlet(alpha_vec, size=N_DIRICHLET_SAMP)
         kl_values = [kl_divergence(p, q) for q in samples]
 
+    # ── Pairwise KL (Rashomon set diameter) ──
+    if n == 1:
+        pairwise_kl_mean = 0.0
+    else:
+        pairwise_kls = []
+        for i in range(N_DIRICHLET_SAMP):
+            for j in range(i + 1, N_DIRICHLET_SAMP):
+                pairwise_kls.append(kl_divergence(samples[i], samples[j]))
+        pairwise_kl_mean = float(np.mean(pairwise_kls))
+
+    # ── Distribution entropy ──
+    dist_entropy = float(-np.sum(p[p > 0] * np.log(p[p > 0])))
+
     results_per_state.append({
-        'state':      s['state'],
-        'n_counties': n,
-        'state_total': s['state_total'],
-        'mean_kl':    float(np.mean(kl_values)),
-        'std_kl':     float(np.std(kl_values)),
-        'kl_values':  [float(v) for v in kl_values],
+        'state':           s['state'],
+        'n_counties':      n,
+        'state_total':     s['state_total'],
+        'mean_kl':         float(np.mean(kl_values)),
+        'std_kl':          float(np.std(kl_values)),
+        'kl_values':       [float(v) for v in kl_values],
+        'pairwise_mean_kl':    pairwise_kl_mean,
+        'distribution_entropy': dist_entropy,
     })
 
 # ── 4. Summary statistics ──────────────────────────────────────────────────────
@@ -339,20 +354,37 @@ print(f"  n in [30,100):  mean KL = {kl_medium:.4f}")
 print(f"  n >= 100:       mean KL = {kl_large:.4f}")
 print(f"Log-linear fit:  slope={coeffs[0]:.4f}  intercept={coeffs[1]:.4f}")
 
+# ── Pairwise KL and entropy summary statistics ───────────────────────────────
+pairwise_kl_vals = np.array([r['pairwise_mean_kl'] for r in results_per_state])
+entropy_vals     = np.array([r['distribution_entropy'] for r in results_per_state])
+
+r_pw_entropy, p_pw_entropy = spearmanr(entropy_vals, pairwise_kl_vals)
+r_pw_ncounty, p_pw_ncounty = spearmanr(n_vals, pairwise_kl_vals)
+r_ent_ncounty, p_ent_ncounty = spearmanr(n_vals, entropy_vals)
+
+print()
+print("── Pairwise KL (Rashomon set diameter) ──")
+print(f"Pairwise KL range:          {pairwise_kl_vals.min():.4f} – {pairwise_kl_vals.max():.4f}")
+print(f"Spearman ρ (n vs pairwise): {r_pw_ncounty:.4f}   p={p_pw_ncounty:.4e}")
+print()
+print("── Distribution entropy analysis ──")
+print(f"Entropy range:                 {entropy_vals.min():.4f} – {entropy_vals.max():.4f}")
+print(f"Spearman ρ (entropy vs pairwise KL): {r_pw_entropy:.4f}   p={p_pw_entropy:.4e}")
+print(f"Spearman ρ (n vs entropy):           {r_ent_ncounty:.4f}   p={p_ent_ncounty:.4e}")
+
 # ── 5. Figure ──────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(8, 5))
+fig, (ax, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
 mask_ctrl  = n_vals == 1   # DC
 mask_other = ~mask_ctrl
 
-# All non-DC states
+# ── Panel (a): KL to truth vs county count (original) ──
 sc = ax.scatter(
     n_vals[mask_other], kl_vals[mask_other],
     color='steelblue', alpha=0.70, s=45, zorder=3,
     label='US states (real county counts)'
 )
 
-# Annotate a handful of notable states for readability
 notable = {
     'Texas':    (254, None),
     'Georgia':  (159, None),
@@ -370,14 +402,12 @@ for r in results_per_state:
             fontsize=7, color='navy', alpha=0.85,
         )
 
-# DC control (n=1, KL=0)
 ax.scatter(
     n_vals[mask_ctrl], kl_vals[mask_ctrl],
     color='firebrick', s=140, zorder=5, marker='*',
     label=r'DC: $n=1$ county  (KL $= 0$, natural control)'
 )
 
-# Log-linear trend line
 ax.plot(
     trend_n, trend_kl,
     color='darkorange', linewidth=2.0, zorder=4,
@@ -390,16 +420,14 @@ ax.plot(
 ax.set_xlabel('Number of counties (disaggregation dimensionality)', fontsize=12)
 ax.set_ylabel('Mean KL-divergence (Dirichlet sample $\\|$ true distribution)', fontsize=12)
 ax.set_title(
-    'Disaggregation Impossibility: KL-Divergence vs County Count\n'
-    'Real US Census county structure (2020); Zipf-generated county populations',
+    '(a) KL to Truth vs County Count',
     fontsize=11
 )
-ax.legend(fontsize=9, loc='upper left')
+ax.legend(fontsize=8, loc='upper left')
 ax.grid(True, alpha=0.3)
 ax.set_xlim(left=-2)
 ax.set_ylim(bottom=-0.05)
 
-# Annotation box
 ax.annotate(
     (
         f'Pearson  $r = {r_pearson:.2f}$\n'
@@ -409,6 +437,61 @@ ax.annotate(
     xy=(0.62, 0.12), xycoords='axes fraction',
     fontsize=9,
     bbox=dict(boxstyle='round,pad=0.35', facecolor='wheat', alpha=0.75)
+)
+
+# ── Panel (b): Pairwise KL (Rashomon diameter) vs distribution entropy ──
+ax2.scatter(
+    entropy_vals[mask_other], pairwise_kl_vals[mask_other],
+    color='darkcyan', alpha=0.70, s=45, zorder=3,
+    label='US states'
+)
+
+for r in results_per_state:
+    if r['state'] in notable:
+        ax2.annotate(
+            r['state'],
+            xy=(r['distribution_entropy'], r['pairwise_mean_kl']),
+            xytext=(5, 2), textcoords='offset points',
+            fontsize=7, color='teal', alpha=0.85,
+        )
+
+ax2.scatter(
+    entropy_vals[mask_ctrl], pairwise_kl_vals[mask_ctrl],
+    color='firebrick', s=140, zorder=5, marker='*',
+    label=r'DC: $H=0$, pairwise KL $= 0$'
+)
+
+# Log-linear trend for panel (b)
+log_ent = np.log(np.maximum(entropy_vals, EPS))
+mask_fit = entropy_vals > 0  # exclude DC (H=0) from fit
+if mask_fit.sum() > 2:
+    coeffs_ent = np.polyfit(entropy_vals[mask_fit], pairwise_kl_vals[mask_fit], 1)
+    ent_trend_x = np.linspace(entropy_vals[mask_fit].min(), entropy_vals[mask_fit].max(), 300)
+    ent_trend_y = np.polyval(coeffs_ent, ent_trend_x)
+    ax2.plot(
+        ent_trend_x, ent_trend_y,
+        color='coral', linewidth=2.0, zorder=4,
+        label=f'Linear fit ($\\rho={r_pw_entropy:.2f}$)'
+    )
+
+ax2.set_xlabel('Distribution entropy $H(p)$ (nats)', fontsize=12)
+ax2.set_ylabel('Mean pairwise KL (Rashomon set diameter)', fontsize=12)
+ax2.set_title(
+    '(b) Rashomon Diameter vs Distribution Entropy',
+    fontsize=11
+)
+ax2.legend(fontsize=8, loc='upper left')
+ax2.grid(True, alpha=0.3)
+ax2.set_ylim(bottom=-0.05)
+
+ax2.annotate(
+    (
+        f'Spearman $\\rho = {r_pw_entropy:.2f}$\n'
+        f'$p = {p_pw_entropy:.2e}$'
+    ),
+    xy=(0.60, 0.12), xycoords='axes fraction',
+    fontsize=9,
+    bbox=dict(boxstyle='round,pad=0.35', facecolor='lightyellow', alpha=0.75)
 )
 
 plt.tight_layout()
@@ -543,6 +626,20 @@ summary = {
             'This saturation is expected and does not contradict the theorem.'
         ),
     },
+    'spearman_pairwise_vs_entropy': {
+        'rho': float(r_pw_entropy),
+        'p':   float(p_pw_entropy),
+    },
+    'spearman_pairwise_vs_ncounty': {
+        'rho': float(r_pw_ncounty),
+        'p':   float(p_pw_ncounty),
+    },
+    'spearman_entropy_vs_ncounty': {
+        'rho': float(r_ent_ncounty),
+        'p':   float(p_ent_ncounty),
+    },
+    'pairwise_kl_range':       [float(pairwise_kl_vals.min()), float(pairwise_kl_vals.max())],
+    'entropy_range':           [float(entropy_vals.min()), float(entropy_vals.max())],
     'control_dc_kl':           float(kl_vals[n_vals == 1][0]),
     'log_linear_fit':          {'slope': float(coeffs[0]), 'intercept': float(coeffs[1])},
     'per_state':               results_per_state,

@@ -1,65 +1,116 @@
 {
   "experiment": "gauge_lattice",
-  "description": "Z2 lattice gauge theory: within-orbit link variance vs lattice size. Gauge orbits sampled by applying random gauge transformations to base configs. All orbit members share the same plaquette values (gauge-invariant), but differ in link values (gauge-variant).",
-  "lattice_sizes": [
-    4,
-    6,
-    8,
-    10
+  "description": "Z2 lattice gauge theory: exact sampling on a 16x16 periodic lattice. In 2D, gauge-fixing reduces plaquettes to independent Ising variables with P(p=+1) = (1 + tanh(beta))/2. Coupling beta controls the Rashomon set size: at weak coupling (small beta) configurations are disordered and observable variances are large (many explanations); at strong coupling (large beta) configurations are ordered and variances shrink (fewer explanations).",
+  "lattice_size": 16,
+  "n_configs_per_beta": 2000,
+  "beta_values": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.8,
+    1.0,
+    1.5,
+    2.0
   ],
-  "n_base_configs": 20,
-  "n_orbit_samples": 500,
-  "mean_within_orbit_link_variance": [
-    0.24951905000000005,
-    0.24948392222222232,
-    0.24949659374999994,
-    0.24950755600000002
+  "plaquette_mean": [
+    0.10159765625,
+    0.19668359375,
+    0.29319140625,
+    0.3802734375,
+    0.4612890625,
+    0.53664453125,
+    0.66494921875,
+    0.7625859375,
+    0.90451953125,
+    0.96392578125
   ],
-  "mean_within_orbit_plaquette_variance": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
+  "plaquette_variance": [
+    0.003846647933959961,
+    0.003748699935913086,
+    0.003556713119506836,
+    0.0033783798217773436,
+    0.002997862243652343,
+    0.002805951522827148,
+    0.002205054794311524,
+    0.001604167419433594,
+    0.0007423362884521484,
+    0.00027088584899902343
   ],
-  "control_2x2": {
-    "max_within_orbit_plaquette_variance": 0.0,
-    "mean_within_orbit_plaquette_variance": 0.0,
-    "status": "PASSED"
-  },
-  "by_size": {
-    "4": {
-      "n_links_per_config": 32,
-      "n_plaquettes": 16,
-      "n_base_configs": 20,
-      "n_orbit_samples": 500,
-      "mean_within_orbit_link_variance": 0.24951905000000005,
-      "mean_within_orbit_plaquette_variance": 0.0
-    },
-    "6": {
-      "n_links_per_config": 72,
-      "n_plaquettes": 36,
-      "n_base_configs": 20,
-      "n_orbit_samples": 500,
-      "mean_within_orbit_link_variance": 0.24948392222222232,
-      "mean_within_orbit_plaquette_variance": 0.0
-    },
-    "8": {
-      "n_links_per_config": 128,
-      "n_plaquettes": 64,
-      "n_base_configs": 20,
-      "n_orbit_samples": 500,
-      "mean_within_orbit_link_variance": 0.24949659374999994,
-      "mean_within_orbit_plaquette_variance": 0.0
-    },
-    "10": {
-      "n_links_per_config": 200,
-      "n_plaquettes": 100,
-      "n_base_configs": 20,
-      "n_orbit_samples": 500,
-      "mean_within_orbit_link_variance": 0.24950755600000002,
-      "mean_within_orbit_plaquette_variance": 0.0
-    }
-  },
-  "interpretation": "Within each gauge orbit (same plaquette configuration), link values vary substantially across gauge-equivalent configs \u2014 approaching the Bernoulli(0.5) baseline as N grows (more gauge freedom). Plaquette values are exactly preserved (variance = 0) \u2014 they are the physical, gauge-invariant observables. This is a direct physical instance of the Rashomon property: many link configurations (explanations) are consistent with the same plaquette configuration (observable). No single link configuration is 'the truth'.",
-  "_timestamp": "2026-04-12 19:10:23"
+  "wilson_loop_mean": [
+    0.022,
+    -0.002,
+    -0.011,
+    0.053,
+    0.066,
+    0.043,
+    0.201,
+    0.326,
+    0.664,
+    0.877
+  ],
+  "wilson_loop_variance": [
+    0.9995160000000001,
+    0.9999959999999999,
+    0.9998790000000001,
+    0.9971909999999998,
+    0.9956439999999998,
+    0.9981509999999998,
+    0.9595990000000002,
+    0.8937240000000002,
+    0.559104,
+    0.230871
+  ],
+  "analytic_plaquette_mean": [
+    0.09966799462495582,
+    0.197375320224904,
+    0.2913126124515909,
+    0.3799489622552249,
+    0.46211715726000974,
+    0.5370495669980352,
+    0.664036770267849,
+    0.7615941559557649,
+    0.9051482536448665,
+    0.9640275800758169
+  ],
+  "analytic_plaquette_variance": [
+    0.003867446448622812,
+    0.003754074152211393,
+    0.0035747537571352707,
+    0.0033423390081296005,
+    0.003072061456898155,
+    0.0027796006351063396,
+    0.0021838092489540775,
+    0.0016405247719297896,
+    0.0007058853082955021,
+    0.00027597978458267377
+  ],
+  "analytic_wilson_loop_mean": [
+    9.867857752765872e-05,
+    0.0015176491761782814,
+    0.007201735248014989,
+    0.020840160084115978,
+    0.045604570755391836,
+    0.08318738703419234,
+    0.19443234510363955,
+    0.33642976438608246,
+    0.671241611503785,
+    0.8636898893461037
+  ],
+  "analytic_wilson_loop_variance": [
+    0.9999999902625384,
+    0.999997696740978,
+    0.9999481350094175,
+    0.9995656877276684,
+    0.9979202231262164,
+    0.9930798586384235,
+    0.9621960631774992,
+    0.886815013635125,
+    0.5494346989858017,
+    0.25403977504131525
+  ],
+  "interpretation": "The monotonic decrease of both plaquette variance Var(P) = sech^2(beta)/N^2 and Wilson loop variance Var(W) = 1 - tanh^8(beta) with increasing beta demonstrates a continuous dose-response: the gauge coupling acts as a control parameter for the Rashomon set size. At weak coupling (beta -> 0), plaquettes are nearly uniform on {+1,-1} and the configuration space is maximally uncertain (large Rashomon set). At strong coupling (beta -> inf), plaquettes freeze to +1 and the configuration concentrates near the ordered ground state (small Rashomon set). The MC measurements match the exact analytic predictions to within statistical error, confirming the dose-response is a genuine physical effect, not a simulation artifact.",
+  "_timestamp": "2026-04-13 01:32:19"
 }

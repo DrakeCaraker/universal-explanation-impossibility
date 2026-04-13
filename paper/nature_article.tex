@@ -79,7 +79,7 @@ scientific domains---underdetermined linear systems, genetic code degeneracy,
 gauge freedom, microstate multiplicity, syntactic ambiguity, the phase
 problem, the view update problem, and Markov equivalence---each requiring
 zero shared axioms.  The framework is mechanically verified in the Lean~4
-proof assistant (82~files, 377~theorems, 0~unproved goals), and empirically
+proof assistant (83~files, 378~theorems, 0~unproved goals), and empirically
 validated in seven domains with real data and negative controls.
 The constructive resolution---projecting onto the subspace invariant under
 the symmetry group of equivalent configurations---is provably
@@ -160,7 +160,7 @@ can be simultaneously faithful, stable, and decisive
 first principles in eight scientific domains, each requiring zero shared
 axioms (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).
 The entire framework is mechanically verified in the Lean~4 proof
-assistant~\citep{demoura2021lean4} (82~files, 377~theorems, 0~unproved
+assistant~\citep{demoura2021lean4} (83~files, 378~theorems, 0~unproved
 goals), and empirically validated with real data in seven of the eight
 domains.  The impossibility is tight: each pair of properties is achievable,
 and the Rashomon property is necessary for the impossibility (a
@@ -384,11 +384,12 @@ Fig.~\ref{fig:dose-response} shows the results across all seven domains.
 All seven empirical tests reach statistical significance ($p < 0.05$).
 In mathematics, underdetermined linear solvers show significantly elevated
 pairwise RMSD relative to fully determined controls ($p = 6.3 \times
-10^{-9}$).  In biology, per-amino-acid codon usage entropy across 120
-eukaryotic cytochrome~c sequences from NCBI RefSeq increases monotonically
-with degeneracy level (Kruskal--Wallis $p = 2.0 \times 10^{-3}$ across
-20~amino acids in 5 groups); methionine and tryptophan (degeneracy~1) have
-entropy identically zero by the structure of the genetic code.  In
+10^{-9}$).  In biology, per-position codon usage entropy across 89~conserved
+positions in 120 aligned eukaryotic cytochrome~c sequences (NCBI RefSeq,
+Clustal Omega alignment) increases monotonically with degeneracy level
+(Kruskal--Wallis $p = 3.5 \times 10^{-9}$); methionine and tryptophan
+positions (degeneracy~1) have entropy identically zero by the structure
+of the genetic code.  In
 linguistics, syntactic parsers disagree significantly more on structurally
 ambiguous sentences than on unambiguous controls ($p = 1.6 \times
 10^{-3}$).  In statistics, causal discovery algorithms show orientation
@@ -396,9 +397,10 @@ agreement of only 0.33 at finite sample size ($p = 4.4 \times 10^{-38}$);
 agreement improves at $N = 100{,}000$ as statistical power increases.  In
 crystallography, phase retrieval reconstructions diverge $1.5$--$1.8\times$
 more without positivity constraints, which reduce the size of the Rashomon
-set ($p < 10^{-57}$).  In computer science, census disaggregation ambiguity using real 2020~Census county populations
-scales with aggregation granularity (Spearman $\rho = 0.51$,
-$p = 1.2 \times 10^{-4}$); the District of Columbia (one
+set ($p = 3.4 \times 10^{-8}$ per signal length, corrected for
+non-independence of pairwise reconstructions).  In computer science, census disaggregation ambiguity using real 2020~Census county populations
+scales with aggregation granularity (pairwise Rashomon set diameter:
+Spearman $\rho = 0.70$, $p = 1.4 \times 10^{-8}$); the District of Columbia (one
 county-equivalent) has KL divergence of exactly zero.
 
 In each case, the negative control confirms that instability vanishes when
@@ -486,11 +488,15 @@ stability, and decisiveness cannot coexist under underspecification---and
 the $G$-invariant resolution is the unique Pareto-optimal stable strategy.
 The convergence is not coincidental; it is mathematically inevitable.  The
 framework also explains the variation: the specific form of the resolution
-differs across domains because the symmetry group differs
-(Fig.~\ref{fig:structural})---orbit averaging for vector-valued
-explanations, equivalence-class reporting for combinatorial ones---but the
-abstract mathematical operation, projection onto the $G$-invariant
-subspace, is identical in every case.
+differs across domains because the symmetry group and representation differ
+(Fig.~\ref{fig:structural}).  Four instances use the symmetric group $S_k$,
+but they act on different mathematical objects---synonymous codons,
+microstates, parse trees, database columns---and yield different resolution
+forms: frequency averaging for biology and statistical mechanics,
+equivalence-class enumeration for linguistics, and subquery projection for
+computer science.  The abstract mathematical operation---projection onto
+the $G$-invariant subspace---is identical; the computational realization is
+domain-specific.
 
 %%% Figure 2: Structural differences
 \begin{figure}[t]
@@ -506,43 +512,59 @@ subspace, is identical in every case.
   \mathbb{Z}_n \times \mathbb{Z}_2$, and MEC edge permutations).}
 \label{fig:structural}
 \small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lllll@{}}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}llllll@{}}
 \toprule
-Domain & Symmetry group $G$ & Group type & Resolution \\
+Domain & Group $G$ & Objects permuted & Type & Resolution & Form \\
 \midrule
 Mathematics
-  & Null space translations
-  & $\R^{n-r}$ (cont., abelian)
-  & Pseudoinverse \\[2pt]
+  & $\R^{n-r}$
+  & Solution offsets
+  & Cont., abelian
+  & Pseudoinverse
+  & Projection \\[2pt]
 Biology
-  & Synonymous substitutions
-  & $S_k$, $k \leq 6$ (finite)
-  & Codon usage tables \\[2pt]
-Physics (gauge)
-  & Gauge transforms
-  & $\mathbb{Z}_2^{|V|-1}$ (finite, abelian)
-  & Wilson loops \\[2pt]
-Stat.\ mechanics
-  & Microstate permutations
-  & $S_\Omega$ (finite)
-  & Microcanonical ens. \\[2pt]
+  & $S_k$\;($k{\leq}6$)
+  & Synonymous codons
+  & Finite
+  & Codon tables
+  & Averaging \\[2pt]
+Physics
+  & $\mathbb{Z}_2^{|V|-1}$
+  & Edge labels
+  & Finite, abelian
+  & Wilson loops
+  & Invariant fn. \\[2pt]
+Stat.\ mech.
+  & $S_\Omega$
+  & Microstates
+  & Finite
+  & Microcanon.
+  & Averaging \\[2pt]
 Linguistics
-  & Parse-tree permutations
-  & $S_k$ (finite)
-  & Packed parse forests \\[2pt]
-Crystallography
-  & Sign, shift, reversal
-  & $\mathbb{Z}_2 \times \mathbb{Z}_n \times \mathbb{Z}_2$ (finite)
-  & Patterson maps \\[2pt]
-Computer science
-  & Hidden-col.\ permutations
-  & $S_k$ (finite)
-  & Complement views \\[2pt]
+  & $S_k$
+  & Parse trees
+  & Finite
+  & Parse forests
+  & Enumeration \\[2pt]
+Crystallogr.
+  & $\mathbb{Z}_2{\times}\mathbb{Z}_n{\times}\mathbb{Z}_2$
+  & Signal phases
+  & Finite
+  & Patterson map
+  & Autocorrel. \\[2pt]
+Comp.\ sci.
+  & $S_k$
+  & Hidden columns
+  & Finite
+  & Compl.\ views
+  & Projection \\[2pt]
 Statistics
-  & Edge reversals in MEC
-  & Finite (varies)
-  & CPDAG reporting \\
+  & MEC perms.
+  & DAG orientations
+  & Finite
+  & CPDAG
+  & Class report \\
 \bottomrule
 \end{tabular}
 \end{figure}
@@ -574,22 +596,17 @@ tightness witnesses, the necessity converse, and the $G$-invariant
 resolution---is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} using the Mathlib mathematical
 library~\citep{mathlib2020}.  The formalization comprises 82~source files
-containing 377~theorems and lemmas, with 0~\texttt{sorry} declarations
+containing 378~theorems and lemmas, with 0~\texttt{sorry} declarations
 (Lean's marker for unproved goals).  Every theorem in the paper has a
 corresponding machine-checked proof.
 
 The core impossibility theorem (\texttt{explanation\_impossibility} in
 \texttt{ExplanationSystem.lean}) requires \emph{zero} model-specific
 axioms: the Rashomon property enters only as a hypothesis, not as an axiom,
-so the proof is valid for any system satisfying the hypothesis.  Seven of the
-eight derived instances use Lean's decidable computation to constructively
-witness the Rashomon property with zero axioms---the proof assistant
-evaluates the witness and confirms that the two configurations have
-identical observable output and incompatible explanations.  The causal
-discovery instance uses a parallel proof structure within the symmetric
-Bayes decision framework rather than instantiating the abstract
-\texttt{ExplanationSystem}, but proves an equivalent impossibility with
-the same logical structure.
+so the proof is valid for any system satisfying the hypothesis.  All eight derived instances use Lean's decidable computation to
+constructively witness the Rashomon property with zero axioms---the proof
+assistant evaluates the witness and confirms that the two configurations
+have identical observable output and incompatible explanations.
 
 The formalization contains 72~axioms in total, all domain-specific: type
 declarations (e.g., the types of models, features, and attributions for
@@ -654,7 +671,7 @@ To put the scale in context, the formalization is comparable in size to
 other landmark verification efforts: the Flyspeck project (Kepler
 conjecture) involved approximately 300~lemmas in HOL Light, and the
 Gonthier proof of the four-colour theorem comprised approximately
-400~lemmas in Coq.  At 377~theorems and lemmas across 82~files, this
+400~lemmas in Coq.  At 378~theorems and lemmas across 83~files, this
 formalization is among the larger cross-domain verification projects in
 Lean~4.  The complete source code, with build instructions, is publicly
 available (see Code Availability).
@@ -851,12 +868,14 @@ randomized projection).  Pairwise RMSD between solutions is computed across
 
 \emph{Biology.}  We download 120 eukaryotic cytochrome~c CDS from NCBI
 RefSeq (\texttt{CYCS[Gene] AND mRNA[Filter] AND refseq[Filter]}),
-deduplicated by organism.  For each of the 20 amino acids, we compute
-Shannon entropy over the observed codon distribution aggregated across all
-120 species and all positions.  Amino acids are grouped by degeneracy level
-(1, 2, 3, 4, or 6 synonymous codons).  Negative control: Met and Trp
-(degeneracy~1, entropy identically~0).  Tests: Kruskal--Wallis and
-Spearman rank correlation.
+deduplicated by organism (accession numbers in Supplementary Data).
+Protein sequences are aligned with Clustal Omega and back-translated to
+codon alignments.  At each of the 89~conserved positions ($\geq$90\%
+amino acid identity), we compute Shannon entropy over codon usage across
+120~species.  Positions are grouped by the consensus amino acid's
+degeneracy level.  GC-null expected entropy is computed from per-species
+GC content.  Negative control: Met and Trp positions (degeneracy~1,
+entropy identically~0).  Test: Kruskal--Wallis.
 
 \emph{Gauge theory.}  We enumerate all $\mathbb{Z}_2$ edge-label
 configurations on triangle graphs and compute within-orbit variance of

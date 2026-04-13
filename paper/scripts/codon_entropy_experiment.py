@@ -37,6 +37,8 @@ Outputs:
 import sys
 import json
 import time
+import subprocess
+import tempfile
 import warnings
 from pathlib import Path
 
@@ -232,6 +234,7 @@ def attempt_entrez_download() -> dict:
         # Download sequences in batches of 50, deduplicate by organism
         sequences = []
         organisms = []
+        accessions = []
         seen_orgs = set()
         batch_size = 50
         for start in range(0, min(len(id_list), 200), batch_size):
@@ -254,10 +257,20 @@ def attempt_entrez_download() -> dict:
                         if 270 <= len(cds_seq) <= 500 and len(cds_seq) % 3 == 0:
                             sequences.append(cds_seq)
                             organisms.append(org)
+                            accessions.append(rec.id)
                             seen_orgs.add(org)
                             break  # one CDS per record
             fetch_handle.close()
             time.sleep(0.4)
+
+        # Save accession numbers to file
+        data_dir = PAPER_DIR / "data"
+        data_dir.mkdir(exist_ok=True)
+        acc_path = data_dir / "cytochrome_c_accessions.txt"
+        with open(acc_path, "w") as f_acc:
+            for acc, org in zip(accessions, organisms):
+                f_acc.write(f"{acc}\t{org}\n")
+        print(f"[Entrez] Saved {len(accessions)} accession numbers to {acc_path}")
 
         result["n_sequences"] = len(sequences)
         print(f"[Entrez] Extracted {len(sequences)} CDS sequences.")
@@ -405,6 +418,289 @@ def attempt_entrez_download() -> dict:
             f"Successfully downloaded and analysed {len(sequences)} real "
             f"cytochrome c CDS sequences from {len(seen_orgs)} species via NCBI RefSeq."
         )
+
+        # ── Per-position analysis with protein alignment ──────────────────
+        # Translate CDS to protein, align with Clustal Omega, then compute
+        # per-position codon entropy at conserved alignment columns.
+        try:
+            from Bio.Seq import Seq
+
+            # Build reverse codon table: amino acid letter -> list of codons
+            codon_table_fwd = {}
+            for aa_name, info in AMINO_ACIDS.items():
+                for (codon_str, _) in info["codons"]:
+                    codon_table_fwd[codon_str] = aa_name
+
+            # Standard 1-letter code mapping
+            aa3to1 = {
+                "Ala": "A", "Arg": "R", "Asn": "N", "Asp": "D", "Cys": "C",
+                "Gln": "Q", "Glu": "E", "Gly": "G", "His": "H", "Ile": "I",
+                "Leu": "L", "Lys": "K", "Met": "M", "Phe": "F", "Pro": "P",
+                "Ser": "S", "Thr": "T", "Trp": "W", "Tyr": "Y", "Val": "V",
+            }
+            aa1to3 = {v: k for k, v in aa3to1.items()}
+
+            # Translate each CDS to protein
+            proteins = []
+            valid_indices = []  # indices into sequences[] that translated OK
+            for idx, cds in enumerate(sequences):
+                try:
+                    prot = str(Seq(cds).translate(to_stop=True))
+                    if len(prot) >= 80:  # cytochrome c is ~104 aa
+                        proteins.append(prot)
+                        valid_indices.append(idx)
+                except Exception:
+                    pass  # skip sequences that fail translation
+
+            if len(proteins) < 15:
+                print(f"[Per-position] Only {len(proteins)} proteins translated; skipping.")
+                raise RuntimeError("Too few translated proteins")
+
+            print(f"\n[Per-position] Translated {len(proteins)} proteins for alignment.")
+
+            # Write proteins to temp FASTA
+            tmp_in = tempfile.NamedTemporaryFile(
+                mode="w", suffix=".fasta", delete=False, prefix="cycs_prot_"
+            )
+            for i, prot in enumerate(proteins):
+                org_clean = organisms[valid_indices[i]].replace(" ", "_")
+                tmp_in.write(f">sp{i}_{org_clean}\n{prot}\n")
+            tmp_in.close()
+
+            tmp_out_path = tmp_in.name.replace(".fasta", "_aligned.fasta")
+
+            # Run Clustal Omega
+            clustalo_bin = "/opt/homebrew/bin/clustalo"
+            # Build clustalo command; try with --threads=4, fall back
+            # to single-threaded if OpenMP not supported.
+            cmd = [
+                clustalo_bin,
+                "-i", tmp_in.name,
+                "-o", tmp_out_path,
+                "--threads=4",
+                "--force",
+            ]
+            print(f"[Per-position] Running Clustal Omega: {' '.join(cmd)}")
+            proc = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=300
+            )
+            if proc.returncode != 0 and "thread" in proc.stderr.lower():
+                # Retry without --threads flag (OpenMP not supported)
+                cmd = [c for c in cmd if not c.startswith("--threads")]
+                print(f"[Per-position] Retrying without threads: {' '.join(cmd)}")
+                proc = subprocess.run(
+                    cmd, capture_output=True, text=True, timeout=300
+                )
+            if proc.returncode != 0:
+                print(f"[Per-position] Clustal Omega failed: {proc.stderr[:500]}")
+                raise RuntimeError("Clustal Omega failed")
+
+            print("[Per-position] Alignment complete.")
+
+            # Parse aligned FASTA
+            aligned_seqs = {}
+            current_id = None
+            current_seq = []
+            with open(tmp_out_path) as f_aln:
+                for line in f_aln:
+                    line = line.strip()
+                    if line.startswith(">"):
+                        if current_id is not None:
+                            aligned_seqs[current_id] = "".join(current_seq)
+                        current_id = line[1:].split()[0]
+                        current_seq = []
+                    else:
+                        current_seq.append(line)
+                if current_id is not None:
+                    aligned_seqs[current_id] = "".join(current_seq)
+
+            aln_ids = list(aligned_seqs.keys())
+            aln_matrix = [aligned_seqs[sid] for sid in aln_ids]
+            n_seqs = len(aln_matrix)
+            aln_len = len(aln_matrix[0])
+            print(f"[Per-position] Alignment: {n_seqs} sequences, {aln_len} columns")
+
+            # Map alignment IDs back to sequence indices
+            # IDs are like "sp0_Homo_sapiens" — extract the sp index
+            id_to_valid_idx = {}
+            for sid in aln_ids:
+                sp_num = int(sid.split("_")[0].replace("sp", ""))
+                id_to_valid_idx[sid] = sp_num
+
+            # Build per-species codon arrays (list of codons from the CDS)
+            species_codons = {}
+            for sid in aln_ids:
+                sp_num = id_to_valid_idx[sid]
+                seq_idx = valid_indices[sp_num]
+                cds = sequences[seq_idx]
+                n_codons = len(cds) // 3
+                codons_list = [cds[i*3:(i+1)*3] for i in range(n_codons)]
+                species_codons[sid] = codons_list
+
+            # Per-species GC content for the valid species
+            valid_gc = np.array([species_gc[valid_indices[id_to_valid_idx[sid]]]
+                                 for sid in aln_ids])
+
+            # Find conserved positions (>=90% same amino acid, excluding gaps)
+            conservation_threshold = 0.90
+            conserved_positions = []  # list of (col_idx, consensus_aa_1letter)
+
+            for col in range(aln_len):
+                residues = [aln_matrix[i][col] for i in range(n_seqs)]
+                non_gap = [r for r in residues if r != "-"]
+                if len(non_gap) < n_seqs * 0.80:
+                    continue  # too many gaps
+                # Count amino acids
+                from collections import Counter
+                counts = Counter(non_gap)
+                most_common_aa, most_common_count = counts.most_common(1)[0]
+                if most_common_count / len(non_gap) >= conservation_threshold:
+                    conserved_positions.append((col, most_common_aa))
+
+            print(f"[Per-position] Found {len(conserved_positions)} conserved columns "
+                  f"(>={conservation_threshold*100:.0f}% identity)")
+
+            if len(conserved_positions) < 5:
+                print("[Per-position] Too few conserved positions; skipping.")
+                raise RuntimeError("Too few conserved positions")
+
+            # Back-translate: for each conserved position, collect codons
+            # We need to map alignment column -> CDS codon index for each species.
+            # For each species, walk through the alignment: non-gap positions
+            # correspond to sequential codons in the CDS.
+            per_position_entropies = []
+            per_position_gc_null = []
+            per_position_deg = []
+            per_position_aa = []
+
+            for col, consensus_aa in conserved_positions:
+                # consensus_aa is a 1-letter code
+                if consensus_aa not in aa1to3:
+                    continue
+                aa_name = aa1to3[consensus_aa]
+                if aa_name not in AMINO_ACIDS:
+                    continue
+                deg = AMINO_ACIDS[aa_name]["degeneracy"]
+                codons_info = AMINO_ACIDS[aa_name]["codons"]
+                valid_codons = {c for (c, _) in codons_info}
+
+                # Collect codons at this position from all species
+                position_codons = []
+                position_gc_vals = []
+                for s_idx, sid in enumerate(aln_ids):
+                    # Count non-gap positions up to this column
+                    aln_seq = aln_matrix[s_idx]
+                    if aln_seq[col] == "-":
+                        continue
+                    if aln_seq[col] != consensus_aa:
+                        continue  # not the consensus AA at this position
+                    # Find codon index: count non-gap chars before this column
+                    codon_idx = sum(1 for c in aln_seq[:col] if c != "-")
+                    sp_codons = species_codons[sid]
+                    if codon_idx < len(sp_codons):
+                        codon = sp_codons[codon_idx]
+                        if codon in valid_codons:
+                            position_codons.append(codon)
+                            position_gc_vals.append(valid_gc[s_idx])
+
+                if len(position_codons) < 10:
+                    continue  # need enough observations
+
+                # Compute Shannon entropy over codon usage at this position
+                codon_count_dict = {}
+                for c in position_codons:
+                    codon_count_dict[c] = codon_count_dict.get(c, 0) + 1
+                count_arr = np.array(list(codon_count_dict.values()))
+                H = shannon_entropy(count_arr)
+
+                # GC-null expected entropy at this position
+                gc_arr = np.array(position_gc_vals)
+                null_H = gc_null_entropy(codons_info, gc_arr)
+
+                per_position_entropies.append(H)
+                per_position_gc_null.append(null_H)
+                per_position_deg.append(deg)
+                per_position_aa.append(aa_name)
+
+            n_conserved = len(per_position_entropies)
+            print(f"[Per-position] Computed entropy at {n_conserved} conserved positions")
+
+            if n_conserved >= 5:
+                # Group by degeneracy
+                pp_by_deg = {d: [] for d in DEG_LEVELS}
+                pp_null_by_deg = {d: [] for d in DEG_LEVELS}
+                for i in range(n_conserved):
+                    d = per_position_deg[i]
+                    pp_by_deg[d].append(per_position_entropies[i])
+                    pp_null_by_deg[d].append(per_position_gc_null[i])
+
+                # Kruskal-Wallis test on per-position entropy by degeneracy group
+                pp_kw_groups = [pp_by_deg[d] for d in DEG_LEVELS
+                                if len(pp_by_deg[d]) > 0]
+                if len(pp_kw_groups) >= 2:
+                    pp_kw_stat, pp_kw_pval = stats.kruskal(*pp_kw_groups)
+                else:
+                    pp_kw_stat, pp_kw_pval = float("nan"), float("nan")
+
+                # Fraction of positions exceeding GC-null
+                n_pp_deg_gt1 = sum(1 for d in per_position_deg if d > 1)
+                n_pp_exceeding = sum(
+                    1 for i in range(n_conserved)
+                    if per_position_deg[i] > 1
+                    and per_position_entropies[i] > per_position_gc_null[i]
+                )
+                frac_pp_exceeding = (n_pp_exceeding / n_pp_deg_gt1
+                                     if n_pp_deg_gt1 > 0 else float("nan"))
+
+                print(f"\n--- Per-Position Analysis ---")
+                print(f"  Conserved positions: {n_conserved}")
+                for d in DEG_LEVELS:
+                    vals = pp_by_deg[d]
+                    if vals:
+                        print(f"  Deg={d}: N={len(vals)} positions, "
+                              f"mean H={np.mean(vals):.4f}, "
+                              f"std={np.std(vals):.4f}, "
+                              f"mean GC-null={np.mean(pp_null_by_deg[d]):.4f}")
+                print(f"  Kruskal-Wallis: H={pp_kw_stat:.4f}, p={pp_kw_pval:.4e}")
+                print(f"  Positions exceeding GC-null: {n_pp_exceeding}/{n_pp_deg_gt1} "
+                      f"({100*frac_pp_exceeding:.1f}%)")
+
+                # Build per-degeneracy-group summary
+                pp_deg_summary = {}
+                for d in DEG_LEVELS:
+                    vals = pp_by_deg[d]
+                    null_vals = pp_null_by_deg[d]
+                    if vals:
+                        pp_deg_summary[str(d)] = {
+                            "n_positions": len(vals),
+                            "mean_entropy": float(np.mean(vals)),
+                            "std_entropy": float(np.std(vals)),
+                            "mean_gc_null_entropy": float(np.mean(null_vals)),
+                        }
+
+                result["per_position_analysis"] = {
+                    "n_conserved_positions": n_conserved,
+                    "per_degeneracy_group": pp_deg_summary,
+                    "kruskal_wallis": {
+                        "H_stat": float(pp_kw_stat),
+                        "p_value": float(pp_kw_pval),
+                    },
+                    "fraction_positions_exceeding_gc_null": float(frac_pp_exceeding),
+                }
+            else:
+                print("[Per-position] Too few positions with entropy data; skipping stats.")
+
+            # Clean up temp files
+            import os
+            try:
+                os.unlink(tmp_in.name)
+                os.unlink(tmp_out_path)
+            except OSError:
+                pass
+
+        except Exception as exc_pp:
+            print(f"[Per-position] WARNING: Per-position analysis skipped: "
+                  f"{type(exc_pp).__name__}: {exc_pp}")
 
     except Exception as exc:
         result["message"] = f"Entrez download failed: {type(exc).__name__}: {exc}"
