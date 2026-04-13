@@ -37,14 +37,23 @@ knowing the protein sequence does not uniquely determine the DNA sequence.
 
 \paragraph{Empirical illustration.}
 Across 120 eukaryotic cytochrome~c coding sequences from NCBI RefSeq
-(one per species), per-amino-acid codon usage entropy shows a perfect
-monotonic dose-response with degeneracy level: 1-fold (Met/Trp):
+(one per species, mean GC content 0.45), per-amino-acid codon usage entropy
+shows a monotonic dose-response with degeneracy level: 1-fold (Met/Trp):
 $H = 0.00$~bits, 2-fold: $0.93$, 3-fold: $1.49$, 4-fold: $1.78$,
-6-fold: $2.20$ (Kruskal--Wallis $p = 2.0 \times 10^{-3}$, Spearman
-$\rho = 1.000$).  The negative control (Met and Trp, degeneracy~1) has
+6-fold: $2.20$ (Kruskal--Wallis $p = 2.0 \times 10^{-3}$ across 20~amino
+acids in 5 groups).  The negative control (Met and Trp, degeneracy~1) has
 entropy exactly~0 by construction---this follows from the structure of the
 genetic code itself (one codon for Met, one for Trp) and holds for all
-species.  Data: NCBI RefSeq cytochrome~c CDS, searched via
+species regardless of GC content.
+This dose-response is predicted by the code's degeneracy structure: higher
+degeneracy provides more synonymous alternatives, creating a larger space
+of possible codon distributions.  GC-content bias is the primary mechanism
+driving codon choice within this space---only 11\% of degenerate amino
+acids show entropy exceeding the GC-null prediction---but the structural
+capacity for variation is created by the Rashomon property (degeneracy)
+itself.  Without degeneracy, entropy is identically zero regardless of
+GC content.
+Data: NCBI RefSeq cytochrome~c CDS, searched via
 \texttt{CYCS[Gene] AND mRNA[Filter] AND refseq[Filter]}, deduplicated by
 organism.
 

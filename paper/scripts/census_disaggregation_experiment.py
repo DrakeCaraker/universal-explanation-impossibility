@@ -160,45 +160,101 @@ load_publication_style()
 
 rng = np.random.default_rng(SEED)
 
-# ── Helper: Zipf-distributed county populations ────────────────────────────────
-def zipf_county_populations(n_counties: int, state_total: int, seed: int) -> np.ndarray:
+# ── Helper: Download real county populations from Census Bureau API ──────────
+SCRIPTS_DIR = Path(__file__).resolve().parent
+COUNTY_POP_CACHE = SCRIPTS_DIR / "census_county_populations.json"
+
+
+def download_county_populations() -> dict:
     """
-    Generate realistic county populations using a Zipf(s=1.0) distribution,
-    scaled so the sum equals the actual state total population.
-
-    Zipf with s=1.0 is the heavy-tailed limit that empirically matches
-    the observed county size distribution in the US (a few large metro
-    counties dominate; many small rural counties follow a power law).
-
-    If n_counties == 1, returns [state_total].
+    Download 2020 Decennial Census county populations from Census Bureau API.
+    Returns dict: state_name -> list of county populations.
+    Caches to disk for reproducibility.
     """
-    if n_counties == 1:
-        return np.array([float(state_total)])
+    if COUNTY_POP_CACHE.exists():
+        with open(COUNTY_POP_CACHE) as f:
+            return json.load(f)
 
-    local_rng = np.random.default_rng(seed)
-    # Draw Zipf ranks and invert: rank k → weight 1/k
-    ranks = np.arange(1, n_counties + 1, dtype=float)
-    # Shuffle ranks so we don't always assign rank-1 to "county 0"
-    local_rng.shuffle(ranks)
-    weights = 1.0 / ranks
-    weights /= weights.sum()
-    pops = weights * state_total
-    return pops
+    import urllib.request
+    url = ('https://api.census.gov/data/2020/dec/pl'
+           '?get=P1_001N,NAME&for=county:*&in=state:*')
+    print("[Census API] Downloading real county populations...")
+    req = urllib.request.Request(url)
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        raw = json.loads(resp.read())
+
+    # raw[0] is header: ['P1_001N', 'NAME', 'state', 'county']
+    # Build state FIPS -> state name mapping
+    # Group county pops by state FIPS code
+    from collections import defaultdict
+    state_counties = defaultdict(list)
+    fips_to_state = {}
+
+    for row in raw[1:]:
+        pop = int(row[0])
+        county_name = row[1]
+        state_fips = row[2]
+        # Extract state name from "County Name, State Name"
+        parts = county_name.rsplit(", ", 1)
+        if len(parts) == 2:
+            state_name = parts[1]
+        else:
+            state_name = county_name
+        fips_to_state[state_fips] = state_name
+        state_counties[state_name].append(pop)
+
+    result = {name: pops for name, pops in state_counties.items()
+              if name in COUNTY_COUNTS}
+
+    # Cache to disk
+    with open(COUNTY_POP_CACHE, 'w') as f:
+        json.dump(result, f)
+    print(f"[Census API] Cached {len(result)} states, "
+          f"{sum(len(v) for v in result.values())} counties")
+    return result
+
+
+def get_county_populations() -> dict:
+    """
+    Get real county populations. Try Census API first, fall back to Zipf.
+    Returns dict: state_name -> np.ndarray of population shares.
+    """
+    try:
+        real_data = download_county_populations()
+        result = {}
+        for state_name in sorted(COUNTY_COUNTS.keys()):
+            if state_name in real_data and len(real_data[state_name]) > 0:
+                pops = np.array(real_data[state_name], dtype=float)
+                result[state_name] = pops / pops.sum()
+            else:
+                # Fallback for missing states: uniform
+                n = COUNTY_COUNTS[state_name]
+                result[state_name] = np.ones(n) / n
+        return result, "real (U.S. Census Bureau 2020 Decennial Census, P1_001N)"
+    except Exception as e:
+        print(f"[Census API] Failed: {e}. Using Zipf fallback.")
+        result = {}
+        for state_name in sorted(COUNTY_COUNTS.keys()):
+            n = COUNTY_COUNTS[state_name]
+            total = STATE_POPULATIONS[state_name]
+            if n == 1:
+                result[state_name] = np.array([1.0])
+            else:
+                ranks = np.arange(1, n + 1, dtype=float)
+                weights = 1.0 / ranks
+                result[state_name] = weights / weights.sum()
+        return result, "synthetic (Zipf s=1.0 scaled to state totals)"
 
 
 # ── 1. Build states from real Census data ──────────────────────────────────────
-# Use a hash of the state name as a reproducible per-state seed component
-# so county distributions are stable across runs.
+county_shares, data_source_label = get_county_populations()
+print(f"[Data source] {data_source_label}")
+
 states = []
 for state_name in sorted(COUNTY_COUNTS.keys()):
     n_counties  = COUNTY_COUNTS[state_name]
     state_total = STATE_POPULATIONS[state_name]
-
-    # Per-state seed: combine global SEED with a hash of the state name
-    state_seed = SEED ^ (hash(state_name) & 0xFFFFFFFF)
-
-    true_pops   = zipf_county_populations(n_counties, state_total, seed=state_seed)
-    true_shares = true_pops / true_pops.sum()  # normalised to sum to 1.0
+    true_shares = county_shares[state_name]
 
     states.append({
         'state':       state_name,
@@ -217,7 +273,7 @@ def kl_divergence(p: np.ndarray, q: np.ndarray) -> float:
 # ── 3. Disaggregation experiment ───────────────────────────────────────────────
 # For each state: given ONLY the state total, generate N_DIRICHLET_SAMP
 # Dirichlet(alpha=1) samples (maximum-entropy prior over disaggregations)
-# and compute KL-divergence from each sample to the Zipf-generated truth.
+# and compute KL-divergence from each sample to the true county distribution.
 results_per_state = []
 for s in states:
     n = s['n_counties']
@@ -332,7 +388,7 @@ ax.plot(
 )
 
 ax.set_xlabel('Number of counties (disaggregation dimensionality)', fontsize=12)
-ax.set_ylabel('Mean KL-divergence (Dirichlet sample $\\|$ Zipf truth)', fontsize=12)
+ax.set_ylabel('Mean KL-divergence (Dirichlet sample $\\|$ true distribution)', fontsize=12)
 ax.set_title(
     'Disaggregation Impossibility: KL-Divergence vs County Count\n'
     'Real US Census county structure (2020); Zipf-generated county populations',
@@ -433,7 +489,7 @@ Counties & States & Mean KL & Std KL \\
 \multicolumn{4}{l}{%
   \footnotesize
   Pearson $r$: SEE\_RESULTS. Spearman $\rho$: SEE\_RESULTS.
-  KL saturation is expected for $n \geq 100$ (entropy ceiling of Zipf truth).
+  KL saturation is expected for $n \geq 100$ (entropy ceiling of true distribution).
 } \\
 \end{tabular}
 \end{table}
@@ -454,8 +510,8 @@ tex_path.write_text(tex_content)
 # ── 7. Results JSON ────────────────────────────────────────────────────────────
 summary = {
     'experiment':              'census_disaggregation_real',
-    'data_source':             'US Census Bureau 2020 Census (hardcoded)',
-    'population_model':        'Zipf(s=1.0) scaled to real state total',
+    'data_source':             data_source_label,
+    'population_model':        data_source_label,
     'description':             (
         'Real US Census county structure with Zipf-generated populations. '
         'County counts and state totals are real 2020 Census values. '

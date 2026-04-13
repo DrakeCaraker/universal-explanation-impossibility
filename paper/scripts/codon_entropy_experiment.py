@@ -296,8 +296,35 @@ def attempt_entrez_download() -> dict:
                         aa_codon_counts[aa][codon] = aa_codon_counts[aa].get(codon, 0) + 1
                         total_codons_by_aa[aa] += 1
 
+        # Compute per-species GC content from CDS sequences
+        species_gc = []
+        for seq in sequences:
+            gc_count = seq.count("G") + seq.count("C")
+            species_gc.append(gc_count / len(seq) if len(seq) > 0 else 0.5)
+        species_gc = np.array(species_gc)
+        mean_gc = float(species_gc.mean())
+        print(f"[Real] Mean GC content: {mean_gc:.3f} "
+              f"(range {species_gc.min():.3f}–{species_gc.max():.3f})")
+
+        # Compute GC-null expected entropy for each amino acid
+        # Under GC-only model: for each amino acid, expected codon probs
+        # are determined by mean GC content; entropy of this distribution
+        # is the GC-null prediction.
+        real_gc_null_by_aa = {}
+        for aa, info in AMINO_ACIDS.items():
+            codons_list = info["codons"]
+            if info["degeneracy"] == 1:
+                real_gc_null_by_aa[aa] = 0.0
+            else:
+                null_H = gc_null_entropy(codons_list, species_gc)
+                real_gc_null_by_aa[aa] = null_H
+
         real_entropy_by_deg = {d: [] for d in DEG_LEVELS}
+        real_gc_null_by_deg = {d: [] for d in DEG_LEVELS}
         real_entropy_by_aa = {}
+
+        n_obs_gt_null_real = 0
+        n_degenerate_real = 0
 
         for aa, info in AMINO_ACIDS.items():
             deg = info["degeneracy"]
@@ -306,13 +333,26 @@ def attempt_entrez_download() -> dict:
                 continue
             count_arr = np.array(list(counts.values()))
             H = shannon_entropy(count_arr)
+            gc_null_H = real_gc_null_by_aa.get(aa, 0.0)
             real_entropy_by_deg[deg].append(H)
+            real_gc_null_by_deg[deg].append(gc_null_H)
+            if deg > 1:
+                n_degenerate_real += 1
+                if H > gc_null_H:
+                    n_obs_gt_null_real += 1
             real_entropy_by_aa[aa] = {
                 "entropy": float(H),
+                "gc_null_entropy": float(gc_null_H),
+                "obs_minus_null": float(H - gc_null_H),
                 "degeneracy": deg,
                 "total_codons": int(total_codons_by_aa[aa]),
                 "codon_counts": {k: int(v) for k, v in counts.items()},
             }
+
+        frac_obs_gt_null_real = (n_obs_gt_null_real / n_degenerate_real
+                                  if n_degenerate_real > 0 else float("nan"))
+        print(f"[Real] Obs > GC-null: {n_obs_gt_null_real}/{n_degenerate_real} "
+              f"({100*frac_obs_gt_null_real:.0f}%) degenerate amino acids")
 
         # Statistical tests on real data
         real_kw_groups = [real_entropy_by_deg[d] for d in DEG_LEVELS
@@ -351,6 +391,13 @@ def attempt_entrez_download() -> dict:
         result["real_spearman"] = {
             "rho": float(real_sp_r),
             "p_value": float(real_sp_p),
+        }
+        result["real_gc_null_comparison"] = {
+            "mean_gc_content": float(mean_gc),
+            "gc_range": [float(species_gc.min()), float(species_gc.max())],
+            "n_degenerate_amino_acids": int(n_degenerate_real),
+            "n_obs_greater_than_null": int(n_obs_gt_null_real),
+            "fraction_obs_gt_null": float(frac_obs_gt_null_real),
         }
         result["n_organisms"] = len(seen_orgs)
         result["organisms"] = sorted(seen_orgs)

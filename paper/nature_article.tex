@@ -163,9 +163,9 @@ The entire framework is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} (82~files, 377~theorems, 0~unproved
 goals), and empirically validated with real data in seven of the eight
 domains.  The impossibility is tight: each pair of properties is achievable,
-and the Rashomon property is the exact boundary (a Lean-verified converse
-shows all three properties are simultaneously achievable when Rashomon is
-absent).  The $G$-invariant resolution---which sacrifices decisiveness
+and the Rashomon property is necessary for the impossibility (a
+Lean-verified contrapositive shows that if all three properties hold,
+Rashomon must be absent).  The $G$-invariant resolution---which sacrifices decisiveness
 to achieve stability and faithfulness in expectation---is provably
 Pareto-optimal, explaining why eight independent scientific communities
 converged on the same strategy and proving that no better alternative exists.
@@ -221,14 +221,13 @@ potentially unfaithful at configurations whose internal report conflicts
 with the chosen explanation.  The impossibility is specifically the triple,
 not any pair.
 
-Second, the Rashomon property is the \emph{exact boundary}: when it is
-absent---when each observation uniquely determines the internal
-structure---all three properties are simultaneously achievable.  In this
-case, the identity map $E(\theta) = \mathsf{exp}(\theta)$ is faithful,
-stable (because equivalent configurations have identical internal
-reports), and decisive.  This converse is a separate Lean-verified theorem,
-confirming that the Rashomon property is both sufficient and necessary for
-the impossibility.
+Second, the Rashomon property is \emph{necessary} for the impossibility:
+a Lean-verified contrapositive shows that if all three properties hold for
+any explanation map, the Rashomon property must be absent.  When the
+observation map is injective (each observation uniquely determines the
+configuration), the identity map $E(\theta) = \mathsf{exp}(\theta)$
+achieves all three properties simultaneously.  The Rashomon property is
+thus the dividing line between achievability and impossibility.
 
 Third, an axiom substitution analysis shows that weakening any single
 definition---replacing faithfulness with a weaker consistency notion,
@@ -261,8 +260,12 @@ sequences~\citep{crick1966codon}.  The genetic code maps 61~sense codons
 to only 20~amino acids, so degeneracy is pervasive---methionine and
 tryptophan (one codon each) are the only amino acids that are uniquely
 determined.  Across 120~eukaryotic cytochrome~c coding sequences from
-NCBI RefSeq, codon usage entropy increases perfectly monotonically with
-degeneracy level (Fig.~\ref{fig:dose-response}B).
+NCBI RefSeq, codon usage entropy increases monotonically with
+degeneracy level (Fig.~\ref{fig:dose-response}B).  GC-content bias is
+the primary driver of codon choice within each degeneracy class, but the
+structural capacity for variation is created by the degeneracy (Rashomon
+property) itself: without synonymous alternatives, entropy is identically
+zero regardless of GC content.
 
 In \emph{physics} (gauge theory), two edge-label configurations on a
 triangle graph can share the same holonomy---the product of labels around
@@ -330,7 +333,8 @@ and reversal (crystallography).
   \textbf{A,}~Mathematics (null-space dimension vs.\ solver RMSD).
   \textbf{B,}~Biology (codon degeneracy vs.\ entropy; 120 NCBI RefSeq
   cytochrome~c sequences).
-  \textbf{C,}~Gauge theory (lattice size vs.\ within-orbit variance).
+  \textbf{C,}~Gauge theory (gauge-invariant vs.\ gauge-variant quantity
+  variance).
   \textbf{D,}~Statistical mechanics (macrostate vs.\ Rashomon entropy).
   \textbf{E,}~Linguistics (parser agreement on ambiguous vs.\ unambiguous
   sentences).
@@ -392,10 +396,10 @@ agreement of only 0.33 at finite sample size ($p = 4.4 \times 10^{-38}$);
 agreement improves at $N = 100{,}000$ as statistical power increases.  In
 crystallography, phase retrieval reconstructions diverge $1.5$--$1.8\times$
 more without positivity constraints, which reduce the size of the Rashomon
-set ($p < 10^{-57}$).  In computer science, census disaggregation ambiguity
-scales with aggregation granularity ($p = 8.0 \times 10^{-37}$); the
-District of Columbia (one county-equivalent) has KL divergence of exactly
-zero.
+set ($p < 10^{-57}$).  In computer science, census disaggregation ambiguity using real 2020~Census county populations
+scales with aggregation granularity (Spearman $\rho = 0.51$,
+$p = 1.2 \times 10^{-4}$); the District of Columbia (one
+county-equivalent) has KL divergence of exactly zero.
 
 In each case, the negative control confirms that instability vanishes when
 the Rashomon property is absent, ruling out the possibility that the
@@ -577,11 +581,15 @@ corresponding machine-checked proof.
 The core impossibility theorem (\texttt{explanation\_impossibility} in
 \texttt{ExplanationSystem.lean}) requires \emph{zero} model-specific
 axioms: the Rashomon property enters only as a hypothesis, not as an axiom,
-so the proof is valid for any system satisfying the hypothesis.  Each of the
-eight derived instances uses Lean's decidable computation to constructively
+so the proof is valid for any system satisfying the hypothesis.  Seven of the
+eight derived instances use Lean's decidable computation to constructively
 witness the Rashomon property with zero axioms---the proof assistant
 evaluates the witness and confirms that the two configurations have
-identical observable output and incompatible explanations.
+identical observable output and incompatible explanations.  The causal
+discovery instance uses a parallel proof structure within the symmetric
+Bayes decision framework rather than instantiating the abstract
+\texttt{ExplanationSystem}, but proves an equivalent impossibility with
+the same logical structure.
 
 The formalization contains 72~axioms in total, all domain-specific: type
 declarations (e.g., the types of models, features, and attributions for
@@ -869,11 +877,13 @@ the 20~per-reconstruction mean RMSDs as independent units.  Test:
 Mann--Whitney $U$.
 
 \emph{Computer science.}  County-level population disaggregation from
-state totals using U.S.\ Census Bureau 2020 data (51~states + DC).
+state totals using U.S.\ Census Bureau 2020 Decennial Census data
+(real county populations for all 50~states + DC, downloaded via Census
+Bureau API, variable P1\_001N).
 For each state, 100~Dirichlet($\alpha = 1$) samples consistent with the
-state total are drawn; KL divergence from the true county distribution is
-computed.  Negative control: DC (1~county-equivalent, KL~$= 0$).  Test:
-Spearman rank correlation (county count vs.\ mean KL).
+state total are drawn; KL divergence from the real county population
+distribution is computed.  Negative control: DC (1~county-equivalent,
+KL~$= 0$).  Test: Spearman rank correlation (county count vs.\ mean KL).
 
 \emph{Statistics.}  Causal discovery on the 8-node Asia network using PC
 ($\alpha = 0.05$, $\alpha = 0.01$) and GES, with 100~random seeds per
@@ -906,7 +916,8 @@ BioPython; all other experiments are self-contained.
 \section*{Data availability}
 Biology data: 120 eukaryotic cytochrome~c coding sequences from NCBI RefSeq,
 retrieved via \texttt{CYCS[Gene] AND mRNA[Filter] AND refseq[Filter]}.
-Census data: U.S.\ Census Bureau 2020 county-level population counts.
+Census data: U.S.\ Census Bureau 2020 Decennial Census county-level
+populations (variable P1\_001N, downloaded via Census Bureau API).
 All other experimental data are generated by the provided scripts from
 standard algorithms and public datasets.  Experiment results (JSON) are
 included in the repository.

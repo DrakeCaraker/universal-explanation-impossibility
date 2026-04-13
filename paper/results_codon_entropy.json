@@ -146,6 +146,8 @@
     "real_entropy_by_amino_acid": {
       "Met": {
         "entropy": -0.0,
+        "gc_null_entropy": 0.0,
+        "obs_minus_null": -0.0,
         "degeneracy": 1,
         "total_codons": 363,
         "codon_counts": {
@@ -154,6 +156,8 @@
       },
       "Trp": {
         "entropy": -0.0,
+        "gc_null_entropy": 0.0,
+        "obs_minus_null": -0.0,
         "degeneracy": 1,
         "total_codons": 125,
         "codon_counts": {
@@ -162,6 +166,8 @@
       },
       "Phe": {
         "entropy": 0.9197198103677473,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.07365853963295277,
         "degeneracy": 2,
         "total_codons": 466,
         "codon_counts": {
@@ -171,6 +177,8 @@
       },
       "Tyr": {
         "entropy": 0.9935393436871842,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": 0.00016099368648414547,
         "degeneracy": 2,
         "total_codons": 497,
         "codon_counts": {
@@ -180,6 +188,8 @@
       },
       "His": {
         "entropy": 0.9868884753797076,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.006489874620992486,
         "degeneracy": 2,
         "total_codons": 312,
         "codon_counts": {
@@ -189,6 +199,8 @@
       },
       "Gln": {
         "entropy": 0.7394010819385923,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.25397726806210774,
         "degeneracy": 2,
         "total_codons": 359,
         "codon_counts": {
@@ -198,6 +210,8 @@
       },
       "Asn": {
         "entropy": 0.9925270159830353,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.0008513340176647954,
         "degeneracy": 2,
         "total_codons": 590,
         "codon_counts": {
@@ -207,6 +221,8 @@
       },
       "Lys": {
         "entropy": 0.8008704168437659,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.19250793315693415,
         "degeneracy": 2,
         "total_codons": 2127,
         "codon_counts": {
@@ -216,6 +232,8 @@
       },
       "Asp": {
         "entropy": 0.9467907913831478,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.04658755861755226,
         "degeneracy": 2,
         "total_codons": 452,
         "codon_counts": {
@@ -225,6 +243,8 @@
       },
       "Glu": {
         "entropy": 0.9598233475451451,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": -0.03355500245555498,
         "degeneracy": 2,
         "total_codons": 894,
         "codon_counts": {
@@ -234,6 +254,8 @@
       },
       "Cys": {
         "entropy": 0.9974653882383318,
+        "gc_null_entropy": 0.9933783500007001,
+        "obs_minus_null": 0.004087038237631679,
         "degeneracy": 2,
         "total_codons": 270,
         "codon_counts": {
@@ -243,6 +265,8 @@
       },
       "Ile": {
         "entropy": 1.4886158818439346,
+        "gc_null_entropy": 1.5794293872228253,
+        "obs_minus_null": -0.09081350537889077,
         "degeneracy": 3,
         "total_codons": 775,
         "codon_counts": {
@@ -253,6 +277,8 @@
       },
       "Val": {
         "entropy": 1.6023376794729594,
+        "gc_null_entropy": 1.9933783500006999,
+        "obs_minus_null": -0.3910406705277405,
         "degeneracy": 4,
         "total_codons": 375,
         "codon_counts": {
@@ -264,6 +290,8 @@
       },
       "Ala": {
         "entropy": 1.826920136674796,
+        "gc_null_entropy": 1.9933783500006999,
+        "obs_minus_null": -0.16645821332590383,
         "degeneracy": 4,
         "total_codons": 792,
         "codon_counts": {
@@ -275,6 +303,8 @@
       },
       "Pro": {
         "entropy": 1.766400727325574,
+        "gc_null_entropy": 1.9933783500006999,
+        "obs_minus_null": -0.2269776226751259,
         "degeneracy": 4,
         "total_codons": 406,
         "codon_counts": {
@@ -286,6 +316,8 @@
       },
       "Thr": {
         "entropy": 1.8364384212806546,
+        "gc_null_entropy": 1.9933783500006999,
+        "obs_minus_null": -0.15693992872004525,
         "degeneracy": 4,
         "total_codons": 968,
         "codon_counts": {
@@ -297,6 +329,8 @@
       },
       "Gly": {
         "entropy": 1.8774172367201616,
+        "gc_null_entropy": 1.9933783500006999,
+        "obs_minus_null": -0.11596111328053826,
         "degeneracy": 4,
         "total_codons": 1589,
         "codon_counts": {
@@ -308,6 +342,8 @@
       },
       "Leu": {
         "entropy": 2.2882759567637576,
+        "gc_null_entropy": 2.57206336873909,
+        "obs_minus_null": -0.2837874119753323,
         "degeneracy": 6,
         "total_codons": 735,
         "codon_counts": {
@@ -321,6 +357,8 @@
       },
       "Ser": {
         "entropy": 1.964933099436082,
+        "gc_null_entropy": 2.5783408507218573,
+        "obs_minus_null": -0.6134077512857752,
         "degeneracy": 6,
         "total_codons": 290,
         "codon_counts": {
@@ -334,6 +372,8 @@
       },
       "Arg": {
         "entropy": 2.3366504189960615,
+        "gc_null_entropy": 2.5720633687390904,
+        "obs_minus_null": -0.23541294974302884,
         "degeneracy": 6,
         "total_codons": 250,
         "codon_counts": {
@@ -353,6 +393,16 @@
     "real_spearman": {
       "rho": 0.9999999999999999,
       "p_value": 1.4042654220543672e-24
+    },
+    "real_gc_null_comparison": {
+      "mean_gc_content": 0.4521316822008646,
+      "gc_range": [
+        0.3710691823899371,
+        0.6069182389937107
+      ],
+      "n_degenerate_amino_acids": 18,
+      "n_obs_greater_than_null": 2,
+      "fraction_obs_gt_null": 0.1111111111111111
     },
     "n_organisms": 120,
     "organisms": [
@@ -506,5 +556,5 @@
       "std_entropy": 0.16501328486651748
     }
   },
-  "_timestamp": "2026-04-13 00:33:55"
+  "_timestamp": "2026-04-13 00:45:43"
 }
