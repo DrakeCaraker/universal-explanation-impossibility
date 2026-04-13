@@ -1201,6 +1201,118 @@ and dramatically more on real data with correlated features.  This dose-response
 was predicted by the theorem: larger Rashomon sets produce more instability,
 and orbit averaging provides proportionally larger improvements.
 
+\subsection{Toward a Group-Theoretic Classification of Explainability}
+\label{sec:group-classification}
+
+The resolution framework reveals a deeper structure: the difficulty of
+explanation is not merely binary (possible vs.\ impossible) but is
+\emph{parameterized by the symmetry group} of the Rashomon set.
+Different group-theoretic structures produce qualitatively different
+impossibility regimes and qualitatively different resolutions.
+
+\paragraph{The observation.}
+For an explanation system with symmetry group $G$ acting on the Rashomon
+fibers (the set of configurations sharing the same observable), the space
+of stable explanation maps is isomorphic to the space of $G$-invariant
+functions on the configuration space.  The $G$-invariant projection
+(orbit averaging) is the \emph{Reynolds operator}---the projection onto
+the trivial representation of $G$:
+\[
+  R(f)(x) \;=\; \frac{1}{|G|} \sum_{g \in G} f(g \cdot x)
+  \quad\text{(finite $G$)},
+  \qquad
+  R(f)(x) \;=\; \int_G f(g \cdot x)\, d\mu(g)
+  \quad\text{(compact $G$)}.
+\]
+This is not a new mathematical object---it is the standard tool of invariant
+theory \citep{sturmfels2008algorithms}---but its identification as the
+universal resolution of the Explanation Impossibility, across all domains
+simultaneously, appears to be new.
+
+\paragraph{A hierarchy of difficulty.}
+The group structure determines the character of the impossibility and the
+available resolutions:
+
+\begin{enumerate}
+  \item \textbf{Finite abelian $G$} (gauge theory $\mathbb{Z}_2^{|V|}$,
+    statistical mechanics $S_2$, biology $S_k$ for small $k$).
+    The orbit average is canonical and unique.  All characters are
+    one-dimensional, so the invariant projection has no ambiguity.
+    The faithfulness bound is $1/|G|$.  These are the ``easy'' cases:
+    the impossibility is real but the resolution is completely determined.
+
+  \item \textbf{Finite non-abelian $G$} (causal discovery with $\geq 3$
+    reversible edges, molecular point groups in chemistry).
+    Multiple inequivalent invariant projections may exist, corresponding
+    to different choices of which non-trivial irreducible representations
+    to retain.  The resolution choice itself becomes ambiguous---a
+    \emph{second-order Rashomon problem}.  We observe this empirically:
+    different causal discovery scoring functions (BIC, AIC, MDL) can
+    produce different CPDAGs on the same data, reflecting different
+    implicit choices among equivalent invariant representations.
+
+  \item \textbf{Compact continuous $G$} (crystallography $U(1)^N$).
+    The Haar measure on $G$ is finite, so orbit averaging converges.
+    The Peter-Weyl theorem decomposes $L^2(G)$ into irreducible
+    representations, and the invariant projection retains precisely the
+    zeroth-frequency (DC) component.  This is why the Patterson
+    map---the autocorrelation, i.e., the zero-frequency Fourier
+    content---is the natural resolution in crystallography.
+
+  \item \textbf{Non-compact continuous $G$} (linear algebra $\mathbb{R}^d$,
+    deep learning weight space).
+    No finite Haar measure exists on non-compact orbits.  Orbit averaging
+    diverges without regularization.  The pseudoinverse (minimum-norm
+    solution) is Tikhonov regularization with $\lambda \to 0$---a
+    \emph{regularized} orbit average.  Different regularizers (L1, L2,
+    elastic net) produce different ``resolutions,'' and the choice of
+    regularizer introduces an external degree of freedom not present in the
+    compact case.  This is the ``fundamentally hard'' regime: the
+    impossibility is severe and the resolution is non-canonical.
+\end{enumerate}
+
+\paragraph{Predictions.}
+This hierarchy generates testable predictions not currently verified in the
+paper:
+\begin{itemize}
+  \item Domains with abelian symmetry should exhibit a unique canonical
+    resolution with no practitioner disagreement on what the ``right''
+    invariant quantity is.
+  \item Domains with non-abelian symmetry should exhibit \emph{resolution
+    multiplicity}---different ``reasonable'' resolutions that disagree---and
+    this disagreement should itself be measurable.
+  \item Domains with non-compact symmetry should require regularization,
+    and different regularizers should produce different answers whose spread
+    scales with the non-compactness of the group.
+  \item The faithfulness bound $1/|G|$ (finite) or $\exp(-\dim G)$
+    (Lie groups) should predict the empirical instability across domains.
+\end{itemize}
+
+\paragraph{What is missing.}
+The current eight instances span finite abelian, (barely) finite non-abelian,
+compact continuous, and non-compact continuous groups.  Not yet represented
+are: genuinely non-abelian finite groups (e.g., the tetrahedral point group
+$T_d$ in molecular spectroscopy, order~24); non-compact Lie groups beyond
+translations (e.g., the Lorentz group $\mathrm{SO}(3,1)$ in relativistic
+physics); infinite discrete groups (e.g., lattice symmetries
+$\mathbb{Z}^n$); and groupoids---where the symmetry structure varies
+fiber-by-fiber, as happens in ML when different regions of feature space have
+different Rashomon set sizes.  The groupoid generalization would connect this
+work to the theory of stacks in algebraic geometry and to fiber bundles in
+differential geometry.  We leave these extensions to future work.
+
+\paragraph{The deeper claim.}
+If the group-theoretic parameterization is correct in full generality, then
+the Explanation Impossibility is not a standalone theorem but the \emph{first
+theorem in a classification theory}---analogous to how Arrow's impossibility
+theorem \citep{arrow1951social} was the first theorem in social choice theory,
+not the last.  The classification would say: for each symmetry type, here is
+exactly what explanations can and cannot do, here is the optimal resolution,
+and here is the residual ambiguity.  The universality of the impossibility
+(Theorem~\ref{thm:universal}) would then be the base case of a stratified
+tower of increasingly refined characterizations, parameterized by the
+representation theory of the symmetry group.
+
 \subsection{Regulatory Implications}
 \label{sec:regulatory}
 
