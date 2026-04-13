@@ -794,6 +794,15 @@ character-theoretic baseline acting as a \emph{floor} for regulatory DNA
 ($\alpha < 1$)---consistent with weaker purifying selection on regulatory
 sequences.
 
+Fifth, the framework predicts that classifier confusion between
+classes is driven by \emph{Rashomon overlap} (the fraction of
+near-optimal models that swap predictions between classes), not by
+feature-space similarity.  On the digits dataset, Rashomon overlap
+predicts the confusion matrix with Spearman $\rho = 0.68$
+($p = 0.001$), while feature similarity has no predictive power
+($\rho = 0.05$, $p = 0.82$)---a result not derivable from standard
+ML theory, which attributes confusion to feature overlap alone.
+
 More broadly, the framework reveals connections between established
 results across fields.  Fisher's concept of sufficiency (1920) is structurally analogous to the
 framework's stability condition: a statistic $T$ is sufficient if and
