@@ -1,0 +1,84 @@
+{
+  "method": "SAGE: Symmetry-Aware Group Estimation",
+  "description": "Discovers the explanation symmetry group G from bootstrap feature-importance flip rates, then predicts instability as 1 - g/P.",
+  "n_bootstrap_models": 100,
+  "flip_threshold": 0.3,
+  "datasets": {
+    "Breast Cancer": {
+      "n_features": 30,
+      "n_groups_discovered": 5,
+      "group_sizes": [
+        20,
+        4,
+        3,
+        2,
+        1
+      ],
+      "eta_predicted": 0.166667,
+      "instability_predicted": 0.833333,
+      "instability_observed": 0.328454,
+      "error": 0.50488
+    },
+    "Diabetes": {
+      "n_features": 10,
+      "n_groups_discovered": 3,
+      "group_sizes": [
+        4,
+        4,
+        2
+      ],
+      "eta_predicted": 0.3,
+      "instability_predicted": 0.7,
+      "instability_observed": 0.230213,
+      "error": 0.469787
+    },
+    "Wine": {
+      "n_features": 13,
+      "n_groups_discovered": 3,
+      "group_sizes": [
+        6,
+        4,
+        3
+      ],
+      "eta_predicted": 0.230769,
+      "instability_predicted": 0.769231,
+      "instability_observed": 0.280458,
+      "error": 0.488772
+    },
+    "California Housing": {
+      "n_features": 8,
+      "n_groups_discovered": 7,
+      "group_sizes": [
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "eta_predicted": 0.875,
+      "instability_predicted": 0.125,
+      "instability_observed": 0.039928,
+      "error": 0.085072
+    },
+    "Iris (regression)": {
+      "n_features": 3,
+      "n_groups_discovered": 2,
+      "group_sizes": [
+        2,
+        1
+      ],
+      "eta_predicted": 0.666667,
+      "instability_predicted": 0.333333,
+      "instability_observed": 0.180471,
+      "error": 0.152862
+    }
+  },
+  "overall_r2": -14.149798,
+  "pearson_r2": 0.917897,
+  "calibrated_r2": 0.917897,
+  "calibration_slope": 0.34541,
+  "calibration_intercept": 0.021176,
+  "success": true
+}
