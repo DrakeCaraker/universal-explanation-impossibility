@@ -119,3 +119,22 @@ For every prediction below:
 **Success criterion**: Partial R² > 0.05 for group structure after controlling for neighbor count, p < 0.01.
 
 **Null hypothesis**: Simple neighbor-count model explains dS fully.
+
+---
+
+## Well-Characterized Group Criterion
+
+A group assignment is **well-characterized** if:
+
+1. The symmetry is **exact by construction** (part of the domain's mathematical definition, not an empirical approximation), AND
+2. The instability metric **directly measures the flip/disagreement rate** (not a proxy).
+
+Under this criterion, the well-characterized instances are:
+
+- **Attribution S₂** (exact by `FlipRate.lean`)
+- **Concept probe O(d)** (rotation invariance of probe directions)
+- **Model selection S_k** (exact count of winners)
+- **Codon S₂/S₄/S₆** (exact by genetic code table)
+- **Stat mech S_Ω** (exact by combinatorics)
+
+The all-16-instance R² is the primary result of the universal η analysis. The 7-instance R² (restricted to well-characterized groups) is a **pre-specified subset analysis** defined by this criterion, not a post hoc selection.

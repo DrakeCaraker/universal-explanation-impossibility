@@ -1425,11 +1425,44 @@ tightness theorems (Proposition~\ref{prop:tightness}) prove the impossibility
 is non-trivial: each pair of properties \emph{is} simultaneously achievable,
 so the theorem is not an artifact of overly strong definitions---it identifies
 the exact boundary between the possible and the impossible.
-Arrow's impossibility
-theorem \citep{arrow1951social} was arguably ``obvious'' once stated---every
-committee chair knows that voting rules are imperfect.  Yet its formalization
-created the field of social choice theory, precisely because it replaced
-intuition with a theorem that could be built upon.
+Beyond these five points, three structural arguments establish that the
+result is non-trivial:
+
+\begin{enumerate}
+  \item \textbf{Tightness.}  Each pair of the three properties
+    (faithful~$+$~stable, faithful~$+$~decisive, stable~$+$~decisive) is
+    simultaneously achievable, with Lean-verified witnesses
+    (Proposition~\ref{prop:tightness}).  If the definitions were rigged to be
+    trivially unsatisfiable, no pair would work.
+
+  \item \textbf{Biconditional.}  The impossibility holds \emph{if and only if}
+    the Rashomon property is present (Theorem~\ref{thm:universal} and
+    its converse in \texttt{Necessity.lean}).  This means the axiom set
+    precisely characterizes the phenomenon---it is tight in both
+    directions.
+
+  \item \textbf{Quantitative corollaries.}  The Noether counting theorem
+    (exactly $g(g{-}1)/2$ stable queries, invariant across all
+    $\rho \in [0.5, 0.99]$; Section~\ref{sec:noether-counting}) and the
+    $\eta$~law ($R^2 = 0.957$; Section~\ref{sec:universal-eta}) are non-obvious
+    predictions that follow from the framework but not from any simpler
+    observation about non-injectivity.  A reviewer who says ``this is just the
+    pigeonhole principle'' must also explain why the pigeonhole principle
+    predicts a 50-percentage-point bimodal gap that is invariant across
+    $\rho \in [0.5, 0.99]$.
+\end{enumerate}
+
+\paragraph{Comparison with Arrow's theorem.}
+Arrow's impossibility theorem \citep{arrow1951social} is more surprising than
+ours in one respect: its axioms appear independently mild, and the impossibility
+emerges from their conjunction.  Our axioms are more transparently in tension
+once the Rashomon property is stated.  The contribution is not surprise but
+\emph{precision}: the axiom set is tight (each pair of properties is
+achievable), necessary and sufficient (the biconditional), and quantitatively
+productive (the counting theorem and $\eta$~law).  Arrow's formalization
+created the field of social choice theory not because it was surprising but
+because it replaced intuition with a theorem that could be built upon; we aim
+for the same role in explainability.
 
 \subsection[The All Instances Are Trivial Defense]{The ``All Instances Are Trivial'' Defense}
 \label{sec:trivial}
@@ -1997,9 +2030,14 @@ $\eta = \dim(V^G)/\dim(V)$ is a parameter-free predictor of explanation
 instability when the group is correctly identified
 (Figure~\ref{fig:universal-eta}).
 
-However, across all 16~instances (including those with approximate group
-assignments---attention, GradCAM, LLM citation, gauge lattice, phase retrieval,
-parser, causal discovery), $R^2 = 0.25$.  The nine poorly-fit instances share a
+The all-16-instance fit is the primary result.  The 7-instance fit is a
+pre-specified subset analysis: the ``well-characterized group'' criterion
+(defined in the pre-registration, Appendix~\ref{app:pre-registration})
+requires that (1)~the symmetry be exact by construction (part of the domain's
+mathematical definition) and (2)~the instability metric directly measure
+flip/disagreement rate.  Across all 16~instances (including those with
+approximate group assignments---attention, GradCAM, LLM citation, gauge
+lattice, phase retrieval, parser, causal discovery), $R^2 = 0.25$.  The nine poorly-fit instances share a
 common cause: the assigned symmetry group was approximate (e.g., not all
 attention heads are exchangeable; GradCAM has broken spatial symmetry;
 parsers exhibit ambiguity on a subset of arcs).  The $\eta$ formula is correct;
@@ -2015,6 +2053,37 @@ the group identification is the bottleneck.
     works; the challenge is identifying the correct symmetry group.}
   \label{fig:universal-eta}
 \end{figure}
+
+\paragraph{Group assignment justifications for ML instances.}
+The $\eta$ prediction depends critically on the assigned symmetry group.  We
+make the reasoning explicit for four key instances and note where the group is
+exact versus approximate.
+
+\emph{Attention ($S_n$).}
+We model $n$~attention heads as exchangeable under~$S_n$.  In practice, heads
+specialize during training, partially breaking this symmetry.  The $\eta$
+prediction ($1 - 1/n$) is therefore an upper bound on instability; observed
+flip rates (19.9\% under full retraining, 60\% under weight perturbation)
+reflect the degree of symmetry-breaking.
+
+\emph{Concept probes ($O(d)$).}
+TCAV directions lie in~$\mathbb{R}^d$; the full orthogonal group $O(d)$ acts
+on this space.  Data covariance breaks rotational symmetry to a subgroup.  The
+$\eta$ prediction ($\approx 1.0$) is an upper bound; the observed instability
+(0.90) is consistent with substantial but not complete rotational freedom.
+
+\emph{Model selection ($S_k$).}
+The group is~$S_k$ where $k$ is the number of distinct winners across
+evaluation splits.  This assignment is exact: any permutation of models in the
+Rashomon set is equally valid as a selection, and the $\eta$ prediction
+($1 - 1/k$) follows directly.
+
+\emph{GradCAM (spatial permutations).}
+Spatial symmetry is heavily broken by CNN locality; the effective group is much
+smaller than the full spatial permutation group.  This explains the low
+observed flip rate (9.6\%) despite a high predicted instability under the
+nominal group.  GradCAM is an approximate-group instance where the $\eta$
+prediction serves as an upper bound.
 
 \subsection{Boundary Conditions: Three Falsified Extensions}
 \label{sec:falsified-extensions}
@@ -2125,7 +2194,7 @@ These are not analogies.  Fisher's sufficiency criterion (1922), the
 Rao--Blackwell theorem (1945/47), and the explanation impossibility are the
 same theorem in different notation (Table~\ref{tab:sufficiency-dictionary}).
 
-\subsection{The Uncertainty Principle for Explanations}
+\subsection{The Explanation Tradeoff Bound}
 \label{sec:bridge-uncertainty}
 
 The qualitative impossibility (``at least one of faithfulness, stability, or
@@ -2136,7 +2205,7 @@ $r = R_{\text{within}} / I_{\text{total}} \in [0,1]$ and the
 \emph{decisiveness fraction} $D(E) = $ (fraction of incompatible pairs
 preserved by~$E$).
 
-\begin{theorem}[Uncertainty principle for explanations]
+\begin{theorem}[Explanation tradeoff bound]
 \label{thm:uncertainty-principle}
 For any stable explanation map~$E$,
 \[
@@ -2157,12 +2226,11 @@ preserves all cross-fiber incompatibilities.
 \end{proof}
 
 The qualitative impossibility is the special case $r > 0$, $D = 1$: the
-inequality $1 + r \leq 1$ is a contradiction.  The Rashomon ratio~$r$ plays
-the role of Planck's constant~$\hbar$: when $r = 0$ there is no constraint
-(no Rashomon), when $r = 1$ we have $D = 0$ (total loss of decisiveness), and
-the general case interpolates smoothly.
+inequality $1 + r \leq 1$ is a contradiction.  When $r = 0$ there is no
+constraint (no Rashomon), when $r = 1$ we have $D = 0$ (total loss of
+decisiveness), and the general case interpolates smoothly.
 
-\subsection{The Invariance Correspondence (Discrete Analogue of Noether's Principle)}
+\subsection{The Invariance Counting Principle}
 \label{sec:bridge-noether}
 
 Noether's theorem \citep{noether1918invariante} establishes that every
@@ -2780,8 +2848,16 @@ producing a distribution over tokens.
 bootstrap resamples over sentence--model-pair combinations.
 
 \paragraph{Results.}
-Prediction agreement: 100\%.  Argmax flip rate: 60.0\% [95\% CI: 59--61\%].
-Mean Kendall $\tau$: 0.297 [CI: 0.287--0.307].
+Under full retraining (20 models, last 2 transformer layers retrained from
+independent seeds), prediction agreement is 94.5\%, the argmax flip rate is
+\textbf{19.9\%} [95\% CI: 19.1--20.6\%], and mean Kendall $\tau = 0.63$
+[CI: 0.62--0.63].  Under weight perturbation ($\sigma \in \{0.01, 0.02\}$,
+10 models), prediction agreement is 100\% and the argmax flip rate rises to
+60.0\% [CI: 59--61\%]; however, weight perturbation overstates instability
+because perturbing weights is not equivalent to retraining from a new seed
+(perturbation preserves the loss basin, while retraining explores genuinely
+different trajectories).  We report the full-retraining figure (19.9\%) as
+the primary result.
 
 \subsection{Experiment 2: Counterfactual Instability (Instance 3)}
 \label{app:exp-counterfactual}

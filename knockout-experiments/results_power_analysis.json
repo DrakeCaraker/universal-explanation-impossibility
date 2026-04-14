@@ -1,0 +1,54 @@
+{
+  "attention": {
+    "description": "Attention map instability (Instance 2)",
+    "perturbation": {
+      "n_models": 10,
+      "n_comparisons": 9000,
+      "observed_flip_rate": 0.6,
+      "min_detectable_flip_rate_80pct_power": 0.001,
+      "cohens_d": 1.225
+    },
+    "full_retraining": {
+      "n_models": 20,
+      "n_comparisons": 9500,
+      "observed_flip_rate": 0.1986,
+      "min_detectable_flip_rate_80pct_power": 0.001,
+      "cohens_d": 0.498
+    }
+  },
+  "noether_counting": {
+    "description": "Noether counting experiment (bimodal gap)",
+    "n_models": 200,
+    "n_within_pairs": 18,
+    "n_between_pairs": 48,
+    "observed_within_mean": 0.4997710776102736,
+    "observed_between_mean": 0.0014562395309882746,
+    "observed_gap_pp": 49.8,
+    "min_detectable_gap_80pct_power": 0.2738,
+    "cohens_d": 1.409
+  },
+  "model_selection": {
+    "description": "Model selection instability (Instance 6)",
+    "n_models": 50,
+    "n_eval_splits": 20,
+    "n_consecutive_comparisons": 19,
+    "observed_flip_rate": 0.8,
+    "min_detectable_flip_rate_80pct_power": 0.293,
+    "cohens_d": 2.0,
+    "note": "Small n (19 consecutive comparisons) limits power; observed effect is very large (80%), so detection is robust."
+  },
+  "gradcam": {
+    "description": "GradCAM spatial instability (Instance 7)",
+    "n_models": 10,
+    "n_comparisons": 4500,
+    "observed_flip_rate": 0.0962,
+    "min_detectable_flip_rate_80pct_power": 0.002,
+    "cohens_d": 0.326
+  },
+  "_summary": {
+    "description": "All experiments are well-powered: observed effects exceed minimum detectable effects by large margins.",
+    "alpha": 0.05,
+    "power": 0.8,
+    "method": "Normal approximation for proportions; two-sample z-test for Noether gap."
+  }
+}

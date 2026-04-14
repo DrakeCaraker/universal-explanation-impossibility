@@ -81,12 +81,18 @@ Theorem~\ref{thm:universal}.  The Lean~4 formalization is
 
 \paragraph{Empirical illustration.}
 We validate Theorem~\ref{thm:attention} using two protocols.
-Under weight perturbation ($\sigma \in \{0.01, 0.02\}$, 10 models), prediction
-agreement is 100\%, the argmax flip rate is 60.0\% [CI: 59--61\%], and mean
-Kendall $\tau = 0.30$.
-Under full retraining (20 models, last 2 transformer layers retrained),
-prediction agreement is 94.5\%, the argmax flip rate is 19.9\% [CI: 19.1--20.6\%],
-and mean Kendall $\tau = 0.63$.
+Under \textbf{full retraining} (20 models, last 2 transformer layers
+retrained from independent seeds), prediction agreement is 94.5\%, the
+argmax flip rate is \textbf{19.9\%} [CI: 19.1--20.6\%], and mean Kendall
+$\tau = 0.63$.  This is the primary result: it measures instability arising
+from genuinely different training trajectories.
+As a secondary analysis, weight perturbation ($\sigma \in \{0.01, 0.02\}$,
+10 models) yields prediction agreement of 100\% and an argmax flip rate of
+60.0\% [CI: 59--61\%], with mean Kendall $\tau = 0.30$.  The perturbation
+flip rate is substantially higher because weight perturbation is not
+equivalent to retraining: it preserves the loss basin while injecting noise,
+overstating the degree of instability that practitioners would encounter in
+practice.
 Full results appear in Table~\ref{tab:attention} and
 Figure~\ref{fig:attention_instability}.
 
