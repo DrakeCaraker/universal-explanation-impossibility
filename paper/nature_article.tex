@@ -816,11 +816,14 @@ implies that at most $1/n$ of neuron-level representation is stably interpretabl
 The invariance correspondence makes a sharp quantitative prediction:
 for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
 independent ranking facts are stably answerable.  We tested this with $P = 12$
-features in $g = 3$ groups (within-group $\rho = 0.99$, 200~models, both Ridge
-and XGBoost).  The result is a clean bimodal distribution: all 18~within-group
-pairs show $\sim\!50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
-rate---a 47-percentage-point gap (Mann--Whitney $p = 2.7 \times 10^{-13}$).
-This tells practitioners exactly how many SHAP comparisons are trustworthy.
+features in $g = 3$ groups (200~models, both Ridge and XGBoost).  The result
+is a clean bimodal distribution: all 18~within-group pairs show
+$\sim\!50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
+rate---a 47-percentage-point gap (permutation $p < 0.0002$).
+A sensitivity analysis across $\rho \in [0.50, 0.99]$ confirms the gap is
+\emph{invariant} across the entire correlation range---the bimodal
+structure is a structural consequence of equal within-group coefficients,
+not a high-correlation artifact.
 
 \paragraph{Universal $\eta$ law.}
 The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts the

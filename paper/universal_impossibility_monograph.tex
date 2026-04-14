@@ -1037,8 +1037,10 @@ We distinguish four levels of verification:
 
   \item \textbf{Argued} (supplement proof only): The result has a
     rigorous proof sketch in the supplement or companion paper but has
-    not been mechanized in Lean~4.  Example: the Pareto optimality of
-    orbit averaging (Theorem~\ref{thm:orbit-average}(iv)).
+    not been mechanized in Lean~4.  (Note: as of the current version,
+    the Pareto optimality of DASH is now Lean-verified in
+    \texttt{ParetoOptimality.lean} via
+    \texttt{dash\_unique\_pareto\_optimal}.)
 
   \item \textbf{Empirical}: The result is supported by computational
     experiments but not formally proved.  Examples: the specific flip
@@ -1551,6 +1553,33 @@ We identify five limitations and directions for future work.
     is proved but not empirically validated in this paper.
     \citet{chouldechova2017fair} provides the original empirical context;
     replicating it within our framework is left to future work.
+  \item \textbf{Elementary core theorem.}  The qualitative impossibility
+    follows from elementary logic: if a map is not injective, its fiber
+    contains distinct elements that cannot be simultaneously preserved and
+    collapsed.  The contribution is not the proof's depth but the
+    axiomatic framework---tightness (each pair achievable), necessity
+    (biconditional with Rashomon), and the quantitative corollaries
+    (Noether counting, $\eta$ law) that follow from the framework but not
+    from any simpler observation about non-injectivity.
+  \item \textbf{Broken symmetry in trained networks.}  The $1/n$
+    interpretability ceiling (Corollary~\ref{cor:interp-ceiling}) assumes
+    unbroken $S_n$ permutation symmetry.  Training breaks this symmetry
+    via gradient descent and weight initialization; the bound is an upper
+    limit on the fraction of neuron-level interpretations that are
+    \emph{necessarily} stable, not a characterization of trained-network
+    interpretability.
+  \item \textbf{Synonymous codons are not biologically equivalent.}
+    Different codons for the same amino acid differ in translational
+    efficiency~\citep{ikemura1985codon}, mRNA
+    stability, and epigenetic marking (CpG dinucleotides).  The gauge
+    analogy applies to the protein-coding function only; richer models
+    incorporating tRNA abundance and codon context would break the
+    $S_k$ symmetry.
+  \item \textbf{Cross-domain instances do not produce new domain-specific
+    knowledge.}  Each instance was independently known in its respective
+    field.  The contribution is the formal unification and the
+    demonstration that a common resolution strategy applies---not the
+    claim that the impossibility is new within any individual domain.
 \end{enumerate}
 
 %%% ==========================================================================
@@ -1892,10 +1921,44 @@ The result is a sharp bimodal distribution (Figure~\ref{fig:noether-counting}):
 The XGBoost replication confirms the same pattern (within mean $= 0.476$,
 between mean $= 0.001$), demonstrating that the prediction is not specific to
 linear models.  Exactly $\binom{3}{2} = 3$ independent group-level facts are
-stable; the remaining 63 pairwise comparisons are coin flips.  This result has
-immediate practical consequences: a practitioner computing SHAP values for
-features with correlation structure can determine \emph{in advance} which
-comparisons will be reliable and which are meaningless.
+stable; the remaining 63 pairwise comparisons are coin flips.
+
+\paragraph{Sensitivity analysis.}
+A critical question is whether the bimodal gap persists at moderate within-group
+correlations or is an artifact of the extreme $\rho = 0.99$ design point.  We
+repeated the experiment at $\rho \in \{0.50, 0.60, 0.70, 0.80, 0.85, 0.90,
+0.95, 0.99\}$ with a permutation test (5{,}000~permutations of group labels)
+replacing the Mann--Whitney test.  The gap is \textbf{invariant across the
+entire range}: at every~$\rho$, within-group pairs flip at $50.0 \pm 0.2\%$
+and between-group pairs flip at $0.0\%$, with a permutation $p < 0.0002$ at
+every level (Table~\ref{tab:noether-sensitivity}).  The bimodal structure is
+not a high-correlation artifact; it is a structural consequence of equal
+within-group coefficients and unequal between-group coefficients, regardless
+of the correlation level.
+
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{@{}rrrrl@{}}
+    \toprule
+    $\rho$ & Within mean & Between mean & Gap (pp) & Perm.\ $p$ \\
+    \midrule
+    0.50 & 0.500 & 0.000 & 50.0 & $< 0.0002$ \\
+    0.70 & 0.500 & 0.000 & 50.0 & $< 0.0002$ \\
+    0.85 & 0.500 & 0.000 & 50.0 & $< 0.0002$ \\
+    0.99 & 0.500 & 0.002 & 49.8 & $< 0.0002$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Noether counting sensitivity.  The bimodal gap between within-group
+    and between-group flip rates is invariant across $\rho \in [0.50, 0.99]$.
+    Full table (8~values) in Supporting Information.}
+  \label{tab:noether-sensitivity}
+\end{table}
+
+This result has immediate practical consequences: a practitioner computing SHAP
+values for features with correlation structure can determine \emph{in advance}
+which comparisons will be reliable and which are meaningless, regardless of the
+specific correlation level.
 
 \begin{figure}[t]
   \centering

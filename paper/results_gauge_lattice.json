@@ -40,28 +40,28 @@
     0.00027088584899902343
   ],
   "wilson_loop_mean": [
-    0.022,
-    -0.002,
-    -0.011,
-    0.053,
-    0.066,
-    0.043,
-    0.201,
-    0.326,
-    0.664,
-    0.877
+    0.0012421875,
+    0.0017734375,
+    0.007578125,
+    0.021703125,
+    0.0471328125,
+    0.0818203125,
+    0.19675,
+    0.33690625,
+    0.669375,
+    0.8631640625
   ],
   "wilson_loop_variance": [
-    0.9995160000000001,
-    0.9999959999999999,
-    0.9998790000000001,
-    0.9971909999999998,
-    0.9956439999999998,
-    0.9981509999999998,
-    0.9595990000000002,
-    0.8937240000000002,
-    0.559104,
-    0.230871
+    0.0038870067749023434,
+    0.004129545349121093,
+    0.003994329833984375,
+    0.0040746286621093745,
+    0.004655573181152344,
+    0.005312638610839845,
+    0.00711609765625,
+    0.0083711318359375,
+    0.0070772460937500005,
+    0.0036786361694335933
   ],
   "analytic_plaquette_mean": [
     0.09966799462495582,
@@ -111,6 +111,91 @@
     0.5494346989858017,
     0.25403977504131525
   ],
+  "wilson_loop_95ci": [
+    [
+      -0.0014765625,
+      0.003976757812499997
+    ],
+    [
+      -0.0010703125,
+      0.0045078125
+    ],
+    [
+      0.0048046875,
+      0.010375390624999994
+    ],
+    [
+      0.0188828125,
+      0.0244375
+    ],
+    [
+      0.0441560546875,
+      0.04993007812499999
+    ],
+    [
+      0.07868730468749999,
+      0.08502363281249999
+    ],
+    [
+      0.1929609375,
+      0.2006015625
+    ],
+    [
+      0.3329373046875,
+      0.34088320312500003
+    ],
+    [
+      0.6656716796875001,
+      0.6731171875
+    ],
+    [
+      0.86059375,
+      0.865765625
+    ]
+  ],
+  "plaquette_95ci": [
+    [
+      0.0989921875,
+      0.1043203125
+    ],
+    [
+      0.1940583984375,
+      0.19926962890625
+    ],
+    [
+      0.2905619140625,
+      0.29577373046875
+    ],
+    [
+      0.37766015625,
+      0.38284404296874996
+    ],
+    [
+      0.4588046875,
+      0.46376962890624995
+    ],
+    [
+      0.5343984375,
+      0.53904326171875
+    ],
+    [
+      0.662875,
+      0.66706650390625
+    ],
+    [
+      0.7609099609375001,
+      0.76435166015625
+    ],
+    [
+      0.90331240234375,
+      0.905703125
+    ],
+    [
+      0.96320693359375,
+      0.9646640625
+    ]
+  ],
+  "all_analytic_within_wilson_ci": true,
   "interpretation": "The monotonic decrease of both plaquette variance Var(P) = sech^2(beta)/N^2 and Wilson loop variance Var(W) = 1 - tanh^8(beta) with increasing beta demonstrates a continuous dose-response: the gauge coupling acts as a control parameter for the Rashomon set size. At weak coupling (beta -> 0), plaquettes are nearly uniform on {+1,-1} and the configuration space is maximally uncertain (large Rashomon set). At strong coupling (beta -> inf), plaquettes freeze to +1 and the configuration concentrates near the ordered ground state (small Rashomon set). The MC measurements match the exact analytic predictions to within statistical error, confirming the dose-response is a genuine physical effect, not a simulation artifact.",
-  "_timestamp": "2026-04-13 01:32:19"
+  "_timestamp": "2026-04-14 10:46:26"
 }

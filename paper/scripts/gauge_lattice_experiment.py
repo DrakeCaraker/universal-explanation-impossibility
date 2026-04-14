@@ -33,7 +33,8 @@ import numpy as np
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SCRIPT_DIR)
 from experiment_utils import (
-    set_all_seeds, save_results, load_publication_style, save_figure
+    set_all_seeds, save_results, load_publication_style, save_figure,
+    percentile_ci,
 )
 
 import matplotlib
@@ -86,9 +87,15 @@ def sample_plaquette_configs(beta, N, n_configs, rng):
         # Mean plaquette (average over all N^2 plaquettes)
         plaq_means[c] = np.mean(plaqs)
 
-        # 2x2 Wilson loop at a fixed position (0,0) = product of 4 plaquettes
-        # This gives a single {+1, -1} value per config with known distribution
-        wilson_means[c] = float(plaqs[0, 0] * plaqs[0, 1] * plaqs[1, 0] * plaqs[1, 1])
+        # 2x2 Wilson loop averaged over ALL NxN lattice positions (periodic BC)
+        # Each 2x2 loop is the product of 4 plaquettes at (i,j),(i,j+1),(i+1,j),(i+1,j+1)
+        w_sum = 0.0
+        for i in range(N):
+            ip = (i + 1) % N
+            for j in range(N):
+                jp = (j + 1) % N
+                w_sum += plaqs[i, j] * plaqs[i, jp] * plaqs[ip, j] * plaqs[ip, jp]
+        wilson_means[c] = w_sum / n_loops
 
     return plaq_means, wilson_means
 
@@ -111,6 +118,8 @@ plaq_means_list = []
 plaq_vars = []
 wilson_means_list = []
 wilson_vars = []
+wilson_ci_list = []   # bootstrap 95% CIs for Wilson loop means
+plaq_ci_list = []     # bootstrap 95% CIs for plaquette means
 
 for beta in BETA_VALUES:
     plaqs, wilsons = sample_plaquette_configs(beta, LATTICE_N, N_CONFIGS, rng)
@@ -125,31 +134,41 @@ for beta in BETA_VALUES:
     wilson_means_list.append(wm)
     wilson_vars.append(wv)
 
+    # Bootstrap 95% CIs
+    w_lo, w_mid, w_hi = percentile_ci(wilsons, alpha=0.05, n_boot=5000)
+    wilson_ci_list.append([w_lo, w_hi])
+    p_lo, p_mid, p_hi = percentile_ci(plaqs, alpha=0.05, n_boot=5000)
+    plaq_ci_list.append([p_lo, p_hi])
+
     # Analytic predictions
     analytic_plaq = np.tanh(beta)
     analytic_plaq_var = (1.0 / np.cosh(beta)) ** 2 / (LATTICE_N ** 2)
     analytic_wilson = np.tanh(beta) ** 4
-    analytic_wilson_var = 1.0 - np.tanh(beta) ** 8
 
-    print(f"  beta = {beta:.1f}: <P> = {pm:.4f} (exact: {analytic_plaq:.4f}), "
-          f"Var(P) = {pv:.6f} (exact: {analytic_plaq_var:.6f}), "
-          f"<W> = {wm:.4f} (exact: {analytic_wilson:.4f}), "
-          f"Var(W) = {wv:.4f} (exact: {analytic_wilson_var:.4f})")
+    print(f"  beta = {beta:.1f}: <P> = {pm:.6f} (exact: {analytic_plaq:.6f}), "
+          f"<W> = {wm:.6f} (exact: {analytic_wilson:.6f}), "
+          f"W 95%CI = [{w_lo:.6f}, {w_hi:.6f}]")
 
 print()
 print("Verification against analytic predictions:")
 print(f"  {'beta':>5s}  {'<P>_MC':>8s}  {'tanh(b)':>8s}  {'|err|':>8s}  "
-      f"{'Var(P)':>10s}  {'sech2/N2':>10s}  "
-      f"{'<W>_MC':>8s}  {'tanh^4':>8s}  {'|err|':>8s}")
+      f"{'<W>_MC':>8s}  {'tanh^4':>8s}  {'|err|':>8s}  "
+      f"{'W_CI_lo':>10s}  {'W_CI_hi':>10s}  {'in CI?':>6s}")
+all_in_ci = True
 for i, beta in enumerate(BETA_VALUES):
     analytic_p = np.tanh(beta)
-    analytic_pv = (1.0 / np.cosh(beta)) ** 2 / (LATTICE_N ** 2)
     analytic_w = np.tanh(beta) ** 4
     err_p = abs(plaq_means_list[i] - analytic_p)
     err_w = abs(wilson_means_list[i] - analytic_w)
+    ci_lo, ci_hi = wilson_ci_list[i]
+    in_ci = ci_lo <= analytic_w <= ci_hi
+    if not in_ci:
+        all_in_ci = False
     print(f"  {beta:5.1f}  {plaq_means_list[i]:8.4f}  {analytic_p:8.4f}  {err_p:8.4f}  "
-          f"{plaq_vars[i]:10.6f}  {analytic_pv:10.6f}  "
-          f"{wilson_means_list[i]:8.4f}  {analytic_w:8.4f}  {err_w:8.4f}")
+          f"{wilson_means_list[i]:8.4f}  {analytic_w:8.4f}  {err_w:8.4f}  "
+          f"{ci_lo:10.6f}  {ci_hi:10.6f}  {'YES' if in_ci else 'NO':>6s}")
+print()
+print(f"All analytic Wilson loop predictions within bootstrap 95% CI: {'YES' if all_in_ci else 'NO'}")
 print()
 
 
@@ -217,6 +236,9 @@ results = {
     "analytic_plaquette_variance": [float((1.0 / np.cosh(b)) ** 2 / (LATTICE_N ** 2)) for b in BETA_VALUES],
     "analytic_wilson_loop_mean": [float(np.tanh(b) ** 4) for b in BETA_VALUES],
     "analytic_wilson_loop_variance": [float(1.0 - np.tanh(b) ** 8) for b in BETA_VALUES],
+    "wilson_loop_95ci": wilson_ci_list,
+    "plaquette_95ci": plaq_ci_list,
+    "all_analytic_within_wilson_ci": all_in_ci,
     "interpretation": (
         "The monotonic decrease of both plaquette variance Var(P) = sech^2(beta)/N^2 "
         "and Wilson loop variance Var(W) = 1 - tanh^8(beta) with increasing beta "
