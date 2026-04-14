@@ -1,0 +1,120 @@
+{
+  "dataset": "Breast Cancer Wisconsin",
+  "n_features": 30,
+  "n_models": 50,
+  "threshold": 0.3,
+  "shap_sage": {
+    "n_groups": 6,
+    "group_sizes": [
+      10,
+      5,
+      4,
+      4,
+      4,
+      3
+    ],
+    "groups": {
+      "group_1": [
+        "mean radius",
+        "mean perimeter",
+        "texture error",
+        "perimeter error"
+      ],
+      "group_2": [
+        "mean area",
+        "mean compactness",
+        "mean symmetry",
+        "mean fractal dimension",
+        "radius error",
+        "smoothness error",
+        "concavity error",
+        "fractal dimension error",
+        "worst compactness",
+        "worst fractal dimension"
+      ],
+      "group_3": [
+        "mean concave points",
+        "worst perimeter",
+        "worst area",
+        "worst concave points"
+      ],
+      "group_4": [
+        "area error",
+        "worst texture",
+        "worst concavity"
+      ],
+      "group_5": [
+        "mean smoothness",
+        "mean concavity",
+        "concave points error",
+        "symmetry error"
+      ],
+      "group_6": [
+        "mean texture",
+        "compactness error",
+        "worst radius",
+        "worst smoothness",
+        "worst symmetry"
+      ]
+    },
+    "eta": 0.2,
+    "instability_predicted": 0.8,
+    "instability_observed": 0.23246,
+    "error": 0.56754
+  },
+  "gain_sage": {
+    "n_groups": 4,
+    "group_sizes": [
+      17,
+      5,
+      4,
+      4
+    ],
+    "groups": {
+      "group_1": [
+        "mean perimeter",
+        "mean area",
+        "mean smoothness",
+        "mean compactness",
+        "mean symmetry",
+        "mean fractal dimension",
+        "texture error",
+        "perimeter error",
+        "smoothness error",
+        "compactness error",
+        "concavity error",
+        "concave points error",
+        "symmetry error",
+        "fractal dimension error",
+        "worst compactness",
+        "worst symmetry",
+        "worst fractal dimension"
+      ],
+      "group_2": [
+        "mean concave points",
+        "worst radius",
+        "worst perimeter",
+        "worst concave points"
+      ],
+      "group_3": [
+        "mean radius",
+        "mean concavity",
+        "radius error",
+        "area error",
+        "worst smoothness"
+      ],
+      "group_4": [
+        "mean texture",
+        "worst texture",
+        "worst area",
+        "worst concavity"
+      ]
+    },
+    "eta": 0.133333,
+    "instability_predicted": 0.866667,
+    "instability_observed": 0.313965,
+    "error": 0.552702
+  },
+  "adjusted_rand_index": 0.216962,
+  "_timestamp": "2026-04-14 12:57:48"
+}
