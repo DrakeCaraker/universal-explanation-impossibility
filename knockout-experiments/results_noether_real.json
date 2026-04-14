@@ -1,0 +1,230 @@
+{
+  "experiment": "Phase 2 Knockout: Noether + SAGE on Real Datasets",
+  "n_models": 30,
+  "n_test_shap": 200,
+  "cluster_threshold": 0.3,
+  "n_permutations": 5000,
+  "datasets": [
+    {
+      "dataset": "Breast Cancer",
+      "P": 30,
+      "n_groups": 13,
+      "group_composition": {
+        "10": [
+          0,
+          1
+        ],
+        "13": [
+          2,
+          6,
+          18,
+          27
+        ],
+        "8": [
+          3,
+          22
+        ],
+        "11": [
+          4,
+          25
+        ],
+        "3": [
+          5,
+          7,
+          17
+        ],
+        "4": [
+          8,
+          10,
+          21
+        ],
+        "1": [
+          9,
+          23
+        ],
+        "12": [
+          11,
+          26
+        ],
+        "6": [
+          12,
+          13
+        ],
+        "7": [
+          14,
+          20,
+          24
+        ],
+        "9": [
+          15,
+          29
+        ],
+        "2": [
+          16,
+          28
+        ],
+        "5": [
+          19
+        ]
+      },
+      "n_within_pairs": 23,
+      "n_between_pairs": 412,
+      "within_mean": 0.0656,
+      "between_mean": 0.2454,
+      "bimodal_gap_pp": 18.0,
+      "p_value": 0.0,
+      "eta": 0.4333,
+      "predicted_instability": 0.5667,
+      "observed_instability": 0.2359,
+      "elapsed_s": 2.2
+    },
+    {
+      "dataset": "Wine",
+      "P": 13,
+      "n_groups": 6,
+      "group_composition": {
+        "3": [
+          0,
+          3
+        ],
+        "1": [
+          1,
+          6,
+          8,
+          11
+        ],
+        "4": [
+          2,
+          9
+        ],
+        "6": [
+          4,
+          12
+        ],
+        "2": [
+          5
+        ],
+        "5": [
+          7,
+          10
+        ]
+      },
+      "n_within_pairs": 10,
+      "n_between_pairs": 68,
+      "within_mean": 0.0822,
+      "between_mean": 0.2082,
+      "bimodal_gap_pp": 12.6,
+      "p_value": 0.0576,
+      "eta": 0.4615,
+      "predicted_instability": 0.5385,
+      "observed_instability": 0.192,
+      "elapsed_s": 3.4
+    },
+    {
+      "dataset": "Heart Disease",
+      "P": 13,
+      "n_groups": 7,
+      "group_composition": {
+        "7": [
+          0,
+          5,
+          9
+        ],
+        "5": [
+          1
+        ],
+        "4": [
+          2,
+          3,
+          6
+        ],
+        "2": [
+          4
+        ],
+        "6": [
+          7,
+          12
+        ],
+        "1": [
+          8,
+          11
+        ],
+        "3": [
+          10
+        ]
+      },
+      "n_within_pairs": 8,
+      "n_between_pairs": 70,
+      "within_mean": 0.0649,
+      "between_mean": 0.2819,
+      "bimodal_gap_pp": 21.7,
+      "p_value": 0.001,
+      "eta": 0.5385,
+      "predicted_instability": 0.4615,
+      "observed_instability": 0.2596,
+      "elapsed_s": 2.2
+    },
+    {
+      "dataset": "California Housing",
+      "P": 8,
+      "n_groups": 2,
+      "group_composition": {
+        "2": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          7
+        ],
+        "1": [
+          4,
+          6
+        ]
+      },
+      "n_within_pairs": 16,
+      "n_between_pairs": 12,
+      "within_mean": 0.0,
+      "between_mean": 0.0429,
+      "bimodal_gap_pp": 4.3,
+      "p_value": 0.4286,
+      "eta": 0.25,
+      "predicted_instability": 0.75,
+      "observed_instability": 0.0184,
+      "elapsed_s": 3.6
+    },
+    {
+      "dataset": "Diabetes Pima",
+      "P": 8,
+      "n_groups": 3,
+      "group_composition": {
+        "3": [
+          0,
+          1,
+          4,
+          6
+        ],
+        "1": [
+          2,
+          5
+        ],
+        "2": [
+          3,
+          7
+        ]
+      },
+      "n_within_pairs": 8,
+      "n_between_pairs": 20,
+      "within_mean": 0.0532,
+      "between_mean": 0.1409,
+      "bimodal_gap_pp": 8.8,
+      "p_value": 0.215,
+      "eta": 0.375,
+      "predicted_instability": 0.625,
+      "observed_instability": 0.1158,
+      "elapsed_s": 2.7
+    }
+  ],
+  "n_knockout": 1,
+  "verdict": "PARTIAL"
+}

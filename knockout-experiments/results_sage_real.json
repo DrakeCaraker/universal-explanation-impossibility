@@ -1,0 +1,46 @@
+{
+  "experiment": "SAGE predictions on real datasets",
+  "sage_results": [
+    {
+      "dataset": "Breast Cancer",
+      "P": 30,
+      "n_groups": 13,
+      "eta": 0.4333,
+      "predicted_instability": 0.5667,
+      "observed_instability": 0.2359
+    },
+    {
+      "dataset": "Wine",
+      "P": 13,
+      "n_groups": 6,
+      "eta": 0.4615,
+      "predicted_instability": 0.5385,
+      "observed_instability": 0.192
+    },
+    {
+      "dataset": "Heart Disease",
+      "P": 13,
+      "n_groups": 7,
+      "eta": 0.5385,
+      "predicted_instability": 0.4615,
+      "observed_instability": 0.2596
+    },
+    {
+      "dataset": "California Housing",
+      "P": 8,
+      "n_groups": 2,
+      "eta": 0.25,
+      "predicted_instability": 0.75,
+      "observed_instability": 0.0184
+    },
+    {
+      "dataset": "Diabetes Pima",
+      "P": 8,
+      "n_groups": 3,
+      "eta": 0.375,
+      "predicted_instability": 0.625,
+      "observed_instability": 0.1158
+    }
+  ],
+  "r_squared": -26.5742
+}
