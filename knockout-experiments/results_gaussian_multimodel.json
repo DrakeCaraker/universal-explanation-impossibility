@@ -1,0 +1,88 @@
+{
+  "design": "3 datasets x 3 model classes, independent calibration/validation",
+  "cal_seeds": "42-71",
+  "val_seeds": "142-171",
+  "combinations": {
+    "Breast Cancer / XGBoost": {
+      "dataset": "Breast Cancer",
+      "model_class": "XGBoost",
+      "P": 30,
+      "n_pairs": 435,
+      "oos_r2": 0.7918,
+      "oos_rmse": 0.088806,
+      "is_classification": true
+    },
+    "Breast Cancer / RandomForest": {
+      "dataset": "Breast Cancer",
+      "model_class": "RandomForest",
+      "P": 30,
+      "n_pairs": 435,
+      "oos_r2": 0.8614,
+      "oos_rmse": 0.071458,
+      "is_classification": true
+    },
+    "Breast Cancer / Ridge": {
+      "dataset": "Breast Cancer",
+      "model_class": "Ridge",
+      "P": 30,
+      "n_pairs": 435,
+      "oos_r2": 0.8059,
+      "oos_rmse": 0.0776,
+      "is_classification": true
+    },
+    "Wine / XGBoost": {
+      "dataset": "Wine",
+      "model_class": "XGBoost",
+      "P": 13,
+      "n_pairs": 78,
+      "oos_r2": 0.7934,
+      "oos_rmse": 0.086977,
+      "is_classification": true
+    },
+    "Wine / RandomForest": {
+      "dataset": "Wine",
+      "model_class": "RandomForest",
+      "P": 13,
+      "n_pairs": 78,
+      "oos_r2": 0.9208,
+      "oos_rmse": 0.048245,
+      "is_classification": true
+    },
+    "Wine / Ridge": {
+      "dataset": "Wine",
+      "model_class": "Ridge",
+      "P": 13,
+      "n_pairs": 78,
+      "oos_r2": 0.8271,
+      "oos_rmse": 0.072156,
+      "is_classification": true
+    },
+    "CalHousing / XGBoost": {
+      "dataset": "CalHousing",
+      "model_class": "XGBoost",
+      "P": 8,
+      "n_pairs": 28,
+      "oos_r2": 0.9692,
+      "oos_rmse": 0.030757,
+      "is_classification": false
+    },
+    "CalHousing / RandomForest": {
+      "dataset": "CalHousing",
+      "model_class": "RandomForest",
+      "P": 8,
+      "n_pairs": 28,
+      "oos_r2": 0.962,
+      "oos_rmse": 0.022564,
+      "is_classification": false
+    },
+    "CalHousing / Ridge": {
+      "dataset": "CalHousing",
+      "model_class": "Ridge",
+      "P": 8,
+      "n_pairs": 28,
+      "oos_r2": -1.9629,
+      "oos_rmse": 0.112031,
+      "is_classification": false
+    }
+  }
+}
