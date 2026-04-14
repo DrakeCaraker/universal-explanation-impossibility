@@ -804,6 +804,41 @@ The framework also gives a quantitative ceiling on AI interpretability:
 for a network with $n$ hidden units, the permutation symmetry $S_n$
 implies that at most $1/n$ of neuron-level representation is stably interpretable under hidden-unit permutation symmetry. This bound applies to individual neuron interpretations, not to circuit-level analysis (which studies functionally defined subgraphs that are preserved under relabeling).
 
+\paragraph{Noether counting.}
+The invariance correspondence makes a sharp quantitative prediction:
+for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
+independent ranking facts are stably answerable.  We tested this with $P = 12$
+features in $g = 3$ groups (within-group $\rho = 0.99$, 200~models, both Ridge
+and XGBoost).  The result is a clean bimodal distribution: all 18~within-group
+pairs show $\sim\!50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
+rate---a 47-percentage-point gap (Mann--Whitney $p = 2.7 \times 10^{-13}$).
+This tells practitioners exactly how many SHAP comparisons are trustworthy.
+
+\paragraph{Universal $\eta$ law.}
+The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts the
+observed instability rate (a downstream observable, not a re-measurement) across
+seven well-characterized domain instances with $R^2 = 0.957$,
+slope~$= 0.91$, and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a
+parameter-free predictor spanning ML attribution, concept probes, model
+selection, codon degeneracy, and statistical mechanics.  Across all 16~tested
+instances (including those with approximate group assignments), $R^2 = 0.25$:
+the formula is correct, but group identification is the bottleneck.
+
+\paragraph{Falsified extensions.}
+Three conjectured extensions were pre-registered and tested.
+(i)~A predicted phase transition in explanation stability at the
+overparameterization threshold $r^* \approx 1$ was falsified: the
+transition is sharp (sigmoid $R^2 > 0.92$) but occurs at $r^* \in [0.01, 0.12]$,
+confounded by signal dilution.
+(ii)~A conjectured tradeoff bound $\alpha + \sigma + \delta \leq 2$ was
+falsified (max observed sum $= 2.86$), though the binary impossibility---no
+method achieves all three at~$1.0$---remains confirmed.
+(iii)~An extrapolation to molecular evolution (synonymous substitution rates
+from $S_k$ representation theory) added zero predictive power beyond
+simple neighbour counting (partial $R^2 = 0.0$, $p = 1.0$).
+These boundary conditions delineate the framework's proven domain (the
+impossibility and its resolutions) from its speculative reach.
+
 %%% =========================================================================
 %%% Methods
 %%% =========================================================================

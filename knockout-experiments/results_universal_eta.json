@@ -1,0 +1,138 @@
+{
+  "description": "Universal eta synthesis: predicted vs observed instability across domains",
+  "tautology_firewall": "x = group-theoretic prediction (1 - dim(V^G)/dim(V)); y = measured downstream observable (flip rate, RMSD, disagreement). These are different quantities.",
+  "n_points": 16,
+  "R_squared": 0.5984497396166968,
+  "slope": 0.7575977635445941,
+  "intercept": 0.12892743268282297,
+  "points": [
+    {
+      "domain": "Attribution (SHAP, $S_2$)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.5,
+      "ci_lo": null,
+      "ci_hi": null,
+      "notes": "S2 group, FlipRate.lean confirmation"
+    },
+    {
+      "domain": "Attention (argmax, $S_6$)",
+      "predicted_instability": 0.8333333333333334,
+      "observed_instability": 0.6,
+      "ci_lo": 0.5902222222222222,
+      "ci_hi": 0.6108916666666667,
+      "notes": "DistilBERT 6 heads/layer; empirical < predicted (not all heads equivalent)"
+    },
+    {
+      "domain": "Counterfactual (direction, $\\mathbb{Z}_2$)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.36763999494374927,
+      "ci_lo": 0.3438724560738213,
+      "ci_hi": 0.4275154847680445,
+      "notes": "Z2 reflection; top-10 ambiguous features (not diluted by unambiguous)"
+    },
+    {
+      "domain": "Concept probe (TCAV, $O(64)$)",
+      "predicted_instability": 1.0,
+      "observed_instability": 0.9000393104817318,
+      "ci_lo": 0.8853651204032427,
+      "ci_hi": 0.9138578713403127,
+      "notes": "O(d) continuous symmetry; nearly random directions"
+    },
+    {
+      "domain": "Model selection ($S_{11}$ winners)",
+      "predicted_instability": 0.9090909090909091,
+      "observed_instability": 0.8,
+      "ci_lo": 0.7368,
+      "ci_hi": 1.0,
+      "notes": "11 unique winners from 50-model Rashomon set"
+    },
+    {
+      "domain": "GradCAM (peak, $1{-}\\mathrm{IoU}$)",
+      "predicted_instability": 0.04584159077503014,
+      "observed_instability": 0.09622222222222222,
+      "ci_lo": 0.08755555555555555,
+      "ci_hi": 0.10466666666666667,
+      "notes": "pred = 1 - IoU = 0.046; peak pixel is sharper than region"
+    },
+    {
+      "domain": "LLM citation (token, $S_3$)",
+      "predicted_instability": 0.6666666666666667,
+      "observed_instability": 0.3453333333333333,
+      "ci_lo": 0.33155555555555555,
+      "ci_hi": 0.35911666666666664,
+      "notes": "Effective 3 exchangeable tokens in citation set"
+    },
+    {
+      "domain": "Codon ($S_2$)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.45110106892940216,
+      "ci_lo": 0.4135672604301908,
+      "ci_hi": 0.4886348774286135,
+      "notes": "Degeneracy 2: pairwise disagreement from real cytochrome c"
+    },
+    {
+      "domain": "Codon ($S_4$)",
+      "predicted_instability": 0.75,
+      "observed_instability": 0.6826560991819901,
+      "ci_lo": 0.6516983992118516,
+      "ci_hi": 0.7136137991521286,
+      "notes": "Degeneracy 4: pairwise disagreement from real cytochrome c"
+    },
+    {
+      "domain": "Codon ($S_6$)",
+      "predicted_instability": 0.8333333333333334,
+      "observed_instability": 0.7419630127258486,
+      "ci_lo": 0.6810118065037466,
+      "ci_hi": 0.8029142189479507,
+      "notes": "Degeneracy 6: pairwise disagreement from real cytochrome c"
+    },
+    {
+      "domain": "Gauge lattice ($\\mathbb{Z}_2^{L^2}$, $\\beta$=1)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.4106668593750001,
+      "ci_lo": null,
+      "ci_hi": null,
+      "notes": "L=16, beta=1.0. Plaq var fraction = sech^2(beta) * L^2-normalization."
+    },
+    {
+      "domain": "Stat mech ($S_{252}$, $N$=10)",
+      "predicted_instability": 0.996031746031746,
+      "observed_instability": 0.996031746031746,
+      "ci_lo": null,
+      "ci_hi": null,
+      "notes": "Analytical: Omega=252, faithfulness=1/252"
+    },
+    {
+      "domain": "Linear solver ($d$=20, $m$=10)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.6971873650366712,
+      "ci_lo": 0.3495709420682585,
+      "ci_hi": 1.044499666215967,
+      "notes": "null_dim/d = 10/20. RMSD normalized by RMSD(d=11)."
+    },
+    {
+      "domain": "Phase retrieval ($U(1)^N$, $N$=128)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.9355178200556137,
+      "ci_lo": 0.9193299277101435,
+      "ci_hi": 0.9520123690917697,
+      "notes": "N=128. RMSD^2/2 = fraction of max phase disorder. GS barely converges."
+    },
+    {
+      "domain": "Parser (PP-attach, $S_2$)",
+      "predicted_instability": 0.175,
+      "observed_instability": 0.18374074074074076,
+      "ci_lo": 0.17634880952380938,
+      "ci_hi": 0.1916455026455024,
+      "notes": "S_2 on ~35% of arcs. Pred = f_amb * 0.5 = 0.175"
+    },
+    {
+      "domain": "Causal discovery ($\\mathbb{Z}_2^4$, Asia)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.7104814814814815,
+      "ci_lo": 0.5833333333333333,
+      "ci_hi": 0.8381944444444445,
+      "notes": "4 reversible / 8 edges. obs from 100-seed mean. Finite sample adds noise."
+    }
+  ]
+}

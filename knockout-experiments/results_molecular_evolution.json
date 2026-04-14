@@ -1,0 +1,373 @@
+{
+  "experiment": "molecular_evolution",
+  "description": "Tests representation-theoretic predictions of the Universal Explanation Impossibility framework extrapolated to molecular evolution. The character theory of S_k predicts gauge-variant fraction = (k-1)/k.",
+  "part_b_neighbor_structure": {
+    "1": {
+      "k": 1,
+      "n_codons": 2,
+      "amino_acids": [
+        "Met",
+        "Trp"
+      ],
+      "mean_frac_synonymous": 0.0,
+      "std_frac_synonymous": 0.0,
+      "mean_n_synonymous": 0.0,
+      "std_n_synonymous": 0.0,
+      "min_n_synonymous": 0,
+      "max_n_synonymous": 0,
+      "character_prediction": 0.0,
+      "individual_frac_syn": [
+        0.0,
+        0.0
+      ],
+      "individual_n_syn": [
+        0,
+        0
+      ]
+    },
+    "2": {
+      "k": 2,
+      "n_codons": 18,
+      "amino_acids": [
+        "Asn",
+        "Asp",
+        "Cys",
+        "Gln",
+        "Glu",
+        "His",
+        "Lys",
+        "Phe",
+        "Tyr"
+      ],
+      "mean_frac_synonymous": 0.1111111111111111,
+      "std_frac_synonymous": 0.0,
+      "mean_n_synonymous": 1.0,
+      "std_n_synonymous": 0.0,
+      "min_n_synonymous": 1,
+      "max_n_synonymous": 1,
+      "character_prediction": 0.5,
+      "individual_frac_syn": [
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111
+      ],
+      "individual_n_syn": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "3": {
+      "k": 3,
+      "n_codons": 3,
+      "amino_acids": [
+        "Ile"
+      ],
+      "mean_frac_synonymous": 0.2222222222222222,
+      "std_frac_synonymous": 0.0,
+      "mean_n_synonymous": 2.0,
+      "std_n_synonymous": 0.0,
+      "min_n_synonymous": 2,
+      "max_n_synonymous": 2,
+      "character_prediction": 0.6666666666666666,
+      "individual_frac_syn": [
+        0.2222222222222222,
+        0.2222222222222222,
+        0.2222222222222222
+      ],
+      "individual_n_syn": [
+        2,
+        2,
+        2
+      ]
+    },
+    "4": {
+      "k": 4,
+      "n_codons": 20,
+      "amino_acids": [
+        "Ala",
+        "Gly",
+        "Pro",
+        "Thr",
+        "Val"
+      ],
+      "mean_frac_synonymous": 0.33333333333333326,
+      "std_frac_synonymous": 5.695323946259567e-17,
+      "mean_n_synonymous": 3.0,
+      "std_n_synonymous": 0.0,
+      "min_n_synonymous": 3,
+      "max_n_synonymous": 3,
+      "character_prediction": 0.75,
+      "individual_frac_syn": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "individual_n_syn": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ]
+    },
+    "6": {
+      "k": 6,
+      "n_codons": 18,
+      "amino_acids": [
+        "Arg",
+        "Leu",
+        "Ser"
+      ],
+      "mean_frac_synonymous": 0.30864197530864196,
+      "std_frac_synonymous": 0.1047565601757848,
+      "mean_n_synonymous": 2.7777777777777777,
+      "std_n_synonymous": 0.9428090415820634,
+      "min_n_synonymous": 1,
+      "max_n_synonymous": 4,
+      "character_prediction": 0.8333333333333334,
+      "individual_frac_syn": [
+        0.2222222222222222,
+        0.2222222222222222,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.2222222222222222,
+        0.2222222222222222
+      ],
+      "individual_n_syn": [
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        1,
+        1,
+        2,
+        2
+      ]
+    }
+  },
+  "part_c_model_comparison": {
+    "per_codon_regression": {
+      "representation_theory": {
+        "model": "frac_syn = a * (k-1)/k + b",
+        "a": 0.5265602757173896,
+        "b": -0.10983741664793589,
+        "R2": 0.6533661048272975,
+        "r": 0.808310648715763,
+        "p_value": 3.3852421302740453e-15,
+        "se_slope": 0.049932038878101805
+      },
+      "information_theoretic": {
+        "model": "frac_syn = a * log(k) + b",
+        "a": 0.19588571710455396,
+        "b": 0.0008284793679322888,
+        "R2": 0.643835505641653,
+        "r": 0.8023936101700044,
+        "p_value": 7.587939156669208e-15,
+        "se_slope": 0.018967697504616264
+      },
+      "neighbor_count": {
+        "model": "frac_syn = a * mean_neighbors + b",
+        "a": 0.11111111111111112,
+        "b": -8.326672684688674e-17,
+        "R2": 1.0,
+        "r": 1.0,
+        "p_value": 0.0,
+        "se_slope": 0.0
+      }
+    },
+    "per_degeneracy_class": {
+      "repr_theory_mean": {
+        "R2_mean": 0.8910123608536622,
+        "r_mean": 0.9439345108923936,
+        "p_mean": 0.015801228503340536
+      },
+      "info_theory_mean": {
+        "R2_mean": 0.9195276092910711,
+        "r_mean": 0.9589200223642591,
+        "p_mean": 0.009933099790457282
+      },
+      "neighbor_mean": {
+        "R2_mean": 1.0,
+        "r_mean": 1.0,
+        "p_mean": 1.2004217548761408e-30
+      }
+    },
+    "partial_correlation": {
+      "description": "Correlation of frac_syn with (k-1)/k AFTER controlling for neighbor count",
+      "partial_r": 0.0,
+      "partial_p": 1.0,
+      "partial_R2": 0.0,
+      "interpretation": "Group structure does NOT explain additional variance beyond neighbor count"
+    }
+  },
+  "part_d_eta_validation": {
+    "simulated": [
+      {
+        "k": 2,
+        "H_obs": 0.9842985973566949,
+        "H_max": 1.0,
+        "info_retained_obs": 0.015701402643305107,
+        "info_retained_pred": 0.5,
+        "eta_obs": 0.9842985973566949,
+        "eta_pred": 0.5
+      },
+      {
+        "k": 3,
+        "H_obs": 1.584381457724494,
+        "H_max": 1.584962500721156,
+        "info_retained_obs": 0.000366597314698458,
+        "info_retained_pred": 0.3333333333333333,
+        "eta_obs": 0.9996334026853015,
+        "eta_pred": 0.6666666666666666
+      },
+      {
+        "k": 4,
+        "H_obs": 1.9494035222984933,
+        "H_max": 2.0,
+        "info_retained_obs": 0.02529823885075333,
+        "info_retained_pred": 0.25,
+        "eta_obs": 0.9747017611492467,
+        "eta_pred": 0.75
+      },
+      {
+        "k": 6,
+        "H_obs": 2.5132185253962893,
+        "H_max": 2.584962500721156,
+        "info_retained_obs": 0.02775435825659034,
+        "info_retained_pred": 0.16666666666666666,
+        "eta_obs": 0.9722456417434097,
+        "eta_pred": 0.8333333333333334
+      }
+    ],
+    "real_ncbi": [
+      {
+        "k": 2,
+        "H_obs_real": 0.9263361857074064,
+        "H_max": 1.0,
+        "info_retained_real": 0.07366381429259361,
+        "info_retained_pred": 0.5,
+        "eta_obs_real": 0.9263361857074064,
+        "eta_pred": 0.5
+      },
+      {
+        "k": 3,
+        "H_obs_real": 1.4886158818439346,
+        "H_max": 1.584962500721156,
+        "info_retained_real": 0.060787948505648504,
+        "info_retained_pred": 0.3333333333333333,
+        "eta_obs_real": 0.9392120514943515,
+        "eta_pred": 0.6666666666666666
+      },
+      {
+        "k": 4,
+        "H_obs_real": 1.7819028402948291,
+        "H_max": 2.0,
+        "info_retained_real": 0.10904857985258543,
+        "info_retained_pred": 0.25,
+        "eta_obs_real": 0.8909514201474146,
+        "eta_pred": 0.75
+      },
+      {
+        "k": 6,
+        "H_obs_real": 2.1966198250653,
+        "H_max": 2.584962500721156,
+        "info_retained_real": 0.1502314542464409,
+        "info_retained_pred": 0.16666666666666666,
+        "eta_obs_real": 0.8497685457535591,
+        "eta_pred": 0.8333333333333334
+      }
+    ]
+  },
+  "conclusions": {
+    "best_model_per_codon": "neighbor_count",
+    "best_R2_per_codon": 1.0,
+    "group_structure_residual": 0.0,
+    "group_structure_significant": false
+  },
+  "_timestamp": "2026-04-14 01:23:13"
+}

@@ -1,0 +1,350 @@
+{
+  "triples": {
+    "instance1_xgboost": {
+      "single_model": {
+        "alpha": 0.8728715609439694,
+        "alpha_ci": [
+          0.8685072031392493,
+          0.8728715609439692
+        ],
+        "sigma": 0.8044733044733045,
+        "sigma_ci": [
+          0.7896735209235209,
+          0.81998556998557
+        ],
+        "delta": 1.0,
+        "delta_ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "ensemble_average": {
+        "alpha": 0.8728715609439694,
+        "alpha_ci": [
+          0.8728715609439694,
+          0.8728715609439694
+        ],
+        "sigma": 0.9131578947368422,
+        "sigma_ci": [
+          0.9099624060150378,
+          0.9163063909774436
+        ],
+        "delta": 1.0,
+        "delta_ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "constant": {
+        "alpha": 0.0,
+        "alpha_ci": [
+          0.0,
+          0.0
+        ],
+        "sigma": 1.0,
+        "sigma_ci": [
+          1.0,
+          1.0
+        ],
+        "delta": 0.0,
+        "delta_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "top_k_partial": {
+        "alpha": 0.0,
+        "alpha_ci": [
+          0.18600000000000003,
+          0.41604999999999986
+        ],
+        "sigma": 1.0,
+        "sigma_ci": [
+          1.0,
+          1.0
+        ],
+        "delta": 0.7857142857142857,
+        "delta_ci": [
+          0.7857142857142857,
+          0.7857142857142857
+        ]
+      }
+    },
+    "instance2_model_selection": {
+      "single_split": {
+        "alpha": 0.3765895759003918,
+        "alpha_ci": [
+          0.34197416107063916,
+          0.3746584162517769
+        ],
+        "sigma": 0.7734636122754763,
+        "sigma_ci": [
+          0.7734636122754763,
+          0.7734636122754763
+        ],
+        "delta": 1.0,
+        "delta_ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "cross_validation": {
+        "alpha": 0.4747688878638705,
+        "alpha_ci": [
+          0.4747688878638705,
+          0.4747688878638705
+        ],
+        "sigma": 0.8175037593984963,
+        "sigma_ci": [
+          0.8175037593984963,
+          0.8175037593984963
+        ],
+        "delta": 1.0,
+        "delta_ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "ensemble_average": {
+        "alpha": 0.3012986063019956,
+        "alpha_ci": [
+          0.3012986063019956,
+          0.3012986063019956
+        ],
+        "sigma": 0.7206441901771448,
+        "sigma_ci": [
+          0.7206441901771448,
+          0.7206441901771448
+        ],
+        "delta": 0.8595918367346939,
+        "delta_ci": [
+          0.8595918367346939,
+          0.8595918367346939
+        ]
+      },
+      "random_selection": {
+        "alpha": 0.0,
+        "alpha_ci": [
+          0.0,
+          0.0
+        ],
+        "sigma": 0.02,
+        "sigma_ci": [
+          0.02,
+          0.02
+        ],
+        "delta": 0.0,
+        "delta_ci": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "instance3_linear": {
+      "single_model": {
+        "alpha": 0.8728715609439694,
+        "alpha_ci": [
+          0.8728715609439692,
+          0.8728715609439692
+        ],
+        "sigma": 0.8098845598845599,
+        "sigma_ci": [
+          0.797979797979798,
+          0.8228715728715729
+        ],
+        "delta": 1.0,
+        "delta_ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "ensemble_average": {
+        "alpha": 0.8728715609439694,
+        "alpha_ci": [
+          0.8728715609439694,
+          0.8728715609439694
+        ],
+        "sigma": 0.9864661654135338,
+        "sigma_ci": [
+          0.9851492011278195,
+          0.9877831296992482
+        ],
+        "delta": 1.0,
+        "delta_ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "constant": {
+        "alpha": 0.0,
+        "alpha_ci": [
+          0.0,
+          0.0
+        ],
+        "sigma": 1.0,
+        "sigma_ci": [
+          1.0,
+          1.0
+        ],
+        "delta": 0.0,
+        "delta_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "top_k_partial": {
+        "alpha": 0.0,
+        "alpha_ci": [
+          0.27999999999999997,
+          0.48599999999999993
+        ],
+        "sigma": 1.0,
+        "sigma_ci": [
+          1.0,
+          1.0
+        ],
+        "delta": 0.7857142857142857,
+        "delta_ci": [
+          0.7857142857142857,
+          0.7857142857142857
+        ]
+      }
+    }
+  },
+  "analysis": {
+    "empirical_max_sum": 2.859337726357503,
+    "max_point": {
+      "instance": "instance3_linear",
+      "method": "ensemble_average",
+      "alpha": 0.8728715609439694,
+      "sigma": 0.9864661654135338,
+      "delta": 1.0,
+      "sum": 2.859337726357503
+    },
+    "bound_holds_at_2": false,
+    "pareto_optimal": [
+      {
+        "instance": "instance1_xgboost",
+        "method": "top_k_partial",
+        "alpha": 0.0,
+        "sigma": 1.0,
+        "delta": 0.7857142857142857,
+        "sum": 1.7857142857142856
+      },
+      {
+        "instance": "instance3_linear",
+        "method": "ensemble_average",
+        "alpha": 0.8728715609439694,
+        "sigma": 0.9864661654135338,
+        "delta": 1.0,
+        "sum": 2.859337726357503
+      },
+      {
+        "instance": "instance3_linear",
+        "method": "top_k_partial",
+        "alpha": 0.0,
+        "sigma": 1.0,
+        "delta": 0.7857142857142857,
+        "sum": 1.7857142857142856
+      }
+    ],
+    "all_points": [
+      {
+        "instance": "instance1_xgboost",
+        "method": "single_model",
+        "alpha": 0.8728715609439694,
+        "sigma": 0.8044733044733045,
+        "delta": 1.0,
+        "sum": 2.677344865417274
+      },
+      {
+        "instance": "instance1_xgboost",
+        "method": "ensemble_average",
+        "alpha": 0.8728715609439694,
+        "sigma": 0.9131578947368422,
+        "delta": 1.0,
+        "sum": 2.7860294556808114
+      },
+      {
+        "instance": "instance1_xgboost",
+        "method": "constant",
+        "alpha": 0.0,
+        "sigma": 1.0,
+        "delta": 0.0,
+        "sum": 1.0
+      },
+      {
+        "instance": "instance1_xgboost",
+        "method": "top_k_partial",
+        "alpha": 0.0,
+        "sigma": 1.0,
+        "delta": 0.7857142857142857,
+        "sum": 1.7857142857142856
+      },
+      {
+        "instance": "instance2_model_selection",
+        "method": "single_split",
+        "alpha": 0.3765895759003918,
+        "sigma": 0.7734636122754763,
+        "delta": 1.0,
+        "sum": 2.1500531881758684
+      },
+      {
+        "instance": "instance2_model_selection",
+        "method": "cross_validation",
+        "alpha": 0.4747688878638705,
+        "sigma": 0.8175037593984963,
+        "delta": 1.0,
+        "sum": 2.292272647262367
+      },
+      {
+        "instance": "instance2_model_selection",
+        "method": "ensemble_average",
+        "alpha": 0.3012986063019956,
+        "sigma": 0.7206441901771448,
+        "delta": 0.8595918367346939,
+        "sum": 1.881534633213834
+      },
+      {
+        "instance": "instance2_model_selection",
+        "method": "random_selection",
+        "alpha": 0.0,
+        "sigma": 0.02,
+        "delta": 0.0,
+        "sum": 0.02
+      },
+      {
+        "instance": "instance3_linear",
+        "method": "single_model",
+        "alpha": 0.8728715609439694,
+        "sigma": 0.8098845598845599,
+        "delta": 1.0,
+        "sum": 2.6827561208285293
+      },
+      {
+        "instance": "instance3_linear",
+        "method": "ensemble_average",
+        "alpha": 0.8728715609439694,
+        "sigma": 0.9864661654135338,
+        "delta": 1.0,
+        "sum": 2.859337726357503
+      },
+      {
+        "instance": "instance3_linear",
+        "method": "constant",
+        "alpha": 0.0,
+        "sigma": 1.0,
+        "delta": 0.0,
+        "sum": 1.0
+      },
+      {
+        "instance": "instance3_linear",
+        "method": "top_k_partial",
+        "alpha": 0.0,
+        "sigma": 1.0,
+        "delta": 0.7857142857142857,
+        "sum": 1.7857142857142856
+      }
+    ]
+  }
+}

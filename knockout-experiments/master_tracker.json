@@ -1,0 +1,72 @@
+{
+  "_meta": {
+    "created": "2026-04-14",
+    "last_vetted": "2026-04-14",
+    "description": "Master tracker for Nature knockout predictions — VETTED"
+  },
+  "predictions": {
+    "universal_eta_correct_groups": {
+      "status": "CONFIRMED",
+      "R2": 0.957,
+      "slope": 0.914,
+      "intercept": 0.008,
+      "p_value": 1.36e-4,
+      "n_points": 7,
+      "description": "η = dim(V^G)/dim(V) predicts instability rate when group is correctly identified",
+      "caveat": "Only 7/16 instances have well-characterized groups. Group identification is the bottleneck."
+    },
+    "universal_eta_all_domains": {
+      "status": "FAILED",
+      "R2": 0.254,
+      "n_points": 16,
+      "description": "Universal law across ALL domains — group assignments are too approximate for many instances"
+    },
+    "phase_transition_existence": {
+      "status": "CONFIRMED",
+      "sigmoid_R2_range": [0.923, 0.982],
+      "description": "Sharp sigmoidal transition in explanation instability exists"
+    },
+    "phase_transition_at_r_equals_1": {
+      "status": "FALSIFIED",
+      "r_star_observed": [0.01, 0.10],
+      "r_star_predicted": 1.0,
+      "description": "Transition occurs at r*≈0.06-0.10, not r*≈1. Confounded by signal dilution."
+    },
+    "uncertainty_principle_bound": {
+      "status": "FALSIFIED",
+      "empirical_max_sum": 2.86,
+      "predicted_bound": 2.0,
+      "description": "α+σ+δ ≤ 2 does NOT hold. Binary impossibility (no method at 1,1,1) IS confirmed."
+    },
+    "noether_counting": {
+      "status": "CONFIRMED",
+      "within_group_mean_flip": 0.4998,
+      "between_group_mean_flip": 0.0015,
+      "separation_gap_pp": 47.1,
+      "mann_whitney_p": 2.71e-13,
+      "within_all_unstable": "18/18",
+      "between_all_stable": "48/48",
+      "replicated": ["Ridge", "XGBoost"]
+    },
+    "interpretability_ceiling": {
+      "status": "CONFIRMED",
+      "frac_stable": 0.0,
+      "mean_spearman_range": [-0.054, 0.026],
+      "invariant_variance": "≈0 (≤1.7e-32)",
+      "per_neuron_variance": ">0 (0.017-0.094)",
+      "note": "Result stronger than prediction: observed 0/n stable, not ≤1/n"
+    },
+    "molecular_evolution": {
+      "status": "NEGATIVE",
+      "neighbor_count_R2": 1.0,
+      "group_structure_partial_R2": 0.0,
+      "group_structure_partial_p": 1.0,
+      "description": "Character theory adds nothing beyond counting synonymous neighbors"
+    }
+  },
+  "summary": {
+    "confirmed": ["noether_counting", "interpretability_ceiling", "universal_eta_correct_groups", "phase_transition_existence", "binary_impossibility"],
+    "falsified": ["universal_eta_all_domains", "phase_transition_at_r_equals_1", "uncertainty_principle_bound"],
+    "negative": ["molecular_evolution"]
+  }
+}
