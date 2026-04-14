@@ -1,0 +1,23 @@
+{
+  "experiment": "Gaussian flip rate formula on real datasets with TreeSHAP",
+  "formula": "flip(j,k) = Phi(-|Delta_jk| / (sigma_Delta * sqrt(2)))",
+  "free_parameters": 0,
+  "results": {
+    "Breast Cancer": {"P": 30, "n_pairs": 435, "R2": 0.924, "r": 0.962},
+    "Wine": {"P": 13, "n_pairs": 78, "R2": 0.860, "r": 0.928},
+    "California Housing": {"P": 8, "n_pairs": 28, "R2": 0.994, "r": 0.997},
+    "Diabetes Pima": {"P": 8, "n_pairs": 28, "R2": 0.966, "r": 0.983},
+    "Heart Disease": {"P": 13, "n_pairs": 78, "R2": 0.955, "r": 0.977}
+  },
+  "summary": {
+    "n_datasets": 5,
+    "n_knockout": 5,
+    "mean_R2": 0.940,
+    "min_R2": 0.860,
+    "max_R2": 0.994,
+    "knockout_criterion": "R2 > 0.8 on >= 3 of 5 datasets",
+    "verdict": "KNOCKOUT (5/5)"
+  },
+  "interpretation": "The Gaussian flip rate formula predicts per-pair SHAP flip rates on real clinical and financial datasets with mean R²=0.940 and zero free parameters. The Noether bimodal gap is the special case (Delta=0 within groups). This formula handles the full continuum from exact to broken symmetry.",
+  "_timestamp": "2026-04-14"
+}
