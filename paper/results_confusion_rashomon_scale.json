@@ -1,0 +1,43 @@
+{
+  "digits_10_rf": {
+    "r_rashomon": 1.0,
+    "p_rashomon": 0.0,
+    "r_feature": 0.355,
+    "p_feature": 0.0006,
+    "n_classes": 10,
+    "n_pairs": 90,
+    "model": "RandomForest",
+    "dataset": "digits"
+  },
+  "digits_10_gbt": {
+    "r_rashomon": 1.0,
+    "p_rashomon": 0.0,
+    "r_feature": 0.287,
+    "p_feature": 0.0061,
+    "n_classes": 10,
+    "n_pairs": 90,
+    "model": "GBT",
+    "dataset": "digits"
+  },
+  "newsgroups_10": {
+    "r_rashomon": 1.0,
+    "p_rashomon": 0.0,
+    "r_feature": 0.649,
+    "p_feature": 0.0,
+    "n_classes": 10,
+    "n_pairs": 90,
+    "model": "RandomForest",
+    "dataset": "20newsgroups"
+  },
+  "fashion_mnist": {
+    "r_rashomon": 1.0,
+    "p_rashomon": 0.0,
+    "r_feature": 0.818,
+    "p_feature": 0.0,
+    "n_classes": 10,
+    "n_pairs": 90,
+    "model": "RandomForest",
+    "dataset": "Fashion-MNIST"
+  },
+  "summary": "Rashomon overlap achieves PERFECT rank correlation (rho=1.000) with confusion matrix on ALL 4 datasets, 2 model types. Feature similarity ranges from 0.29 to 0.82."
+}
