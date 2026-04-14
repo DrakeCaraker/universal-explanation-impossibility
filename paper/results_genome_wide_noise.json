@@ -1,0 +1,150 @@
+{
+  "experiment": "Genome-wide expression noise vs TF regulatory complexity",
+  "prediction": "Noise scales as (k-1)/k where k = TF count (from character theory 1/k law)",
+  "data_sources": {
+    "noise": "Newman et al. (2006) Nature 441:840-846",
+    "tf_regulation": "literature values",
+    "n_genes_total": 40,
+    "n_genes_after_artifact_removal": 36,
+    "artifact_genes_removed": [
+      "FLO1",
+      "GAL1",
+      "GAL10",
+      "HO",
+      "IME1"
+    ]
+  },
+  "raw_correlation": {
+    "spearman_rho": 0.8162,
+    "spearman_p": 1.298351769399762e-09
+  },
+  "partial_correlation": {
+    "spearman_rho_linear": 0.5704,
+    "spearman_p_linear": 0.000281236461980142,
+    "spearman_rho_1_over_k": 0.5186,
+    "spearman_p_1_over_k": 0.0011929111077558711,
+    "confounders": [
+      "expression_level",
+      "TATA_box",
+      "essentiality"
+    ]
+  },
+  "functional_form_comparison": {
+    "Linear: a*k + b": {
+      "params": [
+        0.09412228773407136,
+        -0.04113083410452877
+      ],
+      "rss": 0.7602766600920449,
+      "r2": 0.5962751681085882,
+      "aic": -134.8733056626506,
+      "bic": -131.7062677857384,
+      "n_params": 2
+    },
+    "1/k law: a*(1-1/k) + b": {
+      "params": [
+        0.8855937624985171,
+        -0.26212983220555897
+      ],
+      "rss": 1.0469668290440977,
+      "r2": 0.4440359289728305,
+      "aic": -123.35438080313233,
+      "bic": -120.18734292622011,
+      "n_params": 2
+    },
+    "Log: a*ln(k) + b": {
+      "params": [
+        0.35444223645456296,
+        -0.11522505172122074
+      ],
+      "rss": 0.7988153818109203,
+      "r2": 0.5758101982312027,
+      "aic": -133.09319695762804,
+      "bic": -129.92615908071582,
+      "n_params": 2
+    },
+    "Sqrt: a*\u221ak + b": {
+      "params": [
+        0.38151072502750427,
+        -0.40743532193425724
+      ],
+      "rss": 0.755039897970936,
+      "r2": 0.5990560122643775,
+      "aic": -135.1221304852707,
+      "bic": -131.95509260835848,
+      "n_params": 2
+    },
+    "Power: a*k^c + b": {
+      "params": [
+        0.21570563519859273,
+        -0.21064129214397725,
+        0.686190868132431
+      ],
+      "rss": 0.7517989436801099,
+      "r2": 0.6007770354062336,
+      "aic": -133.27699048908767,
+      "bic": -128.52643367371934,
+      "n_params": 3
+    }
+  },
+  "bootstrap_model_selection": {
+    "n_bootstraps": 5000,
+    "win_frequencies": {
+      "linear": 0.415,
+      "1/k": 0.0378,
+      "log": 0.1316,
+      "sqrt": 0.4156,
+      "power": 0.0
+    }
+  },
+  "loocv_mse": {
+    "linear": 0.023264,
+    "1/k": 0.040435,
+    "log": 0.024779,
+    "sqrt": 0.022979
+  },
+  "binned_dose_response": [
+    {
+      "label": "1-2 TFs",
+      "n": 8,
+      "mean_noise": 0.095,
+      "se": 0.007288689868556626,
+      "mean_k": 1.875,
+      "predicted_1_over_k": 0.4375
+    },
+    {
+      "label": "3-4 TFs",
+      "n": 12,
+      "mean_noise": 0.32,
+      "se": 0.05346338310781814,
+      "mean_k": 3.5,
+      "predicted_1_over_k": 0.7083333333333334
+    },
+    {
+      "label": "5-6 TFs",
+      "n": 12,
+      "mean_noise": 0.47000000000000003,
+      "se": 0.04785684671787077,
+      "mean_k": 5.416666666666667,
+      "predicted_1_over_k": 0.813888888888889
+    },
+    {
+      "label": "7+ TFs",
+      "n": 4,
+      "mean_noise": 0.6699999999999999,
+      "se": 0.04168333000133266,
+      "mean_k": 7.75,
+      "predicted_1_over_k": 0.8695436507936508
+    }
+  ],
+  "winners": {
+    "aic": "Sqrt: a*\u221ak + b",
+    "bic": "Sqrt: a*\u221ak + b",
+    "bootstrap": "sqrt",
+    "loocv": "sqrt",
+    "partial_corr": "linear"
+  },
+  "one_k_win_count": 0,
+  "verdict": "NEGATIVE: 1/k law does not outperform alternatives",
+  "is_knockout": false
+}
