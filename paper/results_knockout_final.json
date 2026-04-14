@@ -1,0 +1,392 @@
+{
+  "experiment_1_pure_math": {
+    "experiment": "Pure Math: 1/k for many-to-one functions",
+    "circularity_check": "PREDICTOR=1/k (analytic), PREDICTED=solver agreement (empirical). Independent.",
+    "results_by_k": [
+      {
+        "k": 2,
+        "observed_agreement": 0.500071,
+        "predicted_1_over_k": 0.5,
+        "absolute_error": 7.1e-05
+      },
+      {
+        "k": 3,
+        "observed_agreement": 0.333016,
+        "predicted_1_over_k": 0.333333,
+        "absolute_error": 0.000318
+      },
+      {
+        "k": 4,
+        "observed_agreement": 0.250125,
+        "predicted_1_over_k": 0.25,
+        "absolute_error": 0.000125
+      },
+      {
+        "k": 5,
+        "observed_agreement": 0.199797,
+        "predicted_1_over_k": 0.2,
+        "absolute_error": 0.000203
+      },
+      {
+        "k": 6,
+        "observed_agreement": 0.167034,
+        "predicted_1_over_k": 0.166667,
+        "absolute_error": 0.000367
+      },
+      {
+        "k": 8,
+        "observed_agreement": 0.124818,
+        "predicted_1_over_k": 0.125,
+        "absolute_error": 0.000182
+      },
+      {
+        "k": 10,
+        "observed_agreement": 0.099883,
+        "predicted_1_over_k": 0.1,
+        "absolute_error": 0.000117
+      },
+      {
+        "k": 15,
+        "observed_agreement": 0.066778,
+        "predicted_1_over_k": 0.066667,
+        "absolute_error": 0.000112
+      },
+      {
+        "k": 20,
+        "observed_agreement": 0.049832,
+        "predicted_1_over_k": 0.05,
+        "absolute_error": 0.000168
+      }
+    ],
+    "spearman_rho": 1.0,
+    "spearman_p": 0.0,
+    "rmse": 0.000207,
+    "verdict": "PASS"
+  },
+  "experiment_2_rashomon_dimensionality": {
+    "experiment": "Rashomon Set Parameter Spread vs Collinearity",
+    "circularity_check": "PREDICTOR=qualitative (more collinearity -> wider Rashomon set), PREDICTED=parameter spread from bootstrap OLS. Independent.",
+    "results_by_rho": [
+      {
+        "rho": 0.0,
+        "n_rashomon_models": 35,
+        "param_spread_mean_l2": 0.2331,
+        "cov_trace": 0.0287,
+        "best_mse": 0.9943
+      },
+      {
+        "rho": 0.2,
+        "n_rashomon_models": 15,
+        "param_spread_mean_l2": 0.3071,
+        "cov_trace": 0.05,
+        "best_mse": 1.3746
+      },
+      {
+        "rho": 0.4,
+        "n_rashomon_models": 26,
+        "param_spread_mean_l2": 0.3111,
+        "cov_trace": 0.0506,
+        "best_mse": 1.0172
+      },
+      {
+        "rho": 0.6,
+        "n_rashomon_models": 25,
+        "param_spread_mean_l2": 0.3718,
+        "cov_trace": 0.0728,
+        "best_mse": 0.7303
+      },
+      {
+        "rho": 0.8,
+        "n_rashomon_models": 21,
+        "param_spread_mean_l2": 0.6173,
+        "cov_trace": 0.2011,
+        "best_mse": 0.9189
+      },
+      {
+        "rho": 0.95,
+        "n_rashomon_models": 70,
+        "param_spread_mean_l2": 1.2737,
+        "cov_trace": 0.8454,
+        "best_mse": 1.3487
+      }
+    ],
+    "spearman_rho_spread": 1.0,
+    "spearman_p_spread": 0.0,
+    "spearman_rho_cov_trace": 1.0,
+    "spearman_p_cov_trace": 0.0,
+    "verdict": "PASS"
+  },
+  "experiment_3_sat": {
+    "experiment": "SAT Solving: More solutions -> easier?",
+    "circularity_check": "PREDICTOR=exhaustive solution count, PREDICTED=DPLL backtrack count. Independent runs.",
+    "n_vars": 16,
+    "n_clauses": 68,
+    "n_satisfiable": 361,
+    "n_unsatisfiable": 139,
+    "spearman_rho": -0.40668,
+    "spearman_p": 8.230220789543665e-16,
+    "quartile_analysis": [
+      {
+        "quartile": 1,
+        "mean_solutions": 1.0,
+        "mean_backtracks": 16.91,
+        "n_instances": 44
+      },
+      {
+        "quartile": 2,
+        "mean_solutions": 3.16,
+        "mean_backtracks": 11.55,
+        "n_instances": 129
+      },
+      {
+        "quartile": 3,
+        "mean_solutions": 8.41,
+        "mean_backtracks": 7.93,
+        "n_instances": 92
+      },
+      {
+        "quartile": 4,
+        "mean_solutions": 24.49,
+        "mean_backtracks": 5.09,
+        "n_instances": 96
+      }
+    ],
+    "verdict": "PASS"
+  },
+  "experiment_4_splicing": {
+    "experiment": "Alternative Splicing: Isoform diversity ~ (k-1)/k",
+    "circularity_check": "PREDICTOR=(k-1)/k*log2(k) from exon count, PREDICTED=log2(n_isoforms). Independent biological quantities.",
+    "n_genes": 30,
+    "spearman_rho": 0.110697,
+    "spearman_p": 0.560336,
+    "pearson_r": 0.047388,
+    "pearson_p": 0.80362,
+    "simple_exon_vs_isoform_rho": 0.110697,
+    "simple_exon_vs_isoform_p": 0.560336,
+    "r_squared_linear_fit": 0.002246,
+    "gene_results": [
+      {
+        "gene": "TP53",
+        "n_exons": 11,
+        "n_isoforms": 16,
+        "observed_log2_isoforms": 4.0,
+        "predicted_diversity": 3.1449
+      },
+      {
+        "gene": "BRCA1",
+        "n_exons": 23,
+        "n_isoforms": 6,
+        "observed_log2_isoforms": 2.585,
+        "predicted_diversity": 4.3269
+      },
+      {
+        "gene": "EGFR",
+        "n_exons": 28,
+        "n_isoforms": 8,
+        "observed_log2_isoforms": 3.0,
+        "predicted_diversity": 4.6357
+      },
+      {
+        "gene": "KRAS",
+        "n_exons": 6,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 2.1541
+      },
+      {
+        "gene": "MYC",
+        "n_exons": 3,
+        "n_isoforms": 2,
+        "observed_log2_isoforms": 1.0,
+        "predicted_diversity": 1.0566
+      },
+      {
+        "gene": "AKT1",
+        "n_exons": 14,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 3.5354
+      },
+      {
+        "gene": "PTEN",
+        "n_exons": 9,
+        "n_isoforms": 5,
+        "observed_log2_isoforms": 2.3219,
+        "predicted_diversity": 2.8177
+      },
+      {
+        "gene": "RB1",
+        "n_exons": 27,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 4.5788
+      },
+      {
+        "gene": "BRAF",
+        "n_exons": 18,
+        "n_isoforms": 5,
+        "observed_log2_isoforms": 2.3219,
+        "predicted_diversity": 3.9383
+      },
+      {
+        "gene": "PIK3CA",
+        "n_exons": 21,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 4.1832
+      },
+      {
+        "gene": "ATM",
+        "n_exons": 63,
+        "n_isoforms": 5,
+        "observed_log2_isoforms": 2.3219,
+        "predicted_diversity": 5.8824
+      },
+      {
+        "gene": "CDH1",
+        "n_exons": 16,
+        "n_isoforms": 4,
+        "observed_log2_isoforms": 2.0,
+        "predicted_diversity": 3.75
+      },
+      {
+        "gene": "ERBB2",
+        "n_exons": 27,
+        "n_isoforms": 6,
+        "observed_log2_isoforms": 2.585,
+        "predicted_diversity": 4.5788
+      },
+      {
+        "gene": "CDKN2A",
+        "n_exons": 3,
+        "n_isoforms": 11,
+        "observed_log2_isoforms": 3.4594,
+        "predicted_diversity": 1.0566
+      },
+      {
+        "gene": "JAK2",
+        "n_exons": 25,
+        "n_isoforms": 4,
+        "observed_log2_isoforms": 2.0,
+        "predicted_diversity": 4.4581
+      },
+      {
+        "gene": "FLT3",
+        "n_exons": 24,
+        "n_isoforms": 2,
+        "observed_log2_isoforms": 1.0,
+        "predicted_diversity": 4.3939
+      },
+      {
+        "gene": "IDH1",
+        "n_exons": 10,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 2.9897
+      },
+      {
+        "gene": "KIT",
+        "n_exons": 21,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 4.1832
+      },
+      {
+        "gene": "MET",
+        "n_exons": 21,
+        "n_isoforms": 6,
+        "observed_log2_isoforms": 2.585,
+        "predicted_diversity": 4.1832
+      },
+      {
+        "gene": "ALK",
+        "n_exons": 29,
+        "n_isoforms": 4,
+        "observed_log2_isoforms": 2.0,
+        "predicted_diversity": 4.6905
+      },
+      {
+        "gene": "NRAS",
+        "n_exons": 7,
+        "n_isoforms": 2,
+        "observed_log2_isoforms": 1.0,
+        "predicted_diversity": 2.4063
+      },
+      {
+        "gene": "VHL",
+        "n_exons": 3,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 1.0566
+      },
+      {
+        "gene": "WT1",
+        "n_exons": 10,
+        "n_isoforms": 7,
+        "observed_log2_isoforms": 2.8074,
+        "predicted_diversity": 2.9897
+      },
+      {
+        "gene": "ABL1",
+        "n_exons": 11,
+        "n_isoforms": 7,
+        "observed_log2_isoforms": 2.8074,
+        "predicted_diversity": 3.1449
+      },
+      {
+        "gene": "ESR1",
+        "n_exons": 8,
+        "n_isoforms": 8,
+        "observed_log2_isoforms": 3.0,
+        "predicted_diversity": 2.625
+      },
+      {
+        "gene": "AR",
+        "n_exons": 8,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 2.625
+      },
+      {
+        "gene": "NOTCH1",
+        "n_exons": 34,
+        "n_isoforms": 4,
+        "observed_log2_isoforms": 2.0,
+        "predicted_diversity": 4.9378
+      },
+      {
+        "gene": "SMO",
+        "n_exons": 12,
+        "n_isoforms": 3,
+        "observed_log2_isoforms": 1.585,
+        "predicted_diversity": 3.2862
+      },
+      {
+        "gene": "CTNNB1",
+        "n_exons": 16,
+        "n_isoforms": 2,
+        "observed_log2_isoforms": 1.0,
+        "predicted_diversity": 3.75
+      },
+      {
+        "gene": "APC",
+        "n_exons": 16,
+        "n_isoforms": 6,
+        "observed_log2_isoforms": 2.585,
+        "predicted_diversity": 3.75
+      }
+    ],
+    "verdict": "FAIL"
+  },
+  "_summary": {
+    "n_pass": 3,
+    "n_total": 4,
+    "verdicts": {
+      "experiment_1_pure_math": "PASS",
+      "experiment_2_rashomon_dimensionality": "PASS",
+      "experiment_3_sat": "PASS",
+      "experiment_4_splicing": "FAIL"
+    },
+    "runtime_seconds": 91.5
+  }
+}
