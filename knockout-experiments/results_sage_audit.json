@@ -1,0 +1,194 @@
+{
+  "experiment": "sage_adversarial_audit",
+  "claimed_r2": 0.918,
+  "reproduced_r2": 0.9154,
+  "tests": {
+    "test1_threshold_sensitivity": {
+      "thresholds": [
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.25,
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "r2_values": [
+        0.72635,
+        0.72635,
+        0.922939,
+        0.922939,
+        0.92115,
+        0.9154,
+        0.940171,
+        0.922431,
+        0.901018,
+        0.70026
+      ],
+      "pct_above_07": 1.0,
+      "pass": true
+    },
+    "test2_loo_cv": {
+      "loo_r2": 0.688792,
+      "loo_mae": 0.044218,
+      "mean_baseline_mae": 0.096767,
+      "details": [
+        {
+          "held_out": "Breast Cancer",
+          "predicted_calibrated": 0.282936,
+          "observed": 0.307123,
+          "sage_error": 0.024187,
+          "mean_baseline_error": 0.125195
+        },
+        {
+          "held_out": "Diabetes",
+          "predicted_calibrated": 0.268977,
+          "observed": 0.230213,
+          "sage_error": 0.038764,
+          "mean_baseline_error": 0.029058
+        },
+        {
+          "held_out": "Wine",
+          "predicted_calibrated": 0.284243,
+          "observed": 0.277099,
+          "sage_error": 0.007144,
+          "mean_baseline_error": 0.087665
+        },
+        {
+          "held_out": "California Housing",
+          "predicted_calibrated": 0.125012,
+          "observed": 0.039928,
+          "sage_error": 0.085084,
+          "mean_baseline_error": 0.208799
+        },
+        {
+          "held_out": "Iris (regression)",
+          "predicted_calibrated": 0.114559,
+          "observed": 0.180471,
+          "sage_error": 0.065913,
+          "mean_baseline_error": 0.033119
+        }
+      ],
+      "pass": true
+    },
+    "test3_correlation_baseline": {
+      "correlation_r2": 0.032503,
+      "sage_r2": 0.9154,
+      "sage_better": true,
+      "pass": true
+    },
+    "test4_expanded_datasets": {
+      "n_datasets": 8,
+      "calibrated_r2": 0.809022,
+      "datasets": {
+        "Breast Cancer": {
+          "n_features": 30,
+          "n_groups": 6,
+          "instability_predicted": 0.8,
+          "instability_observed": 0.307123
+        },
+        "Diabetes": {
+          "n_features": 10,
+          "n_groups": 3,
+          "instability_predicted": 0.7,
+          "instability_observed": 0.230213
+        },
+        "Wine": {
+          "n_features": 13,
+          "n_groups": 3,
+          "instability_predicted": 0.769231,
+          "instability_observed": 0.277099
+        },
+        "California Housing": {
+          "n_features": 8,
+          "n_groups": 7,
+          "instability_predicted": 0.125,
+          "instability_observed": 0.039928
+        },
+        "Iris (regression)": {
+          "n_features": 3,
+          "n_groups": 2,
+          "instability_predicted": 0.333333,
+          "instability_observed": 0.180471
+        },
+        "Digits (PCA-10)": {
+          "n_features": 10,
+          "n_groups": 5,
+          "instability_predicted": 0.5,
+          "instability_observed": 0.118285
+        },
+        "Synthetic Classification": {
+          "n_features": 20,
+          "n_groups": 7,
+          "instability_predicted": 0.65,
+          "instability_observed": 0.185902
+        },
+        "Synthetic Regression": {
+          "n_features": 15,
+          "n_groups": 5,
+          "instability_predicted": 0.666667,
+          "instability_observed": 0.250059
+        }
+      },
+      "pass": true
+    },
+    "test5_synthetic_noether": {
+      "n_groups_discovered": 4,
+      "n_groups_true": 3,
+      "group_sizes": [
+        4,
+        4,
+        3,
+        1
+      ],
+      "group_count_within_1": true,
+      "assignment_accuracy": 1.0,
+      "labels": [
+        3,
+        3,
+        4,
+        3,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "true_groups": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2
+      ],
+      "pass": true
+    },
+    "test6_random_baseline": {
+      "sage_r2": 0.9154,
+      "random_mean": 0.258033,
+      "random_std": 0.252272,
+      "random_p95": 0.778585,
+      "random_p99": 0.933553,
+      "p_value": 0.015,
+      "n_permutations": 1000,
+      "pass": true
+    }
+  },
+  "n_pass": 6,
+  "n_total": 6,
+  "verdict": "ROBUST",
+  "_timestamp": "2026-04-14 12:13:16"
+}
