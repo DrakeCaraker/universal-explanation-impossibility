@@ -824,6 +824,13 @@ A sensitivity analysis across $\rho \in [0.50, 0.99]$ confirms the gap is
 \emph{invariant} across the entire correlation range---the bimodal
 structure is a structural consequence of equal within-group coefficients,
 not a high-correlation artifact.
+An automatic group-discovery algorithm (SAGE: Symmetry-Aware Group
+Estimation) predicts instability from the discovered groups with
+$R^2 = 0.81$ across 8~datasets, making the framework actionable without
+hand-specification of symmetry.  Applying SAGE's CCA analysis to neural
+network representations reveals that hidden-layer symmetry is continuous
+(smooth CCA spectrum) rather than discrete (bimodal flip rates), delineating
+a boundary condition on the Noether counting prediction.
 
 \paragraph{Universal $\eta$ law.}
 The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts the

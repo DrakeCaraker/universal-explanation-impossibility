@@ -1613,6 +1613,21 @@ We identify five limitations and directions for future work.
     field.  The contribution is the formal unification and the
     demonstration that a common resolution strategy applies---not the
     claim that the impossibility is new within any individual domain.
+  \item \textbf{Adversarial audit summary.}  A comprehensive adversarial
+    audit (24~simulated reviewers, 6~adversarial stress tests on the SAGE
+    algorithm, 4~stress tests on the MI experiment, circularity analysis
+    of the quantum instance, and a cross-cutting ``so what'' test)
+    identified the following boundary conditions: (1)~the core theorem is
+    elementary---a consequence of definitions, not a deep result;
+    (2)~every domain instance relabels a known result; (3)~the quantum
+    $\eta$ connection is correct but circular (the general POVM case
+    relies on an unproven assertion that $\mathrm{span}\{M_i\} = V^G$);
+    (4)~the $S_n$ prediction for neural networks is falsified (the actual
+    symmetry is continuous, not discrete; see
+    Section~\ref{sec:cca-spectrum}).  The strongest surviving
+    contributions are the Noether counting theorem (bimodal, invariant
+    across~$\rho$, novel) and the SAGE algorithm ($R^2 = 0.81$ on
+    8~datasets, 6/6 audit tests passed).
 \end{enumerate}
 
 %%% ==========================================================================
@@ -2005,6 +2020,68 @@ specific correlation level.
   \label{fig:noether-counting}
 \end{figure}
 
+\subsection{Automatic Symmetry Discovery (SAGE)}
+\label{sec:sage}
+
+The Noether counting result (Section~\ref{sec:noether-counting}) assumes the
+correlation groups are known.  In practice, the explanation symmetry
+group~$G$ is rarely hand-specified.  We developed \textbf{SAGE}
+(\textbf{S}ymmetry-\textbf{A}ware \textbf{G}roup \textbf{E}stimation), an
+algorithm that automatically discovers~$G$ from bootstrap
+feature-importance flip rates without hand-specification.
+
+\paragraph{Algorithm.}
+For each dataset: (1)~train $M = 100$ models on bootstrap resamples;
+(2)~compute feature importances for each model; (3)~cluster features by
+pairwise flip rate using hierarchical clustering (Ward linkage, threshold
+at 40\% flip rate); (4)~count the number of discovered groups~$g$ and
+predict instability as $\hat\eta = g/P$.
+
+\paragraph{Results.}
+Across 8~real datasets (Breast Cancer, Diabetes, Wine, California Housing,
+Iris, Digits, and two synthetic), the SAGE-predicted instability achieves
+Pearson $r = 0.958$ (calibrated $R^2 = 0.809$, leave-one-out
+cross-validated $R^2 = 0.689$).  SAGE outperforms a correlation-matrix
+baseline by $28\times$ (SAGE $R^2 = 0.915$ vs.\ correlation $R^2 = 0.033$),
+confirming that flip-rate clustering captures explanation symmetry beyond
+simple feature correlation.
+
+\paragraph{Adversarial audit.}
+Six adversarial stress tests---threshold sensitivity, leave-one-out
+cross-validation, correlation baseline comparison, expanded dataset
+evaluation, synthetic consistency check, and random-grouping permutation
+test---all passed.
+
+\paragraph{Calibration.}
+The raw $1 - g/P$ formula overpredicts instability because real features are
+approximately, not exactly, exchangeable within groups.  A single calibration
+parameter (slope $= 0.345$) accounts for symmetry-breaking; this slope has a
+physical interpretation as the fraction of theoretical instability that
+manifests in practice.  The calibration constant is stable across datasets
+(LOO-CV confirms no single dataset drives the fit).
+
+\subsection{Discrete vs.\ Continuous Symmetry: The CCA Spectrum}
+\label{sec:cca-spectrum}
+
+Applying the $G$-discovery approach to neural network representations
+reveals a qualitative difference from feature attribution.  We computed CCA
+(canonical correlation analysis) canonical correlations between hidden
+activations ($n = 128$) of 5~independently trained MLPs on MNIST.  The CCA
+spectrum is \emph{continuous}: the top 10~dimensions have correlation
+$> 0.99$, the top 30 have $> 0.90$, and the bottom 30 have $< 0.30$, with
+smooth decay between.  This contrasts sharply with the Noether counting
+result for features, where the flip-rate distribution is bimodal (50pp gap).
+
+The difference arises because feature attribution symmetry is
+\emph{discrete} ($S_k$ permutations within correlation groups), while
+neural representation symmetry is \emph{continuous} (rotations in hidden
+space).  The framework's $S_n$ prediction ($\dim(V^G) = 1$) is incorrect
+for representations: CCA reveals $\sim\!30$ highly stable dimensions, not~1.
+This finding delineates the framework's boundary: the sharp Noether counting
+prediction holds for discrete symmetry groups but requires extension to
+continuous groups, where stability becomes a spectrum rather than a
+dichotomy.
+
 \subsection{Universal $\eta$ Law: Predictive Scope and Boundary}
 \label{sec:universal-eta}
 
@@ -2394,6 +2471,20 @@ renders per-neuron interpretations fundamentally unstable.
     queries survive the hidden-unit permutation symmetry.}
   \label{fig:interp-ceiling}
 \end{figure}
+
+\paragraph{Hungarian permutation alignment audit.}
+An adversarial audit using Hungarian permutation alignment reveals that the
+non-uniqueness goes deeper than $S_n$ permutation symmetry.  After optimal
+permutation alignment---which perfectly recovers known permutations in a
+control experiment (aligned Jaccard $= 1.0$)---real cross-model agreement
+reaches only Jaccard $= 0.079$.  The models learn genuinely different feature
+decompositions, not permuted versions of the same decomposition.  CCA
+analysis (mean similarity $= 0.950$) confirms the representations are
+functionally equivalent---they encode the same information in different
+coordinate systems---but the transformation between models is a
+rotation/mixing, not a permutation.  This result strengthens the
+interpretability ceiling: the actual symmetry group is larger than~$S_n$
+(it includes continuous rotations), making the $1/n$ bound conservative.
 
 \paragraph{Caveat.}
 The $1/n$ bound addresses only the permutation symmetry~$S_n$, which is the
