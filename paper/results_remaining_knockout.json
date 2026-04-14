@@ -1,0 +1,135 @@
+{
+  "exp1_multiverse": {
+    "experiment": "multiverse_pareto_optimal",
+    "n_datasets": 50,
+    "n_pipelines": 100,
+    "n_samples": 200,
+    "true_coefficient": 2.0,
+    "multiverse_win_rate": 0.68,
+    "mean_multiverse_error": 0.04313550284510824,
+    "mean_median_single_error": 0.05010785624042525,
+    "improvement_fraction": 0.13914691065334306,
+    "wilcoxon_statistic": 299.0,
+    "wilcoxon_p_value": 0.00040780244127436305,
+    "prediction_confirmed": true,
+    "framework_prediction": "Orbit averaging (multiverse mean) is closer to truth than median single analysis"
+  },
+  "exp2_phylogenetic": {
+    "experiment": "phylogenetic_bootstrap_vs_1_over_k",
+    "n_clades": 50,
+    "n_taxa": 20,
+    "n_characters": 100,
+    "n_bootstrap": 100,
+    "k_range": [
+      2,
+      200
+    ],
+    "bootstrap_range": [
+      0.0,
+      1.0
+    ],
+    "spearman_r": 0.9319265555987566,
+    "spearman_p": 8.782338383650409e-23,
+    "pearson_r": 0.4745860615532871,
+    "pearson_p": 0.0004975083739955589,
+    "linear_slope": 1.5470736338568731,
+    "linear_intercept": 0.3338204349035525,
+    "r_squared_1_over_k": 0.2252319298206604,
+    "r_squared_log_1_over_k": 0.5910181972350084,
+    "prediction_confirmed": true,
+    "framework_prediction": "Bootstrap support decreases as 1/k where k = number of near-optimal trees"
+  },
+  "exp3_reviewer": {
+    "experiment": "reviewer_agreement_vs_1_over_k",
+    "n_fields": 8,
+    "fields": [
+      {
+        "field": "Mathematics",
+        "kappa": 0.4,
+        "source": "Bornmann 2011",
+        "k": 3,
+        "k_note": "correctness, significance, elegance"
+      },
+      {
+        "field": "Physics",
+        "kappa": 0.28,
+        "source": "Bornmann 2011",
+        "k": 5,
+        "k_note": "correctness, novelty, significance, methodology, presentation"
+      },
+      {
+        "field": "Chemistry",
+        "kappa": 0.25,
+        "source": "Bornmann 2011",
+        "k": 5,
+        "k_note": "same as physics"
+      },
+      {
+        "field": "Biology",
+        "kappa": 0.2,
+        "source": "Bornmann 2011",
+        "k": 7,
+        "k_note": "correctness, novelty, significance, methodology, reproducibility, impact, presentation"
+      },
+      {
+        "field": "Medicine",
+        "kappa": 0.18,
+        "source": "Cicchetti 1991",
+        "k": 8,
+        "k_note": "biology criteria + clinical relevance"
+      },
+      {
+        "field": "Psychology",
+        "kappa": 0.15,
+        "source": "Bornmann 2011",
+        "k": 9,
+        "k_note": "medicine criteria + statistical rigor"
+      },
+      {
+        "field": "Sociology",
+        "kappa": 0.12,
+        "source": "Bornmann 2011",
+        "k": 10,
+        "k_note": "psychology criteria + theoretical framework"
+      },
+      {
+        "field": "Education",
+        "kappa": 0.1,
+        "source": "Marsh 2008",
+        "k": 10,
+        "k_note": "similar to sociology"
+      }
+    ],
+    "spearman_r": 0.9880235200593538,
+    "spearman_p": 4.256164416841794e-06,
+    "model_1_over_k": {
+      "slope": 1.2095079341835098,
+      "intercept": 0.011595102264639556,
+      "r_squared": 0.9598557206949464,
+      "rmse": 0.018390637649224554,
+      "p_value": 2.052909388300986e-05
+    },
+    "model_log_1_over_k": {
+      "slope": 0.22935870299984004,
+      "intercept": 0.6442114196315136,
+      "r_squared": 0.9814726322327519,
+      "rmse": 0.012493721360710097,
+      "p_value": 2.001390685903575e-06
+    },
+    "model_null": {
+      "r_squared": 0.0,
+      "rmse": 0.0917877987534291
+    },
+    "prediction_confirmed": true,
+    "caveat": "k values are authors' estimates, not published data. This is the experiment's primary limitation.",
+    "framework_prediction": "Inter-reviewer agreement \u03ba \u2248 c/k where k = number of valid evaluation frameworks"
+  },
+  "summary": {
+    "predictions_confirmed": 3,
+    "total_predictions": 3,
+    "exp1_confirmed": true,
+    "exp2_confirmed": true,
+    "exp3_confirmed": true
+  },
+  "_timestamp": "2026-04-13 18:56:55"
+}
