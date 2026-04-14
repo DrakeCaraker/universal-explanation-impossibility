@@ -172,7 +172,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (94~files, 411~theorems,
+The framework is mechanically verified in Lean~4 (95~files, 417~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -258,7 +258,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 94~files, 411~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 95~files, 417~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -1412,7 +1412,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 94~files, 411~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 95~files, 417~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -1460,8 +1460,8 @@ empirical evidence underdetermines theory choice
 confirmational holism---sharing the core implication that observational
 equivalence leaves explanation underdetermined).  Theorem~\ref{thm:universal}
 proves an impossibility theorem for explanation under observational
-equivalence---formalizing, to our knowledge for the first time, the explanatory
-consequences of the Duhem-Quine thesis of holist underdetermination
+equivalence---providing a constructive witness of the underdetermination logic
+articulated by the Duhem-Quine thesis of holist underdetermination
 \citep{laudan1991empirical}; note that Laudan himself was skeptical of the
 underdetermination thesis, but the citation documents the philosophical context.
 Prior formal analyses of underdetermination in Bayesian
@@ -2171,7 +2171,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 94 files in
+formalization.  The complete codebase comprises 95 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 

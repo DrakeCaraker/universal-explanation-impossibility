@@ -3,14 +3,23 @@ import UniversalImpossibility.ExplanationSystem
 set_option autoImplicit false
 
 /-!
-# Arrow's Impossibility as an Explanation System Instance
+# Social Choice Underdetermination (Arrow's Setting)
 
-Arrow's theorem (1951): for ≥3 alternatives and ≥2 voters, no social welfare
-function can simultaneously satisfy Unanimity (Pareto), Independence of
-Irrelevant Alternatives (IIA), and Non-dictatorship.
+Arrow's social choice setting exhibits the Rashomon property:
+preference profiles with identical pairwise comparisons can produce
+different aggregate rankings under any non-trivial aggregation rule.
 
-We show that the *setting* of Arrow's theorem — preference aggregation — is a
-natural instance of the ExplanationSystem framework with the Rashomon property.
+**What this proves:** The ExplanationSystem impossibility applies to
+Arrow's setting — no aggregation can be simultaneously faithful to a
+benchmark ranking, stable across pairwise-equivalent profiles, and
+decisive about all ranking distinctions.
+
+**What this does NOT prove:** Arrow's full impossibility theorem (1951),
+which proves dictatorship from weaker axioms (unanimity, IIA,
+non-dictatorship). The framework captures the *setting's*
+underdetermination structure, not Arrow's specific axiom content.
+The framework's faithfulness (E must match the benchmark everywhere)
+is strictly stronger than Arrow's unanimity (only on unanimous profiles).
 
 ## The mapping
 
@@ -38,22 +47,6 @@ social orderings — a Rashomon witness.
   → "Natural" social ordering: C>A>B (C wins 2 pairwise, A wins 1)
 
 Same observation, different explanations → Rashomon.
-
-## Interpretation
-
-The explanation_impossibility theorem applied to this system says: no
-social welfare function (viewed as an explanation E : Profile → Ranking)
-can be simultaneously:
-- **Faithful** (IIA-compatible): E(θ) never contradicts the profile's
-  natural social ordering
-- **Stable** (IIA): profiles with the same pairwise data get the same
-  social ordering
-- **Decisive** (non-triviality): E commits to every distinction the
-  natural ordering makes
-
-This is *not* a proof of Arrow's theorem (which is stronger and involves
-specific axioms). It is a proof that Arrow's *setting* has the Rashomon
-property, and therefore the explanation impossibility *applies* to it.
 -/
 
 /-- Three alternatives for a minimal Arrow instance. -/
@@ -153,23 +146,21 @@ def arrowSystem : ExplanationSystem Profile Ranking PairwiseAB where
   incompatible_irrefl := fun _ h => h rfl
   rashomon := ⟨profile1, profile2, profiles_same_pairwise, profiles_different_social⟩
 
-/-- **Arrow Instance Impossibility.**
+/-- **Social Choice Rashomon.**
 
-    No social welfare function (viewed as E : Profile → Ranking) can
-    simultaneously be faithful, stable, and decisive when applied to
-    the preference aggregation setting with ≥3 alternatives and ≥2 voters.
+    The preference aggregation setting exhibits the explanation impossibility:
+    no function E : Profile → Ranking can be simultaneously faithful, stable,
+    and decisive.
 
-    In Arrow's terms:
-    - **Stable** ↔ IIA: the social ranking of A vs B depends only on
-      voters' rankings of A vs B
-    - **Faithful** ↔ Pareto-compatible: the social welfare function
-      never contradicts the natural (Condorcet) social ordering
-    - **Decisive** ↔ Non-trivial: the social welfare function commits
-      to every distinction the natural ordering makes
+    This captures the *underdetermination structure* of Arrow's setting, not
+    Arrow's full theorem. Arrow (1951) proves dictatorship from unanimity +
+    IIA + non-dictatorship — weaker premises, stronger conclusion. Here,
+    faithfulness (E must match the benchmark everywhere) is strictly stronger
+    than Arrow's unanimity (only on unanimous profiles).
 
     This is a direct application of explanation_impossibility to
     arrowSystem. -/
-theorem arrow_impossibility
+theorem social_choice_rashomon
     (E : Profile → Ranking)
     (hf : faithful arrowSystem E)
     (hs : stable arrowSystem E)

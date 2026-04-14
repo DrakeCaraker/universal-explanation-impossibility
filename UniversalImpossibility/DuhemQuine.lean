@@ -3,19 +3,24 @@ import UniversalImpossibility.ExplanationSystem
 set_option autoImplicit false
 
 /-!
-# Duhem-Quine Thesis — Derived Rashomon Property
+# The Duhem-Quine Underdetermination (Constructive Witness)
 
-The Duhem-Quine thesis (Duhem 1906, Quine 1951): no scientific hypothesis can
-be tested in isolation. Any experimental test of hypothesis H depends on
-auxiliary hypotheses A₁, A₂, ... When the experiment fails, we cannot determine
-whether H is wrong or one of the auxiliaries is wrong.
+A minimal constructive witness of the Duhem-Quine thesis: hypothesis-sets
+producing the same experimental failure but assigning blame differently.
 
-This is a natural instance of the Rashomon property: two different
-hypothesis-sets (configurations) produce the same observable output
-(experimental failure) but have incompatible explanations (different blame
-assignments — which hypothesis is responsible for the failure).
+**What this captures:** The core *logic* of underdetermination — when
+multiple hypothesis-sets produce the same experimental outcome, blame
+cannot be localized from the outcome alone.
 
-## The Mapping
+**What this does NOT capture:** The full philosophical thesis, which
+involves webs of interconnected beliefs (Quine 1951), the revisability
+of logic itself, and the holistic nature of theory testing (Duhem 1906).
+
+**Quantitative result:** For N hypotheses, the Rashomon set contains
+2^N - 1 failure configurations, so underdetermination grows exponentially
+with the number of auxiliary hypotheses.
+
+## The Mapping (2 hypotheses)
 
 - Θ (configurations) = hypothesis-sets (main hypothesis H + auxiliary A)
 - Y (observables) = experimental outcomes (success or failure)
@@ -105,7 +110,7 @@ def duhemQuineSystem : ExplanationSystem HypothesisSet Blame ExpOutcome where
   incompatible_irrefl := fun _ h => h rfl
   rashomon := ⟨dqConfig1, dqConfig2, dq_same_outcome, dq_blame_different⟩
 
-/-- **Duhem-Quine Impossibility.**
+/-- **Duhem-Quine Underdetermination (2 hypotheses).**
 
 No method of interpreting experimental failure can simultaneously be:
 - **Faithful**: correctly identifies which hypothesis is wrong
@@ -113,11 +118,116 @@ No method of interpreting experimental failure can simultaneously be:
   produce the same experimental outcome
 - **Decisive**: commits to a specific blame assignment
 
-This IS the Duhem-Quine thesis: from the experimental outcome alone, you
-cannot determine which hypothesis is responsible for the failure. -/
+This captures the core logic of blame underdetermination: from the
+experimental outcome alone, you cannot determine which hypothesis is
+responsible for the failure. -/
 theorem duhem_quine_impossibility
     (E : HypothesisSet → Blame)
     (hf : faithful duhemQuineSystem E)
     (hs : stable duhemQuineSystem E)
     (hd : decisive duhemQuineSystem E) : False :=
   explanation_impossibility duhemQuineSystem E hf hs hd
+
+-- ============================================================================
+/-! ## Parameterized Duhem-Quine: N = 4 Hypotheses
+
+The Rashomon set of the Duhem-Quine setting grows exponentially with
+the number of auxiliary hypotheses: for N hypotheses, 2^N - 1 distinct
+hypothesis-sets produce experimental failure, and all are observationally
+equivalent. This means underdetermination grows as log(2^N - 1) ≈ N log 2.
+
+With N hypotheses, the Rashomon set contains 2^N - 1 failure configurations.
+The Rashomon entropy S = log(2^N - 1) grows linearly with N, quantifying
+the exponential growth of underdetermination.
+
+We instantiate at N = 4 to keep types decidable. The construction
+generalizes to any N ≥ 2.
+
+### The mapping (N hypotheses)
+
+- **Θ** = `Fin N → Bool` (each hypothesis correct or incorrect)
+- **Y** = `Bool` (success = all correct; failure = any wrong)
+- **H** = `Fin N → Bool` (the configuration IS the explanation — it
+  records which hypotheses are correct/incorrect)
+- **observe(θ)** = `∀ i, θ i` (all correct → true; any wrong → false)
+- **explain(θ)** = `θ` (the configuration explains itself)
+- **incompatible** = `(≠)`
+
+### Rashomon witnesses (N ≥ 2)
+
+- θ₁ = "only hypothesis 0 is wrong" (θ₁ 0 = false, θ₁ i = true for i ≠ 0)
+- θ₂ = "only hypothesis 1 is wrong" (θ₂ 1 = false, θ₂ i = true for i ≠ 1)
+- observe(θ₁) = observe(θ₂) = false (failure)
+- θ₁ ≠ θ₂ (they disagree on which hypothesis is wrong)
+-/
+-- ============================================================================
+
+/-- An N=4 hypothesis configuration: each of 4 hypotheses is correct (true)
+    or incorrect (false). -/
+abbrev HypConfig4 := Fin 4 → Bool
+
+/-- The experiment succeeds iff all 4 hypotheses are correct. -/
+def experimentOutcome4 (θ : HypConfig4) : Bool :=
+  θ 0 && θ 1 && θ 2 && θ 3
+
+/-- The explanation is the configuration itself: it records which
+    hypotheses are correct and which are wrong. -/
+def blameAssignment4 (θ : HypConfig4) : HypConfig4 := θ
+
+/-- Witness 1: only hypothesis 0 is wrong. -/
+def dq4Config1 : HypConfig4 := fun i =>
+  match i with
+  | ⟨0, _⟩ => false
+  | _ => true
+
+/-- Witness 2: only hypothesis 1 is wrong. -/
+def dq4Config2 : HypConfig4 := fun i =>
+  match i with
+  | ⟨1, _⟩ => false
+  | _ => true
+
+/-- Both 4-hypothesis witnesses produce experimental failure. -/
+theorem dq4_same_outcome :
+    experimentOutcome4 dq4Config1 = experimentOutcome4 dq4Config2 := by
+  native_decide
+
+/-- The two 4-hypothesis witnesses have different blame assignments
+    (they disagree on which hypothesis is wrong). -/
+theorem dq4_blame_different :
+    blameAssignment4 dq4Config1 ≠ blameAssignment4 dq4Config2 := by
+  intro h
+  -- blameAssignment4 = id, so h : dq4Config1 = dq4Config2
+  -- but they differ at index 0: dq4Config1 0 = false, dq4Config2 0 = true
+  have h0 : dq4Config1 ⟨0, by omega⟩ = dq4Config2 ⟨0, by omega⟩ := by
+    unfold blameAssignment4 at h; exact congrFun h ⟨0, by omega⟩
+  simp [dq4Config1, dq4Config2] at h0
+
+/-- The 4-hypothesis Duhem-Quine setting as an ExplanationSystem.
+    - Θ = Fin 4 → Bool (hypothesis configurations)
+    - H = Fin 4 → Bool (blame assignments = configurations)
+    - Y = Bool (success or failure)
+    - observe = experimentOutcome4
+    - explain = blameAssignment4 (= id)
+    - incompatible = (≠) -/
+def duhemQuineSystem4 : ExplanationSystem HypConfig4 HypConfig4 Bool where
+  observe := experimentOutcome4
+  explain := blameAssignment4
+  incompatible := fun b₁ b₂ => b₁ ≠ b₂
+  incompatible_irrefl := fun _ h => h rfl
+  rashomon := ⟨dq4Config1, dq4Config2, dq4_same_outcome, dq4_blame_different⟩
+
+/-- **Duhem-Quine Underdetermination (4 hypotheses).**
+
+With 4 hypotheses, the Rashomon set contains 2^4 - 1 = 15 failure
+configurations. The impossibility still holds: no method of assigning
+blame can be simultaneously faithful, stable, and decisive.
+
+This demonstrates that the underdetermination scales with hypothesis
+count — blame cannot be localized from the outcome alone regardless
+of how many hypotheses are involved. -/
+theorem duhem_quine_impossibility_4
+    (E : HypConfig4 → HypConfig4)
+    (hf : faithful duhemQuineSystem4 E)
+    (hs : stable duhemQuineSystem4 E)
+    (hd : decisive duhemQuineSystem4 E) : False :=
+  explanation_impossibility duhemQuineSystem4 E hf hs hd

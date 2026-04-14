@@ -87,3 +87,4 @@ import UniversalImpossibility.MechInterpInstanceConstructive
 import UniversalImpossibility.DuhemQuine
 import UniversalImpossibility.ArrowInstance
 import UniversalImpossibility.QMInterpretation
+import UniversalImpossibility.PeresMermin

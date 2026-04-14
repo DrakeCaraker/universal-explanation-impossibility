@@ -3,24 +3,26 @@ import UniversalImpossibility.ExplanationSystem
 set_option autoImplicit false
 
 /-!
-# Quantum Mechanics Interpretation Problem — Derived Rashomon Property
+# QM Interpretation Underdetermination (Illustrative Instance)
 
-Multiple interpretations of quantum mechanics (Copenhagen, Many-Worlds, Bohmian
-mechanics) produce identical experimental predictions (Born rule probabilities)
-but have incompatible ontologies (wavefunction collapse vs universe branching vs
-hidden variables).
+When two QM interpretations produce identical predictions (modeled here
+as a constant observation function), no stable method can distinguish
+their ontologies. This is a constructive illustration of a well-known
+observation in quantum foundations, not a result in physics.
 
-This is a natural instance of the Rashomon property: two different
-interpretation-experiment configurations produce the same observable outcome
-(measurement statistics) but have incompatible explanations (different ontological
-claims about what happens during measurement).
+**Caveat:** The observation function is constant by construction (both
+interpretations map to the same outcome). The theorem's content is
+that this observational equivalence implies the impossibility — a
+formalization of what physicists already know informally. Some
+interpretations may differ in exotic scenarios (Wigner's friend,
+cosmological QM), which this minimal model does not address.
 
 ## The Mapping
 
 - Θ (configurations) = QM interpretations (each paired with the same experiment)
 - Y (observables) = measurement outcomes (Born rule probabilities)
 - H (explanations) = ontological claims (what "really happens" during measurement)
-- obs(θ) = the predicted measurement outcome
+- obs(θ) = the predicted measurement outcome (constant — same for all interpretations)
 - explain(θ) = the ontological claim the interpretation makes
 - incompatible(h₁, h₂) = h₁ ≠ h₂
 
@@ -85,7 +87,7 @@ def qmSystem : ExplanationSystem QMInterpretation Ontology MeasurementOutcome wh
   incompatible_irrefl := fun _ h => h rfl
   rashomon := ⟨.copenhagen, .manyWorlds, qm_same_outcome, qm_ontology_different⟩
 
-/-- **QM Interpretation Impossibility.**
+/-- **QM Interpretation Underdetermination.**
 
 No method of choosing a QM interpretation can simultaneously be:
 - **Faithful**: matches each interpretation's own ontological claim
@@ -93,9 +95,10 @@ No method of choosing a QM interpretation can simultaneously be:
   the same measurement outcome (i.e., all of them)
 - **Decisive**: distinguishes collapse from branching
 
-This formalizes the well-known observation that QM interpretations are
-empirically equivalent but ontologically incompatible — as a proved theorem
-rather than a philosophical argument. -/
+This formalizes a well-known observation in quantum foundations: when
+interpretations are observationally equivalent (modeled here as a constant
+observation function), their ontological claims cannot be simultaneously
+preserved. This is an illustrative formalization, not a result in physics. -/
 theorem qm_interpretation_impossibility
     (E : QMInterpretation → Ontology)
     (hf : faithful qmSystem E)
