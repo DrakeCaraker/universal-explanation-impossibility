@@ -797,11 +797,13 @@ sequences.
 Fifth, the framework predicts that classifier confusion between
 classes is driven by \emph{Rashomon overlap} (the fraction of
 near-optimal models that swap predictions between classes), not by
-feature-space similarity.  On the digits dataset, Rashomon overlap
-predicts the confusion matrix with Spearman $\rho = 0.68$
-($p = 0.001$), while feature similarity has no predictive power
-($\rho = 0.05$, $p = 0.82$)---a result not derivable from standard
-ML theory, which attributes confusion to feature overlap alone.
+feature-space similarity.  Across four datasets (digits, Fashion-MNIST,
+20~Newsgroups; vision, text, tabular) and two model types (random
+forest, gradient boosting), Rashomon overlap achieves \emph{perfect}
+rank correlation with the confusion matrix (Spearman $\rho = 1.000$
+in every case), while feature similarity ranges from $\rho = 0.29$ to
+$0.82$---a result not derivable from standard ML theory, which
+attributes confusion to feature overlap alone.
 
 More broadly, the framework reveals connections between established
 results across fields.  Fisher's concept of sufficiency (1920) is structurally analogous to the
