@@ -68,10 +68,10 @@ variable (fs : FeatureSpace)
 /-- Attribution (global feature importance) for feature j in model f -/
 axiom attribution : Fin fs.P → Model → ℝ
 
-/-- Split count for feature j in model f.
-    Returns ℝ (not ℕ) to avoid inconsistency: the axiomatized values T/(2-ρ²)
-    are generally irrational. The values represent idealized leading-order
-    split counts from the paper's Gaussian conditioning argument. -/
+/-- Split count returns ℝ (not ℕ) because the axiomatized values
+    T/(2-ρ²) and (1-ρ²)T/(2-ρ²) are generally irrational, and
+    the ratio theorem (Ratio.lean) requires real division.
+    The values are non-negative by construction. -/
 axiom splitCount : Fin fs.P → Model → ℝ
 
 /-- The first-mover feature in a model (the feature selected at root of tree 1) -/

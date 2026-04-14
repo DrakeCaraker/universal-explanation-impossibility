@@ -1,20 +1,12 @@
 {
   "attention": {
-    "description": "Attention map instability (Instance 2)",
-    "perturbation": {
-      "n_models": 10,
-      "n_comparisons": 9000,
-      "observed_flip_rate": 0.6,
-      "min_detectable_flip_rate_80pct_power": 0.001,
-      "cohens_d": 1.225
-    },
-    "full_retraining": {
-      "n_models": 20,
-      "n_comparisons": 9500,
-      "observed_flip_rate": 0.1986,
-      "min_detectable_flip_rate_80pct_power": 0.001,
-      "cohens_d": 0.498
-    }
+    "flip_rate": 0.1986315789473684,
+    "ci_lo": 0.19073421052631578,
+    "ci_hi": 0.20642105263157895,
+    "n_models": 20,
+    "n_pairs": 190,
+    "cohens_d": 0.498,
+    "interpretation": "Full retraining: 19.9% argmax flip rate, Cohen d=0.498"
   },
   "noether_counting": {
     "description": "Noether counting experiment (bimodal gap)",

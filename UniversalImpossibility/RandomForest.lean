@@ -1,3 +1,8 @@
+/-- NOTE: This file contains documentation and commentary only — no theorems,
+    lemmas, or axioms. Random forests serve as a contrast case; formal
+    verification is left to future work. This file does not contribute to
+    the 417-theorem count. -/
+
 /-
   Random forests: contrast case. The Attribution Impossibility may hold weakly,
   but the mechanism differs fundamentally from sequential methods.

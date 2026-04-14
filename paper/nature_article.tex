@@ -166,7 +166,7 @@ Here we prove a universal impossibility theorem: when a system has the
 same observable output but incompatible internal structures---no explanation
 can be simultaneously faithful, stable, and decisive
 (Theorem~\ref{thm:impossibility}).  We derive this impossibility from
-first principles in eight scientific domains, each requiring zero shared
+first principles in eight scientific domains (together with nine machine learning explanation types documented in the Supporting Information, yielding seventeen distinct instances), each requiring zero shared
 axioms (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).
 The entire framework is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} (95~files, 417~theorems, 0~unproved
@@ -819,7 +819,7 @@ independent ranking facts are stably answerable.  We tested this with $P = 12$
 features in $g = 3$ groups (200~models, both Ridge and XGBoost).  The result
 is a clean bimodal distribution: all 18~within-group pairs show
 $\sim\!50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
-rate---a 47-percentage-point gap (permutation $p < 0.0002$).
+rate---a 47-percentage-point gap (permutation $p < 0.0002$; Cohen's $d = 1.41$).
 A sensitivity analysis across $\rho \in [0.50, 0.99]$ confirms the gap is
 \emph{invariant} across the entire correlation range---the bimodal
 structure is a structural consequence of equal within-group coefficients,

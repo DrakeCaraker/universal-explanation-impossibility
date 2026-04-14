@@ -1948,7 +1948,7 @@ The result is a sharp bimodal distribution (Figure~\ref{fig:noether-counting}):
   \item \textbf{Between-group pairs} ($n = 48$): mean flip rate $= 0.0015$
     (range $[0.000, 0.020]$); all~48 stable ($< 5\%$).
   \item \textbf{Bimodal gap}: $47.1$ percentage points.
-  \item Mann--Whitney $U = 864$, $p = 2.71 \times 10^{-13}$.
+  \item Mann--Whitney $U = 864$, $p = 2.71 \times 10^{-13}$ (Cohen's $d = 1.41$).
 \end{itemize}
 
 The XGBoost replication confirms the same pattern (within mean $= 0.476$,
@@ -2081,7 +2081,7 @@ Rashomon set is equally valid as a selection, and the $\eta$ prediction
 \emph{GradCAM (spatial permutations).}
 Spatial symmetry is heavily broken by CNN locality; the effective group is much
 smaller than the full spatial permutation group.  This explains the low
-observed flip rate (9.6\%) despite a high predicted instability under the
+observed flip rate (9.6\%; Cohen's $d = 0.33$) despite a high predicted instability under the
 nominal group.  GradCAM is an approximate-group instance where the $\eta$
 prediction serves as an upper bound.
 
@@ -2857,7 +2857,7 @@ independent seeds), prediction agreement is 94.5\%, the argmax flip rate is
 because perturbing weights is not equivalent to retraining from a new seed
 (perturbation preserves the loss basin, while retraining explores genuinely
 different trajectories).  We report the full-retraining figure (19.9\%) as
-the primary result.
+the primary result (Cohen's $d = 0.50$).
 
 \subsection{Experiment 2: Counterfactual Instability (Instance 3)}
 \label{app:exp-counterfactual}
@@ -2986,7 +2986,7 @@ one with the highest AUC.
 \end{itemize}
 
 \paragraph{Results.}
-Best-model flip rate: 80\%.  Consecutive flip rate: 89\%.  Unique winners:
+Best-model flip rate: 80\% (Cohen's $d = 2.0$).  Consecutive flip rate: 89\%.  Unique winners:
 11 out of 50.  Mean AUC spread per split: 0.0197.  Overall AUC:
 $0.948 \pm 0.0023$.
 

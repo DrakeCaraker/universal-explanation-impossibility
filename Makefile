@@ -53,7 +53,7 @@ counts: ## Show current theorem/axiom/sorry/file counts
 	@echo "Files:           $$(ls UniversalImpossibility/*.lean | wc -l | tr -d ' ')"
 	@echo "Expected:        95 files / 417 theorems+lemmas / 72 axioms / 0 sorry"
 
-verify: counts ## Verify Lean builds + counts are consistent (target: 74/349/72/0)
+verify: counts ## Verify Lean builds + counts are consistent (target: 95/417/72/0)
 	@echo ""
 	@echo "--- Verifying Lean build ---"
 	lake build

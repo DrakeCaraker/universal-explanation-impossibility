@@ -17,7 +17,14 @@ from itertools import combinations
 
 import numpy as np
 from scipy import stats
+from scipy.stats import binomtest
 from sklearn.linear_model import Ridge
+
+try:
+    from statsmodels.stats.multitest import multipletests
+    HAS_STATSMODELS = True
+except ImportError:
+    HAS_STATSMODELS = False
 
 import matplotlib
 matplotlib.use('Agg')
@@ -191,6 +198,35 @@ for rho in RHO_VALUES:
     print(f"  Between-group mean flip: {mean_between:.4f}")
     print(f"  Gap: {gap:.4f}  [{gap_ci_lo:.4f}, {gap_ci_hi:.4f}]")
     print(f"  Permutation p-value: {perm_p:.6f}")
+
+    # Benjamini-Hochberg correction for this rho value
+    n_model_comparisons = N_MODELS * (N_MODELS - 1) // 2
+    p_values_stability = []
+    pair_keys_rho = []
+    for (j, k), rate in flip_rates.items():
+        n_flips = int(round(rate * n_model_comparisons))
+        if n_flips == 0:
+            p_values_stability.append(1.0)
+        else:
+            result = binomtest(n_flips, n_model_comparisons, 0.0001, alternative='greater')
+            p_values_stability.append(result.pvalue)
+        pair_keys_rho.append((j, k))
+
+    bh_result_rho = {}
+    if HAS_STATSMODELS:
+        reject_bh, corrected_p_bh, _, _ = multipletests(p_values_stability, alpha=0.05, method='fdr_bh')
+        n_unstable_bh = int(sum(reject_bh))
+        bh_within_unstable = sum(1 for i, (j, k) in enumerate(pair_keys_rho) if reject_bh[i] and get_group(j) == get_group(k))
+        bh_between_unstable = sum(1 for i, (j, k) in enumerate(pair_keys_rho) if reject_bh[i] and get_group(j) != get_group(k))
+        print(f"  BH correction: {n_unstable_bh}/66 unstable (within: {bh_within_unstable}, between: {bh_between_unstable})")
+        bh_result_rho = {
+            "n_unstable": n_unstable_bh,
+            "n_stable": 66 - n_unstable_bh,
+            "within_group_unstable": int(bh_within_unstable),
+            "between_group_unstable": int(bh_between_unstable),
+            "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+        }
+
     print()
 
     results_all.append({
@@ -203,6 +239,7 @@ for rho in RHO_VALUES:
         "perm_p": perm_p,
         "within_rates": within_rates.tolist(),
         "between_rates": between_rates.tolist(),
+        "benjamini_hochberg": bh_result_rho,
     })
 
 
@@ -284,7 +321,7 @@ output = {
 }
 
 for r in results_all:
-    output["results"].append({
+    entry = {
         "rho": r["rho"],
         "mean_within": r["mean_within"],
         "mean_between": r["mean_between"],
@@ -293,7 +330,10 @@ for r in results_all:
         "permutation_p": r["perm_p"],
         "within_rates": r["within_rates"],
         "between_rates": r["between_rates"],
-    })
+    }
+    if r.get("benjamini_hochberg"):
+        entry["benjamini_hochberg"] = r["benjamini_hochberg"]
+    output["results"].append(entry)
 
 with open(str(RESULTS_FILE), 'w') as f:
     json.dump(output, f, indent=2)

@@ -163,7 +163,9 @@ def shannon_entropy(counts: np.ndarray) -> float:
         return 0.0
     probs = counts / total
     probs = probs[probs > 0]
-    return float(-np.sum(probs * np.log2(probs)))
+    entropy = float(-np.sum(probs * np.log2(probs)))
+    entropy = max(0.0, entropy)  # clip floating-point artifact where Met/Trp show -0.0
+    return entropy
 
 
 def gc_null_entropy(codons: list, gc_values: np.ndarray) -> float:

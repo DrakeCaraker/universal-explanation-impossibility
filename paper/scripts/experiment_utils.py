@@ -90,3 +90,27 @@ def percentile_ci(values, alpha=0.05, n_boot=2000):
     lo = np.percentile(boot_means, 100 * alpha / 2)
     hi = np.percentile(boot_means, 100 * (1 - alpha / 2))
     return float(lo), float(np.mean(values)), float(hi)
+
+def cluster_bootstrap_ci(data_by_model, stat_func, n_boot=2000, alpha=0.05, seed=42):
+    """Cluster bootstrap: resample models (not pairs), recompute statistic.
+
+    Args:
+        data_by_model: array of shape (n_models, ...) — raw data indexed by model
+        stat_func: callable(resampled_data) -> scalar statistic
+        n_boot: number of bootstrap resamples
+        alpha: significance level
+        seed: random seed
+    Returns:
+        (lo, mean, hi) tuple
+    """
+    rng = np.random.RandomState(seed)
+    n_models = data_by_model.shape[0]
+    boot_stats = []
+    for _ in range(n_boot):
+        idx = rng.choice(n_models, size=n_models, replace=True)
+        resampled = data_by_model[idx]
+        boot_stats.append(stat_func(resampled))
+    boot_stats = sorted(boot_stats)
+    lo = boot_stats[int(n_boot * alpha / 2)]
+    hi = boot_stats[int(n_boot * (1 - alpha / 2))]
+    return float(lo), float(np.mean(boot_stats)), float(hi)

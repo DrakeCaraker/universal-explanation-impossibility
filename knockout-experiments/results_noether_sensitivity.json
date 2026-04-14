@@ -116,7 +116,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.6,
@@ -197,7 +204,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.7,
@@ -278,7 +292,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.8,
@@ -359,7 +380,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.85,
@@ -440,7 +468,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.9,
@@ -521,7 +556,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.95,
@@ -602,7 +644,14 @@
         0.0,
         0.0,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 18,
+        "n_stable": 48,
+        "within_group_unstable": 18,
+        "between_group_unstable": 0,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     },
     {
       "rho": 0.99,
@@ -683,8 +732,15 @@
         0.0,
         0.01,
         0.0
-      ]
+      ],
+      "benjamini_hochberg": {
+        "n_unstable": 24,
+        "n_stable": 42,
+        "within_group_unstable": 18,
+        "between_group_unstable": 6,
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05."
+      }
     }
   ],
-  "_timestamp": "2026-04-14 10:43:35"
+  "_timestamp": "2026-04-14 11:14:59"
 }

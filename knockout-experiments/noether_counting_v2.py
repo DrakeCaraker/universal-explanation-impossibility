@@ -17,8 +17,14 @@ from itertools import combinations
 
 import numpy as np
 from scipy import stats
-from scipy.stats import spearmanr
+from scipy.stats import spearmanr, binomtest
 from sklearn.linear_model import Ridge
+
+try:
+    from statsmodels.stats.multitest import multipletests
+    HAS_STATSMODELS = True
+except ImportError:
+    HAS_STATSMODELS = False
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 RESULTS_FILE = SCRIPT_DIR / "results_noether_counting.json"
@@ -190,6 +196,51 @@ prediction_confirmed = (
 )
 print(f"Prediction confirmed: {prediction_confirmed}")
 
+# ---------------------------------------------------------------------------
+# Benjamini-Hochberg correction: classify pairs as stable vs unstable
+# ---------------------------------------------------------------------------
+# Test H0: pair is stable (flip_rate = 0)
+# HA: pair is unstable (flip_rate > 0)
+n_model_comparisons = N_MODELS * (N_MODELS - 1) // 2
+p_values_stability = []
+pair_keys = []
+for (j, k), rate in flip_rates.items():
+    n_flips = int(round(rate * n_model_comparisons))
+    if n_flips == 0:
+        p_values_stability.append(1.0)
+    else:
+        result = binomtest(n_flips, n_model_comparisons, 0.0001, alternative='greater')
+        p_values_stability.append(result.pvalue)
+    pair_keys.append((j, k))
+
+bh_results = {}
+if HAS_STATSMODELS:
+    reject_bh, corrected_p_bh, _, _ = multipletests(p_values_stability, alpha=0.05, method='fdr_bh')
+    n_unstable_bh = int(sum(reject_bh))
+    n_stable_bh = 66 - n_unstable_bh
+    print(f"\n=== BENJAMINI-HOCHBERG CORRECTION ===")
+    print(f"BH correction: {n_unstable_bh}/66 pairs classified as unstable (FDR=0.05)")
+    print(f"BH correction: {n_stable_bh}/66 pairs classified as stable (FDR=0.05)")
+    # Breakdown by group type
+    bh_within_unstable = sum(1 for i, (j, k) in enumerate(pair_keys) if reject_bh[i] and get_group(j) == get_group(k))
+    bh_between_unstable = sum(1 for i, (j, k) in enumerate(pair_keys) if reject_bh[i] and get_group(j) != get_group(k))
+    bh_within_stable = sum(1 for i, (j, k) in enumerate(pair_keys) if not reject_bh[i] and get_group(j) == get_group(k))
+    bh_between_stable = sum(1 for i, (j, k) in enumerate(pair_keys) if not reject_bh[i] and get_group(j) != get_group(k))
+    print(f"  Within-group:  {bh_within_unstable} unstable, {bh_within_stable} stable")
+    print(f"  Between-group: {bh_between_unstable} unstable, {bh_between_stable} stable")
+    bh_results = {
+        "n_unstable": n_unstable_bh,
+        "n_stable": n_stable_bh,
+        "within_group_unstable": int(bh_within_unstable),
+        "within_group_stable": int(bh_within_stable),
+        "between_group_unstable": int(bh_between_unstable),
+        "between_group_stable": int(bh_between_stable),
+        "corrected_p_values": {f"{pair_keys[i][0]},{pair_keys[i][1]}": float(corrected_p_bh[i]) for i in range(len(pair_keys))},
+        "note": "H0: pair is stable (flip_rate~0). BH-corrected at FDR=0.05. Reject => unstable."
+    }
+else:
+    print("\n[WARN] statsmodels not installed — skipping BH correction")
+
 # Also try XGBoost to see if tree models show the same pattern
 try:
     import xgboost as xgb
@@ -306,6 +357,7 @@ results = {
         "within_group_all_unstable": bool(n_unstable_within == len(within_group_rates)),
         "prediction_confirmed": bool(prediction_confirmed)
     },
+    "benjamini_hochberg": bh_results,
 }
 
 if has_xgb:
