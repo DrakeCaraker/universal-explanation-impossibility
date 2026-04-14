@@ -832,6 +832,19 @@ network representations reveals that hidden-layer symmetry is continuous
 (smooth CCA spectrum) rather than discrete (bimodal flip rates), delineating
 a boundary condition on the Noether counting prediction.
 
+\paragraph{From exact to approximate symmetry.}
+On real data where feature importance is approximately (not exactly) equal
+within groups, the bimodal gap weakens.  The Gaussian flip rate formula
+$\text{flip}(j,k) = 2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$, where
+$\Delta$ and $\sigma$ are the mean and standard deviation of the importance
+difference across bootstrap retrains, predicts per-pair flip rates with
+out-of-sample $R^2 = 0.848$ (mean across five clinical and financial
+datasets, using independent calibration and validation model sets).
+This provides practitioners a quantitative reliability score for every
+feature comparison: pairs with signal-to-noise ratio $|\Delta|/\sigma > 2$
+are reliable (flip rate $< 5\%$); pairs with $|\Delta|/\sigma < 0.5$ are
+unreliable (flip rate $> 30\%$).
+
 \paragraph{Universal $\eta$ law.}
 The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts the
 observed instability rate (a downstream observable, not a re-measurement) across

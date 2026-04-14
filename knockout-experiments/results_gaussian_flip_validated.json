@@ -1,0 +1,65 @@
+{
+  "design": "Independent calibration (seeds 42-71) and validation (seeds 142-171) model sets",
+  "datasets": {
+    "Breast Cancer": {
+      "P": 30,
+      "n_pairs": 435,
+      "oos_r2": 0.7918,
+      "oos_rmse": 0.088806,
+      "correlation_baseline_r2": 0.0018,
+      "raw_gap_baseline_r2": 0.6425,
+      "gaussian_fraction": 0.7914,
+      "n_cal": 30,
+      "n_val": 30
+    },
+    "Wine": {
+      "P": 13,
+      "n_pairs": 78,
+      "oos_r2": 0.7934,
+      "oos_rmse": 0.086977,
+      "correlation_baseline_r2": -0.0039,
+      "raw_gap_baseline_r2": 0.5158,
+      "gaussian_fraction": 0.7942,
+      "n_cal": 30,
+      "n_val": 30
+    },
+    "CalHousing": {
+      "P": 8,
+      "n_pairs": 28,
+      "oos_r2": 0.9692,
+      "oos_rmse": 0.030757,
+      "correlation_baseline_r2": 0.071,
+      "raw_gap_baseline_r2": 0.2933,
+      "gaussian_fraction": 0.9668,
+      "n_cal": 30,
+      "n_val": 30
+    },
+    "Diabetes": {
+      "P": 8,
+      "n_pairs": 28,
+      "oos_r2": 0.8682,
+      "oos_rmse": 0.067565,
+      "correlation_baseline_r2": 0.0129,
+      "raw_gap_baseline_r2": 0.4383,
+      "gaussian_fraction": 0.8665,
+      "n_cal": 30,
+      "n_val": 30
+    },
+    "Heart": {
+      "P": 13,
+      "n_pairs": 78,
+      "oos_r2": 0.8179,
+      "oos_rmse": 0.076418,
+      "correlation_baseline_r2": 0.0291,
+      "raw_gap_baseline_r2": 0.6259,
+      "gaussian_fraction": 0.8124,
+      "n_cal": 30,
+      "n_val": 30
+    }
+  },
+  "breast_cancer_m100": {
+    "oos_r2": 0.8455,
+    "n_cal": 50,
+    "n_val": 50
+  }
+}

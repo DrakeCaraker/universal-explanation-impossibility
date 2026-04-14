@@ -2204,6 +2204,68 @@ resolutions) and its speculative extensions (quantitative tradeoff surfaces,
 specific phase-transition locations, and cross-domain extrapolations beyond
 the established instances).
 
+\subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
+\label{sec:gaussian-flip}
+
+The Noether counting theorem predicts exact bimodality when within-group
+features have identical true importance ($\Delta_{jk} = 0$).  On real data,
+symmetry is approximate ($\Delta_{jk} \approx 0$ but nonzero), and the
+bimodal gap weakens.  The Gaussian flip rate formula provides the continuous
+generalization.
+
+For features $j$ and $k$ with importance difference
+$d^{(m)} = \text{imp}_j^{(m)} - \text{imp}_k^{(m)}$ across $M$ bootstrap
+retrains, if $d^{(m)} \sim N(\Delta_{jk}, \sigma^2_\Delta)$, the probability
+that two independent models disagree on the ranking is:
+\begin{equation}
+  \text{flip}(j,k) = 2\,\Phi\!\left(\frac{\Delta_{jk}}{\sigma_\Delta}\right)
+  \Phi\!\left(\frac{-\Delta_{jk}}{\sigma_\Delta}\right),
+  \label{eq:gaussian-flip}
+\end{equation}
+where $\Phi$ is the standard normal CDF (Lean-verified in
+\texttt{GaussianFlipRate.lean}).  When $\Delta = 0$ (exact symmetry),
+$\text{flip} = 0.5$ --- recovering the Noether within-group coin flip.
+When $|\Delta| \gg \sigma$ (strong signal), $\text{flip} \approx 0$ ---
+recovering between-group stability.
+
+We validated this formula with \emph{independent} calibration and validation
+model sets (30~models each, non-overlapping random seeds) on five real
+datasets (Table~\ref{tab:gaussian-flip}).  The formula achieves a mean
+out-of-sample $R^2 = 0.848$ across 647~feature pairs, with all five datasets
+exceeding $R^2 = 0.79$.  The correlation baseline (predicting flip rate from
+pairwise feature correlation) achieves $R^2 < 0.08$ on every dataset,
+confirming that the Gaussian formula provides 14--400$\times$ lift over
+correlation-based prediction.
+
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Dataset & $P$ & Pairs & OOS $R^2$ & Corr.\ BL $R^2$ \\
+    \midrule
+    Breast Cancer    & 30 & 435 & 0.792 & 0.002 \\
+    Wine             & 13 &  78 & 0.793 & $-0.004$ \\
+    California Hous. &  8 &  28 & 0.969 & 0.071 \\
+    Diabetes (Pima)  &  8 &  28 & 0.868 & 0.013 \\
+    Heart Disease    & 13 &  78 & 0.818 & 0.029 \\
+    \midrule
+    Mean             &    & 647 & 0.848 & 0.022 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Out-of-sample validation of the Gaussian flip rate formula.
+    Calibration and validation model sets are independent (non-overlapping
+    random seeds).  The formula predicts per-pair TreeSHAP flip rates with
+    mean $R^2 = 0.848$ and zero structural parameters.  The correlation
+    baseline predicts $R^2 < 0.08$ on every dataset.}
+  \label{tab:gaussian-flip}
+\end{table}
+
+Practically, the signal-to-noise ratio $\text{SNR}_{jk} = |\Delta_{jk}|/\sigma_\Delta$ provides a simple decision rule: pairs with
+$\text{SNR} > 2$ are reliable (flip rate $< 5\%$), pairs with
+$\text{SNR} < 0.5$ are unreliable (flip rate $> 30\%$), and intermediate
+values require uncertainty quantification.
+
 %%% ==========================================================================
 \section{Bridge Theorems: Connections to Established Mathematics}
 \label{sec:bridge-theorems}
