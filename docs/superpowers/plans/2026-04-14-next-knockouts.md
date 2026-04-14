@@ -1,196 +1,284 @@
-# Next Knockout Experiments: Implementation Plan
+# Next Knockout Experiments: Implementation Plan (v2 — Vetted)
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Convert the framework from "a language" into "a tool" by demonstrating SAGE and Noether counting on real-world high-stakes data with actual SHAP values, and laying theoretical groundwork for continuous symmetry extension.
+**Goal:** Convert the framework from "a language" into "a tool" with two verified knockout results (Noether + SAGE validated on real data with SHAP), and explore continuous symmetry as a theoretical extension.
 
-**Architecture:** Three phases. Phase 1 (validation with TreeSHAP) closes the gap between theory (SHAP) and experiment (gain-based importance). Phase 2 (real-world datasets) produces the knockout — SAGE predicting instability on clinical/financial data. Phase 3 (continuous symmetry theory) is theoretical groundwork for a follow-up paper.
+**Architecture:** Four phases. Phase 1 (TreeSHAP validation) is blocking — if it fails, we stop. Phase 2 (real-world data) is the knockout attempt. Phases 3-4 (continuous symmetry) are exploratory, not confirmatory.
 
-**Tech Stack:** Python 3, shap, xgboost, sklearn, scipy, numpy
+**Honest status:** 1 clear knockout (Noether counting on synthetic data with gain-based importance). 1 near-knockout (SAGE). Critical gap: neither has been validated with actual SHAP values on real-world data. If TreeSHAP breaks the bimodal gap, the knockout is gone.
 
 ---
 
-## Phase 1: Validate with Actual SHAP Values (Critical Gap)
+## Phase 1: TreeSHAP Validation (BLOCKING — must pass before Phase 2)
 
-### Task 1: Noether counting with TreeSHAP
+### Task 1: Noether counting with actual TreeSHAP values
 
 **Files:**
 - Create: `knockout-experiments/noether_treeshap.py`
 
-The existing Noether counting used `feature_importances_` (gain-based). The theory is about SHAP values. These can give different rankings. Must verify the bimodal gap holds with actual TreeSHAP.
+**The critical question:** Does the 50pp bimodal gap between within-group and between-group pairs persist when using actual TreeSHAP values instead of gain-based `feature_importances_`?
 
-- [ ] **Step 1: Replicate the Noether counting design with TreeSHAP**
+- [ ] **Step 1: Design**
 
-Same design as noether_counting_v2.py (P=12, g=3, β=[5,5,5,5,2,2,2,2,0.5,0.5,0.5,0.5], ρ=0.70, N=500) but:
-- Train 50 XGBoost models (fewer because SHAP is slow)
-- For each model, compute TreeSHAP values on 200 test points: `shap.TreeExplainer(model).shap_values(X_test)`
-- For each model, compute mean absolute SHAP per feature: `np.mean(np.abs(shap_values), axis=0)`
-- Compute pairwise flip rates on the SHAP-based rankings (not gain-based)
+Same Noether design: P=12 features, g=3 groups of 4, β=[5,5,5,5, 2,2,2,2, 0.5,0.5,0.5,0.5]. Test at ρ ∈ {0.50, 0.70, 0.99}. N_train=500, noise=1.0.
 
-- [ ] **Step 2: Compare to gain-based result**
+Reduce to 50 models (SHAP is 10x slower than gain). For each model:
+```python
+import shap
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X_test[:200])
+importance = np.mean(np.abs(shap_values), axis=0)  # mean |SHAP|
+```
 
-Report: within-group flip rate (SHAP) vs within-group flip rate (gain). Between-group flip rate (SHAP) vs between-group (gain). Does the bimodal gap persist?
+Compute rankings from mean |SHAP| importance. Compute pairwise flip rates.
 
-- [ ] **Step 3: Test at ρ = 0.50 and ρ = 0.99 with SHAP**
+- [ ] **Step 2: Run and compare to gain-based**
 
-Confirm ρ-invariance holds for SHAP, not just gain.
+Report: within-group flip rate (SHAP), between-group flip rate (SHAP), bimodal gap (SHAP).
 
-**Pass/fail:** Bimodal gap > 30pp with SHAP at ρ=0.70.
+- [ ] **Step 3: Go/no-go**
+
+**GO (proceed to Phase 2):** Bimodal gap > 30pp at ρ=0.70 with SHAP
+**NO-GO (stop and investigate):** Bimodal gap < 15pp with SHAP
 
 - [ ] **Step 4: Commit**
 
-### Task 2: SAGE with TreeSHAP
+### Task 2: SAGE with TreeSHAP on Breast Cancer
 
 **Files:**
 - Create: `knockout-experiments/sage_treeshap.py`
 
-- [ ] **Step 1: Run SAGE using SHAP-based flip rates instead of gain-based**
+- [ ] **Step 1: Run SAGE using SHAP-based flip rates on Breast Cancer**
 
-Same algorithm but using mean |SHAP| per feature instead of feature_importances_. Test on Breast Cancer and Wine (where correlation groups are known).
+50 XGBoost models, TreeSHAP importance. Discover groups. Compare to gain-based SAGE groups.
 
-- [ ] **Step 2: Compare SAGE R² (SHAP-based) vs SAGE R² (gain-based)**
+- [ ] **Step 2: Report whether the SAME groups are discovered**
 
-If SHAP-based SAGE gives higher R², the framework is better validated (since the theory IS about SHAP). If lower, investigate why.
+If SHAP and gain give different groups → the two importance measures disagree, complicating the story.
+If SHAP and gain give the same groups → the result is robust to the importance metric.
 
 - [ ] **Step 3: Commit**
 
 ---
 
-## Phase 2: Real-World High-Stakes Datasets (The Knockout)
+## Phase 2: Real-World Knockout (only if Phase 1 passes)
 
-### Task 3: SAGE on clinical data (MIMIC or similar)
+### Task 3: Noether counting on 5 real tabular datasets with TreeSHAP
 
 **Files:**
-- Create: `knockout-experiments/sage_clinical.py`
+- Create: `knockout-experiments/noether_real_datasets.py`
 
-A result on clinical data would transform the paper. The pitch: "SAGE predicts which feature importance comparisons a clinician can trust, and which are coin flips, BEFORE computing SHAP values."
+**THE knockout experiment.** If the bimodal gap persists on real data with real SHAP values, practitioners can use this TODAY.
 
-- [ ] **Step 1: Find an accessible clinical dataset**
+- [ ] **Step 1: Select 5 datasets with ≥10 features**
 
-Options (in order of accessibility):
-1. **UCI Heart Disease** (303 patients, 13 features) — sklearn-accessible
-2. **Pima Indians Diabetes** (768, 8 features) — via OpenML
-3. **Wisconsin Breast Cancer** — already tested, but it IS a real clinical dataset
-4. **MIMIC-III** — requires PhysioNet access, likely not available now
+1. Breast Cancer Wisconsin (30 features, classification)
+2. Diabetes Pima (8 features, classification)
+3. California Housing (8 features, regression)
+4. Wine (13 features, classification)
+5. Heart Disease UCI (13 features, classification)
 
-Use UCI Heart Disease + Pima Diabetes + Breast Cancer (all accessible via sklearn/OpenML).
+- [ ] **Step 2: For each dataset**
 
-- [ ] **Step 2: For each dataset, run SAGE and report:**
-1. Discovered feature groups (which clinical features are in the same orbit?)
-2. Predicted instability
-3. Observed instability (from 100 XGBoost retrains)
-4. The specific feature pairs that are stable vs unstable
-5. Clinical interpretation: "a clinician can trust that age is more important than cholesterol, but cannot trust the ranking between systolic and diastolic blood pressure"
+1. Train 50 XGBoost models (bootstrap resampling, different seeds)
+2. Compute TreeSHAP mean |SHAP| importance for each model
+3. Compute all P(P-1)/2 pairwise flip rates
+4. Apply SAGE clustering to discover groups
+5. Classify pairs as within-group vs between-group
+6. Report: flip rate histogram, gap, permutation p-value
 
 - [ ] **Step 3: The knockout figure**
 
-Create a figure showing: for 3 clinical datasets, the SAGE-predicted group structure overlaid on a heatmap of the flip-rate matrix. The visual should make it immediately clear which comparisons are trustworthy.
+Multi-panel figure: one panel per dataset showing the flip-rate histogram colored by SAGE-discovered within-group (red) vs between-group (blue). If bimodal on ≥3 datasets → knockout confirmed.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 4: Clinical/financial interpretation**
 
-### Task 4: SAGE on financial data
+For Breast Cancer: "Oncologists can trust that [feature X] is more important than [feature Y], but the comparison between [features A and B] is unreliable."
+
+For Heart Disease: "Cardiologists can trust that [age/cholesterol] ranking is stable, but [blood pressure metrics] comparisons are coin flips."
+
+- [ ] **Step 5: Go/no-go for the paper**
+
+**KNOCKOUT:** Bimodal gap > 20pp on ≥3 of 5 datasets → write up for Nature MI
+**PARTIAL:** Bimodal on 1-2 datasets → publishable in JMLR but not knockout
+**FAIL:** No bimodality on real data → the result is limited to synthetic settings
+
+- [ ] **Step 6: Commit**
+
+### Task 4: SAGE prediction accuracy on real datasets
 
 **Files:**
-- Create: `knockout-experiments/sage_financial.py`
+- Create: `knockout-experiments/sage_real_prediction.py`
 
-- [ ] **Step 1: Use German Credit or similar accessible financial dataset**
+- [ ] **Step 1: For each of the 5 datasets**
 
-German Credit (1000 samples, 20 features) is available via OpenML and was already used in the counterfactual experiment.
+1. Run SAGE to discover groups and predict instability
+2. Measure actual instability
+3. Report calibrated R² across all 5 datasets (using LOO-CV calibration)
 
-- [ ] **Step 2: Run SAGE and report which credit features are interchangeable**
+- [ ] **Step 2: Compare to correlation baseline**
 
-"A loan officer can trust that income matters more than age, but the ranking between employment_duration and housing_status is a coin flip."
+Does SAGE still beat simple correlation-based clustering on real data?
 
 - [ ] **Step 3: Commit**
-
-### Task 5: Noether counting on a real tabular benchmark
-
-**Files:**
-- Create: `knockout-experiments/noether_tabular_benchmark.py`
-
-- [ ] **Step 1: Run Noether counting on 5 real datasets with known correlation structure**
-
-Use actual TreeSHAP values. For each dataset:
-- Train 50 XGBoost models
-- Compute TreeSHAP-based flip rates for all feature pairs
-- Apply SAGE to discover groups
-- Compute observed bimodal gap
-- Report: does the bimodal gap persist on real (not synthetic) data?
-
-This is THE experiment that would make or break the paper for practitioners. If the bimodal gap exists on real data with real SHAP values, the Noether counting result is immediately actionable. If it collapses, the result is limited to synthetic data.
-
-**Pass/fail:** Bimodal gap > 20pp on at least 3 of 5 real datasets.
-
-- [ ] **Step 2: Commit**
 
 ---
 
-## Phase 3: Continuous Symmetry Theory (Groundwork)
+## Phase 3: Continuous Symmetry Empirical Investigation (Exploratory)
 
-### Task 6: Theoretical derivation of the spectral prediction
-
-**Files:**
-- Create: `knockout-experiments/continuous_symmetry_theory.md`
-
-- [ ] **Step 1: Derive the CCA spectrum prediction for O(n) symmetry**
-
-For a neural network with hidden dimension n and symmetry group O(n):
-- The representation of O(n) on ℝ^n decomposes as the trivial representation (1-dim, the mean) plus the standard representation (n-1 dim)
-- But the ACTUAL representation (on the space of neuron importances) is more complex — it depends on how O(n) acts on the probe weights
-- For a linear probe with weight matrix W ∈ ℝ^{10×n}, the O(n) action is W → W·O for O ∈ O(n)
-- The invariant subspace: W such that W·O = W for all O ∈ O(n) → only W=0 satisfies this (since O(n) acts irreducibly on ℝ^n)
-- Wait — this predicts dim(V^G) = 0, not 30
-
-The resolution: O(n) is NOT the full symmetry group. Training breaks it. The effective symmetry group G_eff is the stabilizer of the training objective in O(n). This stabilizer is NOT O(n) — it's the subgroup of O(n) that preserves the learned decision boundary. The size of this subgroup determines dim(V^G).
-
-Prediction: dim(V^G) ≈ number of distinct decision-relevant directions learned by the network. For MNIST (10 classes), this is ~10. For a problem with k classes and d features, dim(V^G) ≈ min(k, d).
-
-- [ ] **Step 2: Test this prediction against the CCA data**
-
-We found 9 dims with CCA > 0.99 and 30 with CCA > 0.90. MNIST has 10 classes. Is dim(V^G) ≈ 10? This would be a REAL prediction.
-
-- [ ] **Step 3: Document the theory and test**
-
-### Task 7: Derive the calibration constant theoretically
+### Task 5: dim(V^G) vs task complexity across datasets
 
 **Files:**
-- Create: `knockout-experiments/calibration_theory.md`
+- Create: `knockout-experiments/continuous_symmetry_empirical.py`
 
-- [ ] **Step 1: Model the calibration slope as a function of within-group coefficient variance**
+**Preliminary finding:** For MNIST, dim(V^G) at CCA>0.99 is:
+- k=2 classes: 6 stable dims
+- k=5 classes: 8 stable dims
+- k=10 classes: 10 stable dims
 
-The SAGE calibration slope is 0.345. Hypothesis: the slope equals the probability that a within-group flip actually changes the sign of the importance difference. If within-group features have true coefficients β_j + ε_j where ε_j ~ N(0, σ_ε²), then the flip rate is Φ(-|Δβ|/σ_ε) where Δβ is the between-group gap. The fraction of theoretical instability that manifests = average of Φ(-|Δβ|/σ_ε) across all pairs, where for within-group pairs Δβ=0 (gives 0.5) and for between-group pairs Δβ is large (gives ~0).
+The k=10 match (10 dims for 10 classes) is suggestive but k=2 shows a floor of ~6 that we cannot explain. The prediction dim(V^G) ≈ k is NOT confirmed for all k.
 
-The calibration slope = E[flip_observed] / E[flip_predicted] = (n_within × 0.5 + n_between × 0) / (P(P-1)/2 × predicted_instability).
+- [ ] **Step 1: Extend to more task configurations**
 
-This is just the proportion of within-group pairs... which is the formula already. So the calibration should be ~1.0, not 0.345.
+Test with MNIST:
+- k ∈ {2, 3, 4, 5, 6, 7, 8, 9, 10} classes
+- hidden ∈ {64, 128, 256} neurons
+- 5 models per configuration, CCA between all pairs
 
-The discrepancy: in real data, within-group features do NOT have exactly equal coefficients. The flip rate within a "group" is < 0.5 because the features aren't truly exchangeable. The calibration slope measures the average within-group flip rate, which is < 0.5 when symmetry is approximate.
+Report: dim(V^G) vs k for each hidden size.
 
-Derive: calibration slope ≈ average within-group flip rate × (n_within_pairs / n_total_pairs).
+- [ ] **Step 2: Test on a DIFFERENT dataset (CIFAR-10 or Fashion-MNIST)**
 
-- [ ] **Step 2: Verify this formula against the 8 SAGE datasets**
+Does the relationship hold on different data distributions?
+
+- [ ] **Step 3: Characterize the "floor"**
+
+The floor (~6 stable dims for binary MNIST) may be the number of dominant features in the data (edges, curves, loops). Compute: for binary MNIST, what features do the 6 stable CCA dimensions correspond to? Visualize the weight vectors of the stable dimensions.
+
+- [ ] **Step 4: Honest assessment**
+
+Is dim(V^G) ≈ k a real prediction, or was the k=10 match coincidental?
+
+**KNOCKOUT:** dim(V^G) scales linearly with k (slope ≈ 1) across ≥3 hidden sizes AND ≥2 datasets
+**INTERESTING BUT NOT KNOCKOUT:** Relationship exists but with a data-dependent floor
+**FAIL:** No systematic relationship between k and dim(V^G)
+
+- [ ] **Step 5: Commit**
+
+### Task 6: Spectral decay prediction
+
+**Files:**
+- Create: `knockout-experiments/spectral_theory.md`
+
+- [ ] **Step 1: Theoretical derivation**
+
+For a network with hidden dimension n learning k classes:
+- The representation decomposes as V = V_task ⊕ V_free
+- V_task (dimension ≈ k) is constrained by the classification objective
+- V_free (dimension ≈ n-k) is unconstrained — different training runs explore different directions
+
+Prediction for the CCA spectrum:
+- Dimensions 1 to k: CCA ≈ 1.0 (task-constrained, stable)
+- Dimensions k+1 to n: CCA decays as a function of the "stiffness" of the objective landscape
+
+The decay rate depends on the Hessian eigenspectrum of the loss at the trained solution. Eigenvalues > threshold → constrained direction → high CCA. Eigenvalues < threshold → flat direction → low CCA.
+
+This connects the CCA spectrum to the loss landscape geometry — a genuinely new theoretical prediction.
+
+- [ ] **Step 2: Test: does the Hessian eigenspectrum predict the CCA spectrum?**
+
+For one model, compute the top-k Hessian eigenvalues (via Lanczos iteration or power method). Compare the Hessian spectrum to the CCA spectrum. If they correlate, the theoretical prediction is validated.
+
+Note: full Hessian for a 784×128 network is 100K×100K — intractable. But the top eigenvalues can be estimated via Hessian-vector products.
+
+This is a computationally expensive test. Mark as EXPLORATORY.
 
 - [ ] **Step 3: Commit**
+
+---
+
+## Phase 4: Lean Formalization of Continuous Symmetry (If Phase 3 succeeds)
+
+### Task 7: Continuous symmetry impossibility in Lean
+
+**Files:**
+- Create: `UniversalImpossibility/ContinuousSymmetry.lean`
+
+- [ ] **Step 1: State the theorem for compact groups**
+
+The impossibility theorem already works for any group (no finiteness assumed). The NEW content is the resolution theorem for compact groups:
+
+```lean
+/-- For a compact topological group G with Haar measure μ,
+    the orbit-average resolution R(θ) = ∫_G ρ(g) · E(g·θ) dμ(g)
+    is stable and maximally faithful among stable maps. -/
+theorem compact_orbit_average_stable
+    [TopologicalGroup G] [CompactSpace G]
+    [MeasurableSpace G] [MulAction G Θ]
+    (μ : MeasureTheory.Measure G) [μ.IsHaarMeasure]
+    ...
+```
+
+- [ ] **Step 2: Assess Mathlib readiness**
+
+Check if Mathlib has: `TopologicalGroup`, `CompactSpace`, `IsHaarMeasure`, `MeasureTheory.integral`. If yes, the formalization may be feasible. If not, state the theorem as a `sorry` with a clear comment about what's missing.
+
+- [ ] **Step 3: At minimum, formalize the spectral prediction statement**
+
+Even if the full orbit-average theorem needs `sorry`, formalize:
+```lean
+/-- For a compact group G acting on V, the number of stable CCA
+    dimensions equals dim(V^G), which can be computed from the
+    character of the representation. -/
+```
+
+- [ ] **Step 4: Commit**
+
+### Task 8: Add the CCA/continuous-symmetry findings to the monograph
+
+- [ ] **Step 1: Write a new section "Extension to Continuous Symmetry"**
+
+Content:
+- The CCA spectrum finding (continuous vs discrete symmetry)
+- The dim(V^G) vs k data (whatever Phase 3 found — positive or negative)
+- The theoretical connection to loss landscape geometry
+- Honest assessment of what works and what doesn't
+
+- [ ] **Step 2: Update the nature article if results are positive**
+
+- [ ] **Step 3: Commit and push**
 
 ---
 
 ## Execution Order
 
 ```
-Phase 1 (validation): Tasks 1-2 — ~1 hour
-  Task 1 (Noether with TreeSHAP) — 30 min
-  Task 2 (SAGE with TreeSHAP) — 30 min
+Phase 1 (BLOCKING):
+  Task 1 (Noether TreeSHAP) → GO/NO-GO decision
+  Task 2 (SAGE TreeSHAP) — parallel with Task 1
 
-Phase 2 (knockout): Tasks 3-5 — ~2 hours
-  Task 3 (clinical) ←→ Task 4 (financial) — parallel, 30 min each
-  Task 5 (tabular benchmark) — 1 hour (the KEY experiment)
+Phase 2 (only if Phase 1 GO):
+  Task 3 (Noether on 5 real datasets) — THE knockout
+  Task 4 (SAGE prediction accuracy) — parallel with Task 3
 
-Phase 3 (theory): Tasks 6-7 — ~2 hours
-  Task 6 (continuous symmetry) ←→ Task 7 (calibration) — parallel
+Phase 3 (exploratory, parallel with Phase 2):
+  Task 5 (dim(V^G) vs k) — empirical
+  Task 6 (spectral theory) — theoretical
+
+Phase 4 (if Phase 3 positive):
+  Task 7 (Lean formalization)
+  Task 8 (paper updates)
 ```
 
-**What would make this session's work a clear knockout for Nature MI:**
-- Phase 1 confirms Noether bimodality with actual SHAP values (not just gain)
-- Phase 2 Task 5 shows bimodal gap on ≥3 real datasets with SHAP → "practitioners can use this TODAY"
-- Phase 2 Tasks 3-4 provide compelling clinical/financial narratives
-- Phase 3 Task 6 predicts dim(V^G) ≈ 10 for MNIST and confirms against CCA → first genuine prediction of continuous symmetry theory
+**Estimated time:**
+Phase 1: ~1 hour (SHAP is slow)
+Phase 2: ~2 hours (50 models × 5 datasets × SHAP)
+Phase 3: ~2 hours (multiple configurations)
+Phase 4: ~2-4 hours (Lean work)
+
+**What would make this a Nature MI knockout:**
+Phase 1 passes + Phase 2 Task 3 shows bimodal gap on ≥3 real datasets + clinical narrative is compelling + Phase 3 finds a clean dim(V^G) relationship
+
+**What would make this Nature main:**
+All of the above + Phase 3 Task 6 connects CCA spectrum to Hessian eigenspectrum (new theory linking representation stability to loss landscape geometry, testable, confirmed)

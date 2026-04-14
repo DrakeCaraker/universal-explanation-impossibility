@@ -1,0 +1,17 @@
+{
+  "2": {
+    "n_stable_99": 6,
+    "n_stable_95": 18,
+    "n_stable_90": 30
+  },
+  "5": {
+    "n_stable_99": 8,
+    "n_stable_95": 19,
+    "n_stable_90": 29
+  },
+  "10": {
+    "n_stable_99": 10,
+    "n_stable_95": 21,
+    "n_stable_90": 31
+  }
+}
