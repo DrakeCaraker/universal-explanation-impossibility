@@ -25,7 +25,6 @@ from itertools import combinations
 
 import numpy as np
 from scipy.linalg import subspace_angles
-from sklearn.cross_decomposition import CCA
 from sklearn.datasets import fetch_openml
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -108,21 +107,33 @@ def subspace_cosine(W_a, W_b):
 def representational_similarity_cca(H_a, H_b, n_components=10):
     """
     Compute CCA-based representational similarity between two sets of
-    hidden activations. This is the standard SVCCA-style metric
-    (Raghu et al., 2017).
+    hidden activations using SVD (fast, no iterative fitting).
+    This is the SVCCA approach (Raghu et al., 2017).
 
     H_a, H_b: (n_samples, n_neurons) activation matrices from two models.
     Returns: mean canonical correlation (1.0 = identical representations).
     """
-    cca = CCA(n_components=n_components, max_iter=500)
-    cca.fit(H_a, H_b)
-    X_c, Y_c = cca.transform(H_a, H_b)
-    # Canonical correlations = correlations of transformed pairs
-    correlations = []
-    for k in range(n_components):
-        r = np.corrcoef(X_c[:, k], Y_c[:, k])[0, 1]
-        correlations.append(abs(r))
-    return float(np.mean(correlations))
+    # Center
+    H_a = H_a - H_a.mean(axis=0)
+    H_b = H_b - H_b.mean(axis=0)
+
+    # Truncated SVD to top-k components (SVCCA style)
+    U_a, S_a, Vt_a = np.linalg.svd(H_a, full_matrices=False)
+    U_b, S_b, Vt_b = np.linalg.svd(H_b, full_matrices=False)
+
+    # Keep top n_components
+    U_a = U_a[:, :n_components]
+    U_b = U_b[:, :n_components]
+
+    # CCA on the reduced representations: canonical correlations are
+    # the singular values of U_a^T @ U_b
+    M = U_a.T @ U_b  # (n_components, n_components)
+    svals = np.linalg.svd(M, compute_uv=False)
+
+    # Clip to [0, 1] (numerical precision)
+    svals = np.clip(svals, 0, 1)
+
+    return float(np.mean(svals))
 
 
 def probe_prediction_agreement(probe_weights_a, probe_weights_b, H_a, H_b, y):

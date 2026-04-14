@@ -1,0 +1,53 @@
+{
+  "experiment": "MI Non-Uniqueness Adversarial Audit",
+  "original_claim": "Jaccard = 0.041 (chance level)",
+  "test1_convergence": {
+    "accuracies": [
+      0.9777142857142858,
+      0.9766428571428571,
+      0.9704285714285714,
+      0.9761428571428571,
+      0.9757142857142858,
+      0.9752857142857143,
+      0.9779285714285715,
+      0.9769285714285715,
+      0.9757857142857143,
+      0.9774285714285714
+    ],
+    "mean_accuracy": 0.9760000000000002,
+    "min_accuracy": 0.9704285714285714,
+    "mean_jaccard": 0.04137127567468124,
+    "std_jaccard": 0.009193258210171572,
+    "mean_subspace_cosine": 0.18453241412052263,
+    "std_subspace_cosine": 0.030630739103302725,
+    "converged": false,
+    "passed": false
+  },
+  "test2_hungarian_alignment": {
+    "mean_unaligned_jaccard": 0.04137127567468124,
+    "std_unaligned_jaccard": 0.009193258210171572,
+    "mean_aligned_jaccard": 0.07944079605586313,
+    "std_aligned_jaccard": 0.011915561112629777,
+    "mean_alignment_correlation": 0.3267935904838447,
+    "alignment_lift": 1.9201920840086641,
+    "interpretation": "Something DEEPER than permutation symmetry is happening"
+  },
+  "test3_known_permutation": {
+    "mean_unaligned_jaccard": 0.0427317631651997,
+    "mean_aligned_jaccard": 1.0,
+    "unaligned_near_chance": true,
+    "aligned_near_one": true,
+    "passed": true
+  },
+  "test4_probe_stability": {
+    "mean_within_cosine": 1.0,
+    "std_within_cosine": 0.0,
+    "mean_within_jaccard": 1.0,
+    "std_within_jaccard": 0.0,
+    "stable": true,
+    "passed": true
+  },
+  "diagnosis": "The non-uniqueness goes DEEPER than permutation symmetry. Even after optimal alignment, Jaccard = 0.079 remains low. This suggests the models find genuinely different feature decompositions (different loss basins, not just relabeled neurons).",
+  "all_tests_passed": false,
+  "elapsed_seconds": 721.0
+}
