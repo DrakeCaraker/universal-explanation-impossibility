@@ -25,7 +25,7 @@ abstract: >-
   instantiated across six explanation types — additive attributions
   (SHAP, IG, LIME), attention maps, counterfactual explanations, concept
   probes (TCAV), causal discovery (DAGs), and model selection. 319
-  type-checked theorems+lemmas from 60 axioms with 0 sorry across 67
+  417 type-checked theorems+lemmas from 72 axioms with 0 sorry across 95
   files. Includes a constructive resolution via G-invariant aggregation
   and universal design space dichotomy (Family A / Family B).
 keywords:

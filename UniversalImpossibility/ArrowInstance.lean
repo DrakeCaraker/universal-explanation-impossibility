@@ -29,7 +29,7 @@ is strictly stronger than Arrow's unanimity (only on unanimous profiles).
   — how each voter ranks A vs B
 - **H** (explanations) = social orderings (complete rankings of alternatives)
 - **observe** = extract the A-vs-B pairwise comparison from both voters
-- **explain** = the "Borda-like" social ordering implied by the full profile
+- **explain** = a benchmark social ordering implied by the full profile
 - **incompatible** = (≠) on social orderings
 
 ## The Rashomon property
@@ -97,13 +97,13 @@ def observeAB (p : Profile) : PairwiseAB :=
   | false, true  => .v1B_v2A
   | false, false => .bothB
 
-/-- The "natural" social ordering for a profile, determined by pairwise
-    majority (Condorcet method). For our two witness profiles:
-    - Profile 1 (ABC, BCA): B beats A (1-1 tie broken by B's stronger
-      overall support), B beats C (2-0), A beats C (1-1 tie broken similarly).
-      We assign BAC.
-    - Profile 2 (ACB, CBA): C beats B (2-0), C beats A (1-1), A beats B
-      (1-1). We assign CAB.
+/-- A benchmark social ordering for each profile. For the two witness
+    profiles, we assign specific rankings that demonstrate the Rashomon
+    property (same pairwise observation, different social orderings).
+    For all other profiles, we assign a default ranking (ABC).
+    This is an ad-hoc construction, not a standard aggregation rule
+    like Condorcet or Borda. The Rashomon witness only needs two
+    profiles with different outputs under the same pairwise observation.
 
     For all other profiles we assign an arbitrary ranking (the Rashomon
     witness only needs two specific profiles). -/
@@ -134,7 +134,7 @@ theorem profiles_different_social :
     - H = Ranking (social orderings)
     - Y = PairwiseAB (pairwise comparison data)
     - observe = observeAB (extract A-vs-B pairwise)
-    - explain = socialOrdering (the natural/Condorcet social ordering)
+    - explain = socialOrdering (the benchmark social ordering (ad-hoc, not Condorcet))
     - incompatible = (≠)
 
     The Rashomon property: profile1 and profile2 have the same pairwise

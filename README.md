@@ -21,7 +21,7 @@ The Universal Explanation Impossibility is a meta-theorem: for any explanation s
 
 ## Lean Formalization
 
-75 files, 351 theorems+lemmas, 72 axioms, 0 sorry.
+95 files, 417 theorems+lemmas, 72 axioms, 0 sorry.
 
 The core theorem `explanation_impossibility` has **zero axiom dependencies**.
 
@@ -53,7 +53,7 @@ python paper/scripts/run_all_universal_experiments.py
   title        = {The Universal Explanation Impossibility},
   year         = {2026},
   url          = {https://github.com/DrakeCaraker/universal-explanation-impossibility},
-  note         = {Lean 4 formalization; 75 files, 351 theorems, 72 axioms, 0 sorry}
+  note         = {Lean 4 formalization; 95 files, 417 theorems, 72 axioms, 0 sorry}
 }
 ```
 
