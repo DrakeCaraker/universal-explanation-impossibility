@@ -96,6 +96,9 @@ upper bound that systematic deviations below quantify selective pressure.
 The framework provides a common formalization connecting Fisher's sufficiency criterion, the
 Rao-Blackwell theorem, and the EM algorithm to the same resolution
 structure, and gives a $1/n$ ceiling on neuron-level network interpretability under permutation symmetry---a bound that does not apply to circuit-level analysis, which is invariant under relabeling.
+For maximally incompatible systems---including binary rankings and DAG
+orientations---the impossibility strengthens to a bilemma: even
+faithful~+~stable is unachievable without enriching the explanation space.
 \end{abstract}
 
 %%% =========================================================================
@@ -708,6 +711,54 @@ instances---each requiring correct encoding of domain-specific concepts
 (holonomy, Markov equivalence, codon translation)---and the quantitative
 bounds for the resolution framework.  The complete source code is
 publicly available (see Code Availability).
+
+%%% =========================================================================
+%%% Bilemma
+%%% =========================================================================
+
+\subsection*{The bilemma}
+
+The trilemma's tightness depends on the structure of the explanation
+space~$\sH$.  When $\sH$ is \emph{maximally incompatible}---the only
+compatible pair is $(h, h)$---the trilemma collapses to a \emph{bilemma}.
+
+\begin{theorem}[The bilemma]
+\label{thm:bilemma}
+For any maximally incompatible explanation system with the Rashomon
+property, no explanation is simultaneously faithful and stable.
+\end{theorem}
+
+The proof: maximal incompatibility forces faithful~$\Rightarrow$~$E =
+\mathsf{exp}$ (since $\lnot\incomp(E(\theta), \mathsf{exp}(\theta))$
+with no compatible pairs except identity implies equality).  But $E =
+\mathsf{exp}$ is decisive, so the trilemma applies.  By a symmetric
+argument, decisive~+~stable is also impossible.  Only faithful~+~decisive
+(via $E = \mathsf{exp}$) survives.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Property pair & Abstract & Max.\ incompatible \\
+\midrule
+Faithful + Decisive & \checkmark & \checkmark \\
+Faithful + Stable   & \checkmark & \texttimes\ (bilemma) \\
+Stable + Decisive   & \checkmark & \texttimes \\
+\bottomrule
+\end{tabular}
+\caption{Tightness collapses from 3/3 to 1/3 under maximal incompatibility.}
+\end{table}
+
+Many natural explanation spaces are maximally incompatible: binary
+feature rankings ($j > k$ or $k > j$, no tie), DAG edge orientations
+($X \to Y$ or $Y \to X$, no undirected), and quantum measurement
+outcomes.  Recovery requires \emph{enriching}~$\sH$ with a neutral
+element~$c$ (compatible with everything): the constant map $E(\theta) = c$
+restores faithful~+~stable at the cost of decisiveness.  This is the
+abstract mechanism behind ensemble averaging (DASH adds ``tied''), CPDAG
+reporting (adds ``undirected''), and Bayesian model averaging (adds
+``uncertain'').  The enrichment does \emph{not} restore
+stable~+~decisive---that remains impossible even with the neutral element.
 
 %%% =========================================================================
 %%% Discussion

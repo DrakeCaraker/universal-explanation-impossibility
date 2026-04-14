@@ -514,6 +514,93 @@ in \texttt{Necessity.lean}).
 
 For instance, in feature attribution, the query ``is feature~$x$ in the top~$k$?'' may be stably answerable (all equivalent models include~$x$), while ``is~$x$ ranked above~$y$?'' may not be (collinear features swap rankings across the Rashomon set).
 
+\subsection{Strengthened Impossibility for Maximally Incompatible Systems}
+\label{sec:bilemma}
+
+The trilemma's tightness depends on the structure of the explanation
+space~$\sH$.  When $\sH$ is \emph{maximally incompatible}---the only
+compatible pair is $(h, h)$---the trilemma collapses to a \emph{bilemma}.
+
+\begin{definition}[Maximal incompatibility]
+\label{def:max-incompat}
+An explanation system $(\Theta, H, Y, \mathsf{observe}, \mathsf{explain}, \incomp)$
+is \emph{maximally incompatible} if
+$\lnot\incomp(h_1, h_2) \Rightarrow h_1 = h_2$
+for all $h_1, h_2 \in H$.
+Equivalently, every pair of distinct explanations is incompatible.
+Any binary $H$ with $\incomp = {\neq}$ satisfies this condition.
+\end{definition}
+
+\begin{theorem}[The bilemma]
+\label{thm:bilemma}
+For any maximally incompatible explanation system with the Rashomon
+property, no explanation is simultaneously faithful and stable.
+\end{theorem}
+
+\begin{proof}
+Let $E : \Theta \to H$ be faithful.  For any $\theta$, faithfulness gives
+$\lnot\incomp(E(\theta), \mathsf{explain}(\theta))$.  By maximal
+incompatibility, $E(\theta) = \mathsf{explain}(\theta)$.  Therefore
+$E = \mathsf{explain}$, which is decisive (it inherits all
+incompatibilities of itself).  But now $E$ is faithful, stable, and
+decisive---contradicting the trilemma (Theorem~\ref{thm:universal}).
+\end{proof}
+
+\begin{theorem}[Stable + Decisive also impossible]
+\label{thm:no-sd-maxincompat}
+For any maximally incompatible explanation system, no explanation is
+simultaneously stable and decisive.
+\end{theorem}
+
+\begin{proof}
+Let $E$ be decisive.  For any $\theta$, suppose
+$E(\theta) \neq \mathsf{explain}(\theta)$.  By maximal incompatibility,
+$\incomp(\mathsf{explain}(\theta), E(\theta))$.  By decisiveness,
+$\incomp(E(\theta), E(\theta))$---contradicting irreflexivity.
+So $E(\theta) = \mathsf{explain}(\theta)$, making $E$ faithful.
+But then $E$ is faithful, stable, and decisive---contradicting the trilemma.
+\end{proof}
+
+\begin{proposition}[Tightness under maximal incompatibility]
+\label{prop:tightness-maxincompat}
+Under maximal incompatibility, only faithful~+~decisive survives
+(via $E = \mathsf{explain}$).  Tightness collapses from 3/3 to 1/3.
+\end{proposition}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Property pair & Abstract & Max.\ incompatible \\
+\midrule
+Faithful + Decisive & \checkmark & \checkmark \\
+Faithful + Stable   & \checkmark & \texttimes\ (bilemma) \\
+Stable + Decisive   & \checkmark & \texttimes \\
+\bottomrule
+\end{tabular}
+\caption{Tightness collapses from 3/3 to 1/3 under maximal incompatibility.}
+\label{tab:tightness-maxincompat}
+\end{table}
+
+Many natural explanation spaces are maximally incompatible: binary
+feature rankings ($j > k$ or $k > j$, no tie), DAG edge orientations
+($X \to Y$ or $Y \to X$, no undirected), and quantum measurement
+outcomes.
+
+\paragraph{Recovery via enrichment.}
+Adding a neutral element $c \in H$ (compatible with everything) to $H$
+restores faithful~+~stable via the constant map $E(\theta) = c$
+(Lean: \texttt{recovery\_faithful\_stable} in \texttt{MaximalIncompatibility.lean}).
+This is the abstract mechanism behind ensemble averaging (DASH adds ``tied''),
+CPDAG reporting (adds ``undirected''), and Bayesian model averaging
+(adds ``uncertain'').  The enrichment does \emph{not} restore
+stable~+~decisive---that remains impossible even with the neutral element,
+because decisive still forces $E = \mathsf{explain}$ on the non-neutral
+elements.
+
+All seven theorems in this subsection are Lean-verified with zero
+\texttt{sorry} in \texttt{MaximalIncompatibility.lean}.
+
 %%% ==========================================================================
 \section{Derived Instances Across Eight Sciences}
 \label{sec:derived-instances}
@@ -1545,6 +1632,17 @@ that are pairwise satisfiable but jointly impossible under a natural
 background condition.  Like Arrow's theorem, the proof is short once the
 axioms are identified; the contribution lies in identifying the right
 axiomatic framework.
+
+\paragraph{Spacetime geometry as a maximally incompatible system.}
+As evidence that the impossibility extends beyond ML explanation methods,
+we note that spacetime geometry under Ostrowski's classification of
+completions of $\mathbb{Q}$ is a maximally incompatible system: the two
+completions yield exactly two geometries (smooth and ultrametric),
+triggering the bilemma (Theorem~\ref{thm:bilemma}).  The adelic
+resolution---formulating physics over all completions
+simultaneously---is the enrichment escape.  The full development,
+including the Ostrowski--Design Space correspondence and physical
+scoping, is in a companion paper.
 
 The pattern extends to many further domains: metamerism in color perception (where the cone response matrix is the observation map, making it an instance of the linear system pattern), molecular chirality (where enantiomers share achiral observables), and others.
 
