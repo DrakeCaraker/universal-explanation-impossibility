@@ -684,10 +684,12 @@ Rashomon witness; the impossibility follows automatically.
 \label{fig:trilemma}
 \end{figure}
 
-At 417~theorems and lemmas across 95~files, this formalization is among
-the larger cross-domain verification projects in Lean~4, comparable in
-scale to the Flyspeck project ($\sim$300~lemmas) and Gonthier's
-four-colour theorem ($\sim$400~lemmas).  The complete source code is
+The formalization comprises 417~theorems and lemmas across 95~files.
+The core impossibility proof is four tactic steps; the formalization's
+value lies in mechanically verifying the eight constructive domain
+instances---each requiring correct encoding of domain-specific concepts
+(holonomy, Markov equivalence, codon translation)---and the quantitative
+bounds for the resolution framework.  The complete source code is
 publicly available (see Code Availability).
 
 %%% =========================================================================
@@ -702,10 +704,12 @@ mechanics to the view update problem in database
 theory~\citep{bancilhon1981update} to feature attribution instability in
 machine learning~\citep{bilodeau2024impossibility}.  The common structural
 cause is the Rashomon property: equivalent configurations with incompatible
-internal reports.  The common resolution is the G-invariant projection---orbit averaging for vector-valued explanations, equivalence-class reporting for combinatorial ones.  That eight
-independent communities arrived at the same strategy is not coincidence but
-mathematical inevitability: the G-invariant projection is the unique Pareto-optimal
-stable resolution.
+internal reports.  Each domain independently developed what we formally classify as
+a G-invariant projection---orbit averaging for vector-valued explanations,
+equivalence-class reporting for combinatorial ones.  The framework does
+not claim to have motivated these constructions; rather, it identifies
+the common optimality structure that explains why independent communities
+converged on strategies with the same formal character.
 
 The theorem reframes the question ``why are explanations unstable?''\ as
 the structural statement ``because the inference problem is
@@ -735,12 +739,16 @@ stability, and decisiveness unachievable.  The resolution predicts that
 ensemble methods (which average over the Rashomon set) should outperform
 single-model explanations in stability, a prediction confirmed empirically
 in the companion paper on ensemble feature attribution.  These findings
-are relevant to emerging regulatory frameworks---including the EU AI Act's
-transparency requirements for high-risk AI systems and FDA guidance on AI
-in medical devices---which increasingly emphasize the need for reliable
-model interpretability.  The impossibility theorem suggests that when the
+are relevant to emerging regulatory frameworks---including the EU AI
+Act (Regulation 2024/1689), which requires ``sufficient transparency to
+enable deployers to interpret the system's output'' (Article~13) and
+grants individuals ``a right to explanation of individual
+decision-making'' (Article~86), and the FDA's AI/ML Action
+Plan~\citep{fda2021aiml}---which increasingly emphasize reliable model
+interpretability.  The impossibility theorem suggests that when the
 Rashomon property holds, single-model explanation methods face inherent
-stability limitations that ensemble-based approaches can mitigate.
+stability limitations that ensemble-based approaches can
+mitigate~\citep{selbst2018intuitive}.
 
 A structural parallel exists with Arrow's impossibility
 theorem~\citep{arrow1951social}, which proves that no voting system can
@@ -858,11 +866,10 @@ $\theta_1, \theta_2 \in \Params$ with $\mathsf{obs}(\theta_1) =
 \mathsf{exp}(\theta_2)$.
 
 An explanation map $E : \Params \to \sH$ is \emph{faithful} if
-$\lnot(\mathsf{exp}(\theta) \incomp E(\theta))$ for all $\theta$;
+$\lnot(E(\theta) \incomp \mathsf{exp}(\theta))$ for all $\theta$;
 \emph{stable} if $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$ implies
-$E(\theta_1) = E(\theta_2)$; and \emph{decisive} if
-$\mathsf{exp}(\theta_1) \incomp \mathsf{exp}(\theta_2)$ implies
-$E(\theta_1) \incomp E(\theta_2)$.
+$E(\theta_1) = E(\theta_2)$; and \emph{decisive} if, for all $\theta$ and
+$h \in \sH$, $\mathsf{exp}(\theta) \incomp h$ implies $E(\theta) \incomp h$.
 
 \paragraph{Lean~4 formalization.}
 The formalization is built on Lean~4 v4.30.0-rc1~\citep{demoura2021lean4}
@@ -882,17 +889,27 @@ Mathlib's group action infrastructure.  Compilation: \texttt{lake build}
 \paragraph{Proof structure (detailed).}
 Let $\mathcal{S}$ be an explanation system with the Rashomon property,
 witnessed by $\theta_1, \theta_2$.  Suppose for contradiction that $E$ is
-faithful, stable, and decisive.  (1)~Decisiveness applied to $\theta_1$
-and $\theta_2$: since $\mathsf{exp}(\theta_1) \incomp
-\mathsf{exp}(\theta_2)$, we have $E(\theta_1) \incomp E(\theta_2)$.
+faithful, stable, and decisive.
+(1)~Decisiveness at $\theta_1$ with $h = \mathsf{exp}(\theta_2)$: since
+$\mathsf{exp}(\theta_1) \incomp \mathsf{exp}(\theta_2)$, we have
+$E(\theta_1) \incomp \mathsf{exp}(\theta_2)$.
 (2)~Stability: since $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$,
-we have $E(\theta_1) = E(\theta_2)$.  (3)~Combining: $E(\theta_2) \incomp
-E(\theta_2)$, so the incompatibility relation holds reflexively on
-$E(\theta_2)$.  (4)~Faithfulness at $\theta_2$: requires
-$\lnot(\mathsf{exp}(\theta_2) \incomp E(\theta_2))$, but since
-$E(\theta_2) = E(\theta_1)$ and $E(\theta_1) \incomp E(\theta_2)$,
-faithfulness is violated.  Contradiction.  The Lean proof mirrors this
-chain exactly.
+$E(\theta_1) = E(\theta_2)$, so $E(\theta_2) \incomp
+\mathsf{exp}(\theta_2)$.
+(3)~Faithfulness at $\theta_2$:
+$\lnot(E(\theta_2) \incomp \mathsf{exp}(\theta_2))$.
+Steps (2) and (3) contradict.  The Lean proof
+(\texttt{explanation\_impossibility} in \texttt{ExplanationSystem.lean})
+mirrors this chain exactly; all three properties are load-bearing.
+
+\paragraph{Remark.}
+A weaker \emph{pairwise} variant of decisiveness---$\mathsf{exp}(\theta_1)
+\incomp \mathsf{exp}(\theta_2)$ implies $E(\theta_1) \incomp
+E(\theta_2)$---suffices for a two-property impossibility (stability and
+pairwise decisiveness contradict irreflexivity), but faithfulness becomes
+superfluous.  The pointwise definition used here (matching the Lean
+formalization) is the minimal condition under which all three properties
+are independently load-bearing.
 
 \paragraph{Resolution framework.}
 The $G$-invariant resolution is formalized as follows.  Given a group $G$

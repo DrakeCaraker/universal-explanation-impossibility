@@ -155,8 +155,9 @@ properties is achievable, confirming that the impossibility is non-trivial.
 Cross-domain experiments empirically validate the impossibility in seven of
 the eight scientific domains (Table~\ref{tab:cross-domain}), including a
 perfect dose-response between codon degeneracy and usage entropy across
-120 eukaryotic cytochrome~c sequences ($p = 2.0 \times 10^{-3}$, Spearman
-$\rho = 1.0$), significant parser disagreement on ambiguous sentences
+120 eukaryotic cytochrome~c sequences from NCBI RefSeq
+(Kruskal--Wallis $p = 2.0 \times 10^{-3}$, Spearman $\rho = 1.0$;
+simulated null: $p = 2.3 \times 10^{-18}$), significant parser disagreement on ambiguous sentences
 ($p = 9 \times 10^{-4}$), and causal discovery convergence only at infinite
 sample size.
 Empirical experiments on four ML instances confirm severe instability among
@@ -921,8 +922,8 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 82 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 378 & Verified by \texttt{grep -c} \\
+Files & 95 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 417 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
