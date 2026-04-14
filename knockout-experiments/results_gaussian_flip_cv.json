@@ -1,0 +1,37 @@
+{
+  "Breast Cancer": {
+    "P": 30,
+    "in_sample_r2": 0.924,
+    "cv_r2": 0.601,
+    "corr_baseline_r2": 0.002,
+    "gaussian_fraction": 0.73
+  },
+  "Wine": {
+    "P": 13,
+    "in_sample_r2": 0.86,
+    "cv_r2": 0.773,
+    "corr_baseline_r2": 0.002,
+    "gaussian_fraction": 0.6
+  },
+  "CalHousing": {
+    "P": 8,
+    "in_sample_r2": 0.994,
+    "cv_r2": 0.912,
+    "corr_baseline_r2": 0.101,
+    "gaussian_fraction": 0.96
+  },
+  "Diabetes": {
+    "P": 8,
+    "in_sample_r2": 0.966,
+    "cv_r2": 0.847,
+    "corr_baseline_r2": 0.005,
+    "gaussian_fraction": 1.0
+  },
+  "Heart": {
+    "P": 13,
+    "in_sample_r2": 0.955,
+    "cv_r2": 0.87,
+    "corr_baseline_r2": 0.02,
+    "gaussian_fraction": 0.96
+  }
+}
