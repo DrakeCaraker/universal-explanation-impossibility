@@ -79,7 +79,7 @@ scientific domains---underdetermined linear systems, genetic code degeneracy,
 gauge freedom, microstate multiplicity, syntactic ambiguity, the phase
 problem, the view update problem, and Markov equivalence---each requiring
 zero shared axioms.  The framework is mechanically verified in the Lean~4
-proof assistant (95~files, 417~theorems, 0~unproved goals), and empirically
+proof assistant (96~files, 424~theorems, 0~unproved goals), and empirically
 validated in seven domains with real data and negative controls.
 The constructive resolution---projecting onto the subspace invariant under
 the symmetry group of equivalent configurations---is provably
@@ -169,7 +169,7 @@ can be simultaneously faithful, stable, and decisive
 first principles in eight scientific domains (together with nine machine learning explanation types documented in the Supporting Information, yielding seventeen distinct instances), each requiring zero shared
 axioms (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).
 The entire framework is mechanically verified in the Lean~4 proof
-assistant~\citep{demoura2021lean4} (95~files, 417~theorems, 0~unproved
+assistant~\citep{demoura2021lean4} (96~files, 424~theorems, 0~unproved
 goals), and empirically validated with real data in seven of the eight
 domains.  The impossibility is tight: each pair of properties is achievable,
 and the Rashomon property is the exact boundary (a Lean-verified
@@ -242,6 +242,23 @@ definition---replacing faithfulness with a weaker consistency notion,
 or stability with approximate stability, or decisiveness with partial
 commitment---collapses the result.  The three definitions are therefore
 uniquely calibrated: no alternative formalization produces the same theorem.
+
+Fourth, for \emph{maximally incompatible} systems---where every pair of
+distinct explanations is incompatible---the trilemma strengthens to a
+\emph{bilemma}: faithful~+~stable is impossible (not just the triple),
+and tightness collapses from 3/3~achievable pairs to 1/3
+(Theorem~\ref{thm:bilemma}, Lean-verified in
+\texttt{MaximalIncompatibility.lean}).  Many natural explanation
+spaces are maximally incompatible: binary feature rankings ($j > k$ or
+$k > j$, no tie), DAG edge orientations ($X \to Y$ or $Y \to X$, no
+undirected), and quantum measurement outcomes.  Recovery requires
+\emph{enriching}~$\sH$ with a neutral element~$c$ (compatible with
+everything): the constant map $E(\theta) = c$ restores
+faithful~+~stable at the cost of decisiveness.  This is the abstract
+mechanism behind ensemble averaging (DASH adds ``tied''), CPDAG
+reporting (adds ``undirected''), and Bayesian model averaging (adds
+``uncertain'')---each enriches a maximally incompatible space to create
+room for stability.
 
 %%% =========================================================================
 
@@ -613,7 +630,7 @@ tightness witnesses, the necessity converse, and the $G$-invariant
 resolution---is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} using the Mathlib mathematical
 library~\citep{mathlib2020}.  The formalization comprises 95~source files
-containing 417~theorems and lemmas, with 0~\texttt{sorry} declarations
+containing 424~theorems and lemmas, with 0~\texttt{sorry} declarations
 (Lean's marker for unproved goals).  Every theorem in the paper has a
 corresponding machine-checked proof.
 
@@ -684,7 +701,7 @@ Rashomon witness; the impossibility follows automatically.
 \label{fig:trilemma}
 \end{figure}
 
-The formalization comprises 417~theorems and lemmas across 95~files.
+The formalization comprises 424~theorems and lemmas across 96~files.
 The core impossibility proof is four tactic steps; the formalization's
 value lies in mechanically verifying the eight constructive domain
 instances---each requiring correct encoding of domain-specific concepts
