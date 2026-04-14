@@ -1,0 +1,188 @@
+{
+  "description": "Phase 2: Gaussian eta rescue attempt",
+  "approach": "Replace group-theoretic predictions with Gaussian-predicted mean instability where per-pair data is available",
+  "original_R2": 0.5984497396166968,
+  "corrected_R2": 0.7854714168943782,
+  "improvement": 0.18702167727768138,
+  "well_characterized_R2": 0.9815998288335822,
+  "approximate_R2": 0.6324779668139822,
+  "n_corrections_made": 2,
+  "corrections": {
+    "Gauge lattice ($\\mathbb{Z}_2^{L^2}$, $\\beta$=1)": {
+      "old_pred": 0.5,
+      "new_pred": 0.41997434161402614,
+      "observed": 0.4106668593750001
+    },
+    "Phase retrieval ($U(1)^N$, $N$=128)": {
+      "old_pred": 0.5,
+      "new_pred": 0.9921875,
+      "observed": 0.9355178200556137
+    }
+  },
+  "points": [
+    {
+      "domain": "Attribution (SHAP, $S_2$)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.5,
+      "ci_lo": null,
+      "ci_hi": null,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Attention (argmax, $S_6$)",
+      "predicted_instability": 0.8333333333333334,
+      "observed_instability": 0.6,
+      "ci_lo": 0.5902222222222222,
+      "ci_hi": 0.6108916666666667,
+      "correction": "none (no Gaussian data available)"
+    },
+    {
+      "domain": "Counterfactual (direction, $\\mathbb{Z}_2$)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.36763999494374927,
+      "ci_lo": 0.3438724560738213,
+      "ci_hi": 0.4275154847680445,
+      "correction": "none (no Gaussian data available)"
+    },
+    {
+      "domain": "Concept probe (TCAV, $O(64)$)",
+      "predicted_instability": 1.0,
+      "observed_instability": 0.9000393104817318,
+      "ci_lo": 0.8853651204032427,
+      "ci_hi": 0.9138578713403127,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Model selection ($S_{11}$ winners)",
+      "predicted_instability": 0.9090909090909091,
+      "observed_instability": 0.8,
+      "ci_lo": 0.7368,
+      "ci_hi": 1.0,
+      "correction": "none (no Gaussian data available)"
+    },
+    {
+      "domain": "GradCAM (peak, $1{-}\\mathrm{IoU}$)",
+      "predicted_instability": 0.04584159077503014,
+      "observed_instability": 0.09622222222222222,
+      "ci_lo": 0.08755555555555555,
+      "ci_hi": 0.10466666666666667,
+      "correction": "none (no Gaussian data available)"
+    },
+    {
+      "domain": "LLM citation (token, $S_3$)",
+      "predicted_instability": 0.6666666666666667,
+      "observed_instability": 0.3453333333333333,
+      "ci_lo": 0.33155555555555555,
+      "ci_hi": 0.35911666666666664,
+      "correction": "none (no Gaussian data available)"
+    },
+    {
+      "domain": "Codon ($S_2$)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.45110106892940216,
+      "ci_lo": 0.4135672604301908,
+      "ci_hi": 0.4886348774286135,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Codon ($S_4$)",
+      "predicted_instability": 0.75,
+      "observed_instability": 0.6826560991819901,
+      "ci_lo": 0.6516983992118516,
+      "ci_hi": 0.7136137991521286,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Codon ($S_6$)",
+      "predicted_instability": 0.8333333333333334,
+      "observed_instability": 0.7419630127258486,
+      "ci_lo": 0.6810118065037466,
+      "ci_hi": 0.8029142189479507,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Gauge lattice ($\\mathbb{Z}_2^{L^2}$, $\\beta$=1)",
+      "predicted_instability": 0.41997434161402614,
+      "observed_instability": 0.4106668593750001,
+      "ci_lo": null,
+      "ci_hi": null,
+      "correction": "gaussian_corrected (was 0.5000)"
+    },
+    {
+      "domain": "Stat mech ($S_{252}$, $N$=10)",
+      "predicted_instability": 0.996031746031746,
+      "observed_instability": 0.996031746031746,
+      "ci_lo": null,
+      "ci_hi": null,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Linear solver ($d$=20, $m$=10)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.6971873650366712,
+      "ci_lo": 0.3495709420682585,
+      "ci_hi": 1.044499666215967,
+      "correction": "none (no Gaussian data available)"
+    },
+    {
+      "domain": "Phase retrieval ($U(1)^N$, $N$=128)",
+      "predicted_instability": 0.9921875,
+      "observed_instability": 0.9355178200556137,
+      "ci_lo": 0.9193299277101435,
+      "ci_hi": 0.9520123690917697,
+      "correction": "gaussian_corrected (was 0.5000)"
+    },
+    {
+      "domain": "Parser (PP-attach, $S_2$)",
+      "predicted_instability": 0.175,
+      "observed_instability": 0.18374074074074076,
+      "ci_lo": 0.17634880952380938,
+      "ci_hi": 0.1916455026455024,
+      "correction": "none (well-characterized)"
+    },
+    {
+      "domain": "Causal discovery ($\\mathbb{Z}_2^4$, Asia)",
+      "predicted_instability": 0.5,
+      "observed_instability": 0.7104814814814815,
+      "ci_lo": 0.5833333333333333,
+      "ci_hi": 0.8381944444444445,
+      "correction": "none (no Gaussian data available)"
+    }
+  ],
+  "diagnosis": {
+    "worst_outliers": [
+      {
+        "domain": "LLM citation (token, $S_3$)",
+        "predicted": 0.6666666666666667,
+        "observed": 0.3453333333333333,
+        "residual": -0.3213333333333334
+      },
+      {
+        "domain": "Attention (argmax, $S_6$)",
+        "predicted": 0.8333333333333334,
+        "observed": 0.6,
+        "residual": -0.2333333333333334
+      },
+      {
+        "domain": "Causal discovery ($\\mathbb{Z}_2^4$, Asia)",
+        "predicted": 0.5,
+        "observed": 0.7104814814814815,
+        "residual": 0.2104814814814815
+      },
+      {
+        "domain": "Linear solver ($d$=20, $m$=10)",
+        "predicted": 0.5,
+        "observed": 0.6971873650366712,
+        "residual": 0.19718736503667122
+      },
+      {
+        "domain": "Counterfactual (direction, $\\mathbb{Z}_2$)",
+        "predicted": 0.5,
+        "observed": 0.36763999494374927,
+        "residual": -0.13236000505625073
+      }
+    ],
+    "problem_summary": "The Gaussian formula requires per-pair importance vectors (Delta, sigma per feature). Most approximate instances only provide SUMMARY flip rates, not the raw importance data needed to compute SNR. Only gauge lattice (variance fraction) and phase retrieval (DOF fraction) could be corrected with principled predictions. The core issue: 7 of 9 approximate instances lack the per-pair importance data needed for Gaussian correction. The group-theoretic prediction remains the only available framework for these domains.",
+    "rescue_verdict": "PARTIAL"
+  }
+}
