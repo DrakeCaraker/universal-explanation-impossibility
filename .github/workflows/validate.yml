@@ -2,21 +2,9 @@ name: Validate
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  lean-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install elan
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Build Lean
-        run: lake build
-        timeout-minutes: 30
-
   verify-counts:
+    name: Verify Theorem/Axiom Counts
     runs-on: ubuntu-latest
-    needs: lean-build
     steps:
       - uses: actions/checkout@v4
       - name: Verify theorem counts
@@ -27,9 +15,12 @@ jobs:
           # Count actual sorry tactics (not the word "sorry" in comments)
           SORRY=$(grep -c "^  sorry\|^    sorry\| sorry$" UniversalImpossibility/*.lean 2>/dev/null | awk -F: '{s+=$2} END {print s}')
           echo "Files: $FILES, Theorems: $THEOREMS, Axioms: $AXIOMS, Sorry: $SORRY"
+          echo "Expected: 102 files, 442 theorems, 72 axioms, 0 sorry"
           [ "$FILES" -eq 102 ] || (echo "FAIL: expected 102 files, got $FILES" && exit 1)
+          [ "$THEOREMS" -eq 442 ] || (echo "FAIL: expected 442 theorems, got $THEOREMS" && exit 1)
+          [ "$AXIOMS" -eq 72 ] || (echo "FAIL: expected 72 axioms, got $AXIOMS" && exit 1)
           [ "$SORRY" -eq 0 ] || (echo "FAIL: found $SORRY sorry statements" && exit 1)
+          echo "All counts verified."
 
-  # python-experiments: disabled in CI — requires torch, transformers,
-  # torchvision (~2GB) and GPU for attention/GradCAM experiments.
-  # Run locally with: make validate or python paper/scripts/run_all_universal_experiments.py
+  # Lean build is handled by lean_action_ci.yml (uses leanprover/lean-action with caching).
+  # Python experiments disabled — require torch/transformers/GPU. Run locally: make validate
