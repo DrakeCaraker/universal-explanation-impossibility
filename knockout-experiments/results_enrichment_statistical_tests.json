@@ -1,0 +1,131 @@
+{
+  "experiment": "enrichment_statistical_tests",
+  "description": "Statistical significance tests for enrichment (class merging) experiment",
+  "enrichment_reduction_tests": {
+    "Wine": {
+      "fine_flip": 0.268022,
+      "coarse_flip": 0.124668,
+      "n_models": 30,
+      "fine_level": "3-class (cultivar 1/2/3)",
+      "coarse_level": "Binary (cultivar 1+2 vs 3)",
+      "reduction_mean": 0.143354,
+      "reduction_se": 0.042704,
+      "ci_95_low": 0.059654,
+      "ci_95_high": 0.227054,
+      "z_statistic": 3.3569,
+      "p_value_one_sided": 0.000394,
+      "significant_at_05": true,
+      "confirmed": true
+    },
+    "Iris": {
+      "fine_flip": 0.181992,
+      "coarse_flip": 0.0,
+      "n_models": 30,
+      "fine_level": "3-species (setosa/versicolor/virginica)",
+      "coarse_level": "Binary (setosa vs non-setosa)",
+      "reduction_mean": 0.181992,
+      "reduction_se": 0.032733,
+      "ci_95_low": 0.117835,
+      "ci_95_high": 0.24615,
+      "z_statistic": 5.5598,
+      "p_value_one_sided": 0.0,
+      "significant_at_05": true,
+      "confirmed": true
+    },
+    "Digits (8x8)": {
+      "fine_flip": 0.16697,
+      "coarse_flip": 0.167968,
+      "n_models": 30,
+      "fine_level": "10-class (digits 0-9)",
+      "coarse_level": "Binary (even/odd)",
+      "reduction_mean": -0.000998,
+      "reduction_se": 0.049025,
+      "ci_95_low": -0.097086,
+      "ci_95_high": 0.095091,
+      "z_statistic": -0.0204,
+      "p_value_one_sided": 0.508118,
+      "significant_at_05": false,
+      "confirmed": false
+    },
+    "OptDigits (UCI)": {
+      "fine_flip": 0.123214,
+      "coarse_flip": 0.121667,
+      "n_models": 30,
+      "fine_level": "10-class (digits 0-9)",
+      "coarse_level": "Binary (even/odd)",
+      "reduction_mean": 0.001547,
+      "reduction_se": 0.044853,
+      "ci_95_low": -0.086366,
+      "ci_95_high": 0.08946,
+      "z_statistic": 0.0345,
+      "p_value_one_sided": 0.486242,
+      "significant_at_05": false,
+      "confirmed": false
+    },
+    "Covertype": {
+      "fine_flip": 0.172554,
+      "coarse_flip": 0.105897,
+      "n_models": 30,
+      "fine_level": "7-class (forest types)",
+      "coarse_level": "Binary (conifer/non-conifer)",
+      "reduction_mean": 0.066657,
+      "reduction_se": 0.046431,
+      "ci_95_low": -0.024347,
+      "ci_95_high": 0.157662,
+      "z_statistic": 1.4356,
+      "p_value_one_sided": 0.075554,
+      "significant_at_05": false,
+      "confirmed": true
+    },
+    "Fashion-MNIST": {
+      "fine_flip": 0.358039,
+      "coarse_flip": 0.170225,
+      "n_models": 30,
+      "fine_level": "10-class (items)",
+      "coarse_level": "Binary (clothing/non-clothing)",
+      "reduction_mean": 0.187814,
+      "reduction_se": 0.038885,
+      "ci_95_low": 0.111599,
+      "ci_95_high": 0.264028,
+      "z_statistic": 4.83,
+      "p_value_one_sided": 1e-06,
+      "significant_at_05": true,
+      "confirmed": true
+    }
+  },
+  "balanced_control_tests": {
+    "Fashion-MNIST": {
+      "semantic_flip": 0.176497,
+      "mean_random_flip": 0.27244,
+      "std_random_flip": 0.018629,
+      "n_random_controls": 10,
+      "n_randoms_beaten": 10,
+      "n_randoms_at_or_below_semantic": 0,
+      "permutation_p_value": 0.0909,
+      "z_score_vs_randoms": -5.1502,
+      "semantic_advantage_pp": 9.6,
+      "semantic_better": true,
+      "note": "With 10 random controls, minimum achievable p-value is 0.0909 (conservative)."
+    },
+    "Covertype": {
+      "semantic_flip": 0.096267,
+      "mean_random_flip": 0.0899,
+      "std_random_flip": 0.01022,
+      "n_random_controls": 10,
+      "n_randoms_beaten": 1,
+      "n_randoms_at_or_below_semantic": 9,
+      "permutation_p_value": 0.9091,
+      "z_score_vs_randoms": 0.623,
+      "semantic_advantage_pp": -0.6,
+      "semantic_better": false,
+      "note": "With 10 random controls, minimum achievable p-value is 0.0909 (conservative)."
+    }
+  },
+  "summary": {
+    "n_datasets": 6,
+    "n_significant_reductions": 3,
+    "n_confirmed": 4,
+    "all_confirmed_are_significant": false,
+    "fashion_mnist_semantic_p": 0.0909
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "experiment": "noether_permutation_test",
+  "description": "Permutation test for Noether symmetry prediction: within-group flip rates should exceed between-group flip rates when features are correlated within groups (rho_within=0.90).",
+  "config": {
+    "P": 8,
+    "G": 2,
+    "group_size": 4,
+    "rho_within": 0.9,
+    "rho_between": 0.0,
+    "n_train": 500,
+    "n_test": 200,
+    "noise_std": 1.0,
+    "n_models": 30,
+    "seed_range": "42-71",
+    "n_permutations": 10000,
+    "betas": [
+      5.0,
+      5.0,
+      5.0,
+      5.0,
+      2.0,
+      2.0,
+      2.0,
+      2.0
+    ],
+    "model": "XGBClassifier(n_estimators=100, max_depth=4, tree_method=hist)",
+    "importance_method": "permutation_importance(n_repeats=10)"
+  },
+  "observed": {
+    "mean_within_flip_rate": 0.116092,
+    "mean_between_flip_rate": 0.011638,
+    "gap": 0.104454,
+    "within_rates": [
+      0.0,
+      0.128736,
+      0.0,
+      0.0,
+      0.23908,
+      0.0,
+      0.0,
+      0.331034,
+      0.128736,
+      0.066667,
+      0.128736,
+      0.370115
+    ],
+    "between_rates": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.186207,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "true_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6,
+        7
+      ]
+    ],
+    "mean_importances_per_feature": [
+      0.044667,
+      0.055367,
+      0.034083,
+      0.067683,
+      0.0273,
+      0.01185,
+      0.0232,
+      0.020467
+    ],
+    "std_importances_per_feature": [
+      0.004922,
+      0.00614,
+      0.00493,
+      0.005181,
+      0.003945,
+      0.003362,
+      0.002644,
+      0.003093
+    ]
+  },
+  "permutation_test": {
+    "n_permutations": 10000,
+    "n_extreme": 304,
+    "p_value": 0.030497,
+    "significant_at_05": true,
+    "significant_at_01": false,
+    "permutation_distribution": {
+      "mean": 0.000579,
+      "std": 0.041707,
+      "percentile_95": 0.084339,
+      "percentile_99": 0.104454,
+      "min": -0.070211,
+      "max": 0.104454
+    }
+  },
+  "interpretation": "The Noether prediction states that correlated features (within-group) should show higher explanation flip rates than uncorrelated features (between-group). The permutation test assesses whether the observed within-vs-between gap is larger than expected by random group assignment."
+}

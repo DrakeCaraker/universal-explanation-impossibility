@@ -1,0 +1,347 @@
+{
+  "experiment": "explanation_landscape_bridge_expanded",
+  "description": "Coverage conflict degree predicts instability across 15+ datasets",
+  "chain": "Characterization -> Coverage Conflict -> SNR -> Flip Rate",
+  "n_datasets": 15,
+  "n_calibration_seeds": 30,
+  "n_validation_seeds": 30,
+  "snr_thresholds": [
+    0.3,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "per_dataset": {
+    "Breast Cancer": {
+      "n_pairs": 435,
+      "coverage_conflict_degree": 0.503448275862069,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.38850574712643676,
+        "0.5": 0.503448275862069,
+        "1.0": 0.8482758620689655,
+        "2.0": 1.0
+      },
+      "reliable_fraction": 0.0,
+      "mean_instability": 0.307427665477606,
+      "mean_snr": 0.559326974685963,
+      "median_snr": 0.48847578035917893,
+      "gaussian_r2": 0.5339139764600622,
+      "gaussian_rho": 0.707254345523845
+    },
+    "Wine": {
+      "n_pairs": 78,
+      "coverage_conflict_degree": 0.32051282051282054,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.15384615384615385,
+        "0.5": 0.32051282051282054,
+        "1.0": 0.5769230769230769,
+        "2.0": 0.8974358974358975
+      },
+      "reliable_fraction": 0.10256410256410256,
+      "mean_instability": 0.2680223990568818,
+      "mean_snr": 1.0776194280677052,
+      "median_snr": 0.7896314689511521,
+      "gaussian_r2": 0.6027085310052105,
+      "gaussian_rho": 0.8375196479285443
+    },
+    "Iris": {
+      "n_pairs": 6,
+      "coverage_conflict_degree": 0.16666666666666666,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.0,
+        "0.5": 0.16666666666666666,
+        "1.0": 0.3333333333333333,
+        "2.0": 0.6666666666666666
+      },
+      "reliable_fraction": 0.3333333333333333,
+      "mean_instability": 0.18199233716475094,
+      "mean_snr": 1.6189278253656159,
+      "median_snr": 1.2672269199824828,
+      "gaussian_r2": 0.6820759585277465,
+      "gaussian_rho": 0.9856107606091623
+    },
+    "Digits": {
+      "n_pairs": 500,
+      "coverage_conflict_degree": 0.208,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.11,
+        "0.5": 0.208,
+        "1.0": 0.382,
+        "2.0": 0.624
+      },
+      "reliable_fraction": 0.376,
+      "mean_instability": 0.1744183908045977,
+      "mean_snr": 1.9102612314235672,
+      "median_snr": 1.3739795056202082,
+      "gaussian_r2": 0.6328836889830902,
+      "gaussian_rho": 0.7967180519223539
+    },
+    "Heart Disease": {
+      "n_pairs": 78,
+      "coverage_conflict_degree": 0.3333333333333333,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.2564102564102564,
+        "0.5": 0.3333333333333333,
+        "1.0": 0.6538461538461539,
+        "2.0": 0.9871794871794872
+      },
+      "reliable_fraction": 0.01282051282051282,
+      "mean_instability": 0.30436192160330094,
+      "mean_snr": 0.839482121802181,
+      "median_snr": 0.8379615584423947,
+      "gaussian_r2": 0.5831671646943735,
+      "gaussian_rho": 0.8840314477368703
+    },
+    "Diabetes": {
+      "n_pairs": 28,
+      "coverage_conflict_degree": 0.25,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.10714285714285714,
+        "0.5": 0.25,
+        "1.0": 0.42857142857142855,
+        "2.0": 0.6785714285714286
+      },
+      "reliable_fraction": 0.32142857142857145,
+      "mean_instability": 0.212807881773399,
+      "mean_snr": 1.944334103247417,
+      "median_snr": 1.2878206728983133,
+      "gaussian_r2": 0.7450237813618499,
+      "gaussian_rho": 0.9184117065823122
+    },
+    "German Credit": {
+      "n_pairs": 190,
+      "coverage_conflict_degree": 0.4263157894736842,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.24736842105263157,
+        "0.5": 0.4263157894736842,
+        "1.0": 0.6736842105263158,
+        "2.0": 0.8947368421052632
+      },
+      "reliable_fraction": 0.10526315789473684,
+      "mean_instability": 0.349243799153055,
+      "mean_snr": 1.030179385494114,
+      "median_snr": 0.6073064784922407,
+      "gaussian_r2": 0.40976710106458936,
+      "gaussian_rho": 0.8384020404553848
+    },
+    "California Housing": {
+      "n_pairs": 28,
+      "coverage_conflict_degree": 0.10714285714285714,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.03571428571428571,
+        "0.5": 0.10714285714285714,
+        "1.0": 0.14285714285714285,
+        "2.0": 0.17857142857142858
+      },
+      "reliable_fraction": 0.8214285714285714,
+      "mean_instability": 0.08087027914614121,
+      "mean_snr": 6.3673853875851325,
+      "median_snr": 5.51226763495044,
+      "gaussian_r2": 0.8608727523988664,
+      "gaussian_rho": 0.6654360234356297
+    },
+    "Adult Income": {
+      "n_pairs": 91,
+      "coverage_conflict_degree": 0.12087912087912088,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.06593406593406594,
+        "0.5": 0.12087912087912088,
+        "1.0": 0.2857142857142857,
+        "2.0": 0.43956043956043955
+      },
+      "reliable_fraction": 0.5604395604395604,
+      "mean_instability": 0.11645825438928886,
+      "mean_snr": 2.8452401542754147,
+      "median_snr": 2.4291863219597856,
+      "gaussian_r2": 0.8208518085668124,
+      "gaussian_rho": 0.8178156742798333
+    },
+    "Ionosphere": {
+      "n_pairs": 500,
+      "coverage_conflict_degree": 0.58,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.362,
+        "0.5": 0.58,
+        "1.0": 0.82,
+        "2.0": 0.902
+      },
+      "reliable_fraction": 0.098,
+      "mean_instability": 0.3244643678160919,
+      "mean_snr": 0.6786987499322403,
+      "median_snr": 0.4071187749812215,
+      "gaussian_r2": 0.6285443932462234,
+      "gaussian_rho": 0.6879827313587629
+    },
+    "Sonar": {
+      "n_pairs": 500,
+      "coverage_conflict_degree": 0.746,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.5,
+        "0.5": 0.746,
+        "1.0": 0.958,
+        "2.0": 1.0
+      },
+      "reliable_fraction": 0.0,
+      "mean_instability": 0.41167816091954024,
+      "mean_snr": 0.3590241663199071,
+      "median_snr": 0.30073498357986306,
+      "gaussian_r2": -0.20737250697015308,
+      "gaussian_rho": 0.3328920267230851
+    },
+    "Vehicle": {
+      "n_pairs": 153,
+      "coverage_conflict_degree": 0.24183006535947713,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.1111111111111111,
+        "0.5": 0.24183006535947713,
+        "1.0": 0.45098039215686275,
+        "2.0": 0.6928104575163399
+      },
+      "reliable_fraction": 0.30718954248366015,
+      "mean_instability": 0.21634738186462327,
+      "mean_snr": 1.6199980828717186,
+      "median_snr": 1.0930403709954835,
+      "gaussian_r2": 0.7207319882707606,
+      "gaussian_rho": 0.8864065861456047
+    },
+    "Segment": {
+      "n_pairs": 171,
+      "coverage_conflict_degree": 0.23391812865497075,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.15204678362573099,
+        "0.5": 0.23391812865497075,
+        "1.0": 0.4853801169590643,
+        "2.0": 0.7192982456140351
+      },
+      "reliable_fraction": 0.2807017543859649,
+      "mean_instability": 0.19502587887342882,
+      "mean_snr": 1.5905836517642895,
+      "median_snr": 1.0215957649878558,
+      "gaussian_r2": 0.6489256024646546,
+      "gaussian_rho": 0.7837026959592015
+    },
+    "Satimage": {
+      "n_pairs": 500,
+      "coverage_conflict_degree": 0.268,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.16,
+        "0.5": 0.268,
+        "1.0": 0.544,
+        "2.0": 0.822
+      },
+      "reliable_fraction": 0.178,
+      "mean_instability": 0.2644873563218391,
+      "mean_snr": 1.312788015961775,
+      "median_snr": 0.9224207930842436,
+      "gaussian_r2": 0.6675194745159754,
+      "gaussian_rho": 0.9057930037039955
+    },
+    "Vowel": {
+      "n_pairs": 66,
+      "coverage_conflict_degree": 0.21212121212121213,
+      "coverage_conflict_by_threshold": {
+        "0.3": 0.18181818181818182,
+        "0.5": 0.21212121212121213,
+        "1.0": 0.3787878787878788,
+        "2.0": 0.6212121212121212
+      },
+      "reliable_fraction": 0.3787878787878788,
+      "mean_instability": 0.22368512713340302,
+      "mean_snr": 3.0869276342073495,
+      "median_snr": 1.262043087496021,
+      "gaussian_r2": 0.6161310263151735,
+      "gaussian_rho": 0.9180099023945438
+    }
+  },
+  "cross_dataset": {
+    "coverage_conflict_vs_instability_rho": 0.9607142857142855,
+    "coverage_conflict_vs_instability_p": 1.3027489790343433e-08,
+    "reliable_fraction_vs_instability_rho": -0.8847188519363837,
+    "reliable_fraction_vs_instability_p": 1.1819879040035728e-05
+  },
+  "snr_threshold_sensitivity": {
+    "0.3": {
+      "spearman_rho": 0.9178571428571428,
+      "p_value": 1.4176968515006283e-06
+    },
+    "0.5": {
+      "spearman_rho": 0.9607142857142855,
+      "p_value": 1.3027489790343433e-08
+    },
+    "1.0": {
+      "spearman_rho": 0.932142857142857,
+      "p_value": 4.2412182315433513e-07
+    },
+    "2.0": {
+      "spearman_rho": 0.8847188519363837,
+      "p_value": 1.1819879040035728e-05
+    }
+  },
+  "loo_robustness": {
+    "per_drop": {
+      "Breast Cancer": {
+        "rho_without": 0.9604395604395607,
+        "p_without": 5.081053892329076e-08
+      },
+      "Wine": {
+        "rho_without": 0.9516483516483516,
+        "p_without": 1.6616136985679425e-07
+      },
+      "Iris": {
+        "rho_without": 0.956043956043956,
+        "p_without": 9.469782144566512e-08
+      },
+      "Digits": {
+        "rho_without": 0.956043956043956,
+        "p_without": 9.469782144566512e-08
+      },
+      "Heart Disease": {
+        "rho_without": 0.9516483516483516,
+        "p_without": 1.6616136985679425e-07
+      },
+      "Diabetes": {
+        "rho_without": 0.9692307692307693,
+        "p_without": 1.1465229425475097e-08
+      },
+      "German Credit": {
+        "rho_without": 0.9648351648351648,
+        "p_without": 2.5304057544450237e-08
+      },
+      "California Housing": {
+        "rho_without": 0.9516483516483516,
+        "p_without": 1.6616136985679425e-07
+      },
+      "Adult Income": {
+        "rho_without": 0.9516483516483516,
+        "p_without": 1.6616136985679425e-07
+      },
+      "Ionosphere": {
+        "rho_without": 0.9604395604395607,
+        "p_without": 5.081053892329076e-08
+      },
+      "Sonar": {
+        "rho_without": 0.9516483516483516,
+        "p_without": 1.6616136985679425e-07
+      },
+      "Vehicle": {
+        "rho_without": 0.9692307692307693,
+        "p_without": 1.1465229425475097e-08
+      },
+      "Segment": {
+        "rho_without": 0.9648351648351648,
+        "p_without": 2.5304057544450237e-08
+      },
+      "Satimage": {
+        "rho_without": 0.9516483516483516,
+        "p_without": 1.6616136985679425e-07
+      },
+      "Vowel": {
+        "rho_without": 0.9780219780219781,
+        "p_without": 1.5519632991187705e-09
+      }
+    },
+    "min_rho": 0.9516483516483516,
+    "max_rho": 0.9780219780219781,
+    "mean_rho": 0.9592673992673993
+  }
+}
