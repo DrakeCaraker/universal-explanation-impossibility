@@ -1,0 +1,63 @@
+{
+  "task1_aggregate": {
+    "K3": {
+      "reliable_pct": 31.1,
+      "unreliable_pct": 33.3,
+      "gap_pct": 69
+    },
+    "K5": {
+      "reliable_pct": 23.6,
+      "unreliable_pct": 40.0,
+      "gap_pct": 76
+    },
+    "K10": {
+      "reliable_pct": 16.1,
+      "unreliable_pct": 40.4,
+      "gap_pct": 84
+    },
+    "Kall": {
+      "reliable_pct": 18.1,
+      "unreliable_pct": 42.5,
+      "gap_pct": 82
+    }
+  },
+  "fisher_exact_k3_vs_all": {
+    "p_value": 0.989,
+    "inversion_significant": false
+  },
+  "task2_null_aggregate": {
+    "K3": {
+      "reliable_pct": 53.3,
+      "unreliable_pct": 13.3,
+      "gap_pct": 47
+    },
+    "K5": {
+      "reliable_pct": 49.3,
+      "unreliable_pct": 14.7,
+      "gap_pct": 51
+    },
+    "K10": {
+      "reliable_pct": 48.7,
+      "unreliable_pct": 15.7,
+      "gap_pct": 51
+    },
+    "Kall": {
+      "reliable_pct": 43.3,
+      "unreliable_pct": 21.3,
+      "gap_pct": 57
+    }
+  },
+  "rashomon_excess_gap_pp": {
+    "K3": 22,
+    "K5": 26,
+    "K10": 33,
+    "Kall": 25
+  },
+  "key_findings": [
+    "Top-K inversion does NOT replicate on 15 gain-based datasets (Fisher p=0.99)",
+    "The gap is ~70-84% across all K values (no strong K-dependence)",
+    "Null model (no Rashomon) shows ~50% gap from pure order statistics",
+    "Rashomon adds 22-33pp excess gap beyond sampling noise",
+    "The impossibility contribution is real and distinct from statistical effect"
+  ]
+}
