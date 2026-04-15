@@ -112,6 +112,8 @@ UniversalImpossibility/
   MaximalIncompatibility.lean   — Bilemma, S+D impossibility, tightness, recovery (8 theorems)
   BilemmaCharacterization.lean  — Neutral element characterization (3 theorems)
   PredictiveConsequences.lean   — All-or-nothing, Rashomon unfaithfulness, faithful uniqueness (5 theorems)
+  QuantumMeasurementRevolution.lean — Quantum measurement as paradigm shift; bilemma instance (2 theorems)
+  SimultaneityRevolution.lean   — Relativity of simultaneity as paradigm shift; bilemma instance (2 theorems)
 paper/
   universal_impossibility.tex — JMLR universal paper (primary, this paper)
   main.tex                    — NeurIPS 2026 companion attribution paper (10 pages)
@@ -125,7 +127,7 @@ paper/
   sections/                   — LaTeX section fragments for universal paper instances
 ```
 
-## Lean State: 99 files, 72 axioms, 436 theorems+lemmas, 0 sorry
+## Lean State: 101 files, 72 axioms, 440 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (72 total)
 
@@ -195,7 +197,7 @@ make setup         # full setup for new contributors
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 436)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 440)
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.

@@ -5,3 +5,5 @@ import UniversalImpossibility.MaximalIncompatibility
 import UniversalImpossibility.BilemmaCharacterization
 import UniversalImpossibility.PredictiveConsequences
 import UniversalImpossibility.ApproximateRashomon
+import UniversalImpossibility.QuantumMeasurementRevolution
+import UniversalImpossibility.SimultaneityRevolution

@@ -75,7 +75,7 @@ be faithful (consistent with internal structure), stable (invariant across
 equivalent configurations), and decisive (committing to every internal
 distinction).  This impossibility is derived from first principles in eight
 scientific domains---each requiring zero shared axioms---and verified in the
-Lean~4 proof assistant (99~files, 436~theorems, 0~unproved goals).
+Lean~4 proof assistant (101~files, 440~theorems, 0~unproved goals).
 Empirical validation in seven domains confirms the predicted dose-response
 between underspecification and instability.  The constructive
 resolution---$G$-invariant projection---is Pareto-optimal, unifying
@@ -394,7 +394,7 @@ Statistics
 %% Methods: Peres-Mermin instance and formalization details moved to Methods.
 
 The entire framework is mechanically verified in Lean~4~\citep{demoura2021lean4}
-using Mathlib~\citep{mathlib2020}: 99~files, 436~theorems, 0~unproved
+using Mathlib~\citep{mathlib2020}: 101~files, 440~theorems, 0~unproved
 goals.  The core theorem requires zero axioms; the 72~axioms are all
 domain-specific infrastructure (Methods).
 
@@ -473,6 +473,37 @@ domain-appropriate but not exhaustive datasets.  The resolution assumes
 known equivalence classes.  The theorem addresses existence, not
 computational cost.  Three conjectured extensions were pre-registered and
 falsified, delineating the framework's boundary (Supporting Information).
+
+\paragraph{Scientific revolutions.} The bilemma pattern---maximally
+incompatible explanation space, enrichment necessary, decisiveness
+sacrificed---maps onto the structure of paradigm shifts. The transition
+from classical to quantum mechanics ($H = \{\text{definite value},
+\text{superposition}\}$, enrichment = ``no fact of the matter'') and from
+Newtonian to relativistic physics ($H = \{\text{simultaneous},
+\text{not simultaneous}\}$, enrichment = spacetime) both follow the
+pattern, with the bilemma Lean-verified for each
+(Table~\ref{tab:revolutions}). Whether paradigm shifts \emph{in general}
+follow the enrichment pattern is a conjecture supported by five formalized
+instances.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}p{2.4cm}p{2.7cm}p{2.7cm}p{2.7cm}@{}}
+\toprule
+\textbf{Revolution} & \textbf{Pre-revolution $H$} & \textbf{Enrichment} & \textbf{Decisiveness lost} \\
+\midrule
+SHAP instability & \{positive, negative\} & DASH ``tied'' & feature rank \\
+Feature selection & \{selected, not\} & ``uncertain'' & feature relevance \\
+Classical $\to$ quantum & \{definite, superposition\} & ``no fact of the matter'' & pre-measurement state \\
+Newtonian $\to$ relativistic & \{simultaneous, not\} & spacetime & absolute simultaneity \\
+Single-compl.\ $\to$ adelic & \{smooth, ultrametric\} & indeterminate & spacetime geometry \\
+\bottomrule
+\end{tabular}
+\caption{Five instances of the bilemma $\to$ enrichment pattern. Each pre-revolution
+  explanation space is maximally incompatible; each revolution adds a neutral element.
+  The bilemma is Lean-verified for all five instances.}
+\label{tab:revolutions}
+\end{table}
 
 %%% =========================================================================
 %%% Methods

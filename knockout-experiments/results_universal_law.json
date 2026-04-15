@@ -1,0 +1,451 @@
+{
+  "experiment1": {
+    "description": "Universal law f(r/P): does effective-rank ratio predict unreliability?",
+    "per_dataset": [
+      {
+        "dataset": "Breast Cancer",
+        "N": 569,
+        "P": 30,
+        "r_eff": 1,
+        "r_over_P": 0.0333,
+        "frac_unreliable": 0.4713,
+        "median_snr": 0.5228
+      },
+      {
+        "dataset": "Wine",
+        "N": 178,
+        "P": 13,
+        "r_eff": 1,
+        "r_over_P": 0.0769,
+        "frac_unreliable": 0.359,
+        "median_snr": 0.8039
+      },
+      {
+        "dataset": "CalHousing",
+        "N": 20640,
+        "P": 8,
+        "r_eff": 1,
+        "r_over_P": 0.125,
+        "frac_unreliable": 0.0357,
+        "median_snr": 9.3461
+      },
+      {
+        "dataset": "Iris",
+        "N": 150,
+        "P": 4,
+        "r_eff": 1,
+        "r_over_P": 0.25,
+        "frac_unreliable": 0.1667,
+        "median_snr": 1.5858
+      },
+      {
+        "dataset": "SK-Diabetes",
+        "N": 442,
+        "P": 10,
+        "r_eff": 7,
+        "r_over_P": 0.7,
+        "frac_unreliable": 0.2444,
+        "median_snr": 1.019
+      },
+      {
+        "dataset": "Diabetes",
+        "N": 768,
+        "P": 8,
+        "r_eff": 2,
+        "r_over_P": 0.25,
+        "frac_unreliable": 0.25,
+        "median_snr": 1.4574
+      },
+      {
+        "dataset": "Heart",
+        "N": 270,
+        "P": 13,
+        "r_eff": 3,
+        "r_over_P": 0.2308,
+        "frac_unreliable": 0.3974,
+        "median_snr": 0.6405
+      },
+      {
+        "dataset": "Synth r/P~0.1",
+        "N": 1000,
+        "P": 50,
+        "r_eff": 15,
+        "r_over_P": 0.3,
+        "frac_unreliable": 0.5845,
+        "median_snr": 0.3807
+      },
+      {
+        "dataset": "Synth r/P~0.3",
+        "N": 1000,
+        "P": 50,
+        "r_eff": 9,
+        "r_over_P": 0.18,
+        "frac_unreliable": 0.3371,
+        "median_snr": 0.8055
+      },
+      {
+        "dataset": "Synth r/P~0.5",
+        "N": 1000,
+        "P": 50,
+        "r_eff": 11,
+        "r_over_P": 0.22,
+        "frac_unreliable": 0.24,
+        "median_snr": 1.144
+      },
+      {
+        "dataset": "Synth r/P~0.7",
+        "N": 1000,
+        "P": 50,
+        "r_eff": 16,
+        "r_over_P": 0.32,
+        "frac_unreliable": 0.2857,
+        "median_snr": 0.9978
+      },
+      {
+        "dataset": "Synth r/P~0.9",
+        "N": 1000,
+        "P": 50,
+        "r_eff": 25,
+        "r_over_P": 0.5,
+        "frac_unreliable": 0.3176,
+        "median_snr": 0.9003
+      }
+    ],
+    "summary": {
+      "pearson_r": -0.0902,
+      "R_squared": 0.0081,
+      "p_value": 0.780443,
+      "spearman_rho": -0.1576,
+      "spearman_p": 0.624676,
+      "slope": -0.0699,
+      "intercept": 0.326
+    }
+  },
+  "experiment2": {
+    "description": "Universal knee-point constant in enrichment tradeoff",
+    "per_dataset": [
+      {
+        "dataset": "Breast Cancer",
+        "knee_threshold": 0.0075,
+        "tradeoff": [
+          [
+            0.0,
+            1.0,
+            0.4743
+          ],
+          [
+            0.005,
+            1.0,
+            0.4743
+          ],
+          [
+            0.01,
+            0.5333,
+            0.5278
+          ],
+          [
+            0.02,
+            0.2,
+            0.3691
+          ],
+          [
+            0.05,
+            0.1667,
+            0.1984
+          ],
+          [
+            0.1,
+            0.1,
+            0.1406
+          ],
+          [
+            0.15,
+            0.0333,
+            null
+          ],
+          [
+            0.2,
+            0.0333,
+            null
+          ],
+          [
+            0.25,
+            0.0333,
+            null
+          ],
+          [
+            0.3,
+            0.0,
+            null
+          ],
+          [
+            0.5,
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "dataset": "Wine",
+        "knee_threshold": 0.0025,
+        "tradeoff": [
+          [
+            0.0,
+            1.0,
+            0.5955
+          ],
+          [
+            0.005,
+            1.0,
+            0.5955
+          ],
+          [
+            0.01,
+            0.9231,
+            0.566
+          ],
+          [
+            0.02,
+            0.7692,
+            0.5081
+          ],
+          [
+            0.05,
+            0.3846,
+            0.2541
+          ],
+          [
+            0.1,
+            0.3077,
+            0.0238
+          ],
+          [
+            0.15,
+            0.3077,
+            0.0238
+          ],
+          [
+            0.2,
+            0.0,
+            null
+          ],
+          [
+            0.25,
+            0.0,
+            null
+          ],
+          [
+            0.3,
+            0.0,
+            null
+          ],
+          [
+            0.5,
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "dataset": "CalHousing",
+        "knee_threshold": 0.075,
+        "tradeoff": [
+          [
+            0.0,
+            1.0,
+            0.9734
+          ],
+          [
+            0.005,
+            1.0,
+            0.9734
+          ],
+          [
+            0.01,
+            1.0,
+            0.9734
+          ],
+          [
+            0.02,
+            0.875,
+            0.9655
+          ],
+          [
+            0.05,
+            0.625,
+            0.9033
+          ],
+          [
+            0.1,
+            0.25,
+            1.0
+          ],
+          [
+            0.15,
+            0.25,
+            1.0
+          ],
+          [
+            0.2,
+            0.125,
+            null
+          ],
+          [
+            0.25,
+            0.125,
+            null
+          ],
+          [
+            0.3,
+            0.125,
+            null
+          ],
+          [
+            0.5,
+            0.125,
+            null
+          ]
+        ]
+      },
+      {
+        "dataset": "Diabetes",
+        "knee_threshold": 0.075,
+        "tradeoff": [
+          [
+            0.0,
+            1.0,
+            0.7177
+          ],
+          [
+            0.005,
+            1.0,
+            0.7177
+          ],
+          [
+            0.01,
+            1.0,
+            0.7177
+          ],
+          [
+            0.02,
+            1.0,
+            0.7177
+          ],
+          [
+            0.05,
+            1.0,
+            0.7177
+          ],
+          [
+            0.1,
+            0.375,
+            0.7673
+          ],
+          [
+            0.15,
+            0.125,
+            null
+          ],
+          [
+            0.2,
+            0.125,
+            null
+          ],
+          [
+            0.25,
+            0.125,
+            null
+          ],
+          [
+            0.3,
+            0.0,
+            null
+          ],
+          [
+            0.5,
+            0.0,
+            null
+          ]
+        ]
+      },
+      {
+        "dataset": "Heart",
+        "knee_threshold": 0.0025,
+        "tradeoff": [
+          [
+            0.0,
+            1.0,
+            0.5432
+          ],
+          [
+            0.005,
+            1.0,
+            0.5432
+          ],
+          [
+            0.01,
+            1.0,
+            0.5432
+          ],
+          [
+            0.02,
+            1.0,
+            0.5432
+          ],
+          [
+            0.05,
+            0.5385,
+            0.4697
+          ],
+          [
+            0.1,
+            0.2308,
+            0.177
+          ],
+          [
+            0.15,
+            0.1538,
+            0.0691
+          ],
+          [
+            0.2,
+            0.0769,
+            null
+          ],
+          [
+            0.25,
+            0.0,
+            null
+          ],
+          [
+            0.3,
+            0.0,
+            null
+          ],
+          [
+            0.5,
+            0.0,
+            null
+          ]
+        ]
+      }
+    ],
+    "summary": {
+      "knee_values": [
+        0.0075,
+        0.0025,
+        0.075,
+        0.075,
+        0.0025
+      ],
+      "knee_mean": 0.0325,
+      "knee_std": 0.0347,
+      "knee_range": [
+        0.0025,
+        0.075
+      ],
+      "knee_cv": 1.0692,
+      "converges": false
+    }
+  }
+}

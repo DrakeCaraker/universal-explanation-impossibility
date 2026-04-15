@@ -54,7 +54,7 @@ combined theorem prover and programming language.
 \citet{zhang2026statistical} recently formalized statistical learning theory in
 Lean~4.  Our work provides, to our knowledge, the first Lean formalization of
 an impossibility theorem in explainability, covering all nine instances and the
-$G$-invariant resolution (99~files, 436~theorems, 72~axioms, 0~\texttt{sorry}).
+$G$-invariant resolution (101~files, 440~theorems, 72~axioms, 0~\texttt{sorry}).
 
 \paragraph{Prior results on attribution instability.}
 Three prior results address related phenomena.  Bilodeau et al.\ (2024) prove that no feature attribution simultaneously satisfying the Shapley axioms can be stable under model multiplicity---an impossibility for the \emph{attribution-specific} case under \emph{axiomatic} constraints.  D'Amour et al.\ (2022) document underspecification empirically across ML pipelines, showing that models with identical in-distribution performance diverge out-of-distribution.  Fisher et al.\ (2019) introduce variable importance clouds, visualizing the instability of feature importance across the Rashomon set.  Our contribution relative to this body of work is: (1)~the abstract framework (subsuming non-ML domains), (2)~the bilemma strengthening and enrichment mechanism, (3)~the Lean formalization, and (4)~the Gaussian flip formula as a quantitative reliability score.
@@ -69,7 +69,7 @@ Scope & Feature attribution (SHAP) & 17 instances across 8 domains \\
 Axioms & Shapley axioms & Faithfulness, stability, decisiveness \\
 Conclusion & No stable Shapley attribution & F+S+D impossible (trilemma); F+S impossible (bilemma) \\
 Resolution & Not addressed & G-invariant projection (Pareto-optimal) \\
-Formalization & Pen-and-paper & Lean 4 (436 theorems, 0 sorry) \\
+Formalization & Pen-and-paper & Lean 4 (440 theorems, 0 sorry) \\
 Quantitative & Asymptotic bounds & Gaussian flip (OOS $R^2 = 0.848$) \\
 \bottomrule
 \end{tabular}
