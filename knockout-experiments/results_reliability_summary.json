@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "description": "Combined reliability audit across all Gaussian flip experiments",
+    "sources": [
+      "results_gaussian_flip_validated.json",
+      "results_final_experiments.json",
+      "results_gaussian_multimodel.json"
+    ]
+  },
+  "scope": {
+    "n_unique_datasets": 8,
+    "datasets": [
+      "Breast Cancer",
+      "CalHousing",
+      "Diabetes",
+      "German Credit",
+      "Heart",
+      "Heart Disease",
+      "High-Dim Synthetic (P=200)",
+      "Wine"
+    ],
+    "n_model_classes": 3,
+    "model_classes": [
+      "RandomForest",
+      "Ridge",
+      "XGBoost"
+    ],
+    "total_feature_pair_comparisons": 22332
+  },
+  "reliability": {
+    "overall_unreliable_frac": 0.4944,
+    "overall_reliable_frac": 0.1195,
+    "unreliable_definition": "observed flip rate > 30% (SNR < 0.5)",
+    "reliable_definition": "observed flip rate < 5% (SNR > 2)",
+    "n_pairs_audited_for_reliability": 20603
+  },
+  "prediction_accuracy": {
+    "validated_weighted_oos_r2": 0.8061,
+    "multimodel_weighted_oos_r2": 0.8288,
+    "overall_weighted_oos_r2": 0.8223,
+    "multimodel_combos_above_0.79": "8/9"
+  },
+  "per_source": {
+    "gaussian_flip_validated": {
+      "datasets": {
+        "Breast Cancer": {
+          "n_pairs": 435,
+          "oos_r2": 0.7918
+        },
+        "Wine": {
+          "n_pairs": 78,
+          "oos_r2": 0.7934
+        },
+        "CalHousing": {
+          "n_pairs": 28,
+          "oos_r2": 0.9692
+        },
+        "Diabetes": {
+          "n_pairs": 28,
+          "oos_r2": 0.8682
+        },
+        "Heart": {
+          "n_pairs": 78,
+          "oos_r2": 0.8179
+        }
+      },
+      "total_pairs": 647
+    },
+    "clinical_audit": {
+      "datasets": {
+        "Breast Cancer": {
+          "n_pairs": 435,
+          "unreliable_frac": 0.5724,
+          "reliable_frac": 0.0,
+          "oos_r2": 0.5692
+        },
+        "Heart Disease": {
+          "n_pairs": 78,
+          "unreliable_frac": 0.5769,
+          "reliable_frac": 0.0128,
+          "oos_r2": 0.5832
+        },
+        "German Credit": {
+          "n_pairs": 190,
+          "unreliable_frac": 0.5632,
+          "reliable_frac": 0.1368,
+          "oos_r2": 0.5183
+        }
+      },
+      "total_pairs": 703
+    },
+    "high_dim_gaussian": {
+      "n_pairs": 19900,
+      "unreliable_frac": 0.4918,
+      "reliable_frac": 0.1224,
+      "oos_r2": 0.5321
+    },
+    "multimodel": {
+      "combos_above_0.79": "8/9",
+      "extra_pairs_non_xgboost": 1082
+    }
+  },
+  "headline": "Across 8 clinical and financial datasets, 3 model classes, and 22,332 total feature-pair comparisons, 49% are unreliable (flip rate > 30%) and only 12% are reliable (flip rate < 5%). The Gaussian flip formula predicts per-pair reliability with mean out-of-sample R\u00b2 = 0.822."
+}

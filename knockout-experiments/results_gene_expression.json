@@ -1,0 +1,58 @@
+{
+  "gene_expression": {
+    "experiment": "gene_expression_reliability",
+    "description": "Gene expression SHAP reliability (AP_Breast_Lung, top 50 genes)",
+    "dataset": "AP_Breast_Lung",
+    "n_samples": 470,
+    "n_features_original": 10935,
+    "n_features_selected": 50,
+    "selection_method": "top_50_by_variance",
+    "importance_method": "gain",
+    "n_calibration_models": 30,
+    "n_validation_models": 30,
+    "n_pairs_tested": 1225,
+    "oos_r2": 0.416,
+    "pearson_r": 0.7133,
+    "pearson_p": 4.81e-191,
+    "snr_unreliable_count": 863,
+    "snr_moderate_count": 313,
+    "snr_reliable_count": 49,
+    "snr_unreliable_frac": 0.7045,
+    "snr_moderate_frac": 0.2555,
+    "snr_reliable_frac": 0.04,
+    "headline": "In AP_Breast_Lung cancer gene expression (P=50 top-variance genes), 70% of gene importance comparisons are unreliable (SNR < 0.5).",
+    "elapsed_seconds": 5.7
+  },
+  "high_dim_shap": {
+    "experiment": "high_dim_shap_p50",
+    "description": "High-dimensional TreeSHAP vs gain at P=50 (#27 extended)",
+    "n_features": 50,
+    "n_samples": 1000,
+    "n_informative": 20,
+    "n_redundant": 15,
+    "shap_sample_size": 100,
+    "n_calibration_models": 15,
+    "n_validation_models": 15,
+    "n_pairs_tested": 1225,
+    "gain": {
+      "oos_r2": 0.4235,
+      "pearson_r": 0.7474,
+      "pearson_p": 1.99e-219,
+      "snr_unreliable_frac": 0.329,
+      "snr_moderate_frac": 0.5184,
+      "snr_reliable_frac": 0.1527
+    },
+    "shap": {
+      "oos_r2": 0.6788,
+      "pearson_r": 0.8659,
+      "pearson_p": 0.0,
+      "snr_unreliable_frac": 0.2082,
+      "snr_moderate_frac": 0.3461,
+      "snr_reliable_frac": 0.4457
+    },
+    "r2_improvement_shap_over_gain": 0.2553,
+    "reference_p200_gain_r2": 0.53,
+    "elapsed_seconds": 2.7
+  },
+  "total_elapsed_seconds": 8.4
+}
