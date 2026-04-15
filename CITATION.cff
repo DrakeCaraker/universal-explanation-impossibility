@@ -25,8 +25,8 @@ abstract: >-
   instantiated across nine ML explanation types and fourteen cross-domain
   instances (Arrow's theorem, quantum contextuality, Duhem-Quine, gauge
   theory, statistical mechanics, genetic code, phase problem, and more).
-  455 type-checked theorems+lemmas from 72 axioms with 0 sorry across
-  103 files. Includes a constructive resolution via G-invariant
+  463 type-checked theorems+lemmas from 72 axioms with 0 sorry across
+  104 files. Includes a constructive resolution via G-invariant
   aggregation, the bilemma (strengthened impossibility for maximally
   incompatible systems), and the enrichment characterization.
 keywords:

@@ -15,9 +15,9 @@ jobs:
           # Count actual sorry tactics (not the word "sorry" in comments)
           SORRY=$(grep -c "^  sorry\|^    sorry\| sorry$" UniversalImpossibility/*.lean 2>/dev/null | awk -F: '{s+=$2} END {print s}')
           echo "Files: $FILES, Theorems: $THEOREMS, Axioms: $AXIOMS, Sorry: $SORRY"
-          echo "Expected: 103 files, 455 theorems, 72 axioms, 0 sorry"
-          [ "$FILES" -eq 103 ] || (echo "FAIL: expected 103 files, got $FILES" && exit 1)
-          [ "$THEOREMS" -eq 455 ] || (echo "FAIL: expected 455 theorems, got $THEOREMS" && exit 1)
+          echo "Expected: 104 files, 463 theorems, 72 axioms, 0 sorry"
+          [ "$FILES" -eq 104 ] || (echo "FAIL: expected 104 files, got $FILES" && exit 1)
+          [ "$THEOREMS" -eq 463 ] || (echo "FAIL: expected 463 theorems, got $THEOREMS" && exit 1)
           [ "$AXIOMS" -eq 72 ] || (echo "FAIL: expected 72 axioms, got $AXIOMS" && exit 1)
           [ "$SORRY" -eq 0 ] || (echo "FAIL: found $SORRY sorry statements" && exit 1)
           echo "All counts verified."

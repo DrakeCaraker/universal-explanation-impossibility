@@ -178,7 +178,7 @@ knockout-experiments/           — Empirical validation (90+ scripts, 80+ resul
   PRE_REGISTRATION.md           — Pre-registered predictions
 ```
 
-## Lean State: 103 files, 72 axioms, 455 theorems+lemmas, 0 sorry
+## Lean State: 104 files, 72 axioms, 463 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (72 total)
 
