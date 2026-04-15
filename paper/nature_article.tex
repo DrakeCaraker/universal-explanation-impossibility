@@ -75,7 +75,7 @@ be faithful (consistent with internal structure), stable (invariant across
 equivalent configurations), and decisive (committing to every internal
 distinction).  This impossibility is derived from first principles in eight
 scientific domains---each requiring zero shared axioms---and verified in the
-Lean~4 proof assistant (98~files, 432~theorems, 0~unproved goals).
+Lean~4 proof assistant (99~files, 436~theorems, 0~unproved goals).
 Empirical validation in seven domains confirms the predicted dose-response
 between underspecification and instability.  The constructive
 resolution---$G$-invariant projection---is Pareto-optimal, unifying
@@ -123,8 +123,8 @@ incompatible internal structures---no explanation can be simultaneously
 faithful, stable, and decisive (Theorem~\ref{thm:impossibility}).  We
 derive this in eight scientific domains (plus nine ML explanation types in
 Supporting Information), each requiring zero shared axioms.  The framework
-is mechanically verified in Lean~4~\citep{demoura2021lean4} (98~files,
-432~theorems, 0~unproved goals) and empirically validated in seven domains
+is mechanically verified in Lean~4~\citep{demoura2021lean4} (99~files,
+436~theorems, 0~unproved goals) and empirically validated in seven domains
 (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).  The
 Rashomon property is the exact boundary: a Lean-verified biconditional shows
 impossibility holds if and only if Rashomon is present.  The $G$-invariant
@@ -202,6 +202,10 @@ is the structural identification of \emph{which} pairs are subject to
 this formula (derivation in Methods).  Pairs with $|\Delta|/\sigma > 2$ are
 reliable (flip rate $< 5\%$); pairs with $|\Delta|/\sigma < 0.5$ are
 unreliable (flip rate $> 30\%$).
+On gene expression data (10{,}935 genes, cancer classification), 70\% of gene
+importance comparisons are unreliable.
+Across seven real clinical, financial, and genomics datasets (2{,}062
+feature-pair comparisons), 62\% are unreliable and only 4\% are reliable.
 
 \paragraph{Universal $\eta$ law.}
 The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$---a standard
@@ -433,7 +437,7 @@ Statistics
 The entire framework---the abstract theorem, all eight derived instances,
 tightness witnesses, the necessity converse, and the $G$-invariant
 resolution---is mechanically verified in Lean~4~\citep{demoura2021lean4}
-using Mathlib~\citep{mathlib2020}: 98~files, 432~theorems, 0~unproved
+using Mathlib~\citep{mathlib2020}: 99~files, 436~theorems, 0~unproved
 goals.  The core theorem requires zero axioms; each derived instance uses
 Lean's decidable computation to constructively witness the Rashomon
 property with zero axioms.  The formalization contains 72~axioms in total,
