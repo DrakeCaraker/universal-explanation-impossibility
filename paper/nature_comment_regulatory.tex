@@ -1,0 +1,173 @@
+%%% =========================================================================
+%%% The Explainability Gap: A Mathematical Limit on AI Regulation
+%%% Nature Comment / Correspondence (2-3 pages)
+%%% =========================================================================
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\title{The Explainability Gap:\\
+  Why AI Regulation Demands the Mathematically Impossible---and What To Do Instead}
+
+\author{Drake Caraker, Bryan Arnold, David Rhoads}
+
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+% =========================================================================
+% Note: This is a companion piece to "The Limits of Explanation" (main paper).
+% Target: Nature Comment, Nature Machine Intelligence Comment, or Science Policy Forum.
+% Length: 1500-2000 words.
+% =========================================================================
+
+\section*{The regulatory demand}
+
+The EU AI Act (Regulation 2024/1689) requires that high-risk AI systems be
+``designed and developed in such a way as to ensure that their operation is
+sufficiently transparent to enable deployers to interpret a system's output
+and use it appropriately'' (Article~13).  Article~86 establishes a ``right
+to explanation'' for individuals affected by AI decisions.  The US Federal
+Reserve's SR~11-7 requires ``developmental evidence'' documenting how model
+outputs arise.  The FDA's guidance on AI/ML-based software demands
+``transparency'' in clinical decision support.
+
+These regulations share an implicit assumption: that a sufficiently careful
+explanation of an AI system can be simultaneously \emph{correct} (faithful to
+the model's actual reasoning), \emph{reproducible} (stable across equivalent
+model instances), and \emph{complete} (decisive about every relevant
+distinction).
+
+\section*{The mathematical limit}
+
+We have proved~\citep{caraker2026universal} that this assumption is false.
+For any AI system where multiple model instances achieve the same predictive
+performance---the \emph{Rashomon property}, which holds for virtually all
+production ML systems with more parameters than
+constraints~\citep{breiman2001statistical,rudin2024amazing}---no explanation
+can be simultaneously faithful, stable, and decisive.  The proof is four
+steps, verified in the Lean~4 proof assistant (104~files, 463~theorems,
+0~unproved goals), and applies uniformly to all major explanation methods:
+SHAP, attention maps, counterfactual explanations, concept probes, saliency
+maps, causal discovery, and mechanistic interpretability.
+
+The impossibility is not a deficiency of current methods.  It is a
+structural consequence of underspecification---a mathematical ceiling that no
+future method can exceed.
+
+\section*{What regulations actually require}
+
+Mapping the regulatory language onto our formal framework:
+
+\begin{center}
+\begin{tabular}{@{}p{5cm}p{3cm}p{3cm}@{}}
+\toprule
+\textbf{Regulatory requirement} & \textbf{Formal property} & \textbf{Achievable alone?} \\
+\midrule
+``Interpret a system's output'' & Faithfulness & Yes \\
+``Use it appropriately'' across deployments & Stability & Yes \\
+``Right to explanation'' (complete) & Decisiveness & Yes \\
+All three simultaneously & F + S + D & \textbf{No} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Each property is achievable individually or in pairs.  The impossibility
+arises only when all three are demanded simultaneously for underspecified
+systems.  The bilemma strengthens this: for systems with binary explanation
+spaces (e.g., ``feature is important'' vs.\ ``not important''), even
+faithful + stable alone is impossible without enriching the explanation space
+with an indeterminate option.
+
+\section*{The practical impact}
+
+How severe is this?  We audited five clinical and financial datasets commonly
+used in published SHAP analyses (Breast Cancer Wisconsin, Heart Disease,
+Pima Diabetes, German Credit, Adult Income) using TreeSHAP with 30
+independently trained XGBoost models per dataset.
+
+\textbf{28\% of top-5 SHAP feature ranking comparisons are structurally
+unreliable}---meaning that retraining the model with a different random seed
+produces the opposite ranking with $>$30\% probability.  On the Breast
+Cancer dataset, the comparison between the two most important features
+(worst perimeter vs.\ worst concave points) is a coin flip (SNR = 0.17,
+43\% flip rate).  On Adult Income, 60\% of top-5 comparisons are unreliable.
+
+These are not errors by the analysts.  They are structural consequences of
+the Rashomon property.  No existing regulatory framework diagnoses or
+accounts for this instability.
+
+\section*{The constructive solution}
+
+The impossibility theorem does not counsel despair.  It provides a
+constructive resolution: \emph{$G$-invariant projection}, which aggregates
+explanations across the Rashomon set.  The concrete implementation---the
+SAGE algorithm (Symmetry-Aware Group Estimation)---identifies which
+explanation queries are structurally reliable (signal-to-noise ratio $> 2$)
+and which are structurally unreliable (SNR $< 0.5$), reducing false
+discovery from 57\% to $<$5\%.
+
+The coverage conflict bridge validates this quantitatively: across 15
+datasets, the theoretical predictor (coverage conflict degree, derived from
+the impossibility theorem) correlates with observed instability at
+$\rho = 0.961$ ($p < 0.0001$).
+
+\section*{Recommendations for regulators}
+
+We propose that AI explainability regulations adopt the following standard:
+
+\begin{enumerate}
+  \item \textbf{Require stability-annotated explanations.}  Every feature
+    ranking or explanation should report which comparisons are structurally
+    reliable (SNR $> 2$), marginal ($0.5 < \text{SNR} < 2$), or unreliable
+    (SNR $< 0.5$).
+
+  \item \textbf{Mandate the Rashomon diagnostic.}  Before requiring
+    explanations, assess whether the system has the Rashomon property
+    (multiple equivalent models exist).  If it does, require
+    Rashomon-aware explanation methods.
+
+  \item \textbf{Replace ``complete explanation'' with ``best achievable
+    explanation.''}  The optimal tradeoff is known:
+    $G$-invariant aggregation maximizes faithfulness among stable methods.
+    Require this optimality, not the impossible triple.
+
+  \item \textbf{Require explicit disclosure of structural indeterminacy.}
+    When explanation queries are unreliable, the system should report ``this
+    comparison is structurally indeterminate'' rather than presenting an
+    arbitrary answer as definitive.
+\end{enumerate}
+
+These recommendations are constructive, not obstructive.  They replace an
+impossible demand (complete, stable, faithful explanations) with an achievable
+standard (stability-annotated, Rashomon-aware, optimally aggregated
+explanations) that is provably the best any method can do.
+
+\section*{The precedent}
+
+This parallels Arrow's impossibility theorem~\citep{arrow1951social} in
+social choice theory.  Arrow proved that no voting system can simultaneously
+satisfy unanimity, independence of irrelevant alternatives, and
+non-dictatorship.  The response was not to abandon voting but to
+characterize the achievable tradeoffs and design mechanisms accordingly.
+Our result serves the same function for AI explainability: it replaces an
+implicit assumption of possibility with a precise characterization of what
+is and is not achievable, enabling regulation grounded in mathematical
+reality rather than unrealizable aspiration.
+
+\bigskip
+\noindent\textit{The companion paper ``The Limits of Explanation'' provides
+the full formal framework, Lean~4 verification, and empirical validation
+across 23 domains.}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
