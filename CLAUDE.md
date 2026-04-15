@@ -109,6 +109,9 @@ UniversalImpossibility/
   DASHResolution.lean           — DASH as G-invariant resolution for attributions
   CPDAGResolution.lean          — CPDAG as G-invariant resolution for causal discovery
   Ubiquity.lean                 — generic_underspecification, ubiquity_impossibility
+  MaximalIncompatibility.lean   — Bilemma, S+D impossibility, tightness, recovery (8 theorems)
+  BilemmaCharacterization.lean  — Neutral element characterization (3 theorems)
+  PredictiveConsequences.lean   — All-or-nothing, Rashomon unfaithfulness, faithful uniqueness (5 theorems)
 paper/
   universal_impossibility.tex — JMLR universal paper (primary, this paper)
   main.tex                    — NeurIPS 2026 companion attribution paper (10 pages)
@@ -122,7 +125,7 @@ paper/
   sections/                   — LaTeX section fragments for universal paper instances
 ```
 
-## Lean State: 96 files, 72 axioms, 424 theorems+lemmas, 0 sorry
+## Lean State: 98 files, 72 axioms, 432 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (72 total)
 
@@ -192,7 +195,7 @@ make setup         # full setup for new contributors
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 424)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 432)
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.

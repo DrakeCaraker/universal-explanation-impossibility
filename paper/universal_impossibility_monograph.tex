@@ -173,7 +173,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (96~files, 424~theorems,
+The framework is mechanically verified in Lean~4 (98~files, 432~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -259,7 +259,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 96~files, 424~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 98~files, 432~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -569,16 +569,16 @@ Under maximal incompatibility, only faithful~+~decisive survives
 
 \begin{table}[h]
 \centering\small
-\begin{tabular}{@{}lcc@{}}
+\begin{tabular}{@{}lccc@{}}
 \toprule
-Property pair & Abstract & Max.\ incompatible \\
+Property pair & Abstract & Max.\ incompatible & Enriched \\
 \midrule
-Faithful + Decisive & \checkmark & \checkmark \\
-Faithful + Stable   & \checkmark & \texttimes\ (bilemma) \\
-Stable + Decisive   & \checkmark & \texttimes \\
+Faithful + Decisive & \checkmark & \checkmark & \checkmark \\
+Faithful + Stable   & \checkmark & \texttimes\ (bilemma) & \checkmark \\
+Stable + Decisive   & \checkmark & \texttimes & \texttimes \\
 \bottomrule
 \end{tabular}
-\caption{Tightness collapses from 3/3 to 1/3 under maximal incompatibility.}
+\caption{Tightness spectrum: 3/3 (abstract), 1/3 (max.\ incompatible), 2/3 (enriched with neutral element).}
 \label{tab:tightness-maxincompat}
 \end{table}
 
@@ -603,8 +603,67 @@ elements.
 
 Categorically, the enrichment operation is the free adjunction of an initial object to the incompatibility poset: adding an element $c$ compatible with everything is adjoining a least element under the compatibility ordering.
 
-All seven theorems in this subsection are Lean-verified with zero
-\texttt{sorry} in \texttt{MaximalIncompatibility.lean}.
+\paragraph{Bilemma characterization.}
+The bilemma holds if and only if no \emph{neutral element} exists.  Define a neutral element as $c \in H$ such that $\lnot\incomp(c, \mathsf{explain}(\theta))$ for all $\theta$.  If such a $c$ exists, then $E(\theta) = c$ is faithful and stable, so the bilemma fails.  Conversely, if the bilemma holds (F+S is impossible for all $E$), then no neutral element can exist.  Maximal incompatibility implies no neutral element: if $c$ were compatible with all native explanations, then $c = \mathsf{explain}(\theta)$ for all $\theta$ (by maximal incompatibility), but the Rashomon property gives $\theta_1, \theta_2$ with $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$, contradicting irreflexivity.  The converse of the last implication is false: a system can lack a neutral element without being maximally incompatible.  (Lean: \texttt{BilemmaCharacterization.lean}, three theorems, zero \texttt{sorry}.)
+
+\paragraph{ML instances.}
+Three binary explanation types trigger the bilemma:
+(1)~SHAP sign attribution (positive/negative), where collinearity flips the sign across equivalent models;
+(2)~feature selection (selected/not\_selected), where Lasso path instability swaps features;
+(3)~counterfactual direction (increase/decrease), where equivalent classifiers give opposite advice.
+For all three, faithfulness + stability is impossible --- not just the trilemma.
+
+\paragraph{Predictive consequences.}
+Four structural predictions follow from the bilemma (Lean: \texttt{PredictiveConsequences.lean}, five theorems, zero \texttt{sorry}).
+
+\begin{theorem}[Stability forces unfaithfulness]
+\label{thm:stable-implies-unfaithful}
+For any maximally incompatible system, every stable explanation $E$ satisfies $\exists \theta$, $\incomp(E(\theta), \mathsf{explain}(\theta))$.
+\end{theorem}
+
+\begin{proof}
+If $E$ were both stable and faithful, the bilemma gives a contradiction.
+\end{proof}
+
+\begin{theorem}[Rashomon unfaithfulness bound]
+\label{thm:rashomon-unfaithfulness}
+On any Rashomon pair $(\theta_1, \theta_2)$ with $\mathsf{observe}(\theta_1) = \mathsf{observe}(\theta_2)$ and $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$, a stable $E$ is unfaithful at $\geq 1$ of the 2~witnesses:
+\[
+\incomp(E(\theta_1), \mathsf{explain}(\theta_1)) \lor \incomp(E(\theta_2), \mathsf{explain}(\theta_2)).
+\]
+\end{theorem}
+
+\begin{proof}
+Stability gives $E(\theta_1) = E(\theta_2)$.  If $E(\theta_1)$ is compatible with $\mathsf{explain}(\theta_1)$, then $E(\theta_1) = \mathsf{explain}(\theta_1)$ (maximal incompatibility), so $E(\theta_2) = \mathsf{explain}(\theta_1)$.  Then $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$ gives $\incomp(E(\theta_2), \mathsf{explain}(\theta_2))$.
+\end{proof}
+
+\begin{theorem}[Faithful uniqueness]
+\label{thm:faithful-unique}
+In a maximally incompatible system, faithful explanations are unique: if $E_1$ and $E_2$ are both faithful, then $E_1(\theta) = E_2(\theta)$ for all $\theta$.  Both equal $\mathsf{explain}$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:bilemma}'s proof, faithful $\Rightarrow$ $E = \mathsf{explain}$.  So $E_1 = \mathsf{explain} = E_2$.
+\end{proof}
+
+\begin{theorem}[All-or-nothing]
+\label{thm:all-or-nothing}
+For any maximally incompatible system and any explanation $E$, exactly one of the following holds:
+(i)~$E$ is faithful and $E = \mathsf{explain}$ (hence decisive but not stable), or
+(ii)~$\exists \theta$, $\incomp(E(\theta), \mathsf{explain}(\theta))$ ($E$ is unfaithful somewhere).
+No continuous interpolation exists.
+\end{theorem}
+
+\begin{proof}
+If $E$ is faithful, maximal incompatibility forces $E = \mathsf{explain}$.  If $E$ is not faithful, $\exists \theta$, $\incomp(E(\theta), \mathsf{explain}(\theta))$ by definition.
+\end{proof}
+
+\paragraph{On simplicity.} The bilemma is a short proof. Its value is structural: it reveals the impossibility landscape depends on $H$'s incompatibility structure, not just the Rashomon property. The abstract trilemma treats all systems uniformly; the bilemma shows tightness is a system-specific property.
+
+\paragraph{Structural parallels.} Arrow's impossibility theorem simplifies for binary alternatives; Gibbard--Satterthwaite simplifies for two candidates; the doctrinal paradox depends on proposition structure. The pattern --- impossibility strength governed by outcome space structure --- may warrant systematic study.
+
+All theorems in this subsection are Lean-verified with zero
+\texttt{sorry} across three files: \texttt{MaximalIncompatibility.lean} (8~theorems), \texttt{BilemmaCharacterization.lean} (3~theorems), and \texttt{PredictiveConsequences.lean} (5~theorems).
 
 %%% ==========================================================================
 \section{Derived Instances Across Eight Sciences}
@@ -1016,7 +1075,7 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 Component & Count & Notes \\
 \midrule
 Files & 96 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 424 & Verified by \texttt{grep -c} \\
+Theorems \& lemmas & 432 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -1336,6 +1395,17 @@ and dramatically more on real data with correlated features.  This dose-response
 was predicted by the theorem: larger Rashomon sets produce more instability,
 and orbit averaging provides proportionally larger improvements.
 
+\paragraph{Beyond ML.} As evidence that the impossibility extends beyond ML,
+we note that spacetime geometry under Ostrowski's classification of
+completions of $\mathbb{Q}$ is a maximally incompatible system: the two
+completions yield exactly two geometries (smooth and ultrametric), triggering
+the bilemma (Theorem~\ref{thm:bilemma}).  The adelic resolution --- formulating physics over all completions
+simultaneously --- is the enrichment escape, and it is the \emph{unique}
+faithful + stable value on the Rashomon fiber. The full development, including
+the Ostrowski--Design Space correspondence and physical scoping (conditional
+on the Freund--Witten adelic product formula), is in a companion
+paper~\cite{caraker2026ostrowski}.
+
 \subsection{Toward a Group-Theoretic Classification of Explainability}
 \label{sec:group-classification}
 
@@ -1515,7 +1585,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 96~files, 424~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 98~files, 432~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -2727,7 +2797,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 96 files in
+formalization.  The complete codebase comprises 98 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 

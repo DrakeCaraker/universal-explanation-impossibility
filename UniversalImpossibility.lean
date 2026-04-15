@@ -2,3 +2,5 @@
 -- Import modules here that should be built as part of the library.
 import UniversalImpossibility.Basic
 import UniversalImpossibility.MaximalIncompatibility
+import UniversalImpossibility.BilemmaCharacterization
+import UniversalImpossibility.PredictiveConsequences

@@ -40,6 +40,7 @@
 
 %% ---- Theorem environment ----
 \newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
 
 %%% =========================================================================
 %%% Title
@@ -79,7 +80,7 @@ scientific domains---underdetermined linear systems, genetic code degeneracy,
 gauge freedom, microstate multiplicity, syntactic ambiguity, the phase
 problem, the view update problem, and Markov equivalence---each requiring
 zero shared axioms.  The framework is mechanically verified in the Lean~4
-proof assistant (96~files, 424~theorems, 0~unproved goals), and empirically
+proof assistant (98~files, 432~theorems, 0~unproved goals), and empirically
 validated in seven domains with real data and negative controls.
 The constructive resolution---projecting onto the subspace invariant under
 the symmetry group of equivalent configurations---is provably
@@ -172,7 +173,7 @@ can be simultaneously faithful, stable, and decisive
 first principles in eight scientific domains (together with nine machine learning explanation types documented in the Supporting Information, yielding seventeen distinct instances), each requiring zero shared
 axioms (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).
 The entire framework is mechanically verified in the Lean~4 proof
-assistant~\citep{demoura2021lean4} (96~files, 424~theorems, 0~unproved
+assistant~\citep{demoura2021lean4} (98~files, 432~theorems, 0~unproved
 goals), and empirically validated with real data in seven of the eight
 domains.  The impossibility is tight: each pair of properties is achievable,
 and the Rashomon property is the exact boundary (a Lean-verified
@@ -670,7 +671,7 @@ tightness witnesses, the necessity converse, and the $G$-invariant
 resolution---is mechanically verified in the Lean~4 proof
 assistant~\citep{demoura2021lean4} using the Mathlib mathematical
 library~\citep{mathlib2020}.  The formalization comprises 96~source files
-containing 424~theorems and lemmas, with 0~\texttt{sorry} declarations
+containing 432~theorems and lemmas, with 0~\texttt{sorry} declarations
 (Lean's marker for unproved goals).  Every theorem in the paper has a
 corresponding machine-checked proof.
 
@@ -743,7 +744,7 @@ Rashomon witness; the impossibility follows automatically.
 
 The formalization also includes a Peres-Mermin magic square instance: the parity impossibility (Lean-verified as \texttt{peres\_mermin\_bool}) and the explanation trilemma share the same structure; the framework captures this structural correspondence, not the combinatorial content of the parity argument.
 
-The formalization comprises 424~theorems and lemmas across 96~files.
+The formalization comprises 432~theorems and lemmas across 98~files.
 The core impossibility proof is four tactic steps; the formalization's
 value lies in mechanically verifying the eight constructive domain
 instances---each requiring correct encoding of domain-specific concepts
@@ -755,50 +756,80 @@ publicly available (see Code Availability).
 %%% Bilemma
 %%% =========================================================================
 
-\subsection*{The bilemma}
+\subsection*{Strengthened impossibility for maximally incompatible systems}
 
-The trilemma's tightness depends on the structure of the explanation
-space~$\sH$.  When $\sH$ is \emph{maximally incompatible}---the only
-compatible pair is $(h, h)$---the trilemma collapses to a \emph{bilemma}.
+\begin{definition}[Maximal Incompatibility]
+An explanation system is \emph{maximally incompatible} if
+$\lnot\mathrm{incompatible}(h_1, h_2) \Rightarrow h_1 = h_2$: the only
+compatible pair is $(h, h)$. In particular, any binary $H$ with
+$\mathrm{incompatible} = {\neq}$ satisfies this condition.
+\end{definition}
 
-\begin{theorem}[The bilemma]
+\begin{theorem}[The Bilemma]
 \label{thm:bilemma}
 For any maximally incompatible explanation system with the Rashomon
 property, no explanation is simultaneously faithful and stable.
 \end{theorem}
 
-The proof: maximal incompatibility forces faithful~$\Rightarrow$~$E =
-\mathsf{exp}$ (since $\lnot\incomp(E(\theta), \mathsf{exp}(\theta))$
-with no compatible pairs except identity implies equality).  But $E =
-\mathsf{exp}$ is decisive, so the trilemma applies.  By a symmetric
-argument, decisive~+~stable is also impossible.  Only faithful~+~decisive
-(via $E = \mathsf{exp}$) survives.
+\begin{proof}
+Maximal incompatibility means $\lnot\mathrm{incompatible}(E(\theta),
+\mathrm{explain}(\theta))$ implies $E(\theta) = \mathrm{explain}(\theta)$.
+So faithful $\Rightarrow$ $E = \mathrm{explain}$ $\Rightarrow$ decisive.
+The trilemma gives the contradiction.
+\end{proof}
 
-\begin{table}[h]
-\centering\small
-\begin{tabular}{@{}lcc@{}}
+\begin{theorem}[Decisive + Stable also impossible]
+By a symmetric argument: if $E(\theta) \neq \mathrm{explain}(\theta)$,
+then $\mathrm{incompatible}(\mathrm{explain}(\theta), E(\theta))$ (maximal
+incompatibility). Decisiveness gives
+$\mathrm{incompatible}(E(\theta), E(\theta))$ --- contradicting
+irreflexivity. So decisive $\Rightarrow$ $E = \mathrm{explain}$, and the
+trilemma applies.
+\end{theorem}
+
+\paragraph{Tightness comparison.}
+
+\begin{center}
+\begin{tabular}{lccc}
 \toprule
-Property pair & Abstract & Max.\ incompatible \\
+\textbf{Pair} & \textbf{Abstract} & \textbf{Max.\ incompat.} & \textbf{Enriched} \\
 \midrule
-Faithful + Decisive & \checkmark & \checkmark \\
-Faithful + Stable   & \checkmark & \texttimes\ (bilemma) \\
-Stable + Decisive   & \checkmark & \texttimes \\
+F + D & \checkmark & \checkmark & \checkmark \\
+F + S & \checkmark & $\times$ (bilemma)  & \checkmark \\
+S + D & \checkmark & $\times$ & $\times$ \\
 \bottomrule
 \end{tabular}
-\caption{Tightness collapses from 3/3 to 1/3 under maximal incompatibility.}
-\end{table}
+\end{center}
 
-Many natural explanation spaces are maximally incompatible: binary
-feature rankings ($j > k$ or $k > j$, no tie), DAG edge orientations
-($X \to Y$ or $Y \to X$, no undirected), and quantum measurement
-outcomes.  Recovery requires \emph{enriching}~$\sH$ with a neutral
-element~$c$ (compatible with everything): the constant map $E(\theta) = c$
-restores faithful~+~stable at the cost of decisiveness.  This is the
-abstract mechanism behind ensemble averaging (DASH adds ``tied''), CPDAG
-reporting (adds ``undirected''), and Bayesian model averaging (adds
-``uncertain'').  The enrichment does \emph{not} restore
-stable~+~decisive---that remains impossible even with the neutral element.
-This enrichment mechanism is the abstract version of Sen's extension of Arrow's framework to weak orderings~\citep{sen1970collective}: allowing ties (indifference) enlarges the preference space to create room for consistent aggregation.
+\paragraph{ML instances.} Three binary explanation types trigger the bilemma:
+(1)~SHAP sign attribution (positive/negative), where collinearity flips
+the sign across equivalent models; (2)~feature selection
+(selected/not\_selected), where Lasso path instability swaps features;
+(3)~counterfactual direction (increase/decrease), where equivalent
+classifiers give opposite advice. For all three, faithfulness + stability
+is impossible --- not just the trilemma.
+
+\paragraph{The all-or-nothing prediction.} For maximally incompatible
+systems, the tradeoff is discrete: either $E = \mathrm{explain}$ (faithful
++ decisive, not stable) or $E$ is unfaithful at $\geq 1/2$ of each
+Rashomon pair. No continuous interpolation exists.
+
+\paragraph{Recovery.} Adding a ``neutral'' element (compatible with
+everything) to $H$ restores F+S via the constant $E(\theta) = c$, at the
+cost of decisiveness. This is the abstract mechanism behind DASH averaging,
+CPDAG aggregation, and Bayesian model averaging.
+
+\paragraph{On simplicity.} The bilemma is a short proof. Its value is
+structural: it reveals the impossibility landscape depends on $H$'s
+incompatibility structure, not just the Rashomon property. The abstract
+trilemma treats all systems uniformly; the bilemma shows tightness is a
+system-specific property.
+
+\paragraph{Structural parallels.} Arrow's impossibility theorem simplifies
+for binary alternatives; Gibbard--Satterthwaite simplifies for two
+candidates; the doctrinal paradox depends on proposition structure. The
+pattern --- impossibility strength governed by outcome space structure ---
+may warrant systematic study.
 
 %%% =========================================================================
 %%% Discussion
@@ -857,6 +888,17 @@ interpretability.  The impossibility theorem suggests that when the
 Rashomon property holds, single-model explanation methods face inherent
 stability limitations that ensemble-based approaches can
 mitigate~\citep{selbst2018intuitive}.
+
+\paragraph{Beyond ML.} As evidence that the impossibility extends beyond ML,
+we note that spacetime geometry under Ostrowski's classification of
+completions of $\mathbb{Q}$ is a maximally incompatible system: the two
+completions yield exactly two geometries (smooth and ultrametric), triggering
+the bilemma. The adelic resolution --- formulating physics over all completions
+simultaneously --- is the enrichment escape, and it is the \emph{unique}
+faithful + stable value on the Rashomon fiber. The full development, including
+the Ostrowski--Design Space correspondence and physical scoping (conditional
+on the Freund--Witten adelic product formula), is in a companion
+paper~\cite{caraker2026ostrowski}.
 
 A structural parallel exists with Arrow's impossibility
 theorem~\citep{arrow1951social}, which proves that no voting system can
