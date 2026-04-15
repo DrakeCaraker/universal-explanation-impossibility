@@ -1,0 +1,82 @@
+{
+  "Fashion-MNIST": {
+    "dataset": "Fashion-MNIST",
+    "n_orig_classes": 10,
+    "n_target_classes": 2,
+    "semantic_balance": 0.4968,
+    "fine_flip": 0.3713195402298851,
+    "semantic_flip": 0.17649655172413792,
+    "n_matched_randoms": 10,
+    "matched_flips": [
+      0.26345747126436775,
+      0.2852413793103448,
+      0.26794482758620697,
+      0.2742068965517242,
+      0.23250114942528735,
+      0.29796781609195405,
+      0.28405517241379313,
+      0.28966896551724136,
+      0.2699908045977012,
+      0.2593655172413793
+    ],
+    "matched_balances": [
+      0.4948,
+      0.4936,
+      0.497,
+      0.494,
+      0.499,
+      0.4944,
+      0.4988,
+      0.4958,
+      0.4924,
+      0.497
+    ],
+    "mean_matched_flip": 0.27244,
+    "std_matched_flip": 0.017673032997656067,
+    "semantic_advantage_pp": 9.6,
+    "semantic_better": true,
+    "n_randoms_beaten": 10,
+    "beat_rate": 1.0,
+    "elapsed_seconds": 831.4
+  },
+  "Covertype": {
+    "dataset": "Covertype",
+    "n_orig_classes": 7,
+    "n_target_classes": 2,
+    "semantic_balance": 0.1524,
+    "fine_flip": 0.1596229885057471,
+    "semantic_flip": 0.09626666666666667,
+    "n_matched_randoms": 10,
+    "matched_flips": [
+      0.0891080459770115,
+      0.1130712643678161,
+      0.09626666666666667,
+      0.08434022988505747,
+      0.09626666666666667,
+      0.0891080459770115,
+      0.076583908045977,
+      0.08407816091954023,
+      0.08106666666666666,
+      0.0891080459770115
+    ],
+    "matched_balances": [
+      0.1348,
+      0.1174,
+      0.1524,
+      0.1298,
+      0.1524,
+      0.1348,
+      0.1174,
+      0.1298,
+      0.1124,
+      0.1348
+    ],
+    "mean_matched_flip": 0.08989977011494252,
+    "std_matched_flip": 0.009695405566570049,
+    "semantic_advantage_pp": -0.6,
+    "semantic_better": false,
+    "n_randoms_beaten": 1,
+    "beat_rate": 0.1,
+    "elapsed_seconds": 56.9
+  }
+}
