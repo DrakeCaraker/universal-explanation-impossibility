@@ -1,0 +1,96 @@
+{
+  "Wine": {
+    "dataset": "Wine",
+    "n_orig_classes": 3,
+    "n_target_classes": 2,
+    "fine_flip": 0.2717064544650752,
+    "semantic_flip": 0.12437371058060712,
+    "random_flips": [
+      0.25534924845269674,
+      0.12437371058060712,
+      0.17624521072796934,
+      0.25534924845269674,
+      0.17624521072796934,
+      0.12437371058060712,
+      0.17624521072796934,
+      0.12437371058060712,
+      0.17624521072796934,
+      0.12437371058060712
+    ],
+    "mean_random_flip": 0.17131741821396992,
+    "std_random_flip": 0.04799445414654813,
+    "semantic_reduction_pp": 14.7,
+    "random_reduction_pp": 10.0,
+    "semantic_better_than_random": true,
+    "semantic_advantage_pp": 4.7,
+    "elapsed_seconds": 12.4
+  },
+  "Iris": {
+    "dataset": "Iris",
+    "n_orig_classes": 3,
+    "n_target_classes": 2,
+    "fine_flip": 0.15517241379310345,
+    "semantic_flip": 0.0,
+    "random_flips": [
+      0.1850574712643678,
+      0.2057471264367816,
+      0.0,
+      0.1850574712643678,
+      0.0,
+      0.2057471264367816,
+      0.0,
+      0.2057471264367816,
+      0.0,
+      0.2057471264367816
+    ],
+    "mean_random_flip": 0.1193103448275862,
+    "std_random_flip": 0.09770899224775648,
+    "semantic_reduction_pp": 15.5,
+    "random_reduction_pp": 3.6,
+    "semantic_better_than_random": true,
+    "semantic_advantage_pp": 11.9,
+    "elapsed_seconds": 12.0
+  },
+  "Covertype": {
+    "dataset": "Covertype",
+    "n_orig_classes": 7,
+    "n_target_classes": 2,
+    "fine_flip": 0.1596229885057471,
+    "semantic_flip": 0.09626666666666667,
+    "random_flips": [
+      0.12854252873563218,
+      0.13108505747126434,
+      0.14005517241379312,
+      0.14005517241379312,
+      0.08897011494252874
+    ],
+    "mean_random_flip": 0.12574160919540228,
+    "std_random_flip": 0.01896468593650055,
+    "semantic_reduction_pp": 6.3,
+    "random_reduction_pp": 3.4,
+    "semantic_better_than_random": true,
+    "semantic_advantage_pp": 2.9,
+    "elapsed_seconds": 42.3
+  },
+  "Fashion-MNIST": {
+    "dataset": "Fashion-MNIST",
+    "n_orig_classes": 10,
+    "n_target_classes": 2,
+    "fine_flip": 0.3713195402298851,
+    "semantic_flip": 0.17649655172413792,
+    "random_flips": [
+      0.28463908045977016,
+      0.2796045977011494,
+      0.24137011494252872,
+      0.2764551724137931,
+      0.23963678160919538
+    ],
+    "mean_random_flip": 0.2643411494252873,
+    "std_random_flip": 0.019645369046762288,
+    "semantic_reduction_pp": 19.5,
+    "random_reduction_pp": 10.7,
+    "semantic_better_than_random": true,
+    "semantic_advantage_pp": 8.8,
+    "elapsed_seconds": 593.5
+  }
+}

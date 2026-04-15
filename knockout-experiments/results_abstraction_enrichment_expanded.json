@@ -1,0 +1,304 @@
+{
+  "experiment": "abstraction_enrichment_expanded",
+  "description": "Enrichment (class merging) reduces explanation instability across multiple datasets",
+  "prediction": "Bilemma: merging fine-grained classes into superclasses adds neutral element, restoring stability",
+  "n_datasets": 6,
+  "n_confirmed": 4,
+  "confirmation_rate": 0.6666666666666666,
+  "summary_table": [
+    {
+      "dataset": "Wine",
+      "n_features": 13,
+      "fine_flip": 0.2680223990568818,
+      "coarse_flip": 0.12466843501326257,
+      "reduction_pp": 14.3,
+      "monotonic": true,
+      "confirmed": true
+    },
+    {
+      "dataset": "Iris",
+      "n_features": 4,
+      "fine_flip": 0.18199233716475094,
+      "coarse_flip": 0.0,
+      "reduction_pp": 18.2,
+      "monotonic": true,
+      "confirmed": true
+    },
+    {
+      "dataset": "Digits (8x8)",
+      "n_features": 64,
+      "fine_flip": 0.1669701149425287,
+      "coarse_flip": 0.16796781609195405,
+      "reduction_pp": -0.1,
+      "monotonic": false,
+      "confirmed": false
+    },
+    {
+      "dataset": "OptDigits (UCI)",
+      "n_features": 64,
+      "fine_flip": 0.12321379310344828,
+      "coarse_flip": 0.12166666666666666,
+      "reduction_pp": 0.2,
+      "monotonic": false,
+      "confirmed": false
+    },
+    {
+      "dataset": "Covertype",
+      "n_features": 54,
+      "fine_flip": 0.17255402298850575,
+      "coarse_flip": 0.10589655172413792,
+      "reduction_pp": 6.7,
+      "monotonic": true,
+      "confirmed": true
+    },
+    {
+      "dataset": "Fashion-MNIST",
+      "n_features": 784,
+      "fine_flip": 0.3580390804597701,
+      "coarse_flip": 0.17022528735632184,
+      "reduction_pp": 18.8,
+      "monotonic": true,
+      "confirmed": true
+    }
+  ],
+  "per_dataset": {
+    "Wine": {
+      "dataset": "Wine",
+      "n_features": 13,
+      "n_models": 30,
+      "levels": {
+        "level_0": {
+          "name": "3-class (cultivar 1/2/3)",
+          "n_classes": 3,
+          "calibration_flip_rate": 0.2717064544650752,
+          "validation_flip_rate": 0.2680223990568818,
+          "cal_median": 0.3310344827586207,
+          "cal_std": 0.17803016895497314,
+          "val_median": 0.28735632183908044,
+          "val_std": 0.19628704743562972
+        },
+        "level_1": {
+          "name": "Binary (cultivar 1+2 vs 3)",
+          "n_classes": 2,
+          "calibration_flip_rate": 0.12437371058060712,
+          "validation_flip_rate": 0.12466843501326257,
+          "cal_median": 0.10344827586206896,
+          "cal_std": 0.12309744480114633,
+          "val_median": 0.12873563218390804,
+          "val_std": 0.1272049771410723
+        }
+      },
+      "cal_reduction_pp": 14.7,
+      "val_reduction_pp": 14.3,
+      "cal_monotonic": true,
+      "val_monotonic": true,
+      "enrichment_confirmed": true,
+      "elapsed_seconds": 6.9
+    },
+    "Iris": {
+      "dataset": "Iris",
+      "n_features": 4,
+      "n_models": 30,
+      "levels": {
+        "level_0": {
+          "name": "3-species (setosa/versicolor/virginica)",
+          "n_classes": 3,
+          "calibration_flip_rate": 0.15517241379310345,
+          "validation_flip_rate": 0.18199233716475094,
+          "cal_median": 0.09770114942528735,
+          "cal_std": 0.15802403191425946,
+          "val_median": 0.12643678160919541,
+          "val_std": 0.179287829742095
+        },
+        "level_1": {
+          "name": "Binary (setosa vs non-setosa)",
+          "n_classes": 2,
+          "calibration_flip_rate": 0.0,
+          "validation_flip_rate": 0.0,
+          "cal_median": 0.0,
+          "cal_std": 0.0,
+          "val_median": 0.0,
+          "val_std": 0.0
+        }
+      },
+      "cal_reduction_pp": 15.5,
+      "val_reduction_pp": 18.2,
+      "cal_monotonic": true,
+      "val_monotonic": true,
+      "enrichment_confirmed": true,
+      "elapsed_seconds": 7.4
+    },
+    "Digits (8x8)": {
+      "dataset": "Digits (8x8)",
+      "n_features": 64,
+      "n_models": 30,
+      "levels": {
+        "level_0": {
+          "name": "10-class (digits 0-9)",
+          "n_classes": 10,
+          "calibration_flip_rate": 0.1577471264367816,
+          "validation_flip_rate": 0.1669701149425287,
+          "cal_median": 0.06666666666666667,
+          "cal_std": 0.18497931668719356,
+          "val_median": 0.06666666666666667,
+          "val_std": 0.18595394449392508
+        },
+        "level_1": {
+          "name": "5-class (visual pairs)",
+          "n_classes": 5,
+          "calibration_flip_rate": 0.17600689655172413,
+          "validation_flip_rate": 0.18388505747126435,
+          "cal_median": 0.06666666666666667,
+          "cal_std": 0.19298871839411041,
+          "val_median": 0.12873563218390804,
+          "val_std": 0.19176382482925639
+        },
+        "level_2": {
+          "name": "Binary (even/odd)",
+          "n_classes": 2,
+          "calibration_flip_rate": 0.1567793103448276,
+          "validation_flip_rate": 0.16796781609195405,
+          "cal_median": 0.06666666666666667,
+          "cal_std": 0.18807109124653767,
+          "val_median": 0.06666666666666667,
+          "val_std": 0.19371039868131262
+        }
+      },
+      "cal_reduction_pp": 0.1,
+      "val_reduction_pp": -0.1,
+      "cal_monotonic": false,
+      "val_monotonic": false,
+      "enrichment_confirmed": false,
+      "elapsed_seconds": 60.5
+    },
+    "OptDigits (UCI)": {
+      "dataset": "OptDigits (UCI)",
+      "n_features": 64,
+      "n_models": 30,
+      "levels": {
+        "level_0": {
+          "name": "10-class (digits 0-9)",
+          "n_classes": 10,
+          "calibration_flip_rate": 0.12089885057471264,
+          "validation_flip_rate": 0.12321379310344828,
+          "cal_median": 0.0,
+          "cal_std": 0.174431499732199,
+          "val_median": 0.0,
+          "val_std": 0.17108719364494743
+        },
+        "level_1": {
+          "name": "5-class (visual pairs)",
+          "n_classes": 5,
+          "calibration_flip_rate": 0.12162528735632183,
+          "validation_flip_rate": 0.12084597701149424,
+          "cal_median": 0.0,
+          "cal_std": 0.17140625690696623,
+          "val_median": 0.0,
+          "val_std": 0.17016254966034614
+        },
+        "level_2": {
+          "name": "Binary (even/odd)",
+          "n_classes": 2,
+          "calibration_flip_rate": 0.12745287356321838,
+          "validation_flip_rate": 0.12166666666666666,
+          "cal_median": 0.0,
+          "cal_std": 0.17590468473214338,
+          "val_median": 0.0,
+          "val_std": 0.17630705290997287
+        }
+      },
+      "cal_reduction_pp": -0.7,
+      "val_reduction_pp": 0.2,
+      "cal_monotonic": false,
+      "val_monotonic": false,
+      "enrichment_confirmed": false,
+      "elapsed_seconds": 83.9
+    },
+    "Covertype": {
+      "dataset": "Covertype",
+      "n_features": 54,
+      "n_models": 30,
+      "levels": {
+        "level_0": {
+          "name": "7-class (forest types)",
+          "n_classes": 7,
+          "calibration_flip_rate": 0.1637609195402299,
+          "validation_flip_rate": 0.17255402298850575,
+          "cal_median": 0.06666666666666667,
+          "cal_std": 0.18807531884731474,
+          "val_median": 0.06666666666666667,
+          "val_std": 0.19096081790625555
+        },
+        "level_1": {
+          "name": "3-class (conifer/mixed/deciduous)",
+          "n_classes": 3,
+          "calibration_flip_rate": 0.11378850574712644,
+          "validation_flip_rate": 0.11389425287356322,
+          "cal_median": 0.0,
+          "cal_std": 0.16693008111316113,
+          "val_median": 0.0,
+          "val_std": 0.1707616793590842
+        },
+        "level_2": {
+          "name": "Binary (conifer/non-conifer)",
+          "n_classes": 2,
+          "calibration_flip_rate": 0.09736091954022989,
+          "validation_flip_rate": 0.10589655172413792,
+          "cal_median": 0.0,
+          "cal_std": 0.16164493475094766,
+          "val_median": 0.0,
+          "val_std": 0.16795360096041823
+        }
+      },
+      "cal_reduction_pp": 6.6,
+      "val_reduction_pp": 6.7,
+      "cal_monotonic": true,
+      "val_monotonic": true,
+      "enrichment_confirmed": true,
+      "elapsed_seconds": 64.8
+    },
+    "Fashion-MNIST": {
+      "dataset": "Fashion-MNIST",
+      "n_features": 784,
+      "n_models": 30,
+      "levels": {
+        "level_0": {
+          "name": "10-class (items)",
+          "n_classes": 10,
+          "calibration_flip_rate": 0.3627632183908046,
+          "validation_flip_rate": 0.3580390804597701,
+          "cal_median": 0.4045977011494253,
+          "cal_std": 0.14562220971205453,
+          "val_median": 0.4045977011494253,
+          "val_std": 0.15018890630015744
+        },
+        "level_1": {
+          "name": "4-class (tops/bottoms/feet/acc)",
+          "n_classes": 4,
+          "calibration_flip_rate": 0.3026091954022989,
+          "validation_flip_rate": 0.30312873563218384,
+          "cal_median": 0.33793103448275863,
+          "cal_std": 0.1680721990799799,
+          "val_median": 0.34942528735632183,
+          "val_std": 0.1716978188297215
+        },
+        "level_2": {
+          "name": "Binary (clothing/non-clothing)",
+          "n_classes": 2,
+          "calibration_flip_rate": 0.17294712643678162,
+          "validation_flip_rate": 0.17022528735632184,
+          "cal_median": 0.1310344827586207,
+          "cal_std": 0.15444772755520844,
+          "val_median": 0.14597701149425288,
+          "val_std": 0.15101075227769278
+        }
+      },
+      "cal_reduction_pp": 19.0,
+      "val_reduction_pp": 18.8,
+      "cal_monotonic": true,
+      "val_monotonic": true,
+      "enrichment_confirmed": true,
+      "elapsed_seconds": 1005.7
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "dataset": "Adult (Census Income)",
+  "n_features": 14,
+  "n_models_cal": 30,
+  "n_models_val": 30,
+  "fairness_features": [
+    "age",
+    "marital-status",
+    "relationship",
+    "race",
+    "sex",
+    "native-country"
+  ],
+  "predictive_features": [
+    "workclass",
+    "fnlwgt",
+    "education",
+    "education-num",
+    "occupation",
+    "capital-gain",
+    "capital-loss",
+    "hours-per-week"
+  ],
+  "calibration": {
+    "ratio_mean": 1.5216420892611535,
+    "ratio_std": 0.16545608440595722,
+    "ratio_cv": 0.10873521807371657,
+    "fairness_first": 30
+  },
+  "validation": {
+    "ratio_mean": 1.5290692300858106,
+    "ratio_std": 0.16241109626904385,
+    "ratio_cv": 0.10621565922160987,
+    "fairness_first": 30
+  },
+  "gaussian_flip": {
+    "delta": 0.030024257346263353,
+    "sigma": 0.007649634696776898,
+    "snr": 3.924926945715956,
+    "predicted_flip": 4.337803119782302e-05,
+    "observed_flip_val": 0.0
+  },
+  "value_rashomon_cv": false,
+  "value_rashomon_flip": false,
+  "elapsed_seconds": 5.2
+}

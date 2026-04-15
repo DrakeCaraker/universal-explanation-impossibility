@@ -1,0 +1,257 @@
+{
+  "experiment": "multiverse_layer_decomposition",
+  "description": "Within-class vs cross-class Gaussian flip prediction",
+  "prediction": "Within-class (same model type) is more predictable than cross-class",
+  "n_datasets": 5,
+  "mean_within_rho": 0.7307928788921575,
+  "mean_cross_rho": 0.7219402678556132,
+  "separation_confirmed_count": 3,
+  "separation_confirmed_rate": 0.6,
+  "per_dataset": {
+    "Breast Cancer": {
+      "dataset": "Breast Cancer",
+      "n_features": 30,
+      "n_samples": 569,
+      "within_class": {
+        "xgboost": {
+          "layer": "within_xgboost",
+          "n_pairs": 200,
+          "spearman_rho": 0.518006761026558,
+          "spearman_p": 3.9823609261968504e-15,
+          "oos_r2": 0.07002378686812039,
+          "mean_predicted": 0.24791207880098085,
+          "mean_observed": 0.3141724137931034
+        },
+        "random_forest": {
+          "layer": "within_random_forest",
+          "n_pairs": 200,
+          "spearman_rho": 0.771004040677974,
+          "spearman_p": 1.1513915721180696e-40,
+          "oos_r2": 0.5985684609654903,
+          "mean_predicted": 0.09088206096921748,
+          "mean_observed": 0.13024137931034482
+        },
+        "ridge": {
+          "layer": "within_ridge",
+          "n_pairs": 200,
+          "spearman_rho": 0.7386558101218369,
+          "spearman_p": 9.290667675591401e-36,
+          "oos_r2": -0.029690312110149053,
+          "mean_predicted": 0.2718716078285775,
+          "mean_observed": 0.38337931034482764
+        }
+      },
+      "cross_class": {
+        "layer": "cross_class",
+        "n_pairs": 200,
+        "spearman_rho": 0.6134520703512873,
+        "spearman_p": 4.59973912209345e-22,
+        "oos_r2": 0.5074523482344355,
+        "mean_predicted": 0.3548033447533575,
+        "mean_observed": 0.36316853932584264
+      },
+      "mean_within_rho": 0.6758888706087895,
+      "mean_within_r2": 0.21296731190782056,
+      "cross_rho": 0.6134520703512873,
+      "cross_r2": 0.5074523482344355,
+      "within_better_than_cross": true,
+      "elapsed_seconds": 10.4
+    },
+    "Wine": {
+      "dataset": "Wine",
+      "n_features": 13,
+      "n_samples": 178,
+      "within_class": {
+        "xgboost": {
+          "layer": "within_xgboost",
+          "n_pairs": 78,
+          "spearman_rho": 0.7169737622221986,
+          "spearman_p": 1.5485245778421253e-13,
+          "oos_r2": 0.2836625081929208,
+          "mean_predicted": 0.21573037545833879,
+          "mean_observed": 0.15809018567639255
+        },
+        "random_forest": {
+          "layer": "within_random_forest",
+          "n_pairs": 78,
+          "spearman_rho": 0.7680209499194606,
+          "spearman_p": 2.304173053267036e-16,
+          "oos_r2": 0.6178503223527202,
+          "mean_predicted": 0.11302548068745735,
+          "mean_observed": 0.1286472148541114
+        },
+        "ridge": {
+          "layer": "within_ridge",
+          "n_pairs": 78,
+          "spearman_rho": 0.8530750018395487,
+          "spearman_p": 3.602702452745112e-23,
+          "oos_r2": 0.6866481472021748,
+          "mean_predicted": 0.243686256028479,
+          "mean_observed": 0.27082228116710877
+        }
+      },
+      "cross_class": {
+        "layer": "cross_class",
+        "n_pairs": 78,
+        "spearman_rho": 0.7478360689297968,
+        "spearman_p": 3.639086074843562e-15,
+        "oos_r2": 0.41149184322064325,
+        "mean_predicted": 0.2904634243323258,
+        "mean_observed": 0.24134255257850767
+      },
+      "mean_within_rho": 0.7793565713270693,
+      "mean_within_r2": 0.5293869925826052,
+      "cross_rho": 0.7478360689297968,
+      "cross_r2": 0.41149184322064325,
+      "within_better_than_cross": true,
+      "elapsed_seconds": 5.8
+    },
+    "Heart Disease": {
+      "dataset": "Heart Disease",
+      "n_features": 13,
+      "n_samples": 270,
+      "within_class": {
+        "xgboost": {
+          "layer": "within_xgboost",
+          "n_pairs": 78,
+          "spearman_rho": 0.7551413903590481,
+          "spearman_p": 1.3823526522037163e-15,
+          "oos_r2": 0.4462711999945803,
+          "mean_predicted": 0.203153082167823,
+          "mean_observed": 0.2618037135278515
+        },
+        "random_forest": {
+          "layer": "within_random_forest",
+          "n_pairs": 78,
+          "spearman_rho": 0.833282522848948,
+          "spearman_p": 2.9846563783001225e-21,
+          "oos_r2": 0.6515446320394281,
+          "mean_predicted": 0.10972367001273711,
+          "mean_observed": 0.16021220159151192
+        },
+        "ridge": {
+          "layer": "within_ridge",
+          "n_pairs": 78,
+          "spearman_rho": 0.6554384960807689,
+          "spearman_p": 7.435255673269037e-11,
+          "oos_r2": 0.4336574622963354,
+          "mean_predicted": 0.2840787222273992,
+          "mean_observed": 0.3122015915119363
+        }
+      },
+      "cross_class": {
+        "layer": "cross_class",
+        "n_pairs": 78,
+        "spearman_rho": 0.8146739312433361,
+        "spearman_p": 1.1541892134685443e-19,
+        "oos_r2": 0.6419506096891432,
+        "mean_predicted": 0.31935054378245425,
+        "mean_observed": 0.31756458273312205
+      },
+      "mean_within_rho": 0.7479541364295882,
+      "mean_within_r2": 0.5104910981101146,
+      "cross_rho": 0.8146739312433361,
+      "cross_r2": 0.6419506096891432,
+      "within_better_than_cross": false,
+      "elapsed_seconds": 7.9
+    },
+    "Diabetes": {
+      "dataset": "Diabetes",
+      "n_features": 8,
+      "n_samples": 768,
+      "within_class": {
+        "xgboost": {
+          "layer": "within_xgboost",
+          "n_pairs": 28,
+          "spearman_rho": 0.8084554022164469,
+          "spearman_p": 1.9464541055986637e-07,
+          "oos_r2": 0.6553526856784306,
+          "mean_predicted": 0.15664077623754874,
+          "mean_observed": 0.20172413793103447
+        },
+        "random_forest": {
+          "layer": "within_random_forest",
+          "n_pairs": 28,
+          "spearman_rho": 0.8246742104673059,
+          "spearman_p": 6.797798476660759e-08,
+          "oos_r2": 0.6592802462255112,
+          "mean_predicted": 0.05656907508721234,
+          "mean_observed": 0.10862068965517242
+        },
+        "ridge": {
+          "layer": "within_ridge",
+          "n_pairs": 28,
+          "spearman_rho": 0.680621685120177,
+          "spearman_p": 6.728944347212866e-05,
+          "oos_r2": 0.21124267385376494,
+          "mean_predicted": 0.2371202164756793,
+          "mean_observed": 0.17331691297208537
+        }
+      },
+      "cross_class": {
+        "layer": "cross_class",
+        "n_pairs": 28,
+        "spearman_rho": 0.7991226003430006,
+        "spearman_p": 3.4131679525529807e-07,
+        "oos_r2": 0.11468953227766288,
+        "mean_predicted": 0.31782577475573526,
+        "mean_observed": 0.2244426609595149
+      },
+      "mean_within_rho": 0.77125043260131,
+      "mean_within_r2": 0.5086252019192355,
+      "cross_rho": 0.7991226003430006,
+      "cross_r2": 0.11468953227766288,
+      "within_better_than_cross": false,
+      "elapsed_seconds": 9.9
+    },
+    "German Credit": {
+      "dataset": "German Credit",
+      "n_features": 20,
+      "n_samples": 1000,
+      "within_class": {
+        "xgboost": {
+          "layer": "within_xgboost",
+          "n_pairs": 190,
+          "spearman_rho": 0.6111884803784293,
+          "spearman_p": 7.613594440659976e-21,
+          "oos_r2": 0.13263553719594157,
+          "mean_predicted": 0.22434997646074467,
+          "mean_observed": 0.31448275862068964
+        },
+        "random_forest": {
+          "layer": "within_random_forest",
+          "n_pairs": 190,
+          "spearman_rho": 0.671871715282404,
+          "spearman_p": 2.6512102173133584e-26,
+          "oos_r2": 0.65001929460932,
+          "mean_predicted": 0.0591146415530698,
+          "mean_observed": 0.0802540834845735
+        },
+        "ridge": {
+          "layer": "within_ridge",
+          "n_pairs": 190,
+          "spearman_rho": 0.7554829548212583,
+          "spearman_p": 2.2840071123467978e-36,
+          "oos_r2": 0.4111967730659779,
+          "mean_predicted": 0.26617238711779,
+          "mean_observed": 0.345178463399879
+        }
+      },
+      "cross_class": {
+        "layer": "cross_class",
+        "n_pairs": 190,
+        "spearman_rho": 0.6346166684106449,
+        "spearman_p": 8.277951412312837e-23,
+        "oos_r2": 0.6065340292001847,
+        "mean_predicted": 0.33901986713808135,
+        "mean_observed": 0.3616190288455221
+      },
+      "mean_within_rho": 0.6795143834940305,
+      "mean_within_r2": 0.39795053495707977,
+      "cross_rho": 0.6346166684106449,
+      "cross_r2": 0.6065340292001847,
+      "within_better_than_cross": true,
+      "elapsed_seconds": 11.1
+    }
+  }
+}
