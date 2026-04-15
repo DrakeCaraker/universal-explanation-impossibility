@@ -178,12 +178,17 @@ this formula (derivation in Methods).  Pairs with $|\Delta|/\sigma > 2$ are
 reliable (flip rate $< 5\%$); pairs with $|\Delta|/\sigma < 0.5$ are
 unreliable (flip rate $> 30\%$).
 On gene expression data (10{,}935 genes, cancer classification), 70\% of gene
-importance comparisons are unreliable.
+importance comparisons are unreliable using gain-based importance (42\% with TreeSHAP; $R^2 = 0.51$).
 Across seven real clinical, financial, and genomics datasets (2{,}062
-feature-pair comparisons), 62\% are unreliable and only 4\% are reliable.
+feature-pair comparisons), 62\% are unreliable and only 4\% are reliable
+(62\% of 2{,}062 feature-pair comparisons across seven clinical, financial,
+and genomics datasets; 49\% across the broader 22{,}332-pair audit
+including synthetic data).
 
 \paragraph{Universal $\eta$ law.}
-The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$---a standard
+The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$
+(the fraction of explanation content that survives averaging over equivalent
+configurations)---a standard
 ratio in representation theory whose application to explanation instability
 is new---predicts the observed instability rate across seven
 well-characterized domain instances with $R^2 = 0.957$, slope~$= 0.91$,
@@ -451,6 +456,9 @@ Pareto-optimality follows from Bayes admissibility~\citep{berger1985statistical,
 The result parallels Arrow's impossibility~\citep{arrow1951social}---both
 show symmetry forces trade-offs---but is constructive: it identifies the
 unique optimal trade-off and proves existing practice implements it.
+Individual domain instances are separately known; the contribution is the
+meta-theorem unifying them under a single structural condition and producing
+three novel quantitative predictions.
 
 \paragraph{Cross-domain transfer.}
 Applying DASH to causal discovery reduces flip rate fourfold
