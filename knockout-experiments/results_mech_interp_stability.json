@@ -1,0 +1,90 @@
+{
+  "experiment": "mech_interp_stability",
+  "model": "gpt2-small",
+  "n_layers": 12,
+  "n_heads": 12,
+  "n_components": 144,
+  "n_perturbations": 10,
+  "n_prompts": 20,
+  "sigma": 0.005,
+  "n_pairs": 500,
+  "coverage_conflict_degree": 0.0,
+  "reliable_fraction": 1.0,
+  "mean_flip_rate": 0.0,
+  "gaussian_r2": 0.0,
+  "gaussian_rho": 0.0,
+  "gaussian_p": 1.0,
+  "top_10_heads": [
+    {
+      "rank": 1,
+      "layer": 0,
+      "head": 0,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 2,
+      "layer": 7,
+      "head": 8,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 3,
+      "layer": 7,
+      "head": 9,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 4,
+      "layer": 7,
+      "head": 10,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 5,
+      "layer": 7,
+      "head": 11,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 6,
+      "layer": 8,
+      "head": 0,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 7,
+      "layer": 8,
+      "head": 1,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 8,
+      "layer": 7,
+      "head": 7,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 9,
+      "layer": 8,
+      "head": 2,
+      "importance": 0.0,
+      "cv": 0.0
+    },
+    {
+      "rank": 10,
+      "layer": 8,
+      "head": 4,
+      "importance": 0.0,
+      "cv": 0.0
+    }
+  ],
+  "elapsed_seconds": 2709.3
+}
