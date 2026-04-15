@@ -1,0 +1,111 @@
+{
+  "experiment": "flip_rate_generalization",
+  "description": "Test whether Gaussian flip rate predicts OOD generalization gap",
+  "n_models": 30,
+  "snr_threshold": 0.5,
+  "cross_dataset": {
+    "unreliable_frac_vs_gap": {
+      "pearson_r": -0.8104395812967756,
+      "pearson_p": 0.09620643298071324,
+      "R_squared": 0.656812314932493,
+      "spearman_rho": -0.39999999999999997,
+      "spearman_p": 0.5046315754686911
+    },
+    "mean_flip_vs_gap": {
+      "pearson_r": -0.9053281757371165,
+      "pearson_p": 0.034466689016077086,
+      "R_squared": 0.8196191057834954,
+      "spearman_rho": -0.7,
+      "spearman_p": 0.18812040437418728
+    },
+    "direction": "MORE unstable \u2192 BETTER OOD",
+    "prediction_holds": true
+  },
+  "within_dataset_summary": {
+    "mean_r": -0.11697587828887009,
+    "n_negative": 2,
+    "n_total": 5
+  },
+  "per_dataset": [
+    {
+      "dataset": "Breast Cancer",
+      "n_train": 339,
+      "n_id_test": 114,
+      "n_ood": 116,
+      "n_features": 30,
+      "unreliable_fraction": 0.42528735632183906,
+      "mean_flip_rate": 0.367183929462972,
+      "accuracy_id_mean": 0.9315789473684214,
+      "accuracy_id_std": 0.013475694294506329,
+      "accuracy_ood_mean": 0.9985632183908045,
+      "accuracy_ood_std": 0.003908468536992942,
+      "generalization_gap": -0.06698427102238314,
+      "within_dataset_r": 0.04950562831267656,
+      "within_dataset_p": 0.7950250598376152
+    },
+    {
+      "dataset": "Wine",
+      "n_train": 63,
+      "n_id_test": 22,
+      "n_ood": 93,
+      "n_features": 13,
+      "unreliable_fraction": 0.44871794871794873,
+      "mean_flip_rate": 0.35924272552072595,
+      "accuracy_id_mean": 0.9954545454545456,
+      "accuracy_id_std": 0.017991427404602908,
+      "accuracy_ood_mean": 0.8222222222222222,
+      "accuracy_ood_std": 0.09160774268759739,
+      "generalization_gap": 0.1732323232323234,
+      "within_dataset_r": -0.5198399778629222,
+      "within_dataset_p": 0.003236857124222745
+    },
+    {
+      "dataset": "CalHousing",
+      "n_train": 7009,
+      "n_id_test": 2337,
+      "n_ood": 11294,
+      "n_features": 8,
+      "unreliable_fraction": 0.03571428571428571,
+      "mean_flip_rate": 0.05374107951238572,
+      "accuracy_id_mean": 0.9113535872200826,
+      "accuracy_id_std": 0.002304527429532159,
+      "accuracy_ood_mean": 0.425934124313795,
+      "accuracy_ood_std": 0.013447065920219447,
+      "generalization_gap": 0.4854194629062876,
+      "within_dataset_r": 0.10332621847700256,
+      "within_dataset_p": 0.5868880200019233
+    },
+    {
+      "dataset": "Heart Disease",
+      "n_train": 99,
+      "n_id_test": 33,
+      "n_ood": 138,
+      "n_features": 13,
+      "unreliable_fraction": 0.3717948717948718,
+      "mean_flip_rate": 0.3389997053379921,
+      "accuracy_id_mean": 0.8292929292929292,
+      "accuracy_id_std": 0.041018061624741316,
+      "accuracy_ood_mean": 0.7649758454106281,
+      "accuracy_ood_std": 0.03636128262056622,
+      "generalization_gap": 0.06431708388230106,
+      "within_dataset_r": 0.03355565918221413,
+      "within_dataset_p": 0.8602691081027373
+    },
+    {
+      "dataset": "Synthetic",
+      "n_train": 375,
+      "n_id_test": 125,
+      "n_ood": 500,
+      "n_features": 20,
+      "unreliable_fraction": 0.24736842105263157,
+      "mean_flip_rate": 0.2883919675347485,
+      "accuracy_id_mean": 0.8522666666666666,
+      "accuracy_id_std": 0.023976284579188312,
+      "accuracy_ood_mean": 0.7767333333333333,
+      "accuracy_ood_std": 0.04078719842739331,
+      "generalization_gap": 0.07553333333333334,
+      "within_dataset_r": -0.25142691955332147,
+      "within_dataset_p": 0.1801629514822096
+    }
+  ]
+}

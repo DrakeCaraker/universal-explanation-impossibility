@@ -1421,6 +1421,8 @@ the Ostrowski--Design Space correspondence and physical scoping (conditional
 on the Freund--Witten adelic product formula), is in a companion
 paper~\cite{caraker2026ostrowski}.
 
+\paragraph{Value alignment.} The framework applies to AI value alignment. When multiple RLHF training runs produce models with identical behavioral performance but different implicit value rankings (the value Rashomon property), no value explanation is simultaneously faithful and stable (the value bilemma). The enrichment mechanism --- adding a `balanced' option that doesn't commit to either value priority --- corresponds to alignment frameworks that explicitly balance competing values rather than ranking them. This formalizes a structural constraint on alignment: under value multiplicity, precise value specification is impossible without sacrificing either accuracy (faithfulness) or consistency (stability). We formalize this as a Lean-verified \texttt{ExplanationSystem} instance (\texttt{ValueAlignment.lean}, 0 sorry), noting that the full complexity of AI alignment (strategic agents, distributional shift, ontological uncertainty) exceeds the framework's scope.
+
 \subsection{Toward a Group-Theoretic Classification of Explainability}
 \label{sec:group-classification}
 
@@ -1804,6 +1806,44 @@ The framework does not distinguish between global and local symmetries.  In phys
 \input{sections/quantitative_remark}
 
 The per-fiber bound (Proposition~\ref{prop:tightness} in the main text) is the qualitative skeleton of this inequality. The full measure-theoretic development, including domain-specific instances and tightness analysis, is the subject of ongoing work.
+
+\subsection{Enrichment as Abstraction}
+\label{sec:enrichment-abstraction}
+
+The enrichment mechanism --- adding a neutral element to a maximally
+incompatible explanation space --- has a cognitive interpretation: it is
+the mathematical structure of \emph{abstraction}.
+
+Consider a child learning to classify animals. The pre-abstraction
+explanation space is maximally incompatible: $H = \{\text{poodle},
+\text{labrador}, \text{beagle}, \ldots\}$, where each breed is
+incompatible with every other ($\text{incompatible} = {\neq}$).  The
+Rashomon property holds: different exemplars of ``the same animal''
+(same observable behavior) are assigned different breed labels
+(incompatible explanations).  The bilemma applies: no breed-level
+explanation is simultaneously faithful (matches the specific animal) and
+stable (consistent across behaviorally equivalent exemplars).
+
+The resolution is abstraction: adding the concept ``dog'' as a neutral
+element (compatible with all breeds).  The enriched explanation space
+$H' = \{\text{poodle}, \text{labrador}, \ldots, \text{dog}\}$ restores
+faithful + stable via $E(\theta) = \text{dog}$, at the cost of
+decisiveness (can't specify the breed).
+
+The bilemma thus provides a mathematical explanation for \emph{why
+abstraction exists}: it is the unique minimal enrichment that restores
+stability under perceptual multiplicity.  The all-or-nothing theorem
+explains why abstraction is discrete (``dog'' or a specific breed, no
+interpolation).  The enrichment uniqueness theorem explains why abstract
+concepts are canonical (the neutral element is unique on each
+equivalence class).
+
+This interpretation connects the impossibility theorem to prototype
+theory in cognitive science~\citep{rosch1975cognitive}: prototypes are
+the neutral elements of perceptual categories.  A full development ---
+formalizing category formation as a sequence of enrichment events and
+testing against categorization experiments --- is an open direction that
+would require engagement with the cognitive science literature.
 
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}
