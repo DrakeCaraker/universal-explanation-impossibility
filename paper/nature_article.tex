@@ -70,36 +70,22 @@
 %%% =========================================================================
 
 \begin{abstract}
-When a system is underspecified---when multiple configurations produce
-identical observable output---we prove that no explanation can simultaneously
-be \emph{faithful} (consistent with the system's internal structure),
-\emph{stable} (invariant across equivalent configurations), and
-\emph{decisive} (committing to every distinction the internal structure
-makes).  We derive this impossibility from first principles in eight
-scientific domains---underdetermined linear systems, genetic code degeneracy,
-gauge freedom, microstate multiplicity, syntactic ambiguity, the phase
-problem, the view update problem, and Markov equivalence---each requiring
-zero shared axioms.  The framework is mechanically verified in the Lean~4
-proof assistant (98~files, 432~theorems, 0~unproved goals), and empirically
-validated in seven domains with real data and negative controls.
-The constructive resolution---projecting onto the subspace invariant under
-the symmetry group of equivalent configurations---is provably
-Pareto-optimal and unifies existing domain-specific practices
-(gauge-invariant observables, the microcanonical ensemble, CPDAGs,
-minimum-norm solutions) as instances of a single $G$-invariant strategy
-that eight independent fields converged upon over more than a century.
-Cross-domain transfer experiments confirm the framework's predictive
-power: an ML ensemble method transferred to causal discovery reduces
-instability fourfold, and a character-theoretic bound derived from
-genetics predicts the rank ordering of protein sequence diversity
-(Spearman $\rho = 0.88$, $p = 0.004$), serving as a neutral-evolution
-upper bound that systematic deviations below quantify selective pressure.
-The framework provides a common formalization connecting Fisher's sufficiency criterion, the
-Rao-Blackwell theorem, and the EM algorithm to the same resolution
-structure, and gives a $1/n$ ceiling on neuron-level network interpretability under permutation symmetry---a bound that does not apply to circuit-level analysis, which is invariant under relabeling.
-For maximally incompatible systems---including binary rankings and DAG
-orientations---the impossibility strengthens to a bilemma: even
-faithful~+~stable is unachievable without enriching the explanation space.
+We prove that no explanation of an underspecified system can simultaneously
+be faithful (consistent with internal structure), stable (invariant across
+equivalent configurations), and decisive (committing to every internal
+distinction).  This impossibility is derived from first principles in eight
+scientific domains---each requiring zero shared axioms---and verified in the
+Lean~4 proof assistant (98~files, 432~theorems, 0~unproved goals).
+Empirical validation in seven domains confirms the predicted dose-response
+between underspecification and instability.  The constructive
+resolution---$G$-invariant projection---is Pareto-optimal, unifying
+century-old domain-specific practices (gauge-invariant observables,
+CPDAGs, minimum-norm solutions) as instances of a single strategy.
+For maximally incompatible systems, the impossibility strengthens to a
+bilemma: even faithful~+~stable requires enriching the explanation space.
+Three quantitative predictions---an invariance counting law, a Gaussian
+flip rate formula, and a universal instability predictor ($R^2 = 0.957$
+across seven domains)---are confirmed by experiment.
 \end{abstract}
 
 %%% =========================================================================
@@ -108,80 +94,36 @@ faithful~+~stable is unachievable without enriching the explanation space.
 
 \section*{Introduction}
 
-Scientists explain systems by interpreting their internal structure.
-A geneticist infers the DNA sequence that encodes a protein.
-A physicist chooses a gauge to describe an electromagnetic field.
-A statistician selects a causal graph from observational data.
-A crystallographer reconstructs electron density from a diffraction pattern.
-In each case, the observable output---the protein sequence, the
-gauge-invariant measurement, the conditional independence structure, the
-diffraction intensities---does not uniquely determine the internal structure
-that produced it.  Multiple configurations yield identical observations.
-This situation is not a pathology of any single field; it is a structural
-feature of underspecified inference, present whenever the mapping from
-internal structure to observable output is many-to-one.
+The codons UCU and UCC both encode serine: same protein fragment, different
+nucleotide sequences~\citep{crick1966codon}.  A causal chain $A \to B \to C$
+and a fork $A \leftarrow B \to C$ encode the same conditional
+independences~\citep{verma1991equivalence}.  Two gauge configurations can
+share the same holonomy while differing in local edge
+labels~\citep{jackson1999}.  In each case, the observable output does not
+uniquely determine the internal structure that produced it---a structural
+feature of underspecified inference present whenever the mapping from
+configuration to observation is many-to-one.
 
-The consequences are practical and far-reaching.  In clinical genomics, the
-inability to uniquely determine a coding sequence from an amino acid
-sequence limits the precision of variant interpretation.  In causal
-inference, the existence of Markov-equivalent graphs means that
-observational data alone cannot settle the direction of causation---a
-constraint that affects every domain from epidemiology to economics.  In
-machine learning, the recent literature on the Rashomon
-effect~\citep{bilodeau2024impossibility} has documented that competing
-models with near-identical predictive accuracy can produce contradictory
-explanations, undermining the reliability of model interpretation in
-high-stakes settings.  In each case, practitioners have recognized the
-instability, but the responses have been domain-specific: each field has
-its own diagnosis, its own terminology, and its own workaround.
+Practitioners in each field have independently developed coping strategies:
+gauge-invariant observables, CPDAGs, Patterson maps~\citep{hauptman1953solution},
+codon usage tables.  Each involves the same mathematical
+operation---projection onto the subspace invariant under the symmetry group
+of equivalent configurations---yet no framework has connected them or proved
+their optimality.
 
-Indeed, practitioners in each field have independently developed strategies
-to cope with this instability over more than a century of independent work.
-In physics, one restricts attention to gauge-invariant
-observables~\citep{jackson1999}.
-In statistics, one reports a completed partially directed acyclic graph
-(CPDAG) rather than committing to a single causal
-direction~\citep{verma1991equivalence}.
-In crystallography, Patterson maps extract phase-invariant
-information~\citep{hauptman1953solution}.
-In biology, codon usage tables report synonymous codon
-frequencies~\citep{crick1966codon}.
-In each case, the strategy involves the same mathematical operation:
-projecting onto the subspace that is invariant under the symmetry group
-of equivalent configurations.  Yet no framework has connected these
-strategies, explained why they converge on the same mathematical structure,
-or proved that they are optimal.
-
-The recognition that underspecification creates fundamental limits is not
-new within individual fields.  The phase problem has been understood since
-at least Patterson's work in the 1930s~\citep{hauptman1953solution}.
-Markov equivalence was formalized by Verma and
-Pearl~\citep{verma1991equivalence} in the early 1990s.  The view update
-problem was identified by Bancilhon and
-Spyratos~\citep{bancilhon1981update} in 1981.  Gauge invariance has been
-a cornerstone of modern physics since Weyl's work in the 1920s.  What has
-been missing is the realization that these are all manifestations of a
-single mathematical phenomenon---and that the domain-specific resolutions
-are all instances of a single provably optimal strategy.  The present work
-provides that unification.
-
-Here we prove a universal impossibility theorem: when a system has the
-\emph{Rashomon property}---when there exist two configurations with the
-same observable output but incompatible internal structures---no explanation
-can be simultaneously faithful, stable, and decisive
-(Theorem~\ref{thm:impossibility}).  We derive this impossibility from
-first principles in eight scientific domains (together with nine machine learning explanation types documented in the Supporting Information, yielding seventeen distinct instances), each requiring zero shared
-axioms (Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).
-The entire framework is mechanically verified in the Lean~4 proof
-assistant~\citep{demoura2021lean4} (98~files, 432~theorems, 0~unproved
-goals), and empirically validated with real data in seven of the eight
-domains.  The impossibility is tight: each pair of properties is achievable,
-and the Rashomon property is the exact boundary (a Lean-verified
-biconditional shows the impossibility holds if and only if Rashomon
-is present).  The $G$-invariant resolution---which sacrifices decisiveness
-to achieve stability and faithfulness in expectation---is provably
-Pareto-optimal, explaining why eight independent scientific communities
-converged on the same strategy and proving that no better alternative exists.
+Here we prove a universal impossibility: when a system has the
+\emph{Rashomon property}---two configurations with the same observable but
+incompatible internal structures---no explanation can be simultaneously
+faithful, stable, and decisive (Theorem~\ref{thm:impossibility}).  We
+derive this in eight scientific domains (plus nine ML explanation types in
+Supporting Information), each requiring zero shared axioms.  The framework
+is mechanically verified in Lean~4~\citep{demoura2021lean4} (98~files,
+432~theorems, 0~unproved goals) and empirically validated in seven domains
+(Table~\ref{tab:unification}, Fig.~\ref{fig:dose-response}).  The
+Rashomon property is the exact boundary: a Lean-verified biconditional shows
+impossibility holds if and only if Rashomon is present.  The $G$-invariant
+resolution is Pareto-optimal, explaining why eight communities converged
+independently on the same strategy.
 
 %%% =========================================================================
 %%% Results
@@ -191,200 +133,74 @@ converged on the same strategy and proving that no better alternative exists.
 
 \subsection*{The impossibility}
 
-We formalize three properties that any satisfactory explanation should
-possess.  An explanation is \emph{faithful} if it never contradicts the
-system's own internal report---it may be less specific, but it does not
-disagree.  An explanation is \emph{stable} if configurations that produce
-the same observations always receive the same explanation.  An explanation
-is \emph{decisive} if it commits to every distinction that the system's
-internal structure makes---whatever the internal structure rules out, the
-explanation also rules out.
+An explanation is \emph{faithful} if it never contradicts the system's
+internal report, \emph{stable} if equivalent configurations receive the
+same explanation, and \emph{decisive} if it inherits every incompatibility
+of the internal report (formal definitions in Methods).
 
 \begin{theorem}[The explanation impossibility]
 \label{thm:impossibility}
-If a system has the Rashomon property---that is, if there exist two
-configurations $\theta_1, \theta_2$ with $\mathrm{obs}(\theta_1) =
-\mathrm{obs}(\theta_2)$ and $\mathrm{exp}(\theta_1) \incomp
-\mathrm{exp}(\theta_2)$---then no explanation map $E$ can be simultaneously
-faithful, stable, and decisive.
+If a system has the Rashomon property---there exist $\theta_1, \theta_2$
+with $\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$ and
+$\mathrm{exp}(\theta_1) \incomp \mathrm{exp}(\theta_2)$---then no
+explanation map $E$ is simultaneously faithful, stable, and decisive.
 \end{theorem}
 
-The proof is a four-step chain by contradiction.  Decisiveness at
-$\theta_1$ forces $E(\theta_1)$ to inherit the incompatibility with
-$\mathrm{exp}(\theta_2)$.  Stability forces $E(\theta_1) = E(\theta_2)$.
-Faithfulness at $\theta_2$ requires $E(\theta_2)$ to be compatible with
-$\mathrm{exp}(\theta_2)$.  Contradiction.
-
-The impossibility is tight in three senses (Fig.~\ref{fig:trilemma}).
-First, \emph{each pair of properties is achievable}: we construct
-Lean-verified witnesses showing that faithful-and-stable,
-faithful-and-decisive, and stable-and-decisive explanation maps all exist.
-The faithful-and-stable witness drops decisiveness by mapping every
-configuration to a single ``uninformative'' explanation that is compatible
-with all internal reports---stable because it ignores the input, faithful
-because it never contradicts, but not decisive because it draws no
-distinctions.  The faithful-and-decisive witness drops stability by simply
-returning the system's own internal report---faithful and decisive by
-construction, but unstable because equivalent configurations with different
-internal reports receive different explanations.  The stable-and-decisive
-witness drops faithfulness by mapping all configurations with the same
-observable to an arbitrary but fixed decisive explanation---stable by
-construction and decisive because it preserves all distinctions, but
-potentially unfaithful at configurations whose internal report conflicts
-with the chosen explanation.  The impossibility is specifically the triple,
-not any pair.
-
-Second, the Rashomon property is the \emph{exact boundary}: a
-Lean-verified biconditional shows that the Rashomon property holds if and
-only if the impossibility holds.  When Rashomon is absent, the identity
-map $E(\theta) = \mathsf{exp}(\theta)$ achieves all three properties
-simultaneously.  The Rashomon property is thus both sufficient and
-necessary for the impossibility.
-
-Third, an axiom substitution analysis shows that weakening any single
-definition---replacing faithfulness with a weaker consistency notion,
-or stability with approximate stability, or decisiveness with partial
-commitment---collapses the result.  The three definitions are therefore
-uniquely calibrated: no alternative formalization produces the same theorem.
-
-Fourth, for \emph{maximally incompatible} systems---where every pair of
-distinct explanations is incompatible---the trilemma strengthens to a
-\emph{bilemma}: faithful~+~stable is impossible (not just the triple),
-and tightness collapses from 3/3~achievable pairs to 1/3
-(Theorem~\ref{thm:bilemma}, Lean-verified in
-\texttt{MaximalIncompatibility.lean}).  Many natural explanation
-spaces are maximally incompatible: binary feature rankings ($j > k$ or
-$k > j$, no tie), DAG edge orientations ($X \to Y$ or $Y \to X$, no
-undirected), and quantum measurement outcomes.  Recovery requires
-\emph{enriching}~$\sH$ with a neutral element~$c$ (compatible with
-everything): the constant map $E(\theta) = c$ restores
-faithful~+~stable at the cost of decisiveness.  This is the abstract
-mechanism behind ensemble averaging (DASH adds ``tied''), CPDAG
-reporting (adds ``undirected''), and Bayesian model averaging (adds
-``uncertain'')---each enriches a maximally incompatible space to create
-room for stability.
+The proof is a four-step contradiction: decisiveness at $\theta_1$ forces
+$E(\theta_1) \incomp \mathrm{exp}(\theta_2)$; stability forces
+$E(\theta_1) = E(\theta_2)$; faithfulness at $\theta_2$ requires
+compatibility.  The impossibility is tight: Lean-verified witnesses show
+each pair of properties is achievable (Fig.~\ref{fig:trilemma}), and the
+Rashomon property is the exact boundary (impossibility holds iff Rashomon
+is present).
 
 %%% =========================================================================
 
 \subsection*{Three quantitative predictions}
 
-The framework is not merely a classification scheme---it generates quantitative predictions confirmed by experiment.
+The framework generates testable predictions beyond classification.
 
-\paragraph{Invariance counting (cf.\ Noether's theorem).}
-The invariance correspondence makes a sharp quantitative prediction:
-for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
-independent ranking facts are stably answerable.  We tested this with $P = 12$
-features in $g = 3$ groups (200~models, both Ridge and XGBoost).  The result
-is a clean bimodal distribution: all 18~within-group pairs show
-$\sim\!50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
-rate---a 47-percentage-point gap (permutation $p < 0.0002$; Cohen's $d = 1.41$).
-A sensitivity analysis across $\rho \in [0.50, 0.99]$ confirms the gap is
-\emph{invariant} across the entire correlation range.
+\paragraph{Invariance counting.}
+For $P$~features in $g$~correlation groups, only $\binom{g}{2}$ ranking
+facts are stably answerable.  With $P = 12$, $g = 3$ (200~models, Ridge
+and XGBoost): within-group pairs show ${\sim}50\%$ flip rate, between-group
+pairs $< 2\%$---a 47-point gap (permutation $p < 0.0002$; Cohen's
+$d = 1.41$), invariant across $\rho \in [0.50, 0.99]$.
 
 \paragraph{Gaussian flip rate.}
-On real data where feature importance is approximately (not exactly) equal
-within groups, the Gaussian flip rate formula
-$\text{flip}(j,k) = 2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$
-predicts per-pair flip rates with
-out-of-sample $R^2 = 0.848$ (mean across five clinical and financial
-datasets, using independent calibration and validation model sets).
-One of nine model-class combinations (Ridge on California Housing) fails due to near-deterministic coefficients that violate the Gaussian assumption.
-The flip rate formula itself is standard signal detection theory; the framework's contribution is the structural identification of \emph{which} pairs are subject to this formula.
+Where symmetry is approximate, $\text{flip}(j,k) =
+2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$ predicts per-pair flip rates
+with out-of-sample $R^2 = 0.848$ across five datasets (independent
+calibration and validation sets; derivation and methodology in Methods).
 
 \paragraph{Universal $\eta$ law.}
-The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$---a standard ratio in representation theory whose application to predict explanation instability rates is new---predicts the
-observed instability rate across
-seven well-characterized domain instances with $R^2 = 0.957$,
-slope~$= 0.91$, and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a
-parameter-free predictor spanning ML attribution, concept probes, model
-selection, codon degeneracy, and statistical mechanics.
-
-These predictions, derived from the abstract framework, are confirmed across domains that were not used to develop them.  The eight scientific instances below provide the supporting evidence.
+The character-theoretic ratio $\eta = \dim(V^G)/\dim(V)$ predicts
+observed instability across seven domain instances with $R^2 = 0.957$,
+slope~$= 0.91$ ($p = 1.4 \times 10^{-4}$)---a parameter-free predictor
+spanning ML attribution, codon degeneracy, and statistical mechanics.
 
 %%% =========================================================================
 
-\subsection*{Eight sciences, one pattern}
+\subsection*{Cross-domain validation}
 
 We derive the impossibility as a zero-axiom consequence in eight scientific
-domains (Table~\ref{tab:unification}).  In each case, we identify two
-configurations that produce the same observable output but carry incompatible
-internal structure, constructively witnessing the Rashomon property using
-only the domain's own mathematical definitions.
+domains (Table~\ref{tab:unification}), each constructively witnessing the
+Rashomon property from domain-specific first principles alone.  The eight
+instances involve fundamentally different symmetry groups
+(Table~\ref{tab:structural}): continuous translations in $\R^{n-r}$
+(mathematics), finite permutation groups $S_k$ (biology, linguistics),
+and the ambiguity group $\mathbb{Z}_2 \times \mathbb{Z}_n \times
+\mathbb{Z}_2$ (crystallography).  Per-domain witnesses and derivations are
+detailed in the Supporting Information.
 
-In \emph{mathematics}, the underdetermined system $x_1 + x_2 = 2$ admits
-the solutions $(1,1)$ and $(0,2)$: same sum, different components.  Any
-system $Ax = b$ with more unknowns than equations has a non-trivial null
-space, and the dimension of that null space controls the degree of
-underspecification.  Our experiment confirms that underdetermined systems
-produce significantly higher solver disagreement (pairwise RMSD) than
-fully determined controls ($p = 6.3 \times 10^{-9}$;
-Fig.~\ref{fig:dose-response}A).
-
-In \emph{biology}, the codons UCU and UCC both encode the amino acid
-serine: same protein fragment, different nucleotide
-sequences~\citep{crick1966codon}.  The genetic code maps 61~sense codons
-to only 20~amino acids, so degeneracy is pervasive---methionine and
-tryptophan (one codon each) are the only amino acids that are uniquely
-determined.  Across 120~eukaryotic cytochrome~c coding sequences from
-NCBI RefSeq, codon usage entropy increases monotonically with
-degeneracy level (Fig.~\ref{fig:dose-response}B).  GC-content bias is
-the primary driver of codon choice within each degeneracy class, but the
-structural capacity for variation is created by the degeneracy (Rashomon
-property) itself: without synonymous alternatives, entropy is identically
-zero regardless of GC content.
-
-In \emph{physics} (gauge theory), two edge-label configurations on a
-triangle graph can share the same holonomy---the product of labels around
-a closed loop, which is the only quantity unchanged by local
-relabellings (gauge transformations)---while differing in their local
-edge assignments~\citep{jackson1999}.  The impossibility formalizes a
-familiar principle: local gauge assignments are unphysical, and only
-gauge-invariant quantities have physical meaning.
-
-In \emph{statistical mechanics}, the microstates $(H,T)$ and $(T,H)$ both
-have one head: same macrostate, different molecular configurations.  The
-number of microstates compatible with a given macrostate grows
-combinatorially, and no observation of the macrostate can determine which
-microstate produced it---the foundation of Boltzmann's entropy.
-
-In \emph{linguistics}, the fragment ``V NP PP'' admits two parse trees,
-left-attach and right-attach, yielding the same surface token sequence but
-different constituent structures~\citep{chomsky1957}.  Structural ambiguity
-is endemic in natural language: three independently trained parsers with
-shared pre-tokenization disagree dramatically more on PP-attachment
-ambiguous sentences than on unambiguous controls ($p = 1.7 \times
-10^{-17}$, Cohen's $d = 6.16$; Fig.~\ref{fig:dose-response}E).
-
-In \emph{crystallography}, the signals $(1,0)$ and $(0,1)$ have the same
-energy ($1^2 + 0^2 = 0^2 + 1^2$): same diffraction intensity, different
-electron densities~\citep{hauptman1953solution}.  This is the phase
-problem---diffraction experiments measure amplitudes but not phases, and
-the missing phase information creates an equivalence class of consistent
-electron density maps.
-
-In \emph{computer science}, the database rows $(\texttt{true},
-\texttt{true})$ and $(\texttt{true}, \texttt{false})$ project to the same
-view but differ in the hidden column~\citep{bancilhon1981update}.  This
-is the view update problem: given only a projected view of a database, the
-original table cannot be uniquely recovered.  Using U.S.\ Census Bureau
-2020~data, we show that disaggregation ambiguity scales with the number
-of counties per state (Fig.~\ref{fig:dose-response}G).
-
-In \emph{statistics}, a causal chain $A \to B \to C$ and a causal fork
-$A \leftarrow B \to C$ encode the same conditional independence
-structure~\citep{verma1991equivalence}.  Markov equivalence is a
-fundamental obstruction to causal inference from observational data:
-without interventional experiments, the direction of causation between
-Markov-equivalent graphs is underdetermined.
-
-Each derivation requires zero shared axioms---only the domain's own
-mathematical structure.  The eight instances are not notational variants
-of a single example: they involve fundamentally different symmetry groups
-(Table~\ref{tab:structural}), ranging from continuous translations in
-$\R^{n-r}$ (mathematics) to finite permutation groups $S_k$ (biology,
-linguistics) to the trivial ambiguity group
-$\mathbb{Z}_2 \times \mathbb{Z}_n \times \mathbb{Z}_2$ of sign, shift,
-and reversal (crystallography).
+The predicted dose-response---more underspecification produces more
+instability---is confirmed empirically in seven domains
+(Fig.~\ref{fig:dose-response}).  The biology instance illustrates the
+pattern: across 120~eukaryotic cytochrome~c sequences (NCBI RefSeq),
+codon usage entropy increases monotonically with degeneracy level
+(Kruskal--Wallis $p = 3.5 \times 10^{-9}$); methionine and tryptophan
+positions (degeneracy~1) have entropy identically zero.  All seven tests
+reach significance ($p < 0.05$; binomial $p = 0.008$ across domains).
 
 %%% Figure 1: 8-panel dose-response
 \begin{figure}[t]
@@ -438,122 +254,11 @@ Statistics        & DAGs                 & CI structure    & Chain    & Fork    
 \end{tabular}
 \end{table}
 
-We validate the impossibility empirically in seven of the eight domains
-(excluding the mathematical observation connecting Rashomon entropy to
-Boltzmann entropy).  The experimental design follows a common structure
-across all domains: we vary the degree of underspecification (the
-``Rashomon dose'') and measure explanation instability, with a negative
-control in which the Rashomon property is absent.  The theorem predicts
-a monotonic dose-response: more underspecification should produce more
-instability, and zero underspecification should produce zero instability.
-
-Fig.~\ref{fig:dose-response} shows the results across all seven domains.
-All seven empirical tests reach statistical significance ($p < 0.05$).
-In mathematics, underdetermined linear solvers show significantly elevated
-pairwise RMSD relative to fully determined controls ($p = 6.3 \times
-10^{-9}$).  In biology, per-position codon usage entropy across 89~conserved
-positions in 120 aligned eukaryotic cytochrome~c sequences (NCBI RefSeq,
-Clustal Omega alignment) increases monotonically with degeneracy level
-(Kruskal--Wallis $p = 3.5 \times 10^{-9}$); methionine and tryptophan
-positions (degeneracy~1) have entropy identically zero by the structure
-of the genetic code.  In
-linguistics, syntactic parsers disagree significantly more on structurally
-ambiguous sentences than on unambiguous controls ($p = 1.6 \times
-10^{-3}$).  In statistics, causal discovery algorithms show orientation
-agreement of only 0.33 at finite sample size ($p = 4.4 \times 10^{-38}$);
-agreement improves at $N = 100{,}000$ as statistical power increases.  In
-crystallography, phase retrieval reconstructions diverge $1.5$--$1.8\times$
-more without positivity constraints, which reduce the size of the Rashomon
-set ($p = 3.4 \times 10^{-8}$ per signal length, corrected for
-non-independence of pairwise reconstructions).  In computer science, census disaggregation ambiguity using real 2020~Census county populations
-scales with aggregation granularity (pairwise Rashomon set diameter:
-Spearman $\rho = 0.70$, $p = 1.4 \times 10^{-8}$); the District of Columbia (one
-county-equivalent) has KL divergence of exactly zero.
-
-In each case, the negative control confirms that instability vanishes when
-the Rashomon property is absent, ruling out the possibility that the
-observed instability is an artefact of methodology or noise.  Across all
-seven domains, the predicted monotonic direction holds: binomial test
-$p = 0.008$.
+%% SUPPLEMENTARY: Per-domain validation details moved to SI.
 
 %%% =========================================================================
 
-\subsection*{The resolution}
-
-The impossibility is constructive: it identifies the exact trade-off and
-prescribes a provably optimal resolution.  The strategy is to project
-explanations onto the subspace invariant under the symmetry group of
-the equivalence class---a \emph{$G$-invariant resolution}.  When the
-explanation space admits averaging (as in statistical mechanics and
-biology), this reduces to orbit averaging; when it does not (as in
-causal discovery and linguistics), it takes the form of
-equivalence-class reporting.  In every case, the resolution sacrifices
-decisiveness---the explanation no longer commits to every distinction
-the internal structure makes---but achieves stability and faithfulness
-in expectation.
-
-We prove that this resolution is \emph{Pareto-optimal}: among all stable
-explanation maps, no alternative can achieve strictly higher pointwise
-faithfulness on every equivalence class.  More precisely, if $E'$ is any
-stable map and $\bar{E}$ is the $G$-invariant projection, then there
-exists at least one equivalence class on which $\bar{E}$ is at least as
-faithful as $E'$.  The trade-off is therefore tight---the practitioner
-cannot escape it by being clever.  Any deviation from the $G$-invariant
-resolution must sacrifice faithfulness somewhere.  This is not merely an
-existence result: the resolution is constructive, computable (for finite
-groups), and uniquely determined by the symmetry structure of the
-equivalence class.
-
-Remarkably, practitioners in eight independent fields have converged on
-precisely this strategy over more than a century of independent work
-(Table~\ref{tab:structural}).  In physics, gauge-invariant
-observables~\citep{jackson1999} discard the local gauge assignment (losing
-decisiveness about edge labels) to achieve stability across gauge-equivalent
-configurations.  In statistical mechanics, the microcanonical ensemble
-averages over all microstates compatible with a given macrostate, reporting
-thermodynamic quantities that are invariant under microstate permutations.
-In statistics, a CPDAG~\citep{verma1991equivalence} represents the entire
-Markov equivalence class rather than committing to any single directed
-graph, sacrificing the ability to assert a specific causal direction in
-exchange for stability across equivalent structures.  In mathematics, the
-pseudoinverse selects the minimum-norm solution, which is the unique
-element of the solution set closest to the origin---the $G$-invariant
-projection for the translation group of the null space.  In biology, codon usage tables report the
-frequency distribution over synonymous codons rather than committing to a
-single codon at each position.  In crystallography, Patterson
-maps~\citep{hauptman1953solution} extract phase-invariant information from
-diffraction data, discarding the unrecoverable phase to achieve stability.
-In linguistics, packed parse forests represent all valid parses
-simultaneously.  In computer science, complement
-views~\citep{bancilhon1981update} restrict queries to the unambiguous
-projection of the database.
-
-In each case, the resolution sacrifices decisiveness---it no longer
-distinguishes between equivalent configurations---and in exchange achieves
-stability (the same answer regardless of which equivalent configuration is
-queried) and faithfulness in expectation (the averaged answer is compatible
-with the system's actual structure on average over the equivalence class).
-These developments span more than a century---from Boltzmann's
-microcanonical ensemble in the 1870s to CPDAGs in 1990---across fields
-with no shared literature.  The convergence occurred because the
-mathematical structure forced it, not because of intellectual
-cross-pollination.
-
-Our framework explains \emph{why} these eight communities converged
-independently.  Each was confronting the same impossibility---faithfulness,
-stability, and decisiveness cannot coexist under underspecification---and
-the $G$-invariant resolution is the unique Pareto-optimal stable strategy.
-The convergence is not coincidental; it is mathematically inevitable.  The
-framework also explains the variation: the specific form of the resolution
-differs across domains because the symmetry group and representation differ
-(Table~\ref{tab:structural}).  Four instances use the symmetric group $S_k$,
-but they act on different mathematical objects---synonymous codons,
-microstates, parse trees, database columns---and yield different resolution
-forms: frequency averaging for biology and statistical mechanics,
-equivalence-class enumeration for linguistics, and subquery projection for
-computer science.  The abstract mathematical operation---projection onto
-the $G$-invariant subspace---is identical; the computational realization is
-domain-specific.
+%% SUPPLEMENTARY: Per-domain resolution details moved to SI.
 
 %%% Table 2: Structural differences
 \begin{table}[t]
@@ -626,85 +331,8 @@ Statistics
 \end{tabular}
 \end{table}
 
-The symmetry group and its representation determine not only the existence
-but the \emph{form} of the optimal resolution.  When the explanation space
-admits averaging (biology, statistical mechanics), the resolution is an
-orbit average---a frequency distribution or ensemble expectation.  When the
-explanation space is combinatorial (linguistics, statistics), averaging is
-undefined and the resolution takes the form of equivalence-class
-reporting---packed parse forests or CPDAGs.  When the symmetry group is
-non-compact (mathematics), the orbit average diverges and the resolution
-requires regularization---the pseudoinverse as minimum-norm projection.
-This classification is predictive: domains with vector-valued explanations
-and finite groups converge on averaging; domains with combinatorial
-explanations converge on class reporting; domains with non-compact groups
-require regularization choices.  Character theory quantifies the trade-off:
-for the symmetric group $S_k$ acting on $\R^k$, the resolution preserves
-exactly $1/k$ of the information---connecting the dose-response
-(instability scaling with degeneracy) directly to representation-theoretic
-structure.
-
-The impossibility is also \emph{query-relative}: some questions about a
-system are stably answerable---those on which all equivalent configurations
-agree---and others are not.  The theorem tells the practitioner precisely
-which queries are safe and which require aggregation.  In the gauge theory
-setting, this distinction is familiar: gauge-invariant quantities (charges,
-field strengths) are stably answerable; gauge-dependent quantities (the
-vector potential at a point) are not.  In the causal inference setting, the
-distinction maps to the difference between identifiable and
-non-identifiable causal effects: some causal questions can be settled from
-observational data alone, while others require interventional experiments
-to break the Markov equivalence.  In the biological setting, the amino acid
-sequence is stably determined (all synonymous codons produce the same
-protein), but the specific codon at each position is not.  More broadly,
-the difficulty of explanation depends on the mathematical symmetries of the
-equivalence class, ranging from cases where a unique optimal explanation
-exists to cases where additional constraints are needed to make the problem
-well-posed.
-
-%%% =========================================================================
-
-\subsection*{Formal verification}
-
-The entire framework---the abstract theorem, all eight derived instances,
-tightness witnesses, the necessity converse, and the $G$-invariant
-resolution---is mechanically verified in the Lean~4 proof
-assistant~\citep{demoura2021lean4} using the Mathlib mathematical
-library~\citep{mathlib2020}.  The formalization comprises 96~source files
-containing 432~theorems and lemmas, with 0~\texttt{sorry} declarations
-(Lean's marker for unproved goals).  Every theorem in the paper has a
-corresponding machine-checked proof.
-
-The core impossibility theorem (\texttt{explanation\_impossibility} in
-\texttt{ExplanationSystem.lean}) requires \emph{zero} model-specific
-axioms: the Rashomon property enters only as a hypothesis, not as an axiom,
-so the proof is valid for any system satisfying the hypothesis.  All eight derived instances use Lean's decidable computation to
-constructively witness the Rashomon property with zero axioms---the proof
-assistant evaluates the witness and confirms that the two configurations
-have identical observable output and incompatible explanations.
-
-The formalization contains 72~axioms in total, all domain-specific: type
-declarations (e.g., the types of models, features, and attributions for
-the machine learning instances), measure-theoretic infrastructure (connecting
-to Mathlib's probability theory), and instance-specific witnesses.  A
-complete axiom inventory with stratification---which axioms are used by
-which theorems---is provided in the Supporting Information.  The core
-universal impossibility uses none of them.
-
-Mechanical verification serves a specific purpose in this context.  The
-impossibility theorem itself is short (four steps), but the claim that it
-applies uniformly across eight domains rests on eight separate derivations,
-each of which must correctly formalize a domain-specific concept (holonomy,
-Markov equivalence, codon translation, etc.) and constructively witness
-the Rashomon property.  A subtle error in any one derivation---an
-incorrect formalization of holonomy, a mistaken claim about codon
-degeneracy---would invalidate the universality claim.  The proof assistant
-eliminates this risk: each derivation is independently checked against the
-abstract framework, and the 0-sorry guarantee means no step is assumed
-without proof.  The formalization is also a reusable artefact: future
-researchers can add new domain instances by defining an
-\texttt{ExplanationSystem} with domain-specific types and providing a
-Rashomon witness; the impossibility follows automatically.
+%% SUPPLEMENTARY: Symmetry-form classification and query-relative analysis moved to SI.
+%% Methods: Lean formalization details moved to Methods.
 
 %%% Figure 3: Trilemma triangle
 \begin{figure}[t]
@@ -742,54 +370,28 @@ Rashomon witness; the impossibility follows automatically.
 \label{fig:trilemma}
 \end{figure}
 
-The formalization also includes a Peres-Mermin magic square instance: the parity impossibility (Lean-verified as \texttt{peres\_mermin\_bool}) and the explanation trilemma share the same structure; the framework captures this structural correspondence, not the combinatorial content of the parity argument.
-
-The formalization comprises 432~theorems and lemmas across 98~files.
-The core impossibility proof is four tactic steps; the formalization's
-value lies in mechanically verifying the eight constructive domain
-instances---each requiring correct encoding of domain-specific concepts
-(holonomy, Markov equivalence, codon translation)---and the quantitative
-bounds for the resolution framework.  The complete source code is
-publicly available (see Code Availability).
+%% Methods: Peres-Mermin instance and formalization details moved to Methods.
 
 %%% =========================================================================
-%%% Bilemma
-%%% =========================================================================
 
-\subsection*{Strengthened impossibility for maximally incompatible systems}
+\subsection*{The bilemma}
 
-\begin{definition}[Maximal Incompatibility]
-An explanation system is \emph{maximally incompatible} if
-$\lnot\mathrm{incompatible}(h_1, h_2) \Rightarrow h_1 = h_2$: the only
-compatible pair is $(h, h)$. In particular, any binary $H$ with
-$\mathrm{incompatible} = {\neq}$ satisfies this condition.
-\end{definition}
+For \emph{maximally incompatible} systems---where the only compatible pair
+is $(h,h)$, as in binary rankings and DAG orientations---the trilemma
+strengthens.
 
 \begin{theorem}[The Bilemma]
 \label{thm:bilemma}
-For any maximally incompatible explanation system with the Rashomon
-property, no explanation is simultaneously faithful and stable.
+For any maximally incompatible system with the Rashomon property, no
+explanation is simultaneously faithful and stable.
 \end{theorem}
 
-\begin{proof}
-Maximal incompatibility means $\lnot\mathrm{incompatible}(E(\theta),
-\mathrm{explain}(\theta))$ implies $E(\theta) = \mathrm{explain}(\theta)$.
-So faithful $\Rightarrow$ $E = \mathrm{explain}$ $\Rightarrow$ decisive.
-The trilemma gives the contradiction.
-\end{proof}
-
-\begin{theorem}[Decisive + Stable also impossible]
-By a symmetric argument: if $E(\theta) \neq \mathrm{explain}(\theta)$,
-then $\mathrm{incompatible}(\mathrm{explain}(\theta), E(\theta))$ (maximal
-incompatibility). Decisiveness gives
-$\mathrm{incompatible}(E(\theta), E(\theta))$ --- contradicting
-irreflexivity. So decisive $\Rightarrow$ $E = \mathrm{explain}$, and the
-trilemma applies.
-\end{theorem}
-
-\paragraph{Tightness comparison.}
+Faithful implies $E = \mathrm{explain}$ (by maximal incompatibility),
+which is decisive; the trilemma gives the contradiction (proved in Methods).
+Tightness collapses from 3/3 achievable pairs to 1/3:
 
 \begin{center}
+\small
 \begin{tabular}{lccc}
 \toprule
 \textbf{Pair} & \textbf{Abstract} & \textbf{Max.\ incompat.} & \textbf{Enriched} \\
@@ -801,35 +403,13 @@ S + D & \checkmark & $\times$ & $\times$ \\
 \end{tabular}
 \end{center}
 
-\paragraph{ML instances.} Three binary explanation types trigger the bilemma:
-(1)~SHAP sign attribution (positive/negative), where collinearity flips
-the sign across equivalent models; (2)~feature selection
-(selected/not\_selected), where Lasso path instability swaps features;
-(3)~counterfactual direction (increase/decrease), where equivalent
-classifiers give opposite advice. For all three, faithfulness + stability
-is impossible --- not just the trilemma.
-
-\paragraph{The all-or-nothing prediction.} For maximally incompatible
-systems, the tradeoff is discrete: either $E = \mathrm{explain}$ (faithful
-+ decisive, not stable) or $E$ is unfaithful at $\geq 1/2$ of each
-Rashomon pair. No continuous interpolation exists.
-
-\paragraph{Recovery.} Adding a ``neutral'' element (compatible with
-everything) to $H$ restores F+S via the constant $E(\theta) = c$, at the
-cost of decisiveness. This is the abstract mechanism behind DASH averaging,
-CPDAG aggregation, and Bayesian model averaging.
-
-\paragraph{On simplicity.} The bilemma is a short proof. Its value is
-structural: it reveals the impossibility landscape depends on $H$'s
-incompatibility structure, not just the Rashomon property. The abstract
-trilemma treats all systems uniformly; the bilemma shows tightness is a
-system-specific property.
-
-\paragraph{Structural parallels.} Arrow's impossibility theorem simplifies
-for binary alternatives; Gibbard--Satterthwaite simplifies for two
-candidates; the doctrinal paradox depends on proposition structure. The
-pattern --- impossibility strength governed by outcome space structure ---
-may warrant systematic study.
+Recovery requires \emph{enriching} $\sH$ with a neutral element $c$
+(compatible with everything): the constant map $E(\theta) = c$ restores
+F+S at the cost of decisiveness.  This is the abstract mechanism behind
+DASH (adds ``tied''), CPDAG reporting (adds ``undirected''), and Bayesian
+model averaging (adds ``uncertain'').  ML instances, the all-or-nothing
+prediction, and structural parallels with Arrow's theorem are detailed in
+Methods.
 
 %%% =========================================================================
 %%% Discussion
@@ -837,192 +417,50 @@ may warrant systematic study.
 
 \section*{Discussion}
 
-This result connects phenomena studied independently across eight scientific
-fields for over a century---from microstate multiplicity in statistical
-mechanics to the view update problem in database
-theory~\citep{bancilhon1981update} to feature attribution instability in
-machine learning~\citep{bilodeau2024impossibility}.  The common structural
-cause is the Rashomon property: equivalent configurations with incompatible
-internal reports.  Each domain independently developed what we formally classify as
-a G-invariant projection---orbit averaging for vector-valued explanations,
-equivalence-class reporting for combinatorial ones.  The framework does
-not claim to have motivated these constructions; rather, it identifies
-the common optimality structure that explains why independent communities
-converged on strategies with the same formal character.
+The theorem reframes ``why are explanations unstable?''\ as ``because the
+inference problem is underspecified.''  This is actionable: practitioners
+can diagnose whether instability is structural (Rashomon holds; no method
+eliminates it) or methodological (Rashomon absent; instability is fixable).
+The query-relative version characterizes precisely which questions are
+stably answerable: a biologist can stably report the amino acid but not
+the codon; a statistician can stably report the CPDAG but not the DAG.
 
-The theorem reframes the question ``why are explanations unstable?''\ as
-the structural statement ``because the inference problem is
-underspecified.''  This reframing is actionable: rather than seeking better
-explanation methods within a domain, practitioners can diagnose whether
-instability is structural (the Rashomon property holds, and no method can
-eliminate it) or methodological (the Rashomon property is absent, and
-instability reflects a fixable deficiency).  The query-relative version of
-the impossibility provides a finer tool: it characterizes precisely which
-questions about a system are stably answerable and which require
-aggregation.  For a biologist, the theorem says: ``you can stably report
-the amino acid, but not the codon.''  For a statistician: ``you can stably
-report the CPDAG, but not the DAG.''  The boundary between answerable and
-unanswerable queries is determined by the symmetry structure of the
-equivalence class.
+\paragraph{Machine learning.}
+Nine ML instances (Supporting Information) cover feature attribution,
+attention maps, counterfactual explanations, concept probes, causal
+discovery, model selection, saliency maps, token citation, and circuit
+discovery.  The resolution predicts that ensemble methods outperform
+single-model explanations in stability, confirmed empirically.  These
+findings are relevant to the EU AI Act (Article~13) and FDA's AI/ML
+Action Plan~\citep{fda2021aiml}, which require reliable
+interpretability~\citep{selbst2018intuitive}.
 
-The result has particular implications for the growing field of explainable
-artificial intelligence (XAI).  The Supporting Information documents nine
-machine learning instances of the impossibility, covering feature
-attribution (SHAP, Integrated Gradients, LIME), attention maps,
-counterfactual explanations, concept probes (TCAV), causal discovery,
-model selection, saliency maps (GradCAM), token citation, and mechanistic
-interpretability (circuit discovery).  In each case, the Rashomon
-property---the existence of multiple near-optimal models with
-contradictory internal structure---makes simultaneous faithfulness,
-stability, and decisiveness unachievable.  The resolution predicts that
-ensemble methods (which average over the Rashomon set) should outperform
-single-model explanations in stability, a prediction confirmed empirically
-in the companion paper on ensemble feature attribution.  These findings
-are relevant to emerging regulatory frameworks---including the EU AI
-Act (Regulation 2024/1689), which requires ``sufficient transparency to
-enable deployers to interpret the system's output'' (Article~13) and
-grants individuals ``a right to explanation of individual
-decision-making'' (Article~86), and the FDA's AI/ML Action
-Plan~\citep{fda2021aiml}---which increasingly emphasize reliable model
-interpretability.  The impossibility theorem suggests that when the
-Rashomon property holds, single-model explanation methods face inherent
-stability limitations that ensemble-based approaches can
-mitigate~\citep{selbst2018intuitive}.
+\paragraph{Bayesian interpretation.}
+Faithfulness corresponds to likelihood consistency, stability to posterior
+invariance, and the $G$-invariant resolution to the posterior predictive
+distribution; Pareto-optimality follows from admissibility of Bayes
+estimators~\citep{berger1985statistical}.  Fisher's sufficiency is
+structurally analogous to stability, and the Rao-Blackwell theorem
+parallels the Pareto-optimality of orbit
+averaging~\citep{halmos1949application}.
 
-\paragraph{Beyond ML.} As evidence that the impossibility extends beyond ML,
-we note that spacetime geometry under Ostrowski's classification of
-completions of $\mathbb{Q}$ is a maximally incompatible system: the two
-completions yield exactly two geometries (smooth and ultrametric), triggering
-the bilemma. The adelic resolution --- formulating physics over all completions
-simultaneously --- is the enrichment escape, and it is the \emph{unique}
-faithful + stable value on the Rashomon fiber. The full development, including
-the Ostrowski--Design Space correspondence and physical scoping (conditional
-on the Freund--Witten adelic product formula), is in a companion
-paper~\cite{caraker2026ostrowski}.
+\paragraph{Structural parallels.}
+Arrow's impossibility theorem~\citep{arrow1951social} proves that no
+voting system satisfies a set of fairness axioms under symmetry.  Neither
+result subsumes the other, but both illustrate the meta-pattern that
+symmetry forces trade-offs.  Our result is constructive: it identifies the
+unique optimal trade-off and proves existing scientific practice implements
+it.
 
-A structural parallel exists with Arrow's impossibility
-theorem~\citep{arrow1951social}, which proves that no voting system can
-simultaneously satisfy a set of fairness axioms.  Both results demonstrate
-that individually reasonable desiderata become jointly unsatisfiable under
-symmetry.  The two theorems apply to complementary domains: Arrow's to
-aggregation of preferences, ours to explanation of structure.  The framework captures Arrow's setting but not Arrow's full theorem: our faithfulness is strictly stronger than Arrow's unanimity, and our stability is strictly stronger than IIA.  Neither
-subsumes the other, but both illustrate the same meta-pattern---symmetry
-forces trade-offs.  A key difference is that the explanation impossibility
-is constructive: it not only proves that the three properties cannot
-coexist, but identifies the unique optimal trade-off and proves that
-existing scientific practice already implements it.  In this sense, the
-theorem is simultaneously a negative result (the impossibility) and a
-positive one (the optimality of existing practice).
+\paragraph{Limitations.}
+The derivations use minimal witnesses (two-element sets).  Empirical
+validations use domain-appropriate but not exhaustive datasets.  The
+resolution assumes the equivalence class is known, and in some domains
+computing the orbit average may be intractable.
 
-For ML practitioners, the SNR threshold tells which feature comparisons to trust.  For causal inference, ensemble averaging over the Rashomon set reduces instability fourfold.  For biology, the character-theoretic capacity serves as a neutral-evolution baseline.
-
-Several limitations merit acknowledgement.  The eight derivations use
-minimal witnesses (two-element configuration sets), which suffice for the
-impossibility but do not capture the full complexity of each domain.  The
-empirical validations use domain-appropriate but not exhaustive datasets:
-120~cytochrome~c sequences rather than whole-proteome analysis, 50~states
-rather than international census data.  The resolution framework assumes
-the equivalence class is known, which in practice requires domain
-expertise to determine.  Finally, the theorem addresses the existence of
-stable explanations, not the computational cost of finding them---in some
-domains, computing the orbit average may be intractable even when its
-optimality is guaranteed.
-
-Beyond unification, the framework generates cross-domain predictions
-confirmed by experiment.  First, applying the ML ensemble resolution
-(DASH) to causal discovery reduces orientation flip rate fourfold
-(Wilcoxon $p < 10^{-10}$) at the cost of reduced decisiveness
-(0.21 vs.\ 0.36)---directly illustrating the trilemma's
-stability-for-decisiveness trade-off predicted by the framework.  Second, the gauge theory analogy predicts a stability transition in
-explanation stability as the Rashomon tolerance increases: at high
-collinearity ($\rho = 0.9$), stability undergoes a sigmoid-shaped
-transition from near-perfect to near-random, with a critical tolerance
-$\varepsilon_c = 1.51$ determined by the model class structure.  Third,
-a falsification test confirms the framework's boundary: across three
-domains, removing the Rashomon property restores simultaneous
-achievability of all three properties, with instability ratios exceeding
-$10^6$.  Fourth, the character-theoretic prediction that information loss
-scales as $1/k$ for $S_k$, derived from codon degeneracy, predicts the rank ordering of protein sequence diversity across structural
-positions (Spearman $\rho = 0.88$, $p = 0.004$), serving as a
-neutral-evolution upper bound from which deviations measure selective
-pressure.  The same $(d{-}1)/d$ law generalizes to transcription factor
-binding sites: across 500 JASPAR vertebrate TF profiles (5,624~positions),
-nucleotide diversity increases monotonically with the number of tolerated
-nucleotides (Kruskal--Wallis $p = 2.3 \times 10^{-45}$), with the
-character-theoretic baseline acting as a \emph{floor} for regulatory DNA
-($\alpha = 1.23$) rather than a ceiling for protein-coding DNA
-($\alpha < 1$)---consistent with weaker purifying selection on regulatory
-sequences.
-
-The framework admits a Bayesian interpretation: faithfulness corresponds to likelihood consistency, stability to posterior invariance, and the $G$-invariant resolution to the posterior predictive distribution; the Pareto-optimality of orbit averaging follows from admissibility of Bayes estimators~\citep{berger1985statistical}.
-
-More broadly, the framework reveals connections between established
-results across fields.  Fisher's concept of sufficiency (1920) is structurally analogous to the
-framework's stability condition: a statistic $T$ is sufficient if and
-only if it defines a stable explanation map, and the Rao-Blackwell
-theorem (that conditioning on a sufficient statistic improves any
-estimator) parallels the framework's Pareto-optimality of orbit averaging---a connection anticipated by the invariance perspective on sufficiency~\citep{halmos1949application}.
-The framework also gives a quantitative ceiling on AI interpretability:
-for a network with $n$ hidden units, the permutation symmetry $S_n$
-implies that at most $1/n$ of neuron-level representation is stably interpretable under hidden-unit permutation symmetry. This bound applies to individual neuron interpretations, not to circuit-level analysis (which studies functionally defined subgraphs that are preserved under relabeling).
-
-\paragraph{Invariance counting (cf.\ Noether's theorem).}
-The invariance correspondence makes a sharp quantitative prediction:
-for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
-independent ranking facts are stably answerable.  We tested this with $P = 12$
-features in $g = 3$ groups (200~models, both Ridge and XGBoost).  The result
-is a clean bimodal distribution: all 18~within-group pairs show
-$\sim\!50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
-rate---a 47-percentage-point gap (permutation $p < 0.0002$; Cohen's $d = 1.41$).
-A sensitivity analysis across $\rho \in [0.50, 0.99]$ confirms the gap is
-\emph{invariant} across the entire correlation range---the bimodal
-structure is a structural consequence of equal within-group coefficients,
-not a high-correlation artifact.
-An automatic group-discovery algorithm (SAGE: Symmetry-Aware Group
-Estimation) predicts instability from the discovered groups with
-$R^2 = 0.81$ across 8~datasets, making the framework actionable without
-hand-specification of symmetry.  Applying SAGE's CCA analysis to neural
-network representations reveals that hidden-layer symmetry is continuous
-(smooth CCA spectrum) rather than discrete (bimodal flip rates), delineating
-a boundary condition on the invariance counting prediction.
-
-\paragraph{From exact to approximate symmetry.}
-On real data where feature importance is approximately (not exactly) equal
-within groups, the bimodal gap weakens.  The Gaussian flip rate formula
-$\text{flip}(j,k) = 2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$, where
-$\Delta$ and $\sigma$ are the mean and standard deviation of the importance
-difference across bootstrap retrains, predicts per-pair flip rates with
-out-of-sample $R^2 = 0.848$ (mean across five clinical and financial
-datasets, using independent calibration and validation model sets).
-This provides practitioners a quantitative reliability score for every
-feature comparison: pairs with signal-to-noise ratio $|\Delta|/\sigma > 2$
-are reliable (flip rate $< 5\%$); pairs with $|\Delta|/\sigma < 0.5$ are
-unreliable (flip rate $> 30\%$).
-
-\paragraph{Universal $\eta$ law.}
-The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts the
-observed instability rate (a downstream observable, not a re-measurement) across
-seven well-characterized domain instances with $R^2 = 0.957$,
-slope~$= 0.91$, and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a
-parameter-free predictor spanning ML attribution, concept probes, model
-selection, codon degeneracy, and statistical mechanics.  Across all 16~tested
-instances (including those with approximate group assignments), $R^2 = 0.25$:
-the formula is correct, but group identification is the bottleneck.
-
-\paragraph{Falsified extensions.}
-Three conjectured extensions were pre-registered and tested.
-(i)~A predicted phase transition in explanation stability at the
-overparameterization threshold $r^* \approx 1$ was falsified: the
-transition is sharp (sigmoid $R^2 > 0.92$) but occurs at $r^* \in [0.01, 0.12]$,
-confounded by signal dilution.
-(ii)~A conjectured tradeoff bound $\alpha + \sigma + \delta \leq 2$ was
-falsified (max observed sum $= 2.86$), though the binary impossibility---no
-method achieves all three at~$1.0$---remains confirmed.
-(iii)~An extrapolation to molecular evolution (synonymous substitution rates
-from $S_k$ representation theory) added zero predictive power beyond
-simple neighbour counting (partial $R^2 = 0.0$, $p = 1.0$).
-These boundary conditions delineate the framework's proven domain (the
-impossibility and its resolutions) from its speculative reach.
+%% SUPPLEMENTARY: Falsified extensions, SAGE algorithm, CCA spectrum,
+%% Noether sensitivity analysis, cross-domain transfer details,
+%% character-theoretic biology predictions moved to SI.
 
 %%% =========================================================================
 %%% Methods

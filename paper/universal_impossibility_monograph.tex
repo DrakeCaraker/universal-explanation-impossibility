@@ -590,21 +590,32 @@ outcomes.
 Maximal incompatibility is not an artificial condition: 19 of the 29 Lean-verified instance files in this project use $\mathrm{incompatible} = (\neq)$, making them maximally incompatible.  The bilemma thus applies to the majority of instances, including all binary ranking spaces, all DAG orientation spaces, and all quantum measurement instances.
 The bilemma does not have direct mechanism design content.  Mechanism design concerns incentive compatibility under strategic agents; the bilemma concerns the logical structure of explanation spaces without strategic considerations.
 
-\paragraph{Recovery via enrichment.}
-Adding a neutral element $c \in H$ (compatible with everything) to $H$
-restores faithful~+~stable via the constant map $E(\theta) = c$
-(Lean: \texttt{recovery\_faithful\_stable} in \texttt{MaximalIncompatibility.lean}).
-This is the abstract mechanism behind ensemble averaging (DASH adds ``tied''),
-CPDAG reporting (adds ``undirected''), and Bayesian model averaging
-(adds ``uncertain'').  The enrichment does \emph{not} restore
-stable~+~decisive---that remains impossible even with the neutral element,
-because decisive still forces $E = \mathsf{explain}$ on the non-neutral
-elements.
+\subsection{The Enrichment Mechanism}
+\label{sec:enrichment}
+
+\paragraph{Definition.}
+Given a maximally incompatible explanation space $H$, the \emph{enrichment} of $H$ is the space $H^+ = H \cup \{c\}$, where $c$ is a \emph{neutral element}: an element compatible with every $h \in H$ (i.e., $\lnot\incomp(c, h)$ for all $h$).
+
+\paragraph{Why enrichment works.}
+Because $c$ is compatible with all native explanations, the constant map $E(\theta) = c$ is both faithful (never contradicts any $\mathsf{explain}(\theta)$) and stable (assigns the same explanation to all configurations).  This restores faithful~+~stable at the cost of decisiveness: the constant map draws no distinctions at all.
+(Lean: \texttt{recovery\_faithful\_stable} in \texttt{MaximalIncompatibility.lean}.)
+
+\paragraph{Why stable~+~decisive is NOT restored.}
+Enrichment does \emph{not} restore stable~+~decisive.  Decisiveness requires $E(\theta)$ to inherit all incompatibilities of $\mathsf{explain}(\theta)$, which forces $E(\theta) = \mathsf{explain}(\theta)$ on non-neutral elements (by maximal incompatibility).  But then $E = \mathsf{explain}$ is not stable (the Rashomon property gives two configurations with the same observable but different explanations).  The neutral element $c$ cannot help: it is compatible with everything, so it is not decisive at any $\theta$.
+
+\paragraph{Instances.}
+Four domain-specific resolutions are instances of enrichment:
+\begin{itemize}[nosep]
+  \item \textbf{DASH} (ML attribution): adds ``tied'' to the binary ranking space $\{j > k, \; k > j\}$, allowing the ensemble to report that two features are indistinguishable.
+  \item \textbf{CPDAG} (causal discovery): adds ``undirected'' to the edge orientation space $\{X \to Y, \; Y \to X\}$, allowing the equivalence class to leave an edge unoriented.
+  \item \textbf{BMA} (model selection): adds ``uncertain'' to the model identity space, allowing posterior averaging over competing models.
+  \item \textbf{QEC} (quantum error correction): adds ancilla qubits to the measurement space, enabling syndrome-based recovery that does not commit to a single error pattern.
+\end{itemize}
 
 Categorically, the enrichment operation is the free adjunction of an initial object to the incompatibility poset: adding an element $c$ compatible with everything is adjoining a least element under the compatibility ordering.
 
-\paragraph{Bilemma characterization.}
-The bilemma holds if and only if no \emph{neutral element} exists.  Define a neutral element as $c \in H$ such that $\lnot\incomp(c, \mathsf{explain}(\theta))$ for all $\theta$.  If such a $c$ exists, then $E(\theta) = c$ is faithful and stable, so the bilemma fails.  Conversely, if the bilemma holds (F+S is impossible for all $E$), then no neutral element can exist.  Maximal incompatibility implies no neutral element: if $c$ were compatible with all native explanations, then $c = \mathsf{explain}(\theta)$ for all $\theta$ (by maximal incompatibility), but the Rashomon property gives $\theta_1, \theta_2$ with $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$, contradicting irreflexivity.  The converse of the last implication is false: a system can lack a neutral element without being maximally incompatible.  (Lean: \texttt{BilemmaCharacterization.lean}, three theorems, zero \texttt{sorry}.)
+\paragraph{Characterization.}
+Enrichment is needed if and only if the bilemma holds, which occurs if and only if no neutral element exists in $H$.  Define a neutral element as $c \in H$ such that $\lnot\incomp(c, \mathsf{explain}(\theta))$ for all $\theta$.  If such a $c$ exists, then $E(\theta) = c$ is faithful and stable, so the bilemma fails and no enrichment is needed.  Conversely, if the bilemma holds (F+S is impossible for all $E$), then no neutral element can exist.  Maximal incompatibility implies no neutral element: if $c$ were compatible with all native explanations, then $c = \mathsf{explain}(\theta)$ for all $\theta$ (by maximal incompatibility), but the Rashomon property gives $\theta_1, \theta_2$ with $\incomp(\mathsf{explain}(\theta_1), \mathsf{explain}(\theta_2))$, contradicting irreflexivity.  The converse of the last implication is false: a system can lack a neutral element without being maximally incompatible.  (Lean: \texttt{BilemmaCharacterization.lean}, three theorems, zero \texttt{sorry}.)
 
 \paragraph{ML instances.}
 Three binary explanation types trigger the bilemma:
@@ -1089,6 +1100,8 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+Of the 432 theorems, 71 are trivial (1--3 tactic steps, typically one-line applications of \texttt{explanation\_impossibility}), 174 are short (4--10 steps), 57 are moderate (11--30 steps), and 12 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, and Pareto-optimality). The mean proof length is 8.7 tactic steps.
 
 \subsection{Axiom Stratification}
 \label{sec:axiom-stratification}
@@ -1684,7 +1697,7 @@ commitments of structural realism, which our descriptive framework does not
 address.
 
 \paragraph{Structural realism.}
-The $G$-invariant resolution---projecting onto the invariant subspace---is a formalization of the structural realist's position in philosophy of science: only the invariant structure is stably describable~\citep{worrall1989structural,ladyman2007every}.  The framework provides a quantitative version of this thesis: the fraction of structure that is stably accessible equals $\dim(V^G)/\dim(V)$.
+The $G$-invariant resolution---projecting onto the invariant subspace---is a formalization of the structural realist's position in philosophy of science: only the invariant structure is stably describable~\citep{worrall1989structural,ladyman2007every}.  The framework provides a quantitative version of this thesis: the fraction of structure that is stably accessible equals $\dim(V^G)/\dim(V)$.  The symmetry-to-reality inference --- whether invariant structure is genuinely ``more real'' than variant structure --- is itself contested~\citep{dasgupta2016symmetry}.  Our framework is neutral on this ontological question: it claims only that invariant quantities are \emph{stably reportable}, not that they are \emph{real}.
 
 Dropping decisiveness corresponds to van
 Fraassen's \citep{vanfraassen1980scientific} constructive empiricist stance
@@ -2418,6 +2431,8 @@ where $\Phi$ is the standard normal CDF (Lean-verified in
 $\text{flip} = 0.5$ --- recovering the invariance counting within-group coin flip.
 When $|\Delta| \gg \sigma$ (strong signal), $\text{flip} \approx 0$ ---
 recovering between-group stability.
+
+A sensitivity analysis shows that $M \geq 30$ calibration models (15 per split) are needed for the Gaussian flip formula to achieve $R^2 > 0.7$; below $M = 20$, the formula degrades rapidly.
 
 We validated this formula with \emph{independent} calibration and validation
 model sets (30~models each, non-overlapping random seeds) on five real
