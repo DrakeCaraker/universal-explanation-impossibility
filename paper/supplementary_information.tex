@@ -45,7 +45,7 @@ A causal chain $A \to B \to C$ and a fork $A \leftarrow B \to C$ encode the same
 
 \section{Lean Formalization Details}
 
-The Lean~4 formalization (v4.30.0-rc1 with Mathlib) comprises 101 files containing 440 theorems and lemmas, 72 axioms, and 0 \texttt{sorry} (unproved goals).  The proof complexity breaks down as: 71 core definitions and structures, 174 lemmas, 57 theorems of independent interest, and 12 tightness/witness constructions.
+The Lean~4 formalization (v4.30.0-rc1 with Mathlib) comprises 102 files containing 442 theorems and lemmas, 72 axioms, and 0 \texttt{sorry} (unproved goals).  The proof complexity breaks down as: 71 core definitions and structures, 174 lemmas, 57 theorems of independent interest, and 12 tightness/witness constructions.
 
 The axiom inventory is stratified by dependency: the core universal impossibility (\texttt{explanation\_impossibility}) requires zero axioms beyond the Rashomon hypothesis.  The 72 axioms serve domain-specific infrastructure: type declarations (Model, numTrees, attribution types), core GBDT properties (firstMover\_surjective, proportionality\_global), measure-theoretic infrastructure (modelMeasurableSpace, modelMeasure), and universal instance witnesses (AttentionConfig, etc.).
 

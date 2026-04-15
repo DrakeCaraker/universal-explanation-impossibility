@@ -22,12 +22,13 @@ abstract: >-
   explanation of an underspecified system can be simultaneously faithful,
   stable, and decisive when the Rashomon property holds. The core theorem
   (explanation_impossibility) carries zero axiom dependencies and is
-  instantiated across six explanation types — additive attributions
-  (SHAP, IG, LIME), attention maps, counterfactual explanations, concept
-  probes (TCAV), causal discovery (DAGs), and model selection. 319
-  417 type-checked theorems+lemmas from 72 axioms with 0 sorry across 95
-  files. Includes a constructive resolution via G-invariant aggregation
-  and universal design space dichotomy (Family A / Family B).
+  instantiated across nine ML explanation types and fourteen cross-domain
+  instances (Arrow's theorem, quantum contextuality, Duhem-Quine, gauge
+  theory, statistical mechanics, genetic code, phase problem, and more).
+  442 type-checked theorems+lemmas from 72 axioms with 0 sorry across
+  102 files. Includes a constructive resolution via G-invariant
+  aggregation, the bilemma (strengthened impossibility for maximally
+  incompatible systems), and the enrichment characterization.
 keywords:
   - explainability
   - impossibility theorem
