@@ -1,0 +1,520 @@
+{
+  "experiment": "LLM Self-Explanation Impossibility",
+  "model": "distilbert-base-uncased-finetuned-sst-2-english",
+  "n_sentences": 50,
+  "n_runs": 30,
+  "n_calibration": 15,
+  "n_validation": 15,
+  "snr_threshold": 0.5,
+  "aggregate": {
+    "total_token_pairs": 4087,
+    "mean_flip_rate": 0.1769,
+    "max_flip_rate": 0.5333,
+    "frac_unreliable": 0.1568,
+    "oos_r2_gaussian_flip": 0.6894,
+    "prediction_flip_sentences": 0,
+    "prediction_flip_fraction": 0.0
+  },
+  "per_sentence": [
+    {
+      "sentence_idx": 0,
+      "sentence": "This movie is absolutely wonderful and I loved every moment of it.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2229,
+      "frac_unreliable": 0.1714,
+      "oos_r2": 0.6358
+    },
+    {
+      "sentence_idx": 1,
+      "sentence": "The food was delicious and the service was outstanding.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1838,
+      "frac_unreliable": 0.1515,
+      "oos_r2": 0.7099
+    },
+    {
+      "sentence_idx": 2,
+      "sentence": "I had a fantastic experience at this hotel, highly recommended.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.233,
+      "frac_unreliable": 0.2088,
+      "oos_r2": 0.5923
+    },
+    {
+      "sentence_idx": 3,
+      "sentence": "The book was incredibly engaging and kept me reading until dawn.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1926,
+      "frac_unreliable": 0.1648,
+      "oos_r2": 0.6848
+    },
+    {
+      "sentence_idx": 4,
+      "sentence": "What a beautiful day, everything went perfectly.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2504,
+      "frac_unreliable": 0.2,
+      "oos_r2": 0.6375
+    },
+    {
+      "sentence_idx": 5,
+      "sentence": "The team delivered an exceptional performance tonight.",
+      "n_tokens": 10,
+      "n_pairs": 45,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.232,
+      "frac_unreliable": 0.1778,
+      "oos_r2": 0.6879
+    },
+    {
+      "sentence_idx": 6,
+      "sentence": "I am so happy with this purchase, it exceeded my expectations.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1849,
+      "frac_unreliable": 0.1429,
+      "oos_r2": 0.6973
+    },
+    {
+      "sentence_idx": 7,
+      "sentence": "The concert was breathtaking and the music was phenomenal.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1984,
+      "frac_unreliable": 0.1978,
+      "oos_r2": 0.6637
+    },
+    {
+      "sentence_idx": 8,
+      "sentence": "This is the best restaurant I have ever visited.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1807,
+      "frac_unreliable": 0.1364,
+      "oos_r2": 0.5344
+    },
+    {
+      "sentence_idx": 9,
+      "sentence": "The new software update is fast, clean, and intuitive.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1725,
+      "frac_unreliable": 0.1319,
+      "oos_r2": 0.5646
+    },
+    {
+      "sentence_idx": 10,
+      "sentence": "Her speech was inspiring and moved the entire audience.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1659,
+      "frac_unreliable": 0.1061,
+      "oos_r2": 0.7037
+    },
+    {
+      "sentence_idx": 11,
+      "sentence": "The garden looks absolutely stunning this time of year.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.159,
+      "frac_unreliable": 0.1515,
+      "oos_r2": 0.6461
+    },
+    {
+      "sentence_idx": 12,
+      "sentence": "I really enjoyed the thoughtful design of this product.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2759,
+      "frac_unreliable": 0.3182,
+      "oos_r2": 0.7986
+    },
+    {
+      "sentence_idx": 13,
+      "sentence": "The customer support team was incredibly helpful and kind.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.127,
+      "frac_unreliable": 0.1818,
+      "oos_r2": 0.7818
+    },
+    {
+      "sentence_idx": 14,
+      "sentence": "This vacation has been the most relaxing trip of my life.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1153,
+      "frac_unreliable": 0.0989,
+      "oos_r2": 0.7477
+    },
+    {
+      "sentence_idx": 15,
+      "sentence": "The acting in this film is superb and deeply moving.",
+      "n_tokens": 13,
+      "n_pairs": 78,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1585,
+      "frac_unreliable": 0.1667,
+      "oos_r2": 0.6867
+    },
+    {
+      "sentence_idx": 16,
+      "sentence": "What an amazing achievement by the research team.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2393,
+      "frac_unreliable": 0.2,
+      "oos_r2": 0.617
+    },
+    {
+      "sentence_idx": 17,
+      "sentence": "The sunset over the ocean was the most beautiful thing I have seen.",
+      "n_tokens": 16,
+      "n_pairs": 120,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1308,
+      "frac_unreliable": 0.075,
+      "oos_r2": 0.6741
+    },
+    {
+      "sentence_idx": 18,
+      "sentence": "I am thrilled with the results of the experiment.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2271,
+      "frac_unreliable": 0.197,
+      "oos_r2": 0.7104
+    },
+    {
+      "sentence_idx": 19,
+      "sentence": "The children were laughing and playing, it was heartwarming.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1424,
+      "frac_unreliable": 0.1429,
+      "oos_r2": 0.7745
+    },
+    {
+      "sentence_idx": 20,
+      "sentence": "This coffee shop has the coziest atmosphere in town.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1413,
+      "frac_unreliable": 0.1209,
+      "oos_r2": 0.6392
+    },
+    {
+      "sentence_idx": 21,
+      "sentence": "The documentary was informative and brilliantly produced.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1547,
+      "frac_unreliable": 0.1667,
+      "oos_r2": 0.7305
+    },
+    {
+      "sentence_idx": 22,
+      "sentence": "I feel grateful for the wonderful support from my colleagues.",
+      "n_tokens": 13,
+      "n_pairs": 78,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2173,
+      "frac_unreliable": 0.2308,
+      "oos_r2": 0.7564
+    },
+    {
+      "sentence_idx": 23,
+      "sentence": "The new park is a fantastic addition to our neighborhood.",
+      "n_tokens": 13,
+      "n_pairs": 78,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1639,
+      "frac_unreliable": 0.1795,
+      "oos_r2": 0.6828
+    },
+    {
+      "sentence_idx": 24,
+      "sentence": "Every dish at this restaurant was a masterpiece.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1302,
+      "frac_unreliable": 0.1273,
+      "oos_r2": 0.7053
+    },
+    {
+      "sentence_idx": 25,
+      "sentence": "This movie was terrible and a complete waste of time.",
+      "n_tokens": 13,
+      "n_pairs": 78,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2601,
+      "frac_unreliable": 0.2179,
+      "oos_r2": 0.6859
+    },
+    {
+      "sentence_idx": 26,
+      "sentence": "The food was cold and the waiter was extremely rude.",
+      "n_tokens": 13,
+      "n_pairs": 78,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1697,
+      "frac_unreliable": 0.1538,
+      "oos_r2": 0.7071
+    },
+    {
+      "sentence_idx": 27,
+      "sentence": "I had an awful experience, the hotel room was dirty and noisy.",
+      "n_tokens": 16,
+      "n_pairs": 120,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1894,
+      "frac_unreliable": 0.1333,
+      "oos_r2": 0.6631
+    },
+    {
+      "sentence_idx": 28,
+      "sentence": "The book was boring and I could not finish the first chapter.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1595,
+      "frac_unreliable": 0.1429,
+      "oos_r2": 0.6662
+    },
+    {
+      "sentence_idx": 29,
+      "sentence": "What a horrible day, nothing went as planned.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1873,
+      "frac_unreliable": 0.2121,
+      "oos_r2": 0.561
+    },
+    {
+      "sentence_idx": 30,
+      "sentence": "The team played terribly and deserved to lose.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1475,
+      "frac_unreliable": 0.1636,
+      "oos_r2": 0.7159
+    },
+    {
+      "sentence_idx": 31,
+      "sentence": "I am very disappointed with this product, it broke after one day.",
+      "n_tokens": 16,
+      "n_pairs": 120,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2059,
+      "frac_unreliable": 0.1583,
+      "oos_r2": 0.6889
+    },
+    {
+      "sentence_idx": 32,
+      "sentence": "The concert was dreadful, the sound quality was atrocious.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1858,
+      "frac_unreliable": 0.1524,
+      "oos_r2": 0.656
+    },
+    {
+      "sentence_idx": 33,
+      "sentence": "This is the worst restaurant I have ever been to.",
+      "n_tokens": 13,
+      "n_pairs": 78,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1668,
+      "frac_unreliable": 0.141,
+      "oos_r2": 0.5359
+    },
+    {
+      "sentence_idx": 34,
+      "sentence": "The software is buggy, slow, and crashes constantly.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2233,
+      "frac_unreliable": 0.2418,
+      "oos_r2": 0.7273
+    },
+    {
+      "sentence_idx": 35,
+      "sentence": "His speech was confusing and put everyone to sleep.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1688,
+      "frac_unreliable": 0.1212,
+      "oos_r2": 0.7743
+    },
+    {
+      "sentence_idx": 36,
+      "sentence": "The garden is overgrown and looks completely neglected.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2023,
+      "frac_unreliable": 0.1455,
+      "oos_r2": 0.6598
+    },
+    {
+      "sentence_idx": 37,
+      "sentence": "The design of this product is frustrating and poorly thought out.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1957,
+      "frac_unreliable": 0.1978,
+      "oos_r2": 0.6044
+    },
+    {
+      "sentence_idx": 38,
+      "sentence": "Customer support was unhelpful, I waited for hours.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1595,
+      "frac_unreliable": 0.1238,
+      "oos_r2": 0.6443
+    },
+    {
+      "sentence_idx": 39,
+      "sentence": "This vacation was stressful and nothing like what was promised.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1346,
+      "frac_unreliable": 0.1099,
+      "oos_r2": 0.73
+    },
+    {
+      "sentence_idx": 40,
+      "sentence": "The acting was wooden and the plot made no sense at all.",
+      "n_tokens": 15,
+      "n_pairs": 105,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1502,
+      "frac_unreliable": 0.1333,
+      "oos_r2": 0.7711
+    },
+    {
+      "sentence_idx": 41,
+      "sentence": "What a disappointing outcome after months of hard work.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1351,
+      "frac_unreliable": 0.1818,
+      "oos_r2": 0.6823
+    },
+    {
+      "sentence_idx": 42,
+      "sentence": "The view from the room was just a parking lot and a dumpster.",
+      "n_tokens": 17,
+      "n_pairs": 136,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1954,
+      "frac_unreliable": 0.1618,
+      "oos_r2": 0.7349
+    },
+    {
+      "sentence_idx": 43,
+      "sentence": "The experiment failed and produced no useful results.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1281,
+      "frac_unreliable": 0.0909,
+      "oos_r2": 0.562
+    },
+    {
+      "sentence_idx": 44,
+      "sentence": "The children were crying and miserable the entire trip.",
+      "n_tokens": 12,
+      "n_pairs": 66,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1706,
+      "frac_unreliable": 0.1061,
+      "oos_r2": 0.7199
+    },
+    {
+      "sentence_idx": 45,
+      "sentence": "This coffee shop is overpriced and the coffee tastes burnt.",
+      "n_tokens": 16,
+      "n_pairs": 120,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1394,
+      "frac_unreliable": 0.1583,
+      "oos_r2": 0.6213
+    },
+    {
+      "sentence_idx": 46,
+      "sentence": "The documentary was biased and poorly researched.",
+      "n_tokens": 10,
+      "n_pairs": 45,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.2095,
+      "frac_unreliable": 0.1333,
+      "oos_r2": 0.4087
+    },
+    {
+      "sentence_idx": 47,
+      "sentence": "I feel frustrated by the lack of communication from the team.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1331,
+      "frac_unreliable": 0.0989,
+      "oos_r2": 0.7932
+    },
+    {
+      "sentence_idx": 48,
+      "sentence": "The old playground is dangerous and badly maintained.",
+      "n_tokens": 11,
+      "n_pairs": 55,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1822,
+      "frac_unreliable": 0.1818,
+      "oos_r2": 0.7176
+    },
+    {
+      "sentence_idx": 49,
+      "sentence": "Every dish at this restaurant was bland and overcooked.",
+      "n_tokens": 14,
+      "n_pairs": 91,
+      "prediction_stable": true,
+      "mean_flip_rate": 0.1298,
+      "frac_unreliable": 0.1429,
+      "oos_r2": 0.6564
+    }
+  ]
+}

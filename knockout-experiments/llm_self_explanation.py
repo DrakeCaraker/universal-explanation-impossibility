@@ -9,7 +9,7 @@ where multiple internal reasoning paths yield the same output class.
 
 Design:
   - 50 sentences, 30 forward passes each with dropout active
-  - Manual forward pass to avoid PyTorch SDPA deadlock on macOS
+  - Manual forward pass (avoids PyTorch 2.8 SDPA deadlock on macOS)
   - Token importance = mean attention to each token across heads (last layer)
   - Calibration (runs 1-15) / Validation (runs 16-30) split
   - Gaussian flip formula: predicted flip rate from Delta/sigma
@@ -20,6 +20,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 import json
+import sys
 import time
 import numpy as np
 import torch
@@ -97,28 +98,35 @@ N_VAL = 15   # validation runs (16..30)
 SNR_THRESHOLD = 0.5
 
 
-def manual_distilbert_forward(model, input_ids, attention_mask, dropout_p=0.1, training=True):
-    """Manual forward pass through DistilBERT with explicit dropout and attention extraction.
+def clone_model_weights(model):
+    """Clone all model parameters to avoid safetensors lazy-loading deadlock.
 
-    Avoids the SDPA/threading deadlock in PyTorch 2.8 on macOS by computing
-    multi-head attention manually.
+    PyTorch 2.8 + safetensors on macOS can deadlock during forward passes
+    when parameters are memory-mapped. Cloning materializes them.
+    """
+    with torch.no_grad():
+        for param in model.parameters():
+            param.data = param.data.clone()
+    return model
+
+
+def manual_forward(model, input_ids, attention_mask, dropout_p=0.1, training=True):
+    """Manual forward pass through DistilBERT with explicit dropout and attention.
 
     Returns:
-        logits: (batch, n_classes)
-        all_attentions: list of (batch, n_heads, seq_len, seq_len) per layer
+        logits: (1, n_classes)
+        all_attentions: list of (n_heads, seq_len, seq_len) per layer
     """
     distilbert = model.distilbert
     n_heads = distilbert.config.n_heads
     dim = distilbert.config.dim
     head_dim = dim // n_heads
 
-    # Embeddings
-    hidden = distilbert.embeddings(input_ids)  # (1, seq_len, dim)
+    hidden = distilbert.embeddings(input_ids)
     seq_len = hidden.shape[1]
 
-    # Create attention mask for padding
     if attention_mask is not None:
-        mask = attention_mask.unsqueeze(1).unsqueeze(2)  # (1, 1, 1, seq_len)
+        mask = attention_mask.unsqueeze(1).unsqueeze(2)
         mask = (1.0 - mask.float()) * -1e9
     else:
         mask = None
@@ -128,37 +136,26 @@ def manual_distilbert_forward(model, input_ids, attention_mask, dropout_p=0.1, t
     for layer in distilbert.transformer.layer:
         sa = layer.attention
 
-        # Q, K, V projections
-        q = sa.q_lin(hidden)  # (1, seq_len, dim)
-        k = sa.k_lin(hidden)
-        v = sa.v_lin(hidden)
+        q = sa.q_lin(hidden).view(1, seq_len, n_heads, head_dim).transpose(1, 2)
+        k = sa.k_lin(hidden).view(1, seq_len, n_heads, head_dim).transpose(1, 2)
+        v = sa.v_lin(hidden).view(1, seq_len, n_heads, head_dim).transpose(1, 2)
 
-        # Reshape for multi-head: (1, seq_len, n_heads, head_dim) -> (1, n_heads, seq_len, head_dim)
-        q = q.view(1, seq_len, n_heads, head_dim).transpose(1, 2)
-        k = k.view(1, seq_len, n_heads, head_dim).transpose(1, 2)
-        v = v.view(1, seq_len, n_heads, head_dim).transpose(1, 2)
-
-        # Attention scores
         scores = torch.matmul(q, k.transpose(-2, -1)) / (head_dim ** 0.5)
         if mask is not None:
             scores = scores + mask
 
-        attn_weights = F.softmax(scores, dim=-1)  # (1, n_heads, seq_len, seq_len)
-        all_attentions.append(attn_weights.detach())
+        attn_weights = F.softmax(scores, dim=-1)
+        all_attentions.append(attn_weights[0].detach())  # (n_heads, seq_len, seq_len)
 
-        # Apply dropout to attention weights
         if training:
             attn_weights = F.dropout(attn_weights, p=dropout_p, training=True)
 
-        # Context
-        context = torch.matmul(attn_weights, v)  # (1, n_heads, seq_len, head_dim)
+        context = torch.matmul(attn_weights, v)
         context = context.transpose(1, 2).contiguous().view(1, seq_len, dim)
         context = sa.out_lin(context)
 
-        # SA residual + layer norm
         hidden = layer.sa_layer_norm(context + hidden)
 
-        # FFN
         ffn_out = layer.ffn.lin1(hidden)
         ffn_out = F.gelu(ffn_out)
         if training:
@@ -167,12 +164,9 @@ def manual_distilbert_forward(model, input_ids, attention_mask, dropout_p=0.1, t
         if training:
             ffn_out = F.dropout(ffn_out, p=dropout_p, training=True)
 
-        # FFN residual + layer norm
         hidden = layer.output_layer_norm(ffn_out + hidden)
 
-    # Pre-classifier + classifier (DistilBertForSequenceClassification)
-    hidden_cls = hidden[:, 0]  # CLS token
-    pooled = model.pre_classifier(hidden_cls)
+    pooled = model.pre_classifier(hidden[:, 0])
     pooled = F.relu(pooled)
     if training:
         pooled = F.dropout(pooled, p=dropout_p, training=True)
@@ -182,13 +176,7 @@ def manual_distilbert_forward(model, input_ids, attention_mask, dropout_p=0.1, t
 
 
 def extract_token_importance(model, tokenizer, sentence, n_runs, device):
-    """Run n_runs forward passes with dropout active, return token importance matrix.
-
-    Returns:
-        importance: (n_runs, seq_len) array — mean attention to each token across heads
-        tokens: list of token strings
-        predictions: (n_runs,) array — predicted class per run
-    """
+    """Run n_runs forward passes with dropout active, return token importance matrix."""
     inputs = tokenizer(sentence, return_tensors='pt', truncation=True, max_length=128)
     input_ids = inputs['input_ids'].to(device)
     attention_mask = inputs['attention_mask'].to(device)
@@ -199,18 +187,15 @@ def extract_token_importance(model, tokenizer, sentence, n_runs, device):
     predictions = np.zeros(n_runs, dtype=int)
 
     for r in range(n_runs):
-        torch.manual_seed(r * 137 + 42)  # different dropout mask each run
+        torch.manual_seed(r * 137 + 42)
         with torch.no_grad():
-            logits, attentions = manual_distilbert_forward(
-                model, input_ids, attention_mask, training=True
-            )
+            logits, attentions = manual_forward(model, input_ids, attention_mask, training=True)
 
-        # Last layer attention: (1, n_heads, seq_len, seq_len)
-        last_attn = attentions[-1][0]  # (n_heads, seq_len, seq_len)
+        # Last layer attention: (n_heads, seq_len, seq_len)
+        last_attn = attentions[-1]
 
         # Token importance = mean attention received by each token across all heads
-        # Sum over source positions (dim=-2), mean over heads (dim=0)
-        attn_received = last_attn.mean(dim=0).sum(dim=0)  # (seq_len,)
+        attn_received = last_attn.mean(dim=0).sum(dim=0)
         importance[r] = attn_received.cpu().numpy()
 
         predictions[r] = logits.argmax(dim=-1).item()
@@ -219,11 +204,7 @@ def extract_token_importance(model, tokenizer, sentence, n_runs, device):
 
 
 def measure_pairwise_flip_rates(importance_matrix):
-    """Compute pairwise flip rates: fraction of run-pairs where ranking flips.
-
-    Vectorized: for each token pair (i,j), compute sign of (imp_i - imp_j) per run,
-    then count disagreements across all run-pairs.
-    """
+    """Compute pairwise flip rates (vectorized)."""
     n_runs, seq_len = importance_matrix.shape
     pairs = []
     flip_rates = []
@@ -231,7 +212,7 @@ def measure_pairwise_flip_rates(importance_matrix):
     for i in range(seq_len):
         for j in range(i + 1, seq_len):
             pairs.append((i, j))
-            signs = importance_matrix[:, i] > importance_matrix[:, j]  # (n_runs,) bool
+            signs = importance_matrix[:, i] > importance_matrix[:, j]
             n_true = np.sum(signs)
             n_false = n_runs - n_true
             n_flips = n_true * n_false
@@ -242,7 +223,7 @@ def measure_pairwise_flip_rates(importance_matrix):
 
 
 def predict_flip_gaussian(importance_matrix):
-    """Predict flip rates using Gaussian CDF formula from calibration data."""
+    """Predict flip rates using Gaussian CDF formula."""
     n_runs, seq_len = importance_matrix.shape
     predicted = []
 
@@ -284,34 +265,40 @@ def r_squared(observed, predicted):
 
 
 # ---------- main experiment ----------
-print("=" * 70)
-print("LLM SELF-EXPLANATION IMPOSSIBILITY")
-print("Attention-based token importance stability across dropout masks")
-print(f"Model: distilbert-base-uncased-finetuned-sst-2-english")
-print(f"Sentences: {len(SENTENCES)} | Runs per sentence: {N_RUNS}")
-print(f"Calibration: runs 1-{N_CAL} | Validation: runs {N_CAL+1}-{N_RUNS}")
-print("=" * 70)
+sys.stdout.write("=" * 70 + "\n")
+sys.stdout.write("LLM SELF-EXPLANATION IMPOSSIBILITY\n")
+sys.stdout.write("Attention-based token importance stability across dropout masks\n")
+sys.stdout.write(f"Model: distilbert-base-uncased-finetuned-sst-2-english\n")
+sys.stdout.write(f"Sentences: {len(SENTENCES)} | Runs per sentence: {N_RUNS}\n")
+sys.stdout.write(f"Calibration: runs 1-{N_CAL} | Validation: runs {N_CAL+1}-{N_RUNS}\n")
+sys.stdout.write("=" * 70 + "\n")
+sys.stdout.flush()
 
 device = torch.device('cpu')
-print("\nLoading model and tokenizer...", flush=True)
+sys.stdout.write("\nLoading model and tokenizer...\n")
+sys.stdout.flush()
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
 model = DistilBertForSequenceClassification.from_pretrained(
     'distilbert-base-uncased-finetuned-sst-2-english',
     attn_implementation='eager'
 )
 model.to(device)
-# Put in eval mode (we handle dropout manually in our forward pass)
 model.eval()
 
-# Quick smoke test
-print("Smoke test (1 forward pass)...", flush=True)
+# Clone weights to avoid safetensors memory-mapping deadlock on macOS
+sys.stdout.write("Cloning model weights (avoiding safetensors deadlock)...\n")
+sys.stdout.flush()
+model = clone_model_weights(model)
+
+# Smoke test
+sys.stdout.write("Smoke test...\n")
+sys.stdout.flush()
 t0 = time.time()
-test_inputs = tokenizer('hello', return_tensors='pt')
+test_inputs = tokenizer('hello world', return_tensors='pt')
 with torch.no_grad():
-    logits, attns = manual_distilbert_forward(
-        model, test_inputs['input_ids'], test_inputs['attention_mask'], training=True
-    )
-print(f"  OK: {time.time()-t0:.2f}s, logits={logits.tolist()}, attn layers={len(attns)}", flush=True)
+    logits, attns = manual_forward(model, test_inputs['input_ids'], test_inputs['attention_mask'], training=True)
+sys.stdout.write(f"  OK: {time.time()-t0:.2f}s, logits={logits.tolist()}, layers={len(attns)}\n")
+sys.stdout.flush()
 
 # Collect results across all sentences
 all_cal_predicted = []
@@ -327,35 +314,25 @@ for s_idx, sentence in enumerate(SENTENCES):
     short = sentence[:50] + "..." if len(sentence) > 50 else sentence
     t_sent = time.time()
 
-    # Run all forward passes
     importance, tokens, predictions = extract_token_importance(
         model, tokenizer, sentence, N_RUNS, device
     )
 
-    # Check if the output class flips across runs
     unique_preds = np.unique(predictions)
     pred_stable = len(unique_preds) == 1
-
     if not pred_stable:
         n_prediction_flips += 1
 
     seq_len = importance.shape[1]
     n_pairs = seq_len * (seq_len - 1) // 2
 
-    # Split into calibration (runs 0..14) and validation (runs 15..29)
     cal_imp = importance[:N_CAL]
     val_imp = importance[N_CAL:]
 
-    # Gaussian prediction from calibration
     cal_predicted = predict_flip_gaussian(cal_imp)
-
-    # Observed flip rates from validation
     val_observed, pairs = measure_pairwise_flip_rates(val_imp)
-
-    # SNR from calibration
     snrs = compute_snr(cal_imp)
 
-    # Per-sentence metrics
     mean_flip = float(np.mean(val_observed))
     frac_unreliable = float(np.mean(snrs < SNR_THRESHOLD))
     oos_r2 = r_squared(val_observed, cal_predicted)
@@ -377,10 +354,11 @@ for s_idx, sentence in enumerate(SENTENCES):
     all_flip_rates.append(val_observed)
 
     elapsed = time.time() - t_sent
-    print(f"[{s_idx+1}/{len(SENTENCES)}] {short}  "
-          f"tokens={seq_len}, pairs={n_pairs}, flip={mean_flip:.3f}, "
-          f"unrel={frac_unreliable:.3f}, R²={oos_r2:.3f}, "
-          f"stable={pred_stable} ({elapsed:.1f}s)", flush=True)
+    sys.stdout.write(f"[{s_idx+1}/{len(SENTENCES)}] {short}  "
+                     f"tok={seq_len} pairs={n_pairs} flip={mean_flip:.3f} "
+                     f"unrel={frac_unreliable:.3f} R2={oos_r2:.3f} "
+                     f"stable={pred_stable} ({elapsed:.1f}s)\n")
+    sys.stdout.flush()
 
 # ---------- aggregate metrics ----------
 all_cal_predicted = np.concatenate(all_cal_predicted)
@@ -393,15 +371,16 @@ aggregate_mean_flip = float(np.mean(all_flip_rates_flat))
 aggregate_frac_unreliable = float(np.mean(all_snrs < SNR_THRESHOLD))
 aggregate_max_flip = float(np.max(all_flip_rates_flat))
 
-print("\n" + "=" * 70)
-print("AGGREGATE RESULTS")
-print("=" * 70)
-print(f"Total token pairs analyzed: {len(all_val_observed)}")
-print(f"Mean flip rate:             {aggregate_mean_flip:.4f}")
-print(f"Max flip rate:              {aggregate_max_flip:.4f}")
-print(f"Fraction unreliable (SNR<{SNR_THRESHOLD}): {aggregate_frac_unreliable:.4f}")
-print(f"OOS R² (Gaussian flip):     {aggregate_oos_r2:.4f}")
-print(f"Prediction flips:           {n_prediction_flips}/{total_sentences} sentences")
+sys.stdout.write("\n" + "=" * 70 + "\n")
+sys.stdout.write("AGGREGATE RESULTS\n")
+sys.stdout.write("=" * 70 + "\n")
+sys.stdout.write(f"Total token pairs analyzed: {len(all_val_observed)}\n")
+sys.stdout.write(f"Mean flip rate:             {aggregate_mean_flip:.4f}\n")
+sys.stdout.write(f"Max flip rate:              {aggregate_max_flip:.4f}\n")
+sys.stdout.write(f"Fraction unreliable (SNR<{SNR_THRESHOLD}): {aggregate_frac_unreliable:.4f}\n")
+sys.stdout.write(f"OOS R² (Gaussian flip):     {aggregate_oos_r2:.4f}\n")
+sys.stdout.write(f"Prediction flips:           {n_prediction_flips}/{total_sentences} sentences\n")
+sys.stdout.flush()
 
 # ---------- save results ----------
 results = {
@@ -427,12 +406,13 @@ results = {
 results_path = OUT_DIR / 'results_llm_self_explanation.json'
 with open(results_path, 'w') as f:
     json.dump(results, f, indent=2)
-print(f"\nResults saved to {results_path}")
+sys.stdout.write(f"\nResults saved to {results_path}\n")
+sys.stdout.flush()
 
 # ---------- figure ----------
 fig, axes = plt.subplots(1, 3, figsize=(16, 5), constrained_layout=True)
 
-# Panel A: Predicted vs Observed flip rate (scatter)
+# Panel A: Predicted vs Observed flip rate
 ax = axes[0]
 ax.scatter(all_cal_predicted, all_val_observed, alpha=0.08, s=4, c='steelblue', edgecolors='none')
 lims = [0, max(np.max(all_cal_predicted), np.max(all_val_observed)) * 1.05 + 0.01]
@@ -474,19 +454,21 @@ fig.suptitle('LLM Self-Explanation Impossibility: Attention Instability Under Dr
 
 fig_path = FIG_DIR / 'llm_self_explanation.pdf'
 fig.savefig(fig_path, dpi=150, bbox_inches='tight')
-print(f"Figure saved to {fig_path}")
+sys.stdout.write(f"Figure saved to {fig_path}\n")
+sys.stdout.flush()
 
 # ---------- summary ----------
-print("\n" + "=" * 70)
-print("HEADLINE: Attention-based token importance is unstable under dropout.")
-print(f"  {aggregate_frac_unreliable:.1%} of token-pair comparisons are unreliable (SNR < {SNR_THRESHOLD})")
-print(f"  Mean flip rate = {aggregate_mean_flip:.3f}")
-print(f"  Gaussian flip formula OOS R² = {aggregate_oos_r2:.3f}")
+sys.stdout.write("\n" + "=" * 70 + "\n")
+sys.stdout.write("HEADLINE: Attention-based token importance is unstable under dropout.\n")
+sys.stdout.write(f"  {aggregate_frac_unreliable:.1%} of token-pair comparisons are unreliable (SNR < {SNR_THRESHOLD})\n")
+sys.stdout.write(f"  Mean flip rate = {aggregate_mean_flip:.3f}\n")
+sys.stdout.write(f"  Gaussian flip formula OOS R² = {aggregate_oos_r2:.3f}\n")
 if aggregate_frac_unreliable > 0.10:
-    print("  CONCLUSION: The impossibility theorem applies — attention explanations")
-    print("  cannot be simultaneously faithful, stable, and decisive when dropout")
-    print("  induces Rashomon-like multiplicity in internal representations.")
+    sys.stdout.write("  CONCLUSION: The impossibility theorem applies — attention explanations\n")
+    sys.stdout.write("  cannot be simultaneously faithful, stable, and decisive when dropout\n")
+    sys.stdout.write("  induces Rashomon-like multiplicity in internal representations.\n")
 else:
-    print("  CONCLUSION: Attention explanations show low instability under dropout.")
-    print("  The Rashomon effect from dropout alone may be weak.")
-print("=" * 70)
+    sys.stdout.write("  CONCLUSION: Attention explanations show low instability under dropout.\n")
+    sys.stdout.write("  The Rashomon effect from dropout alone may be weak.\n")
+sys.stdout.write("=" * 70 + "\n")
+sys.stdout.flush()
