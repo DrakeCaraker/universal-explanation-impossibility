@@ -1,0 +1,103 @@
+{
+  "experiment": "mech_interp_rashomon",
+  "description": "Circuit stability across independently fine-tuned GPT-2 models (proper Rashomon)",
+  "model": "gpt2-small",
+  "task": "SST-2 sentiment classification",
+  "n_models": 10,
+  "n_components": 144,
+  "rashomon_holds": false,
+  "accuracy_mean": 0.771,
+  "accuracy_range": 0.21,
+  "model_accuracies": [
+    0.78,
+    0.87,
+    0.82,
+    0.66,
+    0.77,
+    0.73,
+    0.76,
+    0.68,
+    0.83,
+    0.81
+  ],
+  "n_pairs": 500,
+  "coverage_conflict_degree": 0.424,
+  "reliable_fraction": 0.082,
+  "mean_flip_rate": 0.086,
+  "gaussian_r2": -3.454,
+  "gaussian_rho": -0.012,
+  "gaussian_p": 0.7891847342397028,
+  "top_10_heads": [
+    {
+      "rank": 1,
+      "layer": 11,
+      "head": 7,
+      "mean_importance": 0.062,
+      "cv": 1.816
+    },
+    {
+      "rank": 2,
+      "layer": 10,
+      "head": 7,
+      "mean_importance": 0.024,
+      "cv": 1.434
+    },
+    {
+      "rank": 3,
+      "layer": 8,
+      "head": 1,
+      "mean_importance": 0.02,
+      "cv": 1.483
+    },
+    {
+      "rank": 4,
+      "layer": 8,
+      "head": 6,
+      "mean_importance": 0.018,
+      "cv": 1.444
+    },
+    {
+      "rank": 5,
+      "layer": 8,
+      "head": 7,
+      "mean_importance": 0.016,
+      "cv": 2.077
+    },
+    {
+      "rank": 6,
+      "layer": 11,
+      "head": 5,
+      "mean_importance": -0.014,
+      "cv": 3.0
+    },
+    {
+      "rank": 7,
+      "layer": 3,
+      "head": 10,
+      "mean_importance": 0.012,
+      "cv": 1.106
+    },
+    {
+      "rank": 8,
+      "layer": 7,
+      "head": 9,
+      "mean_importance": 0.012,
+      "cv": 1.333
+    },
+    {
+      "rank": 9,
+      "layer": 0,
+      "head": 4,
+      "mean_importance": -0.012,
+      "cv": 1.333
+    },
+    {
+      "rank": 10,
+      "layer": 5,
+      "head": 7,
+      "mean_importance": -0.012,
+      "cv": 1.333
+    }
+  ],
+  "elapsed_seconds": 2859.9
+}

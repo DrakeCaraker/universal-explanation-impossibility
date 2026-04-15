@@ -1,0 +1,76 @@
+{
+  "top_3": {
+    "per_dataset": {
+      "Breast Cancer (Wisconsin)": {
+        "reliable": 0,
+        "unreliable": 1,
+        "total": 3
+      },
+      "Heart Disease": {
+        "reliable": 0,
+        "unreliable": 2,
+        "total": 3
+      },
+      "Diabetes (Pima)": {
+        "reliable": 2,
+        "unreliable": 0,
+        "total": 3
+      },
+      "German Credit": {
+        "reliable": 0,
+        "unreliable": 0,
+        "total": 3
+      },
+      "Adult Income": {
+        "reliable": 0,
+        "unreliable": 3,
+        "total": 3
+      }
+    },
+    "aggregate": {
+      "reliable": 2,
+      "unreliable": 6,
+      "total": 15
+    },
+    "pct_unreliable": 40.0,
+    "pct_reliable": 13.3,
+    "gap_pct": 86.7
+  },
+  "top_5": {
+    "per_dataset": {
+      "Breast Cancer (Wisconsin)": {
+        "reliable": 0,
+        "unreliable": 4,
+        "total": 10
+      },
+      "Heart Disease": {
+        "reliable": 0,
+        "unreliable": 2,
+        "total": 10
+      },
+      "Diabetes (Pima)": {
+        "reliable": 6,
+        "unreliable": 1,
+        "total": 10
+      },
+      "German Credit": {
+        "reliable": 3,
+        "unreliable": 1,
+        "total": 10
+      },
+      "Adult Income": {
+        "reliable": 2,
+        "unreliable": 6,
+        "total": 10
+      }
+    },
+    "aggregate": {
+      "reliable": 11,
+      "unreliable": 14,
+      "total": 50
+    },
+    "pct_unreliable": 28.0,
+    "pct_reliable": 22.0,
+    "gap_pct": 78.0
+  }
+}
