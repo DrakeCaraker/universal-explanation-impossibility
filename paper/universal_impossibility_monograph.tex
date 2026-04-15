@@ -1858,12 +1858,12 @@ We identify five limitations and directions for future work.
     Rashomon property constructively with zero axioms.)  Deriving the Rashomon
     property from, e.g., the loss landscape geometry of gradient descent would
     strengthen the ML results.
-  \item \textbf{Weight perturbation vs.\ true retraining.}  The attention
-    instability experiments (Section~\ref{sec:ml-instances}) use weight
-    perturbation within the zero-loss manifold rather than full retraining from
-    independent random seeds.  While this faithfully models the Rashomon set,
-    the distribution over perturbations may differ from the distribution induced
-    by stochastic gradient descent.
+  \item \textbf{Attention: retraining vs.\ perturbation.}  The attention
+    argmax flip rate is 19.9\% under full retraining (20 independently
+    converged DistilBERT models, the canonical Rashomon setup) and 60\%
+    under weight perturbation (dropout masks on a single model, a
+    supplementary proxy).  The 19.9\% is the primary result; the 60\%
+    demonstrates that perturbation overestimates instability.
   \item \textbf{Non-attribution quantitative bounds.}  For the attribution
     instance, the companion paper provides sharp quantitative bounds (divergence
     rates, ensemble size requirements, \DASH{} optimality).  Analogous
@@ -1902,8 +1902,10 @@ We identify five limitations and directions for future work.
     analogy applies to the protein-coding function only; richer models
     incorporating tRNA abundance and codon context would break the
     $S_k$ symmetry.
-  \item \textbf{Cross-domain instances do not produce new domain-specific
-    knowledge.}  No individual domain instance was surprising to domain experts---each formalized a known phenomenon (microstate multiplicity, gauge redundancy, Markov equivalence, codon degeneracy).  The contribution is the unification: showing that these known phenomena share a common trilemma structure, that the trilemma strengthens to a bilemma under maximal incompatibility, and that the resolution (enrichment via neutral element) is a single mechanism underlying DASH averaging, CPDAG reporting, Bayesian model averaging, and quantum error correction.
+  \item \textbf{Cross-domain instances are structural analogies, not domain-specific results.}  No individual domain instance was surprising to domain experts---each formalized a known phenomenon (microstate multiplicity, gauge redundancy, Markov equivalence, codon degeneracy).  The formalization verifies the structural correspondence but does not produce new domain-specific results.  The contribution is the unification: showing that these known phenomena share a common trilemma structure, that the trilemma strengthens to a bilemma under maximal incompatibility, and that the resolution (enrichment via neutral element) is a single mechanism underlying DASH averaging, CPDAG reporting, Bayesian model averaging, and quantum error correction.
+  \item \textbf{Group identification bottleneck.}  The universal $\eta$ law ($\dim(V^G)/\dim(V)$ predicts instability) achieves $R^2 = 0.957$ for seven instances with well-characterized symmetry groups but only $R^2 = 0.25$ across all sixteen.  The nine poorly-fit instances share a common cause: the assigned symmetry group was approximate.  This group identification problem is fundamental, not merely technical---determining the correct symmetry group from data remains open.  The SAGE algorithm sidesteps it heuristically but without a formal optimality guarantee.
+  \item \textbf{Coverage conflict is a conceptual naming, not a deep theorem.}  The biconditional ``coverage conflict $\leftrightarrow$ no neutral element'' (Theorem~\ref{thm:cc-iff-neutral} in \texttt{ExplanationLandscape.lean}) is a definitional equivalence: both express that no element of $\mathcal{H}$ is compatible with all explain-values.  The value of naming this ``coverage conflict'' is conceptual---it identifies the algebraic feature that powers the bilemma and clarifies why binary $\mathcal{H}$ strengthens the impossibility (maximum coverage) while larger $\mathcal{H}$ weakens it (room for neutral elements).
+  \item \textbf{SNR as coverage conflict is a modeling assumption.}  The connection between coverage conflict (a discrete algebraic property) and SNR (a continuous statistical quantity) rests on the assumption that importance differences are approximately Gaussian.  Under this assumption, $\text{SNR} < \tau$ operationalizes ``no compatible direction exists for this pair.''  The assumption is validated by Shapiro-Wilk tests (60--100\% of pairs pass across datasets) but is not a theorem.  Ridge regression on California Housing gives $R^2 = -1.96$ due to heavy-tailed coefficient distributions; the Gaussianity diagnostic should be run before applying the formula.
   \item \textbf{Adversarial audit summary.}  A comprehensive adversarial
     audit (24~simulated reviewers, 6~adversarial stress tests on the SAGE
     algorithm, 4~stress tests on the MI experiment, circularity analysis

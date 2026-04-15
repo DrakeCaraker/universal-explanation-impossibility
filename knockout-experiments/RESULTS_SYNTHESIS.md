@@ -1,7 +1,7 @@
 # Knockout Experiment Results — Vetted Synthesis
 
 **Date**: 2026-04-14
-**Framework**: Universal Explanation Impossibility (Lean 4, 95 files, 417 theorems, 0 sorry)
+**Framework**: Universal Explanation Impossibility (Lean 4, 104 files, 463 theorems, 0 sorry)
 **Experiments executed**: 6 predictions tested, 5 new experiments + 1 existing verification
 
 ---
@@ -12,7 +12,7 @@ Of 6 pre-registered predictions, **3 are confirmed**, **2 are falsified**, and *
 
 | # | Prediction | Verdict | Key Number |
 |---|-----------|---------|------------|
-| 1 | Noether counting: g(g-1)/2 stable queries | **CONFIRMED** | 47pp bimodal gap, p=2.7e-13 |
+| 1 | Noether counting: g(g-1)/2 stable queries | **CONFIRMED** | ~50pp bimodal gap (47pp initial, 50pp across ρ sensitivity), p=2.7e-13 |
 | 2 | η law (correct groups): instability = 1 - dim(V^G)/dim(V) | **CONFIRMED** | R²=0.957, slope=0.91 |
 | 3 | Interpretability ceiling: neuron agreement ≤ 1/n | **CONFIRMED** | frac_stable = 0 for all n |
 | 4 | Phase transition at r*≈1 | **FALSIFIED** | r*∈[0.01, 0.12] |
@@ -37,7 +37,7 @@ Of 6 pre-registered predictions, **3 are confirmed**, **2 are falsified**, and *
 | All unstable (>40%) | **18/18** | 0/48 |
 | All stable (<5%) | 0/18 | **48/48** |
 
-- Bimodal gap: **47.1 percentage points**
+- Bimodal gap: **~50 percentage points** (47.1pp in initial experiment at ρ=0.99; sensitivity analysis shows 49.8-50.0pp invariant across ρ=0.50-0.99)
 - Mann-Whitney p = **2.71 × 10⁻¹³**
 - Replicated across Ridge regression AND XGBoost
 
