@@ -107,6 +107,9 @@ Figure~\ref{fig:attention_instability}.
 \label{fig:attention_instability}
 \end{figure}
 
+\paragraph{Retraining vs.\ dropout proxy.}
+The primary attention instability result uses 20 independently retrained DistilBERT models (19.9\% argmax flip rate), which constitutes genuine model multiplicity and satisfies the Rashomon property. A computationally cheaper proxy---running inference with dropout active on a single model (16\% of token-pair comparisons unreliable, Gaussian flip $R^2 = 0.689$)---produces qualitatively similar results but measures dropout noise rather than true Rashomon instability. The retraining result is the canonical demonstration; the dropout proxy is supplementary.
+
 \paragraph{Implications for the attention-as-explanation debate.}
 Theorem~\ref{thm:attention} gives a structural resolution to the debate
 initiated by \citet{jainwallace2019} and \citet{wiegreffe2019attention}.

@@ -15,6 +15,12 @@ Decisiveness sacrificed: can't say what happens between measurements
 This formalizes the PARADIGM SHIFT structure, not the physics content.
 The physics (Hilbert spaces, Born rule) is in the Rashomon witness grounding.
 
+**Caveat:** The singleton observable space (both preparations map to `bornRuleStats`)
+makes the Rashomon property vacuously true. This formalizes the structure of the
+interpretive disagreement, not the physics of quantum measurement. Resolutions that
+change the configuration space (Bohmian mechanics) or the observable space
+(Many-Worlds) are system changes outside the bilemma's scope.
+
 ## The Mapping
 
 - Theta (configurations) = preparation procedures

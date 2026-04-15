@@ -1780,19 +1780,24 @@ Single-completion $\to$ adelic & \{smooth, ultrametric\} & indeterminate & space
 \label{tab:revolutions}
 \end{table}
 
-The pattern suggests a conjecture: \emph{a paradigm shift in the sense of
-Kuhn is an enrichment event in the sense of the bilemma characterization.}
+The pattern suggests a conjecture: \emph{paradigm shifts that preserve the
+configuration space contain an enrichment component in the sense of the
+bilemma characterization.}
 The pre-revolution system is maximally incompatible. The revolution adds a
 neutral element. The enrichment is unique (by the enrichment uniqueness
 theorem) and sacrifices decisiveness (by the bilemma). The all-or-nothing
 theorem explains why paradigm shifts are discontinuous: there is no
 interpolation between the pre-revolution and post-revolution frameworks.
 
+Not all resolutions of interpretive disagreement are enrichment events. Bohmian mechanics resolves the measurement problem by changing the configuration space (adding particle positions and a guiding equation), not by enriching the explanation space with a neutral element. Many-Worlds resolves it by changing the observable space (accepting all branches as real). These are \emph{system changes} rather than \emph{explanation-space enrichments}, and fall outside the bilemma's scope. The bilemma predicts that within a fixed system, enrichment is the only resolution. Resolutions that change the system itself represent an alternative strategy that the framework characterizes but does not constrain.
+
 We state this as a conjecture, not a theorem. The mathematical structure
 (bilemma $\to$ enrichment necessary $\to$ enrichment unique $\to$ decisiveness
 sacrificed) is proved. The claim that scientific revolutions follow this
 structure is supported by five formalized instances but requires engagement
-with historians and philosophers of science.
+with historians and philosophers of science.  The enrichment mechanism is closer to Lakatos's progressive research programmes (where the new theory subsumes the old plus new content) than to Kuhn's incommensurable revolutions (where the old framework's terms cannot be translated). We use `paradigm shift' loosely; the formal claim is about framework enrichment, not incommensurability.
+
+The Lean formalizations use singleton observable spaces (both preparations map to the same observation), making the Rashomon property vacuously satisfied.  This is a deliberate simplification: the structural claim is about the bilemma pattern (binary $H$, no neutral element $\to$ F+S impossible), not about the observation-matching mechanism.  A richer formalization would model the specific measurement statistics that make the preparations observationally equivalent.
 
 The framework does not distinguish between global and local symmetries.  In physics, this distinction is fundamental: Noether's theorem applies to global symmetries (producing conservation laws), while gauge redundancy arises from local symmetries (producing constraints).  The framework's $G$-invariant resolution applies equally to both, which is a simplification.  A richer framework distinguishing global from local invariance would be needed to capture gauge-fixing and BRST cohomology.
 

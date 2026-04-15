@@ -12,6 +12,11 @@ Bilemma: no framework is faithful to one frame's simultaneity AND stable across 
 Enrichment: spacetime (events have no absolute temporal ordering) = neutral element
 Decisiveness sacrificed: can't say whether spacelike-separated events are simultaneous
 
+**Caveat:** The singleton observable space (both frames agree on Lorentz-invariant
+physics) is a deliberate simplification. The full revolution involves Lorentz
+transformations, mass-energy equivalence, and geometric reformulation — the
+enrichment pattern captures only the simultaneity component.
+
 ## The Mapping
 
 - Theta (configurations) = inertial reference frames
