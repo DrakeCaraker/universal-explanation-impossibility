@@ -1,0 +1,184 @@
+{
+  "experiment": "multiverse_expanded",
+  "description": "Gaussian flip formula universality test across 5 datasets",
+  "n_datasets": 5,
+  "n_pipelines_per_dataset": 30,
+  "pipeline_design": {
+    "model_classes": [
+      "xgboost",
+      "random_forest",
+      "ridge"
+    ],
+    "scalers": [
+      "none",
+      "standard",
+      "minmax"
+    ],
+    "bootstrap_seeds": [
+      42,
+      137,
+      2026
+    ],
+    "n_systematic": 27,
+    "n_extra": 3
+  },
+  "key_metric": {
+    "criterion": "Gaussian flip rho > 0.6 on >=4/5 datasets",
+    "n_pass": 2,
+    "n_total": 5,
+    "pattern_consistent": false
+  },
+  "aggregate": {
+    "mean_rho": 0.5627509485330564,
+    "mean_within_class_jaccard": 0.6185472739820564,
+    "mean_cross_class_jaccard": 0.5005344449788894,
+    "mean_pct_non_replicable": 0.7639780219780219
+  },
+  "per_dataset": {
+    "Breast Cancer": {
+      "n_features": 30,
+      "n_samples": 569,
+      "within_class_jaccard": 0.4706694271911663,
+      "cross_class_jaccard": 0.34191117524450854,
+      "pct_non_replicable": 0.96,
+      "gaussian_flip_rho": 0.45488569873331935,
+      "gaussian_flip_r2": -0.033183729070918044,
+      "per_model_class": {
+        "xgboost": {
+          "r2": -0.033183729070918044,
+          "spearman_rho": 0.42853115934014596,
+          "n_cal": 5,
+          "n_val": 5
+        },
+        "random_forest": {
+          "r2": -2.14304834835224,
+          "spearman_rho": 0.3859728638708744,
+          "n_cal": 4,
+          "n_val": 5
+        },
+        "ridge": {
+          "r2": -0.8427789475603802,
+          "spearman_rho": 0.45488569873331935,
+          "n_cal": 4,
+          "n_val": 5
+        }
+      }
+    },
+    "Wine": {
+      "n_features": 13,
+      "n_samples": 178,
+      "within_class_jaccard": 0.6218656544743502,
+      "cross_class_jaccard": 0.5002805836139169,
+      "pct_non_replicable": 0.7692307692307693,
+      "gaussian_flip_rho": 0.135910001366818,
+      "gaussian_flip_r2": -0.8064159802245685,
+      "per_model_class": {
+        "xgboost": {
+          "r2": -0.8064159802245685,
+          "spearman_rho": 0.135910001366818,
+          "n_cal": 5,
+          "n_val": 5
+        },
+        "random_forest": {
+          "r2": NaN,
+          "spearman_rho": NaN,
+          "n_cal": 4,
+          "n_val": 5
+        },
+        "ridge": {
+          "r2": -2.5556987848903208,
+          "spearman_rho": 0.02234950781338371,
+          "n_cal": 4,
+          "n_val": 5
+        }
+      }
+    },
+    "Heart Disease": {
+      "n_features": 13,
+      "n_samples": 270,
+      "within_class_jaccard": 0.5471302047389003,
+      "cross_class_jaccard": 0.4813879536101758,
+      "pct_non_replicable": 0.7692307692307693,
+      "gaussian_flip_rho": 0.5404370578529797,
+      "gaussian_flip_r2": -0.4482069320580988,
+      "per_model_class": {
+        "xgboost": {
+          "r2": -0.4482069320580988,
+          "spearman_rho": 0.5404370578529797,
+          "n_cal": 5,
+          "n_val": 5
+        },
+        "random_forest": {
+          "r2": -2.5462182219803724,
+          "spearman_rho": 0.10192943828752511,
+          "n_cal": 4,
+          "n_val": 5
+        },
+        "ridge": {
+          "r2": -1.3376930871880894,
+          "spearman_rho": 0.14598637372036238,
+          "n_cal": 4,
+          "n_val": 5
+        }
+      }
+    },
+    "Diabetes Pima": {
+      "n_features": 8,
+      "n_samples": 768,
+      "within_class_jaccard": 0.7449965493443754,
+      "cross_class_jaccard": 0.5974025974025974,
+      "pct_non_replicable": 0.75,
+      "gaussian_flip_rho": 0.8660254037844388,
+      "gaussian_flip_r2": 0.6402582160474559,
+      "per_model_class": {
+        "xgboost": {
+          "r2": 0.6402582160474559,
+          "spearman_rho": 0.8660254037844388,
+          "n_cal": 5,
+          "n_val": 5
+        },
+        "random_forest": {
+          "r2": -1.182909749704793,
+          "spearman_rho": -0.2581988897471611,
+          "n_cal": 4,
+          "n_val": 5
+        },
+        "ridge": {
+          "r2": NaN,
+          "spearman_rho": NaN,
+          "n_cal": 4,
+          "n_val": 5
+        }
+      }
+    },
+    "German Credit": {
+      "n_features": 7,
+      "n_samples": 1000,
+      "within_class_jaccard": 0.7080745341614907,
+      "cross_class_jaccard": 0.5816899150232483,
+      "pct_non_replicable": 0.5714285714285714,
+      "gaussian_flip_rho": 0.8164965809277261,
+      "gaussian_flip_r2": -0.3075101669613558,
+      "per_model_class": {
+        "xgboost": {
+          "r2": -0.40753401771257325,
+          "spearman_rho": 0.5378528742004772,
+          "n_cal": 5,
+          "n_val": 5
+        },
+        "random_forest": {
+          "r2": -0.3075101669613558,
+          "spearman_rho": 0.8164965809277261,
+          "n_cal": 4,
+          "n_val": 5
+        },
+        "ridge": {
+          "r2": -2.1125715813924537,
+          "spearman_rho": -0.15811388300841894,
+          "n_cal": 4,
+          "n_val": 5
+        }
+      }
+    }
+  }
+}

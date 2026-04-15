@@ -1,0 +1,116 @@
+{
+  "experiment_1_value_alignment": {
+    "experiment": "value_alignment",
+    "description": "Do bootstrap models prioritize fairness vs predictivity differently?",
+    "dataset": "German Credit",
+    "n_features": 20,
+    "n_models": 30,
+    "fairness_features": [
+      "personal_status",
+      "age",
+      "foreign_worker"
+    ],
+    "predictive_features": [
+      "checking_status",
+      "duration",
+      "credit_amount",
+      "savings_status"
+    ],
+    "ratio_mean": 0.46959852845271005,
+    "ratio_std": 0.09488518054223724,
+    "ratio_cv": 0.20205595800071263,
+    "ratio_min": 0.31367760875698014,
+    "ratio_max": 0.7355800694386223,
+    "fairness_first_count": 0,
+    "predictive_first_count": 30,
+    "value_rashomon_detected": false,
+    "gaussian_flip": {
+      "delta": -0.04149876387996806,
+      "sigma": 0.009407131893992095,
+      "snr": 4.411415120741681,
+      "predicted_flip_rate": 5.134860600416862e-06,
+      "observed_flip_rate": 0.0
+    },
+    "per_model_ratios": [
+      0.44941861588579946,
+      0.6138576971263947,
+      0.3896907859765562,
+      0.47084378562299134,
+      0.48063854739139944,
+      0.5833700567992751,
+      0.4754613803899106,
+      0.3558164793806805,
+      0.3849923526925843,
+      0.45207847306651466,
+      0.31367760875698014,
+      0.3652473224451759,
+      0.48214558182781836,
+      0.404104462739958,
+      0.6008120767724447,
+      0.4645249577768231,
+      0.564668055271729,
+      0.360161353152842,
+      0.49645371837233515,
+      0.5780770800287337,
+      0.39405469588188696,
+      0.38201615992681337,
+      0.43014564114768544,
+      0.4592479643403822,
+      0.4116685079017753,
+      0.7355800694386223,
+      0.410080149820219,
+      0.5169288913324833,
+      0.5906478862338048,
+      0.4715454960806807
+    ],
+    "elapsed_seconds": 2.8
+  },
+  "experiment_2_abstraction": {
+    "experiment": "abstraction_enrichment",
+    "description": "Does merging categories (enrichment) reduce explanation instability?",
+    "dataset": "Wine",
+    "n_features": 13,
+    "n_models": 30,
+    "levels": {
+      "level_0_3class": {
+        "label": "3-class (no enrichment)",
+        "n_classes": 3,
+        "mean_flip_rate": 0.2717064544650752,
+        "median_flip_rate": 0.3310344827586207,
+        "std_flip_rate": 0.17803016895497314,
+        "min_flip_rate": 0.0,
+        "max_flip_rate": 0.5172413793103449,
+        "mean_gaussian_predicted": 0.21202201879554755,
+        "n_pairs": 78
+      },
+      "level_1_partial_merge": {
+        "label": "Partial merge (class 0+1 vs class 2)",
+        "n_classes": 2,
+        "merge_description": "class 0 + class 1 -> typeA, class 2 -> typeB",
+        "mean_flip_rate": 0.12437371058060712,
+        "median_flip_rate": 0.10344827586206896,
+        "std_flip_rate": 0.12309744480114633,
+        "min_flip_rate": 0.0,
+        "max_flip_rate": 0.5080459770114942,
+        "mean_gaussian_predicted": 0.2536846195826537,
+        "n_pairs": 78
+      },
+      "level_2_binary": {
+        "label": "Binary (class 0 vs other)",
+        "n_classes": 2,
+        "merge_description": "class 0 vs (class 1 + class 2)",
+        "mean_flip_rate": 0.17624521072796934,
+        "median_flip_rate": 0.13793103448275862,
+        "std_flip_rate": 0.15937053577759297,
+        "min_flip_rate": 0.0,
+        "max_flip_rate": 0.5149425287356322,
+        "mean_gaussian_predicted": 0.24962081372465436,
+        "n_pairs": 78
+      }
+    },
+    "enrichment_reduces_instability": true,
+    "most_stable_level": "level_1",
+    "bilemma_prediction_confirmed": true,
+    "elapsed_seconds": 5.0
+  }
+}
