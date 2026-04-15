@@ -30,17 +30,6 @@ jobs:
           [ "$FILES" -eq 102 ] || (echo "FAIL: expected 102 files, got $FILES" && exit 1)
           [ "$SORRY" -eq 0 ] || (echo "FAIL: found $SORRY sorry statements" && exit 1)
 
-  python-experiments:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: pip install numpy scipy scikit-learn matplotlib xgboost
-      - name: Run validation experiments
-        run: |
-          cd paper/scripts
-          python run_all_universal_experiments.py
-        timeout-minutes: 15
+  # python-experiments: disabled in CI — requires torch, transformers,
+  # torchvision (~2GB) and GPU for attention/GradCAM experiments.
+  # Run locally with: make validate or python paper/scripts/run_all_universal_experiments.py
