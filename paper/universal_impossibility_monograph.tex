@@ -2402,6 +2402,8 @@ instability when the group is correctly identified
 (Figure~\ref{fig:universal-eta}).
 The bridge from the abstract framework to the quantitative $\eta$ prediction is empirical, not derived.  The framework proves that $V^G$ is the stably answerable subspace; the claim that $\dim(V^G)/\dim(V)$ predicts the \emph{observed flip rate} requires the additional assumption that importance differences are approximately Gaussian---a statistical claim, not a consequence of the impossibility theorem.
 
+An alternative bridge that sidesteps the group identification bottleneck uses the \emph{coverage conflict degree}---the fraction of feature pairs with $\text{SNR} < 0.5$, computable from bootstrap retrains alone without requiring group identification.  Across 15 datasets, coverage conflict degree predicts mean instability with $\rho = 0.961$ ($p < 10^{-8}$), robust to threshold choice ($\rho \in [0.885, 0.961]$ for thresholds $0.3$--$2.0$) and leave-one-out removal ($\rho \in [0.952, 0.978]$; no single dataset drives the correlation).  The formal bridge is proved in Lean: coverage conflict $\Leftrightarrow$ no neutral element (Theorem in \texttt{ExplanationLandscape.lean}).  The empirical bridge validates that this algebraic property, derived from the impossibility theorem, predicts observed instability at scale.  Unlike the $\eta$ law, this bridge requires no group assignment and works for all 15 tested datasets.
+
 The all-16-instance fit is the primary result.  The 7-instance fit is a
 pre-specified subset analysis: the ``well-characterized group'' criterion
 (defined in the pre-registration, Appendix~\ref{app:pre-registration})
@@ -2610,6 +2612,9 @@ exceeding 30\%, as predicted by the Gaussian flip formula (Pearson
 $r = 0.76\text{--}0.85$).  Nearly zero comparisons are reliable (SNR~$> 2$) on
 Breast Cancer (0\%) and Heart Disease (1.3\%); German Credit has 13.7\%
 reliable pairs, reflecting its stronger feature hierarchy.
+
+\paragraph{TreeSHAP clinical audit (top-5 features).}
+A targeted audit using TreeSHAP (mean $|\text{SHAP}|$ across 100 test points, 30 calibration + 30 validation XGBoost models) reveals that 28\% of top-5 feature ranking comparisons are structurally unreliable across five clinical and financial datasets.  On Breast Cancer (Wisconsin), the comparison between the two most important features---worst perimeter vs.\ worst concave points---is a coin flip (SNR~$= 0.17$, flip rate~$= 43\%$).  On Adult Income, 60\% of top-5 comparisons are unreliable (the top four sociodemographic features are virtually interchangeable in importance).  On Diabetes (Pima), 90\% of top-5 comparisons are reliable (glucose is clearly dominant).  The Gaussian flip formula achieves mean $\rho = 0.858$ (rank correlation) and mean $R^2 = 0.707$ across the five TreeSHAP datasets.  Most top-5 rankings \emph{are} stable; the contribution is identifying the 28\% that are not, which practitioners currently have no way to diagnose.
 
 \paragraph{High-dimensional test ($P = 200$, gain-based).}
 At $P = 200$ features (synthetic, 50 informative, 50 redundant), the formula
