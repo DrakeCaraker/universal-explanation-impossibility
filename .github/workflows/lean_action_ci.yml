@@ -22,7 +22,8 @@ jobs:
         run: |
           THEOREMS=$(grep -c '^theorem\|^lemma' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
           AXIOMS=$(grep -c '^axiom' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
-          SORRY=$(grep -rc 'sorry' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
+          # Count actual sorry tactics (not the word "sorry" in comments)
+          SORRY=$(grep -c "^  sorry\|^    sorry\| sorry$" UniversalImpossibility/*.lean 2>/dev/null | awk -F: '{s+=$2} END {print s}')
           FILES=$(ls UniversalImpossibility/*.lean | wc -l | tr -d ' ')
 
           echo "Theorems+lemmas: $THEOREMS"
@@ -32,8 +33,8 @@ jobs:
 
           if [ "$SORRY" -gt 0 ]; then
             echo "::error::$SORRY sorry found in Lean files"
-            grep -rn 'sorry' UniversalImpossibility/*.lean
+            grep -rn "^  sorry\|^    sorry\| sorry$" UniversalImpossibility/*.lean
             exit 1
           fi
 
-          echo "Expected: 95 files, 417 theorems, 72 axioms, 0 sorry"
+          echo "Expected: 102 files, 442 theorems, 72 axioms, 0 sorry"
