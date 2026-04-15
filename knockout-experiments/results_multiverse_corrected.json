@@ -1,0 +1,57 @@
+{
+  "experiment": "multiverse_analysis_corrected",
+  "description": "Corrected multiverse reporting with within-class and cross-class statistics separated",
+  "dataset": "Breast Cancer",
+  "N": 569,
+  "P": 30,
+  "n_pipelines": 30,
+  "cross_class_statistics": {
+    "n_pipelines": 30,
+    "non_replicable_fraction": 0.9523809523809523,
+    "mean_jaccard_similarity": 0.393431855500821,
+    "gaussian_formula_R2": -0.3907257891776248,
+    "gaussian_formula_spearman_rho": 0.7849297769930804,
+    "note": "Cross-class comparison mixes model types with different importance scales, inflating non-replicability and degrading R2"
+  },
+  "within_class_statistics": {
+    "xgboost": {
+      "n_pipelines": 12,
+      "total_features_claimed": 12,
+      "robust_features": [
+        "worst concave points",
+        "mean concave points",
+        "worst perimeter"
+      ],
+      "non_replicable_fraction": 0.75,
+      "mean_jaccard_similarity": 0.481,
+      "R2": 0.326,
+      "spearman_rho": 0.809
+    },
+    "random_forest": {
+      "n_pipelines": 9,
+      "total_features_claimed": 8,
+      "robust_features": [
+        "worst concave points",
+        "worst perimeter"
+      ],
+      "non_replicable_fraction": 0.75,
+      "mean_jaccard_similarity": 0.668,
+      "R2": -0.35,
+      "spearman_rho": 0.651
+    },
+    "ridge": {
+      "n_pipelines": 9,
+      "total_features_claimed": 14,
+      "robust_features": [],
+      "non_replicable_fraction": 1.0,
+      "mean_jaccard_similarity": 0.271,
+      "R2": 0.491,
+      "spearman_rho": 0.845
+    }
+  },
+  "honest_framing": {
+    "headline": "95% of feature importance claims are non-replicable across the FULL multiverse (3 model classes x 3 scalers x 3 feature selections). Within model classes, non-replicability is lower (75% for XGBoost and RF, 100% for Ridge) but still high.",
+    "gaussian_formula": "The Gaussian flip formula achieves Spearman rho = 0.78 across the full multiverse (correctly ranking which comparisons are most unreliable) but R2 = -0.39 for predicted flip rates (the absolute predictions fail when mixing model classes with different importance scales). Within model classes, the formula performs better: Ridge R2 = 0.49, XGBoost R2 = 0.33.",
+    "caveat": "The 95% non-replicable figure is the most dramatic but also the least meaningful scientifically, as it compares tree-based and linear models that measure fundamentally different quantities (gain-based vs coefficient-based importance). The within-class figures (75%) are the more appropriate adversarial baseline."
+  }
+}

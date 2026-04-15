@@ -1,0 +1,420 @@
+{
+  "experiment": "flip_generalization_expanded",
+  "description": "Expanded generalization experiment with 13 datasets and LOO robustness",
+  "n_models": 30,
+  "n_datasets": 13,
+  "correlations": {
+    "all_13": {
+      "pearson_r": -0.5801691855234044,
+      "pearson_p": 0.03765084118186106,
+      "n": 13
+    },
+    "original_5": {
+      "pearson_r": -0.9053281757371165,
+      "pearson_p": 0.034466689016077086,
+      "n": 5
+    },
+    "real_8": {
+      "pearson_r": -0.6494638451220783,
+      "pearson_p": 0.08135602689185559,
+      "n": 8
+    },
+    "synthetic_control_5": {
+      "pearson_r": 0.8022701097920416,
+      "pearson_p": 0.1023581884044927,
+      "n": 5
+    }
+  },
+  "loo_original_5": [
+    {
+      "removed": "Breast Cancer",
+      "r_without": -0.9122913082797124,
+      "p_without": 0.08770869172028761,
+      "n_remaining": 4
+    },
+    {
+      "removed": "Wine",
+      "r_without": -0.9877394038231742,
+      "p_without": 0.012260596176825844,
+      "n_remaining": 4
+    },
+    {
+      "removed": "CalHousing",
+      "r_without": -0.19741502260770133,
+      "p_without": 0.8025849773922986,
+      "n_remaining": 4
+    },
+    {
+      "removed": "Heart Disease",
+      "r_without": -0.900228606225054,
+      "p_without": 0.09977139377494604,
+      "n_remaining": 4
+    },
+    {
+      "removed": "Synthetic",
+      "r_without": -0.9168772726170259,
+      "p_without": 0.08312272738297422,
+      "n_remaining": 4
+    }
+  ],
+  "loo_all_13": [
+    {
+      "removed": "Breast Cancer",
+      "r_without": -0.5423469742273347,
+      "p_without": 0.06849223624593662,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Wine",
+      "r_without": -0.6470918552803422,
+      "p_without": 0.0229362430914321,
+      "n_remaining": 12
+    },
+    {
+      "removed": "CalHousing",
+      "r_without": 0.2602831679205304,
+      "p_without": 0.413903721907807,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Heart Disease",
+      "r_without": -0.5802369764830824,
+      "p_without": 0.047942920679797774,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Synthetic",
+      "r_without": -0.580827923933113,
+      "p_without": 0.04766195275243332,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Iris",
+      "r_without": -0.7488469751906484,
+      "p_without": 0.005069341484200105,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Diabetes",
+      "r_without": -0.598397245477485,
+      "p_without": 0.03982860583971742,
+      "n_remaining": 12
+    },
+    {
+      "removed": "German Credit",
+      "r_without": -0.5841283720456736,
+      "p_without": 0.04611404103431645,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Synth_red_0",
+      "r_without": -0.5681457603294315,
+      "p_without": 0.0539507850202889,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Synth_red_10",
+      "r_without": -0.596431984646894,
+      "p_without": 0.04065583424911933,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Synth_red_20",
+      "r_without": -0.5787091783473204,
+      "p_without": 0.04867471953353653,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Synth_red_30",
+      "r_without": -0.5803481708974854,
+      "p_without": 0.04788996407013822,
+      "n_remaining": 12
+    },
+    {
+      "removed": "Synth_red_40",
+      "r_without": -0.6579607330453461,
+      "p_without": 0.02002774157523241,
+      "n_remaining": 12
+    }
+  ],
+  "loo_real_8": [
+    {
+      "removed": "Breast Cancer",
+      "r_without": -0.5853393958439196,
+      "p_without": 0.16738197422231052,
+      "n_remaining": 7
+    },
+    {
+      "removed": "Wine",
+      "r_without": -0.7400024845532811,
+      "p_without": 0.05721924385416794,
+      "n_remaining": 7
+    },
+    {
+      "removed": "CalHousing",
+      "r_without": 0.19039849437159248,
+      "p_without": 0.6825962889637956,
+      "n_remaining": 7
+    },
+    {
+      "removed": "Heart Disease",
+      "r_without": -0.6437413140764386,
+      "p_without": 0.11871875143418899,
+      "n_remaining": 7
+    },
+    {
+      "removed": "Synthetic",
+      "r_without": -0.6476013559057284,
+      "p_without": 0.11580089070214816,
+      "n_remaining": 7
+    },
+    {
+      "removed": "Iris",
+      "r_without": -0.8658966753239467,
+      "p_without": 0.011752146305663734,
+      "n_remaining": 7
+    },
+    {
+      "removed": "Diabetes",
+      "r_without": -0.6848854684575416,
+      "p_without": 0.0895527976741509,
+      "n_remaining": 7
+    },
+    {
+      "removed": "German Credit",
+      "r_without": -0.6494628324617245,
+      "p_without": 0.11440715329126706,
+      "n_remaining": 7
+    }
+  ],
+  "calhousing_sensitivity": {
+    "original_r": -0.9053281757371165,
+    "without_calhousing_r": -0.19741502260770133,
+    "without_calhousing_p": 0.8025849773922986,
+    "is_sole_driver": true
+  },
+  "synthetic_control": {
+    "r": 0.8022701097920416,
+    "confirms_inverse": false,
+    "per_dataset": [
+      {
+        "dataset": "Synth_red_0",
+        "n_redundant": 0,
+        "mean_flip_rate": 0.33471073532237033,
+        "generalization_gap": -0.004066666666666774
+      },
+      {
+        "dataset": "Synth_red_10",
+        "n_redundant": 10,
+        "mean_flip_rate": 0.2917256634046283,
+        "generalization_gap": -0.024499999999999966
+      },
+      {
+        "dataset": "Synth_red_20",
+        "n_redundant": 20,
+        "mean_flip_rate": 0.31299315971876424,
+        "generalization_gap": -0.011266666666666536
+      },
+      {
+        "dataset": "Synth_red_30",
+        "n_redundant": 30,
+        "mean_flip_rate": 0.3180707491406054,
+        "generalization_gap": 0.07703333333333362
+      },
+      {
+        "dataset": "Synth_red_40",
+        "n_redundant": 40,
+        "mean_flip_rate": 0.36075942176827797,
+        "generalization_gap": 0.18520000000000025
+      }
+    ]
+  },
+  "loo_range_all_13": {
+    "min_r": -0.7488469751906484,
+    "max_r": 0.2602831679205304
+  },
+  "per_dataset": [
+    {
+      "dataset": "Breast Cancer",
+      "shift_description": "extreme_features: top/bottom 10% of mean_radius",
+      "n_train": 339,
+      "n_id_test": 114,
+      "n_ood": 116,
+      "n_features": 30,
+      "mean_flip_rate": 0.367183929462972,
+      "accuracy_id_mean": 0.9315789473684214,
+      "accuracy_id_std": 0.013475694294506329,
+      "accuracy_ood_mean": 0.9985632183908045,
+      "accuracy_ood_std": 0.003908468536992942,
+      "generalization_gap": -0.06698427102238314
+    },
+    {
+      "dataset": "Wine",
+      "shift_description": "covariate_shift: alcohol above vs below median",
+      "n_train": 63,
+      "n_id_test": 22,
+      "n_ood": 93,
+      "n_features": 13,
+      "mean_flip_rate": 0.35924272552072595,
+      "accuracy_id_mean": 0.9954545454545456,
+      "accuracy_id_std": 0.017991427404602908,
+      "accuracy_ood_mean": 0.8222222222222222,
+      "accuracy_ood_std": 0.09160774268759739,
+      "generalization_gap": 0.1732323232323234
+    },
+    {
+      "dataset": "CalHousing",
+      "shift_description": "geographic: Northern CA (train) vs Southern CA (OOD)",
+      "n_train": 7009,
+      "n_id_test": 2337,
+      "n_ood": 11294,
+      "n_features": 8,
+      "mean_flip_rate": 0.05374107951238572,
+      "accuracy_id_mean": 0.9113535872200826,
+      "accuracy_id_std": 0.002304527429532159,
+      "accuracy_ood_mean": 0.425934124313795,
+      "accuracy_ood_std": 0.013447065920219447,
+      "generalization_gap": 0.4854194629062876
+    },
+    {
+      "dataset": "Heart Disease",
+      "shift_description": "age_split: young (train) vs old (OOD)",
+      "n_train": 99,
+      "n_id_test": 33,
+      "n_ood": 138,
+      "n_features": 13,
+      "mean_flip_rate": 0.3389997053379921,
+      "accuracy_id_mean": 0.8292929292929292,
+      "accuracy_id_std": 0.041018061624741316,
+      "accuracy_ood_mean": 0.7649758454106281,
+      "accuracy_ood_std": 0.03636128262056622,
+      "generalization_gap": 0.06431708388230106
+    },
+    {
+      "dataset": "Synthetic",
+      "shift_description": "cluster: feature[0] above vs below median",
+      "n_train": 375,
+      "n_id_test": 125,
+      "n_ood": 500,
+      "n_features": 20,
+      "mean_flip_rate": 0.2883919675347485,
+      "accuracy_id_mean": 0.8522666666666666,
+      "accuracy_id_std": 0.023976284579188312,
+      "accuracy_ood_mean": 0.7767333333333333,
+      "accuracy_ood_std": 0.04078719842739331,
+      "generalization_gap": 0.07553333333333334
+    },
+    {
+      "dataset": "Iris",
+      "shift_description": "held_out_class: train on setosa+versicolor, OOD=virginica",
+      "n_train": 75,
+      "n_id_test": 25,
+      "n_ood": 50,
+      "n_features": 4,
+      "mean_flip_rate": 0.18831063199257622,
+      "accuracy_id_mean": 0.9626666666666668,
+      "accuracy_id_std": 0.03991101212558869,
+      "accuracy_ood_mean": 1.0,
+      "accuracy_ood_std": 0.0,
+      "generalization_gap": -0.03733333333333322
+    },
+    {
+      "dataset": "Diabetes",
+      "shift_description": "age_split: young (train) vs old (OOD)",
+      "n_train": 275,
+      "n_id_test": 92,
+      "n_ood": 401,
+      "n_features": 8,
+      "mean_flip_rate": 0.2884343395397003,
+      "accuracy_id_mean": 0.8315217391304349,
+      "accuracy_id_std": 0.02343897679657373,
+      "accuracy_ood_mean": 0.6101413133832086,
+      "accuracy_ood_std": 0.027022826631127338,
+      "generalization_gap": 0.22138042574722627
+    },
+    {
+      "dataset": "German Credit",
+      "shift_description": "covariate_shift: feature[0] below vs above median",
+      "n_train": 375,
+      "n_id_test": 125,
+      "n_ood": 500,
+      "n_features": 20,
+      "mean_flip_rate": 0.28918642354791146,
+      "accuracy_id_mean": 0.9301333333333334,
+      "accuracy_id_std": 0.01625573403107003,
+      "accuracy_ood_mean": 0.8900666666666666,
+      "accuracy_ood_std": 0.011678850780601479,
+      "generalization_gap": 0.040066666666666806
+    },
+    {
+      "dataset": "Synth_red_0",
+      "shift_description": "cluster: n_redundant=0, feature[0] split",
+      "n_train": 750,
+      "n_id_test": 250,
+      "n_ood": 1000,
+      "n_features": 50,
+      "mean_flip_rate": 0.33471073532237033,
+      "accuracy_id_mean": 0.8543999999999999,
+      "accuracy_id_std": 0.014481252247877842,
+      "accuracy_ood_mean": 0.8584666666666667,
+      "accuracy_ood_std": 0.01158082706699119,
+      "generalization_gap": -0.004066666666666774
+    },
+    {
+      "dataset": "Synth_red_10",
+      "shift_description": "cluster: n_redundant=10, feature[0] split",
+      "n_train": 750,
+      "n_id_test": 250,
+      "n_ood": 1000,
+      "n_features": 50,
+      "mean_flip_rate": 0.2917256634046283,
+      "accuracy_id_mean": 0.8505333333333334,
+      "accuracy_id_std": 0.015508563942401502,
+      "accuracy_ood_mean": 0.8750333333333333,
+      "accuracy_ood_std": 0.007829360694775085,
+      "generalization_gap": -0.024499999999999966
+    },
+    {
+      "dataset": "Synth_red_20",
+      "shift_description": "cluster: n_redundant=20, feature[0] split",
+      "n_train": 750,
+      "n_id_test": 250,
+      "n_ood": 1000,
+      "n_features": 50,
+      "mean_flip_rate": 0.31299315971876424,
+      "accuracy_id_mean": 0.8842666666666668,
+      "accuracy_id_std": 0.012730366146432024,
+      "accuracy_ood_mean": 0.8955333333333333,
+      "accuracy_ood_std": 0.007351794943337919,
+      "generalization_gap": -0.011266666666666536
+    },
+    {
+      "dataset": "Synth_red_30",
+      "shift_description": "cluster: n_redundant=30, feature[0] split",
+      "n_train": 750,
+      "n_id_test": 250,
+      "n_ood": 1000,
+      "n_features": 50,
+      "mean_flip_rate": 0.3180707491406054,
+      "accuracy_id_mean": 0.8978666666666669,
+      "accuracy_id_std": 0.013884603783407815,
+      "accuracy_ood_mean": 0.8208333333333333,
+      "accuracy_ood_std": 0.031504585204203024,
+      "generalization_gap": 0.07703333333333362
+    },
+    {
+      "dataset": "Synth_red_40",
+      "shift_description": "cluster: n_redundant=40, feature[0] split",
+      "n_train": 750,
+      "n_id_test": 250,
+      "n_ood": 1000,
+      "n_features": 50,
+      "mean_flip_rate": 0.36075942176827797,
+      "accuracy_id_mean": 0.9004000000000002,
+      "accuracy_id_std": 0.009200000000000009,
+      "accuracy_ood_mean": 0.7152,
+      "accuracy_ood_std": 0.033544398439481156,
+      "generalization_gap": 0.18520000000000025
+    }
+  ]
+}

@@ -1421,7 +1421,7 @@ the Ostrowski--Design Space correspondence and physical scoping (conditional
 on the Freund--Witten adelic product formula), is in a companion
 paper~\cite{caraker2026ostrowski}.
 
-\paragraph{Value alignment.} The framework applies to AI value alignment. When multiple RLHF training runs produce models with identical behavioral performance but different implicit value rankings (the value Rashomon property), no value explanation is simultaneously faithful and stable (the value bilemma). The enrichment mechanism --- adding a `balanced' option that doesn't commit to either value priority --- corresponds to alignment frameworks that explicitly balance competing values rather than ranking them. This formalizes a structural constraint on alignment: under value multiplicity, precise value specification is impossible without sacrificing either accuracy (faithfulness) or consistency (stability). We formalize this as a Lean-verified \texttt{ExplanationSystem} instance (\texttt{ValueAlignment.lean}, 0 sorry), noting that the full complexity of AI alignment (strategic agents, distributional shift, ontological uncertainty) exceeds the framework's scope.
+\paragraph{Value alignment.} The framework applies to AI value alignment. When multiple RLHF training runs produce models with identical behavioral performance but different implicit value rankings (the value Rashomon property), no value explanation is simultaneously faithful and stable (the value bilemma). The enrichment mechanism --- adding a `balanced' option that doesn't commit to either value priority --- corresponds to alignment frameworks that explicitly balance competing values rather than ranking them. This formalizes a structural constraint on alignment: under value multiplicity, precise value specification is impossible without sacrificing either accuracy (faithfulness) or consistency (stability). We formalize this as a Lean-verified \texttt{ExplanationSystem} instance (\texttt{ValueAlignment.lean}, 0 \texttt{sorry}).  Whether RLHF models empirically exhibit value Rashomon is an open question; the Lean formalization proves the structural consequence \emph{if} the property holds, but does not establish that it does.  The full complexity of AI alignment (strategic agents, distributional shift, ontological uncertainty) exceeds the framework's scope.
 
 \subsection{Toward a Group-Theoretic Classification of Explainability}
 \label{sec:group-classification}
@@ -1838,7 +1838,7 @@ interpolation).  The enrichment uniqueness theorem explains why abstract
 concepts are canonical (the neutral element is unique on each
 equivalence class).
 
-This interpretation connects the impossibility theorem to prototype
+This interpretation is a conjecture requiring empirical validation through cognitive science experiments.  It connects the impossibility theorem to prototype
 theory in cognitive science~\citep{rosch1975cognitive}: prototypes are
 the neutral elements of perceptual categories.  A full development ---
 formalizing category formation as a sequence of enrichment events and
@@ -2632,6 +2632,12 @@ AP\_Breast\_Lung), encompassing 2{,}062 feature-pair comparisons, 62\% are
 unreliable (SNR~$< 0.5$) and only 4\% are reliable (SNR~$> 2$).  On clinical
 and financial data alone (703 pairs), 47\% are unreliable.  The mean
 out-of-sample $R^2$ across all real datasets is 0.67.
+
+\paragraph{Multiverse analysis (Breast Cancer).}
+Across a 30-pipeline multiverse (3 model classes $\times$ 3 scalers $\times$ 3 feature selections $+$ 3 bootstrap extras), 95\% of feature importance claims are non-replicable (Jaccard similarity $= 0.39$).  The Gaussian flip formula achieves Spearman $\rho = 0.78$ across the full multiverse (correctly ranking which comparisons are most unreliable) but $R^2 = -0.39$ for predicted flip rates (the absolute predictions fail when mixing model classes with different importance scales).  Within model classes, the formula performs better: Ridge $R^2 = 0.49$, XGBoost $R^2 = 0.33$.  The 95\% non-replicable figure is the most dramatic but also the least scientifically meaningful, as it compares tree-based and linear models that measure fundamentally different quantities (gain-based vs.\ coefficient-based importance).  The within-class figures---75\% non-replicable for XGBoost and Random Forest, 100\% for Ridge---are the more appropriate adversarial baseline.
+
+\paragraph{Generalization gap correlation.}
+Across the original 5 datasets, the cross-dataset correlation between mean flip rate and generalization gap (ID accuracy $-$ OOD accuracy) is Pearson $r = -0.91$, $p = 0.034$, $n = 5$---suggestive of an inverse relationship (more instability correlates with smaller generalization gaps).  However, leave-one-out analysis reveals this result is driven by a single outlier: removing California Housing (which has both the lowest instability and the largest geographic distribution shift) reduces the correlation to $r = -0.20$, $p = 0.80$.  Expanding to 13 datasets (8 real $+$ 5 synthetic controls with varying feature redundancy) yields $r = -0.58$, $p = 0.038$, but removing California Housing from the full set reverses the sign to $r = +0.26$.  The synthetic control with varying redundancy (0--40 redundant features) shows the \emph{opposite} pattern ($r = +0.80$): more redundancy increases both instability and generalization gap, contrary to the initial hypothesis.  The finding requires validation on larger, more diverse samples before causal interpretation; we report it as a null result with respect to the specific directional prediction.  Breast Cancer shows a negative generalization gap (OOD accuracy exceeds ID accuracy), likely because the `extreme' patients have more distinctive features that are easier to classify.
 
 %%% ==========================================================================
 \section{Bridge Theorems: Connections to Established Mathematics}
