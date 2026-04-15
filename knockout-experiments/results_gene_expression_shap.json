@@ -1,0 +1,38 @@
+{
+  "experiment": "gene_expression_shap_vs_gain",
+  "description": "TreeSHAP vs gain importance on AP_Breast_Lung gene expression (top 50 genes)",
+  "dataset": "AP_Breast_Lung",
+  "n_samples": 470,
+  "n_features_original": 10935,
+  "n_features_selected": 50,
+  "selection_method": "top_50_by_variance",
+  "shap_sample_size": 100,
+  "n_calibration_models": 15,
+  "n_validation_models": 15,
+  "n_pairs_tested": 1225,
+  "gain": {
+    "oos_r2": 0.2369,
+    "pearson_r": 0.6275,
+    "pearson_p": 4.74e-135,
+    "snr_unreliable_count": 793,
+    "snr_unreliable_frac": 0.6473,
+    "snr_moderate_count": 376,
+    "snr_moderate_frac": 0.3069,
+    "snr_reliable_count": 56,
+    "snr_reliable_frac": 0.0457
+  },
+  "shap": {
+    "oos_r2": 0.5084,
+    "pearson_r": 0.7678,
+    "pearson_p": 1.01e-238,
+    "snr_unreliable_count": 512,
+    "snr_unreliable_frac": 0.418,
+    "snr_moderate_count": 556,
+    "snr_moderate_frac": 0.4539,
+    "snr_reliable_count": 157,
+    "snr_reliable_frac": 0.1282
+  },
+  "r2_improvement_shap_over_gain": 0.2715,
+  "reference_gain_r2_30models": 0.416,
+  "elapsed_seconds": 4.2
+}

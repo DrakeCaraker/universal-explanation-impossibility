@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,booktabs}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Params}{\mathbf{\Theta}}
+\newcommand{\sH}{\mathcal{H}}
+
+\title{Supplementary Information: The Limits of Explanation}
+\author{Drake Caraker, Bryan Arnold, David Rhoads}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Detailed Domain Instances}
+
+Each of the eight domain instances derives the Rashomon property from first principles, requiring zero shared axioms.  Full derivations are in the monograph; here we summarize the key construction for each domain.
+
+\subsection{Mathematics (Linear Algebra)}
+For an underdetermined system $Ax = b$ with $A \in \R^{m \times d}$, $m < d$, the null space $\ker(A)$ is $(d-m)$-dimensional.  Any two solutions $x_1, x_2$ with $Ax_1 = Ax_2 = b$ but $x_1 \neq x_2$ witness the Rashomon property.  The symmetry group is the continuous translation group $\R^{d-m}$ acting on the affine solution set.  Empirically, pairwise RMSD between four standard solvers increases monotonically with null-space dimension ($p = 6.3 \times 10^{-9}$, Mann--Whitney $U$).
+
+\subsection{Biology (Codon Degeneracy)}
+Synonymous codons (e.g., UCU and UCC both encoding serine) witness the Rashomon property: same observable (amino acid), incompatible internal structure (nucleotide sequence).  The symmetry group is $S_k$ where $k$ is the degeneracy level ($k \leq 6$).  Across 120 eukaryotic cytochrome~c sequences from NCBI RefSeq, codon usage entropy increases monotonically with degeneracy (Kruskal--Wallis $p = 3.5 \times 10^{-9}$); Met and Trp positions (degeneracy 1) have entropy identically zero.
+
+\subsection{Physics (Gauge Theory)}
+On a triangle graph with $\mathbb{Z}_2$ edge labels, gauge-equivalent configurations share the same holonomy (product of edge labels around cycles) but differ in local edge assignments.  The symmetry group is $\mathbb{Z}_2^{|V|-1}$.  Within-orbit variance of local edge assignments is nonzero, while holonomy (the gauge-invariant quantity) has zero variance within orbits.
+
+\subsection{Statistical Mechanics}
+Microstates $(H,T)$ and $(T,H)$ share the same macrostate (1 head) but differ in particle-level assignment.  The symmetry group is $S_\Omega$ (permutations of particles).  The microcanonical ensemble---uniform averaging over microstates consistent with a macrostate---is the $G$-invariant resolution.
+
+\subsection{Linguistics}
+The sentence ``I saw the man with the telescope'' admits two parse trees: $((V\;NP)\;PP)$ (instrument reading) and $(V\;(NP\;PP))$ (possessive reading).  Both produce the same token sequence but commit to incompatible attachment structures.  Across 50 ambiguous and 50 unambiguous sentences parsed by four parsers (spaCy sm/md/lg, Stanza), pairwise UAS is significantly lower for ambiguous sentences ($p = 1.6 \times 10^{-3}$, Wilcoxon).
+
+\subsection{Crystallography}
+Phase retrieval maps signals to energy spectra via $|F|^2$, losing phase information.  Signals $(1,0)$ and $(0,1)$ share the same energy spectrum but differ in phase.  The ambiguity group $\mathbb{Z}_2 \times \mathbb{Z}_n \times \mathbb{Z}_2$ (conjugation, translation, reflection) acts on the signal space.  Without positivity constraints, reconstruction RMSD diverges $1.5$--$1.8\times$ more ($p = 3.4 \times 10^{-8}$, Mann--Whitney $U$).
+
+\subsection{Computer Science (Database Views)}
+A database view projects away hidden columns: rows $(T,T)$ and $(T,F)$ in the base table both project to $(T)$ in the view.  The symmetry group is $S_k$ acting on hidden column values.  Census disaggregation ambiguity (KL divergence from true county populations) scales with county count (Spearman $\rho = 0.70$, $p = 1.4 \times 10^{-8}$).
+
+\subsection{Statistics (Causal Discovery)}
+A causal chain $A \to B \to C$ and a fork $A \leftarrow B \to C$ encode the same conditional independences (Markov equivalence).  The symmetry group consists of MEC-preserving edge orientation permutations.  On the 8-node Asia network, causal discovery orientation agreement is only 0.33 at finite sample ($p = 4.4 \times 10^{-38}$, Mann--Whitney $U$).
+
+\section{Lean Formalization Details}
+
+The Lean~4 formalization (v4.30.0-rc1 with Mathlib) comprises 99 files containing 436 theorems and lemmas, 72 axioms, and 0 \texttt{sorry} (unproved goals).  The proof complexity breaks down as: 71 core definitions and structures, 174 lemmas, 57 theorems of independent interest, and 12 tightness/witness constructions.
+
+The axiom inventory is stratified by dependency: the core universal impossibility (\texttt{explanation\_impossibility}) requires zero axioms beyond the Rashomon hypothesis.  The 72 axioms serve domain-specific infrastructure: type declarations (Model, numTrees, attribution types), core GBDT properties (firstMover\_surjective, proportionality\_global), measure-theoretic infrastructure (modelMeasurableSpace, modelMeasure), and universal instance witnesses (AttentionConfig, etc.).
+
+Key files: \texttt{ExplanationSystem.lean} (abstract impossibility), \texttt{AttributionInstance.lean} (SHAP/IG/LIME instance), \texttt{CausalInstance.lean} (DAG Markov equivalence), \texttt{MaximalIncompatibility.lean} (bilemma and tightness), \texttt{UniversalResolution.lean} ($G$-invariant resolution), \texttt{Necessity.lean} (biconditional: impossibility iff Rashomon).  Full file listing and build instructions are in the repository \texttt{CLAUDE.md}.
+
+\section{Falsified Extensions}
+
+Three conjectured extensions were pre-registered and tested, all falsified:
+
+\textbf{Phase transition prediction.}  We conjectured a sharp phase transition in explanation stability at a critical Rashomon set size.  Empirically, the transition is gradual (smooth sigmoid) rather than sharp, with no evidence of a critical threshold across five datasets and three model classes.
+
+\textbf{Tradeoff bound.}  We conjectured that the faithfulness--stability tradeoff follows a specific $1/k$ scaling law as the number of equivalent configurations $k$ increases.  The observed scaling is dataset-dependent and does not follow a universal power law.
+
+\textbf{Molecular evolution extrapolation.}  We conjectured that the character-theoretic prediction ($1/k$ information loss for $S_k$) would extend to predict absolute mutation rates.  While the rank ordering of protein sequence diversity is predicted (Spearman $\rho = 0.88$), absolute rates require selection pressure parameters not captured by the symmetry framework.
+
+These falsifications delineate the framework's proven domain (existence of instability, rank ordering, dose-response) from its speculative reach (quantitative scaling laws, absolute rates).
+
+\section{SAGE Algorithm}
+
+The Stability-Aware Grouped Explanation (SAGE) algorithm extends DASH to exploit the invariance counting law.  Given $P$ features in $g$ correlation groups, SAGE:
+(1)~identifies correlation groups via hierarchical clustering at threshold $\rho_0$;
+(2)~computes group-level importance via orbit averaging within groups;
+(3)~reports only the $\binom{g}{2}$ stably answerable between-group comparisons;
+(4)~flags within-group comparisons as ``structurally unreliable.''
+
+Audit results on 8 datasets (clinical, financial, genomics): SAGE reduces false discovery rate from 62\% to $<$5\% for feature ranking claims while preserving 100\% of between-group ranking accuracy.  The algorithm adds negligible computational overhead ($<$1\% wall time) to any base attribution method.
+
+\section{CCA Spectrum and Continuous Symmetry}
+
+The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ quantifies the fraction of explanation space that is stably interpretable.  For finite groups, $\dim(V^G)$ counts the multiplicity of the trivial representation in the decomposition of $V$; equivalently, it equals the number of orbits (by Burnside's lemma for permutation representations).
+
+Across seven domain instances, the predicted $\eta$ vs.\ observed instability rate yields $R^2 = 0.957$, slope $= 0.91$, intercept $= 0.008$ ($p = 1.4 \times 10^{-4}$).  The spectral analysis reveals that the gap between the first and second singular values in the CCA decomposition corresponds to the $G$-invariant subspace dimension, providing a data-driven estimator of $\eta$ when the group structure is unknown.
+
+\section{Noether Sensitivity Analysis}
+
+The invariance counting law predicts a bimodal flip-rate distribution: within-group pairs at ${\sim}50\%$ and between-group pairs at $<2\%$.  We verify this prediction is robust across the correlation range $\rho \in [0.50, 0.99]$:
+
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+$\rho$ & Within-group flip & Between-group flip & Gap (pp) & $p$-value \\
+\midrule
+0.50 & 0.49 & 0.018 & 47.2 & $<0.0002$ \\
+0.70 & 0.50 & 0.012 & 48.8 & $<0.0002$ \\
+0.90 & 0.50 & 0.005 & 49.5 & $<0.0002$ \\
+0.95 & 0.50 & 0.003 & 49.7 & $<0.0002$ \\
+0.99 & 0.50 & 0.001 & 49.9 & $<0.0002$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The gap is \emph{invariant} across the entire correlation range---within-group flip rate remains at 50\% regardless of correlation strength, while between-group flip rate decreases as correlation increases (features become more distinguishable at the group level).  Cohen's $d$ ranges from 1.41 ($\rho = 0.50$) to 2.89 ($\rho = 0.99$).
+
+\section{Multi-Model Validation}
+
+The Gaussian flip rate formula is validated across a $3 \times 3$ grid of model classes (XGBoost, RandomForest, Ridge) and datasets (California Housing, Adult Income, Diabetes).  For each combination, 30 calibration models estimate $(\Delta, \sigma)$ per feature pair, and 30 independent validation models measure observed flip rates.
+
+Out-of-sample $R^2$ ranges from 0.72 (Ridge on California Housing, where near-deterministic coefficients violate the Gaussian assumption) to 0.94 (XGBoost on Adult Income).  The mean across the eight successful combinations is $R^2 = 0.848$.  One combination (Ridge on California Housing) fails the Gaussianity check (Shapiro--Wilk $p < 0.001$) and is excluded; the formula's prediction conditional on Gaussianity holding is accurate.
+
+\section{Enrichment Tradeoff Details}
+
+The bilemma recovery via enrichment (adding a neutral element $c$ to $\sH$) introduces a faithfulness--informativeness tradeoff.  On synthetic data with known ground truth: as the fraction of ``tied'' reports increases, stability improves monotonically but informativeness (fraction of decisive answers) decreases.  The Pareto frontier is convex, with the $G$-invariant resolution sitting at the knee.
+
+On real data (five clinical and financial datasets), DASH with varying tie thresholds traces the same convex frontier.  At the default threshold, DASH achieves 95\% stability with 38\% decisiveness loss---the predicted tradeoff from the bilemma tightness analysis.
+
+\section{Gene Expression and High-Dimensional Results}
+
+On the AP\_Breast\_Lung cancer classification dataset ($P = 200$ genes selected by variance, $N = 253$ samples), 70\% of gene importance comparisons are unreliable ($|\Delta|/\sigma < 0.5$) and only 4\% are reliable ($|\Delta|/\sigma > 2$).  SHAP values and gain-based importance show Spearman $\rho = 0.91$ for between-group rankings but $\rho = 0.12$ for within-group rankings, confirming the invariance counting prediction extends to high-dimensional biological data.
+
+Across seven real datasets (2,062 feature-pair comparisons total), the aggregate statistics are: 62\% unreliable, 34\% intermediate, 4\% reliable.  The Gaussian flip rate formula achieves $R^2 = 0.83$ on gene expression data specifically, slightly below the overall mean of 0.848 due to heavier tails in the importance difference distribution.
+
+\section{Approximate Rashomon Extension}
+
+The approximate Rashomon extension relaxes exact observational equivalence to $\epsilon$-approximate equivalence: $d(obs(\theta_1), obs(\theta_2)) < \epsilon$.  The Lean formalization (\texttt{ApproximateEquity.lean}) proves that bounded proportionality (a weakening of exact proportionality) implies the Rashomon property, bridging the gap between the theoretical exact-equivalence setting and practical approximate-equivalence scenarios.
+
+The key result is that for any $\epsilon > 0$, if the system has $\epsilon$-approximate Rashomon witnesses, the impossibility holds with a degradation factor bounded by $O(\epsilon)$ in the faithfulness guarantee.  This ensures the theorem's practical relevance: real-world systems with near-identical (not exactly identical) predictions still face the fundamental tradeoff.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
