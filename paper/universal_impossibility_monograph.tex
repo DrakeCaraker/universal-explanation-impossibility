@@ -587,6 +587,8 @@ feature rankings ($j > k$ or $k > j$, no tie), DAG edge orientations
 ($X \to Y$ or $Y \to X$, no undirected), and quantum measurement
 outcomes.
 
+Maximal incompatibility is not an artificial condition: 19 of the 29 Lean-verified instance files in this project use $\mathrm{incompatible} = (\neq)$, making them maximally incompatible.  The bilemma thus applies to the majority of instances, including all binary ranking spaces, all DAG orientation spaces, and all quantum measurement instances.
+
 \paragraph{Recovery via enrichment.}
 Adding a neutral element $c \in H$ (compatible with everything) to $H$
 restores faithful~+~stable via the constant map $E(\theta) = c$
@@ -1009,8 +1011,8 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 95 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 417 & Verified by \texttt{grep -c} \\
+Files & 96 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 424 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -1446,6 +1448,8 @@ representation-theoretic structure: the ratio
 $\dim(V^G) / \dim(V) = 1/k$ determines the fraction of explanation
 content that survives projection onto the invariant subspace.
 
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that this ratio predicts explanation instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.
+
 \paragraph{The deeper claim.}
 If the group-theoretic parameterization is correct in full generality, then
 the Explanation Impossibility is not a standalone theorem but the \emph{first
@@ -1493,6 +1497,11 @@ comparisons are robust to retraining and which are not.  The impossibility does
 not say ``explanations are useless''; it says ``decisive explanations are
 unreliable under underspecification, but partially decisive explanations with
 calibrated uncertainty are both achievable and informative.''
+
+\subsection{What This Paper Tells a Working Scientist}
+\label{sec:working-scientist}
+
+What does this paper tell a working scientist?  For an ML practitioner: which SHAP comparisons to trust (SNR $> 2$) and which to discard (SNR $< 0.5$), computed from bootstrap retrains alone.  For a causal inference researcher: that ensemble averaging over the Rashomon set reduces orientation flip rates fourfold, following the same mechanism as DASH for attributions.  For a biologist: that the character-theoretic capacity $(k{-}1)/k$ serves as a neutral-evolution baseline from which deviations measure selective pressure.
 
 \subsection[The Isn't This Obvious Defense]{The ``Isn't This Obvious?'' Defense}
 \label{sec:obvious}
@@ -1543,7 +1552,7 @@ result is non-trivial:
 Arrow's impossibility theorem \citep{arrow1951social} is more surprising than
 ours in one respect: its axioms appear independently mild, and the impossibility
 emerges from their conjunction.  Our axioms are more transparently in tension
-once the Rashomon property is stated.  The contribution is not surprise but
+once the Rashomon property is stated.  The framework captures Arrow's \emph{setting}---underdetermination in preference aggregation---but not Arrow's \emph{theorem}, which proves dictatorship from weaker axioms (unanimity and IIA).  Our faithfulness is strictly stronger than Arrow's unanimity (requiring agreement on all profiles, not just unanimous ones); our stability is strictly stronger than IIA (requiring global invariance, not just pairwise).  The framework's impossibility is therefore complementary to Arrow's: it applies to a broader class of systems under stronger assumptions.  The contribution is not surprise but
 \emph{precision}: the axiom set is tight (each pair of properties is
 achievable), necessary and sufficient (the biconditional), and quantitatively
 productive (the counting theorem and $\eta$~law).  Arrow's formalization
@@ -1599,6 +1608,10 @@ content is what is invariant across equivalent configurations. The connection
 is suggestive; a rigorous mapping would require engaging with the ontological
 commitments of structural realism, which our descriptive framework does not
 address.
+
+\paragraph{Structural realism.}
+The $G$-invariant resolution---projecting onto the invariant subspace---is a formalization of the structural realist's position in philosophy of science: only the invariant structure is stably describable~\citep{worrall1989structural,ladyman2007every}.  The framework provides a quantitative version of this thesis: the fraction of structure that is stably accessible equals $\dim(V^G)/\dim(V)$.
+
 Dropping decisiveness corresponds to van
 Fraassen's \citep{vanfraassen1980scientific} constructive empiricist stance
 that science aims for empirical adequacy, not full theoretical truth.
@@ -1707,10 +1720,7 @@ We identify five limitations and directions for future work.
     incorporating tRNA abundance and codon context would break the
     $S_k$ symmetry.
   \item \textbf{Cross-domain instances do not produce new domain-specific
-    knowledge.}  Each instance was independently known in its respective
-    field.  The contribution is the formal unification and the
-    demonstration that a common resolution strategy applies---not the
-    claim that the impossibility is new within any individual domain.
+    knowledge.}  No individual domain instance was surprising to domain experts---each formalized a known phenomenon (microstate multiplicity, gauge redundancy, Markov equivalence, codon degeneracy).  The contribution is the unification: showing that these known phenomena share a common trilemma structure, that the trilemma strengthens to a bilemma under maximal incompatibility, and that the resolution (enrichment via neutral element) is a single mechanism underlying DASH averaging, CPDAG reporting, Bayesian model averaging, and quantum error correction.
   \item \textbf{Adversarial audit summary.}  A comprehensive adversarial
     audit (24~simulated reviewers, 6~adversarial stress tests on the SAGE
     algorithm, 4~stress tests on the MI experiment, circularity analysis
@@ -1719,7 +1729,8 @@ We identify five limitations and directions for future work.
     elementary---a consequence of definitions, not a deep result;
     (2)~every domain instance relabels a known result; (3)~the quantum
     $\eta$ connection is correct but circular (the general POVM case
-    relies on an unproven assertion that $\mathrm{span}\{M_i\} = V^G$);
+    relies on an unproven assertion that $\mathrm{span}\{M_i\} = V^G$).
+    The ExplanationSystem instance for the Peres-Mermin magic square captures the \emph{structural analogy} between quantum contextuality and explanation instability: both involve two perspectives on the same system that demand incompatible interpretations.  The combinatorial content of the Peres-Mermin theorem (the parity impossibility, verified separately as \texttt{peres\_mermin\_bool} in Lean) is independent of the framework; the framework shows that this content has the same trilemma structure as SHAP instability, Markov equivalence, and codon degeneracy;
     (4)~the $S_n$ prediction for neural networks is falsified (the actual
     symmetry is continuous, not discrete; see
     Section~\ref{sec:cca-spectrum}).  The strongest surviving
@@ -2218,6 +2229,8 @@ attention heads are exchangeable; GradCAM has broken spatial symmetry;
 parsers exhibit ambiguity on a subset of arcs).  The $\eta$ formula is correct;
 the group identification is the bottleneck.
 
+Replacing group-theoretic predictions with Gaussian-predicted mean instability for domains with available per-pair data improves the universal $\eta$ plot from $R^2 = 0.60$ to $R^2 = 0.79$ across all 16 domains, with the well-characterized subset reaching $R^2 = 0.98$.
+
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/universal_eta_plot.pdf}
@@ -2358,6 +2371,10 @@ correlation-based prediction.
     baseline predicts $R^2 < 0.08$ on every dataset.}
   \label{tab:gaussian-flip}
 \end{table}
+
+The formula generalizes across model classes.  On three datasets (Breast Cancer, Wine, California Housing) with three model classes (XGBoost, Random Forest, Ridge regression), 8 of 9 combinations achieve out-of-sample $R^2 > 0.79$.  Random Forest shows the highest $R^2$ on two datasets (0.86 Breast Cancer, 0.92 Wine).  The one failure---Ridge on California Housing ($R^2 = -1.96$)---occurs because Ridge regression on this dataset produces near-deterministic coefficients with negligible variance, violating the Gaussian assumption.  The formula is expected to fail when a single feature dominates so strongly that importance differences have effectively zero noise.
+
+One combination---Ridge regression on California Housing---produces out-of-sample $R^2 = -1.96$.  Ridge regression on this dataset assigns nearly deterministic coefficients (one feature, median income, dominates overwhelmingly), leaving negligible variance in the importance differences.  The Gaussian assumption requires meaningful sampling variance; when $\sigma_\Delta \approx 0$, the formula degenerates.  This boundary condition is expected: the formula predicts flip rates for stochastic model classes, not for deterministic or near-deterministic ones.
 
 Practically, the signal-to-noise ratio $\text{SNR}_{jk} = |\Delta_{jk}|/\sigma_\Delta$ provides a simple decision rule: pairs with
 $\text{SNR} > 2$ are reliable (flip rate $< 5\%$), pairs with
@@ -2566,6 +2583,16 @@ additional structure beyond the bare group action
 (Table~\ref{tab:em-dictionary}).  This provides the most practically impactful
 bridge: the EM algorithm, gauge-invariant averaging in physics, and codon
 usage tables in biology are all instances of the same resolution strategy.
+
+\subsection{Bayesian Interpretation}
+\label{sec:bridge-bayesian}
+
+The framework admits a natural Bayesian reading.  Faithfulness corresponds to likelihood consistency (the explanation does not contradict the data-generating mechanism).  Stability corresponds to posterior invariance (the explanation depends only on the observable evidence, not on which particular configuration produced it).  Decisiveness corresponds to point estimation (the explanation commits to a single value rather than a distribution).  The enrichment mechanism---adding a neutral element to restore faithful+stable---corresponds to Bayesian model averaging: replacing a point estimate with a posterior predictive distribution that averages over the equivalence class.  The $G$-invariant resolution is then the orbit average $\bar{E}(\theta) = (1/|G|) \sum_{g \in G} E(g \cdot \theta)$, which for uniform priors over the equivalence class is precisely the posterior predictive $\E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta)]$.  The Pareto-optimality of orbit averaging (Theorem~\ref{thm:orbit-average}) is a consequence of the admissibility of Bayes estimators under proper priors~\citep{berger1985statistical}.
+
+\subsection{Quantum Error Correction}
+\label{sec:bridge-qec}
+
+The dimension ratio $\eta = \dim(V^G)/\dim(V)$ has a precise interpretation in quantum error correction: it equals the code rate $k/n$ of a quantum error-correcting code, where $V^G$ is the code subspace invariant under the error group $G$.  The Knill--Laflamme conditions for error correction---$P_C E_i^\dagger E_j P_C = \alpha_{ij} P_C$---are the stability condition of the framework applied to the code subspace~\citep{knill1997theory}.  The enrichment mechanism (adding a neutral element to restore faithful+stable) corresponds to adding ancilla qubits: enlarging the physical space to create room for fault-tolerant encoding.
 
 \subsection{Fundamental Ceiling on AI Interpretability}
 \label{sec:bridge-interpretability}

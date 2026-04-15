@@ -56,6 +56,9 @@ Lean~4.  Our work provides, to our knowledge, the first Lean formalization of
 an impossibility theorem in explainability, covering all nine instances and the
 $G$-invariant resolution (96~files, 424~theorems, 72~axioms, 0~\texttt{sorry}).
 
+\paragraph{Prior results on attribution instability.}
+Three prior results address related phenomena.  Bilodeau et al.\ (2024) prove that no feature attribution simultaneously satisfying the Shapley axioms can be stable under model multiplicity---an impossibility for the \emph{attribution-specific} case under \emph{axiomatic} constraints.  D'Amour et al.\ (2022) document underspecification empirically across ML pipelines, showing that models with identical in-distribution performance diverge out-of-distribution.  Fisher et al.\ (2019) introduce variable importance clouds, visualizing the instability of feature importance across the Rashomon set.  Our contribution relative to this body of work is: (1)~the abstract framework (subsuming non-ML domains), (2)~the bilemma strengthening and enrichment mechanism, (3)~the Lean formalization, and (4)~the Gaussian flip formula as a quantitative reliability score.
+
 \paragraph{Aggregation and resolution strategies.}
 \citet{laberge2023partial} introduce a partial order on feature attributions
 within the Rashomon set, extracting consensus rankings where they exist.
