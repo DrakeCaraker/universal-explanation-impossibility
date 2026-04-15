@@ -1,0 +1,348 @@
+{
+  "experiment_1_linear_baseline": {
+    "Breast Cancer": {
+      "P": 30,
+      "n_pairs": 435,
+      "gaussian_cdf_r2": 0.7918,
+      "linear_baseline_r2": 0.7495,
+      "marginal_improvement": 0.0423,
+      "linear_slope": -0.214542,
+      "linear_intercept": 0.50067
+    },
+    "Wine": {
+      "P": 13,
+      "n_pairs": 78,
+      "gaussian_cdf_r2": 0.7934,
+      "linear_baseline_r2": 0.4724,
+      "marginal_improvement": 0.321,
+      "linear_slope": -0.073117,
+      "linear_intercept": 0.303548
+    },
+    "CalHousing": {
+      "P": 8,
+      "n_pairs": 28,
+      "gaussian_cdf_r2": 0.9692,
+      "linear_baseline_r2": 0.2297,
+      "marginal_improvement": 0.7395,
+      "linear_slope": -0.013267,
+      "linear_intercept": 0.175466
+    },
+    "Diabetes": {
+      "P": 8,
+      "n_pairs": 28,
+      "gaussian_cdf_r2": 0.8682,
+      "linear_baseline_r2": 0.5053,
+      "marginal_improvement": 0.3629,
+      "linear_slope": -0.058275,
+      "linear_intercept": 0.2888
+    },
+    "Heart": {
+      "P": 13,
+      "n_pairs": 78,
+      "gaussian_cdf_r2": 0.8179,
+      "linear_baseline_r2": 0.6452,
+      "marginal_improvement": 0.1727,
+      "linear_slope": -0.148033,
+      "linear_intercept": 0.437179
+    }
+  },
+  "experiment_2_gaussianity": {
+    "n_models": 30,
+    "n_features": 30,
+    "n_pairs_tested": 10,
+    "fraction_passing_shapiro": 0.7,
+    "mean_abs_skewness": 0.6267,
+    "mean_excess_kurtosis": 0.6716,
+    "pairs": [
+      {
+        "feature_j": 14,
+        "feature_k": 23,
+        "predicted_flip_rate": 0.0319,
+        "shapiro_stat": 0.955,
+        "shapiro_p": 0.2298,
+        "shapiro_pass": true,
+        "skewness": -0.4213,
+        "kurtosis": -0.6528
+      },
+      {
+        "feature_j": 12,
+        "feature_k": 13,
+        "predicted_flip_rate": 0.0621,
+        "shapiro_stat": 0.9732,
+        "shapiro_p": 0.6295,
+        "shapiro_pass": true,
+        "skewness": -0.3303,
+        "kurtosis": 0.1498
+      },
+      {
+        "feature_j": 9,
+        "feature_k": 28,
+        "predicted_flip_rate": 0.0882,
+        "shapiro_stat": 0.9805,
+        "shapiro_p": 0.8395,
+        "shapiro_pass": true,
+        "skewness": -0.1898,
+        "kurtosis": -0.5709
+      },
+      {
+        "feature_j": 16,
+        "feature_k": 24,
+        "predicted_flip_rate": 0.1265,
+        "shapiro_stat": 0.9525,
+        "shapiro_p": 0.1976,
+        "shapiro_pass": true,
+        "skewness": -0.7153,
+        "kurtosis": 0.136
+      },
+      {
+        "feature_j": 18,
+        "feature_k": 25,
+        "predicted_flip_rate": 0.1852,
+        "shapiro_stat": 0.9797,
+        "shapiro_p": 0.817,
+        "shapiro_pass": true,
+        "skewness": 0.3645,
+        "kurtosis": 0.2715
+      },
+      {
+        "feature_j": 18,
+        "feature_k": 19,
+        "predicted_flip_rate": 0.2533,
+        "shapiro_stat": 0.9468,
+        "shapiro_p": 0.1383,
+        "shapiro_pass": true,
+        "skewness": 0.5718,
+        "kurtosis": -0.0547
+      },
+      {
+        "feature_j": 0,
+        "feature_k": 6,
+        "predicted_flip_rate": 0.3072,
+        "shapiro_stat": 0.8804,
+        "shapiro_p": 0.0029,
+        "shapiro_pass": false,
+        "skewness": -1.1203,
+        "kurtosis": 0.5382
+      },
+      {
+        "feature_j": 20,
+        "feature_k": 28,
+        "predicted_flip_rate": 0.3509,
+        "shapiro_stat": 0.9327,
+        "shapiro_p": 0.0578,
+        "shapiro_pass": true,
+        "skewness": 0.8655,
+        "kurtosis": 0.2575
+      },
+      {
+        "feature_j": 14,
+        "feature_k": 25,
+        "predicted_flip_rate": 0.4138,
+        "shapiro_stat": 0.8636,
+        "shapiro_p": 0.0012,
+        "shapiro_pass": false,
+        "skewness": 0.1321,
+        "kurtosis": 3.4281
+      },
+      {
+        "feature_j": 16,
+        "feature_k": 29,
+        "predicted_flip_rate": 0.4662,
+        "shapiro_stat": 0.8757,
+        "shapiro_p": 0.0022,
+        "shapiro_pass": false,
+        "skewness": 1.5556,
+        "kurtosis": 3.2131
+      }
+    ]
+  },
+  "experiment_3_m_sensitivity": {
+    "dataset": "Breast Cancer",
+    "P": 30,
+    "M_values": [
+      5,
+      10,
+      15,
+      20,
+      30,
+      50
+    ],
+    "results_by_M": {
+      "5": {
+        "M": 5,
+        "n_cal": 2,
+        "n_val": 3,
+        "oos_r2": -0.0668,
+        "oos_rmse": 0.319844
+      },
+      "10": {
+        "M": 10,
+        "n_cal": 5,
+        "n_val": 5,
+        "oos_r2": 0.1554,
+        "oos_rmse": 0.235701
+      },
+      "15": {
+        "M": 15,
+        "n_cal": 7,
+        "n_val": 8,
+        "oos_r2": 0.433,
+        "oos_rmse": 0.170751
+      },
+      "20": {
+        "M": 20,
+        "n_cal": 10,
+        "n_val": 10,
+        "oos_r2": 0.6361,
+        "oos_rmse": 0.131675
+      },
+      "30": {
+        "M": 30,
+        "n_cal": 15,
+        "n_val": 15,
+        "oos_r2": 0.7296,
+        "oos_rmse": 0.10656
+      },
+      "50": {
+        "M": 50,
+        "n_cal": 25,
+        "n_val": 25,
+        "oos_r2": 0.779,
+        "oos_rmse": 0.092471
+      }
+    },
+    "minimum_M_for_r2_07": 30
+  },
+  "experiment_4_loo_eta": {
+    "n_points": 9,
+    "full_r2": 0.9855,
+    "loo_r2": 0.9763,
+    "worst_point": "Stat mech ($S_{252}$, $N$=10)",
+    "worst_residual": 0.0882,
+    "loo_details": [
+      {
+        "held_out": "Attribution (SHAP, $S_2$)",
+        "predicted": 0.5,
+        "observed": 0.5,
+        "loo_predicted": 0.4702,
+        "residual": 0.0298,
+        "train_r2_without": 0.9861
+      },
+      {
+        "held_out": "Concept probe (TCAV, $O(64)$)",
+        "predicted": 1.0,
+        "observed": 0.9,
+        "loo_predicted": 0.9442,
+        "residual": -0.0442,
+        "train_r2_without": 0.9862
+      },
+      {
+        "held_out": "Codon ($S_2$)",
+        "predicted": 0.5,
+        "observed": 0.4511,
+        "loo_predicted": 0.4794,
+        "residual": -0.0283,
+        "train_r2_without": 0.9856
+      },
+      {
+        "held_out": "Codon ($S_4$)",
+        "predicted": 0.75,
+        "observed": 0.6827,
+        "loo_predicted": 0.7069,
+        "residual": -0.0242,
+        "train_r2_without": 0.9863
+      },
+      {
+        "held_out": "Codon ($S_6$)",
+        "predicted": 0.8333,
+        "observed": 0.742,
+        "loo_predicted": 0.7868,
+        "residual": -0.0448,
+        "train_r2_without": 0.9881
+      },
+      {
+        "held_out": "Gauge lattice ($\\mathbb{Z}_2^{L^2}$, $\\beta$=1)",
+        "predicted": 0.42,
+        "observed": 0.4107,
+        "loo_predicted": 0.3992,
+        "residual": 0.0115,
+        "train_r2_without": 0.984
+      },
+      {
+        "held_out": "Stat mech ($S_{252}$, $N$=10)",
+        "predicted": 0.996,
+        "observed": 0.996,
+        "loo_predicted": 0.9078,
+        "residual": 0.0882,
+        "train_r2_without": 0.9936
+      },
+      {
+        "held_out": "Phase retrieval ($U(1)^N$, $N$=128)",
+        "predicted": 0.9922,
+        "observed": 0.9355,
+        "loo_predicted": 0.923,
+        "residual": 0.0125,
+        "train_r2_without": 0.983
+      },
+      {
+        "held_out": "Parser (PP-attach, $S_2$)",
+        "predicted": 0.175,
+        "observed": 0.1837,
+        "loo_predicted": 0.171,
+        "residual": 0.0127,
+        "train_r2_without": 0.9763
+      }
+    ]
+  },
+  "experiment_5_topk_connection": {
+    "dataset": "Breast Cancer",
+    "P": 30,
+    "K": 5,
+    "n_validation_models": 30,
+    "n_model_pairs": 435,
+    "exact_top5_agreement": 0.0,
+    "set_top5_agreement": 0.0368,
+    "consensus_top5_features": [
+      7,
+      21,
+      22,
+      23,
+      27
+    ],
+    "boundary_feature": 13,
+    "boundary_pairs": [
+      {
+        "top_feature": 7,
+        "boundary_feature": 13,
+        "predicted_flip": 0.2878,
+        "snr": 0.7918
+      },
+      {
+        "top_feature": 21,
+        "boundary_feature": 13,
+        "predicted_flip": 0.3658,
+        "snr": 0.485
+      },
+      {
+        "top_feature": 22,
+        "boundary_feature": 13,
+        "predicted_flip": 0.29,
+        "snr": 0.7825
+      },
+      {
+        "top_feature": 23,
+        "boundary_feature": 13,
+        "predicted_flip": 0.3312,
+        "snr": 0.6174
+      },
+      {
+        "top_feature": 27,
+        "boundary_feature": 13,
+        "predicted_flip": 0.2371,
+        "snr": 1.0121
+      }
+    ],
+    "predicted_set_stability_independence": 0.1636,
+    "connection": "Per-pair Gaussian flip rates at the top-k boundary determine top-k stability. Under independence: P(top-k stable) = prod(1 - flip_boundary_pair). The Gaussian formula provides the mechanistic link between per-pair SNR and aggregate top-k agreement."
+  }
+}

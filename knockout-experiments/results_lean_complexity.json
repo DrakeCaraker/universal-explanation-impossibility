@@ -1,0 +1,2406 @@
+{
+  "summary": {
+    "total_theorems_parsed": 314,
+    "mean_proof_length": 8.68,
+    "median_proof_length": 7,
+    "max_proof_length": 69,
+    "min_proof_length": 0
+  },
+  "distribution": {
+    "trivial_1_3": 71,
+    "short_4_10": 174,
+    "moderate_11_30": 57,
+    "substantive_31_plus": 12
+  },
+  "files": {
+    "AlphaFaithful.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "stable_ranking_half_unfaithful",
+          "file": "AlphaFaithful.lean",
+          "kind": "theorem",
+          "lines": 21
+        },
+        {
+          "name": "alpha_faithful_bound",
+          "file": "AlphaFaithful.lean",
+          "kind": "theorem",
+          "lines": 18
+        },
+        {
+          "name": "faithful_exactly_one_witness",
+          "file": "AlphaFaithful.lean",
+          "kind": "theorem",
+          "lines": 12
+        }
+      ]
+    },
+    "ApproximateEquity.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "global_implies_bounded_one",
+          "file": "ApproximateEquity.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "bounded_proportionality_constant_implies_global",
+          "file": "ApproximateEquity.lean",
+          "kind": "theorem",
+          "lines": 13
+        }
+      ]
+    },
+    "ArrowInstance.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "profiles_same_pairwise",
+          "file": "ArrowInstance.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "profiles_different_social",
+          "file": "ArrowInstance.lean",
+          "kind": "theorem",
+          "lines": 10
+        }
+      ]
+    },
+    "AttentionInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "attn_same_output",
+          "file": "AttentionInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "attn_different_argmax",
+          "file": "AttentionInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "AxiomSubstitution.lean": {
+      "theorem_count": 9,
+      "theorems": [
+        {
+          "name": "impossibility_complete",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "impossibility_complete_three",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "tightness_faithful_stable_complete",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "no_tightness_stable_complete",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "impossibility_resolving",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "impossibility_resolving_three",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "tightness_faithful_stable_resolving",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "surjective_consistent",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 16
+        },
+        {
+          "name": "decisive_implies_complete",
+          "file": "AxiomSubstitution.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "BayesOptimalTie.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "tie_disagreement_zero",
+          "file": "BayesOptimalTie.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "tie_dominates_commitment",
+          "file": "BayesOptimalTie.lean",
+          "kind": "theorem",
+          "lines": 9
+        }
+      ]
+    },
+    "BinaryQuantizer.lean": {
+      "theorem_count": 7,
+      "theorems": [
+        {
+          "name": "binary_quantizer_variance",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "binary_quantizer_fraction",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "two_over_pi_in_unit_interval",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "two_over_pi_le_two_thirds",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "two_over_pi_gt_half",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "quantizer_signal_loss",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "quantizer_better_than_half",
+          "file": "BinaryQuantizer.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "CausalDiscovery.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "causal_discovery_impossibility",
+          "file": "CausalDiscovery.lean",
+          "kind": "theorem",
+          "lines": 20
+        },
+        {
+          "name": "cpdag_is_stable",
+          "file": "CausalDiscovery.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "causal_discovery_from_sbd",
+          "file": "CausalDiscovery.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "ConceptInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "concept_same_output",
+          "file": "ConceptInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "concept_different_directions",
+          "file": "ConceptInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "ConditionalImpossibility.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "conditional_rashomon_from_symmetry",
+          "file": "ConditionalImpossibility.lean",
+          "kind": "theorem",
+          "lines": 15
+        },
+        {
+          "name": "conditional_attribution_impossibility",
+          "file": "ConditionalImpossibility.lean",
+          "kind": "theorem",
+          "lines": 18
+        },
+        {
+          "name": "conditional_escape",
+          "file": "ConditionalImpossibility.lean",
+          "kind": "theorem",
+          "lines": 9
+        }
+      ]
+    },
+    "Consistency.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "consistent_firstMover_surjective",
+          "file": "Consistency.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "consistent_splitCount_nonFirstMover",
+          "file": "Consistency.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "consistent_proportionality_global",
+          "file": "Consistency.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "consistent_splitCount_crossGroup_stable",
+          "file": "Consistency.lean",
+          "kind": "theorem",
+          "lines": 9
+        }
+      ]
+    },
+    "Corollary.lean": {
+      "theorem_count": 5,
+      "theorems": [
+        {
+          "name": "consensus_equity",
+          "file": "Corollary.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "consensus_difference_zero",
+          "file": "Corollary.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "consensus_variance_rate",
+          "file": "Corollary.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "consensus_variance_halves",
+          "file": "Corollary.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "consensus_variance_nonneg",
+          "file": "Corollary.lean",
+          "kind": "theorem",
+          "lines": 3
+        }
+      ]
+    },
+    "CounterfactualInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "cf_same_prediction",
+          "file": "CounterfactualInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "cf_different_directions",
+          "file": "CounterfactualInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "Defs.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "attribution_proportional",
+          "file": "Defs.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "attribution_variance_nonneg",
+          "file": "Defs.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "splitCount_eq_of_not_firstMover_j_or_k",
+          "file": "Defs.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "DesignSpace.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "strongly_faithful_impossible",
+          "file": "DesignSpace.lean",
+          "kind": "theorem",
+          "lines": 32
+        },
+        {
+          "name": "dash_produces_ties",
+          "file": "DesignSpace.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "design_space_theorem",
+          "file": "DesignSpace.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "DesignSpaceFull.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "design_space_exhaustiveness",
+          "file": "DesignSpaceFull.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "family_a_or_family_b",
+          "file": "DesignSpaceFull.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "DuhemQuine.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "dq_same_outcome",
+          "file": "DuhemQuine.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "dq_blame_different",
+          "file": "DuhemQuine.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "dq4_same_outcome",
+          "file": "DuhemQuine.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "dq4_blame_different",
+          "file": "DuhemQuine.lean",
+          "kind": "theorem",
+          "lines": 13
+        }
+      ]
+    },
+    "Efficiency.lean": {
+      "theorem_count": 6,
+      "theorems": [
+        {
+          "name": "sum_constraint_swap",
+          "file": "Efficiency.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "swapAt_sum_eq",
+          "file": "Efficiency.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "amplification_factor_m2",
+          "file": "Efficiency.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "amplification_factor_m3",
+          "file": "Efficiency.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "amplification_approaches_one",
+          "file": "Efficiency.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "amplification_gt_one",
+          "file": "Efficiency.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "EnsembleBound.lean": {
+      "theorem_count": 7,
+      "theorems": [
+        {
+          "name": "consensus_var_eq_over_M",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "double_ensemble_halves_variance",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "single_model_variance",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "variance_at_25",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "ensemble_bound_formula",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "z_squared_for_5pct",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "dash_achieves_minimum_variance",
+          "file": "EnsembleBound.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "ExplanationSystem.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "explanation_impossibility",
+          "file": "ExplanationSystem.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "tightness_faithful_decisive",
+          "file": "ExplanationSystem.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "tightness_faithful_stable",
+          "file": "ExplanationSystem.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "tightness_stable_decisive",
+          "file": "ExplanationSystem.lean",
+          "kind": "theorem",
+          "lines": 5
+        }
+      ]
+    },
+    "FIMImpossibility.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "excess_loss_nonneg",
+          "file": "FIMImpossibility.lean",
+          "kind": "lemma",
+          "lines": 13
+        },
+        {
+          "name": "gaussian_rashomon_witnesses",
+          "file": "FIMImpossibility.lean",
+          "kind": "theorem",
+          "lines": 37
+        },
+        {
+          "name": "hessian_eigenvalue_minus",
+          "file": "FIMImpossibility.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "semi_axis_diverges",
+          "file": "FIMImpossibility.lean",
+          "kind": "theorem",
+          "lines": 23
+        }
+      ]
+    },
+    "FairnessAudit.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "fairness_audit_coin_flip",
+          "file": "FairnessAudit.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "fairness_audit_coin_flip_reverse",
+          "file": "FairnessAudit.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "FlipRate.lean": {
+      "theorem_count": 10,
+      "theorems": [
+        {
+          "name": "non_firstmover_tie",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "balanced_firstmover_count_eq",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "firstMoverSets_disjoint",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "tieSet_disjoint_left",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "tieSet_disjoint_right",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "fliprate_partition",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 32
+        },
+        {
+          "name": "binary_group_firstmover_is_j_or_k",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 36
+        },
+        {
+          "name": "binary_group_no_ties",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "binary_group_flip_rate",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "binary_flip_pair_count",
+          "file": "FlipRate.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "GaugeTheory.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "same_holonomy",
+          "file": "GaugeTheory.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "different_configs",
+          "file": "GaugeTheory.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "gauge_preserves_holonomy",
+          "file": "GaugeTheory.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "gauge_related",
+          "file": "GaugeTheory.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "GaussianFlipRate.lean": {
+      "theorem_count": 6,
+      "theorems": [
+        {
+          "name": "Phi_nonneg",
+          "file": "GaussianFlipRate.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "Phi_neg",
+          "file": "GaussianFlipRate.lean",
+          "kind": "theorem",
+          "lines": 50
+        },
+        {
+          "name": "Phi_zero",
+          "file": "GaussianFlipRate.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "gaussianFlipRate_le_half",
+          "file": "GaussianFlipRate.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "gaussianFlipRate_nonneg",
+          "file": "GaussianFlipRate.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "gaussianFlipRate_decreasing",
+          "file": "GaussianFlipRate.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "General.lean": {
+      "theorem_count": 5,
+      "theorems": [
+        {
+          "name": "splitCount_firstMover_gt",
+          "file": "General.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "attribution_firstMover_gt",
+          "file": "General.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "attribution_reversal",
+          "file": "General.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "gbdt_rashomon",
+          "file": "General.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "gbdt_impossibility",
+          "file": "General.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "GeneticCode.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "codon_degeneracy",
+          "file": "GeneticCode.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "codons_different",
+          "file": "GeneticCode.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "Impossibility.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "attribution_ratio_ge",
+          "file": "Impossibility.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "not_equitable",
+          "file": "Impossibility.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "not_stable",
+          "file": "Impossibility.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "impossibility",
+          "file": "Impossibility.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "IntersectionalFairness.lean": {
+      "theorem_count": 9,
+      "theorems": [
+        {
+          "name": "intersectional_audit_impossibility",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "compounding_ge_half",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "compounding_strict_mono",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "compounding_nonneg",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "compounding_le_one",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "compounding_K2",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "compounding_K3",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "compounding_K5",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "compounding_K10",
+          "file": "IntersectionalFairness.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "Iterative.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "iterative_rashomon",
+          "file": "Iterative.lean",
+          "kind": "theorem",
+          "lines": 13
+        }
+      ]
+    },
+    "LLMExplanationInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "llm_same_output",
+          "file": "LLMExplanationInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "llm_different_citations",
+          "file": "LLMExplanationInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "Lasso.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "lasso_impossibility",
+          "file": "Lasso.lean",
+          "kind": "theorem",
+          "lines": 11
+        }
+      ]
+    },
+    "LinearSystem.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "same_output",
+          "file": "LinearSystem.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "different_solutions",
+          "file": "LinearSystem.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "LocalGlobal.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "local_attribution_impossibility",
+          "file": "LocalGlobal.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "impossibility_is_attribution_agnostic",
+          "file": "LocalGlobal.lean",
+          "kind": "theorem",
+          "lines": 9
+        }
+      ]
+    },
+    "LocalSufficiency.lean": {
+      "theorem_count": 5,
+      "theorems": [
+        {
+          "name": "attribution_ratio_local",
+          "file": "LocalSufficiency.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "ratio_diverges_local",
+          "file": "LocalSufficiency.lean",
+          "kind": "theorem",
+          "lines": 17
+        },
+        {
+          "name": "attribution_sum_from_local",
+          "file": "LocalSufficiency.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "equity_violation_local",
+          "file": "LocalSufficiency.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "local_proportionality_suffices",
+          "file": "LocalSufficiency.lean",
+          "kind": "theorem",
+          "lines": 22
+        }
+      ]
+    },
+    "LossPreservation.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "rashomon_from_swap_with_loss",
+          "file": "LossPreservation.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "rashomon_from_swap_loss",
+          "file": "LossPreservation.lean",
+          "kind": "theorem",
+          "lines": 18
+        }
+      ]
+    },
+    "MarkovEquivalence.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "chain_fork_same_ci",
+          "file": "MarkovEquivalence.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "chain_fork_different_edges",
+          "file": "MarkovEquivalence.lean",
+          "kind": "theorem",
+          "lines": 3
+        }
+      ]
+    },
+    "MaximalIncompatibility.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "decisive_eq_explain_of_maxIncompat",
+          "file": "MaximalIncompatibility.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "no_stable_decisive_of_maxIncompat",
+          "file": "MaximalIncompatibility.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "maxIncompat_tightness_fd",
+          "file": "MaximalIncompatibility.lean",
+          "kind": "theorem",
+          "lines": 3
+        }
+      ]
+    },
+    "MechInterpInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "mechInterp_same_output",
+          "file": "MechInterpInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "mechInterp_different_circuits",
+          "file": "MechInterpInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "ModelSelection.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "model_selection_impossibility",
+          "file": "ModelSelection.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "model_selection_impossibility_weak",
+          "file": "ModelSelection.lean",
+          "kind": "theorem",
+          "lines": 7
+        }
+      ]
+    },
+    "ModelSelectionDesignSpace.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "model_stable_complete_unfaithful",
+          "file": "ModelSelectionDesignSpace.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "model_unfaithfulness_free_implies_tie",
+          "file": "ModelSelectionDesignSpace.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "model_family_a_or_family_b",
+          "file": "ModelSelectionDesignSpace.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "ModelSelectionInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "ms_same_performance",
+          "file": "ModelSelectionInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "ms_different_models",
+          "file": "ModelSelectionInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "MutualInformation.lean": {
+      "theorem_count": 9,
+      "theorems": [
+        {
+          "name": "mi_dependent_iff_not_independent",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "mi_independent_symm",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "mi_dependent_symm",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "gaussian_mi_positive_of_corr_nonzero",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 22
+        },
+        {
+          "name": "gaussian_mi_zero_of_corr_zero",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "rashomon_from_mi_dependence",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "impossibility_from_mi",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "no_rashomon_from_agreement",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "mi_is_exact_boundary",
+          "file": "MutualInformation.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "Necessity.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "impossibility_from_rashomon",
+          "file": "Necessity.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "fully_specified_possibility",
+          "file": "Necessity.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "NecessityBiconditional.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "possibility_from_factoring",
+          "file": "NecessityBiconditional.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "not_rashomon_iff_factoring_neq",
+          "file": "NecessityBiconditional.lean",
+          "kind": "theorem",
+          "lines": 16
+        },
+        {
+          "name": "rashomon_biconditional_neq",
+          "file": "NecessityBiconditional.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "NeuralNet.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "nn_impossibility",
+          "file": "NeuralNet.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "ParetoOptimality.lean": {
+      "theorem_count": 7,
+      "theorems": [
+        {
+          "name": "no_method_beats_half",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "committed_ranking_has_positive_error",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "dash_pareto_dominance_within_group",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "dash_pareto_gap_exact",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "universal_within_group_half",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "pareto_frontier_dichotomy",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 28
+        },
+        {
+          "name": "dash_unique_pareto_optimal",
+          "file": "ParetoOptimality.lean",
+          "kind": "theorem",
+          "lines": 44
+        }
+      ]
+    },
+    "PeresMermin.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "peres_mermin_bool",
+          "file": "PeresMermin.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "peres_mermin_parity",
+          "file": "PeresMermin.lean",
+          "kind": "theorem",
+          "lines": 7
+        }
+      ]
+    },
+    "PhaseProblem.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "same_energy",
+          "file": "PhaseProblem.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "different_signals",
+          "file": "PhaseProblem.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "ProportionalityLocal.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "proportionality_global_implies_local",
+          "file": "ProportionalityLocal.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "attribution_firstMover_gt_local",
+          "file": "ProportionalityLocal.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "gbdt_rashomon_local",
+          "file": "ProportionalityLocal.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "QMInterpretation.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "qm_same_outcome",
+          "file": "QMInterpretation.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "qm_ontology_different",
+          "file": "QMInterpretation.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "Qualitative.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "rashomon_from_qualitative",
+          "file": "Qualitative.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "QuantitativeBound.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "decisive_fails_on_rashomon_pair",
+          "file": "QuantitativeBound.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "not_decisive_at_rashomon_pair",
+          "file": "QuantitativeBound.lean",
+          "kind": "theorem",
+          "lines": 7
+        }
+      ]
+    },
+    "QueryComplexity.lean": {
+      "theorem_count": 13,
+      "theorems": [
+        {
+          "name": "le_cam_lower_bound",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "query_bound_pos",
+          "file": "QueryComplexity.lean",
+          "kind": "lemma",
+          "lines": 10
+        },
+        {
+          "name": "query_complexity_lower_bound",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "query_bound_scales_with_gap",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "query_bound_mono_sigma",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "query_bound_antimono_gap",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "z_test_query_count_nonneg",
+          "file": "QueryComplexity.lean",
+          "kind": "lemma",
+          "lines": 4
+        },
+        {
+          "name": "query_gap_ratio",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "z_test_optimal_up_to_constant",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "snr_at_0_15",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "snr_denominator",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "snr_multiplier",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "breast_cancer_query_bound",
+          "file": "QueryComplexity.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "QueryComplexityDerived.lean": {
+      "theorem_count": 9,
+      "theorems": [
+        {
+          "name": "chebyshev_query_bound",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "chebyshev_query_lower_bound",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "chebyshev_bound_simplify",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "derived_query_bound_nonneg",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "lemma",
+          "lines": 3
+        },
+        {
+          "name": "derived_bound_scales_with_gap",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "derived_bound_mono_sigma",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "derived_bound_antimono_gap",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "derived_snr_at_0_15",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "derived_snr_value",
+          "file": "QueryComplexityDerived.lean",
+          "kind": "theorem",
+          "lines": 0
+        }
+      ]
+    },
+    "QueryComplexityParametric.lean": {
+      "theorem_count": 8,
+      "theorems": [
+        {
+          "name": "TestingBound.queryBound_nonneg",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "lemma",
+          "lines": 3
+        },
+        {
+          "name": "TestingBound.queryBound_pos",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "lemma",
+          "lines": 4
+        },
+        {
+          "name": "query_complexity_parametric",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "queryBound_scales_gap",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "queryBound_mono_sigma",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "queryBound_antimono_gap",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "zTest_optimal",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "leCam_breast_cancer",
+          "file": "QueryComplexityParametric.lean",
+          "kind": "theorem",
+          "lines": 3
+        }
+      ]
+    },
+    "QueryRelative.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "query_impossibility",
+          "file": "QueryRelative.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "query_possibility",
+          "file": "QueryRelative.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "RashomonInevitability.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "nondegen_implies_strict_one_direction",
+          "file": "RashomonInevitability.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "rashomon_from_nondegen_and_symmetry",
+          "file": "RashomonInevitability.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "rashomon_inevitability",
+          "file": "RashomonInevitability.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "escape_unanimous_agreement",
+          "file": "RashomonInevitability.lean",
+          "kind": "theorem",
+          "lines": 1
+        }
+      ]
+    },
+    "RashomonUniversality.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "rashomon_pair_from_swap",
+          "file": "RashomonUniversality.lean",
+          "kind": "theorem",
+          "lines": 15
+        },
+        {
+          "name": "rashomon_from_symmetry",
+          "file": "RashomonUniversality.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "Ratio.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "splitCount_ratio",
+          "file": "Ratio.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "attribution_ratio",
+          "file": "Ratio.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "ratio_tendsto_atTop",
+          "file": "Ratio.lean",
+          "kind": "theorem",
+          "lines": 15
+        }
+      ]
+    },
+    "RobustnessLipschitz.lean": {
+      "theorem_count": 10,
+      "theorems": [
+        {
+          "name": "C_Phi_pos",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "flipOfSNR_eq",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "isLipschitzWith_neg",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "isLipschitzWith_comp",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "isLipschitzWith_const",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "flipOfSNR_lipschitz",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "flipOfRho_lipschitz",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "flip_rate_robust",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "flip_rate_continuous_at",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 22
+        },
+        {
+          "name": "flip_perturbation_bound_monotone",
+          "file": "RobustnessLipschitz.lean",
+          "kind": "theorem",
+          "lines": 5
+        }
+      ]
+    },
+    "SBDInstances.lean": {
+      "theorem_count": 5,
+      "theorems": [
+        {
+          "name": "attribution_is_sbd_instance",
+          "file": "SBDInstances.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "attribution_sbd_unfaithful",
+          "file": "SBDInstances.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "model_selection_is_sbd_instance",
+          "file": "SBDInstances.lean",
+          "kind": "theorem",
+          "lines": 18
+        },
+        {
+          "name": "abstract_aggregation_impossibility",
+          "file": "SBDInstances.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "abstract_aggregation_impossibility_weak",
+          "file": "SBDInstances.lean",
+          "kind": "theorem",
+          "lines": 9
+        }
+      ]
+    },
+    "SaliencyInstanceConstructive.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "saliency_same_output",
+          "file": "SaliencyInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "saliency_different_regions",
+          "file": "SaliencyInstanceConstructive.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "Setup.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "attribution_impossibility_bundled",
+          "file": "Setup.lean",
+          "kind": "theorem",
+          "lines": 4
+        }
+      ]
+    },
+    "SpearmanDef.lean": {
+      "theorem_count": 20,
+      "theorems": [
+        {
+          "name": "countEqual_pos",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 7
+        },
+        {
+          "name": "countBelow_of_gt",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 24
+        },
+        {
+          "name": "midrank_strict_mono",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 17
+        },
+        {
+          "name": "sumSqRankDiff_nonneg",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 4
+        },
+        {
+          "name": "sumSqRankDiff_pos_of_reversal",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 39
+        },
+        {
+          "name": "spearmanCorr_lt_one_of_reversal",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 14
+        },
+        {
+          "name": "spearmanCorr_bound",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 44
+        },
+        {
+          "name": "attribution_eq_outside_group",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "attribution_eq_non_firstMover",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "attribution_swap_structure",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "attribution_non_fm_stable",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 30
+        },
+        {
+          "name": "countEqual_ge_groupSize_minus_one",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 25
+        },
+        {
+          "name": "midrank_gap_ge_half_groupSize",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 30
+        },
+        {
+          "name": "sumSqRankDiff_ge_sq_groupSize",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 41
+        },
+        {
+          "name": "spearmanCorr_bound_groupSize",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 29
+        },
+        {
+          "name": "spearman_instability_bound",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "midrank_gap_ge_half_groupSize_tight",
+          "file": "SpearmanDef.lean",
+          "kind": "lemma",
+          "lines": 25
+        },
+        {
+          "name": "sumSqRankDiff_ge_sq_groupSize_tight",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 34
+        },
+        {
+          "name": "spearmanCorr_bound_groupSize_tight",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 18
+        },
+        {
+          "name": "spearman_instability_bound_tight",
+          "file": "SpearmanDef.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "SplitGap.lean": {
+      "theorem_count": 5,
+      "theorems": [
+        {
+          "name": "rho_sq_lt_one",
+          "file": "SplitGap.lean",
+          "kind": "lemma",
+          "lines": 7
+        },
+        {
+          "name": "one_minus_rho_sq_pos",
+          "file": "SplitGap.lean",
+          "kind": "lemma",
+          "lines": 2
+        },
+        {
+          "name": "denom_ne_zero",
+          "file": "SplitGap.lean",
+          "kind": "lemma",
+          "lines": 7
+        },
+        {
+          "name": "split_gap_ge_half",
+          "file": "SplitGap.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "split_gap_lower_bound",
+          "file": "SplitGap.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "StatisticalMechanics.lean": {
+      "theorem_count": 4,
+      "theorems": [
+        {
+          "name": "same_macrostate",
+          "file": "StatisticalMechanics.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "different_microstates",
+          "file": "StatisticalMechanics.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "swap_related",
+          "file": "StatisticalMechanics.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "swap_preserves_macrostate",
+          "file": "StatisticalMechanics.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "StumpProportionality.lean": {
+      "theorem_count": 5,
+      "theorems": [
+        {
+          "name": "stump_proportionality",
+          "file": "StumpProportionality.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "stump_attribution_ratio",
+          "file": "StumpProportionality.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "stump_proportionality_positive",
+          "file": "StumpProportionality.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "stump_proportionality_exists",
+          "file": "StumpProportionality.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "stump_cv_zero",
+          "file": "StumpProportionality.lean",
+          "kind": "theorem",
+          "lines": 3
+        }
+      ]
+    },
+    "SymmetricBayes.lean": {
+      "theorem_count": 14,
+      "theorems": [
+        {
+          "name": "sbd_unfaithful_witness",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 13
+        },
+        {
+          "name": "sbd_infeasible",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "tie_is_stable",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "sbd_faithful_unique",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "sbd_binary_orbit_half_unfaithful",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 7
+        },
+        {
+          "name": "sbd_ternary_orbit_unfaithful",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 12
+        },
+        {
+          "name": "attribution_from_sbd",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "sbd_faithful_at_most_one_in_orbit",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "sbd_trichotomy",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 11
+        },
+        {
+          "name": "sbd_family_a_or_b",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "orbitEquiv_refl",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 3
+        },
+        {
+          "name": "orbitEquiv_trans",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "family_b_output_not_optimal",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "symmetric_bayes_dichotomy",
+          "file": "SymmetricBayes.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    },
+    "SymmetryDerive.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "attribution_sum_symmetric",
+          "file": "SymmetryDerive.lean",
+          "kind": "theorem",
+          "lines": 69
+        }
+      ]
+    },
+    "SyntacticAmbiguity.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "same_yield",
+          "file": "SyntacticAmbiguity.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "different_bracketings",
+          "file": "SyntacticAmbiguity.lean",
+          "kind": "theorem",
+          "lines": 7
+        }
+      ]
+    },
+    "Trilemma.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "attribution_impossibility",
+          "file": "Trilemma.lean",
+          "kind": "theorem",
+          "lines": 15
+        },
+        {
+          "name": "attribution_impossibility_weak",
+          "file": "Trilemma.lean",
+          "kind": "theorem",
+          "lines": 7
+        }
+      ]
+    },
+    "Ubiquity.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "generic_underspecification",
+          "file": "Ubiquity.lean",
+          "kind": "theorem",
+          "lines": 1
+        },
+        {
+          "name": "fiber_nondegeneracy_implies_impossibility",
+          "file": "Ubiquity.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "ubiquity_impossibility",
+          "file": "Ubiquity.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "UnfaithfulBound.lean": {
+      "theorem_count": 3,
+      "theorems": [
+        {
+          "name": "stable_complete_unfaithful",
+          "file": "UnfaithfulBound.lean",
+          "kind": "theorem",
+          "lines": 9
+        },
+        {
+          "name": "tie_is_never_unfaithful",
+          "file": "UnfaithfulBound.lean",
+          "kind": "theorem",
+          "lines": 10
+        },
+        {
+          "name": "unfaithfulness_free_implies_tie",
+          "file": "UnfaithfulBound.lean",
+          "kind": "theorem",
+          "lines": 6
+        }
+      ]
+    },
+    "UnfaithfulQuantitative.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "attribution_prob_half",
+          "file": "UnfaithfulQuantitative.lean",
+          "kind": "theorem",
+          "lines": 58
+        },
+        {
+          "name": "stable_ranking_unfaithfulness_half",
+          "file": "UnfaithfulQuantitative.lean",
+          "kind": "theorem",
+          "lines": 7
+        }
+      ]
+    },
+    "UniversalDesignSpace.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "universal_design_space_dichotomy",
+          "file": "UniversalDesignSpace.lean",
+          "kind": "theorem",
+          "lines": 2
+        }
+      ]
+    },
+    "UniversalResolution.lean": {
+      "theorem_count": 1,
+      "theorems": [
+        {
+          "name": "gInvariant_stable",
+          "file": "UniversalResolution.lean",
+          "kind": "theorem",
+          "lines": 5
+        }
+      ]
+    },
+    "VarianceDerivation.lean": {
+      "theorem_count": 6,
+      "theorems": [
+        {
+          "name": "variance_of_mean_from_sum_variance",
+          "file": "VarianceDerivation.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "consensus_variance_from_independence",
+          "file": "VarianceDerivation.lean",
+          "kind": "theorem",
+          "lines": 4
+        },
+        {
+          "name": "consensus_variance_nonneg_from_independence",
+          "file": "VarianceDerivation.lean",
+          "kind": "theorem",
+          "lines": 5
+        },
+        {
+          "name": "double_M_halves_variance_derived",
+          "file": "VarianceDerivation.lean",
+          "kind": "theorem",
+          "lines": 6
+        },
+        {
+          "name": "variance_ratio_from_independence",
+          "file": "VarianceDerivation.lean",
+          "kind": "theorem",
+          "lines": 8
+        },
+        {
+          "name": "weighted_variance_ge_consensus_variance",
+          "file": "VarianceDerivation.lean",
+          "kind": "theorem",
+          "lines": 10
+        }
+      ]
+    },
+    "ViewUpdate.lean": {
+      "theorem_count": 2,
+      "theorems": [
+        {
+          "name": "same_view",
+          "file": "ViewUpdate.lean",
+          "kind": "theorem",
+          "lines": 2
+        },
+        {
+          "name": "different_rows",
+          "file": "ViewUpdate.lean",
+          "kind": "theorem",
+          "lines": 8
+        }
+      ]
+    }
+  },
+  "examples": {
+    "trivial": [
+      {
+        "name": "profiles_same_pairwise",
+        "file": "ArrowInstance.lean",
+        "lines": 2
+      },
+      {
+        "name": "attn_same_output",
+        "file": "AttentionInstanceConstructive.lean",
+        "lines": 2
+      },
+      {
+        "name": "attn_different_argmax",
+        "file": "AttentionInstanceConstructive.lean",
+        "lines": 2
+      },
+      {
+        "name": "tightness_faithful_stable_resolving",
+        "file": "AxiomSubstitution.lean",
+        "lines": 2
+      },
+      {
+        "name": "binary_quantizer_fraction",
+        "file": "BinaryQuantizer.lean",
+        "lines": 3
+      }
+    ],
+    "short": [
+      {
+        "name": "global_implies_bounded_one",
+        "file": "ApproximateEquity.lean",
+        "lines": 10
+      },
+      {
+        "name": "profiles_different_social",
+        "file": "ArrowInstance.lean",
+        "lines": 10
+      },
+      {
+        "name": "impossibility_complete",
+        "file": "AxiomSubstitution.lean",
+        "lines": 4
+      },
+      {
+        "name": "impossibility_complete_three",
+        "file": "AxiomSubstitution.lean",
+        "lines": 9
+      },
+      {
+        "name": "tightness_faithful_stable_complete",
+        "file": "AxiomSubstitution.lean",
+        "lines": 4
+      }
+    ],
+    "moderate": [
+      {
+        "name": "stable_ranking_half_unfaithful",
+        "file": "AlphaFaithful.lean",
+        "lines": 21
+      },
+      {
+        "name": "alpha_faithful_bound",
+        "file": "AlphaFaithful.lean",
+        "lines": 18
+      },
+      {
+        "name": "faithful_exactly_one_witness",
+        "file": "AlphaFaithful.lean",
+        "lines": 12
+      },
+      {
+        "name": "bounded_proportionality_constant_implies_global",
+        "file": "ApproximateEquity.lean",
+        "lines": 13
+      },
+      {
+        "name": "surjective_consistent",
+        "file": "AxiomSubstitution.lean",
+        "lines": 16
+      }
+    ],
+    "substantive": [
+      {
+        "name": "strongly_faithful_impossible",
+        "file": "DesignSpace.lean",
+        "lines": 32
+      },
+      {
+        "name": "gaussian_rashomon_witnesses",
+        "file": "FIMImpossibility.lean",
+        "lines": 37
+      },
+      {
+        "name": "fliprate_partition",
+        "file": "FlipRate.lean",
+        "lines": 32
+      },
+      {
+        "name": "binary_group_firstmover_is_j_or_k",
+        "file": "FlipRate.lean",
+        "lines": 36
+      },
+      {
+        "name": "Phi_neg",
+        "file": "GaussianFlipRate.lean",
+        "lines": 50
+      }
+    ]
+  }
+}

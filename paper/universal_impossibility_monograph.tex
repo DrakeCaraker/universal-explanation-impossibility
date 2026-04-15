@@ -230,9 +230,9 @@ Our contributions are:
 \begin{enumerate}[label=(\arabic*)]
   \item \textbf{A universal impossibility theorem}
     (Theorem~\ref{thm:universal}) that unifies impossibility results
-    across eight sciences and nine ML explanation types under a single
+    across eight domains and nine ML explanation types under a single
     proof requiring only the Rashomon property.
-  \item \textbf{Eight derived instances across eight sciences}
+  \item \textbf{Eight derived instances across eight domains}
     (Section~\ref{sec:derived-instances}): underdetermined linear systems
     (mathematics), genetic code degeneracy (biology), gauge freedom
     (physics), microstate degeneracy in statistical mechanics (physics),
@@ -588,6 +588,7 @@ feature rankings ($j > k$ or $k > j$, no tie), DAG edge orientations
 outcomes.
 
 Maximal incompatibility is not an artificial condition: 19 of the 29 Lean-verified instance files in this project use $\mathrm{incompatible} = (\neq)$, making them maximally incompatible.  The bilemma thus applies to the majority of instances, including all binary ranking spaces, all DAG orientation spaces, and all quantum measurement instances.
+The bilemma does not have direct mechanism design content.  Mechanism design concerns incentive compatibility under strategic agents; the bilemma concerns the logical structure of explanation spaces without strategic considerations.
 
 \paragraph{Recovery via enrichment.}
 Adding a neutral element $c \in H$ (compatible with everything) to $H$
@@ -599,6 +600,8 @@ CPDAG reporting (adds ``undirected''), and Bayesian model averaging
 stable~+~decisive---that remains impossible even with the neutral element,
 because decisive still forces $E = \mathsf{explain}$ on the non-neutral
 elements.
+
+Categorically, the enrichment operation is the free adjunction of an initial object to the incompatibility poset: adding an element $c$ compatible with everything is adjoining a least element under the compatibility ordering.
 
 All seven theorems in this subsection are Lean-verified with zero
 \texttt{sorry} in \texttt{MaximalIncompatibility.lean}.
@@ -616,7 +619,7 @@ the definitions.  Table~\ref{tab:unification} summarizes the common structure.
 
 \begin{table}[t]
 \centering
-\caption{Eight derived instances of the Explanation Impossibility across eight sciences. Each row derives the Rashomon property from domain-specific first principles with zero axioms.}
+\caption{Eight domains instantiate the Explanation Impossibility. Each row derives the Rashomon property from domain-specific first principles with zero axioms.}
 \label{tab:unification}
 \begin{tabular}{llllll}
 \toprule
@@ -982,6 +985,7 @@ explainability: it unifies nine domain-specific impossibilities under one
 structural cause (the Rashomon property) and one four-line proof, and the
 resolution (orbit averaging) is the XAI counterpart of accepting partial
 orderings in social choice.
+The framework does not currently express the Gibbard--Satterthwaite theorem, which concerns strategy-proofness (incentive compatibility)---a property involving strategic agents, not truthful explanation.  Extending the framework to capture strategic considerations would require adding an agent model, which is outside the current scope.
 (The full impossibility is formalized as \texttt{ubiquity\_impossibility}
 in \texttt{Ubiquity.lean}.)
 
@@ -1202,7 +1206,7 @@ pointwise faithfulness on every observe-fiber.  This means the trade-off
 identified by the theorem is \emph{tight}---the practitioner cannot do better
 by being clever.
 
-\paragraph{4.\ Independent convergence: eight fields discovered the same
+\paragraph{4.\ Independent convergence: eight domains instantiate the same
 resolution.}
 If the impossibility were trivial, one would not expect eight independent
 scientific communities---spanning physics, biology, statistics, linguistics,
@@ -1537,7 +1541,7 @@ result is non-trivial:
     precisely characterizes the phenomenon---it is tight in both
     directions.
 
-  \item \textbf{Quantitative corollaries.}  The Noether counting theorem
+  \item \textbf{Quantitative corollaries.}  The invariance counting theorem
     (exactly $g(g{-}1)/2$ stable queries, invariant across all
     $\rho \in [0.5, 0.99]$; Section~\ref{sec:noether-counting}) and the
     $\eta$~law ($R^2 = 0.957$; Section~\ref{sec:universal-eta}) are non-obvious
@@ -1659,6 +1663,8 @@ scoping, is in a companion paper.
 
 The pattern extends to many further domains: metamerism in color perception (where the cone response matrix is the observation map, making it an instance of the linear system pattern), molecular chirality (where enantiomers share achiral observables), and others.
 
+The framework does not distinguish between global and local symmetries.  In physics, this distinction is fundamental: Noether's theorem applies to global symmetries (producing conservation laws), while gauge redundancy arises from local symmetries (producing constraints).  The framework's $G$-invariant resolution applies equally to both, which is a simplification.  A richer framework distinguishing global from local invariance would be needed to capture gauge-fixing and BRST cohomology.
+
 \input{sections/quantitative_remark}
 
 The per-fiber bound (Proposition~\ref{prop:tightness} in the main text) is the qualitative skeleton of this inequality. The full measure-theoretic development, including domain-specific instances and tightness analysis, is the subject of ongoing work.
@@ -1697,13 +1703,14 @@ We identify five limitations and directions for future work.
     is proved but not empirically validated in this paper.
     \citet{chouldechova2017fair} provides the original empirical context;
     replicating it within our framework is left to future work.
+  \item \textbf{Exact vs.\ approximate Rashomon.}  The framework assumes exact observational equivalence ($\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$).  Extending to approximate Rashomon ($\|\mathrm{obs}(\theta_1) - \mathrm{obs}(\theta_2)\| < \varepsilon$) would require an $\varepsilon$-relaxed stability condition and is an open direction.  The Gaussian flip rate formula provides a partial answer: the SNR quantifies how much the ``approximate Rashomon'' (importance differences near zero) affects each feature pair.
   \item \textbf{Elementary core theorem.}  The qualitative impossibility
     follows from elementary logic: if a map is not injective, its fiber
     contains distinct elements that cannot be simultaneously preserved and
     collapsed.  The contribution is not the proof's depth but the
     axiomatic framework---tightness (each pair achievable), necessity
     (biconditional with Rashomon), and the quantitative corollaries
-    (Noether counting, $\eta$ law) that follow from the framework but not
+    (invariance counting, $\eta$ law) that follow from the framework but not
     from any simpler observation about non-injectivity.
   \item \textbf{Broken symmetry in trained networks.}  The $1/n$
     interpretability ceiling (Corollary~\ref{cor:interp-ceiling}) assumes
@@ -1734,7 +1741,7 @@ We identify five limitations and directions for future work.
     (4)~the $S_n$ prediction for neural networks is falsified (the actual
     symmetry is continuous, not discrete; see
     Section~\ref{sec:cca-spectrum}).  The strongest surviving
-    contributions are the Noether counting theorem (bimodal, invariant
+    contributions are the invariance counting theorem (bimodal, invariant
     across~$\rho$, novel) and the SAGE algorithm ($R^2 = 0.81$ on
     8~datasets, 6/6 audit tests passed).
 \end{enumerate}
@@ -2047,7 +2054,7 @@ The practical implication: to reduce confusion between specific classes,
 reduce the Rashomon overlap (e.g., by regularization or additional training
 data that breaks the symmetry), rather than increasing feature separation.
 
-\subsection{Noether Counting: Exact Enumeration of Stable Queries}
+\subsection{Invariance Counting: Exact Enumeration of Stable Queries}
 \label{sec:noether-counting}
 
 The invariance correspondence (Section~\ref{sec:bridge-noether}) predicts that
@@ -2106,7 +2113,7 @@ of the correlation level.
     0.99 & 0.500 & 0.002 & 49.8 & $< 0.0002$ \\
     \bottomrule
   \end{tabular}
-  \caption{Noether counting sensitivity.  The bimodal gap between within-group
+  \caption{Invariance counting sensitivity (cf.\ Noether's theorem).  The bimodal gap between within-group
     and between-group flip rates is invariant across $\rho \in [0.50, 0.99]$.
     Full table (8~values) in Supporting Information.}
   \label{tab:noether-sensitivity}
@@ -2120,7 +2127,7 @@ specific correlation level.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/noether_counting.pdf}
-  \caption{Noether counting experiment.  Pairwise flip rates for 66~feature
+  \caption{Invariance counting experiment (cf.\ Noether's theorem).  Pairwise flip rates for 66~feature
     pairs across 200~models, showing a sharp bimodal separation: within-group
     pairs (red) cluster at $\sim\!50\%$ (coin flip), while between-group pairs
     (blue) cluster at $\sim\!0\%$ (perfectly stable).  The bimodal gap of 47
@@ -2132,7 +2139,7 @@ specific correlation level.
 \subsection{Automatic Symmetry Discovery (SAGE)}
 \label{sec:sage}
 
-The Noether counting result (Section~\ref{sec:noether-counting}) assumes the
+The invariance counting result (Section~\ref{sec:noether-counting}) assumes the
 correlation groups are known.  In practice, the explanation symmetry
 group~$G$ is rarely hand-specified.  We developed \textbf{SAGE}
 (\textbf{S}ymmetry-\textbf{A}ware \textbf{G}roup \textbf{E}stimation), an
@@ -2178,7 +2185,7 @@ reveals a qualitative difference from feature attribution.  We computed CCA
 activations ($n = 128$) of 5~independently trained MLPs on MNIST.  The CCA
 spectrum is \emph{continuous}: the top 10~dimensions have correlation
 $> 0.99$, the top 30 have $> 0.90$, and the bottom 30 have $< 0.30$, with
-smooth decay between.  This contrasts sharply with the Noether counting
+smooth decay between.  This contrasts sharply with the invariance counting
 result for features, where the flip-rate distribution is bimodal (50pp gap).
 
 The difference arises because feature attribution symmetry is
@@ -2186,7 +2193,7 @@ The difference arises because feature attribution symmetry is
 neural representation symmetry is \emph{continuous} (rotations in hidden
 space).  The framework's $S_n$ prediction ($\dim(V^G) = 1$) is incorrect
 for representations: CCA reveals $\sim\!30$ highly stable dimensions, not~1.
-This finding delineates the framework's boundary: the sharp Noether counting
+This finding delineates the framework's boundary: the sharp invariance counting
 prediction holds for discrete symmetry groups but requires extension to
 continuous groups, where stability becomes a spectrum rather than a
 dichotomy.
@@ -2215,6 +2222,7 @@ The slope near unity and intercept near zero confirm that
 $\eta = \dim(V^G)/\dim(V)$ is a parameter-free predictor of explanation
 instability when the group is correctly identified
 (Figure~\ref{fig:universal-eta}).
+The bridge from the abstract framework to the quantitative $\eta$ prediction is empirical, not derived.  The framework proves that $V^G$ is the stably answerable subspace; the claim that $\dim(V^G)/\dim(V)$ predicts the \emph{observed flip rate} requires the additional assumption that importance differences are approximately Gaussian---a statistical claim, not a consequence of the impossibility theorem.
 
 The all-16-instance fit is the primary result.  The 7-instance fit is a
 pre-specified subset analysis: the ``well-characterized group'' criterion
@@ -2318,11 +2326,13 @@ the established instances).
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
 \label{sec:gaussian-flip}
 
-The Noether counting theorem predicts exact bimodality when within-group
+The invariance counting theorem predicts exact bimodality when within-group
 features have identical true importance ($\Delta_{jk} = 0$).  On real data,
 symmetry is approximate ($\Delta_{jk} \approx 0$ but nonzero), and the
 bimodal gap weakens.  The Gaussian flip rate formula provides the continuous
 generalization.
+
+The flip rate formula itself---the probability of sign disagreement between two Gaussian random variables---is a standard result in signal detection theory. The framework's contribution is not the formula but the \emph{structural identification}: the impossibility theorem and the bilemma determine \emph{which} feature pairs are subject to this formula (those within a symmetry orbit), while the Gaussian flip rate quantifies \emph{how much} instability each pair exhibits.
 
 For features $j$ and $k$ with importance difference
 $d^{(m)} = \text{imp}_j^{(m)} - \text{imp}_k^{(m)}$ across $M$ bootstrap
@@ -2335,7 +2345,7 @@ that two independent models disagree on the ranking is:
 \end{equation}
 where $\Phi$ is the standard normal CDF (Lean-verified in
 \texttt{GaussianFlipRate.lean}).  When $\Delta = 0$ (exact symmetry),
-$\text{flip} = 0.5$ --- recovering the Noether within-group coin flip.
+$\text{flip} = 0.5$ --- recovering the invariance counting within-group coin flip.
 When $|\Delta| \gg \sigma$ (strong signal), $\text{flip} \approx 0$ ---
 recovering between-group stability.
 
@@ -2375,6 +2385,7 @@ correlation-based prediction.
 The formula generalizes across model classes.  On three datasets (Breast Cancer, Wine, California Housing) with three model classes (XGBoost, Random Forest, Ridge regression), 8 of 9 combinations achieve out-of-sample $R^2 > 0.79$.  Random Forest shows the highest $R^2$ on two datasets (0.86 Breast Cancer, 0.92 Wine).  The one failure---Ridge on California Housing ($R^2 = -1.96$)---occurs because Ridge regression on this dataset produces near-deterministic coefficients with negligible variance, violating the Gaussian assumption.  The formula is expected to fail when a single feature dominates so strongly that importance differences have effectively zero noise.
 
 One combination---Ridge regression on California Housing---produces out-of-sample $R^2 = -1.96$.  Ridge regression on this dataset assigns nearly deterministic coefficients (one feature, median income, dominates overwhelmingly), leaving negligible variance in the importance differences.  The Gaussian assumption requires meaningful sampling variance; when $\sigma_\Delta \approx 0$, the formula degenerates.  This boundary condition is expected: the formula predicts flip rates for stochastic model classes, not for deterministic or near-deterministic ones.
+More generally, the Gaussian assumption fails when importance differences have near-zero variance (as in the Ridge/California Housing case, producing $R^2 = -1.96$) or when the importance distribution is multimodal (ensembles of qualitatively different model types).  A prospective diagnostic: if the coefficient of variation of $\sigma_\Delta$ across feature pairs is below 0.1, the importance landscape is too concentrated for the Gaussian model.
 
 Practically, the signal-to-noise ratio $\text{SNR}_{jk} = |\Delta_{jk}|/\sigma_\Delta$ provides a simple decision rule: pairs with
 $\text{SNR} > 2$ are reliable (flip rate $< 5\%$), pairs with
@@ -2447,6 +2458,7 @@ estimation.
 These are not analogies.  Fisher's sufficiency criterion (1922), the
 Rao--Blackwell theorem (1945/47), and the explanation impossibility are the
 same theorem in different notation (Table~\ref{tab:sufficiency-dictionary}).
+Under a uniform prior on the fiber $\{\theta : \mathrm{obs}(\theta) = y\}$, the orbit average $\bar{E}(\theta) = (1/|G|)\sum_{g \in G} E(g \cdot \theta)$ is literally the conditional expectation $\E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta) = y]$.  The identification is exact when the prior is uniform and the group acts transitively on fibers; it is approximate otherwise.
 
 \subsection{The Explanation Tradeoff Bound}
 \label{sec:bridge-uncertainty}
@@ -2587,12 +2599,12 @@ usage tables in biology are all instances of the same resolution strategy.
 \subsection{Bayesian Interpretation}
 \label{sec:bridge-bayesian}
 
-The framework admits a natural Bayesian reading.  Faithfulness corresponds to likelihood consistency (the explanation does not contradict the data-generating mechanism).  Stability corresponds to posterior invariance (the explanation depends only on the observable evidence, not on which particular configuration produced it).  Decisiveness corresponds to point estimation (the explanation commits to a single value rather than a distribution).  The enrichment mechanism---adding a neutral element to restore faithful+stable---corresponds to Bayesian model averaging: replacing a point estimate with a posterior predictive distribution that averages over the equivalence class.  The $G$-invariant resolution is then the orbit average $\bar{E}(\theta) = (1/|G|) \sum_{g \in G} E(g \cdot \theta)$, which for uniform priors over the equivalence class is precisely the posterior predictive $\E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta)]$.  The Pareto-optimality of orbit averaging (Theorem~\ref{thm:orbit-average}) is a consequence of the admissibility of Bayes estimators under proper priors~\citep{berger1985statistical}.
+The framework admits a natural Bayesian reading.  Faithfulness corresponds to likelihood consistency (the explanation does not contradict the data-generating mechanism).  Stability corresponds to posterior invariance (the explanation depends only on the observable evidence, not on which particular configuration produced it).  Decisiveness corresponds to point estimation (the explanation commits to a single value rather than a distribution).  The enrichment mechanism---adding a neutral element to restore faithful+stable---corresponds to Bayesian model averaging: replacing a point estimate with a posterior predictive distribution that averages over the equivalence class.  The $G$-invariant resolution is then the orbit average $\bar{E}(\theta) = (1/|G|) \sum_{g \in G} E(g \cdot \theta)$.  Under a uniform prior over the equivalence class, the orbit average coincides with the conditional expectation $E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta)]$. For non-uniform priors, the orbit average and the posterior predictive diverge. The connection to Rao--Blackwell is therefore exact under uniformity and analogical in general.  The Pareto-optimality of orbit averaging (Theorem~\ref{thm:orbit-average}) is a consequence of the admissibility of Bayes estimators under proper priors~\citep{berger1985statistical}.  Specifically, under squared-error loss with a proper prior over the equivalence class, Bayes estimators are admissible (Berger, 1985, Theorem~5.2.4). The orbit average is the Bayes estimator under the uniform prior; its Pareto-optimality among stable maps follows. Under non-uniform priors, the Bayes estimator may differ from the orbit average, but the orbit average remains minimax among symmetric estimators.
 
 \subsection{Quantum Error Correction}
 \label{sec:bridge-qec}
 
-The dimension ratio $\eta = \dim(V^G)/\dim(V)$ has a precise interpretation in quantum error correction: it equals the code rate $k/n$ of a quantum error-correcting code, where $V^G$ is the code subspace invariant under the error group $G$.  The Knill--Laflamme conditions for error correction---$P_C E_i^\dagger E_j P_C = \alpha_{ij} P_C$---are the stability condition of the framework applied to the code subspace~\citep{knill1997theory}.  The enrichment mechanism (adding a neutral element to restore faithful+stable) corresponds to adding ancilla qubits: enlarging the physical space to create room for fault-tolerant encoding.
+The dimension ratio $\eta = \dim(V^G)/\dim(V)$ has a precise interpretation in quantum error correction: it equals the code rate $k/n$ of a quantum error-correcting code, where $V^G$ is the code subspace invariant under the error group $G$.  We \emph{conjecture} that the Knill--Laflamme conditions correspond to the stability condition of the framework applied to the code subspace.  A full formal bridge---analogous to the Fisher/Rao--Blackwell dictionary (Table~\ref{tab:sufficiency-dictionary})---remains an open direction.  The enrichment mechanism (adding a neutral element to restore faithful+stable) corresponds to adding ancilla qubits: enlarging the physical space to create room for fault-tolerant encoding~\citep{knill1997theory}.
 
 \subsection{Fundamental Ceiling on AI Interpretability}
 \label{sec:bridge-interpretability}

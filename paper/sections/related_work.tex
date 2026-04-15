@@ -59,6 +59,24 @@ $G$-invariant resolution (96~files, 424~theorems, 72~axioms, 0~\texttt{sorry}).
 \paragraph{Prior results on attribution instability.}
 Three prior results address related phenomena.  Bilodeau et al.\ (2024) prove that no feature attribution simultaneously satisfying the Shapley axioms can be stable under model multiplicity---an impossibility for the \emph{attribution-specific} case under \emph{axiomatic} constraints.  D'Amour et al.\ (2022) document underspecification empirically across ML pipelines, showing that models with identical in-distribution performance diverge out-of-distribution.  Fisher et al.\ (2019) introduce variable importance clouds, visualizing the instability of feature importance across the Rashomon set.  Our contribution relative to this body of work is: (1)~the abstract framework (subsuming non-ML domains), (2)~the bilemma strengthening and enrichment mechanism, (3)~the Lean formalization, and (4)~the Gaussian flip formula as a quantitative reliability score.
 
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lp{5cm}p{5cm}@{}}
+\toprule
+& \textbf{Bilodeau et al.\ (2024)} & \textbf{This paper} \\
+\midrule
+Scope & Feature attribution (SHAP) & 17 instances across 8 domains \\
+Axioms & Shapley axioms & Faithfulness, stability, decisiveness \\
+Conclusion & No stable Shapley attribution & F+S+D impossible (trilemma); F+S impossible (bilemma) \\
+Resolution & Not addressed & G-invariant projection (Pareto-optimal) \\
+Formalization & Pen-and-paper & Lean 4 (424 theorems, 0 sorry) \\
+Quantitative & Asymptotic bounds & Gaussian flip (OOS $R^2 = 0.848$) \\
+\bottomrule
+\end{tabular}
+\caption{Comparison with Bilodeau et al.\ (2024).}
+\label{tab:bilodeau-comparison}
+\end{table}
+
 \paragraph{Aggregation and resolution strategies.}
 \citet{laberge2023partial} introduce a partial order on feature attributions
 within the Rashomon set, extracting consensus rankings where they exist.

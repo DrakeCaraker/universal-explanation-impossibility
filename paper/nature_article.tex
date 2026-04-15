@@ -269,7 +269,7 @@ room for stability.
 
 The framework is not merely a classification scheme---it generates quantitative predictions confirmed by experiment.
 
-\paragraph{Noether counting.}
+\paragraph{Invariance counting (cf.\ Noether's theorem).}
 The invariance correspondence makes a sharp quantitative prediction:
 for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
 independent ranking facts are stably answerable.  We tested this with $P = 12$
@@ -288,6 +288,7 @@ predicts per-pair flip rates with
 out-of-sample $R^2 = 0.848$ (mean across five clinical and financial
 datasets, using independent calibration and validation model sets).
 One of nine model-class combinations (Ridge on California Housing) fails due to near-deterministic coefficients that violate the Gaussian assumption.
+The flip rate formula itself is standard signal detection theory; the framework's contribution is the structural identification of \emph{which} pairs are subject to this formula.
 
 \paragraph{Universal $\eta$ law.}
 The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$---a standard ratio in representation theory whose application to predict explanation instability rates is new---predicts the
@@ -797,6 +798,7 @@ abstract mechanism behind ensemble averaging (DASH adds ``tied''), CPDAG
 reporting (adds ``undirected''), and Bayesian model averaging (adds
 ``uncertain'').  The enrichment does \emph{not} restore
 stable~+~decisive---that remains impossible even with the neutral element.
+This enrichment mechanism is the abstract version of Sen's extension of Arrow's framework to weak orderings~\citep{sen1970collective}: allowing ties (indifference) enlarges the preference space to create room for consistent aggregation.
 
 %%% =========================================================================
 %%% Discussion
@@ -922,7 +924,7 @@ The framework also gives a quantitative ceiling on AI interpretability:
 for a network with $n$ hidden units, the permutation symmetry $S_n$
 implies that at most $1/n$ of neuron-level representation is stably interpretable under hidden-unit permutation symmetry. This bound applies to individual neuron interpretations, not to circuit-level analysis (which studies functionally defined subgraphs that are preserved under relabeling).
 
-\paragraph{Noether counting.}
+\paragraph{Invariance counting (cf.\ Noether's theorem).}
 The invariance correspondence makes a sharp quantitative prediction:
 for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
 independent ranking facts are stably answerable.  We tested this with $P = 12$
@@ -940,7 +942,7 @@ $R^2 = 0.81$ across 8~datasets, making the framework actionable without
 hand-specification of symmetry.  Applying SAGE's CCA analysis to neural
 network representations reveals that hidden-layer symmetry is continuous
 (smooth CCA spectrum) rather than discrete (bimodal flip rates), delineating
-a boundary condition on the Noether counting prediction.
+a boundary condition on the invariance counting prediction.
 
 \paragraph{From exact to approximate symmetry.}
 On real data where feature importance is approximately (not exactly) equal
