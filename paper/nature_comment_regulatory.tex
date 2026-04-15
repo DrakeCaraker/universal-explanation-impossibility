@@ -30,20 +30,29 @@
 
 \section*{The regulatory demand}
 
-The EU AI Act (Regulation 2024/1689) requires that high-risk AI systems be
-``designed and developed in such a way as to ensure that their operation is
-sufficiently transparent to enable deployers to interpret a system's output
-and use it appropriately'' (Article~13).  Article~86 establishes a ``right
-to explanation'' for individuals affected by AI decisions.  The US Federal
-Reserve's SR~11-7 requires ``developmental evidence'' documenting how model
-outputs arise.  The FDA's guidance on AI/ML-based software demands
-``transparency'' in clinical decision support.
+The EU AI Act (Regulation 2024/1689) imposes three obligations on high-risk
+AI systems that, taken together, demand the mathematically impossible.
 
-These regulations share an implicit assumption: that a sufficiently careful
-explanation of an AI system can be simultaneously \emph{correct} (faithful to
-the model's actual reasoning), \emph{reproducible} (stable across equivalent
-model instances), and \emph{complete} (decisive about every relevant
-distinction).
+First, \textbf{faithfulness}: Article~13(3)(b)(iv) requires ``the technical
+capabilities and characteristics of the high-risk AI system to provide
+information that is relevant to explain its output''---the explanation must
+reflect what the model actually does.
+
+Second, \textbf{stability}: Article~13(3)(b)(vii) requires ``information to
+enable deployers to interpret the output of the high-risk AI system and use
+it appropriately''---the same explanation must hold across equivalent
+deployments.
+
+Third, \textbf{decisiveness}: Article~86(1) grants affected persons ``the
+right to obtain clear and meaningful explanations of the role of the AI
+system in the decision-making procedure and the main elements of the
+decision taken''---the explanation must commit to specific elements, not
+hedge on every distinction.
+
+The US Federal Reserve's SR~11-7 similarly requires ``developmental evidence''
+(stability), the FDA demands ``transparency'' (faithfulness) in clinical AI,
+and NIST's AI Risk Management Framework asks for ``interpretable'' outputs
+(decisiveness).
 
 \section*{The mathematical limit}
 
@@ -67,14 +76,14 @@ future method can exceed.
 Mapping the regulatory language onto our formal framework:
 
 \begin{center}
-\begin{tabular}{@{}p{5cm}p{3cm}p{3cm}@{}}
+\begin{tabular}{@{}p{5.5cm}p{2.5cm}p{2.5cm}@{}}
 \toprule
-\textbf{Regulatory requirement} & \textbf{Formal property} & \textbf{Achievable alone?} \\
+\textbf{Regulatory requirement} & \textbf{Formal property} & \textbf{Achievable?} \\
 \midrule
-``Interpret a system's output'' & Faithfulness & Yes \\
-``Use it appropriately'' across deployments & Stability & Yes \\
-``Right to explanation'' (complete) & Decisiveness & Yes \\
-All three simultaneously & F + S + D & \textbf{No} \\
+``Explain its output'' (Art.~13(3)(b)(iv)) & Faithfulness & Yes (alone) \\
+``Use it appropriately'' (Art.~13(3)(b)(vii)) & Stability & Yes (alone) \\
+``Main elements of the decision'' (Art.~86(1)) & Decisiveness & Yes (alone) \\
+``Correctly interpret'' (Art.~14(4)(c)) & F + S + D & \textbf{No} \\
 \bottomrule
 \end{tabular}
 \end{center}
