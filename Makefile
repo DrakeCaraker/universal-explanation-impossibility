@@ -51,9 +51,9 @@ counts: ## Show current theorem/axiom/sorry/file counts
 	@echo "Axioms:          $$(grep -c '^axiom' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
 	@echo "Sorry:           $$(grep -rc 'sorry' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
 	@echo "Files:           $$(ls UniversalImpossibility/*.lean | wc -l | tr -d ' ')"
-	@echo "Expected:        102 files / 442 theorems+lemmas / 72 axioms / 0 sorry"
+	@echo "Expected:        103 files / 455 theorems+lemmas / 72 axioms / 0 sorry"
 
-verify: counts ## Verify Lean builds + counts are consistent (target: 102/442/72/0)
+verify: counts ## Verify Lean builds + counts are consistent (target: 103/455/72/0)
 	@echo ""
 	@echo "--- Verifying Lean build ---"
 	lake build

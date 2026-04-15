@@ -42,7 +42,7 @@ Arrow's theorem (social choice), Peres-Mermin (quantum contextuality), Duhem-Qui
 
 ## Lean Formalization
 
-102 files, 442 theorems+lemmas, 72 axioms, 0 sorry.
+103 files, 455 theorems+lemmas, 72 axioms, 0 sorry.
 
 The core theorem `explanation_impossibility` has **zero axiom dependencies**.
 
@@ -86,7 +86,7 @@ Companion: [Ostrowski Impossibility](https://github.com/DrakeCaraker/ostrowski-i
   title        = {The Universal Explanation Impossibility},
   year         = {2026},
   url          = {https://github.com/DrakeCaraker/universal-explanation-impossibility},
-  note         = {Lean 4 formalization; 102 files, 442 theorems, 72 axioms, 0 sorry}
+  note         = {Lean 4 formalization; 103 files, 455 theorems, 72 axioms, 0 sorry}
 }
 ```
 
