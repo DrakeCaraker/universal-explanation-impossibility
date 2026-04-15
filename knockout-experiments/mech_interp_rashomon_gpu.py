@@ -266,6 +266,8 @@ def main():
     print(f"\nFine-tuning {n_seeds} GPT-2 models (early stopping, patience=2)...")
     all_models = []
 
+    os.makedirs('/tmp/mi_models', exist_ok=True)
+
     for i, seed in enumerate(seeds):
         print(f"\n  Model {i+1}/{n_seeds} (seed={seed}):")
         model, tok, curve_info = fine_tune_gpt2(
@@ -281,10 +283,16 @@ def main():
               f"Test acc: {test_acc:.3f}, "
               f"Converged: {curve_info['converged']}")
 
+        # Save weights to disk and free GPU memory
+        save_path = f'/tmp/mi_models/model_{seed}.pt'
+        torch.save(model.state_dict(), save_path)
+        del model
+        torch.cuda.empty_cache()
+
         all_models.append({
             'seed': seed,
             'test_accuracy': test_acc,
-            'model': model,
+            'model_path': save_path,
             'tokenizer': tok,
             'curve_info': curve_info,
         })
@@ -336,17 +344,24 @@ def main():
     print(f"{'='*70}")
 
     importance_list = []
+    from transformers import GPT2ForSequenceClassification
     for i, m in enumerate(rashomon_models):
         print(f"  Model {i+1}/{n_rashomon} (seed={m['seed']}, acc={m['test_accuracy']:.3f})...",
               end=" ", flush=True)
+
+        # Reload model from disk
+        reload_model = GPT2ForSequenceClassification.from_pretrained('gpt2', num_labels=2).to(DEVICE)
+        reload_model.config.pad_token_id = m['tokenizer'].pad_token_id
+        reload_model.load_state_dict(torch.load(m['model_path'], map_location=DEVICE))
+
         imp, base_acc = measure_head_importance(
-            m['model'], m['tokenizer'], test_texts, test_labels, DEVICE
+            reload_model, m['tokenizer'], test_texts, test_labels, DEVICE
         )
         importance_list.append(imp.flatten())
         print(f"imp range: [{imp.min():.4f}, {imp.max():.4f}]")
 
         # Free GPU memory
-        del m['model']
+        del reload_model
         torch.cuda.empty_cache()
 
     importance_matrix = np.array(importance_list)
