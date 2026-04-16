@@ -1,0 +1,256 @@
+{
+  "experiment": "clinical_decision_reversal",
+  "description": "Per-individual explanation reversal across clinical/financial AI models",
+  "n_datasets": 3,
+  "total_individuals": 552,
+  "total_reversed_top1": 412,
+  "aggregate_reversal_rate": 0.7463768115942029,
+  "datasets": {
+    "Breast Cancer": {
+      "dataset": "Breast Cancer",
+      "n_individuals": 171,
+      "n_features": 30,
+      "n_models": 30,
+      "n_rashomon": 11,
+      "accuracy_mean": 0.9364522417153995,
+      "accuracy_std": 0.009870556648087454,
+      "auc_mean": 0.9831727024922118,
+      "reversal_rate_top1": 1.0,
+      "reversal_rate_top3": 1.0,
+      "n_reversed_top1": 171,
+      "n_reversed_top3": 171,
+      "dash_majority_agreement": 0.6432748538011696,
+      "dramatic_cases": [
+        {
+          "individual_idx": 68,
+          "true_label": 0,
+          "n_unique_top1": 6,
+          "top1_stability": 0.36363636363636365,
+          "most_common_top1_feature": "worst concave points",
+          "most_common_top1_count": 4,
+          "all_top1_features": {
+            "area error": 1,
+            "worst perimeter": 3,
+            "worst concave points": 4,
+            "worst radius": 1,
+            "worst area": 1,
+            "mean concave points": 1
+          },
+          "mean_top3_jaccard": 0.37999999999999995,
+          "dash_top1_feature": "worst perimeter",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 105,
+          "true_label": 0,
+          "n_unique_top1": 6,
+          "top1_stability": 0.45454545454545453,
+          "most_common_top1_feature": "worst radius",
+          "most_common_top1_count": 5,
+          "all_top1_features": {
+            "area error": 2,
+            "worst radius": 5,
+            "worst perimeter": 1,
+            "worst concave points": 1,
+            "worst area": 1,
+            "mean concave points": 1
+          },
+          "mean_top3_jaccard": 0.29636363636363633,
+          "dash_top1_feature": "worst radius",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 109,
+          "true_label": 1,
+          "n_unique_top1": 6,
+          "top1_stability": 0.36363636363636365,
+          "most_common_top1_feature": "worst perimeter",
+          "most_common_top1_count": 4,
+          "all_top1_features": {
+            "worst concave points": 2,
+            "worst perimeter": 4,
+            "mean concave points": 2,
+            "worst area": 1,
+            "worst texture": 1,
+            "worst radius": 1
+          },
+          "mean_top3_jaccard": 0.37272727272727274,
+          "dash_top1_feature": "worst perimeter",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 0,
+          "true_label": 0,
+          "n_unique_top1": 5,
+          "top1_stability": 0.45454545454545453,
+          "most_common_top1_feature": "worst concave points",
+          "most_common_top1_count": 5,
+          "all_top1_features": {
+            "worst concave points": 5,
+            "worst perimeter": 3,
+            "worst radius": 1,
+            "worst area": 1,
+            "mean concave points": 1
+          },
+          "mean_top3_jaccard": 0.39454545454545453,
+          "dash_top1_feature": "worst perimeter",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 6,
+          "true_label": 0,
+          "n_unique_top1": 5,
+          "top1_stability": 0.36363636363636365,
+          "most_common_top1_feature": "worst concave points",
+          "most_common_top1_count": 4,
+          "all_top1_features": {
+            "area error": 1,
+            "worst perimeter": 3,
+            "worst concave points": 4,
+            "mean concave points": 2,
+            "worst area": 1
+          },
+          "mean_top3_jaccard": 0.39454545454545453,
+          "dash_top1_feature": "worst perimeter",
+          "reversed_top1": true,
+          "reversed_top3": true
+        }
+      ]
+    },
+    "German Credit": {
+      "dataset": "German Credit",
+      "n_individuals": 300,
+      "n_features": 24,
+      "n_models": 30,
+      "n_rashomon": 8,
+      "accuracy_mean": 0.7761111111111112,
+      "accuracy_std": 0.012739071811450158,
+      "auc_mean": 0.808757495590829,
+      "reversal_rate_top1": 0.8033333333333333,
+      "reversal_rate_top3": 0.98,
+      "n_reversed_top1": 241,
+      "n_reversed_top3": 294,
+      "dash_majority_agreement": 0.92,
+      "dramatic_cases": [
+        {
+          "individual_idx": 91,
+          "true_label": 1,
+          "n_unique_top1": 6,
+          "top1_stability": 0.25,
+          "most_common_top1_feature": "Purpose",
+          "most_common_top1_count": 2,
+          "all_top1_features": {
+            "Installment_rate": 1,
+            "Account_status": 1,
+            "Purpose": 2,
+            "Dependents": 1,
+            "Savings": 1,
+            "Telephone": 2
+          },
+          "mean_top3_jaccard": 0.24642857142857144,
+          "dash_top1_feature": "Telephone",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 15,
+          "true_label": 1,
+          "n_unique_top1": 5,
+          "top1_stability": 0.25,
+          "most_common_top1_feature": "Credit_history",
+          "most_common_top1_count": 2,
+          "all_top1_features": {
+            "Credit_history": 2,
+            "Personal_status": 2,
+            "Duration_months": 1,
+            "Residence_years": 2,
+            "Other_debtors": 1
+          },
+          "mean_top3_jaccard": 0.29642857142857143,
+          "dash_top1_feature": "Other_debtors",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 33,
+          "true_label": 1,
+          "n_unique_top1": 5,
+          "top1_stability": 0.375,
+          "most_common_top1_feature": "Purpose",
+          "most_common_top1_count": 3,
+          "all_top1_features": {
+            "Purpose": 3,
+            "Duration_months": 1,
+            "Residence_years": 1,
+            "Other_debtors": 1,
+            "Credit_history": 2
+          },
+          "mean_top3_jaccard": 0.40714285714285714,
+          "dash_top1_feature": "Purpose",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 50,
+          "true_label": 1,
+          "n_unique_top1": 5,
+          "top1_stability": 0.375,
+          "most_common_top1_feature": "Credit_history",
+          "most_common_top1_count": 3,
+          "all_top1_features": {
+            "Credit_history": 3,
+            "Purpose": 2,
+            "Duration_months": 1,
+            "Existing_credits": 1,
+            "Credit_amount": 1
+          },
+          "mean_top3_jaccard": 0.30357142857142855,
+          "dash_top1_feature": "Credit_history",
+          "reversed_top1": true,
+          "reversed_top3": true
+        },
+        {
+          "individual_idx": 101,
+          "true_label": 0,
+          "n_unique_top1": 5,
+          "top1_stability": 0.375,
+          "most_common_top1_feature": "Duration_months",
+          "most_common_top1_count": 3,
+          "all_top1_features": {
+            "Duration_months": 3,
+            "Job": 2,
+            "Other_debtors": 1,
+            "Account_status": 1,
+            "Credit_history": 1
+          },
+          "mean_top3_jaccard": 0.4499999999999999,
+          "dash_top1_feature": "Duration_months",
+          "reversed_top1": true,
+          "reversed_top3": true
+        }
+      ]
+    },
+    "Heart Disease": {
+      "dataset": "Heart Disease",
+      "n_individuals": 81,
+      "n_features": 13,
+      "n_models": 30,
+      "n_rashomon": 30,
+      "accuracy_mean": 1.0,
+      "accuracy_std": 0.0,
+      "auc_mean": NaN,
+      "reversal_rate_top1": 0.0,
+      "reversal_rate_top3": 0.0,
+      "n_reversed_top1": 0,
+      "n_reversed_top3": 0,
+      "dash_majority_agreement": 1.0,
+      "dramatic_cases": []
+    }
+  },
+  "headline": "75% of individuals receive different explanations for identical AI decisions",
+  "elapsed_seconds": 8.248117923736572
+}
