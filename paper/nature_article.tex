@@ -84,8 +84,8 @@ resolution---$G$-invariant projection---is Pareto-optimal, unifying
 century-old practices (gauge-invariant observables, CPDAGs, minimum-norm
 solutions) as instances of a single optimal strategy.  Three quantitative
 predictions---an invariance counting law, a Gaussian flip rate formula
-calibrated across 647 feature pairs ($R^2 = 0.81$), and a universal
-instability predictor ($R^2 = 0.96$ across seven domains)---are confirmed
+calibrated across 647 feature pairs ($R^2 = 0.81$, 95\% CI [0.79, 0.83]), and a universal
+instability predictor ($R^2 = 0.96$, $p = 1.4 \times 10^{-4}$ across seven domains)---are confirmed
 by experiment, with two pre-registered conjectured extensions falsified,
 delineating the framework's boundary.
 \end{abstract}
@@ -173,9 +173,7 @@ The prediction would be falsified if within-group flip rates fell below 40\% or 
 On real data where feature importance is approximately (not exactly) equal
 within groups, $\text{flip}(j,k) =
 2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$ predicts per-pair flip rates
-with out-of-sample $R^2 = 0.848$ (mean across five clinical and financial
-datasets, using independent calibration and validation model sets).
-Bootstrap calibration across 647 feature pairs from five datasets confirms the formula's accuracy ($R^2 = 0.814$ [0.791, 0.835]) with a conservative bias (calibration slope~$= 1.17$; the formula slightly underpredicts observed instability).  The
+with out-of-sample $R^2 = 0.814$ [0.791, 0.835] (bootstrap calibration across 647 feature pairs from five clinical and financial datasets), with a conservative bias (calibration slope~$= 1.17$; the formula slightly underpredicts observed instability).  The
 formula is standard signal detection theory; the framework's contribution
 is the structural identification of \emph{which} pairs are subject to
 this formula (derivation in Methods).  Pairs with $|\Delta|/\sigma > 2$ are
@@ -200,6 +198,7 @@ well-characterized domain instances with $R^2 = 0.957$, slope~$= 0.91$,
 and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a parameter-free
 predictor spanning ML attribution, concept probes, model selection, codon
 degeneracy, and statistical mechanics.
+(Leave-one-out $R^2 = 0.79$; across all 16 instances including those with unknown or approximate symmetry groups, $R^2 = 0.25$---the bottleneck is group identification, not the law itself.)
 The prediction would be falsified if out-of-sample $R^2 < 0.5$ on a new domain with a well-characterised symmetry group.
 
 %%% =========================================================================
@@ -278,8 +277,7 @@ Statistics        & DAGs                 & CI structure    & Chain    & Fork    
 The impossibility prescribes a constructive resolution: project onto the
 subspace invariant under the symmetry group---a \emph{$G$-invariant
 resolution}.  This sacrifices decisiveness but achieves stability and
-faithfulness, and is \emph{Pareto-optimal} among all stable explanation
-maps (Methods).  Practitioners in eight fields converged independently on
+faithfulness, and is \emph{Pareto-optimal} among stable explanation maps (and, for quantitative bounds, among unbiased linear aggregators) (Methods).  Practitioners in eight fields converged independently on
 precisely this strategy (Table~\ref{tab:structural}): gauge-invariant
 observables~\citep{jackson1999}, CPDAGs~\citep{verma1991equivalence},
 Patterson maps~\citep{hauptman1953solution}, the pseudoinverse, codon

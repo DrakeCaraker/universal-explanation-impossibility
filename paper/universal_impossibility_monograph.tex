@@ -1031,12 +1031,11 @@ $\geq \dim(\sH) - \dim(Y)$.
 \end{proposition}
 
 \noindent
-This is a direct consequence of the preimage theorem in differential
-topology.  Whenever the fiber has positive dimension, the explanation map
+The Lean formalization captures the combinatorial skeleton of this argument: \texttt{generic\_underspecification} proves that whenever the parameter dimension exceeds the observable dimension ($n > m$), the fiber dimension is positive ($n - m > 0$). The connection to the preimage theorem in differential topology---which guarantees that generic fibers are smooth submanifolds of the predicted dimension---is an informal mathematical argument, not a Lean-verified claim.
+Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon
-property holds.  (Formalized as \texttt{generic\_underspecification} in
-\texttt{Ubiquity.lean}; the bridge from fiber non-degeneracy to the
+property holds.  (The bridge from fiber non-degeneracy to the
 impossibility is \texttt{fiber\_nondegeneracy\_implies\_impossibility}.)
 
 \paragraph{Rashomon from overparameterisation.}
@@ -1233,10 +1232,10 @@ constructive logic.  The formalization stratifies into two categories:
 \toprule
 Category & Count & Examples \\
 \midrule
-Mathematical infrastructure & ${\sim}30$ & Measurability, positivity, group properties \\
-ML domain (9 instances) & ${\sim}36$ & Rashomon for attention, SHAP linearity \\
-Physics domain & ${\sim}10$ & Physics Rashomon, enrichment levels \\
-Cross-domain structural & ${\sim}7$ & Bridge morphism fields \\
+GBDT infrastructure & 14 & Model, numTrees, splitCount, proportionality \\
+ML instance carriers (9 $\times$ 4) & 36 & AttrConfig, attentionSystem, cfSystem, ... \\
+Enrichment stack (physics) & 11 & BHFramework, bh\_rashomon, QGFramework, qg\_rashomon \\
+Resolution + query complexity & 22 & CPDAGConfig, DASHResolution, MECGroup, testing\_constant \\
 \bottomrule
 \end{tabular}
 \end{table}
