@@ -111,6 +111,8 @@ tables~\citep{crick1966codon}---each involving projection onto the
 subspace invariant under the symmetry group of equivalent configurations,
 yet no framework has connected them or proved their optimality.
 
+This gap echoes the philosophical problem of explanatory underdetermination~\citep{stanford2006exceeding}: when multiple models account equally well for the data, no principled basis selects among their incompatible explanations. Our framework formalises this for the first time and proves the resulting impossibility is exact (tight).
+
 Here we prove a universal impossibility: when a system has the
 \emph{Rashomon property}---two configurations with the same observable but
 incompatible internal structures---no explanation can be simultaneously
@@ -149,6 +151,27 @@ is tight: each pair of properties is achievable via Lean-verified witnesses
 (Fig.~\ref{fig:trilemma}), and a biconditional shows impossibility holds
 if and only if Rashomon is present.
 
+\subsection*{The tightness classification}
+
+The impossibility's severity depends on two algebraic properties of the explanation space $\sH$: whether it contains a \emph{neutral element} (compatible with every explanation) and a \emph{committal element} (incompatible with every other).
+
+\begin{table}[h]
+\centering
+\small
+\caption{\textbf{The tightness classification.} Two algebraic properties of $\sH$ completely determine which property pairs are achievable. F+D is always achievable (use the native explanation). F+S+D is never achievable (the trilemma). The remaining pairs depend on neutral/committal existence.}
+\label{tab:tightness}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Committal $\exists$ & No committal \\
+\midrule
+Neutral $\exists$ & F+D, F+S, S+D (full) & F+D, F+S \\
+No neutral & F+D, S+D & \textbf{F+D only} (bilemma) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+When $\sH$ is maximally incompatible (no neutral element, bottom-right cell), even faithful~+~stable is impossible---the \emph{bilemma}. This characterisation is machine-verified in Lean~4 and proved tight: witnesses for every achievable cell are constructive.
+
 %%% =========================================================================
 
 \subsection*{Three quantitative predictions}
@@ -165,6 +188,7 @@ ${\sim}50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
 rate---a 47-percentage-point gap (permutation $p < 0.0002$; Cohen's
 $d = 1.41$).  A sensitivity analysis across $\rho \in [0.50, 0.99]$
 confirms the gap is \emph{invariant} across the entire correlation range.
+The prediction would be falsified if within-group flip rates fell below 40\% or between-group rates exceeded 10\% at any correlation $\rho > 0.5$.
 
 \paragraph{Gaussian flip rate.}
 On real data where feature importance is approximately (not exactly) equal
@@ -184,6 +208,7 @@ feature-pair comparisons), 62\% are unreliable and only 4\% are reliable
 (62\% of 2{,}062 feature-pair comparisons across seven clinical, financial,
 and genomics datasets; 49\% across the broader 22{,}332-pair audit
 including synthetic data).
+The prediction would be falsified if calibration slope fell outside $[0.8, 1.2]$ on a new dataset with $P \geq 20$ features.
 
 \paragraph{Universal $\eta$ law.}
 The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$
@@ -195,6 +220,7 @@ well-characterized domain instances with $R^2 = 0.957$, slope~$= 0.91$,
 and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a parameter-free
 predictor spanning ML attribution, concept probes, model selection, codon
 degeneracy, and statistical mechanics.
+The prediction would be falsified if out-of-sample $R^2 < 0.5$ on a new domain with a well-characterised symmetry group.
 
 %%% =========================================================================
 
@@ -395,8 +421,7 @@ Statistics
 
 The entire framework is mechanically verified in Lean~4~\citep{demoura2021lean4}
 using Mathlib~\citep{mathlib2020}: 107~files, 493~theorems, 0~unproved
-goals.  The core theorem requires zero axioms; the 83~axioms are all
-domain-specific infrastructure (Methods).
+goals.  The core theorem requires zero axioms; the 83~axioms are domain-specific infrastructure (Methods).  A companion formalisation~\citep{caraker2026ostrowski} eliminates 52 of these by constructive methods, reducing to 10~physics hypotheses that are irreducible by design.
 
 %%% =========================================================================
 
@@ -474,42 +499,38 @@ known equivalence classes.  The theorem addresses existence, not
 computational cost.  Three conjectured extensions were pre-registered and
 falsified, delineating the framework's boundary (Supporting Information).
 
-\paragraph{Scientific revolutions.} The bilemma pattern---maximally
-incompatible explanation space, enrichment necessary, decisiveness
-sacrificed---characterizes the structure of paradigm shifts that preserve
-the configuration space. The transition
-from classical to quantum mechanics ($H = \{\text{definite value},
-\text{superposition}\}$, enrichment = ``no fact of the matter'') and from
-Newtonian to relativistic physics ($H = \{\text{simultaneous},
-\text{not simultaneous}\}$, enrichment = spacetime) both follow the
-pattern, with the bilemma Lean-verified for each
-(Table~\ref{tab:revolutions}).
+\subsection*{Scientific revolutions as enrichment events}
+
+The bilemma identifies a recurring pattern in paradigm shifts: when the pre-revolutionary explanation space is maximally incompatible, resolution requires \emph{enriching} $\sH$ with a neutral element---adding a new category that is compatible with all existing explanations, at the cost of decisiveness.
+
+\begin{table}[h]
+\centering
+\small
+\caption{\textbf{Five instances of bilemma $\to$ enrichment across science.} Each row shows a pre-revolutionary binary $\sH$, the enrichment that resolves the bilemma, and the decisiveness lost.}
+\label{tab:revolutions}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Transition & Pre-revolution $\sH$ & Enrichment & Lost \\
+\midrule
+SHAP instability & \{positive, negative\} & DASH tie & Feature rank \\
+Feature selection & \{selected, not\} & Uncertain & Feature relevance \\
+Classical $\to$ quantum & \{definite, superposition\} & No fact of the matter & Pre-measurement state \\
+Newton $\to$ relativity & \{simultaneous, not\} & Frame-dependent & Absolute simultaneity \\
+Single $\to$ adelic geometry & \{smooth, ultrametric\} & Indeterminate & Spacetime geometry \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The enrichment is forced and unique when $\sH$ is maximally incompatible (a companion paper~\citep{caraker2026ostrowski} proves this for spacetime geometry via Ostrowski's classification). The pattern generates a falsifiable prediction: the next paradigm shift in a maximally incompatible domain will add a neutral element to $\sH$.
+
 Not all resolutions are enrichment events: Bohmian mechanics resolves the
 measurement problem by changing the configuration space (adding particle
 positions), which is a system change outside the bilemma's scope.
-Whether paradigm shifts \emph{in general}
-contain an enrichment component is a conjecture supported by five formalized
-instances.
 The framework extends to AI value alignment: when multiple RLHF runs produce equally well-performing models with different implicit value priorities, the bilemma proves that no value explanation is simultaneously faithful and stable.
 
-\begin{table}[t]
-\centering\small
-\begin{tabular}{@{}p{2.4cm}p{2.7cm}p{2.7cm}p{2.7cm}@{}}
-\toprule
-\textbf{Revolution} & \textbf{Pre-revolution $H$} & \textbf{Enrichment} & \textbf{Decisiveness lost} \\
-\midrule
-SHAP instability & \{positive, negative\} & DASH ``tied'' & feature rank \\
-Feature selection & \{selected, not\} & ``uncertain'' & feature relevance \\
-Classical $\to$ quantum & \{definite, superposition\} & ``no fact of the matter'' & pre-measurement state \\
-Newtonian $\to$ relativistic & \{simultaneous, not\} & spacetime & absolute simultaneity \\
-Single-compl.\ $\to$ adelic & \{smooth, ultrametric\} & indeterminate & spacetime geometry \\
-\bottomrule
-\end{tabular}
-\caption{Five instances of the bilemma $\to$ enrichment pattern. Each pre-revolution
-  explanation space is maximally incompatible; each revolution adds a neutral element.
-  The bilemma is Lean-verified for all five instances.}
-\label{tab:revolutions}
-\end{table}
+\subsection*{Unification consequence}
+
+The enrichment pattern is recursive: resolving the bilemma at level $n$ by enriching $\sH_n$ creates a new explanation space $\sH_{n+1}$ that may itself be maximally incompatible. This \emph{recursive impossibility}---a pattern shared structurally with G\"odel's incompleteness and Tarski's undefinability, though the mechanisms differ (enrichment vs.\ diagonalisation vs.\ definability ascent)---implies that any unified theory must sacrifice decisiveness at every level of the enrichment hierarchy. A companion paper~\citep{caraker2026ostrowski} formalises this for a physical enrichment stack of depth~$\geq 3$ (quantum contextuality $\to$ spacetime geometry $\to$ black hole information).
 
 %%% =========================================================================
 %%% Methods
