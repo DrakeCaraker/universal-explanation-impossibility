@@ -238,8 +238,8 @@ Our contributions are:
     (physics), microstate degeneracy in statistical mechanics (physics),
     syntactic ambiguity (linguistics), the phase problem
     (crystallography), the view update problem (computer science), and
-    Markov equivalence (statistics)---each derived with zero axioms from
-    domain-specific first principles.
+    Markov equivalence (statistics)---each derived with zero domain-specific axioms from
+    first principles.
   \item \textbf{Nine ML instances}
     (Section~\ref{sec:ml-instances}): feature attribution
     \citep{bilodeau2024impossibility}, attention maps
@@ -278,7 +278,7 @@ Section~\ref{sec:related} surveys related work.
 Section~\ref{sec:framework} introduces the abstract framework and proves
 the universal impossibility.
 Section~\ref{sec:derived-instances} derives the impossibility in eight
-scientific domains with zero axioms.
+scientific domains with zero domain-specific axioms.
 Section~\ref{sec:ml-instances} instantiates the
 theorem across nine ML explanation types.
 Section~\ref{sec:resolution} presents the
@@ -691,7 +691,7 @@ the definitions.  Table~\ref{tab:unification} summarizes the common structure.
 
 \begin{table}[t]
 \centering
-\caption{Eight domains instantiate the Explanation Impossibility. Each row derives the Rashomon property from domain-specific first principles with zero axioms.}
+\caption{Eight domains instantiate the Explanation Impossibility. Each row derives the Rashomon property from domain-specific first principles with zero domain-specific axioms.}
 \label{tab:unification}
 \begin{tabular}{llllll}
 \toprule
@@ -761,6 +761,30 @@ ML explanation domains.  In each case we (i)~specify the explanation system
 $(\Params, \sH, Y, \mathsf{obs}, \mathsf{exp}, \incomp)$, (ii)~verify the
 Rashomon property, and (iii)~characterize the resolution.
 
+\begin{table}[h]
+\centering
+\small
+\caption{ML instances by formal completeness. All nine axiomatise the Rashomon property from cited evidence rather than deriving it from learning-theoretic first principles. The core impossibility (Theorem~\ref{thm:impossibility}) is independent of these axioms.}
+\label{tab:ml-tiers}
+\begin{tabular}{lccc}
+\toprule
+Instance & Rashomon & Quant.\ bound & Resolution \\
+\midrule
+Feature attribution & Axiomatised & $1/(1{-}\rho^2)$ & DASH \\
+Model selection & Axiomatised & 80\% flip & Ensemble \\
+Causal discovery & Axiomatised & Orientation flip & CPDAG \\
+Attention maps & Axiomatised & 19.9\% flip & Avg.\ rollout \\
+Counterfactual & Axiomatised & 23.5\% flip & Robust recourse \\
+Concept probes & Axiomatised & 0.90 instability & Subspace avg. \\
+Saliency maps & Axiomatised & 9.6\% IoU flip & Avg.\ GradCAM \\
+LLM self-explanation & Axiomatised & 34.5\% flip & Citation ensemble \\
+Mech.\ interpretability & Axiomatised & Classical result & Open \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The eight cross-domain scientific instances (\S\ref{sec:derived-instances}) are constructive: they build explicit Rashomon witnesses with zero domain-specific axioms via \texttt{decide}.
+
 \input{sections/instance_attribution}
 
 \input{sections/instance_attention}
@@ -802,6 +826,9 @@ Mech.\ interp. & Circuit non-uniq. & --- & Meloux et al.\ (2025) \\
 \multicolumn{4}{@{}l@{}}{\quad figure (20 models, last 2 transformer layers retrained).} \\
 \end{tabular}
 \end{table}
+
+\paragraph{Adversarial vs.\ structural instability.}
+Adversarial attacks on SHAP and LIME~\cite{ghorbani2019interpretation, slack2020fooling} demonstrate a complementary vulnerability: explanations can be manipulated by adversarial model design. Our impossibility is distinct: instability arises from the \emph{legitimate} Rashomon property of well-specified models, not from adversarial manipulation. The trilemma holds even for honestly trained models with no adversarial intent.
 
 \paragraph{Instance overlap and independence.}
 We note that instances 2 (attention), 7 (saliency), and 8 (token citation)
@@ -919,6 +946,9 @@ Model sel. & Model perm.\ in $\mathcal{R}$ & Ensemble / $\mathcal{R}$ report & S
 \end{tabular}
 \end{table}
 
+\paragraph{Is reporting ties a genuine resolution?}
+A common objection: \DASH{} ``reports ties'' for collinear features, which may seem like giving up rather than explaining. We argue this is the correct behaviour, analogous to a Bayesian posterior that is wide (uncertain) being more honest than a point estimate that is precise but wrong. The tie \emph{is} the explanation: features $j$ and $k$ are interchangeable under the model's learned structure, and any ranking between them is an artefact of training noise. Reporting this interchangeability is more informative than reporting a ranking that reverses with probability $\tfrac{1}{2}$ across seeds. The loss of within-group decisiveness is the price of faithfulness and stability---the trilemma guarantees no method avoids it.
+
 \subsection{\DASH{} as the Prototype Resolution}
 \label{sec:dash-prototype}
 
@@ -1000,6 +1030,9 @@ property holds.  (Formalized as \texttt{generic\_underspecification} in
 \texttt{Ubiquity.lean}; the bridge from fiber non-degeneracy to the
 impossibility is \texttt{fiber\_nondegeneracy\_implies\_impossibility}.)
 
+\paragraph{Rashomon from overparameterisation.}
+For model classes where $\dim(\Theta) > \dim(\mathcal{Y})$ (more parameters than observational constraints), the Rashomon property holds generically. The fibre $\{\theta : \text{observe}(\theta) = y\}$ has positive dimension for generic $y$, and under mild regularity (continuous explain map, non-degenerate Jacobian), distinct fibral points yield incompatible explanations with probability~1 under any absolutely continuous prior on $\Theta$~\citep{damour2022underspecification}. This covers overparameterised neural networks, deep ensembles, and GBDTs with more trees than effective degrees of freedom. Deriving tighter, architecture-specific Rashomon set bounds remains open.
+
 \subsection{Neural Network Dimensional Argument}
 \label{sec:nn-dimensional}
 
@@ -1020,6 +1053,9 @@ For any pair of symmetric features $j, k$ in an overparameterized network
 trained to zero loss, the probability (over retraining seeds) that a
 faithful explanation ranks $j$ above $k$ is exactly $1/2$.
 \end{corollary}
+
+\noindent
+The 50\% flip rate applies to the adversarial case (maximally collinear pair, $\rho \to 1$). For moderate collinearity ($\rho \approx 0.7$), empirical flip rates are typically 15--30\%, still high enough to undermine single-model explanations but less extreme than the worst case.
 
 \noindent
 This is the neural-network instantiation of the symmetric Bayes
@@ -1058,6 +1094,13 @@ structural cause (the Rashomon property) and one four-line proof, and the
 resolution (orbit averaging) is the XAI counterpart of accepting partial
 orderings in social choice.
 The framework does not currently express the Gibbard--Satterthwaite theorem, which concerns strategy-proofness (incentive compatibility)---a property involving strategic agents, not truthful explanation.  Extending the framework to capture strategic considerations would require adding an agent model, which is outside the current scope.
+
+\paragraph{Comparison with topological impossibility.}
+Chichilnisky's theorem~\cite{chichilnisky1980social} shows that no continuous, anonymous, unanimous aggregation rule exists for preferences on a sphere. Our trilemma differs in three respects: (i)~it requires no topological structure on the explanation space, (ii)~the impossibility arises from the Rashomon property rather than from the topology of the preference space, and (iii)~our resolution (orbit averaging) is constructive while Chichilnisky's theorem has no finite-dimensional escape. The trilemma applies to discrete, finite systems where Chichilnisky's theorem is vacuous.
+
+\paragraph{Comparison with Fourier-theoretic generalisations.}
+Kalai~\cite{kalai2002fourier} generalises Arrow's theorem using Fourier analysis on the Boolean cube, showing that aggregation functions close to dictatorships must be close on most inputs. Our trilemma concerns explanation maps (not aggregation rules), requires the Rashomon property (not preference diversity), and applies to non-social-choice domains. The formal relationship between Kalai's Fourier-theoretic approach and our representation-theoretic resolution ($G$-invariant projection) is an open question.
+
 (The full impossibility is formalized as \texttt{ubiquity\_impossibility}
 in \texttt{Ubiquity.lean}.)
 
@@ -1069,7 +1112,7 @@ in \texttt{Ubiquity.lean}.)
 The Explanation Impossibility, all eight derived instances, and all nine ML
 instances are mechanically verified in Lean~4 \citep{demoura2021lean4} using
 Mathlib \citep{mathlib2020}.  The eight derived instances are particularly
-notable: each derives the Rashomon property constructively with zero axioms,
+notable: each derives the Rashomon property constructively with zero domain-specific axioms,
 confirming that the impossibility in each science follows from first
 principles alone.  This section provides an expanded account of the
 formalization, including the axiom stratification, proof status transparency,
@@ -1092,8 +1135,8 @@ Theorems \& lemmas & 493 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
-Core impossibility & 1 theorem & Zero axiom dependencies \\
-8 derived instances & 0 axioms each & Biology, physics $\times 2$, linguistics, \ldots \\
+Core impossibility & 1 theorem & Zero custom axiom dependencies \\
+8 derived instances & 0 domain-specific axioms each & Biology, physics $\times 2$, linguistics, \ldots \\
 GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
 DASH resolution & 6 axioms & + cross-group symmetry \\
 Causal instance & 3 axioms & CPDAG Markov equivalence \\
@@ -1152,7 +1195,7 @@ Theorem & Axioms & Description \\
 \end{table}
 
 The critical observation is that the core theorem
-\texttt{explanation\_impossibility} uses \textbf{zero axioms}---it is pure
+\texttt{explanation\_impossibility} uses \textbf{zero custom axioms}---it is pure
 constructive logic.  The formalization stratifies into two categories:
 
 \begin{itemize}
@@ -1172,13 +1215,35 @@ constructive logic.  The formalization stratifies into two categories:
     formalized and are independently verifiable from the cited sources.
 \end{itemize}
 
+\begin{table}[h]
+\centering
+\small
+\caption{Axiom taxonomy (83 axioms total).}
+\label{tab:axiom-taxonomy}
+\begin{tabular}{lrl}
+\toprule
+Category & Count & Examples \\
+\midrule
+Mathematical infrastructure & ${\sim}30$ & Measurability, positivity, group properties \\
+ML domain (9 instances) & ${\sim}36$ & Rashomon for attention, SHAP linearity \\
+Physics domain & ${\sim}10$ & Physics Rashomon, enrichment levels \\
+Cross-domain structural & ${\sim}7$ & Bridge morphism fields \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The core impossibility (Theorem~\ref{thm:impossibility}) requires zero axioms from any category. Quantitative bounds draw from ML domain axioms; cross-domain transfer draws from structural axioms.
+
+\paragraph{Scope of formal verification.}
+Lean verification guarantees that all theorems follow from the stated axioms with no logical gaps (internal consistency). It does not guarantee that the axioms correctly model the phenomena they are intended to capture (external validity). The axioms are motivated by domain-specific considerations (\S\ref{sec:axiom-stratification}), but their adequacy for any particular real-world system is an empirical question. We report axiom counts alongside theorem counts throughout to make the trusted base transparent.
+
 \subsection{Proof Status Transparency}
 \label{sec:proof-status}
 
 We distinguish four levels of verification:
 
 \begin{enumerate}[label=(\alph*)]
-  \item \textbf{Proved} (zero axiom dependencies): The theorem
+  \item \textbf{Proved} (zero custom axiom dependencies): The theorem
     follows from pure logic and stated hypotheses.  Examples:
     {\raggedright\texttt{explanation\_impossibility},
     \texttt{attribution\_impossibility},
@@ -1393,22 +1458,28 @@ achievable frontier characterized by the $G$-invariant resolution
 \subsection{Cross-Domain Transfer: From Gauge Theory to ML}
 \label{sec:transfer}
 
-The universal framework is not merely descriptive---it enables knowledge
-transfer between domains.  The gauge theory resolution (restricting to
-observables invariant under gauge transformations) is mathematically identical
-to the ML resolution \DASH{} (averaging SHAP values over an ensemble of
-near-optimal models): both are the $G$-invariant projection for their
-respective symmetry groups.  The companion paper demonstrates that this
-gauge-theory-inspired resolution reduces attribution instability by up to
-146\% on real-world datasets (Breast Cancer: \DASH{} achieves 92.5\%
-stability vs.\ 37.6\% for single-model SHAP) and reduces model-selection
-variance by 60\% (crossed ANOVA).  Moreover, the stability improvement scales
-with the Rashomon set size: at low collinearity ($\rho = 0$), single-model
-methods are nearly as stable as \DASH{}; at high collinearity
-($\rho = 0.95$), the gap widens to 2.6 percentage points on synthetic data
-and dramatically more on real data with correlated features.  This dose-response
-was predicted by the theorem: larger Rashomon sets produce more instability,
-and orbit averaging provides proportionally larger improvements.
+The gauge theory resolution (restricting to observables invariant under gauge transformations) and the ML resolution (\DASH{}, averaging SHAP values over an ensemble) share identical mathematical structure: both are the $G$-invariant projection for their respective symmetry groups (the Reynolds operator---\S\ref{sec:meta-theorem}). The structural differences---continuous vs.\ discrete symmetry, local vs.\ global action, dynamical vs.\ static---mean this identity is at the level of the group action formalism, not a claim that the physical mechanisms coincide.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Gauge--attribution correspondence: shared and divergent structure.}
+\begin{tabular}{lcc}
+\toprule
+Property & Gauge theory & ML attribution \\
+\midrule
+\textbf{Shared} & & \\
+\quad Group action on descriptions & \checkmark & \checkmark \\
+\quad Orbit averaging (Reynolds operator) & \checkmark & \checkmark \\
+\quad Pareto-optimality of $G$-projection & \checkmark & \checkmark \\
+\midrule
+\textbf{Divergent} & & \\
+\quad Symmetry type & Local, continuous & Global, discrete \\
+\quad Dimension & Infinite & Finite \\
+\quad Dynamics & Equations of motion & Static computation \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \paragraph{Beyond ML.} As evidence that the impossibility extends beyond ML,
 we note that spacetime geometry under Ostrowski's classification of
@@ -1689,7 +1760,10 @@ articulated by the Duhem-Quine thesis of holist underdetermination
 underdetermination thesis, but the citation documents the philosophical context.
 Prior formal analyses of underdetermination in Bayesian
 frameworks \citep{dorling1979bayesian,howson2006scientific} did not yield
-impossibility results for explanation methods. The $G$-invariant
+impossibility results for explanation methods.
+
+\paragraph{Scope of the underdetermination analogy.}
+Duhem--Quine underdetermination concerns \emph{confirmational} holism: no hypothesis can be tested in isolation because auxiliary assumptions are always involved~\cite{stanford2006exceeding}. Our trilemma addresses \emph{explanatory} underdetermination: multiple models explain the same observations equally well but offer incompatible explanations. These are related but distinct: confirmational underdetermination asks ``which theory is supported by the evidence?'' while explanatory underdetermination asks ``which explanation of the prediction is correct?'' Our framework formalises the latter. The Rashomon property is a sufficient condition for explanatory underdetermination; it is not a formalisation of Duhem--Quine holism per se. The $G$-invariant
 resolution is structurally reminiscent of epistemic structural
 realism \citep{worrall1989structural}
 (Worrall's argument is diachronic---structural content survives theory change
@@ -1750,6 +1824,9 @@ scoping, is in a companion paper.
 
 The pattern extends to many further domains: metamerism in color perception (where the cone response matrix is the observation map, making it an instance of the linear system pattern), molecular chirality (where enantiomers share achiral observables), and others.
 
+\paragraph{Relation to structuralist philosophy of science.}
+The trilemma framework sits within the structuralist tradition of Sneed~\cite{sneed1971logical} and Stegm\"uller, which formalises scientific theories as set-theoretic predicates. Our explanation system $(\Theta, Y, H, \text{observe}, \text{explain}, \text{incomp})$ is a Sneedian structure; the trilemma is a structural constraint on admissible maps. The enrichment pattern (adding a neutral element to resolve the bilemma) parallels Sneed's treatment of theory specialisation, where new structure is adjoined to an existing core.
+
 \subsection{Scientific Revolutions as Enrichment Events}
 \label{sec:revolutions}
 
@@ -1799,6 +1876,9 @@ sacrificed) is proved. The claim that scientific revolutions follow this
 structure is supported by five formalized instances but requires engagement
 with historians and philosophers of science.  The enrichment mechanism is closer to Lakatos's progressive research programmes (where the new theory subsumes the old plus new content) than to Kuhn's incommensurable revolutions (where the old framework's terms cannot be translated). We use `paradigm shift' loosely; the formal claim is about framework enrichment, not incommensurability.
 
+\paragraph{Prospective prediction.}
+The scientific-revolution-as-$H$-enrichment pattern predicts that the next paradigm shift in a maximally-incompatible domain will add a neutral element to $H$ (restoring faithfulness + stability at the cost of decisiveness) and that this enrichment will be unique (Theorem~\ref{thm:uniqueness}). A concrete test: if the black hole information paradox is resolved by a framework that introduces a new category of information state (neither preserved nor destroyed, but complementary), this would instantiate the predicted enrichment. Conversely, a resolution that modifies the configuration space $\Theta$ (e.g., adding firewall degrees of freedom) rather than enriching $H$ would fall outside the pattern. The prediction is specific enough to be wrong.
+
 The Lean formalizations use singleton observable spaces (both preparations map to the same observation), making the Rashomon property vacuously satisfied.  This is a deliberate simplification: the structural claim is about the bilemma pattern (binary $H$, no neutral element $\to$ F+S impossible), not about the observation-matching mechanism.  A richer formalization would model the specific measurement statistics that make the preparations observationally equivalent.
 
 The framework does not distinguish between global and local symmetries.  In physics, this distinction is fundamental: Noether's theorem applies to global symmetries (producing conservation laws), while gauge redundancy arises from local symmetries (producing constraints).  The framework's $G$-invariant resolution applies equally to both, which is a simplification.  A richer framework distinguishing global from local invariance would be needed to capture gauge-fixing and BRST cohomology.
@@ -1844,6 +1924,8 @@ the neutral elements of perceptual categories.  A full development ---
 formalizing category formation as a sequence of enrichment events and
 testing against categorization experiments --- is an open direction that
 would require engagement with the cognitive science literature.
+
+\smallskip\noindent\emph{Caveat.} The analogy between mathematical enrichment and cognitive abstraction is speculative. We are not aware of cognitive science evidence connecting these concepts, and we do not develop this connection further.
 
 \subsection{Recursive Impossibility: The Enrichment Stack}
 \label{sec:recursive}
@@ -1916,7 +1998,7 @@ We identify five limitations and directions for future work.
     under stated assumptions---rather than derived from first principles of the
     learning algorithm.  (The eight non-ML derived instances in
     Section~\ref{sec:derived-instances} are the exceptions: each derives the
-    Rashomon property constructively with zero axioms.)  Deriving the Rashomon
+    Rashomon property constructively with zero domain-specific axioms.)  Deriving the Rashomon
     property from, e.g., the loss landscape geometry of gradient descent would
     strengthen the ML results.
   \item \textbf{Attention: retraining vs.\ perturbation.}  The attention
@@ -1986,6 +2068,9 @@ We identify five limitations and directions for future work.
     8~datasets, 6/6 audit tests passed).
 \end{enumerate}
 
+\paragraph{Extension to deep learning and LLMs.}
+The qualitative impossibility (Theorem~\ref{thm:impossibility}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
+
 %%% ==========================================================================
 \section{Cross-Domain Transfer: From Taxonomy to Generative Theory}
 \label{sec:cross-domain}
@@ -2001,6 +2086,13 @@ case, a concept developed for one domain (machine learning attribution,
 gauge-theoretic coupling, genetic codon degeneracy) is transferred to a
 different domain via the abstract framework, and the transferred prediction is
 confirmed empirically.
+
+\paragraph{Evidence tiers.}
+We classify empirical results by strength of support.
+\textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), $\eta$~law for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), Noether counting bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$).
+\textbf{Consistent} (observation matching qualitative prediction): attention flip 19.9\% [CI: 19.1--20.6\%], counterfactual flip 23.5\% [CI: 20.6--26.6\%], model selection flip 80\%.
+\textbf{Calibration checks} (expected from framework structure, not independently informative): codon degeneracy--entropy rank correlation ($\rho = 1.0$; monotonicity in degeneracy is guaranteed by construction---see \S\ref{sec:domain-validation}).
+\textbf{Partial}: group identification $\eta$~law for 9 instances with unknown group structure ($R^2 = 0.25$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
 
 \subsection{Resolution Transfer: Ensemble Causal Discovery}
 \label{sec:ensemble-causal}
@@ -3059,7 +3151,7 @@ in full and excerpt key theorems from the instance files.
 
 This file defines the abstract \texttt{ExplanationSystem} structure, the three
 desiderata (faithfulness, stability, decisiveness), and proves the universal
-impossibility with zero axiom dependencies.
+impossibility with zero custom axiom dependencies.
 
 \begin{lstlisting}[caption={ExplanationSystem.lean --- complete file},label={lst:explanation-system}]
 /-!

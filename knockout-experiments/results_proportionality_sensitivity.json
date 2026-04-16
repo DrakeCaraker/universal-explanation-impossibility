@@ -1,0 +1,494 @@
+{
+  "experiment": "Proportionality Sensitivity Analysis",
+  "config": {
+    "cv_values": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "n_trials": 1000,
+    "m_models": 20,
+    "lambda_splits": 100,
+    "rho": 0.9,
+    "tie_detection": "|gap| < 2.0 * SE (adaptive)",
+    "hybrid_weights": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ]
+  },
+  "results_by_cv": {
+    "cv_0.00": {
+      "cv": 0.0,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.929,
+        "tie_rate_95ci": [
+          0.9131,
+          0.9449
+        ],
+        "mean_relative_gap": 0.163199,
+        "median_relative_gap": 0.150456,
+        "p95_relative_gap": 0.361543,
+        "completeness_mean": 0.5786,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.05": {
+      "cv": 0.05,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.928,
+        "tie_rate_95ci": [
+          0.912,
+          0.944
+        ],
+        "mean_relative_gap": 0.163385,
+        "median_relative_gap": 0.149155,
+        "p95_relative_gap": 0.367413,
+        "completeness_mean": 0.5785,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.10": {
+      "cv": 0.1,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.924,
+        "tie_rate_95ci": [
+          0.9076,
+          0.9404
+        ],
+        "mean_relative_gap": 0.16392,
+        "median_relative_gap": 0.147268,
+        "p95_relative_gap": 0.367521,
+        "completeness_mean": 0.5782,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.15": {
+      "cv": 0.15,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.925,
+        "tie_rate_95ci": [
+          0.9087,
+          0.9413
+        ],
+        "mean_relative_gap": 0.164721,
+        "median_relative_gap": 0.144005,
+        "p95_relative_gap": 0.36813,
+        "completeness_mean": 0.5785,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.20": {
+      "cv": 0.2,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.928,
+        "tie_rate_95ci": [
+          0.912,
+          0.944
+        ],
+        "mean_relative_gap": 0.165697,
+        "median_relative_gap": 0.144652,
+        "p95_relative_gap": 0.371479,
+        "completeness_mean": 0.5786,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.30": {
+      "cv": 0.3,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.929,
+        "tie_rate_95ci": [
+          0.9131,
+          0.9449
+        ],
+        "mean_relative_gap": 0.168363,
+        "median_relative_gap": 0.152015,
+        "p95_relative_gap": 0.376607,
+        "completeness_mean": 0.577,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.40": {
+      "cv": 0.4,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.933,
+        "tie_rate_95ci": [
+          0.9175,
+          0.9485
+        ],
+        "mean_relative_gap": 0.171732,
+        "median_relative_gap": 0.15569,
+        "p95_relative_gap": 0.390873,
+        "completeness_mean": 0.576,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.50": {
+      "cv": 0.5,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.931,
+        "tie_rate_95ci": [
+          0.9153,
+          0.9467
+        ],
+        "mean_relative_gap": 0.175686,
+        "median_relative_gap": 0.160017,
+        "p95_relative_gap": 0.3945,
+        "completeness_mean": 0.5745,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.60": {
+      "cv": 0.6,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.93,
+        "tie_rate_95ci": [
+          0.9142,
+          0.9458
+        ],
+        "mean_relative_gap": 0.179771,
+        "median_relative_gap": 0.162347,
+        "p95_relative_gap": 0.402482,
+        "completeness_mean": 0.573,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_0.80": {
+      "cv": 0.8,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.937,
+        "tie_rate_95ci": [
+          0.9219,
+          0.9521
+        ],
+        "mean_relative_gap": 0.189188,
+        "median_relative_gap": 0.169457,
+        "p95_relative_gap": 0.419024,
+        "completeness_mean": 0.5676,
+        "completeness_95ci": [
+          0.4,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    },
+    "cv_1.00": {
+      "cv": 1.0,
+      "family_a": {
+        "flip_rate_mean": 0.4979,
+        "flip_rate_95ci": [
+          0.3947,
+          0.5263
+        ],
+        "near_coinflip_rate": 0.868,
+        "completeness": 1.0
+      },
+      "family_b": {
+        "tie_rate_adaptive": 0.94,
+        "tie_rate_95ci": [
+          0.9253,
+          0.9547
+        ],
+        "mean_relative_gap": 0.199341,
+        "median_relative_gap": 0.180525,
+        "p95_relative_gap": 0.448487,
+        "completeness_mean": 0.5626,
+        "completeness_95ci": [
+          0.35,
+          0.75
+        ],
+        "flip_rate": 0.0
+      },
+      "hybrid": {
+        "pareto_violation_rate": 0.0,
+        "pareto_violation_95ci": [
+          0,
+          0.0
+        ],
+        "n_violations": 0
+      },
+      "two_family_structure_intact": true,
+      "tradeoff_persists": true
+    }
+  },
+  "phase_transition": {
+    "intact_cvs": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "tradeoff_cvs": [],
+    "broken_cvs": [],
+    "tradeoff_persists_at_all_cv": true
+  },
+  "reviewer_range_assessment": {
+    "cv_range": [
+      0.35,
+      0.66
+    ],
+    "tested_cvs": [
+      0.3,
+      0.4,
+      0.5,
+      0.6
+    ],
+    "all_tradeoff_persists": true,
+    "any_structure_intact": true
+  },
+  "key_findings": {
+    "family_a_instability_persists": true,
+    "max_pareto_violation_rate": 0.0,
+    "total_pareto_violations": 0,
+    "total_trials": 11000,
+    "impossibility_independent_of_proportionality": true,
+    "tradeoff_survives_all_cv": true
+  }
+}

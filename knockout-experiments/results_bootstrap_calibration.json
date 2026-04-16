@@ -1,0 +1,394 @@
+{
+  "experiment": "Bootstrap Calibration of Gaussian Flip Rate Formula",
+  "design": "Independent calibration (seeds 42-71) and validation (seeds 142-171)",
+  "n_bootstrap": 1000,
+  "datasets": {
+    "Breast Cancer": {
+      "P": 30,
+      "n_pairs": 435,
+      "r2": 0.7918,
+      "r2_bootstrap_ci": [
+        0.762,
+        0.8199
+      ],
+      "mae": 0.069581,
+      "mae_bootstrap_ci": [
+        0.064365,
+        0.074372
+      ],
+      "calibration_slope": 1.2024,
+      "calibration_slope_bootstrap_ci": [
+        1.1557,
+        1.2472
+      ],
+      "calibration_intercept": -0.037735,
+      "calibration_intercept_bootstrap_ci": [
+        -0.047185,
+        -0.027629
+      ],
+      "hosmer_lemeshow_chi2": 6.7141,
+      "hosmer_lemeshow_p": 0.5678,
+      "calibration_curve": {
+        "bin_predicted_mean": [
+          0.026626,
+          0.059854,
+          0.088233,
+          0.13293,
+          0.18627,
+          0.247136,
+          0.304992,
+          0.351622,
+          0.410523,
+          0.46648
+        ],
+        "bin_observed_mean": [
+          0.008986,
+          0.012403,
+          0.05209,
+          0.094199,
+          0.181502,
+          0.277847,
+          0.396044,
+          0.429728,
+          0.434215,
+          0.470428
+        ]
+      },
+      "mean_snr": 0.8825,
+      "mean_abs_correlation": 0.3949
+    },
+    "Wine": {
+      "P": 13,
+      "n_pairs": 78,
+      "r2": 0.7934,
+      "r2_bootstrap_ci": [
+        0.6993,
+        0.8567
+      ],
+      "mae": 0.061927,
+      "mae_bootstrap_ci": [
+        0.048992,
+        0.075522
+      ],
+      "calibration_slope": 1.1424,
+      "calibration_slope_bootstrap_ci": [
+        1.0624,
+        1.219
+      ],
+      "calibration_intercept": -0.027353,
+      "calibration_intercept_bootstrap_ci": [
+        -0.048717,
+        -0.008648
+      ],
+      "hosmer_lemeshow_chi2": 1.2779,
+      "hosmer_lemeshow_p": 0.9958,
+      "calibration_curve": {
+        "bin_predicted_mean": [
+          0.000158,
+          0.003069,
+          0.01328,
+          0.074674,
+          0.12542,
+          0.17242,
+          0.220128,
+          0.271407,
+          0.359276,
+          0.448129
+        ],
+        "bin_observed_mean": [
+          0.0,
+          0.0,
+          0.008333,
+          0.036782,
+          0.060345,
+          0.087069,
+          0.251232,
+          0.348563,
+          0.361207,
+          0.502011
+        ]
+      },
+      "mean_snr": 1.4851,
+      "mean_abs_correlation": 0.305
+    },
+    "CalHousing": {
+      "P": 8,
+      "n_pairs": 28,
+      "r2": 0.9692,
+      "r2_bootstrap_ci": [
+        0.9469,
+        0.984
+      ],
+      "mae": 0.013238,
+      "mae_bootstrap_ci": [
+        0.003486,
+        0.023825
+      ],
+      "calibration_slope": 1.1684,
+      "calibration_slope_bootstrap_ci": [
+        1.0894,
+        1.2294
+      ],
+      "calibration_intercept": -0.003224,
+      "calibration_intercept_bootstrap_ci": [
+        -0.009045,
+        0.0
+      ],
+      "hosmer_lemeshow_chi2": 0.0711,
+      "hosmer_lemeshow_p": 1.0,
+      "calibration_curve": {
+        "bin_predicted_mean": [
+          0.0,
+          0.0,
+          0.0,
+          2e-06,
+          9e-06,
+          3.1e-05,
+          0.000124,
+          0.004009,
+          0.154504,
+          0.438348
+        ],
+        "bin_observed_mean": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.160153,
+          0.50728
+        ]
+      },
+      "mean_snr": 5.462,
+      "mean_abs_correlation": 0.1324
+    },
+    "Diabetes": {
+      "P": 8,
+      "n_pairs": 28,
+      "r2": 0.8682,
+      "r2_bootstrap_ci": [
+        0.7221,
+        0.9372
+      ],
+      "mae": 0.043009,
+      "mae_bootstrap_ci": [
+        0.024321,
+        0.064292
+      ],
+      "calibration_slope": 1.1741,
+      "calibration_slope_bootstrap_ci": [
+        0.969,
+        1.34
+      ],
+      "calibration_intercept": -0.008618,
+      "calibration_intercept_bootstrap_ci": [
+        -0.027163,
+        0.013462
+      ],
+      "hosmer_lemeshow_chi2": 0.3992,
+      "hosmer_lemeshow_p": 0.9999,
+      "calibration_curve": {
+        "bin_predicted_mean": [
+          1e-06,
+          4.2e-05,
+          0.000518,
+          0.002627,
+          0.021533,
+          0.041805,
+          0.059893,
+          0.135927,
+          0.322875,
+          0.420428
+        ],
+        "bin_observed_mean": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.064368,
+          0.124138,
+          0.423755,
+          0.485057
+        ]
+      },
+      "mean_snr": 2.2381,
+      "mean_abs_correlation": 0.1717
+    },
+    "Heart": {
+      "P": 13,
+      "n_pairs": 78,
+      "r2": 0.8179,
+      "r2_bootstrap_ci": [
+        0.7385,
+        0.871
+      ],
+      "mae": 0.058384,
+      "mae_bootstrap_ci": [
+        0.047774,
+        0.068962
+      ],
+      "calibration_slope": 1.0795,
+      "calibration_slope_bootstrap_ci": [
+        0.9894,
+        1.1678
+      ],
+      "calibration_intercept": -0.015978,
+      "calibration_intercept_bootstrap_ci": [
+        -0.038376,
+        0.005953
+      ],
+      "hosmer_lemeshow_chi2": 0.5752,
+      "hosmer_lemeshow_p": 0.9998,
+      "calibration_curve": {
+        "bin_predicted_mean": [
+          0.004751,
+          0.02746,
+          0.061268,
+          0.108006,
+          0.144683,
+          0.195531,
+          0.240522,
+          0.305877,
+          0.387658,
+          0.469744
+        ],
+        "bin_observed_mean": [
+          0.008333,
+          0.008333,
+          0.070977,
+          0.054516,
+          0.10977,
+          0.185345,
+          0.286371,
+          0.326437,
+          0.422989,
+          0.466954
+        ]
+      },
+      "mean_snr": 1.0982,
+      "mean_abs_correlation": 0.1575
+    }
+  },
+  "aggregate": {
+    "n_total_pairs": 647,
+    "r2": 0.8141,
+    "r2_bootstrap_ci": [
+      0.7905,
+      0.8348
+    ],
+    "mae": 0.06372,
+    "mae_bootstrap_ci": [
+      0.05971,
+      0.06834
+    ],
+    "calibration_slope": 1.1657,
+    "calibration_slope_bootstrap_ci": [
+      1.1319,
+      1.1989
+    ],
+    "calibration_intercept": -0.027945,
+    "calibration_intercept_bootstrap_ci": [
+      -0.035011,
+      -0.020902
+    ],
+    "hosmer_lemeshow_chi2": 7.8988,
+    "hosmer_lemeshow_p": 0.4434,
+    "calibration_curve": {
+      "bin_predicted_mean": [
+        0.001803,
+        0.02946,
+        0.065284,
+        0.100447,
+        0.156499,
+        0.209177,
+        0.279178,
+        0.334768,
+        0.401773,
+        0.463411
+      ],
+      "bin_observed_mean": [
+        0.002051,
+        0.007109,
+        0.033226,
+        0.060018,
+        0.108226,
+        0.231866,
+        0.327781,
+        0.418103,
+        0.440071,
+        0.472078
+      ]
+    }
+  },
+  "by_collinearity": {
+    "low (|rho|<0.3)": {
+      "n_pairs": 350,
+      "r2": 0.8115,
+      "r2_bootstrap_ci": [
+        0.7746,
+        0.8416
+      ],
+      "mae": 0.059758,
+      "mae_bootstrap_ci": [
+        0.053828,
+        0.06575
+      ],
+      "calibration_slope": 1.1256,
+      "calibration_slope_bootstrap_ci": [
+        1.0743,
+        1.178
+      ],
+      "calibration_intercept": -0.024532,
+      "mean_observed_flip": 0.180821,
+      "mean_predicted_flip": 0.182446
+    },
+    "medium (0.3<=|rho|<0.7)": {
+      "n_pairs": 223,
+      "r2": 0.7995,
+      "r2_bootstrap_ci": [
+        0.7579,
+        0.835
+      ],
+      "mae": 0.069771,
+      "mae_bootstrap_ci": [
+        0.062172,
+        0.076939
+      ],
+      "calibration_slope": 1.1816,
+      "calibration_slope_bootstrap_ci": [
+        1.1234,
+        1.2364
+      ],
+      "calibration_intercept": -0.027479,
+      "mean_observed_flip": 0.252585,
+      "mean_predicted_flip": 0.23702
+    },
+    "high (|rho|>=0.7)": {
+      "n_pairs": 74,
+      "r2": 0.8237,
+      "r2_bootstrap_ci": [
+        0.7547,
+        0.8797
+      ],
+      "mae": 0.064223,
+      "mae_bootstrap_ci": [
+        0.052275,
+        0.077075
+      ],
+      "calibration_slope": 1.2736,
+      "calibration_slope_bootstrap_ci": [
+        1.199,
+        1.3779
+      ],
+      "calibration_intercept": -0.044798,
+      "mean_observed_flip": 0.221094,
+      "mean_predicted_flip": 0.208772
+    }
+  },
+  "verdict": "CALIBRATION ISSUES: slope CI [1.132, 1.199] excludes 1.0"
+}

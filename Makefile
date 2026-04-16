@@ -49,11 +49,11 @@ all-papers: monograph jmlr neurips ## Build all paper versions
 counts: ## Show current theorem/axiom/sorry/file counts
 	@echo "Theorems+lemmas: $$(grep -c '^theorem\|^lemma' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
 	@echo "Axioms:          $$(grep -c '^axiom' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
-	@echo "Sorry:           $$(grep -rc 'sorry' UniversalImpossibility/*.lean | awk -F: '{s+=$$2} END {print s}')"
+	@echo "Sorry (code):    $$(grep -rn ':= sorry' UniversalImpossibility/*.lean | wc -l | tr -d ' ')"
 	@echo "Files:           $$(ls UniversalImpossibility/*.lean | wc -l | tr -d ' ')"
-	@echo "Expected:        104 files / 463 theorems+lemmas / 72 axioms / 0 sorry"
+	@echo "Expected:        107 files / 493 theorems+lemmas / 83 axioms / 0 sorry"
 
-verify: counts ## Verify Lean builds + counts are consistent (target: 104/463/72/0)
+verify: counts ## Verify Lean builds + counts are consistent (target: 107/493/83/0)
 	@echo ""
 	@echo "--- Verifying Lean build ---"
 	lake build

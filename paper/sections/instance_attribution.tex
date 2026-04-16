@@ -104,6 +104,9 @@ feature is zeroed out entirely, yielding an infinite ratio
 For random forests with $T$ trees, ensemble averaging drives the ratio to
 $O(1/\sqrt{T})$---the lone converging case and the mechanism behind \DASH{}.
 
+\paragraph{Connection to variance inflation.}
+The attribution ratio $1/(1{-}\rho^2)$ coincides with the classical variance inflation factor (VIF) from regression diagnostics. This is not coincidental: both measure the amplification of estimation variance due to collinearity. The novelty is the \emph{application}: VIF measures instability of coefficient estimates, while $1/(1{-}\rho^2)$ measures instability of \emph{explanations of predictions}. These are different objects---a model's coefficients and its SHAP attributions need not agree---but the shared formula reflects the shared mechanism.
+
 \paragraph{Resolution.}
 The $G$-invariant resolution (Section~\ref{sec:resolution}) for this instance is
 \DASH{} (\textbf{D}iversified \textbf{A}ggregation of \textbf{SH}AP):

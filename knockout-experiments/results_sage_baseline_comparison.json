@@ -1,0 +1,182 @@
+{
+  "experiment": "sage_baseline_comparison",
+  "n_datasets": 8,
+  "dataset_names": [
+    "Breast Cancer",
+    "Diabetes",
+    "Wine",
+    "California Housing",
+    "Iris (regression)",
+    "Digits (PCA-10)",
+    "Synthetic Classification",
+    "Synthetic Regression"
+  ],
+  "observed_instability": {
+    "Breast Cancer": 0.307123,
+    "Diabetes": 0.230213,
+    "Wine": 0.277099,
+    "California Housing": 0.039928,
+    "Iris (regression)": 0.180471,
+    "Digits (PCA-10)": 0.118285,
+    "Synthetic Classification": 0.185902,
+    "Synthetic Regression": 0.250059
+  },
+  "sage_calibrated_r2": -22.6683,
+  "results": {
+    "SAGE (calibrated)": {
+      "R2": -22.6683,
+      "MAE": 0.3694,
+      "Spearman_rho": 0.9524,
+      "R2_95CI": [
+        -137.6495,
+        -9.6389
+      ],
+      "Spearman_95CI": [
+        0.6203,
+        1.0
+      ],
+      "predictions": {
+        "Breast Cancer": 0.8,
+        "Diabetes": 0.7,
+        "Wine": 0.7692,
+        "California Housing": 0.125,
+        "Iris (regression)": 0.3333,
+        "Digits (PCA-10)": 0.5,
+        "Synthetic Classification": 0.65,
+        "Synthetic Regression": 0.6667
+      }
+    },
+    "Baseline 1: max |rho|": {
+      "R2": -50.8779,
+      "MAE": 0.5304,
+      "Spearman_rho": 0.1905,
+      "R2_95CI": [
+        -229.0869,
+        -32.449
+      ],
+      "Spearman_95CI": [
+        -0.7949,
+        0.9259
+      ],
+      "predictions": {
+        "Breast Cancer": 0.9979,
+        "Diabetes": 0.8967,
+        "Wine": 0.8646,
+        "California Housing": 0.9247,
+        "Iris (regression)": 0.8718,
+        "Digits (PCA-10)": 0.0,
+        "Synthetic Classification": 0.6648,
+        "Synthetic Regression": 0.1247
+      }
+    },
+    "Baseline 2: mean |rho|": {
+      "R2": -2.2539,
+      "MAE": 0.1215,
+      "Spearman_rho": 0.381,
+      "R2_95CI": [
+        -20.4141,
+        0.3052
+      ],
+      "Spearman_95CI": [
+        -0.589,
+        0.9747
+      ],
+      "predictions": {
+        "Breast Cancer": 0.3949,
+        "Diabetes": 0.3218,
+        "Wine": 0.305,
+        "California Housing": 0.1324,
+        "Iris (regression)": 0.4726,
+        "Digits (PCA-10)": 0.0,
+        "Synthetic Classification": 0.1439,
+        "Synthetic Regression": 0.0304
+      }
+    },
+    "Baseline 3: frac |rho|>0.5": {
+      "R2": -1.5741,
+      "MAE": 0.1133,
+      "Spearman_rho": 0.3735,
+      "R2_95CI": [
+        -16.9806,
+        0.2888
+      ],
+      "Spearman_95CI": [
+        -0.5069,
+        1.0
+      ],
+      "predictions": {
+        "Breast Cancer": 0.3333,
+        "Diabetes": 0.1333,
+        "Wine": 0.1795,
+        "California Housing": 0.0714,
+        "Iris (regression)": 0.3333,
+        "Digits (PCA-10)": 0.0,
+        "Synthetic Classification": 0.0526,
+        "Synthetic Regression": 0.0
+      }
+    },
+    "Baseline 4: 1-1/P": {
+      "R2": -71.5537,
+      "MAE": 0.6907,
+      "Spearman_rho": 0.7306,
+      "R2_95CI": [
+        -338.0416,
+        -44.7424
+      ],
+      "Spearman_95CI": [
+        0.1026,
+        0.9938
+      ],
+      "predictions": {
+        "Breast Cancer": 0.9667,
+        "Diabetes": 0.9,
+        "Wine": 0.9231,
+        "California Housing": 0.875,
+        "Iris (regression)": 0.6667,
+        "Digits (PCA-10)": 0.9,
+        "Synthetic Classification": 0.95,
+        "Synthetic Regression": 0.9333
+      }
+    },
+    "Baseline 5: Random (permutation)": {
+      "R2_mean": -27.4324,
+      "R2_std": 2.0148,
+      "R2_p95": -23.9202,
+      "R2_p99": -23.0311,
+      "p_value": 0.002,
+      "n_permutations": 10000
+    }
+  },
+  "loo_cv_comparison": {
+    "SAGE (calibrated)": {
+      "LOO_R2": 0.6859,
+      "LOO_MAE": 0.0395
+    },
+    "Baseline 1: max |rho|": {
+      "LOO_R2": -0.8124,
+      "LOO_MAE": 0.0917
+    },
+    "Baseline 2: mean |rho|": {
+      "LOO_R2": -0.4669,
+      "LOO_MAE": 0.0827
+    },
+    "Baseline 3: frac |rho|>0.5": {
+      "LOO_R2": -0.4683,
+      "LOO_MAE": 0.0871
+    },
+    "Baseline 4: 1-1/P": {
+      "LOO_R2": -5.875,
+      "LOO_MAE": 0.1414
+    }
+  },
+  "permutation_null": {
+    "R2_mean": -27.4324,
+    "R2_std": 2.0148,
+    "R2_p95": -23.9202,
+    "R2_p99": -23.0311,
+    "p_value": 0.002,
+    "n_permutations": 10000
+  },
+  "verdict": "SAGE does NOT beat all baselines",
+  "sage_beats_all": false
+}
