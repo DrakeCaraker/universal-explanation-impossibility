@@ -173,7 +173,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (104~files, 463~theorems,
+The framework is mechanically verified in Lean~4 (107~files, 493~theorems,
 72~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -259,7 +259,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 104~files, 463~theorems, 72~axioms,
+    \citep{demoura2021lean4}: 107~files, 493~theorems, 72~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -1087,8 +1087,8 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 102 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 442 & Verified by \texttt{grep -c} \\
+Files & 107 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 493 & Verified by \texttt{grep -c} \\
 Axioms & 72 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -1103,7 +1103,7 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \end{tabular}
 \end{table}
 
-Of the 463 theorems, 71 are trivial (1--3 tactic steps, typically one-line applications of \texttt{explanation\_impossibility}), 174 are short (4--10 steps), 57 are moderate (11--30 steps), and 12 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, and Pareto-optimality). The mean proof length is 8.7 tactic steps.
+Of the 493 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
 
 \subsection{Axiom Stratification}
 \label{sec:axiom-stratification}
@@ -1602,7 +1602,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 104~files, 463~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 107~files, 493~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -1878,9 +1878,33 @@ Recursion & New system, new unprovable & New level, new bilemma \\
 This is a shared \emph{pattern} --- both produce impossibility at every level with unbounded depth --- not a deep unification. The mechanisms differ: Gödel's arises from self-reference (the diagonal lemma), while the enrichment stack arises from the Rashomon property at finer resolutions. Both are proved as instances of \texttt{RecursiveImpossibility} in Lean (the enrichment stack proved constructively; Gödel derived from the diagonal property of formal systems).
 
 \paragraph{The GUT consequence.}
-Applied to physics, the enrichment stack interprets as follows. A Grand Unified Theory (GUT) that is faithful (consistent with all observations) and stable (formulation-independent) must sacrifice decisiveness at every level of its enrichment stack. It cannot answer ``which geometry?'' (Level~1: adelic), ``which measurement outcome?'' (Level~2: quantum), or potentially ``how does spacetime emerge?'' (Level~3: conjectural). A comprehensive theory predicts its own incompleteness --- it classifies which questions have formulation-independent answers and which do not.
+Applied to physics, the enrichment stack interprets as follows. A Grand Unified Theory (GUT) that is faithful (consistent with all observations) and stable (formulation-independent) must sacrifice decisiveness at every level of its enrichment stack:
+\begin{itemize}
+  \item \textbf{Level~0 (quantum):} ``Which measurement outcome?'' --- enrichment via superposition.
+  \item \textbf{Level~1 (adelic):} ``Which geometry?'' --- enrichment via the indeterminate geometry (Lean-verified).
+  \item \textbf{Level~2 (black hole information):} ``What happens to information?'' --- enrichment via complementarity (conjectural).
+  \item \textbf{Level~3 (spacetime emergence):} ``How does spacetime emerge?'' --- enrichment via pre-geometric structure (conjectural).
+\end{itemize}
+A comprehensive theory does not answer all questions --- it classifies which questions have formulation-independent answers and which do not, predicting its own incompleteness.
 
 This consequence is conditional on the stack having depth $\geq 3$ (which requires the Level~3 Rashomon property to hold, an open question). Levels~1 and~2 are Lean-verified. The Gödel parallel clarifies the nature of the limitation: as with arithmetic, the incompleteness is not a failure of the theory but a structural feature of any sufficiently expressive framework.
+
+\subsection{Empirical Predictions from the Mathematical Structure}
+\label{sec:predictions}
+
+The recursive impossibility framework generates four testable predictions beyond those already validated in this paper:
+
+\begin{enumerate}
+  \item \textbf{Bimodality of flip rates.} The all-or-nothing theorem (Section~\ref{sec:predictive}) predicts that for binary SHAP signs across a Rashomon set, the per-pair flip rate distribution should be bimodal --- concentrated near $0\%$ (between-group, stable) and $\geq 50\%$ (within-group, coin flip) --- with a ``dead zone'' in between. The Noether counting experiment (Section~\ref{sec:noether-counting}) confirms this: the 50pp bimodal gap is invariant across $\rho = 0.50$--$0.99$.
+
+  \item \textbf{Mechanistic interpretability ceiling.} For binary questions about neural network circuits (``is this neuron responsible for this behavior?''), the bilemma predicts $\geq 50\%$ disagreement across independently trained model instances. A pilot test on GPT-2 small (Section~\ref{sec:limitations}) is in progress.
+
+  \item \textbf{DASH tie rate = Rashomon fraction.} The enrichment uniqueness theorem predicts that DASH's tie rate for a feature pair should equal the fraction of Rashomon pairs where the pair's attributions are incompatible. This is testable by comparing DASH's tied-pair count to the Gaussian flip formula's predicted flip rate.
+
+  \item \textbf{Coverage conflict diagnostic.} The \texttt{hasCoverageConflict} predicate (Section~\ref{sec:landscape}) should predict which feature pairs trigger the bilemma, independently of the Gaussian flip formula. The coverage conflict bridge ($\rho = 0.961$ across 15 datasets) validates the aggregate prediction; the per-pair prediction remains to be tested against the bilemma condition directly.
+\end{enumerate}
+
+These predictions are derived from the mathematical structure and testable with existing experimental infrastructure.
 
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}
@@ -3026,7 +3050,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 104 files in
+formalization.  The complete codebase comprises 107 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 
