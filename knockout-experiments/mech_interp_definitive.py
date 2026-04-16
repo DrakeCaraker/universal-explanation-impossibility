@@ -125,8 +125,9 @@ class LoRALinear(nn.Module):
             in_features = original_layer.in_features
             out_features = original_layer.out_features
 
-        self.lora_A = nn.Parameter(torch.randn(rank, in_features) * 0.01)
-        self.lora_B = nn.Parameter(torch.zeros(out_features, rank))
+        device = original_layer.weight.device
+        self.lora_A = nn.Parameter(torch.randn(rank, in_features, device=device) * 0.01)
+        self.lora_B = nn.Parameter(torch.zeros(out_features, rank, device=device))
 
     def forward(self, x):
         return self.original(x) + (x @ self.lora_A.T @ self.lora_B.T)
