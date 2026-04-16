@@ -107,16 +107,23 @@ def generate_ioi_dataset(n, seed=0):
 # =========================================================================
 
 class LoRALinear(nn.Module):
-    """Low-rank adaptation of a linear layer."""
-    def __init__(self, original_linear, rank=4):
+    """Low-rank adaptation of a linear layer (supports both nn.Linear and Conv1D)."""
+    def __init__(self, original_layer, rank=4):
         super().__init__()
-        self.original = original_linear
+        self.original = original_layer
         self.original.weight.requires_grad_(False)
         if self.original.bias is not None:
             self.original.bias.requires_grad_(False)
 
-        in_features = original_linear.in_features
-        out_features = original_linear.out_features
+        # GPT-2 uses Conv1D (weight shape: [out, in]) instead of nn.Linear
+        # Conv1D stores weight as (nf, nx) where nx=in_features, nf=out_features
+        if hasattr(original_layer, 'nf'):
+            # transformers Conv1D: weight is (in_features, out_features)
+            in_features = original_layer.weight.shape[0]
+            out_features = original_layer.nf
+        else:
+            in_features = original_layer.in_features
+            out_features = original_layer.out_features
 
         self.lora_A = nn.Parameter(torch.randn(rank, in_features) * 0.01)
         self.lora_B = nn.Parameter(torch.zeros(out_features, rank))
