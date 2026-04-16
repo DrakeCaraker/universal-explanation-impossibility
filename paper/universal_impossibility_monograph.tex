@@ -1845,6 +1845,43 @@ formalizing category formation as a sequence of enrichment events and
 testing against categorization experiments --- is an open direction that
 would require engagement with the cognitive science literature.
 
+\subsection{Recursive Impossibility: The Enrichment Stack}
+\label{sec:recursive}
+
+The enrichment mechanism of Section~\ref{sec:enrichment} resolves the bilemma at one level: adding a neutral element to~$\sH$ restores $F+S$ at the cost of decisiveness. But the enriched system is itself an ExplanationSystem --- and if it has its own Rashomon property at the enriched level, the bilemma applies again. This recursion never terminates.
+
+\paragraph{The enrichment stack.}
+Define an \emph{enrichment stack of depth $k$} as a sequence of ExplanationSystems $S_0, S_1, \ldots, S_k$ where each $S_{i+1}$ is the enrichment of~$S_i$. At each level~$i$, the bilemma holds: no explanation of~$S_i$ is simultaneously faithful and stable (for maximally incompatible~$\sH_i$). The enrichment adds a neutral element at level~$i$, resolving the bilemma there, but the enriched system~$S_{i+1}$ may have a new Rashomon property at a finer resolution --- and thus a new bilemma.
+
+The \emph{cumulative indecisiveness theorem} (proved in Lean~4 in the companion repository): for a stack of depth~$k$, a faithful + stable theory sacrifices decisiveness at \emph{all} $k$~levels. Enrichment at level~$i$ does not restore decisiveness at level~$j \neq i$.
+
+\paragraph{Infinite depth.}
+The enrichment stack can have genuinely infinite depth. For the concrete system $\Theta = \mathbb{N}$, $\sH = \text{Bool}$, $Y = \{*\}$ with $\mathsf{explain}(\theta) = \text{bit}_k(\theta)$ (the $k$-th bit of~$\theta$), the bilemma holds at every level~$k$: bits 0 and~$2^k$ agree on the observation but disagree on bit~$k$. The enrichment at level~$k$ (adding a neutral value for bit~$k$) does not resolve level~$k+1$ because different bits are independent. The stack has countably infinite depth, proved constructively in Lean~4 (\texttt{infiniteStack\_bilemma}).
+
+\paragraph{The Gödel parallel.}
+The recursive enrichment structure shares a pattern with Gödel's incompleteness theorems. Both instantiate a common abstraction (a \emph{recursive impossibility system}, formalized in Lean as \texttt{RecursiveImpossibility}): impossibility holds at every level, and the resolution at each level creates the conditions for the next.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & \textbf{Gödel} & \textbf{Enrichment stack} \\
+\midrule
+System & Formal arithmetic & Faithful + stable theory \\
+Three properties & Consistent, complete, r.e. & Faithful, stable, decisive \\
+Impossibility & Can't have all three & Can't have all three \\
+Escape & Add unprovable as axiom & Enrich $\sH$ with neutral \\
+Recursion & New system, new unprovable & New level, new bilemma \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This is a shared \emph{pattern} --- both produce impossibility at every level with unbounded depth --- not a deep unification. The mechanisms differ: Gödel's arises from self-reference (the diagonal lemma), while the enrichment stack arises from the Rashomon property at finer resolutions. Both are proved as instances of \texttt{RecursiveImpossibility} in Lean (the enrichment stack proved constructively; Gödel derived from the diagonal property of formal systems).
+
+\paragraph{The GUT consequence.}
+Applied to physics, the enrichment stack interprets as follows. A Grand Unified Theory (GUT) that is faithful (consistent with all observations) and stable (formulation-independent) must sacrifice decisiveness at every level of its enrichment stack. It cannot answer ``which geometry?'' (Level~1: adelic), ``which measurement outcome?'' (Level~2: quantum), or potentially ``how does spacetime emerge?'' (Level~3: conjectural). A comprehensive theory predicts its own incompleteness --- it classifies which questions have formulation-independent answers and which do not.
+
+This consequence is conditional on the stack having depth $\geq 3$ (which requires the Level~3 Rashomon property to hold, an open question). Levels~1 and~2 are Lean-verified. The Gödel parallel clarifies the nature of the limitation: as with arithmetic, the incompleteness is not a failure of the theory but a structural feature of any sufficiently expressive framework.
+
 \subsection{Limitations and Open Questions}
 \label{sec:limitations}
 
