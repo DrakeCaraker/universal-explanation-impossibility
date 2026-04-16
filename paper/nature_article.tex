@@ -70,22 +70,24 @@
 %%% =========================================================================
 
 \begin{abstract}
-We prove that no explanation of an underspecified system can simultaneously
-be faithful (consistent with internal structure), stable (invariant across
-equivalent configurations), and decisive (committing to every internal
-distinction).  This impossibility is derived from first principles in eight
-scientific domains---each requiring zero shared axioms---and verified in the
-Lean~4 proof assistant (107~files, 493~theorems, 0~unproved goals).
-Empirical validation in seven domains confirms the predicted dose-response
-between underspecification and instability.  The constructive
+Practitioners in eight scientific fields---from molecular biology to gauge
+theory to machine learning---have independently developed strategies for
+coping with underspecified inference, yet no framework has connected these
+strategies or explained their convergence.  Here we identify a universal
+structural cause: when a system has the \emph{Rashomon property} (equivalent
+configurations produce incompatible explanations), no explanation can
+simultaneously be faithful, stable, and decisive.  We derive this
+impossibility from first principles in eight domains---each requiring zero
+shared axioms---and verify the framework in the Lean~4 proof assistant
+(107~files, 493~theorems, 0~unproved goals).  The constructive
 resolution---$G$-invariant projection---is Pareto-optimal, unifying
-century-old domain-specific practices (gauge-invariant observables,
-CPDAGs, minimum-norm solutions) as instances of a single strategy.
-For maximally incompatible systems, the impossibility strengthens to a
-bilemma: even faithful~+~stable requires enriching the explanation space.
-Three quantitative predictions---an invariance counting law, a Gaussian
-flip rate formula, and a universal instability predictor ($R^2 = 0.957$
-across seven domains)---are confirmed by experiment.
+century-old practices (gauge-invariant observables, CPDAGs, minimum-norm
+solutions) as instances of a single optimal strategy.  Three quantitative
+predictions---an invariance counting law, a Gaussian flip rate formula
+calibrated across 647 feature pairs ($R^2 = 0.81$), and a universal
+instability predictor ($R^2 = 0.96$ across seven domains)---are confirmed
+by experiment, with two pre-registered conjectured extensions falsified,
+delineating the framework's boundary.
 \end{abstract}
 
 %%% =========================================================================
@@ -151,29 +153,6 @@ is tight: each pair of properties is achievable via Lean-verified witnesses
 (Fig.~\ref{fig:trilemma}), and a biconditional shows impossibility holds
 if and only if Rashomon is present.
 
-\subsection*{The tightness classification}
-
-The impossibility's severity depends on two algebraic properties of the explanation space $\sH$: whether it contains a \emph{neutral element} (compatible with every explanation) and a \emph{committal element} (incompatible with every other).
-
-\begin{table}[h]
-\centering
-\small
-\caption{\textbf{The tightness classification.} Two algebraic properties of $\sH$ completely determine which property pairs are achievable. F+D is always achievable (use the native explanation). F+S+D is never achievable (the trilemma). The remaining pairs depend on neutral/committal existence.}
-\label{tab:tightness}
-\begin{tabular}{@{}lcc@{}}
-\toprule
- & Committal $\exists$ & No committal \\
-\midrule
-Neutral $\exists$ & F+D, F+S, S+D (full) & F+D, F+S \\
-No neutral & F+D, S+D & \textbf{F+D only} (bilemma) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-When $\sH$ is maximally incompatible (no neutral element, bottom-right cell), even faithful~+~stable is impossible---the \emph{bilemma}. This characterisation is machine-verified in Lean~4 and proved tight: witnesses for every achievable cell are constructive.
-
-%%% =========================================================================
-
 \subsection*{Three quantitative predictions}
 
 The framework generates testable predictions beyond classification.
@@ -195,7 +174,8 @@ On real data where feature importance is approximately (not exactly) equal
 within groups, $\text{flip}(j,k) =
 2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$ predicts per-pair flip rates
 with out-of-sample $R^2 = 0.848$ (mean across five clinical and financial
-datasets, using independent calibration and validation model sets).  The
+datasets, using independent calibration and validation model sets).
+Bootstrap calibration across 647 feature pairs from five datasets confirms the formula's accuracy ($R^2 = 0.814$ [0.791, 0.835]) with a conservative bias (calibration slope~$= 1.17$; the formula slightly underpredicts observed instability).  The
 formula is standard signal detection theory; the framework's contribution
 is the structural identification of \emph{which} pairs are subject to
 this formula (derivation in Methods).  Pairs with $|\Delta|/\sigma > 2$ are
@@ -456,6 +436,27 @@ S + D & \checkmark & $\times$ & $\times$ \\
 with everything---the mechanism behind DASH (``tied''), CPDAGs
 (``undirected''), and Bayesian model averaging (``uncertain'').
 
+\paragraph{The tightness classification.}
+Two algebraic properties of $\sH$---existence of a \emph{neutral element}
+(compatible with everything) and a \emph{committal element} (incompatible
+with everything else)---completely determine which property pairs are
+achievable (Table~\ref{tab:tightness}; Lean-verified).
+
+\begin{table}[h]
+\centering
+\small
+\caption{\textbf{The tightness classification.} Neutral/committal existence determines achievable pairs. F+D always achievable; F+S+D never.}
+\label{tab:tightness}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Committal $\exists$ & No committal \\
+\midrule
+Neutral $\exists$ & F+D, F+S, S+D & F+D, F+S \\
+No neutral & F+D, S+D & \textbf{F+D only} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 %%% =========================================================================
 %%% Discussion
 %%% =========================================================================
@@ -465,19 +466,13 @@ with everything---the mechanism behind DASH (``tied''), CPDAGs
 The theorem reframes ``why are explanations unstable?''\ as ``because the
 inference problem is underspecified.''  Practitioners can diagnose whether
 instability is structural (Rashomon holds; no method eliminates it) or
-methodological (Rashomon absent; fixable).  The query-relative version
-identifies which questions are stably answerable: a biologist can stably
-report the amino acid but not the codon; a statistician can stably report
-the CPDAG but not the DAG.
+methodological (Rashomon absent; fixable).
 
 Nine ML instances (Supporting Information) instantiate the theorem for
 feature attribution, attention, counterfactuals, concept probes, causal
 discovery, model selection, saliency maps, token citation, and circuit
 discovery---findings relevant to the EU AI Act (Article~13) and FDA's
-AI/ML Action Plan~\citep{fda2021aiml,selbst2018intuitive}.  In Bayesian
-terms, faithfulness is likelihood consistency, stability is posterior
-invariance, and the $G$-invariant resolution is the posterior predictive;
-Pareto-optimality follows from Bayes admissibility~\citep{berger1985statistical,halmos1949application}.
+AI/ML Action Plan~\citep{fda2021aiml,selbst2018intuitive}.
 The result parallels Arrow's impossibility~\citep{arrow1951social}---both
 show symmetry forces trade-offs---but is constructive: it identifies the
 unique optimal trade-off and proves existing practice implements it.
@@ -523,14 +518,7 @@ Single $\to$ adelic geometry & \{smooth, ultrametric\} & Indeterminate & Spaceti
 
 The enrichment is forced and unique when $\sH$ is maximally incompatible (a companion paper~\citep{caraker2026ostrowski} proves this for spacetime geometry via Ostrowski's classification). The pattern generates a falsifiable prediction: the next paradigm shift in a maximally incompatible domain will add a neutral element to $\sH$.
 
-Not all resolutions are enrichment events: Bohmian mechanics resolves the
-measurement problem by changing the configuration space (adding particle
-positions), which is a system change outside the bilemma's scope.
-The framework extends to AI value alignment: when multiple RLHF runs produce equally well-performing models with different implicit value priorities, the bilemma proves that no value explanation is simultaneously faithful and stable.
-
-\subsection*{Unification consequence}
-
-The enrichment pattern is recursive: resolving the bilemma at level $n$ by enriching $\sH_n$ creates a new explanation space $\sH_{n+1}$ that may itself be maximally incompatible. This \emph{recursive impossibility}---a pattern shared structurally with G\"odel's incompleteness and Tarski's undefinability, though the mechanisms differ (enrichment vs.\ diagonalisation vs.\ definability ascent)---implies that any unified theory must sacrifice decisiveness at every level of the enrichment hierarchy. A companion paper~\citep{caraker2026ostrowski} formalises this for a physical enrichment stack of depth~$\geq 3$ (quantum contextuality $\to$ spacetime geometry $\to$ black hole information).
+The enrichment pattern is recursive: resolving the bilemma at one level may create a new maximally incompatible system at the next, a structure formalised in a companion paper~\citep{caraker2026ostrowski} for a physical stack of depth~$\geq 3$.
 
 %%% =========================================================================
 %%% Methods
