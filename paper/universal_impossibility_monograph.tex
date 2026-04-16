@@ -764,7 +764,7 @@ Rashomon property, and (iii)~characterize the resolution.
 \begin{table}[h]
 \centering
 \small
-\caption{ML instances by formal completeness. All nine axiomatise the Rashomon property from cited evidence rather than deriving it from learning-theoretic first principles. The core impossibility (Theorem~\ref{thm:impossibility}) is independent of these axioms.}
+\caption{ML instances by formal completeness. All nine axiomatise the Rashomon property from cited evidence rather than deriving it from learning-theoretic first principles. The core impossibility (Theorem~\ref{thm:universal}) is independent of these axioms.}
 \label{tab:ml-tiers}
 \begin{tabular}{lccc}
 \toprule
@@ -1241,7 +1241,7 @@ Cross-domain structural & ${\sim}7$ & Bridge morphism fields \\
 \end{tabular}
 \end{table}
 
-\noindent The core impossibility (Theorem~\ref{thm:impossibility}) requires zero axioms from any category. Quantitative bounds draw from ML domain axioms; cross-domain transfer draws from structural axioms.
+\noindent The core impossibility (Theorem~\ref{thm:universal}) requires zero axioms from any category. Quantitative bounds draw from ML domain axioms; cross-domain transfer draws from structural axioms.
 
 \paragraph{Scope of formal verification.}
 Lean verification guarantees that all theorems follow from the stated axioms with no logical gaps (internal consistency). It does not guarantee that the axioms correctly model the phenomena they are intended to capture (external validity). The axioms are motivated by domain-specific considerations (\S\ref{sec:axiom-stratification}), but their adequacy for any particular real-world system is an empirical question. We report axiom counts alongside theorem counts throughout to make the trusted base transparent.
@@ -1609,7 +1609,7 @@ differential geometry.  We leave these extensions to future work.
 The classification of non-dominated explanation profiles is complete for $G = \mathbb{Z}/2\mathbb{Z}$ (the simplest non-trivial case): exactly two profiles exist (trivial representation giving stability, sign representation giving decisiveness). For general finite $G$, we conjecture that the number of non-dominated profiles equals the number of irreducible representations of $G$. The $\mathbb{Z}/2\mathbb{Z}$ case serves as proof of concept; the general classification is an open problem.
 
 \paragraph{Categorical enrichment (conjecture).}
-We conjecture that hypothesis-space enrichment corresponds to the free adjunction of an initial object to the incompatibility poset, viewed as a thin category. Specifically, if $\mathbf{C}$ is the poset category of $H$ under the compatibility relation, then the enriched space $H' = H \cup \{h_\bot\}$ corresponds to $\mathbf{C}_\bot$. The universal property ensures uniqueness (Theorem~\ref{thm:uniqueness}). Making this precise requires defining the relevant 2-categorical context; we leave the formalisation to future work.
+We conjecture that hypothesis-space enrichment corresponds to the free adjunction of an initial object to the incompatibility poset, viewed as a thin category. Specifically, if $\mathbf{C}$ is the poset category of $H$ under the compatibility relation, then the enriched space $H' = H \cup \{h_\bot\}$ corresponds to $\mathbf{C}_\bot$. The universal property ensures uniqueness (the companion paper~\citep{caraker2026ostrowski}). Making this precise requires defining the relevant 2-categorical context; we leave the formalisation to future work.
 
 \paragraph{Character theory and the information trade-off.}
 Character theory quantifies the trade-off precisely.  For the symmetric
@@ -1895,7 +1895,7 @@ structure is supported by five formalized instances but requires engagement
 with historians and philosophers of science.  The enrichment mechanism is closer to Lakatos's progressive research programmes (where the new theory subsumes the old plus new content) than to Kuhn's incommensurable revolutions (where the old framework's terms cannot be translated). We use `paradigm shift' loosely; the formal claim is about framework enrichment, not incommensurability.
 
 \paragraph{Prospective prediction.}
-The scientific-revolution-as-$H$-enrichment pattern predicts that the next paradigm shift in a maximally-incompatible domain will add a neutral element to $H$ (restoring faithfulness + stability at the cost of decisiveness) and that this enrichment will be unique (Theorem~\ref{thm:uniqueness}). A concrete test: if the black hole information paradox is resolved by a framework that introduces a new category of information state (neither preserved nor destroyed, but complementary), this would instantiate the predicted enrichment. Conversely, a resolution that modifies the configuration space $\Theta$ (e.g., adding firewall degrees of freedom) rather than enriching $H$ would fall outside the pattern. The prediction is specific enough to be wrong.
+The scientific-revolution-as-$H$-enrichment pattern predicts that the next paradigm shift in a maximally-incompatible domain will add a neutral element to $H$ (restoring faithfulness + stability at the cost of decisiveness) and that this enrichment will be unique (the companion paper~\citep{caraker2026ostrowski}). A concrete test: if the black hole information paradox is resolved by a framework that introduces a new category of information state (neither preserved nor destroyed, but complementary), this would instantiate the predicted enrichment. Conversely, a resolution that modifies the configuration space $\Theta$ (e.g., adding firewall degrees of freedom) rather than enriching $H$ would fall outside the pattern. The prediction is specific enough to be wrong.
 
 \paragraph{Falsifiability.}
 The enrichment stack is falsifiable in two senses: (i)~a physical argument showing that the Rashomon property fails at some level would cap the stack; (ii)~a paradigm shift that changes $\Theta$ rather than enriching $H$ would fall outside the pattern (e.g., Bohmian mechanics adds hidden variables to $\Theta$ rather than enriching $H$). The pattern predicts that $H$-enrichment is forced and unique when $H$ is maximally incompatible; observing a non-unique enrichment would falsify the uniqueness claim.
@@ -2104,7 +2104,7 @@ We identify five limitations and directions for future work.
 Zero-ablation importance on GPT-2/SST-2 shows 25.8\% flip rate across 17 Rashomon models, but control experiments reveal this is dominated by classifier readout noise (Control A: same transformer, different classifier $\to$ 25.6\% flip; Control B: frozen transformer $\to$ 40.2\% flip). Activation patching on LoRA fine-tuned models shows circuit stability ($\rho = 0.885$) but is confounded by the LoRA constraint (99.3\% of weights shared). A definitive experiment---training small transformers from random initialisation on modular addition and measuring circuits via activation patching---is in progress. The qualitative impossibility (Lean-verified) applies regardless; the open question is whether the Rashomon precondition is met for transformer circuits in practice.
 
 \paragraph{Extension to deep learning and LLMs.}
-The qualitative impossibility (Theorem~\ref{thm:impossibility}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
+The qualitative impossibility (Theorem~\ref{thm:universal}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
 
 %%% ==========================================================================
 \section{Cross-Domain Transfer: From Taxonomy to Generative Theory}
@@ -2709,7 +2709,7 @@ specific phase-transition locations, and cross-domain extrapolations beyond
 the established instances).
 
 \paragraph{Proportionality axiom sensitivity.}
-The design space theorem assumes exact proportionality ($\text{CV}(c) = 0$). Simulation across $\text{CV} \in [0, 1.0]$ (1{,}000 trials per value, 11 values) confirms the two-family structure is robust: Family~A flip rate $\approx 0.50$ at all CV values, Family~B tie rate $\geq 0.93$ at all CV values, and zero Pareto violations across 11{,}000 trials. The instability source is collinearity-driven split competition, not the proportionality constant. The core impossibility (Theorem~\ref{thm:impossibility}) is independent of proportionality.
+The design space theorem assumes exact proportionality ($\text{CV}(c) = 0$). Simulation across $\text{CV} \in [0, 1.0]$ (1{,}000 trials per value, 11 values) confirms the two-family structure is robust: Family~A flip rate $\approx 0.50$ at all CV values, Family~B tie rate $\geq 0.93$ at all CV values, and zero Pareto violations across 11{,}000 trials. The instability source is collinearity-driven split competition, not the proportionality constant. The core impossibility (Theorem~\ref{thm:universal}) is independent of proportionality.
 
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
 \label{sec:gaussian-flip}
