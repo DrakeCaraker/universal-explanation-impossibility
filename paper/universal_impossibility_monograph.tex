@@ -965,6 +965,12 @@ rankings disagree across the ensemble.  The companion paper proves that
 \DASH{} is Pareto-optimal: no other stable attribution method can achieve
 higher expected faithfulness.
 
+\paragraph{Connection to estimation-theoretic bounds.}
+Faithfulness can be viewed as an unbiasedness condition: $\E[E(\theta)] = \text{explain}(\theta)$. Under this reading, the attribution impossibility is a Cram\'er--Rao-type result: no unbiased estimator achieves zero variance when the Fisher information (determined by the Rashomon set geometry) is finite. The design space theorem refines this: it characterises the full Pareto frontier of (bias, variance, completeness) trade-offs, not just the variance lower bound.
+
+\paragraph{Computational cost of \DASH{}.}
+\DASH{} requires training $M$ models instead of one. For gradient-boosted trees (XGBoost/LightGBM), training time scales linearly: $M = 25$ models on $N = 10{,}000$ rows takes ${\sim}5$~minutes on a single CPU core. SHAP computation is per-model and parallelisable. The total cost is $O(M)$ times single-model cost, with no increase in per-prediction inference cost (the deployed model is unchanged; only explanation aggregation changes).
+
 \subsection{Meta-Theorem: Orbit Averaging}
 \label{sec:meta-theorem}
 
@@ -997,6 +1003,9 @@ Hunt--Stein theorem \citep{lehmann2005testing}: just as the Hunt--Stein theorem
 guarantees that invariant tests are minimax optimal when a group acts on the
 parameter space, the $G$-invariant aggregation is Pareto-optimal among stable
 explanation methods.
+
+\paragraph{Biased alternatives and James--Stein phenomena.}
+The design space theorem characterises unbiased linear aggregators. Can biased methods (e.g., ridge-regularised Shapley values, $L_1$ shrinkage) circumvent the impossibility? Shrinkage reduces variance (improving stability) but introduces systematic bias toward a prior (reducing faithfulness). The trilemma's qualitative impossibility holds regardless: for any method under Rashomon, at least one of faithfulness, stability, or decisiveness must be sacrificed. Shrinkage shifts \emph{which} property is sacrificed---from stability to faithfulness---without escaping the trilemma. Quantifying the bias--variance--decisiveness Pareto frontier for shrinkage estimators is future work.
 
 %%% ==========================================================================
 \section{Ubiquity}
@@ -1596,6 +1605,12 @@ different Rashomon set sizes.  The groupoid generalization would connect this
 work to the theory of stacks in algebraic geometry and to fiber bundles in
 differential geometry.  We leave these extensions to future work.
 
+\paragraph{Representation-theoretic classification.}
+The classification of non-dominated explanation profiles is complete for $G = \mathbb{Z}/2\mathbb{Z}$ (the simplest non-trivial case): exactly two profiles exist (trivial representation giving stability, sign representation giving decisiveness). For general finite $G$, we conjecture that the number of non-dominated profiles equals the number of irreducible representations of $G$. The $\mathbb{Z}/2\mathbb{Z}$ case serves as proof of concept; the general classification is an open problem.
+
+\paragraph{Categorical enrichment (conjecture).}
+We conjecture that hypothesis-space enrichment corresponds to the free adjunction of an initial object to the incompatibility poset, viewed as a thin category. Specifically, if $\mathbf{C}$ is the poset category of $H$ under the compatibility relation, then the enriched space $H' = H \cup \{h_\bot\}$ corresponds to $\mathbf{C}_\bot$. The universal property ensures uniqueness (Theorem~\ref{thm:uniqueness}). Making this precise requires defining the relevant 2-categorical context; we leave the formalisation to future work.
+
 \paragraph{Character theory and the information trade-off.}
 Character theory quantifies the trade-off precisely.  For the symmetric
 group $S_k$ acting on $\R^k$ by permutation of coordinates, the
@@ -1642,6 +1657,9 @@ data are genuinely ambiguous.  We suggest that regulators adopt this framing:
 require that explanations be \emph{stable and partially faithful}, and mandate
 explicit disclosure of tied or unresolvable queries rather than demanding
 decisive answers that are mathematically impossible to guarantee.
+
+\paragraph{Liability implications.}
+If an organisation relies on single-model SHAP explanations for high-stakes decisions and the Rashomon property holds, two independent audits using different random seeds could reach opposite conclusions about which feature drove the decision. Ensemble averaging (\DASH{} with $M \geq 25$) provides a defensible alternative: the explanation is stable, the uncertainty is quantified, and the limitations are documented. This analysis reflects our reading of the regulatory text and should be reviewed by a legal scholar before being relied upon in compliance contexts.
 
 \subsection[What Explainability Can Do]{What Explainability \emph{Can} Do}
 \label{sec:can-do}
@@ -1824,6 +1842,9 @@ scoping, is in a companion paper.
 
 The pattern extends to many further domains: metamerism in color perception (where the cone response matrix is the observation map, making it an instance of the linear system pattern), molecular chirality (where enantiomers share achiral observables), and others.
 
+\paragraph{Relation to sheaf-theoretic contextuality.}
+Abramsky and Brandenburger~\citep{abramsky2011sheaf} characterise quantum contextuality via non-extendability of local sections to global sections. Our bilemma captures a related but distinct obstruction: the impossibility of a faithful, stable explanation when $H$ is maximally incompatible. The sheaf-theoretic approach provides the \emph{mechanism} (topological obstruction); ours provides the \emph{consequence} (property-pair achievability classification). Whether the bilemma can be expressed as a sheaf-theoretic obstruction is an open question.
+
 \paragraph{Relation to structuralist philosophy of science.}
 The trilemma framework sits within the structuralist tradition of Sneed~\cite{sneed1971logical} and Stegm\"uller, which formalises scientific theories as set-theoretic predicates. Our explanation system $(\Theta, Y, H, \text{observe}, \text{explain}, \text{incomp})$ is a Sneedian structure; the trilemma is a structural constraint on admissible maps. The enrichment pattern (adding a neutral element to resolve the bilemma) parallels Sneed's treatment of theory specialisation, where new structure is adjoined to an existing core.
 
@@ -1838,25 +1859,22 @@ space is maximally incompatible (the bilemma proves F+S impossible), and the
 revolution adds a neutral element (enrichment restores F+S at the cost
 of decisiveness).
 
-\begin{table}[t]
-\centering\small
-\begin{tabular}{@{}p{2.5cm}p{3cm}p{3cm}p{3cm}@{}}
+\begin{table}[h]
+\centering
+\small
+\caption{Five instances of bilemma $\to$ enrichment across science.}
+\label{tab:revolutions}
+\begin{tabular}{@{}llll@{}}
 \toprule
-\textbf{Revolution} & \textbf{Pre-revolution $H$} & \textbf{Enrichment} & \textbf{Decisiveness lost} \\
+Transition & Pre-revolution $H$ & Enrichment & Lost \\
 \midrule
-SHAP instability & \{positive, negative\} & DASH ``tied'' & feature rank \\
-Feature selection & \{selected, not\} & ``uncertain'' & feature relevance \\
-Classical $\to$ quantum & \{definite, superposition\} & ``no fact of the matter'' & pre-measurement state \\
-Newtonian $\to$ relativistic & \{simultaneous, not\} & spacetime & absolute simultaneity \\
-Single-completion $\to$ adelic & \{smooth, ultrametric\} & indeterminate & spacetime geometry \\
+SHAP instability & \{positive, negative\} & DASH tie & Feature rank \\
+Feature selection & \{selected, not\} & Uncertain & Feature relevance \\
+Classical $\to$ quantum & \{definite, superposition\} & No fact of the matter & Pre-measurement state \\
+Newton $\to$ relativity & \{simultaneous, not\} & Frame-dependent & Absolute simultaneity \\
+Single $\to$ adelic & \{smooth, ultrametric\} & Indeterminate & Spacetime geometry \\
 \bottomrule
 \end{tabular}
-\caption{Five instances of the bilemma $\to$ enrichment pattern. Each pre-revolution
-  explanation space is maximally incompatible; each revolution adds a neutral element.
-  The bilemma is Lean-verified for all five instances (including the quantum and
-  relativity instances formalized in \texttt{QuantumMeasurementRevolution.lean} and
-  \texttt{SimultaneityRevolution.lean}).}
-\label{tab:revolutions}
 \end{table}
 
 The pattern suggests a conjecture: \emph{paradigm shifts that preserve the
@@ -1878,6 +1896,9 @@ with historians and philosophers of science.  The enrichment mechanism is closer
 
 \paragraph{Prospective prediction.}
 The scientific-revolution-as-$H$-enrichment pattern predicts that the next paradigm shift in a maximally-incompatible domain will add a neutral element to $H$ (restoring faithfulness + stability at the cost of decisiveness) and that this enrichment will be unique (Theorem~\ref{thm:uniqueness}). A concrete test: if the black hole information paradox is resolved by a framework that introduces a new category of information state (neither preserved nor destroyed, but complementary), this would instantiate the predicted enrichment. Conversely, a resolution that modifies the configuration space $\Theta$ (e.g., adding firewall degrees of freedom) rather than enriching $H$ would fall outside the pattern. The prediction is specific enough to be wrong.
+
+\paragraph{Falsifiability.}
+The enrichment stack is falsifiable in two senses: (i)~a physical argument showing that the Rashomon property fails at some level would cap the stack; (ii)~a paradigm shift that changes $\Theta$ rather than enriching $H$ would fall outside the pattern (e.g., Bohmian mechanics adds hidden variables to $\Theta$ rather than enriching $H$). The pattern predicts that $H$-enrichment is forced and unique when $H$ is maximally incompatible; observing a non-unique enrichment would falsify the uniqueness claim.
 
 The Lean formalizations use singleton observable spaces (both preparations map to the same observation), making the Rashomon property vacuously satisfied.  This is a deliberate simplification: the structural claim is about the bilemma pattern (binary $H$, no neutral element $\to$ F+S impossible), not about the observation-matching mechanism.  A richer formalization would model the specific measurement statistics that make the preparations observationally equivalent.
 
@@ -1959,6 +1980,12 @@ Recursion & New system, new unprovable & New level, new bilemma \\
 
 This is a shared \emph{pattern} --- both produce impossibility at every level with unbounded depth --- not a deep unification. The mechanisms differ: Gödel's arises from self-reference (the diagonal lemma), while the enrichment stack arises from the Rashomon property at finer resolutions. Both are proved as instances of \texttt{RecursiveImpossibility} in Lean (the enrichment stack proved constructively; Gödel derived from the diagonal property of formal systems).
 
+\paragraph{Tarski undefinability as alternative parallel.}
+Tarski's undefinability theorem may provide a tighter parallel than G\"odel's incompleteness for the enrichment stack. Tarski shows that truth for a language cannot be defined within that language, forcing ascent to a metalanguage---which faces the same limitation. This hierarchy (object language $\to$ metalanguage $\to$ meta-metalanguage $\to \cdots$) is structurally closer to the enrichment stack ($H_0 \to H_1 \to H_2 \to \cdots$) than G\"odel's self-referential diagonal construction. We retain \texttt{RecursiveImpossibility} as capturing the shared \emph{consequence} (impossibility at every level with unbounded depth) while acknowledging that the \emph{mechanisms} differ: G\"odel uses diagonalisation, Tarski uses definability ascent, and the trilemma uses enrichment.
+
+\paragraph{Unification consequence.}
+If the enrichment stack continues to arbitrary depth, any unified framework (one that resolves the bilemma at every level) must sacrifice decisiveness at every level---an infinite hierarchy of indeterminacies. This is a structural analogue of the observation that no finite extension of Peano arithmetic can prove all arithmetic truths. Whether the physical stack extends beyond depth~3 is an empirical question.
+
 \paragraph{The GUT consequence.}
 Applied to physics, the enrichment stack interprets as follows. A Grand Unified Theory (GUT) that is faithful (consistent with all observations) and stable (formulation-independent) must sacrifice decisiveness at every level of its enrichment stack:
 \begin{itemize}
@@ -1970,6 +1997,11 @@ Applied to physics, the enrichment stack interprets as follows. A Grand Unified 
 A comprehensive theory does not answer all questions --- it classifies which questions have formulation-independent answers and which do not, predicting its own incompleteness.
 
 This consequence is conditional on the stack having depth $\geq 3$ (which requires the Level~3 Rashomon property to hold, an open question). Levels~1 and~2 are Lean-verified. The Gödel parallel clarifies the nature of the limitation: as with arithmetic, the incompleteness is not a failure of the theory but a structural feature of any sufficiently expressive framework.
+
+\paragraph{Confidence tiers for the enrichment stack.}
+\textbf{Proved (zero domain-specific axioms):} Levels 0--1 (quantum contextuality, adelic geometry). The bilemma, tightness classification, and resolution spectrum at these levels are machine-checked.
+\textbf{Axiomatised (conditional):} Level~2 (black hole information). Depends on the contested claim that the information paradox constitutes a genuine Rashomon pair.
+\textbf{Speculative:} Level~3 (spacetime emergence). Grounded in AdS/CFT and causal set theory but not empirically verifiable with current technology. A companion paper~\citep{caraker2026ostrowski} formalises the physical enrichment stack.
 
 \subsection{Empirical Predictions from the Mathematical Structure}
 \label{sec:predictions}
@@ -2067,6 +2099,9 @@ We identify five limitations and directions for future work.
     across~$\rho$, novel) and the SAGE algorithm ($R^2 = 0.81$ on
     8~datasets, 6/6 audit tests passed).
 \end{enumerate}
+
+\paragraph{Mechanistic interpretability: inconclusive.}
+Zero-ablation importance on GPT-2/SST-2 shows 25.8\% flip rate across 17 Rashomon models, but control experiments reveal this is dominated by classifier readout noise (Control A: same transformer, different classifier $\to$ 25.6\% flip; Control B: frozen transformer $\to$ 40.2\% flip). Activation patching on LoRA fine-tuned models shows circuit stability ($\rho = 0.885$) but is confounded by the LoRA constraint (99.3\% of weights shared). A definitive experiment---training small transformers from random initialisation on modular addition and measuring circuits via activation patching---is in progress. The qualitative impossibility (Lean-verified) applies regardless; the open question is whether the Rashomon precondition is met for transformer circuits in practice.
 
 \paragraph{Extension to deep learning and LLMs.}
 The qualitative impossibility (Theorem~\ref{thm:impossibility}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
@@ -2508,6 +2543,9 @@ physical interpretation as the fraction of theoretical instability that
 manifests in practice.  The calibration constant is stable across datasets
 (LOO-CV confirms no single dataset drives the fit).
 
+\paragraph{SAGE baseline comparison.}
+SAGE outperforms all naive baselines on instability prediction. After leave-one-out calibration, SAGE achieves $R^2 = 0.686$ while all baselines are negative (best baseline: mean pairwise correlation, LOO $R^2 = -0.47$). On rank ordering, SAGE dominates: Spearman $\rho = 0.952$ vs.\ best baseline 0.731 (permutation $p = 0.002$). Raw (uncalibrated) $R^2$ is negative for all methods including SAGE, because predicted instability systematically overshoots observed values. SAGE's value is in identifying \emph{which} feature groups are unstable, not in predicting exact flip rates.
+
 \subsection{Discrete vs.\ Continuous Symmetry: The CCA Spectrum}
 \label{sec:cca-spectrum}
 
@@ -2575,7 +2613,13 @@ attention heads are exchangeable; GradCAM has broken spatial symmetry;
 parsers exhibit ambiguity on a subset of arcs).  The $\eta$ formula is correct;
 the group identification is the bottleneck.
 
+\paragraph{$\eta$~law failure mode.}
+The $\eta$~law achieves $R^2 = 0.957$ for 7 instances where $G$ is well-characterised but only $R^2 = 0.25$ for 9 instances where $G$ is unknown or approximately specified. The failure is attributable to group misspecification: for lattice symmetry, parser ambiguity, causal discovery, and phase retrieval, the acting group is either infinite, unknown, or approximated by a finite proxy. The $\eta$~law is a \emph{conditional} prediction: given the correct $G$, it predicts instability accurately. The practical bottleneck is group identification.
+
 Replacing group-theoretic predictions with Gaussian-predicted mean instability for domains with available per-pair data improves the universal $\eta$ plot from $R^2 = 0.60$ to $R^2 = 0.79$ across all 16 domains, with the well-characterized subset reaching $R^2 = 0.98$.
+
+\paragraph{Out-of-sample validation and goodness of fit.}
+Leave-one-out cross-validation on the 7 well-characterised instances gives $R^2_{\text{LOO}} = 0.794$ ($\text{MAE} = 0.082$), confirming the law is not an artefact of overfitting to 7 points. The linear fit is significant: $F(1,5) = 38.78$, $p = 0.0016$, with residuals passing the Shapiro--Wilk normality test ($W = 0.968$, $p = 0.88$). A permutation null (10{,}000 permutations of $\eta$ values) gives $p = 0.010$. On 9 held-out instances with unknown or approximately specified symmetry groups, the law generalises modestly ($R^2 = 0.244$, $\text{MAE} = 0.169$, Spearman $\rho = 0.522$). The practical bottleneck is group identification, not the law itself.
 
 \begin{figure}[t]
   \centering
@@ -2655,11 +2699,17 @@ zero residual variance after controlling for neighbor count (partial $R^2 = 0.0$
 $p = 1.0$).  The codon table's structure is fully explained by local
 nucleotide degeneracy, not abstract group theory.
 
+\paragraph{Codon null model.}
+The Spearman $\rho = 1.0$ between degeneracy and usage entropy is a calibration check, not an independent validation. Under uniform codon usage within each degeneracy class, entropy $= \log_2 d$, which is monotone in $d$; the rank correlation is therefore $1.0$ by construction. The empirical $\rho = 1.0$ confirms that observed entropy is monotonically related to degeneracy (consistent with the framework) but does not discriminate between the trilemma prediction and any model predicting monotonicity. The constructive Rashomon witness (zero domain-specific axioms) is the primary validation of the codon instance.
+
 These falsifications are scientifically valuable: they define the boundary
 between the framework's proven domain (the impossibility theorem and its
 resolutions) and its speculative extensions (quantitative tradeoff surfaces,
 specific phase-transition locations, and cross-domain extrapolations beyond
 the established instances).
+
+\paragraph{Proportionality axiom sensitivity.}
+The design space theorem assumes exact proportionality ($\text{CV}(c) = 0$). Simulation across $\text{CV} \in [0, 1.0]$ (1{,}000 trials per value, 11 values) confirms the two-family structure is robust: Family~A flip rate $\approx 0.50$ at all CV values, Family~B tie rate $\geq 0.93$ at all CV values, and zero Pareto violations across 11{,}000 trials. The instability source is collinearity-driven split competition, not the proportionality constant. The core impossibility (Theorem~\ref{thm:impossibility}) is independent of proportionality.
 
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
 \label{sec:gaussian-flip}
@@ -2731,6 +2781,9 @@ Practically, the signal-to-noise ratio $\text{SNR}_{jk} = |\Delta_{jk}|/\sigma_\
 $\text{SNR} > 2$ are reliable (flip rate $< 5\%$), pairs with
 $\text{SNR} < 0.5$ are unreliable (flip rate $> 30\%$), and intermediate
 values require uncertainty quantification.
+
+\paragraph{Robustness to non-Gaussianity.}
+The $\Phi(-\text{SNR})$ formula is exact under Gaussian noise and well-calibrated on real data ($R^2 = 0.814$ [0.791, 0.835] across 647 feature pairs from five clinical and financial datasets, with bootstrap 95\% CIs). The formula systematically underpredicts observed flip rates by ${\sim}17\%$ (calibration slope 1.17), making it conservative. Under heavy-tailed distributions (Student $t$, $\text{df}=3$), the formula underestimates flip rates by 40\%+; under log-normal noise, errors are larger still. However, Shapiro--Wilk tests confirm 94.7\% of real SHAP difference distributions are Gaussian ($p > 0.10$), justifying the formula's applicability in practice. The Berry--Esseen correction adds $< 1\%$ to the base rate for $n > 100$ models under light tails.
 
 \subsection{Domain-Specific Validation}
 \label{sec:domain-validation}
