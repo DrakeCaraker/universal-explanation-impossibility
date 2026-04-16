@@ -19,62 +19,68 @@
 \opening{Dear Editors,}
 
 We submit for your consideration an Article entitled ``The Limits of
-Explanation,'' which proves a universal impossibility theorem connecting
-eight scientific domains.
+Explanation,'' which proves a universal impossibility theorem for
+explanation of underspecified systems, unifying known results across
+eight scientific fields under a single structural cause.
 
-\textbf{The central finding.}  We prove that eight independent scientific
-communities---in physics, biology, statistics, crystallography, linguistics,
-mathematics, computer science, and statistical mechanics---have been
-independently discovering the same mathematically optimal strategy for
-over a century.  Our theorem explains why they converged and proves that
-no better strategy exists.
+\textbf{The result.}  We prove that no explanation of an
+underspecified system can simultaneously be faithful (consistent with
+the system's structure), stable (invariant across observationally
+equivalent configurations), and decisive (committing to every
+structural distinction).  This impossibility is not a conjecture or an
+empirical observation: it is a theorem, derived from first principles
+in each of eight domains---physics (gauge freedom), biology (codon
+degeneracy), statistics (Markov equivalence), crystallography (the
+phase problem), linguistics (syntactic ambiguity), mathematics
+(underdetermined linear systems), computer science (the view-update
+problem), and statistical mechanics (microstate multiplicity).  These
+phenomena were previously studied in complete isolation.  We show they
+are instances of a single impossibility, and that the resolution each
+field independently adopted---averaging over equivalent
+configurations---is Pareto-optimal.
 
-\textbf{The result.}  When a system is underspecified---when multiple
-internal configurations produce identical observable output---no
-explanation can simultaneously be faithful (consistent with the system's
-structure), stable (invariant across equivalent configurations), and
-decisive (committing to every structural distinction).  We derive this
-impossibility from first principles in eight scientific domains, each
-requiring zero shared axioms, and prove that the resolution (averaging
-over equivalent configurations) is Pareto-optimal.
+\textbf{Empirical validation.}  Three quantitative predictions of the
+framework have been confirmed: invariance counting in codon degeneracy,
+the Gaussian flip rate for feature attributions, and the universal
+$\eta$~law governing explanation instability.  Two pre-registered
+extensions were falsified (a predicted phase transition in Rashomon set
+volume and a conjectured uncertainty bound), demonstrating the
+framework's testable boundaries.  The constructive resolution
+($G$-invariant projection) is proved Pareto-optimal.  The entire
+formal framework is mechanically verified in the Lean~4 proof
+assistant (493~theorems, 0~unproved goals).
 
-\textbf{Why Nature.}  This result is inherently cross-disciplinary:
-it formally connects gauge freedom in physics, genetic code degeneracy
-in biology, Markov equivalence in statistics, the phase problem in
-crystallography, syntactic ambiguity in linguistics, underdetermined
-systems in mathematics, the view update problem in computer science,
-and microstate multiplicity in statistical mechanics.  These phenomena
-were previously studied in complete isolation.  The paper demonstrates
-that they are instances of a single impossibility, resolved by a single
-strategy, and that the independent convergence of eight fields on this
-strategy is mathematically inevitable.
+\textbf{Why Nature.}  The result is inherently cross-disciplinary: a
+biologist, a physicist, and a computer scientist can each follow the
+paper because each sees their own domain's impossibility derived from
+shared structure, not borrowed formalism.  This cross-disciplinary
+unification is Nature's distinctive strength and would not be served by
+a single-domain venue.
 
-\textbf{Verification and validation.}  The entire framework is
-mechanically verified in the Lean~4 proof assistant (104~files,
-463~theorems, 0~unproved goals)---among the larger cross-domain
-formalizations in any proof assistant.  Empirical validation uses real
-data: 120 eukaryotic cytochrome~c sequences from NCBI RefSeq, U.S.\
-Census Bureau 2020 county-level data, 100-seed causal discovery
-experiments, and four additional domain-specific experiments, all with
-negative controls and statistical significance ($p < 0.05$ in all
-seven validated domains).
+\textbf{Practical significance.}  The EU AI Act (Article~86) requires
+transparent explanations of automated decisions.  This paper proves
+that the demanded trifecta---faithful, stable, and decisive
+explanations---is mathematically impossible under underspecification,
+and provides the optimal achievable alternative.
 
-\textbf{Suggested reviewers.}  We suggest the following reviewers who
-span the relevant expertise:
-\begin{itemize}
-  \item A formal methods / proof assistant expert (e.g., from the Lean
-    or Coq communities)
-  \item A statistician working in causal inference (e.g., familiar with
-    Markov equivalence and CPDAGs)
-  \item A physicist or biologist familiar with gauge theory or the
-    genetic code (to evaluate the cross-domain derivations)
-\end{itemize}
+\textbf{Companion papers.}  A companion paper on the physics
+application has been submitted to \textit{Foundations of Physics}, and
+an ML-specific paper providing domain depth for feature attributions is
+in preparation.  This submission focuses on the unification.
 
-We confirm that this work is original, has not been published elsewhere,
-and is not under consideration at any other journal.  All authors have
-approved the manuscript.
+\textbf{Suggested reviewers.}  The paper touches ML interpretability,
+impossibility theorems, and formal verification.  We suggest
+interdisciplinary reviewers spanning (i)~formal methods or proof
+assistants, (ii)~causal inference or statistical methodology, and
+(iii)~physics or biology, to evaluate the cross-domain derivations.
 
-\closing{Sincerely,}
+We confirm that this work is original, has not been published
+elsewhere, and is not under consideration at any other journal.  All
+authors have approved the manuscript.  We declare no competing
+interests.
+
+\closing{Sincerely,\\[0.5em]
+Drake Caraker, Bryan Arnold, David Rhoads}
 
 \end{letter}
 \end{document}

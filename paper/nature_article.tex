@@ -197,7 +197,7 @@ is new---predicts the observed instability rate across seven
 well-characterized domain instances with $R^2 = 0.957$, slope~$= 0.91$,
 and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a parameter-free
 predictor spanning ML attribution, concept probes, model selection, codon
-degeneracy, and statistical mechanics.
+degeneracy, and statistical mechanics (Extended Data Fig.~\ref{fig:ed-eta}).
 (Leave-one-out $R^2 = 0.79$; across all 16 instances including those with unknown or approximate symmetry groups, $R^2 = 0.25$---the bottleneck is group identification, not the law itself.)
 The prediction would be falsified if out-of-sample $R^2 < 0.5$ on a new domain with a well-characterised symmetry group.
 
@@ -620,6 +620,71 @@ formalization can be rebuilt with \texttt{lake build} ($\sim$5~min).
 All paper versions can be compiled with \texttt{make paper}.  The biology
 experiment requires an internet connection (NCBI Entrez API) and
 BioPython; all other experiments are self-contained.
+
+%%% =========================================================================
+%%% Extended Data
+%%% =========================================================================
+
+\clearpage
+\section*{Extended Data}
+
+\subsection*{Extended Data Table 1: Three ML instance instantiations}
+
+The following three ML explanation types are formal instances of the
+abstract framework, demonstrating that the impossibility is not merely
+analogical but structurally identical across explanation types.
+
+\begin{table}[h]
+\centering
+\small
+\caption{\textbf{Extended Data Table 1: ML instance instantiations.}
+  Each row defines an explanation system $(\Params, \sH, Y,
+  \mathsf{obs}, \mathsf{exp}, \incomp)$ and identifies the Rashomon witness
+  and resolution.  All three are Lean-verified with zero domain-specific axioms
+  (constructive variants use \texttt{Bool}/\texttt{Unit} types with Rashomon
+  proved via \texttt{decide}).}
+\label{tab:ed-ml-instances}
+\begin{tabular}{@{}p{2cm}p{2.5cm}p{2.5cm}p{2cm}p{2cm}p{2.5cm}@{}}
+\toprule
+\textbf{Instance} & $\Params$ & $\sH$ & $Y$ & \textbf{Witness} & \textbf{Resolution} \\
+\midrule
+Feature attribution
+  & Trained models (different seeds)
+  & Feature rankings
+  & Test predictions
+  & Two GBDTs rank features $j, k$ oppositely ($\rho = 0.9$)
+  & DASH: ensemble average over $M$ models \\[8pt]
+Attention maps
+  & Fine-tuned transformers
+  & Attention distributions
+  & Classification output
+  & Two DistilBERTs assign argmax attention to different tokens (19.9\% flip rate)
+  & Averaged attention rollout \\[8pt]
+Causal discovery
+  & DAG structures
+  & Edge orientations
+  & Conditional independence structure
+  & Chain $A \to B \to C$ and fork $A \leftarrow B \to C$ share CI structure
+  & CPDAG: report undirected where orientation is ambiguous \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Extended Data Figure 1: Universal $\eta$ law}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/eta_law_scatter.pdf}
+\caption{\textbf{Extended Data Figure 1: The universal $\eta$ law.}
+  The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts
+  observed instability across 16 domain instances.  Filled blue circles:
+  7~instances with well-characterized symmetry groups ($R^2 = 0.957$,
+  $p = 1.4 \times 10^{-4}$; leave-one-out $R^2 = 0.79$).  Open grey
+  circles: 9~instances with unknown or approximate groups ($R^2 = 0.25$).
+  Dashed line: perfect prediction ($y = x$).  The bottleneck is group
+  identification, not the law itself.}
+\label{fig:ed-eta}
+\end{figure}
 
 %%% =========================================================================
 %%% Data and Code Availability
