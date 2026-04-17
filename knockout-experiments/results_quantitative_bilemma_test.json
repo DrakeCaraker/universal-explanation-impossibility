@@ -1,0 +1,143 @@
+{
+  "experiment": "quantitative_bilemma_test",
+  "description": "Tests whether incompatibility gap \u0394 predicts faithfulness loss",
+  "null_model_comparison": "Null model predicts flip rates from \u03c1; cannot predict faithfulness loss from \u0394",
+  "results": {
+    "synthetic_0.5": {
+      "dataset": "Synthetic \u03c1=0.5",
+      "n_features": 12,
+      "n_groups": 12,
+      "n_models": 50,
+      "delta_stability": 0.014466720633208752,
+      "bound_satisfaction_rate": 1.0,
+      "bound_violations": 0,
+      "total_checks": 5159,
+      "correlation_within": {
+        "spearman": 0.0,
+        "p": 1.0,
+        "n": 0
+      },
+      "correlation_between": {
+        "spearman": 0.0,
+        "p": 1.0,
+        "n": 3223
+      },
+      "correlation_combined": {
+        "spearman": 0.0,
+        "p": 1.0,
+        "n": 0
+      },
+      "mean_delta_within": 0,
+      "mean_delta_between": 0.033698372542858124
+    },
+    "synthetic_0.7": {
+      "dataset": "Synthetic \u03c1=0.7",
+      "n_features": 12,
+      "n_groups": 12,
+      "n_models": 50,
+      "delta_stability": 0.015250367112457752,
+      "bound_satisfaction_rate": 1.0,
+      "bound_violations": 0,
+      "total_checks": 5248,
+      "correlation_within": {
+        "spearman": 0.0,
+        "p": 1.0,
+        "n": 0
+      },
+      "correlation_between": {
+        "spearman": 0.0,
+        "p": 1.0,
+        "n": 3239
+      },
+      "correlation_combined": {
+        "spearman": 0.0,
+        "p": 1.0,
+        "n": 0
+      },
+      "mean_delta_within": 0,
+      "mean_delta_between": 0.037069469690322876
+    },
+    "synthetic_0.9": {
+      "dataset": "Synthetic \u03c1=0.9",
+      "n_features": 12,
+      "n_groups": 3,
+      "n_models": 50,
+      "delta_stability": 0.017853178083896637,
+      "bound_satisfaction_rate": 1.0,
+      "bound_violations": 0,
+      "total_checks": 5274,
+      "correlation_within": {
+        "spearman": 0.6705904224462214,
+        "p": 8.901854537436977e-117,
+        "n": 886
+      },
+      "correlation_between": {
+        "spearman": 0.6534747242362821,
+        "p": 9.914875810085767e-288,
+        "n": 2362
+      },
+      "correlation_combined": {
+        "spearman": 0.6591168371140932,
+        "p": 0.0,
+        "n": 3248
+      },
+      "mean_delta_within": 0.043560441583395004,
+      "mean_delta_between": 0.04548908770084381
+    },
+    "breast_cancer": {
+      "dataset": "Breast Cancer",
+      "n_features": 30,
+      "n_groups": 12,
+      "n_models": 50,
+      "delta_stability": 0.010839708149433136,
+      "bound_satisfaction_rate": 1.0,
+      "bound_violations": 0,
+      "total_checks": 10925,
+      "correlation_within": {
+        "spearman": 0.8175965871446859,
+        "p": 0.0,
+        "n": 4204
+      },
+      "correlation_between": {
+        "spearman": 0.8245713052964071,
+        "p": 0.0,
+        "n": 16676
+      },
+      "correlation_combined": {
+        "spearman": 0.8315028868271694,
+        "p": 0.0,
+        "n": 20880
+      },
+      "mean_delta_within": 0.0813245102763176,
+      "mean_delta_between": 0.042641159147024155
+    },
+    "california": {
+      "dataset": "California Housing",
+      "n_features": 8,
+      "n_groups": 6,
+      "n_models": 50,
+      "delta_stability": 0.003358217654749751,
+      "bound_satisfaction_rate": 1.0,
+      "bound_violations": 0,
+      "total_checks": 2982,
+      "correlation_within": {
+        "spearman": 0.7807921866521974,
+        "p": 6.5749183356820936e-21,
+        "n": 96
+      },
+      "correlation_between": {
+        "spearman": 0.6574629102540848,
+        "p": 3.2511427851650764e-148,
+        "n": 1190
+      },
+      "correlation_combined": {
+        "spearman": 0.6713555655020459,
+        "p": 2.9422919728054845e-169,
+        "n": 1286
+      },
+      "mean_delta_within": 0.012784712016582489,
+      "mean_delta_between": 0.009732932783663273
+    }
+  },
+  "elapsed_seconds": 24.429177045822144
+}
