@@ -1,13 +1,13 @@
 import UniversalImpossibility.ExplanationSystem
-import UniversalImpossibility.AttributionInstance
-import UniversalImpossibility.AttentionInstance
-import UniversalImpossibility.CounterfactualInstance
-import UniversalImpossibility.ConceptInstance
-import UniversalImpossibility.CausalInstance
-import UniversalImpossibility.ModelSelectionInstance
-import UniversalImpossibility.MechInterpInstance
-import UniversalImpossibility.SaliencyInstance
-import UniversalImpossibility.LLMExplanationInstance
+import UniversalImpossibility.AttributionInstanceConstructive  -- was AttributionInstance
+import UniversalImpossibility.AttentionInstanceConstructive     -- was AttentionInstance
+import UniversalImpossibility.CounterfactualInstanceConstructive -- was CounterfactualInstance
+import UniversalImpossibility.ConceptInstanceConstructive       -- was ConceptInstance
+import UniversalImpossibility.CausalInstanceConstructive        -- was CausalInstance
+import UniversalImpossibility.ModelSelectionInstanceConstructive -- was ModelSelectionInstance
+import UniversalImpossibility.MechInterpInstanceConstructive    -- was MechInterpInstance
+import UniversalImpossibility.SaliencyInstanceConstructive      -- was SaliencyInstance
+import UniversalImpossibility.LLMExplanationInstanceConstructive -- was LLMExplanationInstance
 import UniversalImpossibility.CausalExplanationSystem
 
 /-!

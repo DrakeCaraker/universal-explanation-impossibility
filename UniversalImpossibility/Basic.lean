@@ -51,16 +51,16 @@ import UniversalImpossibility.LossPreservation
 import UniversalImpossibility.BayesOptimalTie
 import UniversalImpossibility.ParetoOptimality
 import UniversalImpossibility.ExplanationSystem
-import UniversalImpossibility.AttributionInstance
-import UniversalImpossibility.AttentionInstance
-import UniversalImpossibility.SaliencyInstance
-import UniversalImpossibility.LLMExplanationInstance
-import UniversalImpossibility.CounterfactualInstance
-import UniversalImpossibility.ConceptInstance
-import UniversalImpossibility.CausalInstance
+import UniversalImpossibility.AttributionInstanceConstructive  -- was AttributionInstance
+import UniversalImpossibility.AttentionInstanceConstructive     -- was AttentionInstance
+import UniversalImpossibility.SaliencyInstanceConstructive      -- was SaliencyInstance
+import UniversalImpossibility.LLMExplanationInstanceConstructive -- was LLMExplanationInstance
+import UniversalImpossibility.CounterfactualInstanceConstructive -- was CounterfactualInstance
+import UniversalImpossibility.ConceptInstanceConstructive       -- was ConceptInstance
+import UniversalImpossibility.CausalInstanceConstructive        -- was CausalInstance
 import UniversalImpossibility.MarkovEquivalence
-import UniversalImpossibility.ModelSelectionInstance
-import UniversalImpossibility.MechInterpInstance
+import UniversalImpossibility.ModelSelectionInstanceConstructive -- was ModelSelectionInstance
+import UniversalImpossibility.MechInterpInstanceConstructive    -- was MechInterpInstance
 import UniversalImpossibility.UniversalImpossibility
 import UniversalImpossibility.UniversalResolution
 import UniversalImpossibility.DASHResolution
