@@ -173,8 +173,8 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (107~files, 493~theorems,
-83~axioms, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (100~files, 491~theorems,
+25~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
 \newpage
@@ -259,7 +259,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 107~files, 493~theorems, 83~axioms,
+    \citep{demoura2021lean4}: 100~files, 491~theorems, 25~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -1138,9 +1138,9 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 107 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 493 & Verified by \texttt{grep -c} \\
-Axioms & 83 & Domain-specific; core theorem uses 0 \\
+Files & 100 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 491 & Verified by \texttt{grep -c} \\
+Axioms & 25 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero custom axiom dependencies \\
@@ -1154,7 +1154,7 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \end{tabular}
 \end{table}
 
-Of the 493 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
+Of the 491 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
 
 \subsection{Axiom Stratification}
 \label{sec:axiom-stratification}
@@ -1226,16 +1226,14 @@ constructive logic.  The formalization stratifies into two categories:
 \begin{table}[h]
 \centering
 \small
-\caption{Axiom taxonomy (83 axioms total).}
+\caption{Axiom taxonomy (25 axioms total).}
 \label{tab:axiom-taxonomy}
 \begin{tabular}{lrl}
 \toprule
 Category & Count & Examples \\
 \midrule
-GBDT infrastructure & 14 & Model, numTrees, splitCount, proportionality \\
-ML instance carriers (9 $\times$ 4) & 36 & AttrConfig, attentionSystem, cfSystem, ... \\
-Enrichment stack (physics) & 11 & BHFramework, bh\_rashomon, QGFramework, qg\_rashomon \\
-Resolution + query complexity & 22 & CPDAGConfig, DASHResolution, MECGroup, testing\_constant \\
+GBDT infrastructure & 14 & Model, splitCount, proportionality \\
+Enrichment stack (physics) & 11 & BH/QG frameworks, Rashomon \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1690,7 +1688,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 107~files, 493~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 100~files, 491~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -2054,6 +2052,8 @@ We identify five limitations and directions for future work.
     \citet{chouldechova2017fair} provides the original empirical context;
     replicating it within our framework is left to future work.
   \item \textbf{Exact vs.\ approximate Rashomon.}  The framework now includes a Lean-verified approximate extension (\texttt{ApproximateRashomon.lean}).  An \texttt{ApproxExplanationSystem} adds a `nearness' relation on observables, with $\varepsilon$-stability requiring $E$ to be constant on approximately-equivalent observations.  The approximate trilemma follows: if approximately-equivalent configurations have incompatible explanations (approximate Rashomon), then faithful + $\varepsilon$-stable + decisive is impossible.  The exact framework is the special case where nearness is equality.  The Gaussian flip rate formula provides the quantitative bridge: the SNR measures how `near' two observations must be for their explanations to flip.
+  \item \textbf{Approximate symmetry: null model comparison.}
+    At intermediate correlations ($\rho < 1$), a simple null model $\Phi(-c\sqrt{1-\rho^2})$ with one fitted parameter ($c = 1.06$, $R^2 = 0.925$) predicts the average within-group flip rate as well as or better than the framework's Gaussian formula ($R^2 = -6.08$ at the aggregate level). The framework's distinctive contribution at approximate symmetry is the bimodal \emph{structure} (within-group vs.\ between-group separation, dip $p < 0.002$), not the aggregate magnitude. At exact symmetry ($\rho = 1$) and cross-domain ($\eta$ law across 7 domains), the framework's predictions are unchallenged. The practical recommendation: use the Gaussian formula for per-pair prediction (Spearman 0.28 on real data), coverage conflict for per-feature screening (Spearman 0.96), and the $\eta$ law for cross-domain understanding.
   \item \textbf{Elementary core theorem.}  The qualitative impossibility
     follows from elementary logic: if a map is not injective, its fiber
     contains distinct elements that cannot be simultaneously preserved and
@@ -3264,7 +3264,7 @@ This work was conducted independently and received no external funding.
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 107 files in
+formalization.  The complete codebase comprises 100 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 

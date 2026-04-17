@@ -92,8 +92,8 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (107~files, 493~theorems,
-83~axioms, 0~\texttt{sorry}).
+The framework is mechanically verified in Lean~4 (100~files, 491~theorems,
+25~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
 \begin{keywords}
@@ -170,7 +170,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 107~files, 493~theorems, 83~axioms,
+    \citep{demoura2021lean4}: 100~files, 491~theorems, 25~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -731,9 +731,9 @@ formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 83 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 378 & Verified by \texttt{grep -c} \\
-Axioms & 83 & Domain-specific; core theorem uses 0 \\
+Files & 100 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 491 & Verified by \texttt{grep -c} \\
+Axioms & 25 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero axiom dependencies \\
@@ -829,7 +829,7 @@ nine domains (attribution, attention, counterfactuals, concept probes, causal
 discovery, model selection, saliency maps, token citation, mechanistic
 interpretability) share \emph{one} mechanism---the Rashomon
 property---rather than nine unrelated pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 107~files, 493~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 100~files, 491~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on

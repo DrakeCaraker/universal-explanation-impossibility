@@ -1,0 +1,17 @@
+======================================================================
+DEFINITIVE MI EXPERIMENT v2: Modular Addition From Scratch
+======================================================================
+Device: cpu
+Architecture: 2-layer transformer, 4 heads/layer, d=128
+Task: (a + b) mod 113
+Models: 30 from random init
+Training: 50000 steps, lr=0.001, wd=1.0
+Components: 8 heads + 2 MLPs = 10
+
+Data: 6384 train, 6385 test
+
+======================================================================
+PHASE 1: Training 30 models from random initialization
+======================================================================
+
+  Model 1/30 (seed=0)...
