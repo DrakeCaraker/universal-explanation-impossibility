@@ -485,6 +485,9 @@ The character-theoretic prediction that information loss scales as $1/k$
 for $S_k$ predicts protein sequence diversity ranking (Spearman $\rho =
 0.88$, $p = 0.004$).
 
+\paragraph{Diagnostic tools.}
+The coverage conflict diagnostic---whether both signs of a feature's SHAP value appear across models---predicts instability with Spearman $\rho = 0.92$--$0.98$ across five datasets, outperforming the Gaussian formula ($\rho = 0.46$ on real data). The tightness classification has a topological characterisation: the \emph{compatibility complex} (simplicial complex on $\sH$ with pairwise-compatible subsets as simplices) determines achievable property pairs. Discrete complex $\to$ bilemma; contractible complex (neutral element = cone point) $\to$ faithful+stable achievable. This is NOT sheaf-theoretic contextuality (which is a gluing failure, $H^1 \neq 0$); the bilemma is a simpler obstruction (empty stalks, $H^0 = 0$).
+
 \paragraph{Per-individual impact and prospective validation.}
 A per-individual ablation study shows that 45\% of German Credit loan applicants receive a genuinely different explanation category under standard model regularisation, with consistent results across XGBoost and LightGBM. A prospective test on drug discovery (BBBP, 2{,}039 molecules) reveals a precise boundary condition: Pearson correlation fails to identify groups in binary fingerprint features (predicting 0\% vs.\ observed 23\% instability), but mutual information (16\% error) and Jaccard co-occurrence (4\% error) recover the prediction. The framework's magnitude prediction generalises via nonlinear group discovery; its structural prediction (Noether bimodality) requires discrete symmetry groups.
 
@@ -579,6 +582,9 @@ A system is \emph{maximally incompatible} if $\lnot\mathrm{incompatible}(h_1,h_2
 Faithfulness then forces $E = \mathsf{exp}$, which is decisive; the
 trilemma gives the contradiction.  ML instances (SHAP sign, feature
 selection, counterfactual direction) trigger the bilemma.
+
+\paragraph{Approximate and quantitative bilemma.}
+The bilemma extends to approximate settings. For binary $\sH$ with $(\varepsilon, \delta)$-stability, the bilemma holds at every tolerance level (no fragility at $\varepsilon = 0$). For continuous $\sH$ with metric $d$, an $(\varepsilon, \delta)$-stable map $E$ on an $\varepsilon$-Rashomon pair with incompatibility gap $\Delta$ satisfies $\text{unfaith}(\theta_1) + \text{unfaith}(\theta_2) \geq \Delta - \delta$ (triangle inequality; Lean-verified). At least one witness is unfaithful by $\geq (\Delta - \delta)/2$.
 
 \paragraph{Gaussian flip rate derivation.}
 For features $j,k$ with importance difference $d^{(m)} \sim N(\Delta,

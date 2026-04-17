@@ -590,6 +590,11 @@ outcomes.
 Maximal incompatibility is not an artificial condition: 19 of the 29 Lean-verified instance files in this project use $\mathrm{incompatible} = (\neq)$, making them maximally incompatible.  The bilemma thus applies to the majority of instances, including all binary ranking spaces, all DAG orientation spaces, and all quantum measurement instances.
 The bilemma does not have direct mechanism design content.  Mechanism design concerns incentive compatibility under strategic agents; the bilemma concerns the logical structure of explanation spaces without strategic considerations.
 
+\paragraph{Approximate and quantitative extensions.}
+The bilemma extends beyond exact equality. For binary $H$ (e.g., SHAP sign), $(\varepsilon, \delta)$-stability reduces to exact equality (Bool admits no non-trivial $\varepsilon$-ball), so the bilemma holds at \emph{every} tolerance level with no discontinuity at $\varepsilon = 0$. For continuous $H$ equipped with a metric $d$, the quantitative bilemma gives a smooth tradeoff: for an $(\varepsilon, \delta)$-stable map $E$ on an $\varepsilon$-Rashomon pair with incompatibility gap $\Delta = d(\text{exp}(\theta_1), \text{exp}(\theta_2))$,
+$$\text{unfaith}(\theta_1) + \text{unfaith}(\theta_2) \geq \Delta - \delta$$
+by the triangle inequality. At least one witness is unfaithful by $\geq (\Delta - \delta)/2$. Proved in Lean (\texttt{ApproximateBilemma.lean} in the companion Ostrowski formalization~\citep{caraker2026ostrowski}). This resolves the concern that the bilemma is fragile at exact equality: the binary case is discontinuity-free, and the continuous case gives a smooth, quantitative tradeoff.
+
 \subsection{The Enrichment Mechanism}
 \label{sec:enrichment}
 
@@ -1841,6 +1846,9 @@ The pattern extends to many further domains: metamerism in color perception (whe
 
 \paragraph{Relation to sheaf-theoretic contextuality.}
 Abramsky and Brandenburger~\citep{abramsky2011sheaf} characterise quantum contextuality via non-extendability of local sections to global sections. Our bilemma captures a related but distinct obstruction: the impossibility of a faithful, stable explanation when $H$ is maximally incompatible. The sheaf-theoretic approach provides the \emph{mechanism} (topological obstruction); ours provides the \emph{consequence} (property-pair achievability classification). Whether the bilemma can be expressed as a sheaf-theoretic obstruction is an open question.
+
+\paragraph{Compatibility complex characterisation.}
+The tightness classification has a topological interpretation via the \emph{compatibility complex} $K$: the simplicial complex on $H$ whose simplices are pairwise-compatible subsets. Discrete $K$ (no edges) implies maximal incompatibility and the bilemma. Contractible $K$ (cone point = neutral element) implies faithful+stable is achievable. The 2$\times$2 tightness table corresponds to the topology of $K$. This characterisation identifies the bilemma as a \emph{lower-level} obstruction than Abramsky-Brandenburger sheaf-theoretic contextuality: the bilemma is an existence failure (empty stalks, $H^0 = 0$) on a discrete cover, not a gluing failure ($H^1 \neq 0$) on an overlapping cover. The approximate Rashomon extension (overlapping $\varepsilon$-fibers) may have genuine sheaf-theoretic content---this remains open.
 
 \paragraph{Relation to structuralist philosophy of science.}
 The trilemma framework sits within the structuralist tradition of Sneed~\cite{sneed1971logical} and Stegm\"uller, which formalises scientific theories as set-theoretic predicates. Our explanation system $(\Theta, Y, H, \text{observe}, \text{explain}, \text{incomp})$ is a Sneedian structure; the trilemma is a structural constraint on admissible maps. The enrichment pattern (adding a neutral element to resolve the bilemma) parallels Sneed's treatment of theory specialisation, where new structure is adjoined to an existing core.
