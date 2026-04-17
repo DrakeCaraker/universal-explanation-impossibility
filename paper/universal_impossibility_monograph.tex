@@ -2710,6 +2710,52 @@ the established instances).
 \paragraph{Proportionality axiom sensitivity.}
 The design space theorem assumes exact proportionality ($\text{CV}(c) = 0$). Simulation across $\text{CV} \in [0, 1.0]$ (1{,}000 trials per value, 11 values) confirms the two-family structure is robust: Family~A flip rate $\approx 0.50$ at all CV values, Family~B tie rate $\geq 0.93$ at all CV values, and zero Pareto violations across 11{,}000 trials. The instability source is collinearity-driven split competition, not the proportionality constant. The core impossibility (Theorem~\ref{thm:universal}) is independent of proportionality.
 
+\subsection{Per-Individual Explanation Reversal}
+\label{sec:individual-reversal}
+
+The preceding analyses measure instability at the feature-pair level. A more directly actionable question: for a specific patient or loan applicant, does the ``most important feature'' explanation change across Rashomon models?
+
+We test this with a rigorous ablation across 4~conditions (seed-only, +row subsample, +column subsample, +bootstrap with both subsamples), 3~model classes (XGBoost, LightGBM, Random Forest), and 3~datasets (Breast Cancer, German Credit, Heart Disease). Feature-level reversals are distinguished from \emph{cluster-level} reversals, where clusters group features with $|r| > 0.8$ to avoid counting correlated-feature shuffling as meaningful disagreement.
+
+\paragraph{Key findings.}
+Under seed-only variation, reversal rates are 0\% for XGBoost and LightGBM on all datasets: gradient-boosted trees are near-deterministic with fixed data. Under standard regularisation (\texttt{subsample}${}= 0.8$, a common hyperparameter), the picture changes:
+
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+Dataset & XGB cluster rev.\ & LGB cluster rev.\ & RF cluster rev.\ \\
+\midrule
+German Credit   & 45.3\% & 46.0\% & 35.0\% \\
+Breast Cancer   & 26.3\% & 21.1\% & 2.9\% \\
+Heart Disease   & 0.0\%  & 0.0\%  & 0.0\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For German Credit, 45\% of loan applicants receive a genuinely different explanation \emph{category} (not just a correlated variant) depending on the training configuration. This holds across model classes (XGBoost: 45\%, LightGBM: 46\%). The instability source is subsampling (a standard regularisation technique), not the random seed itself.
+
+\paragraph{Narrative example.}
+German Credit applicant \#91 receives 6~different ``most important feature'' explanations across 8~Rashomon models: Purpose (25\%), Telephone (25\%), Installment rate (12\%), Account status (12\%), Dependents (12\%), and Savings (12\%). No feature dominates. An adverse action notice based on any single model is effectively arbitrary. The DASH consensus resolves to a stable explanation (92\% agreement with majority vote).
+
+The effect is dataset-dependent: Heart Disease shows 0\% reversal across all conditions, confirming that instability requires sufficient feature correlation structure. The honest headline is not ``75\% of individuals receive different explanations'' (an inflated aggregate from v1 of this experiment) but rather: \emph{standard regularisation choices determine which explanation category nearly half of credit applicants receive.}
+
+\subsection{Prospective Out-of-Domain Prediction: Drug Discovery}
+\label{sec:drug-discovery}
+
+As a prospective test, we applied the framework to a domain it was never calibrated on: molecular property prediction. Using the BBBP dataset (blood-brain barrier penetration, 2{,}039 molecules, 1{,}024 Morgan fingerprint bits), we computed the $\eta$~law prediction \emph{before} running the experiment and saved it with a SHA-256 hash.
+
+\paragraph{Prediction.}
+Morgan fingerprint bits are sparse binary vectors with low pairwise Pearson correlation ($|r| > 0.8$ yields zero clusters---every bit is in its own singleton group). The framework therefore predicts $\eta = 0$ and 0\% flip rate.
+
+\paragraph{Observation.}
+The actual flip rate is 23\%, with 100\% cluster-level reversal across 24 Rashomon models (AUC = 0.885). The instability is real and substantial.
+
+\paragraph{Verdict: honest failure.}
+The framework correctly predicts that between-cluster pairs are stable (confirmed: 0\% between-cluster flip). But it fails to identify the functional correlation groups in binary fingerprint features: bits that co-predict the same molecular property are not captured by Pearson correlation. This is the group identification bottleneck (Limitation~\ref{sec:limitations}, item~11) demonstrated on genuinely new territory.
+
+The failure is instructive: binary features require mutual-information-based or co-occurrence-based clustering, not linear correlation. The instability IS present; the framework cannot predict its magnitude with the current group discovery method. This defines a concrete boundary condition and motivates extending the SAGE algorithm to non-linear feature dependencies.
+
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
 \label{sec:gaussian-flip}
 
