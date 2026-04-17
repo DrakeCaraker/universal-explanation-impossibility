@@ -21,7 +21,7 @@ Expected: ~3 hours on T4 GPU
 import warnings
 warnings.filterwarnings('ignore')
 
-import json, time, os, math, copy
+import json, time, os, math
 import numpy as np
 import torch
 import torch.nn as nn
@@ -32,8 +32,17 @@ from scipy.stats import spearmanr
 from itertools import combinations
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (np.integer,)): return int(obj)
+        if isinstance(obj, (np.floating, np.float64)): return float(obj)
+        if isinstance(obj, (np.bool_,)): return bool(obj)
+        if isinstance(obj, np.ndarray): return obj.tolist()
+        return super().default(obj)
 OUT_DIR = Path(__file__).resolve().parent
-MODEL_DIR = Path('/home/ec2-user/SageMaker/mi_v2_models') if 'ec2-user' in str(Path.home()) else Path('/tmp/mi_v2_models')
+MODEL_DIR = Path('/home/ec2-user/SageMaker/mi_v2_models') if 'ec2-user' in str(Path.home()) else OUT_DIR / 'mi_v2_models'
 
 # Hyperparameters (following Nanda et al. 2023)
 P = 113                  # prime modulus
@@ -220,7 +229,7 @@ def train_model(seed, train_data, test_data, model_idx):
 
     # Load best model
     model.load_state_dict(torch.load(MODEL_DIR / f'model_{model_idx}.pt',
-                                     map_location=DEVICE, weights_only=True))
+                                     map_location=DEVICE))
     model.eval()
     with torch.no_grad():
         final_test_acc = (model(x_test).argmax(-1) == y_test).float().mean().item()
@@ -248,10 +257,12 @@ def activation_patching(model, x_test, y_test, n_examples=2000):
     x_clean = x_test[idx]
     y_clean = y_test[idx]
 
-    # Corrupted inputs: shuffle a-values
+    # Corrupted inputs: shuffle BOTH a and b independently
     x_corrupt = x_clean.clone()
-    perm = torch.randperm(n, device=DEVICE)
-    x_corrupt[:, 0] = x_clean[perm, 0]
+    perm_a = torch.randperm(n, device=DEVICE)
+    perm_b = torch.randperm(n, device=DEVICE)
+    x_corrupt[:, 0] = x_clean[perm_a, 0]
+    x_corrupt[:, 1] = x_clean[perm_b, 1]
 
     # Clean forward pass
     with torch.no_grad():
@@ -263,70 +274,54 @@ def activation_patching(model, x_test, y_test, n_examples=2000):
 
     importance = np.zeros(N_COMPONENTS_TOTAL)
 
-    # Patch each attention head
+    # Patch each attention head (hook-based, no deepcopy)
     for layer in range(N_LAYERS):
         for head in range(N_HEADS):
             comp_idx = layer * N_HEADS + head
 
-            # We need to re-run with the patched activation
-            # Since our model is small, we can do this by modifying the forward pass
-            patched_model = copy.deepcopy(model)
-            patched_model.eval()
-
-            # Hook to replace this head's output
-            def make_hook(layer_idx, head_idx, corrupt_head_out):
+            def make_hook(head_idx, corrupt_head_out):
                 def hook_fn(module, input, output):
                     projected, per_head = output
-                    # Replace this head in per_head
                     per_head_patched = per_head.clone()
                     per_head_patched[:, :, head_idx, :] = corrupt_head_out[:, :, head_idx, :]
-                    # Recompute projected output
                     B, S, NH, HD = per_head_patched.shape
                     combined = per_head_patched.view(B, S, NH * HD)
                     new_projected = module.W_O(combined)
-                    # Residual: need to add the DIFFERENCE
                     delta = new_projected - projected
                     return (projected + delta, per_head_patched)
                 return hook_fn
 
-            handle = patched_model.blocks[layer].attn.register_forward_hook(
-                make_hook(layer, head, corrupt_heads[layer])
+            handle = model.blocks[layer].attn.register_forward_hook(
+                make_hook(head, corrupt_heads[layer])
             )
 
             with torch.no_grad():
-                patched_logits = patched_model(x_clean, return_internals=False)
+                patched_logits = model(x_clean, return_internals=False)
 
             handle.remove()
-            del patched_model
 
             patched_correct_logit = patched_logits[torch.arange(n), y_clean]
             importance[comp_idx] = (clean_correct_logit - patched_correct_logit).mean().item()
 
-    # Patch each MLP
+    # Patch each MLP (hook-based, no deepcopy)
     for layer in range(N_LAYERS):
-        comp_idx = N_COMPONENTS + layer  # indices 8, 9
+        comp_idx = N_COMPONENTS + layer
 
-        patched_model = copy.deepcopy(model)
-        patched_model.eval()
-
-        def make_mlp_hook(layer_idx, corrupt_mlp_out):
+        def make_mlp_hook(corrupt_mlp_out):
             def hook_fn(module, input, output):
                 h, per_head, mlp_out = output
-                # Replace MLP output: h = h_pre_mlp + mlp_out
-                # So h_patched = h - mlp_out + corrupt_mlp_out
                 delta = corrupt_mlp_out - mlp_out
                 return (h + delta, per_head, corrupt_mlp_out)
             return hook_fn
 
-        handle = patched_model.blocks[layer].register_forward_hook(
-            make_mlp_hook(layer, corrupt_mlps[layer])
+        handle = model.blocks[layer].register_forward_hook(
+            make_mlp_hook(corrupt_mlps[layer])
         )
 
         with torch.no_grad():
-            patched_logits = patched_model(x_clean, return_internals=False)
+            patched_logits = model(x_clean, return_internals=False)
 
         handle.remove()
-        del patched_model
 
         patched_correct_logit = patched_logits[torch.arange(n), y_clean]
         importance[comp_idx] = (clean_correct_logit - patched_correct_logit).mean().item()
@@ -388,13 +383,25 @@ def main():
     print(f"PHASE 1: Training {N_MODELS} models from random initialization")
     print(f"{'='*70}")
 
+    checkpoint_path = OUT_DIR / 'mi_v2_phase1_checkpoint.json'
     models = []
     accuracies = []
     histories = []
     fourier_results = []
     grokked = []
 
-    for i in range(N_MODELS):
+    # Resume from checkpoint if available
+    start_idx = 0
+    if checkpoint_path.exists():
+        ckpt = json.load(open(checkpoint_path))
+        accuracies = ckpt['accuracies']
+        grokked = ckpt['grokked']
+        fourier_results = ckpt['fourier_results']
+        histories = ckpt.get('histories', [[] for _ in range(len(accuracies))])
+        start_idx = len(accuracies)
+        print(f"  Resuming from checkpoint: {start_idx}/{N_MODELS} models done")
+
+    for i in range(start_idx, N_MODELS):
         seed = i
         print(f"\n  Model {i+1}/{N_MODELS} (seed={seed})...")
 
@@ -411,6 +418,14 @@ def main():
         # Free memory
         del model
         torch.cuda.empty_cache() if DEVICE == 'cuda' else None
+
+        # Checkpoint after each model
+        with open(checkpoint_path, 'w') as f:
+            json.dump({
+                'accuracies': accuracies,
+                'grokked': grokked,
+                'fourier_results': fourier_results,
+            }, f, cls=NpEncoder)
 
     print(f"\n  Grokked: {sum(grokked)}/{N_MODELS}")
     print(f"  Accuracies: {[f'{a:.3f}' for a in sorted(accuracies)]}")
@@ -442,7 +457,7 @@ def main():
 
         model = ModularAdditionTransformer().to(DEVICE)
         model.load_state_dict(torch.load(MODEL_DIR / f'model_{idx}.pt',
-                                         map_location=DEVICE, weights_only=True))
+                                         map_location=DEVICE))
         model.eval()
 
         importance = activation_patching(model, x_test, y_test)
@@ -465,7 +480,7 @@ def main():
     # Control A: Pre-grokking snapshot
     print("\n  Control A: Pre-grokking snapshot (step 2000)...")
     pre_grok_importance = {}
-    for idx in rashomon_idx[:5]:  # Just 5 models for speed
+    for idx in rashomon_idx[:10]:  # 10 models for C(10,2)=45 pairs
         torch.manual_seed(idx)
         np.random.seed(idx)
         model = ModularAdditionTransformer().to(DEVICE)
@@ -506,7 +521,7 @@ def main():
     np.random.seed(rashomon_idx[0])
     model_b = ModularAdditionTransformer().to(DEVICE)
     model_b.load_state_dict(torch.load(MODEL_DIR / f'model_{rashomon_idx[0]}.pt',
-                                       map_location=DEVICE, weights_only=True))
+                                       map_location=DEVICE))
     model_b.eval()
     imp_b1 = activation_patching(model_b, x_test, y_test, n_examples=500)
     imp_b2 = activation_patching(model_b, x_test, y_test, n_examples=500)
@@ -719,7 +734,7 @@ def main():
 
     out_path = OUT_DIR / 'results_mech_interp_definitive_v2.json'
     with open(out_path, 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(results, f, indent=2, cls=NpEncoder)
     print(f"\nResults saved to {out_path}")
 
 
