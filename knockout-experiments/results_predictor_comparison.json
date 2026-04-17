@@ -1,0 +1,167 @@
+{
+  "experiment": "predictor_comparison",
+  "predictors": [
+    "raw_correlation",
+    "null_model",
+    "coverage_conflict",
+    "gaussian_formula"
+  ],
+  "metric": "Spearman rho between predicted and observed per-pair flip rates",
+  "results": {
+    "breast_cancer": {
+      "dataset": "Breast Cancer",
+      "n_features": 30,
+      "n_pairs": 435,
+      "n_models": 50,
+      "results": {
+        "raw_correlation": {
+          "spearman": 0.01570217547739159,
+          "p_value": 0.743991135411423
+        },
+        "null_model": {
+          "spearman": 0.01570217547739159,
+          "p_value": 0.743991135411423
+        },
+        "coverage_conflict": {
+          "spearman": 0.1764553895644613,
+          "p_value": 0.0002166703367626537
+        },
+        "gaussian_formula": {
+          "spearman": 0.2817622556480542,
+          "p_value": 2.2133883790136402e-09
+        }
+      },
+      "winner": "gaussian_formula"
+    },
+    "california": {
+      "dataset": "California Housing",
+      "n_features": 8,
+      "n_pairs": 28,
+      "n_models": 50,
+      "results": {
+        "raw_correlation": {
+          "spearman": 0.08648056923918993,
+          "p_value": 0.6616980172078828
+        },
+        "null_model": {
+          "spearman": 0.08648056923918993,
+          "p_value": 0.6616980172078828
+        },
+        "coverage_conflict": {
+          "spearman": 0.20839858079915502,
+          "p_value": 0.2872358827955709
+        },
+        "gaussian_formula": {
+          "spearman": 0.2692939244663382,
+          "p_value": 0.16582068547690035
+        }
+      },
+      "winner": "gaussian_formula"
+    },
+    "german_credit": {
+      "dataset": "German Credit",
+      "n_features": 24,
+      "n_pairs": 276,
+      "n_models": 50,
+      "results": {
+        "raw_correlation": {
+          "spearman": 0.027015318564324833,
+          "p_value": 0.654978428608793
+        },
+        "null_model": {
+          "spearman": 0.027015318564324833,
+          "p_value": 0.654978428608793
+        },
+        "coverage_conflict": {
+          "spearman": 0.24132336975310625,
+          "p_value": 5.09988649689361e-05
+        },
+        "gaussian_formula": {
+          "spearman": 0.2866455349226112,
+          "p_value": 1.2821683157240316e-06
+        }
+      },
+      "winner": "gaussian_formula"
+    },
+    "synthetic_rho0.5": {
+      "dataset": "Synthetic \u03c1=0.5",
+      "n_features": 12,
+      "n_pairs": 66,
+      "n_models": 50,
+      "results": {
+        "raw_correlation": {
+          "spearman": 0.6034651915248931,
+          "p_value": 8.176662057956508e-08
+        },
+        "null_model": {
+          "spearman": 0.6034651915248931,
+          "p_value": 8.176662057956508e-08
+        },
+        "coverage_conflict": {
+          "spearman": 0.37238536814267315,
+          "p_value": 0.0020767739522871897
+        },
+        "gaussian_formula": {
+          "spearman": 0.3325122638555475,
+          "p_value": 0.006375509574066749
+        }
+      },
+      "winner": "raw_correlation"
+    },
+    "synthetic_rho0.7": {
+      "dataset": "Synthetic \u03c1=0.7",
+      "n_features": 12,
+      "n_pairs": 66,
+      "n_models": 50,
+      "results": {
+        "raw_correlation": {
+          "spearman": 0.3988101450788019,
+          "p_value": 0.0009105191619184032
+        },
+        "null_model": {
+          "spearman": 0.3988101450788019,
+          "p_value": 0.0009105191619184032
+        },
+        "coverage_conflict": {
+          "spearman": 0.4833047191939258,
+          "p_value": 3.9477621672978336e-05
+        },
+        "gaussian_formula": {
+          "spearman": 0.5087777893748043,
+          "p_value": 1.2892868914121767e-05
+        }
+      },
+      "winner": "gaussian_formula"
+    },
+    "synthetic_rho0.9": {
+      "dataset": "Synthetic \u03c1=0.9",
+      "n_features": 12,
+      "n_pairs": 66,
+      "n_models": 50,
+      "results": {
+        "raw_correlation": {
+          "spearman": 0.7754177582904184,
+          "p_value": 2.1134236861744242e-14
+        },
+        "null_model": {
+          "spearman": 0.7754177582904184,
+          "p_value": 2.1134236861744242e-14
+        },
+        "coverage_conflict": {
+          "spearman": 0.24182888330865793,
+          "p_value": 0.050437891022204015
+        },
+        "gaussian_formula": {
+          "spearman": 0.2200628333574972,
+          "p_value": 0.07581945230397458
+        }
+      },
+      "winner": "raw_correlation"
+    }
+  },
+  "win_count": {
+    "gaussian_formula": 4,
+    "raw_correlation": 2
+  },
+  "elapsed_seconds": 169.64357781410217
+}
