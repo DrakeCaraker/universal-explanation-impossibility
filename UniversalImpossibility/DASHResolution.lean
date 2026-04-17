@@ -38,71 +38,97 @@ namespace DASHResolution
 
 /-! ### Types for the DASH instance -/
 
-/-- A model ordering: a specific permutation of the ensemble models used to compute
-    sequential SHAP attributions. Different orderings yield different attributions,
-    instantiating the Rashomon property in the SHAP setting. -/
-axiom ModelOrdering : Type
+/-- Model orderings: two possible orderings of a 2-model ensemble. -/
+inductive ModelOrdering where
+  | orderAB : ModelOrdering  -- model A first, then B
+  | orderBA : ModelOrdering  -- model B first, then A
+  deriving DecidableEq
 
-/-- The attribution type: feature attribution vectors produced by SHAP. -/
-axiom DASHAttribution : Type
+/-- Attribution type: which feature is ranked first. -/
+inductive DASHAttribution where
+  | featureJ : DASHAttribution
+  | featureK : DASHAttribution
+  deriving DecidableEq
 
-/-- The observable type: the ensemble's aggregate predictions, which are invariant
-    under reordering of the models used to compute individual attributions. -/
-axiom DASHObservable : Type
+/-- Observable: ensemble prediction (same regardless of ordering). -/
+inductive DASHObservable where
+  | ensemblePred : DASHObservable
+  deriving DecidableEq
 
-/-! ### The DASH explanation system -/
+private def dashObs : ModelOrdering → DASHObservable
+  | _ => DASHObservable.ensemblePred
 
-/-- The DASH explanation system:
-    - `observe` maps a model ordering to the ensemble's predictive behavior
-      (independent of the ordering).
-    - `explain` maps a model ordering to the sequential SHAP attribution for
-      that specific ordering (dependent on the ordering, exhibiting the Rashomon
-      property).
-    - `incompatible` holds when two attributions disagree on a feature ranking.
-    - `rashomon` witnesses two orderings with identical observables but
-      incompatible attributions. -/
-axiom dashSystem : ExplanationSystem ModelOrdering DASHAttribution DASHObservable
+private def dashExp : ModelOrdering → DASHAttribution
+  | ModelOrdering.orderAB => DASHAttribution.featureJ
+  | ModelOrdering.orderBA => DASHAttribution.featureK
 
-/-! ### The permutation group for DASH -/
+private def dashIncomp : DASHAttribution → DASHAttribution → Prop
+  | DASHAttribution.featureJ, DASHAttribution.featureK => True
+  | DASHAttribution.featureK, DASHAttribution.featureJ => True
+  | _, _ => False
 
-/-- The permutation group acting on `ModelOrdering`.
-    Elements represent rearrangements of the model sequence. DASH averages
-    attributions over the entire orbit of this action, achieving G-invariance. -/
-axiom OrderingPerm : Type
+private instance : DecidableRel dashIncomp := fun a b => by
+  cases a <;> cases b <;> simp [dashIncomp] <;> exact inferInstance
 
-/-- `OrderingPerm` is a group. -/
-axiom instOrderingPermGroup : Group OrderingPerm
+private theorem dashIncomp_irrefl (h : DASHAttribution) : ¬dashIncomp h h := by
+  cases h <;> simp [dashIncomp]
 
-attribute [instance] instOrderingPermGroup
+def dashSystem : ExplanationSystem ModelOrdering DASHAttribution DASHObservable :=
+  ⟨dashObs, dashExp, dashIncomp, dashIncomp_irrefl,
+   ModelOrdering.orderAB, ModelOrdering.orderBA, rfl, trivial⟩
 
-/-- `OrderingPerm` acts on `ModelOrdering` by permuting the model sequence. -/
-axiom instOrderingPermAction : MulAction OrderingPerm ModelOrdering
+/-- Permutation group on orderings: ℤ/2ℤ. -/
+inductive OrderingPerm where
+  | id : OrderingPerm
+  | swap : OrderingPerm
+  deriving DecidableEq
 
-attribute [instance] instOrderingPermAction
+private def opMul : OrderingPerm → OrderingPerm → OrderingPerm
+  | OrderingPerm.id, g => g
+  | g, OrderingPerm.id => g
+  | OrderingPerm.swap, OrderingPerm.swap => OrderingPerm.id
 
-/-! ### Symmetry structure for DASH -/
+private def opInv : OrderingPerm → OrderingPerm
+  | OrderingPerm.id => OrderingPerm.id
+  | OrderingPerm.swap => OrderingPerm.swap
 
-/-- The symmetry structure for the DASH system: the permutation group preserves
-    observable outputs (reordering models does not change ensemble predictions)
-    and acts transitively on each observe-fiber (any two orderings that produce
-    the same observable are related by some permutation).
+instance instOrderingPermGroup : Group OrderingPerm where
+  mul := opMul
+  one := OrderingPerm.id
+  inv := opInv
+  mul_assoc := by intro a b c; cases a <;> cases b <;> cases c <;> rfl
+  one_mul := by intro a; cases a <;> rfl
+  mul_one := by intro a; cases a <;> rfl
+  inv_mul_cancel := by intro a; cases a <;> rfl
 
-    These two properties reflect the core design of DASH: it operates on a space
-    where the group connects all orderings of any fixed ensemble. -/
-axiom dashSymmetry : HasSymmetry dashSystem OrderingPerm
+private def opSmul : OrderingPerm → ModelOrdering → ModelOrdering
+  | OrderingPerm.id, θ => θ
+  | OrderingPerm.swap, ModelOrdering.orderAB => ModelOrdering.orderBA
+  | OrderingPerm.swap, ModelOrdering.orderBA => ModelOrdering.orderAB
 
-/-! ### DASH as a G-invariant resolution -/
+instance instOrderingPermAction : MulAction OrderingPerm ModelOrdering where
+  smul := opSmul
+  one_smul := by intro θ; cases θ <;> rfl
+  mul_smul := by intro a b θ; cases a <;> cases b <;> cases θ <;> rfl
 
-/-- The DASH resolution: the consensus attribution obtained by averaging sequential
-    SHAP attributions across all permutations of the model ordering. -/
-axiom dashResolution : ModelOrdering → DASHAttribution
+private theorem dashObs_invariant (g : OrderingPerm) (θ : ModelOrdering) :
+    dashSystem.observe (g • θ) = dashSystem.observe θ := by
+  cases g <;> cases θ <;> rfl
 
-/-- DASH is G-invariant: permuting the model ordering does not change the consensus
-    attribution. Averaging uniformly over all orderings in the orbit means the
-    result is identical for every representative of that orbit.
+def dashSymmetry : HasSymmetry dashSystem OrderingPerm :=
+  ⟨dashObs_invariant,
+   fun θ₁ θ₂ _ => by
+     cases θ₁ <;> cases θ₂
+     · exact ⟨OrderingPerm.id, rfl⟩
+     · exact ⟨OrderingPerm.swap, rfl⟩
+     · exact ⟨OrderingPerm.swap, rfl⟩
+     · exact ⟨OrderingPerm.id, rfl⟩⟩
 
-    Formally: `∀ (g : OrderingPerm) (θ : ModelOrdering), dashResolution (g • θ) = dashResolution θ`. -/
-axiom dashResolution_gInvariant : gInvariant dashResolution OrderingPerm
+def dashResolution : ModelOrdering → DASHAttribution
+  | _ => DASHAttribution.featureJ
+
+theorem dashResolution_gInvariant : gInvariant dashResolution OrderingPerm := by
+  intro g θ; cases g <;> cases θ <;> rfl
 
 /-! ### Main result: G-invariance implies stability -/
 

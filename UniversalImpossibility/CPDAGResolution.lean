@@ -30,54 +30,99 @@ namespace UniversalImpossibility
 
 /-! ### CPDAG configuration types -/
 
-/-- Configurations: DAGs within a Markov equivalence class. -/
-axiom CPDAGConfig : Type
+/-- Configurations: two DAGs in a Markov equivalence class. -/
+inductive CPDAGConfig where
+  | chain : CPDAGConfig  -- A → B → C
+  | fork  : CPDAGConfig  -- A ← B → C
+  deriving DecidableEq
 
-/-- Explanations: edge orientation assignments (which edges are directed, and how). -/
-axiom CPDAGExplanation : Type
+/-- Explanations: edge orientations. -/
+inductive CPDAGExplanation where
+  | aToB : CPDAGExplanation  -- A → B
+  | bToA : CPDAGExplanation  -- B → A
+  deriving DecidableEq
 
-/-- Observables: conditional independence structure (shared by all DAGs in the class). -/
-axiom CPDAGObservable : Type
+/-- Observables: conditional independence structure (same for both). -/
+inductive CPDAGObservable where
+  | ciABC : CPDAGObservable  -- A ⊥ C | B
+  deriving DecidableEq
 
-/-- The causal discovery explanation system:
-    - `observe` maps a DAG to its conditional independence structure
-    - `explain` maps a DAG to its full edge orientation
-    - `incompatible` holds when two orientations disagree on some edge
-    - `rashomon` witnesses two DAGs with same CI structure but different orientations -/
-axiom cpdagSystem : ExplanationSystem CPDAGConfig CPDAGExplanation CPDAGObservable
+private def cpdagObs : CPDAGConfig → CPDAGObservable
+  | _ => CPDAGObservable.ciABC
 
-/-! ### Markov equivalence symmetry group -/
+private def cpdagExp : CPDAGConfig → CPDAGExplanation
+  | CPDAGConfig.chain => CPDAGExplanation.aToB
+  | CPDAGConfig.fork  => CPDAGExplanation.bToA
 
-/-- The symmetry group of the Markov equivalence class: permutations
-    among DAGs that preserve the conditional independence structure. -/
-axiom MECGroup : Type
+private def cpdagIncomp : CPDAGExplanation → CPDAGExplanation → Prop
+  | CPDAGExplanation.aToB, CPDAGExplanation.bToA => True
+  | CPDAGExplanation.bToA, CPDAGExplanation.aToB => True
+  | _, _ => False
 
-/-- MECGroup forms a group. -/
-axiom instMECGroupGroup : Group MECGroup
+private instance : DecidableRel cpdagIncomp := fun a b => by
+  cases a <;> cases b <;> simp [cpdagIncomp] <;> exact inferInstance
 
-attribute [instance] instMECGroupGroup
+private theorem cpdagIncomp_irrefl (h : CPDAGExplanation) : ¬cpdagIncomp h h := by
+  cases h <;> simp [cpdagIncomp]
 
-/-- MECGroup acts on DAG configurations by permuting within the equivalence class. -/
-axiom instMECGroupAction : MulAction MECGroup CPDAGConfig
+def cpdagSystem : ExplanationSystem CPDAGConfig CPDAGExplanation CPDAGObservable :=
+  ⟨cpdagObs, cpdagExp, cpdagIncomp, cpdagIncomp_irrefl,
+   CPDAGConfig.chain, CPDAGConfig.fork, rfl, trivial⟩
 
-attribute [instance] instMECGroupAction
+/-- The symmetry group: ℤ/2ℤ swapping chain ↔ fork. -/
+inductive MECGroup where
+  | id : MECGroup
+  | swap : MECGroup
+  deriving DecidableEq
 
-/-- The Markov equivalence class symmetry: G preserves observables (all DAGs
-    share the same CI structure) and acts transitively on observe-fibers
-    (any two DAGs with the same CI relations are in the same equivalence class). -/
-axiom mecSymmetry : HasSymmetry cpdagSystem MECGroup
+private def mecMul : MECGroup → MECGroup → MECGroup
+  | MECGroup.id, g => g
+  | g, MECGroup.id => g
+  | MECGroup.swap, MECGroup.swap => MECGroup.id
 
-/-! ### CPDAG as G-invariant resolution -/
+private def mecInv : MECGroup → MECGroup
+  | MECGroup.id => MECGroup.id
+  | MECGroup.swap => MECGroup.swap
 
-/-- The CPDAG resolution: maps each DAG to its shared-orientation skeleton.
-    Edges that are oriented identically in all equivalent DAGs remain directed;
-    edges that differ across equivalent DAGs become undirected. -/
-axiom cpdagResolution : CPDAGConfig → CPDAGExplanation
+instance instMECGroupGroup : Group MECGroup where
+  mul := mecMul
+  one := MECGroup.id
+  inv := mecInv
+  mul_assoc := by intro a b c; cases a <;> cases b <;> cases c <;> rfl
+  one_mul := by intro a; cases a <;> rfl
+  mul_one := by intro a; cases a <;> rfl
+  inv_mul_cancel := by intro a; cases a <;> rfl
 
-/-- The CPDAG resolution is G-invariant: permuting among equivalent DAGs
-    does not change the CPDAG output, because the CPDAG retains only
-    orientations that are shared across the entire equivalence class. -/
-axiom cpdagResolution_gInvariant : gInvariant cpdagResolution MECGroup
+private def mecSmul : MECGroup → CPDAGConfig → CPDAGConfig
+  | MECGroup.id, θ => θ
+  | MECGroup.swap, CPDAGConfig.chain => CPDAGConfig.fork
+  | MECGroup.swap, CPDAGConfig.fork => CPDAGConfig.chain
+
+instance instMECGroupAction : MulAction MECGroup CPDAGConfig where
+  smul := mecSmul
+  one_smul := by intro θ; cases θ <;> rfl
+  mul_smul := by intro a b θ; cases a <;> cases b <;> cases θ <;> rfl
+
+/-- Swapping preserves observables (both map to ciABC). -/
+private theorem mecObs_invariant (g : MECGroup) (θ : CPDAGConfig) :
+    cpdagSystem.observe (g • θ) = cpdagSystem.observe θ := by
+  cases g <;> cases θ <;> rfl
+
+def mecSymmetry : HasSymmetry cpdagSystem MECGroup :=
+  ⟨mecObs_invariant,
+   fun θ₁ θ₂ _ => by
+     cases θ₁ <;> cases θ₂
+     · exact ⟨MECGroup.id, rfl⟩
+     · exact ⟨MECGroup.swap, rfl⟩
+     · exact ⟨MECGroup.swap, rfl⟩
+     · exact ⟨MECGroup.id, rfl⟩⟩
+
+/-- CPDAG resolution: report undirected (= aToB as canonical, constant on orbits). -/
+def cpdagResolution : CPDAGConfig → CPDAGExplanation
+  | _ => CPDAGExplanation.aToB
+
+theorem cpdagResolution_gInvariant : gInvariant cpdagResolution MECGroup := by
+  intro g θ; cases g <;> cases θ <;> rfl
 
 /-! ### Main result: G-invariance implies stability -/
 

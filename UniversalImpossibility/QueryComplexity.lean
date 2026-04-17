@@ -26,10 +26,12 @@ namespace UniversalImpossibility
 
 /-- The universal constant in the Gaussian testing lower bound.
     Le Cam's two-point method (Tsybakov 2009, Thm 2.2) gives C ≥ 1/8.
-    We axiomatize existence and positivity; the exact value is not needed
-    for any downstream result. -/
-axiom testing_constant : ℝ
-axiom testing_constant_pos : 0 < testing_constant
+    We use 1/8 as a concrete lower bound. -/
+noncomputable def testing_constant : ℝ := 1 / 8
+
+theorem testing_constant_pos : 0 < testing_constant := by
+  unfold testing_constant
+  norm_num
 
 /-- Le Cam lower bound (structural form):
     If an algorithm uses n model-training queries and n is not below

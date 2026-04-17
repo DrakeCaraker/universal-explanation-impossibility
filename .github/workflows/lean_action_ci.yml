@@ -37,4 +37,4 @@ jobs:
             exit 1
           fi
 
-          echo "Expected: 100 files, 488 theorems, 47 axioms, 0 sorry"
+          echo "Expected: 100 files, 491 theorems, 25 axioms, 0 sorry"
