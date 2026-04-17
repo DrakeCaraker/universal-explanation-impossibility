@@ -1,0 +1,81 @@
+{
+  "experiment": "drug_discovery_mi_clustering",
+  "description": "MI-based group discovery fixes the Pearson failure on binary fingerprints",
+  "observed_overall_flip": 0.2305,
+  "pearson_result": {
+    "n_clusters": 300,
+    "predicted_flip": 0.0,
+    "status": "FAILED"
+  },
+  "mi_results": {
+    "0.05": {
+      "n_clusters": 99,
+      "max_cluster": 187,
+      "frac_within": 0.3883612040133779,
+      "predicted_flip": 0.19418060200668896
+    },
+    "0.1": {
+      "n_clusters": 201,
+      "max_cluster": 54,
+      "frac_within": 0.034202898550724635,
+      "predicted_flip": 0.017101449275362317
+    },
+    "0.15": {
+      "n_clusters": 255,
+      "max_cluster": 11,
+      "frac_within": 0.003076923076923077,
+      "predicted_flip": 0.0015384615384615385
+    },
+    "0.2": {
+      "n_clusters": 276,
+      "max_cluster": 7,
+      "frac_within": 0.001226309921962096,
+      "predicted_flip": 0.000613154960981048
+    },
+    "0.3": {
+      "n_clusters": 294,
+      "max_cluster": 3,
+      "frac_within": 0.00017837235228539575,
+      "predicted_flip": 8.918617614269788e-05
+    }
+  },
+  "jaccard_results": {
+    "0.1": {
+      "n_clusters": 2,
+      "max_cluster": 299,
+      "frac_within": 0.9933333333333333,
+      "predicted_flip": 0.49666666666666665
+    },
+    "0.2": {
+      "n_clusters": 74,
+      "max_cluster": 200,
+      "frac_within": 0.4447045707915273,
+      "predicted_flip": 0.22235228539576365
+    },
+    "0.3": {
+      "n_clusters": 158,
+      "max_cluster": 95,
+      "frac_within": 0.10318840579710145,
+      "predicted_flip": 0.051594202898550726
+    },
+    "0.4": {
+      "n_clusters": 220,
+      "max_cluster": 33,
+      "frac_within": 0.01431438127090301,
+      "predicted_flip": 0.007157190635451505
+    }
+  },
+  "best_mi_tau": 0.05,
+  "shap_validation": {
+    "n_rashomon": 24,
+    "n_within_pairs": 85,
+    "n_between_pairs": 2915,
+    "mean_within_flip": 0.23194646766235452,
+    "mean_between_flip": 0.2269722746878836,
+    "mean_overall_flip": 0.22711321015549363,
+    "bimodal_gap": 0.004974192974470909
+  },
+  "noether_confirmed": 0,
+  "noether_total": 3,
+  "elapsed_seconds": 176.88199925422668
+}
