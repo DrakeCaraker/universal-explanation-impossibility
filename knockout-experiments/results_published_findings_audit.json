@@ -1,0 +1,179 @@
+{
+  "experiment": "published_findings_audit",
+  "description": "Stability audit of commonly-cited SHAP top-feature claims",
+  "n_datasets": 2,
+  "total_claims_audited": 10,
+  "total_unstable": 5,
+  "pct_unstable": 50.0,
+  "results": {
+    "breast_cancer": {
+      "dataset": "Breast Cancer",
+      "n_features": 30,
+      "n_models": 30,
+      "score_mean": 0.9364522417153995,
+      "score_std": 0.009870556648087454,
+      "top1_agreement": 0.36666666666666664,
+      "top1_feature": "worst perimeter",
+      "top1_unique": 5,
+      "top3_jaccard_mean": 0.44965517241379316,
+      "top5_jaccard_mean": 0.5858511220580187,
+      "stable_features": 1,
+      "unstable_features": 23,
+      "feature_cv": {
+        "mean radius": 0.8754473924636841,
+        "mean texture": 0.525955319404602,
+        "mean perimeter": 1.3709945678710938,
+        "mean area": 1.206497073173523,
+        "mean smoothness": 0.9535710215568542,
+        "mean compactness": 1.160911202430725,
+        "mean concavity": 0.9564639925956726,
+        "mean concave points": 0.3494858145713806,
+        "mean symmetry": 0.8539444804191589,
+        "mean fractal dimension": 1.3602293729782104,
+        "radius error": 0.7066975235939026,
+        "texture error": 0.8017860651016235,
+        "perimeter error": 0.850834846496582,
+        "area error": 0.5976061224937439,
+        "smoothness error": 1.5442156791687012,
+        "compactness error": 0.9458281993865967,
+        "concavity error": 1.10940682888031,
+        "concave points error": 1.1495180130004883,
+        "symmetry error": 0.7388871312141418,
+        "fractal dimension error": 0.9643096327781677,
+        "worst radius": 0.39681077003479004,
+        "worst texture": 0.27160221338272095,
+        "worst perimeter": 0.4447566866874695,
+        "worst area": 0.45843470096588135,
+        "worst smoothness": 0.8771636486053467,
+        "worst compactness": 0.7006284594535828,
+        "worst concavity": 0.47170132398605347,
+        "worst concave points": 0.31940844655036926,
+        "worst symmetry": 0.789962112903595,
+        "worst fractal dimension": 0.7439061403274536
+      },
+      "published_audit": {
+        "worst concave points": {
+          "cv": 0.31940844655036926,
+          "mean_rank": 2.3,
+          "rank_std": 1.46401275039985,
+          "in_top3_pct": 0.8,
+          "in_top5_pct": 0.9666666666666667,
+          "stable": false,
+          "verdict": "UNSTABLE"
+        },
+        "worst perimeter": {
+          "cv": 0.4447566866874695,
+          "mean_rank": 2.7333333333333334,
+          "rank_std": 1.7499206331208914,
+          "in_top3_pct": 0.6666666666666666,
+          "in_top5_pct": 0.9333333333333333,
+          "stable": false,
+          "verdict": "UNSTABLE"
+        },
+        "worst radius": {
+          "cv": 0.39681077003479004,
+          "mean_rank": 5.333333333333333,
+          "rank_std": 2.454021642574128,
+          "in_top3_pct": 0.23333333333333334,
+          "in_top5_pct": 0.5333333333333333,
+          "stable": false,
+          "verdict": "UNSTABLE"
+        },
+        "worst area": {
+          "cv": 0.45843470096588135,
+          "mean_rank": 6.066666666666666,
+          "rank_std": 2.6574841903993,
+          "in_top3_pct": 0.16666666666666666,
+          "in_top5_pct": 0.5333333333333333,
+          "stable": false,
+          "verdict": "UNSTABLE"
+        },
+        "mean concave points": {
+          "cv": 0.3494858145713806,
+          "mean_rank": 2.9,
+          "rank_std": 1.885912687975418,
+          "in_top3_pct": 0.7666666666666667,
+          "in_top5_pct": 0.8333333333333334,
+          "stable": false,
+          "verdict": "UNSTABLE"
+        }
+      },
+      "n_published_stable": 0,
+      "n_published_unstable": 5
+    },
+    "california": {
+      "dataset": "California Housing",
+      "n_features": 8,
+      "n_models": 30,
+      "score_mean": 0.8212667762134481,
+      "score_std": 0.003031042436829058,
+      "top1_agreement": 0.5333333333333333,
+      "top1_feature": "Latitude",
+      "top1_unique": 2,
+      "top3_jaccard_mean": 1.0,
+      "top5_jaccard_mean": 0.9379310344827586,
+      "stable_features": 8,
+      "unstable_features": 0,
+      "feature_cv": {
+        "MedInc": 0.06351859867572784,
+        "HouseAge": 0.07338391989469528,
+        "AveRooms": 0.16405394673347473,
+        "AveBedrms": 0.14431776106357574,
+        "Population": 0.12272904813289642,
+        "AveOccup": 0.034204255789518356,
+        "Latitude": 0.06169985607266426,
+        "Longitude": 0.057576145976781845
+      },
+      "published_audit": {
+        "MedInc": {
+          "cv": 0.06351859867572784,
+          "mean_rank": 1.6666666666666667,
+          "rank_std": 0.6992058987801011,
+          "in_top3_pct": 1.0,
+          "in_top5_pct": 1.0,
+          "stable": true,
+          "verdict": "STABLE"
+        },
+        "AveOccup": {
+          "cv": 0.034204255789518356,
+          "mean_rank": 4.0,
+          "rank_std": 0.0,
+          "in_top3_pct": 0.0,
+          "in_top5_pct": 1.0,
+          "stable": true,
+          "verdict": "STABLE"
+        },
+        "Latitude": {
+          "cv": 0.06169985607266426,
+          "mean_rank": 1.4666666666666666,
+          "rank_std": 0.49888765156985887,
+          "in_top3_pct": 1.0,
+          "in_top5_pct": 1.0,
+          "stable": true,
+          "verdict": "STABLE"
+        },
+        "Longitude": {
+          "cv": 0.057576145976781845,
+          "mean_rank": 2.8666666666666667,
+          "rank_std": 0.33993463423951903,
+          "in_top3_pct": 1.0,
+          "in_top5_pct": 1.0,
+          "stable": true,
+          "verdict": "STABLE"
+        },
+        "HouseAge": {
+          "cv": 0.07338391989469528,
+          "mean_rank": 5.9,
+          "rank_std": 0.3,
+          "in_top3_pct": 0.0,
+          "in_top5_pct": 0.1,
+          "stable": true,
+          "verdict": "STABLE"
+        }
+      },
+      "n_published_stable": 5,
+      "n_published_unstable": 0
+    }
+  },
+  "elapsed_seconds": 8.731233835220337
+}
