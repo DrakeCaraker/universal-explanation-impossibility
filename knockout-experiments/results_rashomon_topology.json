@@ -1,0 +1,303 @@
+{
+  "experiment": "rashomon_topology",
+  "question": "Do SHAP-space clusters predict flip rate bimodality?",
+  "results": {
+    "synthetic_0.5": {
+      "dataset": "Synthetic \u03c1=0.5",
+      "n_models": 50,
+      "n_features": 12,
+      "best_k": 2,
+      "best_silhouette": 0.33908775448799133,
+      "natural_k": 10,
+      "results_by_k": {
+        "2": {
+          "silhouette": 0.33908775448799133,
+          "mean_same_cluster_flip": 0.20173432437583383,
+          "mean_diff_cluster_flip": 0.19182487009312135,
+          "gap": -0.009909454282712477,
+          "correlation": -0.07603282053308895,
+          "p_value": 0.007761180656727743,
+          "n_same_pairs": 636,
+          "n_diff_pairs": 589,
+          "cluster_sizes": [
+            19,
+            31
+          ]
+        },
+        "3": {
+          "silhouette": 0.2838139832019806,
+          "mean_same_cluster_flip": 0.19349457881567972,
+          "mean_diff_cluster_flip": 0.19889004109536432,
+          "gap": 0.005395462279684599,
+          "correlation": 0.03163645137598,
+          "p_value": 0.2685437610458833,
+          "n_same_pairs": 436,
+          "n_diff_pairs": 789,
+          "cluster_sizes": [
+            15,
+            11,
+            24
+          ]
+        },
+        "4": {
+          "silhouette": 0.2508555054664612,
+          "mean_same_cluster_flip": 0.20020993063161738,
+          "mean_diff_cluster_flip": 0.19576504122976687,
+          "gap": -0.004444889401850505,
+          "correlation": -0.03674088591610787,
+          "p_value": 0.19877408294094076,
+          "n_same_pairs": 332,
+          "n_diff_pairs": 893,
+          "cluster_sizes": [
+            13,
+            8,
+            20,
+            9
+          ]
+        },
+        "5": {
+          "silhouette": 0.24261263012886047,
+          "mean_same_cluster_flip": 0.19772412925939892,
+          "mean_diff_cluster_flip": 0.19678492239467846,
+          "gap": -0.0009392068647204599,
+          "correlation": -0.011988069009570529,
+          "p_value": 0.6750925306764544,
+          "n_same_pairs": 241,
+          "n_diff_pairs": 984,
+          "cluster_sizes": [
+            8,
+            9,
+            13,
+            13,
+            7
+          ]
+        }
+      },
+      "topology_predicts_bimodality": false,
+      "mean_pairwise_flip": 0.19696969696969696
+    },
+    "synthetic_0.7": {
+      "dataset": "Synthetic \u03c1=0.7",
+      "n_models": 50,
+      "n_features": 12,
+      "best_k": 2,
+      "best_silhouette": 0.2616579532623291,
+      "natural_k": 10,
+      "results_by_k": {
+        "2": {
+          "silhouette": 0.2616579532623291,
+          "mean_same_cluster_flip": 0.24101245399082336,
+          "mean_diff_cluster_flip": 0.2441239316239316,
+          "gap": 0.003111477633108234,
+          "correlation": 0.028862871230008347,
+          "p_value": 0.31279267706040864,
+          "n_same_pairs": 601,
+          "n_diff_pairs": 624,
+          "cluster_sizes": [
+            24,
+            26
+          ]
+        },
+        "3": {
+          "silhouette": 0.18659834563732147,
+          "mean_same_cluster_flip": 0.24116161616161616,
+          "mean_diff_cluster_flip": 0.24328325474284462,
+          "gap": 0.0021216385812284633,
+          "correlation": 0.003315870921093463,
+          "p_value": 0.9077022169648019,
+          "n_same_pairs": 396,
+          "n_diff_pairs": 829,
+          "cluster_sizes": [
+            16,
+            15,
+            19
+          ]
+        },
+        "4": {
+          "silhouette": 0.20250144600868225,
+          "mean_same_cluster_flip": 0.24280303030303027,
+          "mean_diff_cluster_flip": 0.24252469445839606,
+          "gap": -0.00027833584463421435,
+          "correlation": 0.004122742169743222,
+          "p_value": 0.8853825923764778,
+          "n_same_pairs": 320,
+          "n_diff_pairs": 905,
+          "cluster_sizes": [
+            17,
+            13,
+            14,
+            6
+          ]
+        },
+        "5": {
+          "silhouette": 0.15527339279651642,
+          "mean_same_cluster_flip": 0.24125400344912537,
+          "mean_diff_cluster_flip": 0.24293496765406875,
+          "gap": 0.0016809642049433748,
+          "correlation": 0.006911287241768207,
+          "p_value": 0.809050607079042,
+          "n_same_pairs": 246,
+          "n_diff_pairs": 979,
+          "cluster_sizes": [
+            8,
+            13,
+            8,
+            7,
+            14
+          ]
+        }
+      },
+      "topology_predicts_bimodality": false,
+      "mean_pairwise_flip": 0.2425974025974026
+    },
+    "synthetic_0.9": {
+      "dataset": "Synthetic \u03c1=0.9",
+      "n_models": 50,
+      "n_features": 12,
+      "best_k": 2,
+      "best_silhouette": 0.3097044825553894,
+      "natural_k": 10,
+      "results_by_k": {
+        "2": {
+          "silhouette": 0.3097044825553894,
+          "mean_same_cluster_flip": 0.2687030303030303,
+          "mean_diff_cluster_flip": 0.2733333333333333,
+          "gap": 0.00463030303030304,
+          "correlation": 0.03140616442252018,
+          "p_value": 0.272045349686446,
+          "n_same_pairs": 625,
+          "n_diff_pairs": 600,
+          "cluster_sizes": [
+            30,
+            20
+          ]
+        },
+        "3": {
+          "silhouette": 0.25162628293037415,
+          "mean_same_cluster_flip": 0.27269170579029733,
+          "mean_diff_cluster_flip": 0.27005347593582885,
+          "gap": -0.002638229854468488,
+          "correlation": -0.018953265285820326,
+          "p_value": 0.5074928629635502,
+          "n_same_pairs": 426,
+          "n_diff_pairs": 799,
+          "cluster_sizes": [
+            19,
+            21,
+            10
+          ]
+        },
+        "4": {
+          "silhouette": 0.23714099824428558,
+          "mean_same_cluster_flip": 0.27202020202020205,
+          "mean_diff_cluster_flip": 0.27063063063063064,
+          "gap": -0.001389571389571409,
+          "correlation": -0.0036906754102858,
+          "p_value": 0.8973242516022871,
+          "n_same_pairs": 300,
+          "n_diff_pairs": 925,
+          "cluster_sizes": [
+            12,
+            16,
+            13,
+            9
+          ]
+        },
+        "5": {
+          "silhouette": 0.2585848271846771,
+          "mean_same_cluster_flip": 0.270926477893691,
+          "mean_diff_cluster_flip": 0.27098199116547744,
+          "gap": 5.551327178643373e-05,
+          "correlation": 0.0018610085304442154,
+          "p_value": 0.9481191747125082,
+          "n_same_pairs": 244,
+          "n_diff_pairs": 981,
+          "cluster_sizes": [
+            14,
+            12,
+            7,
+            10,
+            7
+          ]
+        }
+      },
+      "topology_predicts_bimodality": false,
+      "mean_pairwise_flip": 0.2709709338280767
+    },
+    "breast_cancer": {
+      "dataset": "Breast Cancer",
+      "n_models": 50,
+      "n_features": 30,
+      "best_k": 2,
+      "best_silhouette": 0.4278949797153473,
+      "natural_k": 10,
+      "results_by_k": {
+        "2": {
+          "silhouette": 0.4278949797153473,
+          "mean_same_cluster_flip": 0.35695574941489405,
+          "mean_diff_cluster_flip": 0.36443594769156484,
+          "gap": 0.007480198276670791,
+          "correlation": 0.04103416167821881,
+          "p_value": 0.1511919414044292,
+          "n_same_pairs": 625,
+          "n_diff_pairs": 600,
+          "cluster_sizes": [
+            30,
+            20
+          ]
+        },
+        "3": {
+          "silhouette": 0.42550933361053467,
+          "mean_same_cluster_flip": 0.36706444638361435,
+          "mean_diff_cluster_flip": 0.3572812557755847,
+          "gap": -0.009783190608029624,
+          "correlation": -0.04449191877621487,
+          "p_value": 0.11961344583874613,
+          "n_same_pairs": 418,
+          "n_diff_pairs": 807,
+          "cluster_sizes": [
+            18,
+            11,
+            21
+          ]
+        },
+        "4": {
+          "silhouette": 0.3802502453327179,
+          "mean_same_cluster_flip": 0.3601488210207316,
+          "mean_diff_cluster_flip": 0.3607845500712845,
+          "gap": 0.0006357290505529245,
+          "correlation": 0.011518230052694641,
+          "p_value": 0.6871396129827572,
+          "n_same_pairs": 318,
+          "n_diff_pairs": 907,
+          "cluster_sizes": [
+            12,
+            19,
+            10,
+            9
+          ]
+        },
+        "5": {
+          "silhouette": 0.3299466073513031,
+          "mean_same_cluster_flip": 0.3674184825692423,
+          "mean_diff_cluster_flip": 0.35889368303180713,
+          "gap": -0.00852479953743518,
+          "correlation": -0.04104724382238723,
+          "p_value": 0.15106153868946348,
+          "n_same_pairs": 248,
+          "n_diff_pairs": 977,
+          "cluster_sizes": [
+            11,
+            15,
+            8,
+            6,
+            10
+          ]
+        }
+      },
+      "topology_predicts_bimodality": false,
+      "mean_pairwise_flip": 0.36061951999938585
+    }
+  },
+  "elapsed_seconds": 25.57865595817566
+}
