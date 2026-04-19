@@ -1,0 +1,98 @@
+{
+  "experiment": "brain_imaging_knockout",
+  "results": {
+    "activation_control": {
+      "raw_d": 0.08180045113389987,
+      "raw_p": 0.004864003467092186,
+      "strata": [
+        {
+          "label": "Q1 (most similar)",
+          "within": 1.0182636787959058,
+          "between": 1.0365048137944564,
+          "gap": 0.018241134998550512,
+          "d": 0.03201649072836267,
+          "p": 0.2519295140742903,
+          "n_w": 199,
+          "n_b": 791
+        },
+        {
+          "label": "Q2",
+          "within": 1.0192207869168874,
+          "between": 1.0683805365429215,
+          "gap": 0.04915974962603409,
+          "d": 0.08536754793676567,
+          "p": 0.1303712652230014,
+          "n_w": 178,
+          "n_b": 812
+        },
+        {
+          "label": "Q3",
+          "within": 0.9715328091026553,
+          "between": 1.061911170490119,
+          "gap": 0.09037836138746369,
+          "d": 0.1578516060959453,
+          "p": 0.005822985412573059,
+          "n_w": 163,
+          "n_b": 827
+        },
+        {
+          "label": "Q4",
+          "within": 1.0542016249151989,
+          "between": 1.095282670411513,
+          "gap": 0.041081045496314195,
+          "d": 0.06543211455765821,
+          "p": 0.11919211218714082,
+          "n_w": 136,
+          "n_b": 854
+        },
+        {
+          "label": "Q5 (most different)",
+          "within": 1.0665622778156711,
+          "between": 1.0793139764122794,
+          "gap": 0.012751698596608296,
+          "d": 0.020621252310089704,
+          "p": 0.554541307267881,
+          "n_w": 86,
+          "n_b": 904
+        }
+      ],
+      "survives": true,
+      "n_strata_significant": 1,
+      "n_strata_positive": 5
+    },
+    "network_software": {
+      "cell_means": {
+        "same_net_same_sw": 0.3122262283050826,
+        "same_net_diff_sw": 0.3249634279586019,
+        "diff_net_same_sw": 0.30007064948990547,
+        "diff_net_diff_sw": 0.31509072076314887
+      },
+      "cell_counts": {
+        "same_net_same_sw": 5334,
+        "same_net_diff_sw": 5334,
+        "diff_net_same_sw": 29316,
+        "diff_net_diff_sw": 29316
+      },
+      "network_main_effect": 0.011014143005315058,
+      "network_p": 2.3153615103514895e-15,
+      "software_main_effect": 0.014668647399661672,
+      "software_p": 1.8321750833634723e-52,
+      "net_effect_same_sw": 0.012155578815177148,
+      "net_effect_diff_sw": 0.009872707195453023,
+      "interaction": -0.002282871619724125,
+      "interaction_ci": [
+        -0.00794307449252563,
+        0.0030734038758176395
+      ],
+      "software_distribution": {
+        "Unknown": 23,
+        "Python": 1,
+        "SPM": 8,
+        "FSL": 12,
+        "AFNI": 4
+      }
+    }
+  },
+  "is_knockout": true,
+  "elapsed_seconds": 260.80174803733826
+}

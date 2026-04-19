@@ -12,6 +12,7 @@
 | S2 | SAM → stable explanations | ⚠️ PARTIAL | 53% flip reduction on BC, 7% on synthetic | Real but dataset-dependent; not a universal fix |
 | A2 | Spectral gap → ensemble size | ❌ ELIMINATED | Theory 14-100× too fast, even at ρ=0.999 | Exact-group theory doesn't predict approximate-group convergence |
 | A6 | Flip correlations from irreducibles | ❌ ELIMINATED | Within-group corr (-0.031) ≈ between (-0.013) | Features in same irreducible do NOT flip together |
+| 7 | Brain imaging (Botvinik-Nezer) | ⚠️ PARTIAL (v3 definitive) | η law FAILS at all granularities; **Noether analog CONFIRMED** (d=0.43, perm p<0.001, 7/7 hyps consistent) | η=(k-1)/k doesn't predict disagreement level (S100: ρ≈0; S400: ρ=-0.19 but confounded, partial ρ=-0.04). Noether analog is GENUINE: functional networks predict pattern similarity 4.5× better than random, 2.2× better than spatial proximity. Survives all controls. |
 
 ## Running
 
@@ -23,7 +24,7 @@
 
 | Rank | # | Direction | What's needed | Knockout potential | Why |
 |------|---|-----------|--------------|-------------------|-----|
-| **1** | 7 | Brain imaging (Botvinik-Nezer) | Their public dataset (70 teams, same fMRI data) | **Very high** | Already in Nature (2020). Showing their disagreement IS the impossibility — with η law predicting which brain regions are stable — would reframe a known result through the framework. Nature readers already know the paper. |
+| ~~1~~ | ~~7~~ | ~~Brain imaging (Botvinik-Nezer)~~ | ~~TESTED~~ | ~~⚠️ PARTIAL~~ | ρ=0.310 (p=0.0017): connectivity predicts disagreement direction, but pairwise correlation fails. Not a knockout — analogical, not formal. Moved to Tested. |
 | **2** | 15 | AI safety benchmarks | HELM/Open LLM Leaderboard runs | **Very high** | AI safety is the defining issue. Showing benchmark rankings face the impossibility — and predicting which rankings are stable — would reach every AI policymaker. |
 | **3** | 11 | Clinical published scores | Specific papers with code/data | **High** | "Published clinical risk factor X is unstable" with the paper named. Requires finding the right paper. |
 | **4** | 8 | Meta-analysis = orbit averaging | None (theoretical proof) | **High** | Proving meta-analysis is Pareto-optimal via the framework. Elegant but requires careful formulation to avoid being dismissed as "obvious." |

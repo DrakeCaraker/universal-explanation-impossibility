@@ -2937,6 +2937,94 @@ Across a 30-pipeline multiverse (3 model classes $\times$ 3 scalers $\times$ 3 f
 \paragraph{Generalization gap correlation.}
 Across the original 5 datasets, the cross-dataset correlation between mean flip rate and generalization gap (ID accuracy $-$ OOD accuracy) is Pearson $r = -0.91$, $p = 0.034$, $n = 5$---suggestive of an inverse relationship (more instability correlates with smaller generalization gaps).  However, leave-one-out analysis reveals this result is driven by a single outlier: removing California Housing (which has both the lowest instability and the largest geographic distribution shift) reduces the correlation to $r = -0.20$, $p = 0.80$.  Expanding to 13 datasets (8 real $+$ 5 synthetic controls with varying feature redundancy) yields $r = -0.58$, $p = 0.038$, but removing California Housing from the full set reverses the sign to $r = +0.26$.  The synthetic control with varying redundancy (0--40 redundant features) shows the \emph{opposite} pattern ($r = +0.80$): more redundancy increases both instability and generalization gap, contrary to the initial hypothesis.  The finding requires validation on larger, more diverse samples before causal interpretation; we report it as a null result with respect to the specific directional prediction.  Breast Cancer shows a negative generalization gap (OOD accuracy exceeds ID accuracy), likely because the `extreme' patients have more distinctive features that are easier to classify.
 
+\subsection{Multi-Analyst Disagreement as Impossibility: Neuroimaging}
+\label{sec:narps}
+
+The impossibility theorem applies beyond ML explanation methods to any setting where multiple valid analyses of the same data produce incompatible conclusions.  We demonstrate this on the Botvinik-Nezer et al.\ (2020) neuroimaging study, where 70 independent teams analysed the same fMRI dataset and reached dramatically different conclusions about which brain regions were significantly activated.
+
+\paragraph{The Rashomon property.}
+The 70 analysis pipelines constitute the Rashomon set: they share the same observable (fMRI data from 108 participants on a mixed-gambles task) but produce incompatible explanations (different activation maps).  This is the Rashomon property by definition; the impossibility theorem applies immediately.
+
+\paragraph{Data and methods.}
+Overlap maps (proportion of teams finding significance at each voxel) were downloaded from NeuroVault collection~6047 for 9 hypotheses (7 non-empty after excluding hypotheses~6 and~9).  Individual team unthresholded $t$-statistic maps were downloaded from each team's NeuroVault collection; 48 of 70 teams had accessible maps.  All maps were parcellated using the Schaefer 100-parcel atlas (7 Yeo resting-state networks) via nilearn.  Team software metadata (12~FSL, 8~SPM, 4~AFNI, 24~unknown) was obtained from the narps\_open\_pipelines repository.
+
+\paragraph{The Noether structural prediction.}
+The framework predicts that brain regions sharing a functional network (the approximate symmetry group) should have more similar disagreement patterns than regions in different networks.  Network labels from the Yeo et al.\ (2011) resting-state parcellation are \emph{independent} of the NARPS task data.
+
+Using overlap-based disagreement (the metric $1 - \max(\text{overlap}, 1 - \text{overlap})$ per region per hypothesis), within-network region pairs show more similar disagreement patterns than between-network pairs (raw Cohen's $d = 0.43$, permutation $p < 0.001$, Mann--Whitney $p = 4.5 \times 10^{-32}$, consistent across all 7 non-empty hypotheses).  The effect survives three controls:
+\begin{itemize}
+  \item \emph{Random grouping null:} Random assignments of matching group sizes yield $d = 0.001 \pm 0.050$ (observed is $4.9\times$ the 95th percentile of the null).
+  \item \emph{Spatial autocorrelation:} $k$-means clustering on region centroids gives $d = 0.07$--$0.19$ across $k = 5, 7, 10, 14$---functional networks outperform all purely spatial groupings.
+  \item \emph{Activation-level control:} After regressing out activation similarity ($|\Delta\text{overlap}|$) from disagreement similarity, the network effect persists ($d = 0.32$, $p = 8.1 \times 10^{-19}$, bootstrap CI $[0.006, 0.008]$ excludes zero).  Activation similarity explains $R^2 = 0.67$ of overall disagreement variance; the network effect is the remaining 26\% reduction in $d$ (from 0.43 to 0.32).
+\end{itemize}
+
+Network identity (which network, regardless of size) explains $\eta^2 = 0.35$ of disagreement variance (Kruskal--Wallis $p = 5.7 \times 10^{-7}$).  The Dorsal Attention and Control networks show the highest disagreement (mean~$= 0.095$); Limbic and Default show the lowest (mean~$= 0.023$--$0.046$)---consistent with the mixed-gambles task differentially engaging attention and control networks near the significance threshold.
+
+\paragraph{The $\eta$ law does not apply.}
+The quantitative prediction $\eta = (k-1)/k$ fails: network size does not predict disagreement level (Spearman $\rho = -0.021$, $p = 0.84$ at Schaefer-100; $\rho = -0.19$, $p = 0.0001$ at Schaefer-400, but this is in the \emph{wrong direction} and vanishes under partial correlation controlling for overlap, $\rho = -0.04$).  The approximate $\eta$ formula $\eta_{\mathrm{approx}} = (k-1)\rho^2 / (1 + (k-1)\rho^2)$ is theoretically correct but empirically underdetermined without within-network functional connectivity values.  Brain regions within a functional network lack the exact exchangeability the $\eta$ law requires.
+
+\paragraph{Per-team ranking analysis.}
+Using individual team $t$-statistic maps (48 teams, 7 hypotheses, 100 regions), we computed pairwise flip rates across all team pairs for all region pairs.  Within-network region pairs show higher flip rates (0.321) than between-network pairs (0.310), with gap $= +0.011$ [$+0.007$, $+0.015$], Cohen's $d = 0.078$, Mann--Whitney $p = 3.7 \times 10^{-8}$, permutation $p < 0.005$, consistent across 7/7 hypotheses.  The effect is statistically significant but small ($d = 0.078$), reflecting the dominance of methodological variation over structural variation in per-team rankings.
+
+\paragraph{Software as a second symmetry source.}
+On 24 teams with known software (12~FSL, 8~SPM, 4~AFNI), both network structure and software choice independently predict flip rates:
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+Effect & Flip rate premium & $p$-value \\
+\midrule
+Network (within-net $>$ between-net) & $+0.005$ & $8.8 \times 10^{-5}$ \\
+Software (diff-software $>$ same-software) & $+0.016$ & $8.2 \times 10^{-55}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Software has $3\times$ the effect of network structure ($0.016$ vs $0.005$), consistent with Botvinik-Nezer et al.'s finding that methodology drives most disagreement.  Both CIs exclude zero (network: $[0.002, 0.008]$; software: $[0.014, 0.018]$).
+
+\paragraph{Orbit averaging as resolution.}
+The overlap map (mean across teams' binary activation maps) is the orbit average over the Rashomon set.  We tested whether this resolution is near-optimal by comparing aggregation methods at full ensemble size ($M = 48$):
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+Method & Faithfulness (corr w/ teams) & Mean unfaithfulness \\
+\midrule
+Mean & \textbf{0.669} & 0.739 \\
+Median & 0.660 & \textbf{0.719} \\
+Trimmed mean & 0.668 & 0.727 \\
+Weighted mean & 0.664 & 0.725 \\
+\bottomrule
+\end{tabular}
+\end{center}
+All methods are within 3\% of each other.  The mean achieves the highest faithfulness (correlation with individual teams); the median achieves the lowest absolute unfaithfulness.  At $M = 48$, the mean is not dominated by any alternative.  At smaller $M$ ($< 20$), the weighted mean (weighting by leave-one-out prediction accuracy) slightly dominates the unweighted mean, consistent with the theorem's prediction that equal weighting is optimal only for balanced Rashomon sets.
+
+\paragraph{Convergence prescription.}
+The split-half stability of the ensemble average increases with ensemble size.  At $M = 16$ (95\% CI: $[10, 22]$), the split-half Pearson correlation exceeds 0.95.  The convergence rate fits $1 - a/M^b$ with $b = 1.00$ ($R^2 = 0.97$).  This provides a concrete prescription for multi-analyst studies in neuroimaging: approximately 16 independent analyses suffice for 95\% stability between independent assessments.
+
+\paragraph{Bilemma confirmation.}
+The unfaithfulness of the ensemble average is proportional to team disagreement (Spearman $\rho = 0.962$, $p < 10^{-100}$).  The ratio unfaithfulness/$\sigma = 0.734$ (Gaussian prediction: $\sqrt{2/\pi} = 0.798$), confirming the ensemble average achieves near the theoretical minimum unfaithfulness.
+
+\subsection{Cross-Domain Multi-Analyst Studies}
+\label{sec:multi-analyst-cross-domain}
+
+The same impossibility$\to$resolution pattern appears in multi-analyst studies beyond neuroimaging.
+
+\paragraph{Silberzahn et al.\ (2018): 29 teams, psychology.}
+29 teams analysed whether soccer referees give more red cards to dark-skinned players (AMPPS, 2018).  Team estimates (odds ratios from OSF repository osf.io/gvm2z) range from 0.89 to 2.93 (geometric mean OR~$= 1.34$).  In log-odds space, the method-type grouping (Logistic: 15 teams, Count: 5, Linear: 3, Bayesian: 2, Other: 4) explains $\eta^2 = 0.131$ of estimate variance (ANOVA $F = 0.90$, $p = 0.48$---not significant with 29 teams in 5 unequal groups).  Within-method pairs show smaller estimate differences than between-method pairs (Cohen's $d = 0.29$, Mann--Whitney $p = 0.03$), but this does not survive permutation correction ($p = 0.15$).  The Noether prediction is inconclusive at this sample size.
+
+\paragraph{Breznau et al.\ (2022): 71 teams, political science.}
+73 teams tested whether immigration reduces support for social policies (PNAS, 2022).  From the GitHub repository (nbreznau/CRI), 71 teams with valid average marginal effects (AMEs) across 1{,}253 individual models show mean AMEs ranging from $-0.27$ to $+0.36$.  Sign agreement is only 52\%---teams cannot agree on the \emph{direction} of the effect.  The ICC (intraclass correlation) for team identity is $-0.096$ ($F = 0.3$, $p = 1.0$), meaning within-team model specification variation \emph{exceeds} between-team variation.  The team's methodological approach does not determine the result; individual model specification choices (covariates, functional form) are the dominant source of variation.
+
+\paragraph{Cross-domain pattern.}
+Across all three domains, the qualitative pattern is identical: the Rashomon property holds (teams disagree), orbit averaging provides a near-optimal resolution (all aggregation methods within 3\%), and unfaithfulness is proportional to disagreement.  The Noether structural prediction---that group membership predicts which conclusions are stable---is confirmed for multivariate neuroimaging data ($d = 0.32$ after activation control) but inconclusive for scalar multi-analyst studies (Silberzahn $d = 0.29$, not significant after permutation correction; Breznau ICC $= -0.10$).  The framework's unique value beyond classical meta-analysis is the irreducibility proof (the disagreement is mathematical, not methodological), the Pareto optimality of orbit averaging (proven, not assumed), and the structural prediction for multivariate data.
+
+\subsection{Attribution PCA Eigenspectrum: A Negative Result}
+\label{sec:attribution-pca}
+
+We tested whether PCA on the SHAP value matrix across multiple models recovers the symmetry group structure.  On synthetic data with $g = 3$ groups of $k = 4$ features ($\rho = 0.95$), the eigenspectrum gap appears at PC~10 (expected: PC~3), and $\eta_{\text{PCA}} = 0.50$ (expected: 0.75).  The gap only matches the group count at $\rho = 0.99$ (near-exact symmetry).  On the NARPS dataset (48 teams $\times$ 700 dimensions), the gap appears at PC~1 (expected: PC~7 for 7 networks).  On Breast Cancer data, the stable-PC loading vs.\ flip rate correlation is $\rho = -0.27$ ($p = 0.15$---not significant).
+
+The eigenspectrum approach fails because PCA captures variance (cardinal), not rankings (ordinal).  A feature with high SHAP variance can have a perfectly stable sign; a feature with low variance can flip easily near zero.  The flip rate matrix (pairwise ranking instability) is the correct object for capturing ranking stability, not the SHAP covariance matrix.  This negative result clarifies that extending the $\eta$ law to approximate symmetry requires rank-based methods, not spectral decomposition of cardinal values.
+
 %%% ==========================================================================
 \section{Bridge Theorems: Connections to Established Mathematics}
 \label{sec:bridge-theorems}

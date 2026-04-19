@@ -1,0 +1,137 @@
+{
+  "experiment": "brain_imaging_noether_direct",
+  "data": "NARPS per-team unthresholded t-maps",
+  "n_teams": 48,
+  "n_hypotheses": 7,
+  "n_regions": 100,
+  "noether": {
+    "mean_within_flip": 0.32097782267272096,
+    "mean_between_flip": 0.3103916300595924,
+    "gap": 0.010586192613128542,
+    "gap_ci": [
+      0.006737619247369507,
+      0.014521502377988845
+    ],
+    "cohens_d": 0.07848808302600956,
+    "mann_whitney_p": 3.7429249247258037e-08,
+    "per_hypothesis": {
+      "1": {
+        "mean_within_flip": 0.2906547961569559,
+        "mean_between_flip": 0.2886774662847405,
+        "gap": 0.001977329872215383,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      },
+      "2": {
+        "mean_within_flip": 0.2774215694129816,
+        "mean_between_flip": 0.2583634142864758,
+        "gap": 0.01905815512650577,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      },
+      "3": {
+        "mean_within_flip": 0.2906547961569559,
+        "mean_between_flip": 0.2886774662847405,
+        "gap": 0.001977329872215383,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      },
+      "4": {
+        "mean_within_flip": 0.2774215694129816,
+        "mean_between_flip": 0.2583634142864758,
+        "gap": 0.01905815512650577,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      },
+      "5": {
+        "mean_within_flip": 0.4734423446259781,
+        "mean_between_flip": 0.4679639597711153,
+        "gap": 0.0054783848548627945,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      },
+      "7": {
+        "mean_within_flip": 0.2911028639921397,
+        "mean_between_flip": 0.28255463387308966,
+        "gap": 0.008548230119050038,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      },
+      "8": {
+        "mean_within_flip": 0.34614681895105387,
+        "mean_between_flip": 0.32814105563050944,
+        "gap": 0.018005763320544432,
+        "n_within_pairs": 762,
+        "n_between_pairs": 4188
+      }
+    },
+    "per_network": {
+      "Cont": {
+        "k": 13,
+        "eta_exact": 0.9230769230769231,
+        "observed_flip": 0.33873740736599206,
+        "n_pairs": 546
+      },
+      "Default": {
+        "k": 24,
+        "eta_exact": 0.9583333333333334,
+        "observed_flip": 0.3133805795441559,
+        "n_pairs": 1932
+      },
+      "DorsAttn": {
+        "k": 15,
+        "eta_exact": 0.9333333333333333,
+        "observed_flip": 0.30636231674291675,
+        "n_pairs": 735
+      },
+      "Limbic": {
+        "k": 5,
+        "eta_exact": 0.8,
+        "observed_flip": 0.337677304964539,
+        "n_pairs": 70
+      },
+      "SalVentAttn": {
+        "k": 12,
+        "eta_exact": 0.9166666666666666,
+        "observed_flip": 0.3225127413957201,
+        "n_pairs": 462
+      },
+      "SomMot": {
+        "k": 14,
+        "eta_exact": 0.9285714285714286,
+        "observed_flip": 0.3418757633274615,
+        "n_pairs": 637
+      },
+      "Vis": {
+        "k": 17,
+        "eta_exact": 0.9411764705882353,
+        "observed_flip": 0.32153817239199106,
+        "n_pairs": 952
+      }
+    },
+    "n_consistent": 7,
+    "n_teams": 48,
+    "within_flip_distribution": {
+      "mean": 0.32097782267272096,
+      "std": 0.13686944565499853,
+      "median": 0.31117021276595747,
+      "q25": 0.1942645698427382,
+      "q75": 0.45390070921985815
+    },
+    "between_flip_distribution": {
+      "mean": 0.3103916300595924,
+      "std": 0.13451063137593594,
+      "median": 0.28368794326241137,
+      "q25": 0.19060283687943264,
+      "q75": 0.45390070921985815
+    }
+  },
+  "random_null": {
+    "observed_gap": 0.018005763320544432,
+    "null_mean": 9.682626471908373e-05,
+    "null_std": 0.005993359551500254,
+    "permutation_p": 0.0,
+    "null_95th": 0.009624411889171274
+  },
+  "elapsed_seconds": 399.51188826560974
+}

@@ -1,0 +1,52 @@
+{
+  "experiment": "noether_cross_domain",
+  "results": {
+    "silberzahn": {
+      "n_teams": 29,
+      "n_categories": 5,
+      "categories": {
+        "Logistic": 15,
+        "Other": 4,
+        "Linear": 3,
+        "Bayesian": 2,
+        "Count": 5
+      },
+      "eta_squared": 0.13066831749196786,
+      "eta_squared_ci": [
+        0.021084910306206434,
+        0.5653392188806439
+      ],
+      "anova_F": 0.9018535971102872,
+      "anova_p": 0.47843667246322163,
+      "kruskal_H": 2.056357811729906,
+      "kruskal_p": 0.7253937949465803,
+      "within_mean": 0.19470400847412334,
+      "between_mean": 0.2704573383471849,
+      "cohens_d": 0.2898293292841889,
+      "mann_whitney_p": 0.03042880254516898,
+      "permutation_p": 0.148,
+      "confirmed": false
+    },
+    "breznau": {
+      "n_teams": 69,
+      "n_models": 1251,
+      "icc": -0.09642158658180837,
+      "icc_ci": [
+        -0.16346208039205282,
+        0.41823700226896626
+      ],
+      "icc_F": 0.3183817261397634,
+      "icc_p": 0.9999999779110011,
+      "eta_squared": 0.01798692156702647,
+      "msb_msw_ratio": 0.3183817261397634,
+      "confirmed": false
+    }
+  },
+  "narps_reference": {
+    "eta_squared": 0.354,
+    "d": 0.32,
+    "confirmed": true
+  },
+  "n_confirmed": 1,
+  "elapsed_seconds": 2.413567304611206
+}

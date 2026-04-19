@@ -1,0 +1,174 @@
+{
+  "experiment": "brain_imaging_bulletproof",
+  "results": {
+    "pareto": {
+      "10": {
+        "mean": {
+          "faithfulness": 0.623842163392175,
+          "stability": 0.915735411814888
+        },
+        "median": {
+          "faithfulness": 0.627944185225311,
+          "stability": 0.8998831727348187
+        },
+        "trimmed_mean": {
+          "faithfulness": 0.6337178016203983,
+          "stability": 0.9287505936455076
+        },
+        "majority_vote": {
+          "faithfulness": 0.33822662817755095,
+          "stability": 0.7891363706927553
+        },
+        "weighted_mean": {
+          "faithfulness": 0.6344183325784727,
+          "stability": 0.9424949072754742
+        }
+      },
+      "20": {
+        "mean": {
+          "faithfulness": 0.6455805351238948,
+          "stability": 0.9628901273361059
+        },
+        "median": {
+          "faithfulness": 0.6375561786155175,
+          "stability": 0.9620562215482664
+        },
+        "trimmed_mean": {
+          "faithfulness": 0.6442141816997181,
+          "stability": 0.9779437559849791
+        },
+        "majority_vote": {
+          "faithfulness": 0.3654241731480905,
+          "stability": 0.9204541647361659
+        },
+        "weighted_mean": {
+          "faithfulness": 0.6552880712105698,
+          "stability": 0.9798551874620489
+        }
+      },
+      "48": {
+        "mean": {
+          "faithfulness": 0.6690397044550918,
+          "stability": 0.9994321376111344
+        },
+        "median": {
+          "faithfulness": 0.6598594892278231,
+          "stability": 0.9982915150083458
+        },
+        "trimmed_mean": {
+          "faithfulness": 0.668161263719024,
+          "stability": 0.9996338737182795
+        },
+        "majority_vote": {
+          "faithfulness": 0.4006349209277622,
+          "stability": 0.9987162992442012
+        },
+        "weighted_mean": {
+          "faithfulness": 0.6636907731863111,
+          "stability": 0.9996939085091379
+        }
+      }
+    },
+    "convergence": {
+      "stability_curve": {
+        "2": 0.6004577256663843,
+        "4": 0.7595701189334679,
+        "6": 0.8310483781537867,
+        "8": 0.8750792074889224,
+        "10": 0.9061159073828118,
+        "12": 0.921137309384146,
+        "14": 0.9383417527814331,
+        "16": 0.9488205542024484,
+        "18": 0.9598091090866214,
+        "20": 0.964473255360971,
+        "22": 0.9731266016760303,
+        "24": 0.9755947978068079,
+        "26": 0.9800260509068014,
+        "28": 0.982236003142566,
+        "30": 0.985395668870831,
+        "32": 0.9876094664394818,
+        "34": 0.9893424786245768,
+        "36": 0.992113620755398,
+        "38": 0.9934363631619647,
+        "40": 0.99537038920793,
+        "42": 0.9964891756471802,
+        "44": 0.9975316281950698
+      },
+      "M_95_median": 16,
+      "M_95_ci": [
+        10,
+        22
+      ],
+      "convergence_exponent": 0.9957166534503713,
+      "convergence_r2": 0.9728715963545301
+    },
+    "bilemma": {
+      "mean": {
+        "mean_unfaithfulness": 0.7390832550166637,
+        "unfaith_delta_ratio": 0.7339014420751125,
+        "faithfulness": 0.6690397044550916
+      },
+      "median": {
+        "mean_unfaithfulness": 0.7193605483806846,
+        "unfaith_delta_ratio": 0.7163690279299828,
+        "faithfulness": 0.6598594892278232
+      },
+      "trimmed_mean": {
+        "mean_unfaithfulness": 0.7269535596593568,
+        "unfaith_delta_ratio": 0.7230902798361901,
+        "faithfulness": 0.6681612637190241
+      },
+      "weighted_mean": {
+        "mean_unfaithfulness": 0.7249589256579854,
+        "unfaith_delta_ratio": 0.7224801430207795,
+        "faithfulness": 0.6636907731863111
+      }
+    },
+    "noether_hyp": {
+      "1": {
+        "between_agreement": 0.6928571428571428,
+        "within_agreement": 0.7361111111111112,
+        "gap": -0.04325396825396832,
+        "description": "Gain effect in vmPFC"
+      },
+      "2": {
+        "between_agreement": 0.7668269230769231,
+        "within_agreement": 0.6923076923076923,
+        "gap": 0.07451923076923084,
+        "description": "Gain effect in ventral striatum"
+      },
+      "3": {
+        "between_agreement": 0.7116279069767442,
+        "within_agreement": 0.6666666666666667,
+        "gap": 0.04496124031007742,
+        "description": "Gain effect in vmPFC (eq range)"
+      },
+      "4": {
+        "between_agreement": 0.7321867321867321,
+        "within_agreement": 0.7441860465116279,
+        "gap": -0.01199931432489576,
+        "description": "Gain effect in vStr (eq range)"
+      },
+      "5": {
+        "between_agreement": 0.5379146919431279,
+        "within_agreement": 0.5217391304347826,
+        "gap": 0.016175561508345315,
+        "description": "Loss effect in vmPFC"
+      },
+      "7": {
+        "between_agreement": 0.7112676056338028,
+        "within_agreement": 0.7464788732394366,
+        "gap": -0.03521126760563387,
+        "description": "EqIndiff > EqRange in vmPFC"
+      },
+      "8": {
+        "between_agreement": 0.6590389016018307,
+        "within_agreement": 0.6727272727272727,
+        "gap": -0.013688371125442078,
+        "description": "EqRange > EqIndiff in amygdala"
+      }
+    }
+  },
+  "all_pass": false,
+  "elapsed_seconds": 290.93495178222656
+}

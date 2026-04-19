@@ -1,0 +1,214 @@
+{
+  "experiment": "brain_imaging_resolution",
+  "theoretical_claims": [
+    "70 pipelines = Rashomon set",
+    "Impossibility theorem applies (Lean-verified)",
+    "Overlap map = orbit averaging (Reynolds operator)",
+    "Overlap map is Pareto-optimal (proven)",
+    "Between-network comparisons stable, within-network unstable (Noether)"
+  ],
+  "results": {
+    "pareto": {
+      "1": {
+        "faithfulness": 0.4477436027671979,
+        "faith_std": 0.18700217176474962,
+        "stability": 0.0,
+        "stab_std": 0.0
+      },
+      "2": {
+        "faithfulness": 0.5088968861250175,
+        "faith_std": 0.15178164998432325,
+        "stability": 0.8055957133896514,
+        "stab_std": 0.11008394907994871
+      },
+      "3": {
+        "faithfulness": 0.5568469808255362,
+        "faith_std": 0.10922020313022589,
+        "stability": 0.9235409322579423,
+        "stab_std": 0.0618109412346017
+      },
+      "5": {
+        "faithfulness": 0.5892625087567105,
+        "faith_std": 0.07332049597229044,
+        "stability": 0.6193869499540344,
+        "stab_std": 0.24060832068073063
+      },
+      "8": {
+        "faithfulness": 0.6346674783657476,
+        "faith_std": 0.04752907277184056,
+        "stability": 0.7402467395965262,
+        "stab_std": 0.15776298023609123
+      },
+      "10": {
+        "faithfulness": 0.6500730656991984,
+        "faith_std": 0.029291035565512803,
+        "stability": 0.7882672015720391,
+        "stab_std": 0.12244294290624615
+      },
+      "15": {
+        "faithfulness": 0.6636588401937297,
+        "faith_std": 0.0263908262781204,
+        "stability": 0.8506092695247207,
+        "stab_std": 0.08285692626683011
+      },
+      "20": {
+        "faithfulness": 0.651154636624387,
+        "faith_std": 0.03763584618079501,
+        "stability": 0.8877990871535285,
+        "stab_std": 0.06169864403361684
+      },
+      "30": {
+        "faithfulness": 0.6551354132074624,
+        "faith_std": 0.04930798646558506,
+        "stability": 0.9141073766223278,
+        "stab_std": 0.04131309130634835
+      },
+      "40": {
+        "faithfulness": 0.6515722431811386,
+        "faith_std": 0.0985203667725056,
+        "stability": 0.9401781972739436,
+        "stab_std": 0.0282453894030602
+      },
+      "full": {
+        "faithfulness": 0.6690397044550916,
+        "stability": 0.9503108271101556
+      }
+    },
+    "convergence": {
+      "convergence": {
+        "2": 0.6004577256663843,
+        "4": 0.7595701189334679,
+        "6": 0.8310483781537867,
+        "8": 0.8750792074889224,
+        "10": 0.9061159073828118,
+        "12": 0.921137309384146,
+        "14": 0.9383417527814331,
+        "16": 0.9488205542024484,
+        "18": 0.9598091090866214,
+        "20": 0.964473255360971,
+        "22": 0.9731266016760303,
+        "24": 0.9755947978068079,
+        "26": 0.9800260509068014,
+        "28": 0.982236003142566,
+        "30": 0.985395668870831,
+        "32": 0.9876094664394818,
+        "34": 0.9893424786245768,
+        "36": 0.992113620755398,
+        "38": 0.9934363631619647,
+        "40": 0.99537038920793,
+        "42": 0.9964891756471802,
+        "44": 0.9975316281950698
+      },
+      "M_for_95": 18,
+      "M_for_99": 36
+    },
+    "bilemma": {
+      "correlation_rho": 0.9623742288951455,
+      "correlation_p": 0.0,
+      "mean_ratio": 0.7339014419914331,
+      "theoretical_ratio": 0.7978845608028654,
+      "n_points": 700
+    },
+    "hypothesis_stability": {
+      "1": {
+        "agreement": 0.6000776819805564,
+        "peak_network": "Cont",
+        "description": "Positive gain effect in vmPFC",
+        "network_activations": {
+          "Cont": 1.1138227105093523,
+          "Default": 0.8280508915568477,
+          "DorsAttn": 1.0372724114853786,
+          "Limbic": 0.20192119650256787,
+          "SalVentAttn": 0.7174220945112207,
+          "SomMot": 0.5050431424564416,
+          "Vis": 0.45160116694990715
+        }
+      },
+      "2": {
+        "agreement": 0.6418353352960625,
+        "peak_network": "Cont",
+        "description": "Positive gain effect in ventral striatum",
+        "network_activations": {
+          "Cont": 1.1753716846279427,
+          "Default": 0.4936099568544561,
+          "DorsAttn": 0.8398663784295101,
+          "Limbic": 0.28929817948454106,
+          "SalVentAttn": 0.7563329069370178,
+          "SomMot": 0.9105955839930271,
+          "Vis": 0.6643906883370476
+        }
+      },
+      "3": {
+        "agreement": 0.6000776819805564,
+        "peak_network": "Cont",
+        "description": "Positive gain effect in vmPFC (equal range)",
+        "network_activations": {
+          "Cont": 1.1138227105093523,
+          "Default": 0.8280508915568477,
+          "DorsAttn": 1.0372724114853786,
+          "Limbic": 0.20192119650256787,
+          "SalVentAttn": 0.7174220945112207,
+          "SomMot": 0.5050431424564416,
+          "Vis": 0.45160116694990715
+        }
+      },
+      "4": {
+        "agreement": 0.6418353352960625,
+        "peak_network": "Cont",
+        "description": "Positive gain effect in ventral striatum (equal range)",
+        "network_activations": {
+          "Cont": 1.1753716846279427,
+          "Default": 0.4936099568544561,
+          "DorsAttn": 0.8398663784295101,
+          "Limbic": 0.28929817948454106,
+          "SalVentAttn": 0.7563329069370178,
+          "SomMot": 0.9105955839930271,
+          "Vis": 0.6643906883370476
+        }
+      },
+      "5": {
+        "agreement": 0.09971220921677729,
+        "peak_network": "Default",
+        "description": "Negative loss effect in vmPFC",
+        "network_activations": {
+          "Cont": 0.19368055591603056,
+          "Default": 0.37757234884795254,
+          "DorsAttn": 0.37388219454163046,
+          "Limbic": 0.1744570133408423,
+          "SalVentAttn": 0.36953423667835744,
+          "SomMot": 0.3651906931443278,
+          "Vis": 0.3471551898336368
+        }
+      },
+      "7": {
+        "agreement": 0.5511088323292198,
+        "peak_network": "DorsAttn",
+        "description": "Positive effect for equal indifference > equal range in vmPFC",
+        "network_activations": {
+          "Cont": 0.9132792602164386,
+          "Default": 0.7470174875966586,
+          "DorsAttn": 1.1417817405045696,
+          "Limbic": 0.39895167234192114,
+          "SalVentAttn": 0.8814239094120625,
+          "SomMot": 0.7797539768870515,
+          "Vis": 0.740564333480418
+        }
+      },
+      "8": {
+        "agreement": 0.5299722624218101,
+        "peak_network": "Limbic",
+        "description": "Positive effect for equal range > equal indifference in amygdala",
+        "network_activations": {
+          "Cont": 0.2966027931305825,
+          "Default": 0.4000787986524606,
+          "DorsAttn": 0.3026224006154078,
+          "Limbic": 0.4837991430997685,
+          "SalVentAttn": 0.46108883744300555,
+          "SomMot": 0.28749283172097806,
+          "Vis": 0.3955870177066893
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 232.1358609199524
+}

@@ -1,0 +1,69 @@
+{
+  "experiment": "brain_imaging_definitive",
+  "results": {
+    "activation_control": {
+      "raw_d": 0.4300822645262943,
+      "raw_p": 4.510802696084542e-32,
+      "raw_gap": 0.016118987072129262,
+      "controlled_d": 0.32036056910695526,
+      "controlled_p": 8.071810758461989e-19,
+      "controlled_gap": 0.0069430886296495565,
+      "controlled_gap_ci": [
+        0.005529053115961065,
+        0.008321324735164861
+      ],
+      "activation_r2": 0.6691104600986661,
+      "activation_beta": 0.8898757965523395,
+      "survives": true
+    },
+    "software": {
+      "n_teams": 24,
+      "software_counts": {
+        "SPM": 8,
+        "FSL": 12,
+        "AFNI": 4
+      },
+      "cell_means": {
+        "sn_ss": 0.3233708286464192,
+        "sn_ds": 0.340962351296997,
+        "dn_ss": 0.31915370446172736,
+        "dn_ds": 0.3345264453788809
+      },
+      "cell_counts": {
+        "sn_ss": 5334,
+        "sn_ds": 5334,
+        "dn_ss": 29316,
+        "dn_ds": 29316
+      },
+      "network_effect": 0.005326515051403913,
+      "network_p": 8.815561274171973e-05,
+      "network_ci": [
+        0.0023294055659077244,
+        0.008356219822572605
+      ],
+      "software_effect": 0.015714298832480655,
+      "software_p": 8.174581402339847e-55,
+      "software_ci": [
+        0.013573293650793553,
+        0.017956831300013094
+      ]
+    },
+    "bilateral": {
+      "n_pairs": 43,
+      "raw_r": 0.612196353758234,
+      "raw_p": 1.2855863794803455e-05,
+      "partial_r": 0.48510206112621457,
+      "partial_p": 0.0009772935209717715,
+      "partial_ci": [
+        -0.5375527066402954,
+        0.41180679347351545
+      ],
+      "random_mean_r": -0.003694633095948551,
+      "random_std_r": 0.15623639810821144,
+      "perm_p": 0.0,
+      "survives": false
+    }
+  },
+  "n_tests_pass": 1,
+  "elapsed_seconds": 240.296884059906
+}

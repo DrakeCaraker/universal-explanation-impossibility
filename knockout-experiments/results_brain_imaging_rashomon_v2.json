@@ -1,0 +1,277 @@
+{
+  "experiment": "brain_imaging_rashomon_v2",
+  "version": 2,
+  "data": "Botvinik-Nezer et al. Nature 2020, NeuroVault collection 6047",
+  "independent_predictor": "Schaefer/Yeo 7-network labels (resting-state fMRI)",
+  "circularity_fix": "Predictor (network labels) independent of outcome (disagreement)",
+  "n_teams": 70,
+  "n_hypotheses_total": 9,
+  "n_hypotheses_valid": 7,
+  "excluded_hypotheses": [
+    6,
+    9
+  ],
+  "n_regions": 100,
+  "n_networks": 7,
+  "networks": {
+    "Cont": 13,
+    "Default": 24,
+    "DorsAttn": 15,
+    "Limbic": 5,
+    "SalVentAttn": 12,
+    "SomMot": 14,
+    "Vis": 17
+  },
+  "results": {
+    "eta_law": {
+      "raw_rho": -0.020915539540527123,
+      "raw_p": 0.8363625820658258,
+      "raw_ci": [
+        -0.23118287663263112,
+        0.18660259994138867
+      ],
+      "partial_rho": 0.1533580583818661,
+      "partial_p": 0.12767715675924596,
+      "partial_ci": [
+        -0.19116718198381633,
+        0.20275288562040644
+      ],
+      "network_stats": {
+        "Cont": {
+          "k": 13,
+          "eta": 0.9230769230769231,
+          "mean_disagree": 0.09537904616321889,
+          "std_disagree": 0.036438236273727866
+        },
+        "Default": {
+          "k": 24,
+          "eta": 0.9583333333333334,
+          "mean_disagree": 0.04559696453742074,
+          "std_disagree": 0.01760129108903326
+        },
+        "DorsAttn": {
+          "k": 15,
+          "eta": 0.9333333333333333,
+          "mean_disagree": 0.09494732706279854,
+          "std_disagree": 0.04293945584880276
+        },
+        "Limbic": {
+          "k": 5,
+          "eta": 0.8,
+          "mean_disagree": 0.022941572187324996,
+          "std_disagree": 0.012161758583573405
+        },
+        "SalVentAttn": {
+          "k": 12,
+          "eta": 0.9166666666666666,
+          "mean_disagree": 0.05319255799378011,
+          "std_disagree": 0.02543282706559174
+        },
+        "SomMot": {
+          "k": 14,
+          "eta": 0.9285714285714286,
+          "mean_disagree": 0.05196515005754898,
+          "std_disagree": 0.030430375073300504
+        },
+        "Vis": {
+          "k": 17,
+          "eta": 0.9411764705882353,
+          "mean_disagree": 0.07829213438074167,
+          "std_disagree": 0.03268428165383057
+        }
+      }
+    },
+    "within_vs_between": {
+      "mean_within": 0.04773984549424509,
+      "mean_between": 0.06385883256637435,
+      "difference": 0.016118987072129262,
+      "difference_ci": [
+        0.013709018215463106,
+        0.018583930197020815
+      ],
+      "cohens_d": 0.4300822645262943,
+      "mann_whitney_p": 4.510802696084542e-32,
+      "n_within": 762,
+      "n_between": 4188,
+      "confirmed": true
+    },
+    "distance_baseline": {
+      "raw_rho": -0.08038403840384037,
+      "raw_p": 0.42660081833381613,
+      "raw_ci": [
+        -0.2823979582305584,
+        0.1247409512636771
+      ],
+      "partial_rho": -0.023067589222842754,
+      "partial_p": 0.8197970418796755,
+      "partial_ci": [
+        -0.15108872121939565,
+        0.15977686702710017
+      ]
+    },
+    "thresholding_baseline": {
+      "dist_from_half_rho": -0.9999999999999999,
+      "dist_from_half_p": 0.0,
+      "dist_from_half_ci": [
+        -1.0,
+        -0.9999999999999999
+      ],
+      "overlap_rho": 0.9999999999999999,
+      "overlap_p": 0.0,
+      "overlap_ci": [
+        0.9999999999999999,
+        1.0
+      ]
+    },
+    "per_hypothesis": {
+      "1": {
+        "raw_rho": 0.007325005550874564,
+        "raw_p": 0.942339226158051,
+        "raw_ci": [
+          -0.22274574162370475,
+          0.23179349013345418
+        ],
+        "partial_rho": 0.15592444728174892,
+        "partial_p": 0.12134993937853063,
+        "partial_ci": [
+          -0.20494835118427332,
+          0.17847498645710297
+        ],
+        "mean_disagreement": 0.054022674628859145,
+        "fdr_significant": false
+      },
+      "2": {
+        "raw_rho": -0.04639779077112567,
+        "raw_p": 0.646671158220734,
+        "raw_ci": [
+          -0.2569620419715964,
+          0.1557714230042611
+        ],
+        "partial_rho": 0.0359529516796957,
+        "partial_p": 0.7224965567884654,
+        "partial_ci": [
+          -0.16840381965121426,
+          0.17782987031702074
+        ],
+        "mean_disagreement": 0.07365624451845232,
+        "fdr_significant": false
+      },
+      "3": {
+        "raw_rho": 0.007355450295475041,
+        "raw_p": 0.9420999858461427,
+        "raw_ci": [
+          -0.22200202673509306,
+          0.2319245243746967
+        ],
+        "partial_rho": 0.15592444728174892,
+        "partial_p": 0.12134993937853063,
+        "partial_ci": [
+          -0.19938754718185486,
+          0.17092094370923022
+        ],
+        "mean_disagreement": 0.054015722282750554,
+        "fdr_significant": false
+      },
+      "4": {
+        "raw_rho": -0.04605072068268025,
+        "raw_p": 0.6491387483940145,
+        "raw_ci": [
+          -0.2558343565232436,
+          0.15586991731963776
+        ],
+        "partial_rho": 0.18134285451576343,
+        "partial_p": 0.07097593806228435,
+        "partial_ci": [
+          -0.16922187932348773,
+          0.17901659916256973
+        ],
+        "mean_disagreement": 0.07358733471228092,
+        "fdr_significant": false
+      },
+      "5": {
+        "raw_rho": 0.35861473559792884,
+        "raw_p": 0.0002485905202351611,
+        "raw_ci": [
+          0.18696604658773597,
+          0.5231415289737743
+        ],
+        "partial_rho": 0.0480376482824069,
+        "partial_p": 0.6350641839440501,
+        "partial_ci": [
+          -0.14583363018386156,
+          0.12940775153759104
+        ],
+        "mean_disagreement": 0.06376699477772277,
+        "fdr_significant": true
+      },
+      "7": {
+        "raw_rho": -0.14206735620366195,
+        "raw_p": 0.15854711104087565,
+        "raw_ci": [
+          -0.3651692009544253,
+          0.06466473180573716
+        ],
+        "partial_rho": -0.01327314414509404,
+        "partial_p": 0.8957211695477743,
+        "partial_ci": [
+          -0.17298534144192793,
+          0.17226469111927414
+        ],
+        "mean_disagreement": 0.09338933538150845,
+        "fdr_significant": false
+      },
+      "8": {
+        "raw_rho": -0.18806936529498144,
+        "raw_p": 0.060957154972117546,
+        "raw_ci": [
+          -0.4096936251832067,
+          0.031018918467956402
+        ],
+        "partial_rho": 0.08666244656370917,
+        "partial_p": 0.39125513912761156,
+        "partial_ci": [
+          -0.17990811887753222,
+          0.18820609712908265
+        ],
+        "mean_disagreement": 0.04745900549557998,
+        "fdr_significant": false
+      }
+    },
+    "permutation": {
+      "observed_rho": -0.020915539540527123,
+      "permutation_p": 0.846,
+      "null_mean": -0.00210546720233513,
+      "null_std": 0.100732086054064
+    },
+    "cross_validation": {
+      "cv_rhos": {
+        "1": 0.007325005550874564,
+        "2": -0.04639779077112567,
+        "3": 0.007355450295475041,
+        "4": -0.04605072068268025,
+        "5": 0.35861473559792884,
+        "7": -0.14206735620366195,
+        "8": -0.18806936529498144
+      },
+      "mean_cv_rho": -0.0070414345011672675,
+      "std_cv_rho": 0.16396509126269754
+    },
+    "v1_comparison": {
+      "v1_circular_rho": 0.1224122412241224,
+      "v1_circular_p": 0.22501469929396542
+    }
+  },
+  "mean_disagreement_stats": {
+    "mean": 0.06569961597102203,
+    "std": 0.03772472987872711,
+    "min": 0.007575763996897903,
+    "max": 0.21556807757829974
+  },
+  "caveats": [
+    "Analogical extension \u2014 brain regions not exchangeable under S\u2096",
+    "Researcher DOF \u2260 Rashomon (different methods, not same method with different seeds)",
+    "Parcellation at Schaefer-100 only",
+    "Cannot control for analysis software (SPM/FSL/AFNI) effects"
+  ],
+  "elapsed_seconds": 16.70854878425598
+}

@@ -1,0 +1,76 @@
+{
+  "experiment": "brain_imaging_rashomon",
+  "data": "Botvinik-Nezer et al. Nature 2020, NeuroVault collection 6047",
+  "n_teams": 70,
+  "n_hypotheses": 9,
+  "n_regions": 100,
+  "prediction_results": {
+    "corr_disagree_rho": -0.012830797974747576,
+    "corr_disagree_p": 0.3667723043663582,
+    "n_pairs": 4950,
+    "neighbor_disagree_rho": 0.31144524007850766,
+    "neighbor_disagree_p": 0.0016097577992495754
+  },
+  "baseline_results": {
+    "mean_corr_disagree_rho": 0.31001500150015,
+    "mean_corr_disagree_p": 0.001695899439827784,
+    "permutation_p": 0.001,
+    "permutation_rho_mean": 0.005595931593159315,
+    "permutation_rho_std": 0.09784766135653193
+  },
+  "per_hypothesis": {
+    "1": {
+      "rho": 0.2644824482448245,
+      "p": 0.00783496510426463,
+      "mean_disagreement": 0.054022674628859145
+    },
+    "2": {
+      "rho": 0.1253165316531653,
+      "p": 0.21412078723782518,
+      "mean_disagreement": 0.07365624451845232
+    },
+    "3": {
+      "rho": 0.2648184818481848,
+      "p": 0.007753847136168757,
+      "mean_disagreement": 0.054015722282750554
+    },
+    "4": {
+      "rho": 0.1259045904590459,
+      "p": 0.21196138622416447,
+      "mean_disagreement": 0.07358733471228092
+    },
+    "5": {
+      "rho": -0.3329012901290129,
+      "p": 0.0007137852811358254,
+      "mean_disagreement": 0.06376699477772275
+    },
+    "6": {
+      "rho": -0.031803180318031796,
+      "p": 0.7534353480856996,
+      "mean_disagreement": 0.01795345536873861
+    },
+    "7": {
+      "rho": 0.3076867686768677,
+      "p": 0.0018450884739862298,
+      "mean_disagreement": 0.09338933538150845
+    },
+    "8": {
+      "rho": 0.29718571857185716,
+      "p": 0.002676465541019662,
+      "mean_disagreement": 0.04745900549557998
+    },
+    "9": {
+      "rho": -0.16447644764476446,
+      "p": 0.10199814094459883,
+      "mean_disagreement": 0.016774083630944393
+    }
+  },
+  "mean_disagreement_stats": {
+    "mean": 0.0549583167552041,
+    "std": 0.029392967380885496,
+    "min": 0.0081989313767179,
+    "max": 0.17196086139868128
+  },
+  "caveat": "Analogical extension \u2014 researcher DOF \u2260 Rashomon",
+  "elapsed_seconds": 5.88265323638916
+}
