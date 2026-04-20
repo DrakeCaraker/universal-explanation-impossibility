@@ -2611,6 +2611,13 @@ The bridge from the abstract framework to the quantitative $\eta$ prediction is 
 
 An alternative bridge that sidesteps the group identification bottleneck uses the \emph{coverage conflict degree}---the fraction of feature pairs with $\text{SNR} < 0.5$, computable from bootstrap retrains alone without requiring group identification.  Across 15 datasets, coverage conflict degree predicts mean instability with $\rho = 0.961$ ($p < 10^{-8}$), robust to threshold choice ($\rho \in [0.885, 0.961]$ for thresholds $0.3$--$2.0$) and leave-one-out removal ($\rho \in [0.952, 0.978]$; no single dataset drives the correlation).  The formal bridge is proved in Lean: coverage conflict $\Leftrightarrow$ no neutral element (Theorem in \texttt{ExplanationLandscape.lean}).  The empirical bridge validates that this algebraic property, derived from the impossibility theorem, predicts observed instability at scale.  Unlike the $\eta$ law, this bridge requires no group assignment and works for all 15 tested datasets.
 
+\paragraph{The exchangeability criterion.}
+The $\eta$ law's scope is determined by a subtlety: the relevant criterion is \emph{exchangeability} (features genuinely compete for the same predictive signal), not merely \emph{correlation}.  A rigorous test on real data reveals that the group-mean test WORKS: projecting onto the $G$-invariant subspace (averaging SHAP within correlation groups) yields more stable attributions than the within-group deviations in 12/14 cases after Bonferroni correction.  However, the individual-feature test FAILS: correlated features in XGBoost are often \emph{more} stable than uncorrelated ones, inverting the naive prediction.  This occurs because XGBoost consistently picks a ``winner'' within each correlation group, making the winner's attribution stable even though the choice of winner is arbitrary.
+
+The mechanism is detectable: genuinely substitutable features (e.g.\ \texttt{mean\_texture} and \texttt{worst\_texture} in Breast Cancer, $\rho_{\mathrm{SHAP}} = -0.19$) exhibit negative cross-model SHAP correlation---when one's importance goes up, the other's goes down.  This ``first-mover'' signature is confirmed on synthetic data ($\rho_{\mathrm{SHAP}} = -0.11$ to $-0.24$) and provides a potential diagnostic for genuine exchangeability.
+
+Attempts to predict instability from data properties alone (7 predictors: correlation, VIF, PCA loadings, mutual information, redundancy ratio, leverage, spectral gap) all fail (maximum Spearman $\rho = 0.26$).  The $\eta$ law works for exact domain-specific groups ($R^2 = 0.957$) but does NOT work for correlation-derived groups on XGBoost+SHAP.  The extension from ``predicts instability given $G$'' to ``predicts instability from data'' remains an open problem.
+
 \paragraph{Tautology concern.}  Coverage conflict degree (fraction of low-SNR pairs) and mean instability (mean flip rate) are both functions of the same importance distributions.  The high correlation ($\rho = 0.961$) partly reflects this statistical relationship.  The non-trivial content is twofold: (1)~the \emph{threshold} at SNR~$= 0.5$ comes from the algebraic theory (the coverage conflict boundary, proved in Lean), not from fitting the data; and (2)~the correlation is robust to threshold choice ($\rho > 0.88$ for all tested thresholds), confirming that the theory identifies the correct structural boundary rather than overfitting a particular cutoff.  A pure statistical approach would not know \emph{a priori} which summary statistic of the SNR distribution to use as a predictor.
 
 \paragraph{Sonar outlier.}  One dataset (Sonar: $N = 208$, $P = 60$) produces $R^2 = -0.21$ within-dataset.  The high dimensionality relative to sample size makes all importance estimates noisy, violating the Gaussian assumption.  This defines a boundary condition: the Gaussian flip formula requires $N \gg P$ for reliable per-pair predictions.  The cross-dataset bridge ($\rho = 0.961$) is not affected by this outlier (LOO-$\rho$ with Sonar removed $= 0.952$).
@@ -3037,6 +3044,27 @@ The symmetry $S_4 \times S_4$ predicts: within-layer head pairs (12 pairs total)
 
 \paragraph{Structural universal: MLP1 dominance.}
 MLP1 is the most important component in every seed (coefficient of variation $= 0.027$).  This is the $G$-invariant structural fact---the between-group conclusion that survives the impossibility.  Individual head identities (which specific head matters) are the within-group noise that the theorem proves is unavoidable.
+
+\subsection{Model-Class Universality of the Impossibility}
+\label{sec:model-class}
+
+The impossibility is not specific to a single model class.  A rigorous comparison across four model classes (XGBoost, Random Forest, Ridge, LASSO) on three datasets (Breast Cancer, California Housing, Diabetes) reveals a two-level structure:
+
+\paragraph{Within-family agreement.}
+Tree-based models (XGBoost, Random Forest) agree on which features are unstable: seed-variation Spearman $\rho = 0.79$--$0.92$ on Breast Cancer and Diabetes, exceeding the permutation null.  Linear models (Ridge, LASSO) agree even more strongly ($\rho = 0.94$ on Breast Cancer).  Models within the same algorithmic family identify the same instability patterns.
+
+\paragraph{Cross-family disagreement.}
+Linear--tree cross-family agreement is NOT significant ($\rho = 0.19$--$0.57$, none exceeding permutation null).  Which specific features are unstable depends on the model class---trees and linear models disagree on the identity of unstable features, even when both detect instability.
+
+\paragraph{Universal diagnostics.}
+Despite cross-family disagreement on specifics, two diagnostics are universal:
+\begin{itemize}
+  \item \emph{Coverage conflict:} Spearman $\rho = 0.82$ (mean across all 4 classes, excluding degenerate California Housing linear case where 7/8 features have zero flip rate).
+  \item \emph{Var[SHAP] = DASH MSE:} exact for all 4 model classes, $0/12$ violations.  The variance of SHAP values across the Rashomon set equals the mean-squared error of the DASH ensemble average---a mathematical identity that holds regardless of model architecture.
+\end{itemize}
+
+\paragraph{Interpretation.}
+Instability has a data-determined core (detectable by coverage conflict, shared across model families) and a model-family-specific pattern (which unstable features flip depends on the algorithm).  The impossibility theorem explains both: the Rashomon property (data-determined) guarantees instability exists; the specific symmetry group (model-family-specific) determines which features are interchangeable.
 
 \subsection{Multi-Analyst Disagreement as Impossibility: Neuroimaging}
 \label{sec:narps}
