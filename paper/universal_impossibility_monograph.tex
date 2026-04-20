@@ -825,7 +825,7 @@ Model selection (XGBoost) & Best-model flip rate & 80.0\% & $\Delta$AUC $<$ 0.02
 Causal discovery & \multicolumn{3}{l@{}}{\textit{Classical (Verma \& Pearl, 1991); Rashomon Derived}} \\
 GradCAM (ResNet-18) & Spatial IoU & 9.6\% peak flip & $>$78.8\% \\
 Token citation (DistilBERT) & Citation flip rate & 34.5\% & 100\% \\
-Mech.\ interp. & Circuit non-uniq. & --- & Meloux et al.\ (2025) \\
+Mech.\ interp. & Circuit importance rho & 0.518 (full) $\to$ 0.929 ($G$-inv.) & 10 grokked transformers \\
 \bottomrule
 \multicolumn{4}{@{}l@{}}{$^{\|}$Weight perturbation yields 60.0\%; we report the conservative full-retraining} \\
 \multicolumn{4}{@{}l@{}}{\quad figure (20 models, last 2 transformer layers retrained).} \\
@@ -2109,8 +2109,14 @@ The drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates th
     8~datasets, 6/6 audit tests passed).
 \end{enumerate}
 
-\paragraph{Mechanistic interpretability: inconclusive.}
-Zero-ablation importance on GPT-2/SST-2 shows 25.8\% flip rate across 17 Rashomon models, but control experiments reveal this is dominated by classifier readout noise (Control A: same transformer, different classifier $\to$ 25.6\% flip; Control B: frozen transformer $\to$ 40.2\% flip). Activation patching on LoRA fine-tuned models shows circuit stability ($\rho = 0.885$) but is confounded by the LoRA constraint (99.3\% of weights shared). A definitive experiment---training small transformers from random initialisation on modular addition and measuring circuits via activation patching---is in progress. The qualitative impossibility (Lean-verified) applies regardless; the open question is whether the Rashomon precondition is met for transformer circuits in practice.
+\paragraph{Mechanistic interpretability: confirmed with resolution demonstrated.}
+A definitive experiment trains 10 two-layer transformers from \emph{independent random initialisation} on modular addition ($a + b \bmod 113$), all reaching 100\% test accuracy. Activation patching on 10 components (8 attention heads $+$ 2 MLPs) yields mean Spearman $\rho = 0.518$ across 45 model pairs (permutation $p < 10^{-6}$ vs.\ null). The symmetry group $S_4 \times S_4$ (within-layer head permutations, derived from the architecture) gives $\dim(V^G)/\dim(V) = 4/10$. Projecting onto $V^G$ (layer-mean head importance, MLP0, MLP1) recovers near-perfect agreement: \textbf{Spearman $\rho = 0.929$} (Pearson $r = 0.967$, min $\rho = 0.800$). The stability is not trivially MLP-driven: the invariant excluding MLP1 still achieves $\rho = 0.822$ ($p < 10^{-6}$).
+
+Within-layer head pairs flip at exactly 50\% (12 pairs, mean = 0.500, $\sigma = 0.071$), confirming the Noether counting prediction. Head-vs-MLP1 pairs never flip (8 pairs, flip rate = 0.000). Mann-Whitney within $>$ between: $p = 2.4 \times 10^{-5}$.
+
+Corrected controls (matched $n = 2000$): step~50 (random init, 0.2\% accuracy) $\rho = 0.300$; step~500 (memorised, 100\% train/50\% test) $\rho = 0.668$; step~50k (grokked) $\rho = 0.518$. Post-grokking $>$ random: $p = 2.0 \times 10^{-4}$, Cohen's $d = 0.76$. Fourier analysis shows all 10 models learn \emph{completely different} frequency representations (top-5 Jaccard = 0.022), confirming genuine Rashomon---same function, different algorithms.
+
+Earlier pilot experiments were inconclusive: zero-ablation on GPT-2/SST-2 (25.8\% flip) was dominated by classifier noise; LoRA fine-tuning ($\rho = 0.885$) was confounded by 99.3\% shared weights. The definitive experiment eliminates both confounds.
 
 \paragraph{Extension to deep learning and LLMs.}
 The qualitative impossibility (Theorem~\ref{thm:universal}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
@@ -2936,6 +2942,81 @@ Across a 30-pipeline multiverse (3 model classes $\times$ 3 scalers $\times$ 3 f
 
 \paragraph{Generalization gap correlation.}
 Across the original 5 datasets, the cross-dataset correlation between mean flip rate and generalization gap (ID accuracy $-$ OOD accuracy) is Pearson $r = -0.91$, $p = 0.034$, $n = 5$---suggestive of an inverse relationship (more instability correlates with smaller generalization gaps).  However, leave-one-out analysis reveals this result is driven by a single outlier: removing California Housing (which has both the lowest instability and the largest geographic distribution shift) reduces the correlation to $r = -0.20$, $p = 0.80$.  Expanding to 13 datasets (8 real $+$ 5 synthetic controls with varying feature redundancy) yields $r = -0.58$, $p = 0.038$, but removing California Housing from the full set reverses the sign to $r = +0.26$.  The synthetic control with varying redundancy (0--40 redundant features) shows the \emph{opposite} pattern ($r = +0.80$): more redundancy increases both instability and generalization gap, contrary to the initial hypothesis.  The finding requires validation on larger, more diverse samples before causal interpretation; we report it as a null result with respect to the specific directional prediction.  Breast Cancer shows a negative generalization gap (OOD accuracy exceeds ID accuracy), likely because the `extreme' patients have more distinctive features that are easier to classify.
+
+\subsection{Gene Expression Pathway Divergence}
+\label{sec:gene-expression}
+
+The most consequential instance of the impossibility arises in biomarker discovery, where the ``top gene'' identified by a machine learning pipeline determines which therapeutic target enters experimental validation.
+
+\paragraph{TSPAN8 vs CEACAM5 on colon--kidney discrimination.}
+Using the AP\_Colon\_Kidney microarray dataset (546 samples, 10{,}935 genes reduced to top~50 by variance, OpenML), we trained 50 XGBoost classifiers with standard regularisation (subsample~$= 0.8$, colsample\_bytree~$= 0.5$, seeds 0--49) and computed TreeSHAP importances.  The \#1 biomarker alternates between two genes:
+\begin{itemize}
+  \item \textbf{TSPAN8} (probe 203824\_at): tetraspanin-enriched microdomains, integrin signaling, invasion/metastasis --- top in 92\% of seeds.
+  \item \textbf{CEACAM5/CEA} (probe 201884\_at): GPI-anchored cell adhesion, immune evasion, classical clinical colon cancer marker --- top in 6\% of seeds.
+\end{itemize}
+The two genes' SHAP values correlate at $\rho = 0.858$ across patients (both are colon-enriched tissue markers), placing them in the same approximate symmetry orbit.  Under deterministic training (subsample~$= 1.0$), a single ranking emerges with 100\% agreement---confirming that the alternation is driven by the stochastic regularisation, not by data noise.
+
+\paragraph{Pathway analysis (GO enrichment).}
+Gene Ontology annotation reveals zero overlap in Biological Process terms between TSPAN8 (negative regulation of blood coagulation; integrin binding) and CEACAM5 (homophilic cell--cell adhesion, six BP terms; GPI anchor binding; apoptosis regulation).  A biologist following the first model into the wet lab would pursue invasion/metastasis signaling; a biologist following the second would pursue immune evasion.  The pathway-level conclusion (colon identity) is preserved; the gene-level biomarker target---the actionable output of a discovery pipeline---differs.
+
+\paragraph{Replication across datasets.}
+The alternation replicates on AP\_Endometrium\_Colon (363 samples, independent tissue contrast): TSPAN8 is \#1 in 78\% of seeds, CEACAM5 in 22\%, with $\rho = 0.781$.  On AP\_Breast\_Colon (1{,}545 samples), a different pair alternates: COL3A1 (collagen type III, 72\%) and COL1A1 (collagen type I, 28\%), with $\rho = 0.843$.  Both collagens are extracellular matrix proteins sharing 3 GO Biological Process terms---this is the same-pathway, redundant-marker mode (Mode~2), contrasting with the distinct-pathway mode of TSPAN8/CEACAM5 (Mode~1).  AP\_Breast\_Lung serves as a positive control: SFTPB (surfactant protein B, a dominant lung marker) is \#1 in 98\% of seeds, confirming that large importance gaps protect stability.
+
+\paragraph{Two modes of alternation.}
+\emph{Mode~1} (TSPAN8/CEACAM5): distinct biological pathways compete for the top rank.  The specific drug target depends on the random seed.  \emph{Mode~2} (COL3A1/COL1A1): redundant markers within the same pathway alternate.  The pathway conclusion is stable; the molecular identity is not.  Both modes are instances of the impossibility theorem: the Rashomon property (observationally equivalent models) produces incompatible explanations (different top genes).  Mode~1 has greater scientific consequence because it affects therapeutic strategy, not just molecular identity.
+
+\paragraph{DASH resolves.}
+The DASH ensemble average (mean SHAP across 50 models) places both TSPAN8 and CEACAM5 in the top-2, correctly reporting that both contribute without privileging either.  This is the $G$-invariant resolution in practice: the group mean preserves the between-group ranking (colon genes $>$ kidney genes) while acknowledging within-group indistinguishability.
+
+\subsection{Mechanistic Interpretability: Circuit-Level Rashomon}
+\label{sec:mi-v2}
+
+Mechanistic interpretability seeks to reverse-engineer neural networks into human-readable circuits.  The impossibility theorem predicts that circuit-level explanations are subject to the same instability as feature attributions when the network architecture admits permutation symmetries.
+
+\paragraph{Experimental design.}
+We trained 10 two-layer transformers (4 heads per layer, $d_{\mathrm{model}} = 128$) from independent random initialisations on modular addition $(a + b) \bmod 113$.  All 10 models ``grokked'' to 100\% test accuracy after 50{,}000 training steps with weight decay 1.0.  Circuit importance was measured via activation patching: for each of 10 components (8 attention heads + 2 MLPs), we replaced the component's output with its mean activation and measured the resulting accuracy drop.  The within-model determinism control confirmed near-perfect reproducibility ($r = 0.9998$).
+
+\paragraph{Controls: random, memorised, grokked.}
+Three training checkpoints establish the control hierarchy:
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+Checkpoint & Train acc & Test acc & Mean $\rho$ between models \\
+\midrule
+Step 50 (random init) & 0.2\% & 0.2\% & 0.300 \\
+Step 500 (memorised) & 100\% & 50\% & 0.668 \\
+Step 50k (grokked) & 100\% & 100\% & 0.518 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Grokked models agree more than random ($p = 2.0 \times 10^{-4}$, $d = 0.76$) but \emph{less} than memorised models ($p = 0.023$, $d = 0.58$).  The decrease from memorised to grokked is consistent with grokking discovering genuinely different algorithms: memorised models share the same ``lookup table'' strategy, while grokked models find distinct Fourier-based algorithms.
+
+\paragraph{Different Fourier algorithms.}
+All 10 grokked models represent modular addition via Fourier components, but the specific frequencies selected are nearly disjoint: the mean pairwise Jaccard similarity of top-5 Fourier frequencies is 0.022.  Despite computing the same function with identical accuracy, each model discovers a different algorithm.
+
+\paragraph{$G$-invariant resolution demonstrated.}
+The architecture defines a symmetry group $S_4 \times S_4$ (permutations of the 4 heads within each layer).  Projecting the 10-dimensional importance vector onto the 4-dimensional $G$-invariant subspace $V^G$ (mean layer-0 heads, mean layer-1 heads, MLP0, MLP1) dramatically recovers agreement:
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+Representation & Spearman $\rho$ & Pearson $r$ \\
+\midrule
+Full 10-dim (individual components) & 0.518 & 0.835 \\
+$G$-invariant 4-dim ($V^G$) & \textbf{0.929} & \textbf{0.967} \\
+Excluding MLP1 (3-dim) & 0.822 & 0.782 \\
+Excluding MLP1 (9-dim) & 0.337 & 0.439 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The $G$-invariant projection is NOT trivially MLP-driven: excluding MLP1 from the invariant subspace still yields $\rho = 0.822$ ($p < 10^{-6}$), demonstrating that the layer-mean head importance is itself a stable, informative quantity.
+
+\paragraph{Noether counting within MI.}
+The symmetry $S_4 \times S_4$ predicts: within-layer head pairs (12 pairs total) should flip at $\sim 50\%$; head-vs-MLP pairs (cross-group, 8 pairs) should be stable.  Observed: within-layer mean flip rate $= 0.500$ exactly; between-group mean flip rate $= 0.227$.  Bimodal gap $= 0.273$, Mann--Whitney $p = 2.4 \times 10^{-5}$.  This is a second instantiation of the Noether counting prediction within a single experiment.
+
+\paragraph{Structural universal: MLP1 dominance.}
+MLP1 is the most important component in every seed (coefficient of variation $= 0.027$).  This is the $G$-invariant structural fact---the between-group conclusion that survives the impossibility.  Individual head identities (which specific head matters) are the within-group noise that the theorem proves is unavoidable.
 
 \subsection{Multi-Analyst Disagreement as Impossibility: Neuroimaging}
 \label{sec:narps}
