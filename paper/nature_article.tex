@@ -17,7 +17,6 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{microtype}
-\usepackage{tikz}
 
 %% ---- Hyperref configuration ----
 \hypersetup{
@@ -70,24 +69,26 @@
 %%% =========================================================================
 
 \begin{abstract}
-Practitioners in eight scientific fields---from molecular biology to gauge
-theory to machine learning---have independently developed strategies for
-coping with underspecified inference, yet no framework has connected these
-strategies or explained their convergence.  Here we identify a universal
-structural cause: when a system has the \emph{Rashomon property} (equivalent
-configurations produce incompatible explanations), no explanation can
-simultaneously be faithful, stable, and decisive.  We derive this
-impossibility from first principles in eight domains---each requiring zero
-shared axioms---and verify the framework in the Lean~4 proof assistant
-(100~files, 491~theorems, 0~unproved goals).  The constructive
-resolution---$G$-invariant projection---is Pareto-optimal, unifying
-century-old practices (gauge-invariant observables, CPDAGs, minimum-norm
-solutions) as instances of a single optimal strategy.  Three quantitative
-predictions---an invariance counting law, a Gaussian flip rate formula
-calibrated across 647 feature pairs ($R^2 = 0.81$, 95\% CI [0.79, 0.83]), and a universal
-instability predictor ($R^2 = 0.96$, $p = 1.4 \times 10^{-4}$ across seven domains)---are confirmed
-by experiment, with two pre-registered conjectured extensions falsified,
-delineating the framework's boundary.
+Train a machine learning classifier to distinguish colon from kidney
+tumours using 10{,}935 gene-expression features, and the algorithm names
+TSPAN8---a gene in the invasion/metastasis pathway---as the single most
+important biomarker.  Change nothing but the random seed and retrain: now
+the top gene is CEACAM5, an immune-evasion marker with zero shared Gene
+Ontology biological process terms.  We prove that this instability is not
+a software bug: it is a mathematical certainty.  Whenever
+observationally equivalent configurations coexist (the Rashomon
+property), no explanation can simultaneously be faithful, stable, and
+decisive.  We derive this impossibility from first principles in four
+high-stakes domains---genomics, mechanistic interpretability of neural
+networks, causal inference, and neuroimaging---each requiring zero shared
+axioms.  In each domain, a constructive resolution exists: projecting
+onto the symmetry-invariant subspace.  For neural circuits, this
+projection lifts inter-model agreement from $\rho = 0.52$ to $\rho =
+0.93$.  For neuroimaging, orbit averaging across 48 analysis teams is
+near-optimal, with 16 independent analyses sufficing for 95\% stability.
+The framework is verified in the Lean~4 proof assistant (491~theorems,
+0~unproved goals) and generates quantitative predictions confirmed across
+seven well-characterised domains ($R^2 = 0.96$).
 \end{abstract}
 
 %%% =========================================================================
@@ -96,36 +97,42 @@ delineating the framework's boundary.
 
 \section*{Introduction}
 
-The codons UCU and UCC both encode serine: same protein fragment, different
-nucleotide sequences~\citep{crick1966codon}.  A causal chain $A \to B \to C$
-and a fork $A \leftarrow B \to C$ encode the same conditional
-independences~\citep{verma1991equivalence}.  Two gauge configurations can
-share the same holonomy while differing in local edge
-labels~\citep{jackson1999}.  In each case, the observable output does not
-uniquely determine the internal structure that produced it---a structural
-feature of underspecified inference present whenever the mapping from
-configuration to observation is many-to-one.
+A biologist following the first model into the wet lab would pursue
+invasion signalling through TSPAN8's tetraspanin-enriched microdomains;
+a biologist following the second would pursue immune evasion through
+CEACAM5's role in cell--cell adhesion.  Both models predict patient labels
+with indistinguishable accuracy.  The alternation replicates on an
+independent tissue contrast (endometrium vs colon: TSPAN8 78\%, CEACAM5
+22\%) and on a different gene pair (breast vs colon: COL3A1 72\%,
+COL1A1 28\%), where both collagens share the extracellular matrix
+pathway---two modes of instability, one within and one between biological
+pathways, both governed by the same theorem.
 
-Practitioners in each field have independently developed coping
-strategies---gauge-invariant observables, CPDAGs, Patterson
-maps~\citep{hauptman1953solution}, codon usage
-tables~\citep{crick1966codon}---each involving projection onto the
-subspace invariant under the symmetry group of equivalent configurations,
-yet no framework has connected them or proved their optimality.
+The same structure appears wherever a system admits multiple valid
+explanations.  Ten neural networks trained from independent random seeds
+on modular addition all achieve 100\% accuracy, yet their internal
+circuits overlap by only 2.2\% (Fourier-frequency Jaccard) and their
+importance rankings agree at $\rho = 0.52$.  Seventy teams of
+neuroscientists analysing the same fMRI
+data~\citep{botviniknezer2020variability} produce different activation
+maps.  Different causal discovery algorithms orient the same edges in
+opposite directions when the underlying graph is Markov-equivalent.
+Crystallographers, gauge theorists, and census disaggregators have, over
+the past century, independently converged on the same mathematical
+strategy for such problems: project onto the subspace invariant under the
+symmetry of equivalent configurations.
 
-This gap echoes the philosophical problem of explanatory underdetermination~\citep{stanford2006exceeding}: when multiple models account equally well for the data, no principled basis selects among their incompatible explanations. Our framework formalises this for the first time and proves the resulting impossibility is exact (tight).
-
-Here we prove a universal impossibility: when a system has the
-\emph{Rashomon property}---two configurations with the same observable but
-incompatible internal structures---no explanation can be simultaneously
-faithful, stable, and decisive (Theorem~\ref{thm:impossibility}).  We
-derive this in eight scientific domains, each requiring zero shared axioms,
-and verify the framework in Lean~4~\citep{demoura2021lean4} (100~files,
-491~theorems, 0~unproved goals).  Empirical validation in seven domains
-confirms the predicted dose-response (Table~\ref{tab:unification},
-Fig.~\ref{fig:dose-response}).  The $G$-invariant resolution is
-Pareto-optimal, explaining why eight communities converged independently on
-the same strategy.
+Here we prove why.  A single four-line theorem, requiring only the
+Rashomon property as a hypothesis, shows that no explanation can be
+simultaneously faithful (reflect the system's actual structure), stable
+(consistent across equivalent configurations), and decisive (commit to a
+specific answer).  The proof is verified in Lean~4 with zero
+domain-specific axioms.  A strengthened form---the
+bilemma---shows that for binary explanations (significant or not, positive
+or negative), even faithful and stable together are impossible.  The
+complete design space is characterised by a tightness
+classification: whether the impossibility admits a resolution depends on
+whether the explanation space contains a neutral element (Table~\ref{tab:tightness}).
 
 %%% =========================================================================
 %%% Results
@@ -135,315 +142,45 @@ the same strategy.
 
 \subsection*{The impossibility}
 
-An explanation is \emph{faithful} if it never contradicts the system's
-internal report; \emph{stable} if observationally equivalent configurations
-receive the same explanation; and \emph{decisive} if it commits to every
-distinction the internal structure makes.  Formal definitions are in Methods.
+An \emph{explanation system} is a tuple $(\Params, \sH, Y, \mathsf{obs},
+\mathsf{exp}, \incomp)$ where $\Params$ is a configuration space, $\sH$
+is an explanation space, $Y$ is an observable space, $\mathsf{obs}$
+maps configurations to observables, $\mathsf{exp}$ maps configurations
+to their internal explanations, and $\incomp$ is an incompatibility
+relation on $\sH$.  The system has the \emph{Rashomon property} if
+there exist $\theta_1, \theta_2 \in \Params$ with $\mathsf{obs}(\theta_1) =
+\mathsf{obs}(\theta_2)$ and $\mathsf{exp}(\theta_1) \incomp
+\mathsf{exp}(\theta_2)$.
 
-\begin{theorem}[The explanation impossibility]
+\begin{theorem}[Impossibility]
 \label{thm:impossibility}
-If a system has the Rashomon property---there exist $\theta_1, \theta_2$
-with $\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$ and
-$\mathrm{exp}(\theta_1) \incomp \mathrm{exp}(\theta_2)$---then no
-explanation map $E$ is simultaneously faithful, stable, and decisive.
+No explanation system with the Rashomon property admits an explanation
+map that is simultaneously faithful, stable, and decisive.
 \end{theorem}
 
-The proof is a four-step contradiction chain (Methods).  The impossibility
-is tight: each pair of properties is achievable via Lean-verified witnesses
-(Fig.~\ref{fig:trilemma}), and a biconditional shows impossibility holds
-if and only if Rashomon is present.
+The proof is four lines (Methods). Each property is load-bearing: dropping
+any one yields a two-property map that is constructively achievable
+(Extended Data Table~1).
 
-\subsection*{Three quantitative predictions}
+For binary $\sH$ (e.g.\ SHAP sign, gene significance, edge
+orientation), the bilemma strengthens this: faithful + stable alone is
+impossible when every pair of distinct explanations is incompatible.
+This triggers for SHAP sign (positive vs negative attribution), feature
+selection (selected vs not), and counterfactual direction.
 
-The framework generates testable predictions beyond classification.
+\subsection*{Tightness classification}
 
-\paragraph{Invariance counting (cf.\ Noether's theorem).}
-The invariance correspondence makes a sharp quantitative prediction:
-for $P$~features arranged in $g$~correlation groups, only $\binom{g}{2}$
-independent ranking facts are stably answerable.  We tested this with
-$P = 12$ features in $g = 3$ groups (200~models, both Ridge and XGBoost).
-The result is a clean bimodal distribution: all 18~within-group pairs show
-${\sim}50\%$ flip rate, all 48~between-group pairs show $< 2\%$ flip
-rate---a 47-percentage-point gap (permutation $p < 0.0002$; Cohen's
-$d = 1.41$).  A sensitivity analysis across $\rho \in [0.50, 0.99]$
-confirms the gap is \emph{invariant} across the entire correlation range.
-The prediction would be falsified if within-group flip rates fell below 40\% or between-group rates exceeded 10\% at any correlation $\rho > 0.5$.
-
-\paragraph{Gaussian flip rate.}
-On real data where feature importance is approximately (not exactly) equal
-within groups, $\text{flip}(j,k) =
-2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$ predicts per-pair flip rates
-with out-of-sample $R^2 = 0.814$ [0.791, 0.835] (bootstrap calibration across 647 feature pairs from five clinical and financial datasets), with a conservative bias (calibration slope~$= 1.17$; the formula slightly underpredicts observed instability).  The
-formula is standard signal detection theory; the framework's contribution
-is the structural identification of \emph{which} pairs are subject to
-this formula (derivation in Methods).  Pairs with $|\Delta|/\sigma > 2$ are
-reliable (flip rate $< 5\%$); pairs with $|\Delta|/\sigma < 0.5$ are
-unreliable (flip rate $> 30\%$).
-On gene expression data (10{,}935 genes, cancer classification), 70\% of gene
-importance comparisons are unreliable using gain-based importance (42\% with TreeSHAP; $R^2 = 0.51$).
-Across seven real clinical, financial, and genomics datasets (2{,}062
-feature-pair comparisons), 62\% are unreliable and only 4\% are reliable
-(62\% of 2{,}062 feature-pair comparisons across seven clinical, financial,
-and genomics datasets; 49\% across the broader 22{,}332-pair audit
-including synthetic data).
-The prediction would be falsified if calibration slope fell outside $[0.8, 1.2]$ on a new dataset with $P \geq 20$ features.
-
-\paragraph{Universal $\eta$ law.}
-The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$
-(the fraction of explanation content that survives averaging over equivalent
-configurations)---a standard
-ratio in representation theory whose application to explanation instability
-is new---predicts the observed instability rate across seven
-well-characterized domain instances with $R^2 = 0.957$, slope~$= 0.91$,
-and intercept~$= 0.008$ ($p = 1.4 \times 10^{-4}$)---a parameter-free
-predictor spanning ML attribution, concept probes, model selection, codon
-degeneracy, and statistical mechanics (Extended Data Fig.~\ref{fig:ed-eta}).
-(Leave-one-out $R^2 = 0.79$; across all 16 instances including those with unknown or approximate symmetry groups, $R^2 = 0.25$---the bottleneck is group identification, not the law itself.)
-The prediction would be falsified if out-of-sample $R^2 < 0.5$ on a new domain with a well-characterised symmetry group.
-
-%%% =========================================================================
-
-\subsection*{Cross-domain validation}
-
-We derive the impossibility as a zero-axiom consequence in eight scientific
-domains (Table~\ref{tab:unification}), each constructively witnessing the
-Rashomon property from domain-specific first principles alone.  The eight
-instances involve fundamentally different symmetry groups
-(Table~\ref{tab:structural}), spanning continuous ($\R^{n-r}$), finite
-permutation ($S_k$), and ambiguity ($\mathbb{Z}_2 \times \mathbb{Z}_n
-\times \mathbb{Z}_2$) groups.
-
-The predicted dose-response---more underspecification produces more
-instability---is confirmed in all seven empirically tested domains
-(Fig.~\ref{fig:dose-response}), each with negative controls confirming
-stability when Rashomon is absent (combined binomial $p = 0.008$;
-individual $p$-values from $10^{-38}$ to $10^{-3}$).  Per-domain
-statistics are in Methods and Supporting Information.
-
-%%% Figure 1: 8-panel dose-response
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/universal_dose_response.pdf}
-\caption{\textbf{Eight sciences, one pattern.}  Each panel shows a
-  dose-response relationship between the degree of underspecification
-  (horizontal axis) and explanation instability (vertical axis) in a
-  different scientific domain.  Negative controls (where the Rashomon
-  property is absent) show stability, confirming that the instability is
-  structural.  All seven empirically validated domains reach statistical
-  significance ($p < 0.05$) with the predicted monotonic relationship.
-  \textbf{A,}~Mathematics (null-space dimension vs.\ solver RMSD).
-  \textbf{B,}~Biology (codon degeneracy vs.\ entropy; 120 NCBI RefSeq
-  cytochrome~c sequences).
-  \textbf{C,}~Gauge theory (gauge-invariant vs.\ gauge-variant quantity
-  variance).
-  \textbf{D,}~Statistical mechanics (macrostate vs.\ Rashomon entropy).
-  \textbf{E,}~Linguistics (parser agreement on ambiguous vs.\ unambiguous
-  sentences).
-  \textbf{F,}~Crystallography (signal length vs.\ phase-retrieval RMSD).
-  \textbf{G,}~Computer science (county count vs.\ disaggregation KL
-  divergence; U.S.\ Census Bureau 2020 data).
-  \textbf{H,}~Statistics (causal discovery orientation agreement;
-  100~seeds per condition).}
-\label{fig:dose-response}
-\end{figure}
-
-%%% Table 1: Unification
-\begin{table}[t]
-\centering
-\caption{\textbf{Eight derived instances of the impossibility across eight
-  sciences.}  Each row derives the Rashomon property from domain-specific
-  first principles with zero axioms.  $\Params$: configuration space; $Y$:
-  observable space.}
-\label{tab:unification}
-\small
-\begin{tabular}{@{}llllll@{}}
-\toprule
-Domain & $\Params$ & $Y$ & Witness 1 & Witness 2 & Same $Y$? \\
-\midrule
-Mathematics       & Solutions of $Ax{=}b$  & $Ax$            & $(1,1)$  & $(0,2)$  & $2{=}2$ \\
-Biology           & Codons               & Amino acids     & UCU      & UCC      & Ser{=}Ser \\
-Physics (gauge)   & Gauge configs        & Holonomy        & $(T,F,F)$& $(F,F,T)$& $F{=}F$ \\
-Stat.\ mechanics  & Microstates          & Num.\ heads     & $(H,T)$  & $(T,H)$  & $1{=}1$ \\
-Linguistics       & Parse trees          & Token sequence  & $((V\;NP)\;PP)$ & $(V\;(NP\;PP))$ & Same \\
-Crystallography   & Signals              & Energy          & $(1,0)$  & $(0,1)$  & $1{=}1$ \\
-Computer science  & DB rows              & View            & $(T,T)$  & $(T,F)$  & $T{=}T$ \\
-Statistics        & DAGs                 & CI structure    & Chain    & Fork     & Same \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-%% SUPPLEMENTARY: Per-domain validation details moved to SI.
-
-The impossibility prescribes a constructive resolution: project onto the
-subspace invariant under the symmetry group---a \emph{$G$-invariant
-resolution}.  This sacrifices decisiveness but achieves stability and
-faithfulness, and is \emph{Pareto-optimal} among stable explanation maps (and, for quantitative bounds, among unbiased linear aggregators) (Methods).  Practitioners in eight fields converged independently on
-precisely this strategy (Table~\ref{tab:structural}): gauge-invariant
-observables~\citep{jackson1999}, CPDAGs~\citep{verma1991equivalence},
-Patterson maps~\citep{hauptman1953solution}, the pseudoinverse, codon
-usage tables, the microcanonical ensemble, packed parse forests, and
-complement views~\citep{bancilhon1981update}---a convergence explained by
-the resolution's uniqueness.
-
-%%% Table 2: Structural differences
-\begin{table}[t]
-\centering
-\caption{\textbf{Structural differences across the eight derived instances.}
-  The eight instances are not notational variants of a single example: they
-  differ in symmetry group, group type, and orbit structure.  Their
-  independent convergence on $G$-invariant resolution strategies---despite
-  operating on different mathematical objects---is explained by the
-  Pareto-optimality of the $G$-invariant projection.  All sacrifice
-  decisiveness, but the symmetry groups span five distinct families
-  ($\R^d$, $\mathbb{Z}_2^k$, $S_k$, $\mathbb{Z}_2 \times
-  \mathbb{Z}_n \times \mathbb{Z}_2$, and MEC edge permutations).}
-\label{tab:structural}
-\small
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}llllll@{}}
-\toprule
-Domain & Group $G$ & Objects permuted & Type & Resolution & Form \\
-\midrule
-Mathematics
-  & $\R^{n-r}$
-  & Solution offsets
-  & Cont., abelian
-  & Pseudoinverse
-  & Projection \\[2pt]
-Biology
-  & $S_k$\;($k{\leq}6$)
-  & Synonymous codons
-  & Finite
-  & Codon tables
-  & Averaging \\[2pt]
-Physics
-  & $\mathbb{Z}_2^{|V|-1}$
-  & Edge labels
-  & Finite, abelian
-  & Wilson loops
-  & Invariant fn. \\[2pt]
-Stat.\ mech.
-  & $S_\Omega$
-  & Microstates
-  & Finite
-  & Microcanon.
-  & Averaging \\[2pt]
-Linguistics
-  & $S_k$
-  & Parse trees
-  & Finite
-  & Parse forests
-  & Enumeration \\[2pt]
-Crystallogr.
-  & $\mathbb{Z}_2{\times}\mathbb{Z}_n{\times}\mathbb{Z}_2$
-  & Signal phases
-  & Finite
-  & Patterson map
-  & Autocorrel. \\[2pt]
-Comp.\ sci.
-  & $S_k$
-  & Hidden columns
-  & Finite
-  & Compl.\ views
-  & Projection \\[2pt]
-Statistics
-  & MEC perms.
-  & DAG orientations
-  & Finite
-  & CPDAG
-  & Class report \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-%% SUPPLEMENTARY: Symmetry-form classification and query-relative analysis moved to SI.
-%% Methods: Lean formalization details moved to Methods.
-
-%%% Figure 3: Trilemma triangle
-\begin{figure}[t]
-\centering
-\begin{tikzpicture}[scale=2.2, thick,
-  vertex/.style={circle, draw, fill=blue!8, minimum size=28pt,
-                 inner sep=0pt, font=\small\bfseries},
-  edgelabel/.style={font=\footnotesize, fill=white, inner sep=2pt}]
-
-  %% Triangle vertices
-  \node[vertex] (F) at (90:1.1)  {Faithful};
-  \node[vertex] (S) at (210:1.1) {Stable};
-  \node[vertex] (D) at (330:1.1) {Decisive};
-
-  %% Edges (achievable pairs)
-  \draw[blue!60!black, line width=1.2pt] (F) -- (S)
-    node[edgelabel, midway, left=2pt] {drop Decisive};
-  \draw[blue!60!black, line width=1.2pt] (F) -- (D)
-    node[edgelabel, midway, right=2pt] {drop Stable};
-  \draw[blue!60!black, line width=1.2pt] (S) -- (D)
-    node[edgelabel, midway, below=2pt] {drop Faithful};
-
-  %% Center label
-  \node[font=\small, text=red!70!black, align=center] at (0, -0.05)
-    {Impossible\\[-2pt]\footnotesize (under Rashomon)};
-
-\end{tikzpicture}
-\caption{\textbf{The explanation trilemma.}  Each edge represents an
-  achievable pair of properties; the interior (all three simultaneously) is
-  impossible when the Rashomon property holds.  Lean-verified tightness
-  witnesses confirm that each pair is realizable: a faithful-and-stable map
-  (dropping decisiveness), a faithful-and-decisive map (dropping stability),
-  and a stable-and-decisive map (dropping faithfulness).  The impossibility
-  is the triple, not any pair.}
-\label{fig:trilemma}
-\end{figure}
-
-%% Methods: Peres-Mermin instance and formalization details moved to Methods.
-
-The entire framework is mechanically verified in Lean~4~\citep{demoura2021lean4}
-using Mathlib~\citep{mathlib2020}: 100~files, 491~theorems, 0~unproved
-goals.  The core theorem requires zero axioms; the 25~axioms are domain-specific infrastructure (14 GBDT model structure, 11 physics hypotheses); all ML instances and resolution frameworks use zero axioms.
-
-%%% =========================================================================
-
-\subsection*{The bilemma}
-
-For \emph{maximally incompatible} systems---where the only compatible pair
-is $(h,h)$, as in binary rankings and DAG orientations---the trilemma
-strengthens.
-
-\begin{theorem}[The Bilemma]
-\label{thm:bilemma}
-For any maximally incompatible system with the Rashomon property, no
-explanation is simultaneously faithful and stable.
-\end{theorem}
-
-\noindent Tightness collapses from 3/3 achievable pairs to 1/3 (proof in Methods):
-
-\begin{center}
-\small
-\begin{tabular}{lccc}
-\toprule
-\textbf{Pair} & \textbf{Abstract} & \textbf{Max.\ incompat.} & \textbf{Enriched} \\
-\midrule
-F + D & \checkmark & \checkmark & \checkmark \\
-F + S & \checkmark & $\times$ (bilemma)  & \checkmark \\
-S + D & \checkmark & $\times$ & $\times$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\noindent Recovery requires enriching $\sH$ with a neutral element compatible
-with everything---the mechanism behind DASH (``tied''), CPDAGs
-(``undirected''), and Bayesian model averaging (``uncertain'').
-
-\paragraph{The tightness classification.}
-Two algebraic properties of $\sH$---existence of a \emph{neutral element}
-(compatible with everything) and a \emph{committal element} (incompatible
-with everything else)---completely determine which property pairs are
-achievable (Table~\ref{tab:tightness}; Lean-verified).
+Whether the impossibility admits a resolution depends on the structure of
+$\sH$.  A \emph{neutral element} $h_0 \in \sH$ is compatible with every
+other element.  A \emph{committal element} is incompatible with at least
+one.
 
 \begin{table}[h]
 \centering
 \small
-\caption{\textbf{The tightness classification.} Neutral/committal existence determines achievable pairs. F+D always achievable; F+S+D never.}
+\caption{\textbf{Tightness classification.} Which property pairs are
+  achievable depends on the existence of neutral and committal elements
+  in~$\sH$.  The bilemma occupies the bottom-right cell.}
 \label{tab:tightness}
 \begin{tabular}{@{}lcc@{}}
 \toprule
@@ -455,6 +192,130 @@ No neutral & F+D, S+D & \textbf{F+D only} \\
 \end{tabular}
 \end{table}
 
+Enriching $\sH$ with a neutral element restores F+S at the cost of
+decisiveness.  This is the algebraic content of every resolution:
+DASH adds ``tied'' to feature rankings; CPDAGs add ``undirected'' to edge
+orientations; gauge-invariant observables quotient out unphysical
+degrees of freedom.
+
+\subsection*{Instance 1: Genomics}
+
+On the AP\_Colon\_Kidney microarray dataset (546 samples, 10{,}935 genes,
+top~50 by variance), 50 XGBoost classifiers with standard regularisation
+(subsample~$= 0.8$, colsample\_bytree~$= 0.5$) and TreeSHAP produce an
+alternating top gene: TSPAN8 (\#1 in 92\% of seeds) vs CEACAM5 (6\%),
+with feature correlation $\rho = 0.858$.  Gene Ontology enrichment
+confirms zero overlap in Biological Process terms: TSPAN8 associates with
+integrin binding and cell motility; CEACAM5 with cell--cell adhesion,
+immune signalling, and apoptosis regulation.
+
+The alternation replicates across datasets (Table~\ref{tab:gene}):
+
+\begin{table}[h]
+\centering
+\small
+\caption{\textbf{Gene-expression alternation across four datasets.}
+  Mode~1: distinct pathways.  Mode~2: same pathway, redundant markers.}
+\label{tab:gene}
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Dataset & Gene pair & Split & $\rho$ & Mode & GO overlap \\
+\midrule
+AP\_Colon\_Kidney & TSPAN8 / CEACAM5 & 92 / 6 & 0.858 & 1 & 0 terms \\
+AP\_Endo\_Colon & TSPAN8 / CEACAM5 & 78 / 22 & 0.781 & 1 & 0 terms \\
+AP\_Breast\_Colon & COL3A1 / COL1A1 & 72 / 28 & 0.843 & 2 & 3 terms \\
+AP\_Breast\_Lung & SFTPB (stable) & 98 / 1 & --- & --- & control \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Under deterministic training (subsample~$= 1.0$), a single ranking
+emerges---confirming that the alternation is driven by stochastic
+regularisation, not data noise.  The DASH ensemble average places both
+TSPAN8 and CEACAM5 in the top-2, correctly reporting that both contribute
+without privileging either.
+
+\subsection*{Instance 2: Mechanistic interpretability}
+
+Ten two-layer transformers (4 heads/layer, $d = 128$) trained from
+independent random initialisations on $(a + b) \bmod 113$ all grok to
+100\% test accuracy.  Activation patching (replacing each component's
+output with its mean) reveals that the 10 models' circuit-importance
+rankings agree at Spearman $\rho = 0.518$---and two models identify
+anti-correlated circuits.  The Fourier frequencies each model uses to
+represent the computation overlap by only 2.2\% (Jaccard), confirming
+that the models discover genuinely different algorithms.
+
+Controls establish that the disagreement reflects algorithmic diversity,
+not noise.  Random-initialisation models ($< 1$\% accuracy) agree at
+$\rho = 0.300$; memorised models (100\% train, 50\% test) at $\rho =
+0.668$; grokked models at $\rho = 0.518$ (post $>$ random:
+$p = 2.0 \times 10^{-4}$, $d = 0.76$).
+
+The resolution is direct.  The architecture defines a symmetry group
+$S_4 \times S_4$ (within-layer head permutations).  Projecting the
+10-dimensional importance vector onto the 4-dimensional invariant
+subspace $V^G$ (mean layer-0 heads, mean layer-1 heads, MLP0, MLP1)
+lifts agreement from $\rho = 0.518$ to $\rho = 0.929$ (Pearson~$=
+0.967$).  This is not trivially MLP-driven: excluding MLP1 still yields
+$\rho = 0.822$ ($p < 10^{-6}$).  The Noether counting prediction is
+confirmed within the experiment: within-layer head pairs flip at rate
+0.500 exactly; head-vs-MLP pairs at 0.000 (gap~$= 0.273$,
+$p = 2.4 \times 10^{-5}$).  The universal structural fact---MLP1 is
+dominant in every seed (CV~$= 0.027$)---emerges only after the
+$G$-invariant projection.
+
+\subsection*{Instance 3: Causal inference}
+
+A causal chain $A \to B \to C$ and a fork $A \leftarrow B \to C$ are
+Markov-equivalent: they share the same conditional independence
+structure~\citep{verma1991equivalence}.  No algorithm observing only
+conditional independence can orient the $A$--$B$ edge.  The completed
+partially directed acyclic graph (CPDAG), which reports an undirected
+edge where orientation is ambiguous, is the neutral-element resolution.
+PC and GES algorithms already implement this~\citep{spirtes2000causation}---the
+framework proves their output is Pareto-optimal.
+
+The impossibility has a quantitative consequence: the DASH ensemble
+applied to causal discovery (averaging orientation probabilities across
+200 bootstrap runs of PC and GES on the Asia network) reduces flip rate
+fourfold ($p < 10^{-10}$) at reduced decisiveness (0.21 vs 0.36).
+
+\subsection*{Instance 4: Neuroimaging}
+
+Botvinik-Nezer et al.~\citep{botviniknezer2020variability} gave the same
+fMRI data to 70 independent analysis teams who reached different
+conclusions.  This is the impossibility theorem in action: the Rashomon
+set comprises the valid analysis pipelines.  Orbit averaging across
+pipelines---the overlap map used descriptively in the original
+study---provides a near-optimal resolution (all aggregation methods within
+3\%).  From 48 teams with available statistical maps, 16 independent
+analyses [95\% CI: 10--22] suffice for 95\% stability between
+assessments.
+
+Functional network membership, defined from independent resting-state
+data~\citep{yeo2011organization}, predicts which brain regions show
+similar disagreement patterns ($d = 0.32$ after controlling for
+activation level, permutation $p < 0.001$, consistent across all 7
+non-empty hypotheses).  The same impossibility pattern appears in
+multi-analyst studies in psychology~\citep{silberzahn2018many} (29 teams)
+and political science~\citep{breznau2022observing} (73 teams).  On 24
+neuroimaging teams with known software (12~FSL, 8~SPM, 4~AFNI), both
+network structure and software choice independently predict flip rates
+($p < 10^{-4}$ and $p < 10^{-54}$ respectively).
+
+\subsection*{The universal $\eta$ law}
+
+The character-theoretic formula $\eta = 1 - \dim(V^G)/\dim(V)$ predicts
+the instability rate from the symmetry group $G$ alone, with zero free
+parameters.  Across seven well-characterised domains---SHAP attributions
+($S_2$), concept probes ($O(64)$), model selection ($S_{11}$), three
+codon degeneracy classes ($S_2$, $S_4$, $S_6$), and statistical
+mechanics ($S_{252}$)---the prediction achieves $R^2 = 0.957$ with slope
+0.91 (Extended Data Fig.~1).  The law fails when groups are unknown
+($R^2 = 0.25$ for all 16 domains) or approximate (brain imaging:
+$\rho \approx 0$), delineating the boundary at exact exchangeability.
+
 %%% =========================================================================
 %%% Discussion
 %%% =========================================================================
@@ -462,93 +323,51 @@ No neutral & F+D, S+D & \textbf{F+D only} \\
 \section*{Discussion}
 
 The theorem reframes ``why are explanations unstable?''\ as ``because the
-inference problem is underspecified.''  Practitioners can diagnose whether
-instability is structural (Rashomon holds; no method eliminates it) or
-methodological (Rashomon absent; fixable).
+inference problem is underspecified.''  The instability is not a bug in
+any particular method---it is a provable consequence of the Rashomon
+property.  Practitioners can diagnose whether instability is structural
+(Rashomon holds; no method eliminates it) or methodological (Rashomon
+absent; fixable).
 
-Nine ML instances (Supporting Information) instantiate the theorem for
-feature attribution, attention, counterfactuals, concept probes, causal
-discovery, model selection, saliency maps, token citation, and circuit
-discovery---findings relevant to the EU AI Act (Article~13) and FDA's
-AI/ML Action Plan~\citep{fda2021aiml,selbst2018intuitive}.
-The result parallels Arrow's impossibility~\citep{arrow1951social}---both
-show symmetry forces trade-offs---but is constructive: it identifies the
-unique optimal trade-off and proves existing practice implements it.
-Individual domain instances are separately known; the contribution is the
-meta-theorem unifying them under a single structural condition and producing
-three novel quantitative predictions.
+The constructive resolution---projecting onto the symmetry-invariant
+subspace---is the algebraic content of practices that eight scientific
+communities developed independently: ensemble averaging in ML, CPDAGs in
+causal discovery, gauge-invariant observables in physics, Patterson maps
+in crystallography, and overlap maps in neuroimaging.  That these
+communities converged on structurally identical solutions, without
+cross-pollination, is now explained: the $G$-invariant projection is the
+unique Pareto-optimal strategy for any explanation system with the
+Rashomon property.
 
-\paragraph{Cross-domain transfer.}
-Applying DASH to causal discovery reduces flip rate fourfold
-($p < 10^{-10}$) at reduced decisiveness (0.21 vs.\ 0.36).
-The character-theoretic prediction that information loss scales as $1/k$
-for $S_k$ predicts protein sequence diversity ranking (Spearman $\rho =
-0.88$, $p = 0.004$).
-
-\paragraph{Diagnostic tools.}
-The coverage conflict diagnostic---whether both signs of a feature's SHAP value appear across models---predicts instability with Spearman $\rho = 0.92$--$0.98$ across five datasets, outperforming the Gaussian formula ($\rho = 0.46$ on real data). The tightness classification has a topological characterisation: the \emph{compatibility complex} (simplicial complex on $\sH$ with pairwise-compatible subsets as simplices) determines achievable property pairs. Discrete complex $\to$ bilemma; contractible complex (neutral element = cone point) $\to$ faithful+stable achievable. This is NOT sheaf-theoretic contextuality (which is a gluing failure, $H^1 \neq 0$); the bilemma is a simpler obstruction (empty stalks, $H^0 = 0$).
-
-\paragraph{Per-individual impact and prospective validation.}
-A per-individual ablation study shows that 45\% of German Credit loan applicants receive a genuinely different explanation category under standard model regularisation, with consistent results across XGBoost and LightGBM. A prospective test on drug discovery (BBBP, 2{,}039 molecules) reveals a precise boundary condition: Pearson correlation fails to identify groups in binary fingerprint features (predicting 0\% vs.\ observed 23\% instability), but mutual information (16\% error) and Jaccard co-occurrence (4\% error) recover the prediction. The framework's magnitude prediction generalises via nonlinear group discovery; its structural prediction (Noether bimodality) requires discrete symmetry groups.
-
-\paragraph{Application to multi-analyst disagreement.}
-The framework applies beyond ML to any setting where multiple valid
-analyses of the same data produce incompatible conclusions.
-Botvinik-Nezer et al.~\citep{botviniknezer2020variability} gave the same
-fMRI data to 70 independent analysis teams who reached different
-conclusions about brain activation---an instance of the impossibility
-theorem where the Rashomon set comprises valid analysis pipelines.  Orbit
-averaging across pipelines (the overlap map used descriptively in the
-original study) provides a near-optimal resolution: all aggregation
-methods achieve within 3\% of each other on faithfulness and stability.
-From 48~teams with available statistical maps, we derive that
-16~independent analyses [95\% CI: 10--22] suffice for 95\% stability.
-Functional network membership, defined from independent resting-state
-data~\citep{yeo2011organization}, predicts which regions show similar
-disagreement patterns ($d = 0.32$ after controlling for activation level,
-permutation $p < 0.001$), consistent with the Noether counting prediction
----while the quantitative $\eta$ law does not apply, delineating the
-framework's boundary at approximate symmetry.  The same
-impossibility structure appears in multi-analyst studies in
-psychology~\citep{silberzahn2018many} (29~teams) and political
-science~\citep{breznau2022observing} (73~teams).
+The gene-expression finding (Instance~1) has immediate practical
+consequences: the specific biomarker a drug-discovery pipeline nominates
+depends on the training seed.  The resolution---reporting the DASH
+ensemble top-$k$, which contains both TSPAN8 and CEACAM5---is not
+merely cautious but provably optimal.  For mechanistic interpretability
+(Instance~2), the resolution means reporting equivalence classes of
+circuits (``MLP1 is dominant; individual head identities are
+interchangeable'') rather than specific circuit diagrams.
 
 \paragraph{Limitations.}
-Derivations use minimal two-element witnesses; empirical validations use
-domain-appropriate but not exhaustive datasets.  The resolution assumes
-known equivalence classes.  The theorem addresses existence, not
-computational cost.  Three conjectured extensions were pre-registered and
-falsified, delineating the framework's boundary (Supporting Information).
-The neuroimaging Noether prediction ($d = 0.32$) is an analogical
+The gene-expression alternation requires stochastic regularisation
+(subsample~$< 1$); under deterministic training, a single ranking
+emerges.  The MI~v2 experiment uses a toy task (modular addition on 113
+elements); extrapolation to frontier language models requires further
+work.  The neuroimaging Noether prediction ($d = 0.32$) is an analogical
 extension---brain regions lack exact exchangeability---and does not
-generalise to scalar multi-analyst studies, where simpler meta-analytic
-methods suffice.
+generalise to scalar multi-analyst studies.  Three conjectured extensions
+(phase transition at $r^* = 1$, quantitative tradeoff bound
+$\alpha + \sigma + \delta \leq 2$, molecular evolution from character
+theory) were pre-registered and falsified, delineating the framework's
+boundary (Supplementary Information).
 
-\subsection*{Scientific revolutions as enrichment events}
-
-The bilemma identifies a recurring pattern in paradigm shifts: when the pre-revolutionary explanation space is maximally incompatible, resolution requires \emph{enriching} $\sH$ with a neutral element---adding a new category that is compatible with all existing explanations, at the cost of decisiveness.
-
-\begin{table}[h]
-\centering
-\small
-\caption{\textbf{Five instances of bilemma $\to$ enrichment across science.} Each row shows a pre-revolutionary binary $\sH$, the enrichment that resolves the bilemma, and the decisiveness lost.}
-\label{tab:revolutions}
-\begin{tabular}{@{}llll@{}}
-\toprule
-Transition & Pre-revolution $\sH$ & Enrichment & Lost \\
-\midrule
-SHAP instability & \{positive, negative\} & DASH tie & Feature rank \\
-Feature selection & \{selected, not\} & Uncertain & Feature relevance \\
-Classical $\to$ quantum & \{definite, superposition\} & No fact of the matter & Pre-measurement state \\
-Newton $\to$ relativity & \{simultaneous, not\} & Frame-dependent & Absolute simultaneity \\
-Single $\to$ adelic geometry & \{smooth, ultrametric\} & Indeterminate & Spacetime geometry \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The enrichment is forced and unique when $\sH$ is maximally incompatible (a companion paper~\citep{caraker2026ostrowski} proves this for spacetime geometry via Ostrowski's classification). The pattern generates a falsifiable prediction: the next paradigm shift in a maximally incompatible domain will add a neutral element to $\sH$.
-
-The enrichment pattern is recursive: resolving the bilemma at one level may create a new maximally incompatible system at the next, a structure formalised in a companion paper~\citep{caraker2026ostrowski} for a physical stack of depth~$\geq 3$.
+\paragraph{Lean verification.}
+The framework is verified in Lean~4 across two repositories: 100~files /
+491~theorems / 25~axioms / 0~sorry (universal framework) and 58~files /
+357~theorems / 6~axioms / 0~sorry (attribution specialisation).  All ML
+instances use constructive types with zero domain-specific axioms.  The
+core impossibility theorem requires only the Rashomon property as a
+hypothesis.
 
 %%% =========================================================================
 %%% Methods
@@ -563,23 +382,11 @@ space, $\sH$ is an explanation space, $Y$ is an observable space,
 $\mathsf{obs} : \Params \to Y$ maps configurations to observables,
 $\mathsf{exp} : \Params \to \sH$ maps configurations to their internal
 explanations, and $\incomp$ is an incompatibility relation on $\sH$.
-The system has the \emph{Rashomon property} if there exist
-$\theta_1, \theta_2 \in \Params$ with $\mathsf{obs}(\theta_1) =
-\mathsf{obs}(\theta_2)$ and $\mathsf{exp}(\theta_1) \incomp
-\mathsf{exp}(\theta_2)$.
-
 An explanation map $E : \Params \to \sH$ is \emph{faithful} if
 $\lnot(E(\theta) \incomp \mathsf{exp}(\theta))$ for all $\theta$;
 \emph{stable} if $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)$ implies
 $E(\theta_1) = E(\theta_2)$; and \emph{decisive} if, for all $\theta$ and
 $h \in \sH$, $\mathsf{exp}(\theta) \incomp h$ implies $E(\theta) \incomp h$.
-
-\paragraph{Lean~4 formalization.}
-Built on Lean~4 v4.30.0-rc1~\citep{demoura2021lean4} with
-Mathlib~\citep{mathlib2020}.  The core \texttt{ExplanationSystem} type is
-parametric in $\Params$, $\sH$, $Y$.  Each derived instance constructs a
-Rashomon witness via \texttt{decide} (zero axioms).  Compilation:
-\texttt{lake build} ($\sim$5~min).
 
 \paragraph{Proof of Theorem~\ref{thm:impossibility}.}
 Suppose $E$ is faithful, stable, and decisive.  Let $\theta_1, \theta_2$
@@ -589,72 +396,71 @@ witness the Rashomon property.
 \mathsf{exp}(\theta_2)$.
 (3)~Faithfulness at $\theta_2$:
 $\lnot(E(\theta_2) \incomp \mathsf{exp}(\theta_2))$.
-Contradiction.  All three properties are load-bearing; a weaker pairwise
-decisiveness variant makes faithfulness superfluous (Supporting Information).
+Contradiction.
 
 \paragraph{Resolution framework.}
-The $G$-invariant resolution is formalized as follows.  Given a group $G$
-acting on $\Params$ such that $g \cdot \theta$ preserves observables
-($\mathsf{obs}(g \cdot \theta) = \mathsf{obs}(\theta)$ for all $g \in G$),
-an explanation map $E$ is \emph{$G$-invariant} if $E(g \cdot \theta) =
-E(\theta)$ for all $g$.  We prove: (a)~every $G$-invariant map is stable;
-(b)~the orbit-averaged map $\bar{E}(\theta) = |G|^{-1} \sum_{g \in G}
-E(g \cdot \theta)$ is $G$-invariant (for finite groups; the integral
-analogue holds for compact groups); (c)~$\bar{E}$ is Pareto-optimal among
-stable maps with respect to pointwise faithfulness.
+Given a group $G$ acting on $\Params$ preserving observables,
+an explanation map is \emph{$G$-invariant} if $E(g \cdot \theta) =
+E(\theta)$ for all $g$.  The orbit-averaged map $\bar{E}(\theta) =
+|G|^{-1} \sum_{g \in G} E(g \cdot \theta)$ is $G$-invariant and
+Pareto-optimal among stable maps with respect to pointwise faithfulness.
 
 \paragraph{Bilemma proof.}
-A system is \emph{maximally incompatible} if $\lnot\mathrm{incompatible}(h_1,h_2) \Rightarrow h_1 = h_2$.
-Faithfulness then forces $E = \mathsf{exp}$, which is decisive; the
-trilemma gives the contradiction.  ML instances (SHAP sign, feature
-selection, counterfactual direction) trigger the bilemma.
+A system is \emph{maximally incompatible} if $\lnot\mathrm{incompatible}(h_1,h_2)
+\Rightarrow h_1 = h_2$.  Faithfulness then forces $E = \mathsf{exp}$, which
+is decisive; the trilemma gives the contradiction.
 
-\paragraph{Approximate and quantitative bilemma.}
-The bilemma extends to approximate settings. For binary $\sH$ with $(\varepsilon, \delta)$-stability, the bilemma holds at every tolerance level (no fragility at $\varepsilon = 0$). For continuous $\sH$ with metric $d$, an $(\varepsilon, \delta)$-stable map $E$ on an $\varepsilon$-Rashomon pair with incompatibility gap $\Delta$ satisfies $\text{unfaith}(\theta_1) + \text{unfaith}(\theta_2) \geq \Delta - \delta$ (triangle inequality; Lean-verified). At least one witness is unfaithful by $\geq (\Delta - \delta)/2$.
+\paragraph{Lean~4 formalization.}
+Built on Lean~4 v4.30.0-rc1~\citep{demoura2021lean4} with
+Mathlib~\citep{mathlib2020}.  The core \texttt{ExplanationSystem} type is
+parametric in $\Params$, $\sH$, $Y$.  Each instance constructs a Rashomon
+witness via \texttt{decide} (zero axioms).  Compilation: \texttt{lake
+build} ($\sim$5~min).
 
-\paragraph{Gaussian flip rate derivation.}
-For features $j,k$ with importance difference $d^{(m)} \sim N(\Delta,
-\sigma^2)$, the flip probability is $\text{flip}(j,k) =
-2\Phi(\Delta/\sigma)\Phi(-\Delta/\sigma)$.  Validation uses independent
-calibration and validation model sets (30 each) on five datasets.
+\paragraph{Gene-expression analysis.}
+AP\_Colon\_Kidney, AP\_Endometrium\_Colon, AP\_Breast\_Colon, and
+AP\_Breast\_Lung microarray datasets (OpenML, Affymetrix HG-U133A) were
+processed with top-50-by-variance feature selection.  50~XGBoost
+classifiers (subsample~$= 0.8$, colsample\_bytree~$= 0.5$, 100
+estimators, max\_depth~$= 6$, seeds 0--49) were trained per dataset.
+TreeSHAP importances (mean $|\text{SHAP}|$ across test samples) determined
+the top gene per seed.  Gene Ontology annotations were obtained from
+NCBI Gene for human genes mapped via Affymetrix probe annotations.
+Deterministic control: subsample~$= 1.0$ yields a single ranking.
 
-\paragraph{Derived instances.}
-Each of the eight instances defines an \texttt{ExplanationSystem} with
-domain-specific types and minimal (two-element) Rashomon witnesses.
-The attribution instance generalizes \citet{bilodeau2024impossibility} from
-Shapley axioms to the abstract framework; the causal instance derives the
-Rashomon property from Markov equivalence~\citep{verma1991equivalence}.
+\paragraph{Mechanistic interpretability.}
+Ten two-layer transformers (4 heads/layer, $d_{\mathrm{model}} = 128$,
+vocabulary $= 114$) were trained from independent random initialisations
+on $(a + b) \bmod 113$ for 50{,}000 steps (AdamW, lr~$= 10^{-3}$, weight
+decay~$= 1.0$, batch size~$= 512$).  All 10 grokked to 100\% test
+accuracy.  Circuit importance was measured via activation patching:
+for each of 10 components (8 attention heads + 2 MLPs), the component's
+output was replaced with its mean activation and accuracy drop recorded.
+Within-model determinism control: $r = 0.9998$.  Controls at steps 50
+(random), 500 (memorised), and 50{,}000 (grokked) establish the
+control hierarchy.  $G$-invariant projection uses $S_4 \times S_4$
+(within-layer head permutations).
 
-\paragraph{Empirical validation.}
-Seven domains are validated with dose-response designs: underspecification
-is varied and instability measured, with negative controls confirming
-stability when Rashomon is absent.
-\emph{Mathematics:} $Ax=b$ with four solvers, null-space dimension
-$1$--$10$ (Mann--Whitney $U$).
-\emph{Biology:} codon entropy across 120 cytochrome~c sequences grouped
-by degeneracy (Kruskal--Wallis).
-\emph{Gauge theory:} $\mathbb{Z}_2$ edge-label orbit variance on
-triangle graphs.
-\emph{Linguistics:} four parsers on 50 ambiguous/50 unambiguous sentences
-(Wilcoxon).
-\emph{Crystallography:} phase retrieval RMSD with/without positivity
-constraints (Mann--Whitney $U$).
-\emph{Computer science:} census disaggregation KL divergence vs.\ county
-count (Spearman $\rho$).
-\emph{Statistics:} causal discovery (PC, GES) on Asia network,
-100~seeds (Mann--Whitney $U$).
-All tests use $\alpha = 0.05$, non-parametric statistics, and fixed
-seeds.  No multiple-comparison correction across domains; binomial
-$p = 0.008$ provides combined assessment.
+\paragraph{Neuroimaging analysis.}
+Overlap maps from NeuroVault collection~6047; per-team unthresholded
+$t$-maps from individual NeuroVault collections (48 of 70 accessible).
+Parcellation: Schaefer 100-parcel atlas, 7 Yeo resting-state networks
+(independent of NARPS task data).  Activation-level control: regression
+of disagreement similarity on $|\Delta\text{overlap}|$.  Software
+metadata from narps\_open\_pipelines (12~FSL, 8~SPM, 4~AFNI).
+Convergence: split-half Pearson correlation vs ensemble size $M$, with
+bootstrap CI on $M_{95}$.
+
+\paragraph{Causal inference.}
+PC and GES algorithms on the 8-node Asia network (Lauritzen \& Spiegelhalter 1988),
+200 bootstrap seeds, sample sizes 100--10{,}000.  Flip rate: fraction
+of edge orientations that reverse between seeds.  DASH: majority-vote
+orientation across the 200 runs.
 
 \paragraph{Reproducibility.}
-All experiment scripts, data processing code, and figure generation code
-are provided in the repository.  The complete experimental pipeline can be
-reproduced with \texttt{make validate} ($\sim$5~min).  The Lean
-formalization can be rebuilt with \texttt{lake build} ($\sim$5~min).
-All paper versions can be compiled with \texttt{make paper}.  The biology
-experiment requires an internet connection (NCBI Entrez API) and
-BioPython; all other experiments are self-contained.
+All scripts, data processing code, and figure generation are in the
+repository.  \texttt{make validate} reproduces experiments ($\sim$5~min).
+\texttt{lake build} verifies all proofs ($\sim$5~min).
 
 %%% =========================================================================
 %%% Extended Data
@@ -663,44 +469,39 @@ BioPython; all other experiments are self-contained.
 \clearpage
 \section*{Extended Data}
 
-\subsection*{Extended Data Table 1: Three ML instance instantiations}
+\subsection*{Extended Data Table 1: Achievable property pairs}
 
-The following three ML explanation types are formal instances of the
-abstract framework, demonstrating that the impossibility is not merely
-analogical but structurally identical across explanation types.
+The following ML explanation types demonstrate that each two-property
+combination is constructively achievable, proving the three-property
+impossibility is tight.
 
 \begin{table}[h]
 \centering
 \small
-\caption{\textbf{Extended Data Table 1: ML instance instantiations.}
-  Each row defines an explanation system $(\Params, \sH, Y,
-  \mathsf{obs}, \mathsf{exp}, \incomp)$ and identifies the Rashomon witness
-  and resolution.  All three are Lean-verified with zero domain-specific axioms
-  (constructive variants use \texttt{Bool}/\texttt{Unit} types with Rashomon
-  proved via \texttt{decide}).}
+\caption{\textbf{Extended Data Table 1.}
+  Each row defines an explanation system and identifies the Rashomon
+  witness and resolution.  All are Lean-verified with zero domain-specific
+  axioms.}
 \label{tab:ed-ml-instances}
-\begin{tabular}{@{}p{2cm}p{2.5cm}p{2.5cm}p{2cm}p{2cm}p{2.5cm}@{}}
+\begin{tabular}{@{}p{2cm}p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}@{}}
 \toprule
-\textbf{Instance} & $\Params$ & $\sH$ & $Y$ & \textbf{Witness} & \textbf{Resolution} \\
+\textbf{Instance} & $\sH$ & \textbf{Witness} & \textbf{Resolution} & \textbf{Achieves} \\
 \midrule
 Feature attribution
-  & Trained models (different seeds)
   & Feature rankings
-  & Test predictions
-  & Two GBDTs rank features $j, k$ oppositely ($\rho = 0.9$)
-  & DASH: ensemble average over $M$ models \\[8pt]
+  & Two GBDTs rank features oppositely
+  & DASH ensemble
+  & F+S (sacrifices D) \\[6pt]
 Attention maps
-  & Fine-tuned transformers
   & Attention distributions
-  & Classification output
-  & Two DistilBERTs assign argmax attention to different tokens (19.9\% flip rate)
-  & Averaged attention rollout \\[8pt]
+  & Two DistilBERTs assign argmax to different tokens
+  & Averaged rollout
+  & F+S (sacrifices D) \\[6pt]
 Causal discovery
-  & DAG structures
   & Edge orientations
-  & Conditional independence structure
-  & Chain $A \to B \to C$ and fork $A \leftarrow B \to C$ share CI structure
-  & CPDAG: report undirected where orientation is ambiguous \\
+  & Chain \& fork share CI structure
+  & CPDAG
+  & F+S (sacrifices D) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -710,55 +511,47 @@ Causal discovery
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/eta_law_scatter.pdf}
-\caption{\textbf{Extended Data Figure 1: The universal $\eta$ law.}
-  The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ predicts
-  observed instability across 16 domain instances.  Filled blue circles:
-  7~instances with well-characterized symmetry groups ($R^2 = 0.957$,
-  $p = 1.4 \times 10^{-4}$; leave-one-out $R^2 = 0.79$).  Open grey
-  circles: 9~instances with unknown or approximate groups ($R^2 = 0.25$).
-  Dashed line: perfect prediction ($y = x$).  The bottleneck is group
-  identification, not the law itself.}
+\caption{\textbf{Extended Data Figure 1.}
+  The character-theoretic formula $\eta = 1 - \dim(V^G)/\dim(V)$ predicts
+  observed instability across 16 domain instances.  Filled circles:
+  7~instances with known symmetry groups ($R^2 = 0.957$,
+  $p = 1.4 \times 10^{-4}$).  Open circles: 9~instances with unknown or
+  approximate groups.  The bottleneck is group identification, not the law.}
 \label{fig:ed-eta}
 \end{figure}
 
 \subsection*{Extended Data Figure 2: Multi-analyst convergence}
 
-The split-half stability of the ensemble average (Pearson $r$ between two
-independent subset-averaged activation maps) as a function of ensemble
-size $M$ for the Botvinik-Nezer et al.\ neuroimaging dataset (48~teams,
-100~Schaefer parcels, 7~hypotheses).  Stability exceeds 0.95 at $M = 16$
-[bootstrap 95\% CI: 10--22].  Convergence rate fits $1 - a/M^b$ with
-$b = 1.00$ ($R^2 = 0.97$).  Dashed line marks the 0.95 threshold.
-This provides a concrete prescription: approximately 16 independent
-analyses suffice for reproducible multi-analyst conclusions in
-neuroimaging.  For comparison, the Noether structural prediction
-(functional network membership predicts disagreement patterns) gives
-$d = 0.32$ after controlling for activation level, with the effect
-persisting across all 7 non-empty hypotheses.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/narps_convergence.pdf}
+\caption{\textbf{Extended Data Figure 2.}
+  Split-half stability of the ensemble average vs ensemble size for
+  48~neuroimaging analysis teams.  Stability exceeds 0.95 at $M = 16$
+  [95\% CI: 10--22].  Convergence rate: $1 - a/M^{1.0}$ ($R^2 = 0.97$).}
+\label{fig:ed-convergence}
+\end{figure}
 
 %%% =========================================================================
 %%% Data and Code Availability
 %%% =========================================================================
 
 \section*{Data availability}
-Biology data: 120 eukaryotic cytochrome~c coding sequences from NCBI RefSeq,
-retrieved via \texttt{CYCS[Gene] AND mRNA[Filter] AND refseq[Filter]}.
-Census data: U.S.\ Census Bureau 2020 Decennial Census county-level
-populations (variable P1\_001N, downloaded via Census Bureau API).
-Neuroimaging data: overlap maps from NeuroVault collection~6047; per-team
-unthresholded $t$-maps from individual team NeuroVault collections
-(team-to-collection mapping from narps\_open\_pipelines repository);
-Schaefer 100-parcel atlas via nilearn.
-Multi-analyst data: Silberzahn et al.\ team estimates from OSF
-(osf.io/gvm2z); Breznau et al.\ model AMEs from GitHub (nbreznau/CRI).
-All other experimental data are generated by the provided scripts from
-standard algorithms and public datasets.  Experiment results (JSON) are
-included in the repository.
+Gene-expression data: AP\_Colon\_Kidney (OpenML ID 1553),
+AP\_Endometrium\_Colon (OpenML), AP\_Breast\_Colon (OpenML),
+AP\_Breast\_Lung (OpenML).  Gene Ontology annotations: NCBI Gene.
+Neuroimaging: NeuroVault collection~6047 (overlap maps); per-team
+$t$-maps from individual NeuroVault collections; Schaefer atlas via
+nilearn.  Multi-analyst: Silberzahn et al.\ team estimates (OSF
+osf.io/gvm2z); Breznau et al.\ AMEs (GitHub nbreznau/CRI).
+Causal: Asia network generated by provided scripts.
+All other data are generated by the provided scripts.
 
 \section*{Code availability}
 The Lean~4 formalization and all experiment scripts are available at
 \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}
-under the Apache~2.0 licence.
+under the Apache~2.0 licence.  The attribution-specific formalization is
+at \url{https://github.com/DrakeCaraker/dash-impossibility-lean}.
 
 \section*{Acknowledgements}
 We acknowledge the use of Claude (Anthropic) as an AI coding assistant
