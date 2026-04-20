@@ -123,16 +123,23 @@ strategy for such problems: project onto the subspace invariant under the
 symmetry of equivalent configurations.
 
 Here we prove why.  A single four-line theorem, requiring only the
-Rashomon property as a hypothesis, shows that no explanation can be
-simultaneously faithful (reflect the system's actual structure), stable
-(consistent across equivalent configurations), and decisive (commit to a
-specific answer).  The proof is verified in Lean~4 with zero
-domain-specific axioms.  A strengthened form---the
-bilemma---shows that for binary explanations (significant or not, positive
-or negative), even faithful and stable together are impossible.  The
-complete design space is characterised by a tightness
+Rashomon property~\citep{breiman2001statistical} as a hypothesis, shows
+that no explanation can be simultaneously faithful (reflect the system's
+actual structure), stable (consistent across equivalent configurations),
+and decisive (commit to a specific answer).  Prior work has documented
+this instability empirically for feature
+attributions~\citep{krishna2022disagreement} and proved special cases for
+Shapley-based methods~\citep{bilodeau2024impossibility}; here we prove
+the general impossibility for \emph{any} explanation type, characterise
+the complete design space, and show that the same structure governs four
+high-stakes domains (Fig.~\ref{fig:1}).  The proof is verified in
+Lean~4 with zero domain-specific axioms.  A strengthened form---the
+bilemma---shows that for binary explanations (significant or not,
+positive or negative), even faithful and stable together are impossible.
+The complete design space is characterised by a tightness
 classification: whether the impossibility admits a resolution depends on
-whether the explanation space contains a neutral element (Table~\ref{tab:tightness}).
+whether the explanation space contains a neutral element
+(Table~\ref{tab:tightness}).
 
 %%% =========================================================================
 %%% Results
@@ -231,9 +238,26 @@ AP\_Breast\_Lung & SFTPB (stable) & 98 / 2 & --- & --- & control \\
 
 Under deterministic training (subsample~$= 1.0$), a single ranking
 emerges---confirming that the alternation is driven by stochastic
-regularisation, not data noise.  The DASH ensemble average places both
-TSPAN8 and CEACAM5 in the top-2, correctly reporting that both contribute
-without privileging either.
+regularisation, not data noise.  Model test accuracies are near-identical
+(mean 96.4\%, range 95.1--97.6\%, $n = 50$).  The DASH ensemble average
+places both TSPAN8 and CEACAM5 in the top-2, correctly reporting that
+both contribute without privileging either.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/figure1_gene_alternation.pdf}
+\caption{\textbf{Gene-expression alternation on AP\_Colon\_Kidney.}
+  \textbf{a,}~Top gene across 50 random seeds: TSPAN8 (invasion pathway)
+  dominates in 92\% of seeds, CEACAM5 (immune evasion) in 6\%, with
+  feature correlation $\rho = 0.858$.
+  \textbf{b,}~Gene Ontology analysis: the two genes have zero shared
+  Biological Process terms and serve distinct cancer biology roles.
+  The DASH resolution reports both genes without privileging either.
+  \textbf{c,}~The impossibility trilemma: no explanation can
+  simultaneously be faithful, stable, and decisive.  Each pair is
+  independently achievable.}
+\label{fig:1}
+\end{figure}
 
 \subsection*{Instance 2: Mechanistic interpretability}
 
@@ -249,8 +273,8 @@ that the models discover genuinely different algorithms.
 Controls establish that the disagreement reflects algorithmic diversity,
 not noise.  Random-initialisation models ($< 1$\% accuracy) agree at
 $\rho = 0.300$; memorised models (100\% train, 50\% test) at $\rho =
-0.668$; grokked models at $\rho = 0.518$ (post $>$ random:
-$p = 2.0 \times 10^{-4}$, $d = 0.76$).
+0.668$; grokked models at $\rho = 0.518$ (grokked $>$ random:
+$p = 2.0 \times 10^{-4}$; within-model determinism: $r = 0.9998$).
 
 The resolution is direct.  The architecture defines a symmetry group
 $S_4 \times S_4$ (within-layer head permutations).  Projecting the
@@ -312,7 +336,13 @@ parameters.  Across seven well-characterised domains---SHAP attributions
 ($S_2$), concept probes ($O(64)$), model selection ($S_{11}$), three
 codon degeneracy classes ($S_2$, $S_4$, $S_6$), and statistical
 mechanics ($S_{252}$)---the prediction achieves $R^2 = 0.957$ with slope
-0.91 (Extended Data Fig.~1).  The law fails when groups are unknown
+0.91 (Extended Data Fig.~1).  A Noether-type counting law follows: for
+$P$ features in $g$ correlation groups, exactly $g(g-1)/2$ ranking facts
+are stable (between-group) while all within-group comparisons are coin
+flips.  On synthetic data with 3~groups of 4~features ($\rho = 0.99$),
+the within-group flip rate is 50.0\% and the between-group rate is 0.2\%
+(bimodal gap~$= 50$~pp, $p = 2.7 \times 10^{-13}$).
+The law fails when groups are unknown
 ($R^2 = 0.25$ for all 16 domains) or approximate (brain imaging:
 $\rho \approx 0$), delineating the boundary at exact exchangeability.
 
