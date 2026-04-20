@@ -1,17 +1,193 @@
 ======================================================================
 DEFINITIVE MI EXPERIMENT v2: Modular Addition From Scratch
 ======================================================================
-Device: cpu
+Device: mps
 Architecture: 2-layer transformer, 4 heads/layer, d=128
 Task: (a + b) mod 113
-Models: 30 from random init
+Models: 10 from random init
 Training: 50000 steps, lr=0.001, wd=1.0
 Components: 8 heads + 2 MLPs = 10
 
 Data: 6384 train, 6385 test
 
 ======================================================================
-PHASE 1: Training 30 models from random initialization
+PHASE 1: Training 10 models from random initialization
 ======================================================================
 
-  Model 1/30 (seed=0)...
+  Model 1/10 (seed=0)...
+    Step 10000: loss=0.0544 train=1.000 test=1.000
+    Step 20000: loss=1.0081 train=0.773 test=0.756
+    Step 30000: loss=0.1363 train=1.000 test=1.000
+    Step 40000: loss=0.1694 train=1.000 test=1.000
+    Step 50000: loss=0.1843 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 2/10 (seed=1)...
+    Step 10000: loss=0.0672 train=1.000 test=1.000
+    Step 20000: loss=0.0717 train=1.000 test=1.000
+    Step 30000: loss=0.0559 train=1.000 test=1.000
+    Step 40000: loss=3.7017 train=0.568 test=0.545
+    Step 50000: loss=0.2022 train=1.000 test=0.999
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 3/10 (seed=2)...
+    Step 10000: loss=0.0659 train=1.000 test=1.000
+    Step 20000: loss=0.0739 train=1.000 test=1.000
+    Step 30000: loss=0.9740 train=0.821 test=0.802
+    Step 40000: loss=0.0736 train=1.000 test=1.000
+    Step 50000: loss=0.1073 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 4/10 (seed=3)...
+    Step 10000: loss=0.0698 train=1.000 test=1.000
+    Step 20000: loss=0.1031 train=1.000 test=1.000
+    Step 30000: loss=0.0987 train=1.000 test=1.000
+    Step 40000: loss=0.1654 train=1.000 test=1.000
+    Step 50000: loss=0.0766 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 5/10 (seed=4)...
+    Step 10000: loss=0.0525 train=1.000 test=1.000
+    Step 20000: loss=0.0579 train=1.000 test=1.000
+    Step 30000: loss=0.1194 train=1.000 test=1.000
+    Step 40000: loss=0.0847 train=1.000 test=1.000
+    Step 50000: loss=0.0703 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 6/10 (seed=5)...
+    Step 10000: loss=0.0576 train=1.000 test=1.000
+    Step 20000: loss=0.0770 train=1.000 test=1.000
+    Step 30000: loss=0.1258 train=1.000 test=0.999
+    Step 40000: loss=0.1671 train=1.000 test=1.000
+    Step 50000: loss=0.4430 train=0.962 test=0.951
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 7/10 (seed=6)...
+    Step 10000: loss=0.0564 train=1.000 test=1.000
+    Step 20000: loss=0.1035 train=1.000 test=1.000
+    Step 30000: loss=0.1456 train=1.000 test=1.000
+    Step 40000: loss=0.1075 train=1.000 test=1.000
+    Step 50000: loss=0.0999 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 8/10 (seed=7)...
+    Step 10000: loss=0.0576 train=1.000 test=1.000
+    Step 20000: loss=0.2112 train=1.000 test=1.000
+    Step 30000: loss=0.5048 train=0.982 test=0.976
+    Step 40000: loss=0.2313 train=1.000 test=1.000
+    Step 50000: loss=0.2247 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 9/10 (seed=8)...
+    Step 10000: loss=0.0620 train=1.000 test=1.000
+    Step 20000: loss=0.8810 train=0.805 test=0.780
+    Step 30000: loss=0.0878 train=1.000 test=1.000
+    Step 40000: loss=0.0926 train=1.000 test=1.000
+    Step 50000: loss=0.1172 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Model 10/10 (seed=9)...
+    Step 10000: loss=0.0563 train=1.000 test=1.000
+    Step 20000: loss=0.0753 train=1.000 test=1.000
+    Step 30000: loss=0.0893 train=1.000 test=1.000
+    Step 40000: loss=0.0751 train=1.000 test=1.000
+    Step 50000: loss=0.0714 train=1.000 test=1.000
+    Final test accuracy: 1.0000 (GROKKED)
+
+  Grokked: 10/10
+  Accuracies: ['1.000', '1.000', '1.000', '1.000', '1.000', '1.000', '1.000', '1.000', '1.000', '1.000']
+
+  Rashomon set (1% threshold, grokked only): 10/10
+  Accuracy range: 0.0000
+
+======================================================================
+PHASE 2: Activation patching (10 models × 10 components)
+======================================================================
+
+  Patching model 0 (acc=1.0000)...
+    Top 5: MLP1=9.9557, L0H2=4.3313, L0H3=3.9340, L0H0=3.7871, L0H1=1.4367
+
+  Patching model 1 (acc=1.0000)...
+    Top 5: MLP1=9.5891, L0H3=5.4511, L1H0=4.8907, L1H2=4.6093, L1H1=4.3655
+
+  Patching model 2 (acc=1.0000)...
+    Top 5: MLP1=9.1962, L1H1=4.5376, L1H0=4.5254, L1H2=4.2201, L1H3=3.9664
+
+  Patching model 3 (acc=1.0000)...
+    Top 5: MLP1=9.6588, L1H0=5.0332, L1H3=4.9594, L1H1=4.9352, L1H2=3.9588
+
+  Patching model 4 (acc=1.0000)...
+    Top 5: MLP1=9.4470, L1H2=4.2728, L1H1=3.9176, L1H3=3.8704, L1H0=3.5362
+
+  Patching model 5 (acc=1.0000)...
+    Top 5: MLP1=9.4226, L1H0=4.8163, L1H3=4.5910, L1H2=4.2997, L0H3=4.0544
+
+  Patching model 6 (acc=1.0000)...
+    Top 5: MLP1=9.3596, L0H1=5.0227, L1H2=4.5819, L1H1=3.9196, L1H3=2.8783
+
+  Patching model 7 (acc=1.0000)...
+    Top 5: MLP1=9.5337, L0H0=3.7244, L0H3=2.9865, L1H0=2.5426, L1H3=2.3306
+
+  Patching model 8 (acc=1.0000)...
+    Top 5: MLP1=10.0716, L1H1=3.8040, L0H1=2.7219, L1H3=2.6718, L1H0=2.5415
+
+  Patching model 9 (acc=1.0000)...
+    Top 5: MLP1=9.7674, L1H1=3.3118, L1H0=3.1953, L1H2=2.8816, L1H3=2.8540
+
+======================================================================
+PHASE 3: Controls
+======================================================================
+
+  Control A: Pre-grokking snapshot (step 2000)...
+    Model 0: test_acc=0.045
+    Model 1: test_acc=0.917
+    Model 2: test_acc=1.000
+    Model 3: test_acc=1.000
+    Model 4: test_acc=1.000
+    Model 5: test_acc=1.000
+    Model 6: test_acc=1.000
+    Model 7: test_acc=0.999
+    Model 8: test_acc=1.000
+    Model 9: test_acc=1.000
+  Pre-grokking mean Spearman rho: 0.489
+
+  Control B: Determinism check...
+  Same model, same data: r = 0.999817
+
+======================================================================
+PHASE 4: Analysis
+======================================================================
+
+======================================================================
+RESULTS
+======================================================================
+
+  Rashomon set: 10 models
+  Accuracy range: 0.0000
+
+  PRIMARY METRIC (post-grokking):
+    Mean Spearman rho: 0.518 ± 0.316
+    Range: [-0.176, 0.939]
+    Mean flip rate: 0.300
+
+  PRE-GROKKING CONTROL:
+    Mean Spearman rho: 0.489
+    (If pre-grok rho ≈ post-grok rho, measurement is insensitive)
+
+  JACCARD (top-K):
+    K=3: 0.356 ± 0.201 [0.200, 1.000]
+    K=5: 0.557 ± 0.252 [0.111, 1.000]
+    K=8: 0.800 ± 0.131 [0.600, 1.000]
+
+  FOURIER FREQUENCY AGREEMENT:
+    Jaccard (top-5 frequencies): 0.022
+
+  GAUSSIAN PREDICTION:
+    Spearman rho: 0.899 (p=0.0000)
+
+  VERDICT: PARTIAL_STABILITY
+  Moderate circuit agreement (rho=0.518). Some components conserved (skeleton), others vary.
+
+  Elapsed: 110162s (30.6h)
+
+Results saved to /Users/drake.caraker/ds_projects/universal-explanation-impossibility/knockout-experiments/results_mech_interp_definitive_v2.json

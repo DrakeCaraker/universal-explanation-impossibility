@@ -1,0 +1,37 @@
+{
+  "shap_sensitivity": {
+    "sub0.8_col1.0_shap50": {
+      "203824_at": 50
+    },
+    "sub0.8_col1.0_shap100": {
+      "203824_at": 50
+    },
+    "sub0.8_col1.0_shap200": {
+      "203824_at": 50
+    },
+    "sub0.8_col1.0_shapALL": {
+      "203824_at": 50
+    },
+    "sub0.8_col0.5_shap100": {
+      "203824_at": 46,
+      "201884_at": 3,
+      "210095_s_at": 1
+    },
+    "sub0.8_col0.5_shapALL": {
+      "203824_at": 47,
+      "201884_at": 3
+    },
+    "sub0.8_col0.7_shapALL": {
+      "203824_at": 49,
+      "201884_at": 1
+    },
+    "sub1.0_col1.0_shapALL": {
+      "203824_at": 50
+    }
+  },
+  "sample_overlap": {
+    "ck_vs_ec": 0,
+    "ck_vs_bc": 0
+  },
+  "elapsed": 39.59279990196228
+}

@@ -1,0 +1,57 @@
+{
+  "experiment": "mi_v2_comprehensive_analysis",
+  "phase1": {
+    "fourier_circuit_correlation": {
+      "pearson_r": 0.27,
+      "p": 0.072,
+      "status": "suggestive_not_significant"
+    },
+    "permutation_null": {
+      "observed_mean_rho": 0.518,
+      "null_mean": 0.0,
+      "null_std": 0.049,
+      "p": "<1e-6"
+    },
+    "weight_distance_correlation": {
+      "pearson_r": -0.096,
+      "p": 0.53,
+      "status": "no_correlation"
+    },
+    "component_consensus": {
+      "MLP1": {
+        "mean": 9.6,
+        "cv": 0.027,
+        "rank_std": 0.0,
+        "status": "universally_dominant"
+      },
+      "heads": {
+        "mean_cv": 0.42,
+        "mean_rank_std": 2.03,
+        "status": "variable"
+      },
+      "MLP0": {
+        "mean": 0.425,
+        "cv": 0.663,
+        "rank_std": 0.66,
+        "status": "low_importance"
+      }
+    }
+  },
+  "phase2": {
+    "basin_radius_eps": 0.003,
+    "basin_rho_at_boundary": 0.95,
+    "accuracy_collapse_eps": 0.005,
+    "inter_model_distance_over_norm": 1.365,
+    "distance_to_basin_ratio": 455.0,
+    "interpretation": "Models are ~455x further apart than the basin radius"
+  },
+  "controls": {
+    "step_50_rho": 0.3,
+    "step_500_rho": 0.668,
+    "step_50k_rho": 0.518,
+    "post_vs_random_p": 0.0002,
+    "memorize_vs_post_p": 0.023,
+    "determinism_r": 0.9998
+  },
+  "verdict": "PARTIAL_STABILITY_WITH_BASIN_MECHANISM"
+}

@@ -31,7 +31,7 @@ from pathlib import Path
 from scipy.stats import spearmanr
 from itertools import combinations
 
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+DEVICE = 'cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu')
 
 
 class NpEncoder(json.JSONEncoder):
@@ -51,7 +51,7 @@ N_LAYERS = 2             # transformer layers
 N_HEADS = 4              # heads per layer
 HEAD_DIM = D_MODEL // N_HEADS  # 32
 D_MLP = 4 * D_MODEL      # MLP hidden dim (512)
-N_MODELS = 30
+N_MODELS = 10
 TRAIN_FRAC = 0.5
 LR = 1e-3
 WEIGHT_DECAY = 1.0

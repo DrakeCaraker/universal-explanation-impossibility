@@ -1,0 +1,179 @@
+{
+  "0": {
+    "base_acc": 1.0,
+    "0.0": {
+      "mean_acc": 1.0,
+      "mean_rho_vs_base": 0.9999999999999998,
+      "mean_within_rho": 0.9999999999999998,
+      "mean_fourier_cos": 1.0000000000000002,
+      "n_working": 5
+    },
+    "0.001": {
+      "mean_acc": 0.9994048476219177,
+      "mean_rho_vs_base": 0.9975757575757574,
+      "mean_within_rho": 0.9951515151515151,
+      "mean_fourier_cos": 0.9999241563274035,
+      "n_working": 5
+    },
+    "0.005": {
+      "mean_acc": 0.05556773692369461,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.01": {
+      "mean_acc": 0.009490994364023208,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.05": {
+      "mean_acc": 0.009678935073316098,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.1": {
+      "mean_acc": 0.00936570093035698,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.2": {
+      "mean_acc": 0.00905246678739786,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.5": {
+      "mean_acc": 0.008332028239965438,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    }
+  },
+  "3": {
+    "base_acc": 1.0,
+    "0.0": {
+      "mean_acc": 1.0,
+      "mean_rho_vs_base": 0.9951515151515151,
+      "mean_within_rho": 0.9927272727272728,
+      "mean_fourier_cos": 0.9999999999999998,
+      "n_working": 5
+    },
+    "0.001": {
+      "mean_acc": 0.9885043025016784,
+      "mean_rho_vs_base": 0.9927272727272726,
+      "mean_within_rho": 0.9854545454545454,
+      "mean_fourier_cos": 0.9999166853219965,
+      "n_working": 5
+    },
+    "0.005": {
+      "mean_acc": 0.022615505009889604,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.01": {
+      "mean_acc": 0.010148786194622516,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.05": {
+      "mean_acc": 0.009459671005606652,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.1": {
+      "mean_acc": 0.007486295886337757,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.2": {
+      "mean_acc": 0.009616288170218468,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.5": {
+      "mean_acc": 0.009052466694265604,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    }
+  },
+  "7": {
+    "base_acc": 1.0,
+    "0.0": {
+      "mean_acc": 1.0,
+      "mean_rho_vs_base": 0.9999999999999998,
+      "mean_within_rho": 0.9999999999999998,
+      "mean_fourier_cos": 1.0,
+      "n_working": 5
+    },
+    "0.001": {
+      "mean_acc": 0.9999686717987061,
+      "mean_rho_vs_base": 0.9951515151515151,
+      "mean_within_rho": 0.9927272727272728,
+      "mean_fourier_cos": 0.999971314103193,
+      "n_working": 5
+    },
+    "0.005": {
+      "mean_acc": 0.30806578099727633,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.01": {
+      "mean_acc": 0.016914643906056882,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.05": {
+      "mean_acc": 0.008864526264369487,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.1": {
+      "mean_acc": 0.009021143428981304,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.2": {
+      "mean_acc": 0.008363351598381997,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    },
+    "0.5": {
+      "mean_acc": 0.007705559954047203,
+      "mean_rho_vs_base": NaN,
+      "mean_within_rho": NaN,
+      "mean_fourier_cos": NaN,
+      "n_working": 0
+    }
+  }
+}

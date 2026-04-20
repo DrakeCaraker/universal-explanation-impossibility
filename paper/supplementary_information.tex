@@ -118,6 +118,81 @@ On the AP\_Breast\_Lung cancer classification dataset ($P = 200$ genes selected 
 
 Across seven real datasets (2,062 feature-pair comparisons total), the aggregate statistics are: 62\% unreliable, 34\% intermediate, 4\% reliable.  The Gaussian flip rate formula achieves $R^2 = 0.83$ on gene expression data specifically, slightly below the overall mean of 0.848 due to heavier tails in the importance difference distribution.
 
+\section{Mechanistic Interpretability: Circuit Stability Experiment}
+\label{sec:mi-v2}
+
+\subsection{Setup}
+
+Ten two-layer transformers (4 heads per layer, $d_{\mathrm{model}} = 128$, MLP hidden dim = 512) are trained from \emph{independent random initialisation} on modular addition ($a + b \bmod 113$), following \citet{nanda2023progress}. Training: 50,000 steps, AdamW with $\mathrm{lr} = 10^{-3}$, weight decay 1.0, full-batch (6,384 train / 6,385 test, 50/50 split). All 10 models reach 100\% test accuracy (grokking). Circuit importance is measured by activation patching on 10 components (8 attention heads $+$ 2 MLPs = $L_0H_0, \ldots, L_1H_3, \mathrm{MLP}_0, \mathrm{MLP}_1$) using 2,000 corrupted examples.
+
+\subsection{Primary Results}
+
+Pairwise Spearman $\rho$ on 10-dimensional importance vectors across $\binom{10}{2} = 45$ model pairs:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Representation & Dim & Mean $\rho$ & Min $\rho$ & Perm.\ $p$ \\
+\midrule
+Full importance & 10 & 0.518 & $-$0.176 & $< 10^{-6}$ \\
+$G$-invariant ($S_4 \times S_4$) & 4 & \textbf{0.929} & 0.800 & $< 10^{-6}$ \\
+Invariant excl.\ MLP1 & 3 & 0.822 & 0.500 & $< 10^{-6}$ \\
+Heads only & 8 & 0.131 & $-$0.857 & 0.028 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The symmetry group $G = S_4 \times S_4$ acts by within-layer head permutations (heads within each layer are architecturally identical). The $G$-invariant representation is $(\overline{\mathrm{imp}}_{L_0}, \overline{\mathrm{imp}}_{L_1}, \mathrm{imp}_{\mathrm{MLP}_0}, \mathrm{imp}_{\mathrm{MLP}_1})$ --- mean head importance per layer plus MLP importances.
+
+\subsection{Per-Component Consensus}
+
+MLP1 is universally dominant (mean importance 9.60, CV = 0.027, rank std = 0.00 --- always ranked \#1). All 8 attention heads have CV = 0.32--0.66 and rank std = 1.2--2.6.
+
+\subsection{Noether Counting Within MI}
+
+Component pairs are classified by group structure: within-layer head pairs (12, $S_4$-symmetric), between-group pairs (33, involving different layers or MLPs).
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Category & Pairs & Mean flip rate & Predicted \\
+\midrule
+Within-layer (S$_4$) & 12 & \textbf{0.500} & 0.500 \\
+Head vs MLP1 & 8 & \textbf{0.000} & 0.000 \\
+$L_0$ vs $L_1$ heads & 16 & 0.421 & $\sim$0.000 \\
+Head vs MLP0 & 8 & 0.094 & $\sim$0.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Within-layer flip rate = 0.500 exactly (std = 0.071, consistent with binomial noise at $\sqrt{0.25/45} = 0.075$). Mann-Whitney within $>$ between: $p = 2.4 \times 10^{-5}$. The between-group prediction partially fails for $L_0$-vs-$L_1$ head pairs (0.421) because the two layers have overlapping importance ranges (mean $L_0 = 2.57$, mean $L_1 = 3.36$).
+
+\subsection{Controls}
+
+\paragraph{Corrected pre-grokking controls} (matched $n_{\mathrm{examples}} = 2000$):
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Condition & Steps & Test acc & Mean $\rho$ & $p$ vs.\ post-grok \\
+\midrule
+Random init & 50 & 0.2\% & 0.300 & --- (baseline) \\
+Memorised & 500 & $\sim$50\% & 0.668 & --- \\
+Grokked & 50,000 & 100\% & 0.518 & $2.0 \times 10^{-4}$ (vs.\ random) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Cohen's $d$: post vs.\ random = 0.76 (medium-large); memorised vs.\ post = 0.58 (medium). Determinism check: same model patched twice yields $r = 0.9998$.
+
+\paragraph{Fourier analysis.} All 10 models learn completely different Fourier frequency representations (top-5 frequency Jaccard = 0.022). Each model uses a different subset of the $\sim$56 conjugate frequency pairs available in $\mathbb{Z}_{113}$, confirming genuine Rashomon: same function, different algorithms.
+
+\paragraph{Perturbation dose-response.} Adding Gaussian noise $\epsilon \cdot \|W\|_F$ per tensor: accuracy collapses between $\epsilon = 0.001$ (acc = 0.98, $\rho$ vs.\ base = 0.995) and $\epsilon = 0.005$ (acc = 0.13). Inter-model $L_2$ distance is $\sim$40 vs.\ collapse perturbation $L_2$ of $\sim$13 (ratio $\sim$3$\times$). Models occupy narrow basins in weight space.
+
+\subsection{$\eta$ Law Reconciliation}
+
+$\eta = \dim(V^G)/\dim(V) = 4/10 = 0.40$. The $\eta$ formula predicts instability $= 1 - \eta = 0.60$. Observed flip rate = 0.300. The discrepancy is reconciled by the Noether decomposition: overall flip rate $= (12/45) \times 0.500 + (33/45) \times 0.227 = 0.133 + 0.166 = 0.300$. The $\eta$ formula counts dimensions lost; the flip rate counts pairwise ranking flips weighted by pair count --- these are different metrics.
+
 \section{Approximate Rashomon Extension}
 
 The approximate Rashomon extension relaxes exact observational equivalence to $\epsilon$-approximate equivalence: $d(obs(\theta_1), obs(\theta_2)) < \epsilon$.  The Lean formalization (\texttt{ApproximateEquity.lean}) proves that bounded proportionality (a weakening of exact proportionality) implies the Rashomon property, bridging the gap between the theoretical exact-equivalence setting and practical approximate-equivalence scenarios.

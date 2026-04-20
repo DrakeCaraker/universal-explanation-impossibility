@@ -139,3 +139,37 @@ research agenda: the goal is not to find the one true circuit, but to
 characterize which circuit features are \emph{invariant} across all valid
 decompositions (the ``skeleton'' of the circuit space) and which are
 decomposition-dependent (the ``reversible edges'').
+
+\paragraph{Empirical confirmation: modular addition circuits.}
+We test this prediction by training 10 two-layer transformers from
+\emph{independent random initialisation} on modular addition
+($a + b \bmod 113$, following \citet{nanda2023progress}). All 10 models
+reach 100\% test accuracy. Activation patching on 10 components (8
+attention heads $+$ 2 MLPs) yields mean Spearman $\rho = 0.518$ across
+$\binom{10}{2} = 45$ model pairs (permutation $p < 10^{-6}$), confirming
+partial but significant circuit agreement.
+
+The architecture determines the symmetry group $G = S_4 \times S_4$
+(within-layer head permutations): the 4 heads per layer are
+architecturally identical, distinguished only by random initialisation.
+The $G$-invariant subspace $V^G$ is 4-dimensional (mean layer-0 head
+importance, mean layer-1 head importance, MLP0, MLP1), giving
+$\eta = \dim(V^G)/\dim(V) = 4/10 = 0.4$. Projecting onto $V^G$
+recovers near-perfect agreement: \textbf{mean Spearman $\rho = 0.929$}
+(Pearson $r = 0.967$, min $\rho = 0.800$). The stability is not
+trivially driven by the dominant MLP1 component: the invariant excluding
+MLP1 still achieves $\rho = 0.822$ ($p < 10^{-6}$).
+
+Within-layer head pairs flip at mean rate 0.500 (exactly coin-flip,
+$\sigma = 0.071$), confirming the Noether counting prediction
+(Section~\ref{sec:noether-counting}). Head-vs-MLP1 pairs never flip.
+Fourier analysis reveals that all 10 models learn \emph{completely
+different} frequency representations (top-5 Jaccard = 0.022), confirming
+genuine Rashomon: same function, different algorithms, partially shared
+circuit skeleton.
+
+This directly demonstrates the resolution in practice: the
+$G$-invariant projection---averaging head importance within each
+layer---recovers the ``skeleton'' of the circuit space ($\rho = 0.929$),
+while the per-head rankings are the ``reversible edges'' that depend on
+the specific Fourier algorithm each model discovers.
