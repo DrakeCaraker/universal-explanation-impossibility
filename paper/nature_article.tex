@@ -362,8 +362,12 @@ absent; fixable).
 The constructive resolution---projecting onto the symmetry-invariant
 subspace---is the algebraic content of practices that eight scientific
 communities developed independently: ensemble averaging in ML, CPDAGs in
-causal discovery, gauge-invariant observables in physics, Patterson maps
-in crystallography, and overlap maps in neuroimaging.  That these
+causal discovery, gauge-invariant observables in
+physics~\citep{caraker2026ostrowski}, Patterson maps in crystallography,
+and overlap maps in neuroimaging.  The variance of attributions across
+the Rashomon set equals the minimum mean-squared error any stable method
+can achieve---a mathematical identity (0 violations in 800 tests) that
+provides a computable quality budget before any explanation is reported.  That these
 communities converged on structurally identical solutions, without
 cross-pollination, is now explained: the $G$-invariant projection is the
 unique Pareto-optimal strategy for any explanation system with the
@@ -438,7 +442,13 @@ Pareto-optimal among stable maps with respect to pointwise faithfulness.
 \paragraph{Bilemma proof.}
 A system is \emph{maximally incompatible} if $\lnot\mathrm{incompatible}(h_1,h_2)
 \Rightarrow h_1 = h_2$.  Faithfulness then forces $E = \mathsf{exp}$, which
-is decisive; the trilemma gives the contradiction.
+is decisive; the trilemma gives the contradiction.  The bilemma extends to
+approximate settings: for $(\varepsilon, \delta)$-stability with
+continuous~$\sH$, any stable map satisfies $\mathrm{unfaith}(\theta_1) +
+\mathrm{unfaith}(\theta_2) \geq \Delta - \delta$ on each Rashomon pair
+(triangle inequality; Lean-verified).  This resolves the
+$\varepsilon = 0$ fragility concern: the impossibility holds at every
+tolerance level~\citep{caraker2026ostrowski}.
 
 \paragraph{Lean~4 formalization.}
 Built on Lean~4 v4.30.0-rc1~\citep{demoura2021lean4} with
