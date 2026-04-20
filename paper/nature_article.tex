@@ -203,8 +203,8 @@ degrees of freedom.
 On the AP\_Colon\_Kidney microarray dataset (546 samples, 10{,}935 genes,
 top~50 by variance), 50 XGBoost classifiers with standard regularisation
 (subsample~$= 0.8$, colsample\_bytree~$= 0.5$) and TreeSHAP produce an
-alternating top gene: TSPAN8 (\#1 in 92\% of seeds) vs CEACAM5 (6\%),
-with feature correlation $\rho = 0.858$.  Gene Ontology enrichment
+alternating top gene: TSPAN8 (\#1 in 92\% of seeds) vs CEACAM5 (6\%;
+remaining 2\%: other genes), with feature correlation $\rho = 0.858$.  Gene Ontology enrichment
 confirms zero overlap in Biological Process terms: TSPAN8 associates with
 integrin binding and cell motility; CEACAM5 with cell--cell adhesion,
 immune signalling, and apoptosis regulation.
@@ -224,7 +224,7 @@ Dataset & Gene pair & Split & $\rho$ & Mode & GO overlap \\
 AP\_Colon\_Kidney & TSPAN8 / CEACAM5 & 92 / 6 & 0.858 & 1 & 0 terms \\
 AP\_Endo\_Colon & TSPAN8 / CEACAM5 & 78 / 22 & 0.781 & 1 & 0 terms \\
 AP\_Breast\_Colon & COL3A1 / COL1A1 & 72 / 28 & 0.843 & 2 & 3 terms \\
-AP\_Breast\_Lung & SFTPB (stable) & 98 / 1 & --- & --- & control \\
+AP\_Breast\_Lung & SFTPB (stable) & 98 / 2 & --- & --- & control \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -239,7 +239,7 @@ without privileging either.
 
 Ten two-layer transformers (4 heads/layer, $d = 128$) trained from
 independent random initialisations on $(a + b) \bmod 113$ all grok to
-100\% test accuracy.  Activation patching (replacing each component's
+100\% test accuracy~\citep{nanda2023progress}.  Activation patching (replacing each component's
 output with its mean) reveals that the 10 models' circuit-importance
 rankings agree at Spearman $\rho = 0.518$---and two models identify
 anti-correlated circuits.  The Fourier frequencies each model uses to
@@ -276,10 +276,10 @@ edge where orientation is ambiguous, is the neutral-element resolution.
 PC and GES algorithms already implement this~\citep{spirtes2000causation}---the
 framework proves their output is Pareto-optimal.
 
-The impossibility has a quantitative consequence: the DASH ensemble
-applied to causal discovery (averaging orientation probabilities across
-200 bootstrap runs of PC and GES on the Asia network) reduces flip rate
-fourfold ($p < 10^{-10}$) at reduced decisiveness (0.21 vs 0.36).
+The impossibility has a quantitative consequence: ensemble averaging of
+orientation probabilities across bootstrap runs of PC and GES substantially
+reduces flip rate at the cost of reduced decisiveness---the same
+faithfulness--stability tradeoff the theorem predicts.
 
 \subsection*{Instance 4: Neuroimaging}
 
