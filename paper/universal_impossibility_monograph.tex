@@ -2061,7 +2061,7 @@ We identify five limitations and directions for future work.
     replicating it within our framework is left to future work.
   \item \textbf{Exact vs.\ approximate Rashomon.}  The framework now includes a Lean-verified approximate extension (\texttt{ApproximateRashomon.lean}).  An \texttt{ApproxExplanationSystem} adds a `nearness' relation on observables, with $\varepsilon$-stability requiring $E$ to be constant on approximately-equivalent observations.  The approximate trilemma follows: if approximately-equivalent configurations have incompatible explanations (approximate Rashomon), then faithful + $\varepsilon$-stable + decisive is impossible.  The exact framework is the special case where nearness is equality.  The Gaussian flip rate formula provides the quantitative bridge: the SNR measures how `near' two observations must be for their explanations to flip.
   \item \textbf{Approximate symmetry: null model comparison.}
-    At intermediate correlations ($\rho < 1$), a simple null model $\Phi(-c\sqrt{1-\rho^2})$ with one fitted parameter ($c = 1.06$, $R^2 = 0.925$) predicts the average within-group flip rate as well as or better than the framework's Gaussian formula ($R^2 = -6.08$ at the aggregate level). The framework's distinctive contribution at approximate symmetry is the bimodal \emph{structure} (within-group vs.\ between-group separation, dip $p < 0.002$), not the aggregate magnitude. At exact symmetry ($\rho = 1$) and cross-domain ($\eta$ law across 7 domains), the framework's predictions are unchallenged. The practical recommendation: use the Gaussian formula for per-pair prediction (Spearman 0.28 on real data), coverage conflict for per-feature screening (Spearman 0.96), and the $\eta$ law for cross-domain understanding.
+    At intermediate correlations ($\rho < 1$), a simple null model $\Phi(-c\sqrt{1-\rho^2})$ with one fitted parameter ($c = 1.06$, $R^2 = 0.925$) predicts the average within-group flip rate as well as or better than the framework's Gaussian formula ($R^2 = -6.08$ at the aggregate level). The framework's distinctive contribution at approximate symmetry is the bimodal \emph{structure} (within-group vs.\ between-group separation, dip $p < 0.002$), not the aggregate magnitude. At exact symmetry ($\rho = 1$) and cross-domain ($\eta$ law across 7 domains), the framework's predictions are unchallenged. The practical recommendation: use the Gaussian formula for per-pair prediction (Spearman 0.28 on real data), coverage conflict for per-feature screening (Spearman $\rho = 0.92$--$0.98$ per dataset, $0.96$ aggregate across 15 datasets; permutation-validated), and the $\eta$ law for cross-domain understanding.
   \item \textbf{Elementary core theorem.}  The qualitative impossibility
     follows from elementary logic: if a map is not injective, its fiber
     contains distinct elements that cannot be simultaneously preserved and
@@ -2717,11 +2717,31 @@ nucleotide degeneracy, not abstract group theory.
 \paragraph{Codon null model.}
 The Spearman $\rho = 1.0$ between degeneracy and usage entropy is a calibration check, not an independent validation. Under uniform codon usage within each degeneracy class, entropy $= \log_2 d$, which is monotone in $d$; the rank correlation is therefore $1.0$ by construction. The empirical $\rho = 1.0$ confirms that observed entropy is monotonically related to degeneracy (consistent with the framework) but does not discriminate between the trilemma prediction and any model predicting monotonicity. The constructive Rashomon witness (zero domain-specific axioms) is the primary validation of the codon instance.
 
-These falsifications are scientifically valuable: they define the boundary
-between the framework's proven domain (the impossibility theorem and its
-resolutions) and its speculative extensions (quantitative tradeoff surfaces,
-specific phase-transition locations, and cross-domain extrapolations beyond
-the established instances).
+Two additional knockout candidates from the approximate-symmetry regime were
+tested and eliminated:
+
+\paragraph{Spectral gap $\to$ ensemble size.}
+The spectral gap of $S_k$ predicts a convergence rate $\sim k^{-M}$ for
+ensemble flip rate as a function of ensemble size~$M$.  Empirically, the
+predicted rate is 14--100$\times$ too fast (even at $\rho = 0.999$).  The
+exact-group spectral gap does not predict approximate-group convergence.
+
+\paragraph{Flip correlations from irreducible decomposition.}
+The irreducible decomposition of the $S_k$ representation predicts that
+features in the same irreducible should flip \emph{together} (correlated
+flip indicators).  Empirically, within-group flip correlation ($-0.031$)
+$\approx$ between-group ($-0.013$): features in the same irreducible do NOT
+flip together.
+
+\paragraph{Summary.}
+In total, five pre-registered predictions were falsified: phase transition
+location, quantitative tradeoff bound, molecular evolution from character
+theory, spectral gap convergence rate, and flip correlations from irreducible
+decomposition.  These falsifications are scientifically valuable: they define
+the boundary between the framework's proven domain (the impossibility theorem
+and its resolutions) and its speculative extensions.  The impossibility and
+resolution work universally; the quantitative predictions work only when the
+symmetry group is exactly known and features are genuinely exchangeable.
 
 \paragraph{Proportionality axiom sensitivity.}
 The design space theorem assumes exact proportionality ($\text{CV}(c) = 0$). Simulation across $\text{CV} \in [0, 1.0]$ (1{,}000 trials per value, 11 values) confirms the two-family structure is robust: Family~A flip rate $\approx 0.50$ at all CV values, Family~B tie rate $\geq 0.93$ at all CV values, and zero Pareto violations across 11{,}000 trials. The instability source is collinearity-driven split competition, not the proportionality constant. The core impossibility (Theorem~\ref{thm:universal}) is independent of proportionality.
