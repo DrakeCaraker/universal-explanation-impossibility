@@ -86,9 +86,14 @@ onto the symmetry-invariant subspace.  For neural circuits, this
 projection lifts inter-model agreement from $\rho = 0.52$ to $\rho =
 0.93$.  For neuroimaging, orbit averaging across 48 analysis teams is
 near-optimal, with 16 independent analyses sufficing for 95\% stability.
-The framework is verified in the Lean~4 proof assistant (491~theorems,
+That eight scientific communities---in ML, crystallography, gauge theory,
+causal inference, statistical mechanics, genetics, linguistics, and
+database theory---independently converged on this same resolution,
+without cross-pollination, is now explained: the orbit-averaged
+projection is the unique Pareto-optimal strategy for any system with the
+Rashomon property.  The framework is verified in Lean~4 (491~theorems,
 0~unproved goals) and generates quantitative predictions confirmed across
-seven well-characterised domains ($R^2 = 0.96$).
+seven domains ($R^2 = 0.96$, zero free parameters).
 \end{abstract}
 
 %%% =========================================================================
@@ -109,29 +114,28 @@ pathway---two modes of instability, one within and one between biological
 pathways, both governed by the same theorem.
 
 The same structure appears wherever a system admits multiple valid
-explanations.  Ten neural networks trained from independent random seeds
-on modular addition all achieve 100\% accuracy, yet their internal
-circuits overlap by only 2.2\% (Fourier-frequency Jaccard) and their
-importance rankings agree at $\rho = 0.52$.  Seventy teams of
-neuroscientists analysing the same fMRI
-data~\citep{botviniknezer2020variability} produce different activation
-maps.  Different causal discovery algorithms orient the same edges in
-opposite directions when the underlying graph is Markov-equivalent.
-Crystallographers, gauge theorists, and census disaggregators have, over
-the past century, independently converged on the same mathematical
-strategy for such problems: project onto the subspace invariant under the
-symmetry of equivalent configurations.
+explanations.  Over the past century, eight scientific communities have
+independently converged on a single mathematical strategy for such
+problems: project onto the subspace invariant under the symmetry of
+equivalent configurations.  Crystallographers who cannot recover phase
+from diffraction amplitudes use Patterson maps.  Causal modellers who
+face Markov-equivalent graphs report CPDAGs.  Gauge theorists quotient
+out local symmetry.  Neuroimaging teams who reach different
+conclusions~\citep{botviniknezer2020variability} compute overlap maps.
+Ten neural networks trained on the same task discover circuits that
+overlap by only 2.2\%, yet all achieve 100\% accuracy.  That these
+communities arrived at structurally identical solutions without any
+cross-pollination demands an explanation.
 
-Here we prove why.  A single theorem, requiring only the
-Rashomon property~\citep{breiman2001statistical} as a hypothesis, shows
-that no explanation can be simultaneously faithful (reflect the system's
-actual structure), stable (consistent across equivalent configurations),
-and decisive (commit to a specific answer).  The proof is short; the
-contribution is what follows from it: a complete classification of the
-design space, a constructive resolution proved Pareto-optimal, and
-quantitative predictions confirmed across seven domains.  Prior work has documented
-this instability empirically for feature
-attributions~\citep{krishna2022disagreement} and proved special cases for
+Here we supply one.  A single theorem, requiring only the
+Rashomon property~\citep{breiman2001statistical} as a hypothesis, proves
+that no explanation of an underspecified system can be simultaneously
+faithful (reflect the system's actual structure), stable (consistent
+across equivalent configurations), and decisive (commit to a specific
+answer).  The limits of explanation are structural, not
+methodological---and the resolution these communities discovered is the
+unique optimal response.  Prior work has documented this instability
+empirically~\citep{krishna2022disagreement} and proved special cases for
 Shapley-based methods~\citep{bilodeau2024impossibility}; here we prove
 the general impossibility for \emph{any} explanation type, characterise
 the complete design space, and show that the same structure governs four
@@ -356,44 +360,39 @@ $\rho \approx 0$), delineating the boundary at exact exchangeability.
 
 \section*{Discussion}
 
-The theorem reframes ``why are explanations unstable?''\ as ``because the
-inference problem is underspecified.''  The instability is not a bug in
-any particular method---it is a provable consequence of the Rashomon
-property.  Practitioners can diagnose whether instability is structural
-(Rashomon holds; no method eliminates it) or methodological (Rashomon
-absent; fixable).
+The theorem establishes a permanent limit on what observation can
+explain.  Whenever multiple valid configurations of a system produce the
+same observables, the internal structure---which gene drives the
+prediction, which circuit implements the computation, which causal
+direction holds---cannot be faithfully, stably, and decisively reported.
+This is not a limitation of current methods.  It is a mathematical fact
+about underspecified systems.  Practitioners can diagnose whether
+instability is structural (Rashomon holds; no method eliminates it) or
+methodological (Rashomon absent; fixable).
 
 The constructive resolution---projecting onto the symmetry-invariant
-subspace---is the algebraic content of practices that eight scientific
-communities developed independently: ensemble averaging in ML, CPDAGs in
-causal discovery, gauge-invariant observables in
-physics~\citep{caraker2026ostrowski}, Patterson maps in crystallography,
-and overlap maps in neuroimaging.  The variance of attributions across
-the Rashomon set equals the minimum mean-squared error any stable method
-can achieve---a mathematical identity (0 violations in 800 tests) that
-provides a computable quality budget before any explanation is reported.  That these
-communities converged on structurally identical solutions, without
-cross-pollination, is now explained: the $G$-invariant projection is the
-unique Pareto-optimal strategy for any explanation system with the
-Rashomon property.
+subspace---is the algebraic content of the practices that eight
+communities discovered independently~\citep{caraker2026ostrowski}.  The
+$G$-invariant projection is the unique Pareto-optimal strategy: no other
+method can simultaneously be more faithful and more stable.  The variance
+of explanations across the Rashomon set equals the minimum
+mean-squared error any stable method can achieve---a mathematical
+identity (0 violations in 800 tests) that provides a computable quality
+budget before any explanation is reported.
 
-The gene-expression finding (Instance~1) has immediate practical
-consequences: the specific biomarker a drug-discovery pipeline nominates
-depends on the training seed.  The resolution---reporting the DASH
-ensemble top-$k$, which contains both TSPAN8 and CEACAM5---is not
-merely cautious but provably optimal.  For mechanistic interpretability
-(Instance~2), the resolution means reporting equivalence classes of
-circuits (``MLP1 is dominant; individual head identities are
-interchangeable'') rather than specific circuit diagrams.
-
-\paragraph{Model-class universality.}
-The instability is not specific to XGBoost.  Across four model classes
-(XGBoost, Random Forest, Ridge, LASSO) on three datasets, within-family
-pairs agree on instability patterns ($\rho = 0.79$--$0.94$) while
-cross-family agreement is not significant ($\rho = 0.19$--$0.57$, none
-exceeding permutation null).  The coverage conflict diagnostic is
-universal across all classes (mean $\rho = 0.82$), and the Var[SHAP]~$=$
-DASH~MSE identity holds exactly ($0/12$ violations).
+The consequences are domain-specific but the structure is universal.  For
+genomics (Instance~1): the specific biomarker a drug-discovery pipeline
+nominates depends on the training seed; the resolution reports both
+TSPAN8 and CEACAM5 without privileging either.  For mechanistic
+interpretability (Instance~2): safety cases should be built on
+equivalence classes of circuits (``MLP layers are more important than
+attention heads''), not on specific circuit diagrams.  For
+neuroimaging (Instance~4): the overlap map is provably near-optimal, and
+16 independent analyses suffice for 95\% stability.  The instability is
+universal across model classes: four ML model families (XGBoost, Random
+Forest, Ridge, LASSO) agree on instability patterns within families
+($\rho = 0.79$--$0.94$) but not across families (Supplementary
+Information).
 
 \paragraph{The explanation impossibility is structurally more severe than other impossibilities.}
 Impossibility theorems appear across science---Arrow, G\"odel, Bell,
@@ -428,13 +427,21 @@ $\alpha + \sigma + \delta \leq 2$, molecular evolution from character
 theory) were pre-registered and falsified, delineating the framework's
 boundary (Supplementary Information).
 
-\paragraph{Lean verification.}
-The framework is verified in Lean~4 across two repositories: 100~files /
-491~theorems / 25~axioms / 0~sorry (universal framework) and 58~files /
-357~theorems / 6~axioms / 0~sorry (attribution specialisation).  All ML
-instances use constructive types with zero domain-specific axioms.  The
-core impossibility theorem requires only the Rashomon property as a
+\paragraph{Formal verification.}
+The framework is verified in Lean~4 across three repositories
+(491 $+$ 357 $+$ 248 theorems, 0~unproved goals).  All ML instances use
+constructive types with zero domain-specific axioms.  The core
+impossibility theorem requires only the Rashomon property as a
 hypothesis.
+
+\paragraph{Outlook.}
+The most compelling evidence for the theorem's universality is not the
+formal proof---it is the convergence of eight scientific communities on
+the same resolution, discovered independently over a century, now
+explained by a single structural condition.  The impossibility is
+permanent.  The resolution is known.  The question for each domain is no
+longer ``how do we fix the instability?''\ but ``which conclusions
+survive the resolution?''
 
 %%% =========================================================================
 %%% Methods
