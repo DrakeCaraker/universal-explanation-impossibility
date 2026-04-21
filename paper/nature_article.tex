@@ -122,11 +122,14 @@ the past century, independently converged on the same mathematical
 strategy for such problems: project onto the subspace invariant under the
 symmetry of equivalent configurations.
 
-Here we prove why.  A single four-line theorem, requiring only the
+Here we prove why.  A single theorem, requiring only the
 Rashomon property~\citep{breiman2001statistical} as a hypothesis, shows
 that no explanation can be simultaneously faithful (reflect the system's
 actual structure), stable (consistent across equivalent configurations),
-and decisive (commit to a specific answer).  Prior work has documented
+and decisive (commit to a specific answer).  The proof is short; the
+contribution is what follows from it: a complete classification of the
+design space, a constructive resolution proved Pareto-optimal, and
+quantitative predictions confirmed across seven domains.  Prior work has documented
 this instability empirically for feature
 attributions~\citep{krishna2022disagreement} and proved special cases for
 Shapley-based methods~\citep{bilodeau2024impossibility}; here we prove
@@ -208,8 +211,9 @@ degrees of freedom.
 \subsection*{Instance 1: Genomics}
 
 On the AP\_Colon\_Kidney microarray dataset (546 samples, 10{,}935 genes,
-top~50 by variance), 50 XGBoost classifiers with standard regularisation
-(subsample~$= 0.8$, colsample\_bytree~$= 0.5$) and TreeSHAP produce an
+top~50 by variance), 50 XGBoost classifiers with regularisation
+(subsample~$= 0.8$, colsample\_bytree~$= 0.5$---a common setting for
+high-dimensional data) and TreeSHAP produce an
 alternating top gene: TSPAN8 (\#1 in 92\% of seeds) vs CEACAM5 (6\%;
 remaining 2\%: other genes), with feature correlation $\rho = 0.858$.  Gene Ontology enrichment
 confirms zero overlap in Biological Process terms: TSPAN8 associates with
@@ -284,8 +288,8 @@ lifts agreement from $\rho = 0.518$ to $\rho = 0.929$ (Pearson~$=
 0.967$).  This is not trivially MLP-driven: excluding MLP1 still yields
 $\rho = 0.822$ ($p < 10^{-6}$).  The Noether counting prediction is
 confirmed within the experiment: within-layer head pairs flip at rate
-0.500 exactly; head-vs-MLP pairs at 0.000 (gap~$= 0.273$,
-$p = 2.4 \times 10^{-5}$).  The universal structural fact---MLP1 is
+0.500 exactly; head-vs-MLP1 pairs at 0.000 (bimodal
+gap~$= 0.273$, Mann--Whitney $p = 2.4 \times 10^{-5}$).  The universal structural fact---MLP1 is
 dominant in every seed (CV~$= 0.027$)---emerges only after the
 $G$-invariant projection.
 
@@ -540,9 +544,12 @@ repository.  \texttt{make validate} reproduces experiments ($\sim$5~min).
 
 \subsection*{Extended Data Table 1: Achievable property pairs}
 
-The following ML explanation types demonstrate that each two-property
-combination is constructively achievable, proving the three-property
-impossibility is tight.
+Each two-property combination is constructively achievable.
+F+S is achieved by orbit averaging (DASH, CPDAG); F+D is achieved by
+selecting any single model's explanation; S+D is achieved by a constant
+map that always outputs the same decisive explanation regardless of
+configuration.  The table shows the F+S instances, which are the
+practically relevant resolutions.
 
 \begin{table}[h]
 \centering
@@ -651,7 +658,7 @@ Shannon secrecy & Cryptography & p23-blocked & model \\
 %%% =========================================================================
 
 \section*{Data availability}
-Gene-expression data: AP\_Colon\_Kidney (OpenML ID 1553),
+Gene-expression data: AP\_Colon\_Kidney (OpenML ID 1137),
 AP\_Endometrium\_Colon (OpenML), AP\_Breast\_Colon (OpenML),
 AP\_Breast\_Lung (OpenML).  Gene Ontology annotations: NCBI Gene.
 Neuroimaging: NeuroVault collection~6047 (overlap maps); per-team
