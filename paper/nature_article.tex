@@ -391,6 +391,26 @@ exceeding permutation null).  The coverage conflict diagnostic is
 universal across all classes (mean $\rho = 0.82$), and the Var[SHAP]~$=$
 DASH~MSE identity holds exactly ($0/12$ violations).
 
+\paragraph{The explanation impossibility is structurally more severe than other impossibilities.}
+Impossibility theorems appear across science---Arrow, G\"odel, Bell,
+the CAP theorem, the laws of thermodynamics---but they differ in
+\emph{tightness}: which pairs of desirable properties survive when the
+full triple fails.  A classification of 20 impossibility theorems from
+12~domains (Extended Data Table~2) reveals that 16 have \emph{full
+tightness}: every pair is independently achievable, and practitioners
+can ``pick two.''  The explanation bilemma is one of only two instances
+with \emph{collapsed tightness}---property pairs are blocked, not just
+the triple---among structurally proved cases.  The other is the quantum
+linearity trilemma (no-cloning $+$ measurement disturbance), which
+shares a structural parallel: linearity plays the role of stability,
+both force uniform treatment individually incompatible with two remaining
+desiderata, and both are resolved by enrichment (neutral elements /
+ancillary systems).  Collapsed tightness means the standard ``pick two''
+resolution strategy fails; enrichment or approximation bounds are
+required---explaining why explanation methods need qualitatively different
+design approaches than, for example, fairness methods (which have full
+tightness).
+
 \paragraph{Limitations.}
 The gene-expression alternation requires stochastic regularisation
 (subsample~$< 1$); under deterministic training, a single ranking
@@ -580,6 +600,51 @@ Causal discovery
   [95\% CI: 10--22].  Convergence rate: $1 - a/M^{1.0}$ ($R^2 = 0.97$).}
 \label{fig:ed-convergence}
 \end{figure}
+
+\subsection*{Extended Data Table 2: Classification of impossibility theorems by tightness}
+
+\begin{table}[h]
+\centering
+\small
+\caption{\textbf{Extended Data Table 2.}
+  Twenty impossibility theorems from 12~domains classified by tightness
+  type.  Full: every property pair achievable (``pick two'' works).
+  Collapsed: property pairs blocked (enrichment required).  Structural:
+  non-trivial Lean proof over unbounded solution space.  Model:
+  3-element type that forces its tightness.  Bell and Kochen-Specker
+  tightness is decomposition-dependent (see text).  Quantum linearity is
+  model-level; the bilemma is the sole collapsed instance with structural
+  evidence.}
+\label{tab:ed-classification}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{System} & \textbf{Domain} & \textbf{Tightness} & \textbf{Evidence} \\
+\midrule
+\textbf{Bilemma} & \textbf{ML explanation} & \textbf{Collapsed} & \textbf{structural} \\
+\textbf{Quantum linearity} & \textbf{Quantum info} & \textbf{Collapsed} & \textbf{model} \\
+\midrule
+Arrow & Social choice & Full & structural \\
+Gibbard-Satterthwaite & Social choice & Full & structural \\
+Bell (CHSH) & Quantum physics & Full & structural \\
+Kochen-Specker & Quantum physics & Full & structural \\
+G\"odel incompleteness & Mathematical logic & Full & structural \\
+ML fairness & ML prediction & Full & model \\
+Bias-variance & Statistics & Full & model \\
+Sen's liberal paradox & Social choice & Full & model \\
+CAP theorem & Distributed systems & Full & model \\
+FLP impossibility & Distributed systems & Full & model \\
+Mundell-Fleming & Economics & Full & model \\
+Perpetual motion & Thermodynamics & Full & model \\
+Second law & Thermodynamics & Full & model \\
+M\"unchhausen trilemma & Epistemology & Full & model \\
+Competitive exclusion & Ecology & Full & model \\
+Penrose-Hawking & General relativity & Full & model \\
+\midrule
+Eastin-Knill & Quantum computing & p12-blocked & model \\
+Shannon secrecy & Cryptography & p23-blocked & model \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%% =========================================================================
 %%% Data and Code Availability
