@@ -3481,6 +3481,89 @@ Face Transformers, scikit-learn, XGBoost, and SHAP.  We also thank the
 anonymous reviewers whose feedback improved the clarity of the manuscript.
 This work was conducted independently and received no external funding.
 
+\section{Classification of Impossibility Theorems by Tightness}
+\label{sec:classification}
+
+Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 240 theorems, 0 sorry across 20 files in a companion repository) and classify 20 impossibility theorems from 12+ domains.
+
+\subsection{Tightness Types}
+
+Four tightness types exist (proved exhaustive and mutually exclusive):
+\begin{itemize}
+  \item \textbf{Full tightness:} every pair of properties is independently achievable; only the triple conjunction fails.  Resolution strategy: ``pick two.''
+  \item \textbf{Collapsed tightness:} property pairs are blocked, not just the triple.  A \emph{universal poison} property (e.g.\ stability, linearity) is individually incompatible with both remaining desiderata.  Resolution strategy: enrich the solution space or weaken the poison property.
+  \item \textbf{p12-blocked} and \textbf{p23-blocked:} one specific pair is blocked.  These are naturally 2-ary impossibilities embedded in a 3-property framework.
+\end{itemize}
+
+\subsection{The Classification}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Twenty impossibility theorems classified by tightness type.  ``Structural'': non-trivial Lean proof over unbounded solution space.  ``Model'': 3-element type that forces its tightness by construction.  Bell and Kochen-Specker tightness is decomposition-dependent.}
+\label{tab:classification}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\# & System & Domain & Tightness & Evidence \\
+\midrule
+1 & \textbf{Bilemma} & ML explanation & \textbf{Collapsed} & structural \\
+2 & \textbf{Quantum linearity} & Quantum information & \textbf{Collapsed} & model \\
+\midrule
+3 & Arrow & Social choice & Full & structural \\
+4 & Gibbard-Satterthwaite & Social choice & Full & structural \\
+5 & Bell (CHSH) & Quantum physics & Full & structural \\
+6 & Kochen-Specker & Quantum physics & Full & structural \\
+7 & G\"odel incompleteness & Mathematical logic & Full & structural \\
+8 & ML fairness & ML prediction & Full & model \\
+9 & Bias-variance & Statistics & Full & model \\
+10 & Sen's liberal paradox & Social choice & Full & model \\
+11 & CAP theorem & Distributed systems & Full & model \\
+12 & FLP impossibility & Distributed systems & Full & model \\
+13 & Mundell-Fleming & Economics & Full & model \\
+14 & Perpetual motion & Thermodynamics & Full & model \\
+15 & Second law & Thermodynamics & Full & model \\
+16 & M\"unchhausen trilemma & Epistemology & Full & model \\
+17 & Competitive exclusion & Ecology & Full & model \\
+18 & Penrose-Hawking & General relativity & Full & model \\
+\midrule
+19 & Eastin-Knill & Quantum computing & p12-blocked & model \\
+20 & Shannon secrecy & Cryptography & p23-blocked & model \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key Findings}
+
+\paragraph{Full tightness is the overwhelming default.}
+Sixteen of 20 impossibilities have full tightness---every pair is achievable, and only the triple conjunction fails.  This holds across ML, physics, logic, economics, ecology, epistemology, thermodynamics, and distributed systems.  Full tightness is the ``normal'' state; it propagates under embeddings (\emph{enlargement monotonicity}: if the triple conjunction is impossible and every pair is achievable, embedding into a larger solution space preserves these properties).
+
+\paragraph{Collapsed tightness is rare and mechanistically specific.}
+Only 2/20 impossibilities have collapsed tightness: the bilemma and the quantum linearity trilemma.  Both arise from the ``universal poison'' mechanism: a property ($P_2$) that forces uniform treatment, simultaneously incompatible with two different desiderata ($P_1$ and $P_3$).  For the bilemma, stability is the poison (same output for same observation $\Rightarrow$ can't be faithful to one AND decisive against the other).  For quantum linearity, universality is the poison (working for all states $\Rightarrow$ can't amplify AND can't extract information).
+
+The structural parallel is precise: stability plays the role of linearity.  Both are resolved by enrichment---adding neutral elements (bilemma) or ancillary systems (quantum).  The bilemma is therefore a structural parallel to the quantum no-cloning/no-information-without-disturbance pair.
+
+\paragraph{The explanation impossibility is structurally more severe than fairness.}
+Within ML: the bilemma (collapsed) blocks property pairs, while ML fairness (full) only blocks the triple.  Resolution strategies that work for fairness (``pick two'': choose which fairness metric to sacrifice) do NOT work for explanation (some pairs are blocked; must enrich).  This is a precise structural distinction with practical consequences: explanation methods require qualitatively different design approaches than fairness methods.
+
+\paragraph{Intermediate types are embedded 2-ary impossibilities.}
+Eastin-Knill (p12-blocked) and Shannon secrecy (p23-blocked) are naturally 2-property impossibilities (transversal $+$ universal; unconditional $+$ short-key) with a third property added.  Any 2-ary impossibility can produce an intermediate type this way.  The meaningful binary classification is \emph{collapsed vs.\ full}.
+
+\paragraph{Obstruction taxonomy.}
+The classification determines the resolution strategy:
+\begin{itemize}
+  \item \emph{Resolvable obstruction} (collapsed tightness): the obstruction can be resolved by enriching the solution space with a neutral element.  The bilemma is resolvable (DASH adds ``tied''; CPDAG adds ``undirected'').
+  \item \emph{Intrinsic obstruction} (full tightness): each property must be genuinely sacrificed; no enrichment eliminates the conflict.  Arrow's theorem is intrinsic (no voting system satisfies all three properties, even with additional options).
+\end{itemize}
+These types are proved mutually exclusive.  Full tightness implies irreducibility: no property is redundant (each pair is independently achievable, so removing any one property yields a satisfiable conjunction).
+
+\subsection{Evidence Tiers and Caveats}
+
+Six instances have \emph{structural} evidence: non-trivial Lean proofs over unbounded solution spaces with substantive tightness witnesses (bilemma, Arrow, Gibbard-Satterthwaite, Bell, Kochen-Specker, G\"odel).  Fourteen use \emph{trilemma models}: 3-element types where each constructor satisfies exactly 2 of 3 properties.  Trilemma models FORCE full tightness by construction; they confirm the cross-domain pattern but do not independently test the classification.
+
+Bell (CHSH) and Kochen-Specker are naturally 2-ary impossibilities whose 3-property versions involve splitting one property (e.g.\ separating local realism into locality and determinism).  Their full tightness is decomposition-dependent.  The quantum linearity trilemma is model-level evidence (3-element type), not a structural proof over the space of all quantum channels; the bilemma has strictly stronger evidence (proved over all explanation functions on an infinite solution space).
+
+Prior work on axiom independence for Arrow's theorem (Blau 1972, Wilson 1972) established tightness for individual social choice results.  The cross-domain classification---surveying 20 impossibilities from 12+ domains and identifying collapsed tightness as rare and mechanistically specific---is new.
+
 %%% ==========================================================================
 \bibliographystyle{plainnat}
 \bibliography{references}

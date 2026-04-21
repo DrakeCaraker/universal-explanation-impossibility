@@ -193,6 +193,59 @@ Cohen's $d$: post vs.\ random = 0.76 (medium-large); memorised vs.\ post = 0.58 
 
 $\eta = \dim(V^G)/\dim(V) = 4/10 = 0.40$. The $\eta$ formula predicts instability $= 1 - \eta = 0.60$. Observed flip rate = 0.300. The discrepancy is reconciled by the Noether decomposition: overall flip rate $= (12/45) \times 0.500 + (33/45) \times 0.227 = 0.133 + 0.166 = 0.300$. The $\eta$ formula counts dimensions lost; the flip rate counts pairwise ranking flips weighted by pair count --- these are different metrics.
 
+\section{Gene Expression Pathway Divergence}
+\label{sec:gene-expression-si}
+
+The gene-expression alternation finding (Instance~1 in the main text) was tested across four microarray datasets (OpenML, Affymetrix HG-U133A platform):
+
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+Dataset & $N$ & Top gene 1 (\%) & Top gene 2 (\%) & $\rho$ & Mode & GO BP overlap \\
+\midrule
+AP\_Colon\_Kidney & 546 & TSPAN8 (92\%) & CEACAM5 (6\%) & 0.858 & 1 & 0 terms \\
+AP\_Endo\_Colon & 363 & TSPAN8 (78\%) & CEACAM5 (22\%) & 0.781 & 1 & 0 terms \\
+AP\_Breast\_Colon & 1{,}545 & COL3A1 (72\%) & COL1A1 (28\%) & 0.843 & 2 & 3 terms \\
+AP\_Breast\_Lung & 470 & SFTPB (98\%) & SFTPA1 (2\%) & --- & ctrl & control \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Mode~1 (distinct pathways).}
+TSPAN8 (tetraspanin 8): integrin binding, cell motility, invasion/metastasis.  CEACAM5 (carcinoembryonic antigen): cell--cell adhesion, immune signalling, apoptosis regulation, classical clinical colon cancer marker.  Gene Ontology Biological Process overlap: 0~terms (TSPAN8 has 1~BP term; CEACAM5 has 6).  The two genes serve distinct cancer biology roles; which pathway a drug-discovery pipeline targets depends on the training seed.
+
+\paragraph{Mode~2 (same pathway, redundant markers).}
+COL3A1 and COL1A1 are both type I/III collagens in the extracellular matrix pathway, sharing 3~GO BP terms (animal organ development, collagen fibril organization, system development).  Their alternation reflects classical collinearity instability within a single pathway.
+
+\paragraph{Controls.}
+Under deterministic training (subsample~$= 1.0$), all datasets produce a single ranking with 100\% agreement.  Model test accuracies on AP\_Colon\_Kidney: mean 96.4\%, std 0.5\%, range [95.1\%, 97.6\%] ($n = 50$) --- confirming near-identical predictive performance across seeds.  The DASH ensemble average places both TSPAN8 and CEACAM5 in the consensus top-2.
+
+\section{Neuroimaging Multi-Analyst Reanalysis}
+\label{sec:narps-si}
+
+The NARPS reanalysis (Instance~4) downloaded 48 of 70 teams' unthresholded $t$-statistic maps from NeuroVault and parcellated with the Schaefer 100-parcel atlas (7 Yeo resting-state networks).  Key methodological details:
+
+\paragraph{Activation-level control.}
+The raw Noether effect ($d = 0.43$) was tested against the activation-level confound: within-network regions have similar activation levels, potentially explaining similar disagreement.  Regressing $|\Delta\mathrm{overlap}|$ from disagreement similarity reduces $d$ to 0.32 ($p = 8.1 \times 10^{-19}$, bootstrap CI [0.006, 0.008]).  Activation similarity explains $R^2 = 0.67$ of overall disagreement variance; the network effect persists as a 26\% reduction in $d$.
+
+\paragraph{Controls.}
+Random grouping null ($d = 0.001 \pm 0.050$, permutation $p < 0.001$); spatial autocorrelation ($k$-means $d = 0.07$--$0.19$ across $k = 5, 7, 10, 14$, all below network $d = 0.43$); per-hypothesis consistency (7/7 non-empty hypotheses show the effect); Schaefer-400 replication ($d = 0.41$).
+
+\paragraph{Convergence.}
+Split-half Pearson correlation exceeds 0.95 at $M = 16$ [bootstrap 95\% CI: 10--22].  Convergence rate: $1 - a/M^{1.0}$ ($R^2 = 0.97$).
+
+\paragraph{Aggregation method comparison (all at $M = 48$).}
+Mean: faithfulness 0.669, unfaithfulness 0.739.  Median: 0.660, 0.719.  Trimmed mean: 0.668, 0.727.  Weighted mean: 0.664, 0.725.  All within 3\%.
+
+\section{Classification of Impossibility Theorems}
+\label{sec:classification-si}
+
+Extended Data Table~2 classifies 20 impossibility theorems by tightness type.  Full details: 6 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the \texttt{UnifiedMetaTheorem.lean} file (companion Ostrowski repository: 240 theorems, 10 axioms, 0 sorry).
+
+Bell (CHSH) and Kochen-Specker are naturally 2-ary impossibilities; their 3-property decomposition into locality/determinism/correctness (Bell) and row-assignment/column-assignment/consistency (KS) is decomposition-dependent.  Alternative decompositions may yield different tightness types.
+
+The quantum linearity trilemma (universality + amplification + informativeness) is formalised as a 3-element model, not a structural proof over all quantum channels.  Structural formalization would require formalizing CPTP maps in Lean --- a substantial future project.
+
 \section{Approximate Rashomon Extension}
 
 The approximate Rashomon extension relaxes exact observational equivalence to $\epsilon$-approximate equivalence: $d(obs(\theta_1), obs(\theta_2)) < \epsilon$.  The Lean formalization (\texttt{ApproximateEquity.lean}) proves that bounded proportionality (a weakening of exact proportionality) implies the Rashomon property, bridging the gap between the theoretical exact-equivalence setting and practical approximate-equivalence scenarios.
