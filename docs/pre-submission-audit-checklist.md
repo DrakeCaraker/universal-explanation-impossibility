@@ -14,7 +14,7 @@
 - [ ] `attribution_impossibility` uses zero behavioral axioms
 - [ ] `consensus_equity` (DASH) uses 6 axioms as documented
 
-### Ostrowski repo (20 files, 240 theorems, 10 axioms, 0 sorry)
+### Ostrowski repo (20 files, 257 theorems, 10 axioms, 0 sorry)
 - [ ] `lake build` compiles
 - [ ] Counts match
 - [ ] Classification theorem `complete_classification` compiles

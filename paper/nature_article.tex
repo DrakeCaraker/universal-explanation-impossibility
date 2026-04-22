@@ -91,7 +91,7 @@ causal inference, statistical mechanics, genetics, linguistics, and
 database theory---independently converged on this same resolution,
 without cross-pollination, is now explained: the orbit-averaged
 projection is the unique Pareto-optimal strategy for any system with the
-Rashomon property.  The framework is verified in Lean~4 (491~theorems,
+Rashomon property.  The framework is verified in Lean~4 (501~theorems,
 0~unproved goals) and generates quantitative predictions confirmed across
 seven domains ($R^2 = 0.96$, zero free parameters).
 \end{abstract}
@@ -125,7 +125,11 @@ conclusions~\citep{botviniknezer2020variability} compute overlap maps.
 Ten neural networks trained on the same task discover circuits that
 overlap by only 2.2\%, yet all achieve 100\% accuracy.  That these
 communities arrived at structurally identical solutions without any
-cross-pollination demands an explanation.
+cross-pollination demands an explanation.  The structure is not specific
+to any one domain: it arises wherever multiple valid configurations of a
+system produce identical observables---in gene regulation, neural
+circuits, causal graphs, brain imaging, climate models, economic
+forecasts, and any high-dimensional system with correlated variables.
 
 Here we supply one.  A single theorem, requiring only the
 Rashomon property~\citep{breiman2001statistical} as a hypothesis, proves
@@ -396,7 +400,11 @@ neuroimaging (Instance~4): the overlap map is provably near-optimal, and
 universal across model classes: four ML model families (XGBoost, Random
 Forest, Ridge, LASSO) agree on instability patterns within families
 ($\rho = 0.79$--$0.94$) but not across families (Supplementary
-Information).
+Information).  Beyond these four instances, the theorem applies to any
+science where correlated variables create underdetermined
+explanations---which risk factor drives a disease (epidemiology), which
+feedback mechanism drives warming (climate science), which policy lever
+drove growth (economics)---wherever the Rashomon property holds.
 
 \paragraph{The explanation impossibility is structurally more severe than other impossibilities.}
 Impossibility theorems appear across science---Arrow, G\"odel, Bell,
@@ -412,11 +420,29 @@ linearity trilemma (no-cloning $+$ measurement disturbance), which
 shares a structural parallel: linearity plays the role of stability,
 both force uniform treatment individually incompatible with two remaining
 desiderata, and both are resolved by enrichment (neutral elements /
-ancillary systems).  Collapsed tightness means the standard ``pick two''
+ancillary systems).  The approximate bilemma makes the parallel
+quantitative: any stable explanation satisfies
+$\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta -
+\delta$ on each Rashomon pair---a lower bound on complementary quantities
+analogous in form to Heisenberg's uncertainty relation.  Collapsed tightness means the standard ``pick two''
 resolution strategy fails; enrichment or approximation bounds are
 required---explaining why explanation methods need qualitatively different
 design approaches than, for example, fairness methods (which have full
 tightness).
+
+\paragraph{The resolution is recursive.}
+Enrichment restores the blocked property pairs by adding new elements
+to~$\sH$, but the enriched space hosts a new impossibility at the next
+level, and the levels are independent: resolving level~$k$ gives zero
+information about level~$k+1$ (both proved in
+Lean~\citep{caraker2026ostrowski}).  The same recursive pattern appears
+in G\"odel's incompleteness (add $\mathrm{Con}(T)$; new unprovable
+sentence) and in Galois theory (adjoin a root; new irreducible
+polynomials)---the enrichment stack mirrors the algebraic structure of a
+tower of field extensions.  A complete explanatory theory therefore
+classifies which questions have formulation-independent answers at each
+level, rather than answering all questions---an epistemological limit
+that holds wherever collapsed tightness obtains.
 
 \paragraph{Limitations.}
 The gene-expression alternation requires stochastic regularisation
@@ -433,7 +459,7 @@ boundary (Supplementary Information).
 
 \paragraph{Formal verification.}
 The framework is verified in Lean~4 across three repositories
-(491 $+$ 357 $+$ 248 theorems, 0~unproved goals).  All ML instances use
+(501 $+$ 357 $+$ 257 theorems, 0~unproved goals).  All ML instances use
 constructive types with zero domain-specific axioms.  The core
 impossibility theorem requires only the Rashomon property as a
 hypothesis.
@@ -443,10 +469,13 @@ The most compelling evidence for the theorem's universality is not the
 formal proof---it is the convergence of eight scientific communities on
 the same resolution, discovered independently over a century, now
 explained by a single structural condition.  The impossibility is
-permanent.  The resolution is known.  As Shannon's theorem established
-the fundamental limits of communication and identified the optimal
-coding strategy, this framework establishes the fundamental limits of
-explanation and identifies the optimal explanatory strategy.  The
+permanent.  The resolution is known.  As Heisenberg's uncertainty
+principle established that conjugate physical quantities cannot be
+simultaneously known, and Shannon's theorem established the fundamental
+limits of communication, this framework establishes the fundamental
+limits of explanation---with a quantitative tradeoff bound, a proved
+structural connection to quantum measurement uncertainty, and an optimal
+explanatory strategy.  The
 question for each domain is no longer ``how do we fix the instability?''\
 but ``which conclusions survive the resolution?''
 

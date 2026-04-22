@@ -173,7 +173,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (100~files, 491~theorems,
+The framework is mechanically verified in Lean~4 (101~files, 501~theorems,
 25~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -259,7 +259,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 100~files, 491~theorems, 25~axioms,
+    \citep{demoura2021lean4}: 101~files, 501~theorems, 25~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -1144,7 +1144,7 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 Component & Count & Notes \\
 \midrule
 Files & 100 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 491 & Verified by \texttt{grep -c} \\
+Theorems \& lemmas & 501 & Verified by \texttt{grep -c} \\
 Axioms & 25 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -1159,7 +1159,7 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \end{tabular}
 \end{table}
 
-Of the 491 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
+Of the 501 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
 
 \subsection{Axiom Stratification}
 \label{sec:axiom-stratification}
@@ -1629,6 +1629,44 @@ content that survives projection onto the invariant subspace.
 
 The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that this ratio predicts explanation instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.
 
+\paragraph{Uncertainty from symmetry: the representation-theoretic connection to quantum mechanics.}
+The $\eta$ law and quantum uncertainty both arise from the same representation-theoretic decomposition.  We state and prove the connection.
+
+\begin{theorem}[Uncertainty from symmetry]
+\label{thm:uncertainty-from-symmetry}
+Let $G$ be a finite group acting on a real inner product space $(V, \langle\cdot,\cdot\rangle)$ of dimension~$n$ by orthogonal representation $\rho : G \to O(V)$.  Let $R = |G|^{-1} \sum_{g \in G} \rho(g)$ be the Reynolds operator, and $k = \dim(V^G)$.  Then:
+\begin{enumerate}
+  \item[(i)] $R$ is the orthogonal projection onto $V^G$.
+  \item[(ii)] For any $v \in V$, $\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$ \emph{(Pythagorean decomposition)}.
+  \item[(iii)] For $v$ drawn uniformly from the unit sphere $S^{n-1}$, $\mathbb{E}[\|Rv\|^2] = k/n$ and $\mathbb{E}[\|v - Rv\|^2] = 1 - k/n = \eta$.
+  \item[(iv)] The minimum information loss of any $G$-invariant approximation is $\inf_{w \in V^G} \|v - w\|^2 = \|v - Rv\|^2$, and $\eta$ is its expected value.
+\end{enumerate}
+\end{theorem}
+
+\emph{Proof.}
+(i)~$R$ is a group average of orthogonal maps, hence self-adjoint ($\langle Rv, w\rangle = \langle v, Rw\rangle$) and idempotent ($R^2 = R$), so $R$ is an orthogonal projection.  Its image is $V^G$: if $Rv = v$ then $\rho(g)v = v$ for all $g$ (by averaging), and conversely every $G$-fixed vector is fixed by $R$.
+(ii)~Since $Rv \in V^G$ and $(v - Rv) \in (V^G)^\perp$ (because $R$ is an orthogonal projection), Pythagoras applies.
+(iii)~Let $\{e_1, \ldots, e_k\}$ be an orthonormal basis for $V^G$.  Then $\|Rv\|^2 = \sum_{i=1}^k \langle v, e_i\rangle^2$.  For $v$ uniform on $S^{n-1}$, $\mathbb{E}[\langle v, e_i\rangle^2] = 1/n$ for each $i$ (by rotational symmetry), so $\mathbb{E}[\|Rv\|^2] = k/n$.  Part~(ii) gives $\mathbb{E}[\|v - Rv\|^2] = 1 - k/n$.
+(iv)~$R$ is an orthogonal projection, so $Rv$ is the closest point in $V^G$ to $v$.  \hfill$\square$
+
+The theorem applies in two settings with identical algebraic content:
+
+\emph{Explanation setting.}  Let $v \in V$ be an explanation vector (e.g., a vector of SHAP values across features) and $G$ the symmetry group of equivalent configurations.  The orbit average $Rv$ is the stable explanation; the discarded component $(I - R)v$ lies in non-trivial irreducible representations of~$G$ and is unstable by construction.  The expected fraction of explanation content lost by stabilisation is $\eta = 1 - \dim(V^G)/\dim(V)$.  This is the $\eta$~law.
+
+\emph{Quantum setting.}  Let $V = \mathbb{C}^n$ with $G$ acting by unitary representation $U$, and let $T(\rho) = |G|^{-1} \sum_g U(g)\rho\, U(g)^\dagger$ be the quantum twirl (the density-matrix analogue of the Reynolds operator).  For a pure state $|\psi\rangle$ drawn uniformly (Haar measure), the expected probability of finding the system in the $G$-invariant sector is $\mathbb{E}[\langle\psi|P_{V^G}|\psi\rangle] = \dim(V^G)/\dim(V)$.  The complementary fraction $\eta$ bounds the information inaccessible to $G$-covariant measurements: the specific configuration within each non-trivial irreducible component cannot be distinguished by any measurement commuting with~$G$.
+
+\emph{The unification.}  The Reynolds operator (explanation) and the quantum twirl (quantum mechanics) are instances of the same algebraic structure---projection onto the trivial representation of $G$---applied to different spaces ($V$ for explanations, $L(H)$ for density matrices).  The formula $\eta = 1 - \dim(V^G)/\dim(V)$ governs both the explanation instability rate and the quantum information loss.  Stable explanatory facts correspond to trivial-representation components, just as quantum observables commuting with the symmetry correspond to $G$-invariant operators.
+
+The framework produces two distinct types of bound, playing different roles:
+
+\emph{The $\eta$~law as minimum cost theorem.}  The cost of stability is exactly $\eta$: the Reynolds projection loses precisely $1 - k/n$ of the expected squared norm.  This is not a tradeoff---it is a fixed price determined by the group structure, analogous to the zero-point energy of a quantum harmonic oscillator (a minimum cost of confinement, not a relation between conjugate variables).  The $\eta$~law is tight: equality holds in Theorem~\ref{thm:uncertainty-from-symmetry}(iii) by construction.
+
+\emph{The approximate bilemma as uncertainty relation.}  The approximate bilemma ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$) IS a genuine uncertainty relation: reducing unfaithfulness at one Rashomon witness forces increased unfaithfulness at the other.  This is structurally parallel to Heisenberg's relation ($\sigma_A \sigma_B \geq |\langle[A,B]\rangle|/2$)---both are lower bounds on complementary quantities that cannot be simultaneously minimised.  The approximate bilemma is tight when the explanation map places $E(\theta_1)$ and $E(\theta_2)$ on the geodesic between $\mathrm{exp}(\theta_1)$ and $\mathrm{exp}(\theta_2)$ with $\|E(\theta_1) - E(\theta_2)\| = \delta$; this occurs when the Rashomon witnesses are symmetric about $V^G$.
+
+Both bounds arise from the same representation-theoretic decomposition: the Pythagorean splitting $V = V^G \oplus (V^G)^\perp$ under the Reynolds operator.  The $\eta$~law governs the average case (expected loss over random explanations); the approximate bilemma governs the worst case (complementary loss at specific Rashomon pairs).  Together, they constitute a complete uncertainty framework for explanation under symmetry.
+
+\emph{Lean formalisation status.}  Theorem~\ref{thm:uncertainty-from-symmetry} is a standard result in representation theory; its application to the explanation--quantum connection is the contribution.  The individual components (Reynolds projection, Pythagorean decomposition, approximate bilemma) are Lean-verified in the companion repositories.  A unified Lean proof of the full theorem---including the quantum interpretation and the explicit connection between the two settings---is a natural next step.
+
 \paragraph{The deeper claim.}
 If the group-theoretic parameterization is correct in full generality, then
 the Explanation Impossibility is not a standalone theorem but the \emph{first
@@ -1685,6 +1723,39 @@ calibrated uncertainty are both achievable and informative.''
 
 What does this paper tell a working scientist?  For an ML practitioner: which SHAP comparisons to trust (SNR $> 2$) and which to discard (SNR $< 0.5$), computed from bootstrap retrains alone.  For a causal inference researcher: that ensemble averaging over the Rashomon set reduces orientation flip rates fourfold, following the same mechanism as DASH for attributions.  For a biologist: that the character-theoretic capacity $(k{-}1)/k$ serves as a neutral-evolution baseline from which deviations measure selective pressure.
 
+\subsection{Scope and Applicability Beyond Machine Learning}
+\label{sec:scope}
+
+The theorem applies to \emph{any} explanation of \emph{any} underspecified system.  The four empirical instances in the Nature paper (genomics, mechanistic interpretability, causal inference, neuroimaging) demonstrate the theorem in specific domains; the 14 cross-domain Lean instances (Arrow, Bell, G\"odel, gauge theory, statistical mechanics, genetic code, phase problem, QM interpretation, linguistics, value alignment, view-update, linear systems, and two scientific revolutions) prove the algebraic structure.  But the scope extends further.  The Rashomon property arises wherever multiple valid configurations of a system produce the same observables, which is the default condition in high-dimensional science.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Scope of the impossibility theorem beyond the four main instances.  Each row identifies a scientific domain, the source of the Rashomon property (what creates multiple valid configurations), and the form the resolution takes.}
+\label{tab:scope}
+\begin{tabular}{@{}p{2.5cm}p{4cm}p{4cm}p{3cm}@{}}
+\toprule
+\textbf{Domain} & \textbf{Source of Rashomon} & \textbf{What is unstable} & \textbf{Resolution form} \\
+\midrule
+Epidemiology & Correlated risk factors (smoking, diet, alcohol, exercise) & Which factor is ``the'' cause of disease & Report attributable fractions with stability bounds \\[4pt]
+Climate science & Multiple valid GCMs fit the same temperature record & Which feedback drives warming (clouds, albedo, ocean) & Multi-model ensemble (CMIP) \\[4pt]
+Economics & Multiple valid macroeconomic models & Which policy lever explains GDP change & Bayesian model averaging \\[4pt]
+Ecology & Correlated environmental variables & Which variable drives species distribution & Ensemble species distribution models \\[4pt]
+Pharmacology & Correlated molecular targets & Which pathway mediates drug effect & Pathway-level (not target-level) analysis \\[4pt]
+Forensics & Multiple valid statistical models of evidence & Strength of evidence attribution & Likelihood ratio over model space \\[4pt]
+Social science & Researcher degrees of freedom & Which specification produces significance & Multi-analyst studies \\[4pt]
+Psychology & Garden of forking paths & Which analysis yields the effect & Pre-registration $+$ multiverse analysis \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In each domain, the pattern is identical: (1)~correlated variables or underdetermined models create the Rashomon property; (2)~the specific explanation (which gene, which circuit, which risk factor, which feedback mechanism) depends on the particular model or analysis pipeline; (3)~the resolution involves some form of averaging, ensembling, or abstraction to a coarser level where the instability vanishes.  The theorem proves that step~(3) is not a methodological preference but the unique Pareto-optimal response to a structural constraint.
+
+\paragraph{The theorem as an uncertainty principle for scientific explanation.}
+The Uncertainty from Symmetry theorem (Section~\ref{sec:group-classification}) formalises this scope.  For any system with symmetry group~$G$, the fraction of explanatory content that is stable equals $\dim(V^G)/\dim(V)$, and the complementary fraction $\eta = 1 - \dim(V^G)/\dim(V)$ is irretrievably lost by any stable method.  This is not specific to ML explanations, SHAP values, or feature importance.  It applies to any vector-valued description of any system with a symmetry group---physical, biological, economic, or social.  The approximate bilemma ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$) provides the corresponding uncertainty relation: reducing unfaithfulness at one configuration forces increased unfaithfulness at another, with a lower bound determined by the system's structure.
+
+The practical consequence for working scientists in \emph{any} field: if your system has correlated explanatory variables, the specific attribution you report (which variable is most important, which mechanism is primary) is not a stable property of the data.  It is a joint property of the data and the particular model or analysis pipeline.  The stable content---what survives averaging over valid pipelines---is at a coarser level (variable groups, pathway classes, mechanism families).  The theorem identifies exactly what that coarser level is ($V^G$, the symmetry-invariant subspace) and proves the orbit average is the optimal way to access it.
+
 \subsection[The Isn't This Obvious Defense]{The ``Isn't This Obvious?'' Defense}
 \label{sec:obvious}
 
@@ -1693,7 +1764,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 100~files, 491~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 101~files, 501~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -2020,6 +2091,9 @@ This is a shared \emph{pattern} --- both produce impossibility at every level wi
 
 \paragraph{Tarski undefinability as alternative parallel.}
 Tarski's undefinability theorem may provide a tighter parallel than G\"odel's incompleteness for the enrichment stack. Tarski shows that truth for a language cannot be defined within that language, forcing ascent to a metalanguage---which faces the same limitation. This hierarchy (object language $\to$ metalanguage $\to$ meta-metalanguage $\to \cdots$) is structurally closer to the enrichment stack ($H_0 \to H_1 \to H_2 \to \cdots$) than G\"odel's self-referential diagonal construction. We retain \texttt{RecursiveImpossibility} as capturing the shared \emph{consequence} (impossibility at every level with unbounded depth) while acknowledging that the \emph{mechanisms} differ: G\"odel uses diagonalisation, Tarski uses definability ascent, and the trilemma uses enrichment.
+
+\paragraph{The Galois analogy.}
+The enrichment stack mirrors the algebraic structure of a tower of field extensions in Galois theory.  The correspondence: the explanation space~$\sH$ plays the role of a field~$F$; the coverage conflict (no neutral element) is an irreducible polynomial (no root); adding a neutral element is adjoining a root; the enriched space~$\sH'$ is the extension~$F(\alpha)$; new impossibility at the next level corresponds to new irreducible polynomials over~$F(\alpha)$.  The \texttt{infiniteStack\_independence} theorem (level~$k$ enrichment gives zero information about level~$k+1$) is the analogue of linear disjointness of extensions, and the unbounded depth of the stack corresponds to the algebraic closure being infinite-dimensional.  This parallel is structural (the proved independence matches linear disjointness) but not yet formalised as a functor; the full Galois correspondence---degree bounds, automorphism groups, obstruction theory---is a separate direction.
 
 \paragraph{Unification consequence.}
 If the enrichment stack continues to arbitrary depth, any unified framework (one that resolves the bilemma at every level) must sacrifice decisiveness at every level---an infinite hierarchy of indeterminacies. This is a structural analogue of the observation that no finite extension of Peano arithmetic can prove all arithmetic truths. Whether the physical stack extends beyond depth~3 is an empirical question.
@@ -3621,7 +3695,7 @@ Prior work on axiom independence for Arrow's theorem (Blau 1972, Wilson 1972) es
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 100 files in
+formalization.  The complete codebase comprises 101 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 

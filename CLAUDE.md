@@ -163,8 +163,8 @@ UniversalImpossibility/
   UnfaithfulQuantitative.lean   — Quantitative unfaithfulness
   VarianceDerivation.lean       — Variance derivation from axioms
 paper/
-  nature_article.tex            — Nature submission (~2500 words)
-  universal_impossibility_monograph.tex — Definitive arXiv version (3700 lines)
+  nature_article.tex            — Nature submission (~2650 words)
+  universal_impossibility_monograph.tex — Definitive arXiv version (~4400 lines)
   universal_impossibility_jmlr.tex — JMLR submission
   universal_impossibility_neurips.tex — NeurIPS 2026 version
   supplementary_information.tex — Supplementary Information
@@ -178,7 +178,7 @@ knockout-experiments/           — Empirical validation (90+ scripts, 80+ resul
   PRE_REGISTRATION.md           — Pre-registered predictions
 ```
 
-## Lean State: 100 files, 25 axioms, 491 theorems+lemmas, 0 sorry
+## Lean State: 101 files, 25 axioms, 501 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (25 total)
 
@@ -260,7 +260,7 @@ Four papers forming a layered publication strategy:
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 491)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 501)
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.

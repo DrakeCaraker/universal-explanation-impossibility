@@ -1,7 +1,11 @@
 # Handoff: Nature Paper Rewrite Session
 
 **Date:** 2026-04-20
-**Status:** Paper needs major rewrite. New data from three sessions (brain imaging, attribution NeurIPS, MI v2) transforms the paper's structure.
+**Status:** COMPLETED. The rewrite was executed in the session of 2026-04-20/21. The Nature paper (`paper/nature_article.tex`, 729 lines) now incorporates all four instances, the tightness classification of 20 impossibilities, the recursive resolution paragraph, and the Duhem-Quine/Shannon/structural realism framing. The content below is the original handoff; retained for provenance.
+
+---
+
+*Original handoff (superseded):*
 
 ## The Current State
 
