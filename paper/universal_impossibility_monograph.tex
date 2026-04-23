@@ -3105,7 +3105,7 @@ The DASH ensemble average (mean SHAP across 50 models) places both TSPAN8 and CE
 \subsection{Mechanistic Interpretability: Circuit-Level Rashomon}
 \label{sec:mi-v2}
 
-Mechanistic interpretability seeks to reverse-engineer neural networks into human-readable circuits.  The impossibility theorem predicts that circuit-level explanations are subject to the same instability as feature attributions when the network architecture admits permutation symmetries.
+Mechanistic interpretability seeks to reverse-engineer neural networks into human-readable circuits.  Prior work has shown qualitatively that networks trained from different random initialisations develop different internal representations and circuits~\citep{chughtai2023toy}.  The impossibility theorem predicts that circuit-level explanations are subject to the same instability as feature attributions when the network architecture admits permutation symmetries; here we quantify the disagreement and resolve it via the $G$-invariant projection.
 
 \paragraph{Experimental design.}
 We trained 10 two-layer transformers (4 heads per layer, $d_{\mathrm{model}} = 128$) from independent random initialisations on modular addition $(a + b) \bmod 113$.  All 10 models ``grokked'' to 100\% test accuracy after 50{,}000 training steps with weight decay 1.0.  Circuit importance was measured via activation patching: for each of 10 components (8 attention heads + 2 MLPs), we replaced the component's output with its mean activation and measured the resulting accuracy drop.  The within-model determinism control confirmed near-perfect reproducibility ($r = 0.9998$).

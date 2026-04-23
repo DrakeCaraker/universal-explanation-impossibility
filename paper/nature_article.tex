@@ -139,11 +139,14 @@ across equivalent configurations), and decisive (commit to a specific
 answer).  The limits of explanation are structural, not
 methodological---and the resolution these communities discovered is the
 unique optimal response.  Prior work has documented this instability
-empirically~\citep{krishna2022disagreement} and proved special cases for
-Shapley-based methods~\citep{bilodeau2024impossibility}; here we prove
-the general impossibility for \emph{any} explanation type, characterise
-the complete design space, and show that the same structure governs four
-high-stakes domains (Fig.~\ref{fig:1}).  The proof is verified in
+empirically~\citep{krishna2022disagreement}, characterised importance
+ranges across the Rashomon set~\citep{fisher2019models},
+identified underspecification as a systemic
+challenge~\citep{damour2022underspecification}, and proved special cases
+for Shapley-based methods~\citep{bilodeau2024impossibility}; here we
+prove the general impossibility for \emph{any} explanation type,
+characterise the complete design space, and show that the same structure
+governs four high-stakes domains (Fig.~\ref{fig:1}).  The proof is verified in
 Lean~4 with zero domain-specific axioms.  A strengthened form---the
 bilemma---shows that for binary explanations (significant or not,
 positive or negative), even faithful and stable together are impossible.
@@ -275,12 +278,16 @@ both contribute without privileging either.
 
 Ten two-layer transformers (4 heads/layer, $d = 128$) trained from
 independent random initialisations on $(a + b) \bmod 113$ all grok to
-100\% test accuracy~\citep{nanda2023progress}.  Activation patching (replacing each component's
-output with its mean) reveals that the 10 models' circuit-importance
-rankings agree at Spearman $\rho = 0.518$---and two models identify
-anti-correlated circuits.  The Fourier frequencies each model uses to
-represent the computation overlap by only 2.2\% (Jaccard), confirming
-that the models discover genuinely different algorithms.
+100\% test accuracy~\citep{nanda2023progress}.  Prior work has shown
+qualitatively that networks trained from different initialisations
+develop different internal representations~\citep{chughtai2023toy};
+here we quantify the disagreement and resolve it.  Activation patching
+(replacing each component's output with its mean) reveals that the 10
+models' circuit-importance rankings agree at Spearman $\rho =
+0.518$---and two models identify anti-correlated circuits.  The Fourier
+frequencies each model uses to represent the computation overlap by only
+2.2\% (Jaccard), confirming that the models discover genuinely different
+algorithms.
 
 Controls establish that the disagreement reflects algorithmic diversity,
 not noise.  Random-initialisation models ($< 1$\% accuracy) agree at
