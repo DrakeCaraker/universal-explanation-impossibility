@@ -8,7 +8,7 @@ This repository contains the Lean 4 formalization, empirical experiments, and pa
 
 ## The Papers
 
-### Nature Article (`paper/nature_article.tex`)
+### Main Article (`paper/nature_article.tex`)
 
 The flagship paper. Proves the impossibility from first principles, demonstrates it in four empirical domains, identifies the unique optimal resolution, and classifies 20 impossibility theorems from 12 domains by structural type.
 
@@ -41,9 +41,9 @@ Full details for all experiments and domain instances referenced in the Nature p
 - Classification of impossibility theorems (evidence tiers, caveats)
 - Approximate Rashomon extension (ε-stability)
 
-### arXiv Monograph (`paper/universal_impossibility_monograph.tex`)
+### Monograph (`paper/universal_impossibility_monograph.tex`)
 
-The definitive technical reference (~4,400 lines). Contains everything in the Nature paper and supplement plus:
+The definitive technical reference (~4,400 lines). Contains everything in the main article and supplement plus:
 
 - Complete abstract framework with all definitions and proof details
 - Full tightness analysis with constructive witnesses for all property pairs
@@ -187,8 +187,8 @@ UniversalImpossibility/           # Lean 4 source (101 files)
   ...                             # 9 ML + 14 cross-domain instances
 
 paper/
-  nature_article.tex              # Nature submission (~2700 words)
-  supplementary_information.tex   # Supplementary Information (13 sections)
+  nature_article.tex              # Main article (~2700 words)
+  supplementary_information.tex   # Supplement (13 sections)
   universal_impossibility_monograph.tex  # arXiv monograph (~4400 lines)
   references.bib                  # References
   figures/                        # Publication-quality figures
@@ -216,17 +216,15 @@ docs/                             # Documentation + handoffs
 | Lean theorems (total) | 1,115 across 3 repos | 0 sorry |
 | Falsified predictions | 5 of 8 pre-registered | Honest reporting |
 
-## Paper Versions
+## Related Papers
 
-| Paper | File | Venue | Status |
-|-------|------|-------|--------|
-| **The Limits of Explanation** | `paper/nature_article.tex` | Nature | Ready for submission |
-| Supplementary Information | `paper/supplementary_information.tex` | Nature (SI) | Ready |
-| Universal Impossibility Monograph | `paper/universal_impossibility_monograph.tex` | arXiv | Ready (definitive reference) |
-| The Attribution Impossibility | In [dash-shap](https://github.com/DrakeCaraker/dash-shap) repo | NeurIPS 2026 | Abstract May 4 |
-| Ostrowski Impossibility (FoP) | In [ostrowski-impossibility](https://github.com/DrakeCaraker/ostrowski-impossibility) repo | Foundations of Physics | Submission-ready (21/21 Accept) |
+| Paper | Location |
+|-------|----------|
+| **The Limits of Explanation** (main article + SI) | `paper/nature_article.tex`, `paper/supplementary_information.tex` |
+| Universal Impossibility Monograph | `paper/universal_impossibility_monograph.tex` |
+| The Attribution Impossibility | [dash-shap](https://github.com/DrakeCaraker/dash-shap) repo |
+| Ostrowski Impossibility | [ostrowski-impossibility](https://github.com/DrakeCaraker/ostrowski-impossibility) repo |
 
-**Title:** "The Limits of Explanation"
 **Authors:** Drake Caraker, Bryan Arnold, David Rhoads
 
 ## Citation
@@ -235,9 +233,8 @@ docs/                             # Documentation + handoffs
 @article{caraker2026limits,
   author  = {Caraker, Drake and Arnold, Bryan and Rhoads, David},
   title   = {The Limits of Explanation},
-  journal = {Nature},
   year    = {2026},
-  note    = {Under review. Lean 4 formalization: 1,115 theorems, 0 sorry}
+  note    = {Lean 4 formalization: 1,115 theorems, 0 sorry}
 }
 ```
 
