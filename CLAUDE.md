@@ -10,7 +10,7 @@ A strengthened form, the **bilemma** (`MaximalIncompatibility.lean`), shows that
 
 This is a **meta-theorem**: it applies uniformly to 9 ML explanation types — additive attributions (SHAP, IG, LIME), attention maps, counterfactual explanations, concept probes (TCAV), causal discovery (DAGs), model selection, saliency maps (GradCAM), LLM self-explanations, and mechanistic interpretability — and 14 cross-domain instances (Arrow's theorem, quantum contextuality, Duhem-Quine, gauge theory, statistical mechanics, genetic code, phase problem, QM interpretation, syntactic ambiguity, value alignment, view-update, linear systems, quantum measurement revolution, simultaneity revolution).
 
-Model-specific instantiations from the companion attribution paper: GBDT has ratio 1/(1-ρ²) → ∞, Lasso has ratio ∞, neural nets have conditional violations, and random forests have bounded O(1/√T) violations. DASH (ensemble averaging) resolves the impossibility for balanced ensembles.
+Model-specific instantiations from the companion attribution paper: GBDT has ratio 1/(1-ρ²) → ∞, Lasso has ratio ∞, neural nets have conditional violations, and random forests have bounded O(1/√T) violations. DASH (Diversified Aggregation for Stable Hypotheses; ensemble averaging) resolves the impossibility for balanced ensembles.
 
 ## Architecture
 

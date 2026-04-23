@@ -54,7 +54,7 @@ For SHAP attributions with G = S₃ acting on features {3, 7, 12}:
 
 $$\bar{\varphi}_3 = \bar{\varphi}_7 = \bar{\varphi}_{12} = \frac{\varphi_3 + \varphi_7 + \varphi_{12}}{3}$$
 
-The three features get the same averaged attribution. This is what we call **DASH** (Diversified Aggregation of SHAP): train M models with different seeds, average their SHAP values. Within each correlation group, the averaged values converge to a common value — a "tie."
+The three features get the same averaged attribution. This is what we call **DASH** (Diversified Aggregation for Stable Hypotheses): train M models with different seeds, average their SHAP values. Within each correlation group, the averaged values converge to a common value — a "tie."
 
 ### Why it's optimal
 
