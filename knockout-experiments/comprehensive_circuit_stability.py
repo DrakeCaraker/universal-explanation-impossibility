@@ -445,8 +445,43 @@ def measure_importance_hf(model, val_data, cfg):
 
 
 # =========================================================================
+# Split-Half Reliability Control
+# =========================================================================
+
+def split_half_reliability(model, val_data, cfg, is_finetune):
+    """Measure importance on two non-overlapping halves of val_data.
+    If within-model split-half r >> between-model r, the disagreement
+    is genuine Rashomon, not measurement noise."""
+    n_half = min(len(val_data), N_PATCH_EXAMPLES) // 2
+    half1 = val_data[:n_half]
+    half2 = val_data[n_half:2*n_half]
+    if is_finetune:
+        imp1, _ = measure_importance_hf(model, half1, cfg)
+        imp2, _ = measure_importance_hf(model, half2, cfg)
+    else:
+        imp1, _ = measure_importance_custom(model, half1, cfg)
+        imp2, _ = measure_importance_custom(model, half2, cfg)
+    r, _ = pearsonr(imp1, imp2)
+    rho, _ = spearmanr(imp1, imp2)
+    return r, rho
+
+
+# =========================================================================
 # Analysis (reusable across configs)
 # =========================================================================
+
+def bootstrap_ci(values, n_boot=2000, ci=0.95):
+    """Bootstrap 95% CI for the mean of a list of values."""
+    values = np.array(values)
+    boot_means = []
+    for _ in range(n_boot):
+        sample = np.random.choice(values, size=len(values), replace=True)
+        boot_means.append(np.mean(sample))
+    boot_means = np.sort(boot_means)
+    lo = boot_means[int((1 - ci) / 2 * n_boot)]
+    hi = boot_means[int((1 + ci) / 2 * n_boot)]
+    return lo, hi
+
 
 def g_invariant_projection(importance_vectors, nl, nh):
     n = len(importance_vectors)
@@ -457,6 +492,22 @@ def g_invariant_projection(importance_vectors, nl, nh):
             proj[i, l] = np.mean(imp[l*nh:(l+1)*nh])
             proj[i, nl + l] = imp[nl*nh + l]
     return proj
+
+
+def random_projection_control_heads_only(importance_vectors, nl, nh, n_trials=200):
+    """Random projection on heads only: nl*nh dims → nl dims.
+    Tests whether the heads-only lift is from symmetry averaging
+    specifically, not just any dimensionality reduction."""
+    head_vecs = [imp[:nl*nh] for imp in importance_vectors]
+    rhos = []
+    for _ in range(n_trials):
+        M = np.random.randn(nl * nh, nl)
+        M, _ = np.linalg.qr(M)
+        projected = np.array([hv @ M for hv in head_vecs])
+        trial_rhos = [spearmanr(projected[i], projected[j])[0]
+                      for i, j in combinations(range(len(importance_vectors)), 2)]
+        rhos.append(np.mean(trial_rhos))
+    return np.array(rhos)
 
 
 def random_projection_control(importance_vectors, n_comp, target_dim, n_trials=200):
@@ -515,8 +566,9 @@ def compute_flip_rates(importance_vectors, nl, nh):
     return np.array(within), np.array(between), np.array(cross_layer)
 
 
-def run_analysis(all_importance, all_ppl, cfg):
-    """Run full analysis for one config."""
+def run_analysis(all_importance, all_ppl, cfg, split_half_r=None):
+    """Run full analysis for one config. Bulletproof version with CIs,
+    corrected Mann-Whitney, heads-only random projection, and split-half."""
     nl, nh = cfg['n_layers'], cfg['n_heads']
     n_comp = nl * nh + nl
     n_inv = nl * 2
@@ -526,68 +578,120 @@ def run_analysis(all_importance, all_ppl, cfg):
     print(f"\n{'='*60}")
     print(f"ANALYSIS: {cfg['name']}")
     print(f"Components={n_comp}, Invariant={n_inv}, η={eta_pred:.3f}")
+    print(f"Ablation method: weight zeroing (Q/K/V for heads, fc1 for MLPs)")
     print(f"{'='*60}")
 
     # Perplexity
     ppl_cv = np.std(all_ppl) / np.mean(all_ppl) * 100
     print(f"\nPerplexity: mean={np.mean(all_ppl):.1f}, CV={ppl_cv:.1f}%")
 
-    # Full agreement
-    full_rhos = [spearmanr(all_importance[i], all_importance[j])[0]
-                 for i, j in combinations(range(n_models), 2)]
-    full_rhos = np.array(full_rhos)
-    full_pearson = [pearsonr(all_importance[i], all_importance[j])[0]
-                    for i, j in combinations(range(n_models), 2)]
-    print(f"Full {n_comp}-dim:  ρ={np.mean(full_rhos):.3f} [{np.min(full_rhos):.3f}, {np.max(full_rhos):.3f}]")
+    # Split-half reliability
+    if split_half_r is not None:
+        print(f"Split-half reliability (model 0): Pearson={split_half_r[0]:.4f}, Spearman={split_half_r[1]:.4f}")
+        print(f"  (If this >> between-model agreement, disagreement is genuine Rashomon)")
 
-    # G-invariant
+    # Full agreement with bootstrap CI
+    full_rhos = np.array([spearmanr(all_importance[i], all_importance[j])[0]
+                          for i, j in combinations(range(n_models), 2)])
+    full_pearson = np.array([pearsonr(all_importance[i], all_importance[j])[0]
+                             for i, j in combinations(range(n_models), 2)])
+    full_ci = bootstrap_ci(full_rhos)
+    print(f"\nFull {n_comp}-dim:  ρ={np.mean(full_rhos):.3f} "
+          f"[95% CI: {full_ci[0]:.3f}, {full_ci[1]:.3f}]")
+
+    # G-invariant with bootstrap CI
     projected = g_invariant_projection(all_importance, nl, nh)
-    proj_rhos = [spearmanr(projected[i], projected[j])[0]
-                 for i, j in combinations(range(n_models), 2)]
-    proj_rhos = np.array(proj_rhos)
-    proj_pearson = [pearsonr(projected[i], projected[j])[0]
-                    for i, j in combinations(range(n_models), 2)]
-    print(f"G-inv {n_inv}-dim:  ρ={np.mean(proj_rhos):.3f} [{np.min(proj_rhos):.3f}, {np.max(proj_rhos):.3f}]")
+    proj_rhos = np.array([spearmanr(projected[i], projected[j])[0]
+                          for i, j in combinations(range(n_models), 2)])
+    proj_pearson = np.array([pearsonr(projected[i], projected[j])[0]
+                             for i, j in combinations(range(n_models), 2)])
+    proj_ci = bootstrap_ci(proj_rhos)
+    print(f"G-inv {n_inv}-dim:  ρ={np.mean(proj_rhos):.3f} "
+          f"[95% CI: {proj_ci[0]:.3f}, {proj_ci[1]:.3f}]")
     print(f"LIFT: {np.mean(full_rhos):.3f} → {np.mean(proj_rhos):.3f}")
 
-    # Excl-MLP (heads only)
+    # Excl-MLP (heads only) with bootstrap CI
     heads_only = projected[:, :nl]
-    heads_only_rhos = [spearmanr(heads_only[i], heads_only[j])[0]
-                       for i, j in combinations(range(n_models), 2)]
-    heads_only_rhos = np.array(heads_only_rhos)
-    heads_raw_rhos = [spearmanr(all_importance[i][:nl*nh], all_importance[j][:nl*nh])[0]
-                      for i, j in combinations(range(n_models), 2)]
-    heads_raw_rhos = np.array(heads_raw_rhos)
+    heads_only_rhos = np.array([spearmanr(heads_only[i], heads_only[j])[0]
+                                for i, j in combinations(range(n_models), 2)])
+    heads_raw_rhos = np.array([spearmanr(all_importance[i][:nl*nh], all_importance[j][:nl*nh])[0]
+                               for i, j in combinations(range(n_models), 2)])
     head_lift = np.mean(heads_only_rhos) - np.mean(heads_raw_rhos)
-    print(f"Heads raw {nl*nh}-dim: ρ={np.mean(heads_raw_rhos):.3f}")
-    print(f"Heads avg {nl}-dim:    ρ={np.mean(heads_only_rhos):.3f}")
+    heads_raw_ci = bootstrap_ci(heads_raw_rhos)
+    heads_avg_ci = bootstrap_ci(heads_only_rhos)
+    print(f"Heads raw {nl*nh}-dim: ρ={np.mean(heads_raw_rhos):.3f} "
+          f"[95% CI: {heads_raw_ci[0]:.3f}, {heads_raw_ci[1]:.3f}]")
+    print(f"Heads avg {nl}-dim:    ρ={np.mean(heads_only_rhos):.3f} "
+          f"[95% CI: {heads_avg_ci[0]:.3f}, {heads_avg_ci[1]:.3f}]")
     print(f"Head lift: {head_lift:.3f}")
 
-    # Pearson/Spearman
+    # Pearson/Spearman divergence
     print(f"Full Pearson={np.mean(full_pearson):.3f}, Spearman={np.mean(full_rhos):.3f}")
+    print(f"  (Divergence = magnitude stable, rankings unstable — theorem prediction)")
 
-    # Random projection
+    # Random projection on FULL vector
     rand_rhos = random_projection_control(all_importance, n_comp, n_inv)
-    print(f"Random proj: ρ={np.mean(rand_rhos):.3f}±{np.std(rand_rhos):.3f}")
+    print(f"\nRandom proj (full, {n_comp}→{n_inv}): ρ={np.mean(rand_rhos):.3f}±{np.std(rand_rhos):.3f}")
+    print(f"  G-invariant: ρ={np.mean(proj_rhos):.3f}  "
+          f"(percentile: {np.mean(rand_rhos < np.mean(proj_rhos))*100:.0f}%)")
+
+    # Random projection on HEADS ONLY (critical control for MLP confound)
+    rand_heads_rhos = random_projection_control_heads_only(all_importance, nl, nh)
+    print(f"Random proj (heads, {nl*nh}→{nl}): ρ={np.mean(rand_heads_rhos):.3f}±{np.std(rand_heads_rhos):.3f}")
+    print(f"  Mean-head proj: ρ={np.mean(heads_only_rhos):.3f}  "
+          f"(percentile: {np.mean(rand_heads_rhos < np.mean(heads_only_rhos))*100:.0f}%)")
 
     # Permutation test
     actual_mean, perm_dist, perm_p = permutation_test(all_importance, nl, nh)
-    print(f"Permutation test: actual={actual_mean:.3f}, null={np.mean(perm_dist):.3f}, p={perm_p:.4f}")
+    print(f"\nPermutation test: actual={actual_mean:.3f}, null={np.mean(perm_dist):.3f}±{np.std(perm_dist):.3f}, p={perm_p:.4f}")
 
-    # Flip rates
+    # Flip rates with bootstrap CIs
     within, between, cross = compute_flip_rates(all_importance, nl, nh)
     w_rate, b_rate, c_rate = np.mean(within), np.mean(between), np.mean(cross)
+    w_ci = bootstrap_ci(within)
+    b_ci = bootstrap_ci(between)
     print(f"\nFlip rates:")
-    print(f"  Within-layer: {w_rate:.3f} (predicted ~0.500)")
+    print(f"  Within-layer: {w_rate:.3f} [95% CI: {w_ci[0]:.3f}, {w_ci[1]:.3f}] (predicted ~0.500)")
     print(f"  Cross-layer:  {c_rate:.3f}")
-    print(f"  Head-vs-MLP:  {b_rate:.3f} (predicted ~0.000)")
+    print(f"  Head-vs-MLP:  {b_rate:.3f} [95% CI: {b_ci[0]:.3f}, {b_ci[1]:.3f}] (predicted ~0.000)")
 
-    mw_p = None
-    if len(within) > 0 and len(between) > 0:
-        try:
-            _, mw_p = mannwhitneyu(within, between, alternative='greater')
-            print(f"  Mann-Whitney p={mw_p:.2e}")
-        except: pass
+    # CORRECTED Mann-Whitney: aggregate by model pair first
+    # Each model pair gets ONE mean-within and ONE mean-between flip rate
+    pair_within_rates = []
+    pair_between_rates = []
+    for m1, m2 in combinations(range(n_models), 2):
+        i1, i2 = all_importance[m1], all_importance[m2]
+        pw, pb = [], []
+        for l in range(nl):
+            for h1 in range(nh):
+                for h2 in range(h1+1, nh):
+                    a, b = l*nh+h1, l*nh+h2
+                    pw.append(int((i1[a]>i1[b]) != (i2[a]>i2[b])))
+            mlp = nl*nh + l
+            for h in range(nh):
+                idx = l*nh + h
+                pb.append(int((i1[idx]>i1[mlp]) != (i2[idx]>i2[mlp])))
+        pair_within_rates.append(np.mean(pw))
+        pair_between_rates.append(np.mean(pb))
+
+    mw_p_corrected = None
+    try:
+        _, mw_p_corrected = mannwhitneyu(pair_within_rates, pair_between_rates, alternative='greater')
+        print(f"  Mann-Whitney (pair-aggregated, n={len(pair_within_rates)} pairs): p={mw_p_corrected:.2e}")
+    except Exception as e:
+        print(f"  Mann-Whitney: {e}")
+
+    # Cohen's d for flip rate gap
+    if len(pair_within_rates) > 1 and len(pair_between_rates) > 1:
+        pooled_std = np.sqrt((np.var(pair_within_rates) + np.var(pair_between_rates)) / 2)
+        if pooled_std > 0:
+            cohens_d = (np.mean(pair_within_rates) - np.mean(pair_between_rates)) / pooled_std
+            print(f"  Cohen's d (pair-aggregated): {cohens_d:.2f}")
+        else:
+            cohens_d = float('inf')
+            print(f"  Cohen's d: inf (zero variance in between-group)")
+    else:
+        cohens_d = None
 
     # Pre-registered checks
     checks = {
@@ -609,22 +713,40 @@ def run_analysis(all_importance, all_ppl, cfg):
         'n_components': n_comp,
         'n_invariant': n_inv,
         'eta_predicted': eta_pred,
+        'ablation_method': 'weight_zeroing',
         'pre_registered': checks,
         'perplexity': {'mean': float(np.mean(all_ppl)), 'cv_pct': float(ppl_cv),
                        'per_model': [float(x) for x in all_ppl]},
+        'split_half_reliability': {'pearson': float(split_half_r[0]),
+                                   'spearman': float(split_half_r[1])} if split_half_r else None,
         'full_agreement': {'mean_spearman': float(np.mean(full_rhos)),
+                           'ci_95': [float(full_ci[0]), float(full_ci[1])],
                            'mean_pearson': float(np.mean(full_pearson)),
                            'all_spearman': [float(x) for x in full_rhos]},
         'g_invariant': {'mean_spearman': float(np.mean(proj_rhos)),
+                        'ci_95': [float(proj_ci[0]), float(proj_ci[1])],
                         'mean_pearson': float(np.mean(proj_pearson))},
         'excl_mlp': {'heads_raw_rho': float(np.mean(heads_raw_rhos)),
+                     'heads_raw_ci_95': [float(heads_raw_ci[0]), float(heads_raw_ci[1])],
                      'heads_avg_rho': float(np.mean(heads_only_rhos)),
+                     'heads_avg_ci_95': [float(heads_avg_ci[0]), float(heads_avg_ci[1])],
                      'head_lift': float(head_lift)},
-        'random_projection': {'mean': float(np.mean(rand_rhos)), 'std': float(np.std(rand_rhos))},
+        'random_projection_full': {'mean': float(np.mean(rand_rhos)),
+                                   'std': float(np.std(rand_rhos)),
+                                   'ginv_percentile': float(np.mean(rand_rhos < np.mean(proj_rhos))*100)},
+        'random_projection_heads': {'mean': float(np.mean(rand_heads_rhos)),
+                                    'std': float(np.std(rand_heads_rhos)),
+                                    'meanhead_percentile': float(np.mean(rand_heads_rhos < np.mean(heads_only_rhos))*100)},
         'permutation_test': {'actual': float(actual_mean), 'null_mean': float(np.mean(perm_dist)),
-                             'p_value': float(perm_p)},
-        'flip_rates': {'within_layer': float(w_rate), 'cross_layer': float(c_rate),
-                       'head_vs_mlp': float(b_rate), 'mann_whitney_p': float(mw_p) if mw_p else None},
+                             'null_std': float(np.std(perm_dist)), 'p_value': float(perm_p)},
+        'flip_rates': {
+            'within_layer': float(w_rate), 'within_ci_95': [float(w_ci[0]), float(w_ci[1])],
+            'cross_layer': float(c_rate),
+            'head_vs_mlp': float(b_rate), 'between_ci_95': [float(b_ci[0]), float(b_ci[1])],
+            'mann_whitney_p_corrected': float(mw_p_corrected) if mw_p_corrected else None,
+            'cohens_d': float(cohens_d) if cohens_d else None,
+            'note': 'Mann-Whitney aggregated by model pair (corrected for non-independence)',
+        },
         'importance_vectors': [imp.tolist() for imp in all_importance],
     }
     return results
@@ -664,6 +786,7 @@ def main():
         is_finetune = cfg.get('finetune', False)
         all_importance = []
         all_ppl = []
+        sh_reliability = None  # split-half reliability
 
         for seed in range(cfg['n_models']):
             model_path = model_dir / f'model_seed{seed}.pt'
@@ -689,7 +812,7 @@ def main():
 
             all_ppl.append(ppl)
 
-            # Determinism check (first model)
+            # First model: determinism check + split-half reliability
             if seed == 0:
                 if is_finetune:
                     imp1, _ = measure_importance_hf(model, val_data, cfg)
@@ -699,6 +822,11 @@ def main():
                     imp2, _ = measure_importance_custom(model, val_data, cfg)
                 det_r, _ = pearsonr(imp1, imp2)
                 print(f"  Determinism: r={det_r:.6f}")
+
+                # Split-half reliability
+                sh_r, sh_rho = split_half_reliability(model, val_data, cfg, is_finetune)
+                sh_reliability = (sh_r, sh_rho)
+                print(f"  Split-half reliability: Pearson={sh_r:.4f}, Spearman={sh_rho:.4f}")
 
             # Measure importance
             print(f"  Measuring {cfg['n_layers']*cfg['n_heads']+cfg['n_layers']} components...")
@@ -721,7 +849,7 @@ def main():
             if DEVICE == 'cuda': torch.cuda.empty_cache()
 
         all_importance = np.array(all_importance)
-        results = run_analysis(all_importance, all_ppl, cfg)
+        results = run_analysis(all_importance, all_ppl, cfg, split_half_r=sh_reliability)
         all_results[config_key] = results
 
         # Save per-config
@@ -751,6 +879,16 @@ def main():
                   f"{r['flip_rates']['within_layer']:>8.3f} "
                   f"{r['flip_rates']['head_vs_mlp']:>8.3f} "
                   f"{n_pass}/{n_total:>4}")
+
+        # Config C boundary condition
+        if 'C' in all_results:
+            rc = all_results['C']
+            if rc['full_agreement']['mean_spearman'] > 0.70:
+                print(f"\n  NOTE: Config C (GPT-2 fine-tune) shows full ρ > 0.70.")
+                print(f"  This is expected: fine-tuning from the same pretrained checkpoint")
+                print(f"  creates less circuit diversity than training from scratch.")
+                print(f"  The Rashomon set is smaller. The theorem still applies —")
+                print(f"  the G-invariant lift should still be present, just from a higher baseline.")
 
         # η rank-order test
         eta_preds = [all_results[k]['eta_predicted'] for k in sorted(all_results.keys())]
