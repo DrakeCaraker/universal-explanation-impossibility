@@ -193,6 +193,31 @@ Cohen's $d$: post vs.\ random = 0.76 (medium-large); memorised vs.\ post = 0.58 
 
 $\eta = \dim(V^G)/\dim(V) = 4/10 = 0.40$. The $\eta$ formula predicts instability $= 1 - \eta = 0.60$. Observed flip rate = 0.300. The discrepancy is reconciled by the Noether decomposition: overall flip rate $= (12/45) \times 0.500 + (33/45) \times 0.227 = 0.133 + 0.166 = 0.300$. The $\eta$ formula counts dimensions lost; the flip rate counts pairwise ranking flips weighted by pair count --- these are different metrics.
 
+\section{Language Model Circuit Stability (TinyStories)}
+\label{sec:tinystories-si}
+
+The modular-addition experiment (Section~\ref{sec:mi-v2}) uses an algorithmic task.  To validate on real language, we trained 10 transformers from independent random seeds on TinyStories~\cite{eldan2023tinystories} at two scales:
+
+\begin{center}
+\small
+\begin{tabular}{lccccccc}
+\toprule
+Config & Arch & Params & PPL (CV) & Full $\rho$ & $G$-inv $\rho$ & W-flip & B-flip \\
+\midrule
+A & 4L/4H/d256 & 16M & 8.6 (0.7\%) & 0.565 & \textbf{0.972} & 0.496 & 0.000 \\
+B & 6L/8H/d512 & 45M & 10.0 (1.0\%) & 0.540 & \textbf{0.982} & 0.489 & 0.000 \\
+C & GPT-2 ft & 124M & 18.5 (0.1\%) & 0.993 & 0.999 & 0.043 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Configs~A and~B pass all 7 pre-registered predictions.  Config~C (GPT-2 fine-tuned from a shared checkpoint) confirms the boundary condition: fine-tuning does not create the Rashomon property.
+
+Key controls: split-half reliability ($\rho = 0.991$, $0.960$) far exceeds between-model agreement ($0.565$, $0.540$), confirming genuine Rashomon.  Heads-only random projection control: 100th percentile at both scales.  Permutation test: $p < 0.001$.  Cohen's $d$: 5.4 (Config~A), 11.9 (Config~B).  All four heads in layer~0 appear as ``most important'' across 10 seeds (full $S_4$ realisation).
+
+\paragraph{Ablation method robustness.}
+Mean ablation (replacing component output with its mean activation) produces $G$-invariant $\rho = 0.975$ (A) and $0.987$ (B), matching weight zeroing ($0.972$, $0.982$).  Cross-method per-model $\rho = 0.59$ (A) and $0.50$ (B): the two methods give different head-level rankings but agree on $V^G$.  The layer-level structure is method-invariant.
+
 \section{Gene Expression Pathway Divergence}
 \label{sec:gene-expression-si}
 

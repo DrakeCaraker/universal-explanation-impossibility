@@ -3237,8 +3237,11 @@ C (GPT-2 ft) & 0.846 & 0.993 & 0.999 & 0.006 & 0.043 & 0.000 \\
 \end{center}
 For the two from-scratch configurations (A and B), higher $\eta$ correlates with lower full agreement ($0.565 \to 0.540$) and higher $G$-invariant agreement ($0.972 \to 0.982$), consistent with the $\eta$ law.  Config~C does not participate in this comparison because it lacks the Rashomon property.  The within-layer flip rate is indistinguishable from 0.500 for both from-scratch configs and near zero for the fine-tuned config---a clean separation governed by the Rashomon precondition.
 
+\paragraph{Ablation method robustness.}
+To test whether the results depend on the choice of ablation method, we repeated the importance measurement using mean ablation (replacing each component's output with its mean activation) on the cached Config~A and~B models.  The layer-level structure is method-invariant: both weight zeroing and mean ablation produce $G$-invariant agreement $\rho \approx 0.97$--$0.99$ ($G$-invariant $\rho = 0.975$ and $0.987$ for mean ablation vs $0.972$ and $0.982$ for weight zeroing).  The cross-method per-model agreement is moderate ($\rho = 0.59$ for Config~A, $\rho = 0.50$ for Config~B), confirming that the two methods give different head-level rankings for the \emph{same} model but agree on $V^G$.  This is itself an instance of the impossibility---over measurement procedures rather than models---and the $G$-invariant resolution resolves it identically.
+
 \paragraph{Limitations.}
-TinyStories is a synthetic dataset of simple children's stories; extrapolation to frontier language models (GPT-4-scale) requires further work.  The ablation method is weight zeroing; mean ablation may give different absolute importance values, though the theorem predicts the same structural pattern (within-layer instability, between-group stability) under any consistent ablation method.  The cross-scale $\eta$ rank-order test has only $n = 2$ valid data points (Configs~A and~B) and cannot be tested statistically.
+TinyStories is a synthetic dataset of simple children's stories; extrapolation to frontier language models (GPT-4-scale) requires further work.  The cross-scale $\eta$ rank-order test has only $n = 2$ valid data points (Configs~A and~B) and cannot be tested statistically.
 
 \subsection{Model-Class Universality of the Impossibility}
 \label{sec:model-class}

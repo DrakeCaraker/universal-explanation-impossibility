@@ -308,6 +308,26 @@ gap~$= 0.273$, Mann--Whitney $p = 2.4 \times 10^{-5}$).  The universal structura
 dominant in every seed (CV~$= 0.027$)---emerges only after the
 $G$-invariant projection.
 
+The same pattern replicates on real language.  Ten transformers
+(4~layers, 4~heads, $d = 256$) trained from independent seeds on
+TinyStories~\citep{eldan2023tinystories} achieve near-identical
+perplexity (CV~$= 0.7\%$) but agree on circuit rankings at only
+$\rho = 0.565$; the $G$-invariant projection lifts this to $\rho =
+0.972$ (7/7~pre-registered predictions confirmed; within-layer flip
+rate~$= 0.496$; head-vs-MLP flip~$= 0.000$; Cohen's $d = 5.4$; $n =
+45$~pairs).  At a second scale (6~layers, 8~heads, $d = 512$), the lift
+is $0.540 \to 0.982$ (7/7~confirmed; $d = 11.9$).  The heads-only
+random projection control (100th~percentile at both scales) confirms the
+lift is from the within-layer symmetry, not dimensionality reduction.
+All four heads in layer~0 appear as the ``most important'' across the
+10~seeds, fully realising the $S_4$ symmetry.  A third configuration
+(GPT-2 Small fine-tuned from a shared checkpoint) shows $\rho = 0.993$
+with within-layer flip~$= 0.043$---confirming the theorem's
+precondition: instability requires the Rashomon property, and
+fine-tuning does not create it.  The layer-level structure is robust
+to ablation methodology: both weight zeroing and mean ablation produce
+$G$-invariant $\rho \approx 0.97$--$0.99$ (Supplementary Information).
+
 \subsection*{Instance 3: Causal inference}
 
 A causal chain $A \to B \to C$ and a fork $A \leftarrow B \to C$ are
