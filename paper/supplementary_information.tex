@@ -216,7 +216,7 @@ Configs~A and~B pass all 7 pre-registered predictions.  Config~C (GPT-2 fine-tun
 Key controls: split-half reliability ($\rho = 0.991$, $0.960$) far exceeds between-model agreement ($0.565$, $0.540$), confirming genuine Rashomon.  Heads-only random projection control: 100th percentile at both scales.  Permutation test: $p < 0.001$.  Cohen's $d$: 5.4 (Config~A), 11.9 (Config~B).  All four heads in layer~0 appear as ``most important'' across 10 seeds (full $S_4$ realisation).
 
 \paragraph{Ablation method robustness.}
-Mean ablation (replacing component output with its mean activation) produces $G$-invariant $\rho = 0.975$ (A) and $0.987$ (B), matching weight zeroing ($0.972$, $0.982$).  Cross-method per-model $\rho = 0.59$ (A) and $0.50$ (B): the two methods give different head-level rankings but agree on $V^G$.  The layer-level structure is method-invariant.
+Mean ablation (replacing component output with its mean activation) produces $G$-invariant $\rho = 0.975$ (A) and $0.987$ (B), matching weight zeroing ($0.972$, $0.982$).  Cross-method per-model $\rho = 0.59$ (A) and $0.50$ (B): the two methods show moderate positive agreement at the head level (above the null of $|\rho| \approx 0.23$ for $n = 20$) and near-perfect agreement on $V^G$.  The layer-level structure is method-invariant.
 
 \section{Gene Expression Pathway Divergence}
 \label{sec:gene-expression-si}
