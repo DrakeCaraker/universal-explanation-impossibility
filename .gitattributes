@@ -1,0 +1,2 @@
+docs/private/** filter=git-crypt diff=git-crypt
+docs/superpowers/** filter=git-crypt diff=git-crypt
