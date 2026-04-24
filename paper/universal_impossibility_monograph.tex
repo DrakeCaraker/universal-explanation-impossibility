@@ -3152,6 +3152,94 @@ The symmetry $S_4 \times S_4$ predicts: within-layer head pairs (12 pairs total)
 \paragraph{Structural universal: MLP1 dominance.}
 MLP1 is the most important component in every seed (coefficient of variation $= 0.027$).  This is the $G$-invariant structural fact---the between-group conclusion that survives the impossibility.  Individual head identities (which specific head matters) are the within-group noise that the theorem proves is unavoidable.
 
+\subsection{Language Model Circuit Stability: Multi-Scale Validation}
+\label{sec:tinystories}
+
+The modular-addition experiment (Section~\ref{sec:mi-v2}) uses an algorithmic task.  To test whether the theorem governs circuits in \emph{real language models}, we trained 10 transformers from independent random initialisations on TinyStories~\cite{eldan2023tinystories}, a dataset of short children's stories, and repeated the experiment at two architectural scales.  A third configuration (GPT-2 Small fine-tuned) tests the predicted boundary condition: fine-tuning from a shared pretrained checkpoint should NOT produce circuit instability, because the Rashomon set is small.
+
+\paragraph{Experimental design.}
+\begin{center}
+\small
+\begin{tabular}{@{}llcccccc@{}}
+\toprule
+Config & Architecture & Params & Steps & Components & $\dim(V^G)$ & $\eta$ \\
+\midrule
+A & 4L/4H, $d = 256$ & 16M & 15{,}000 & 20 & 8 & 0.600 \\
+B & 6L/8H, $d = 512$ & 45M & 15{,}000 & 54 & 12 & 0.778 \\
+C & GPT-2 Small fine-tuned & 124M & 3{,}000 & 156 & 24 & 0.846 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Each configuration trains 10 models from independent random seeds on the same TinyStories data.  Circuit importance is measured via weight zeroing (Q/K/V for each head, fc1 for each MLP) and the resulting perplexity increase on held-out data.  Config~C starts from the pretrained GPT-2 Small checkpoint and fine-tunes with different random seeds (data ordering and dropout).  Determinism control: same model measured twice gives $r = 1.000$ (Configs A and B) and $r = 1.000$ (Config C).
+
+\paragraph{Pre-registered predictions.}
+Seven predictions were stated before any training data was generated:
+(1)~perplexity CV $< 5\%$;
+(2)~full-component agreement $\rho < 0.70$;
+(3)~$G$-invariant agreement $\rho > 0.80$;
+(4)~heads-only lift $> 0.15$ (not MLP-driven);
+(5)~within-layer head flip rate $> 0.40$;
+(6)~head-vs-MLP flip rate $< 0.15$;
+(7)~permutation test $p < 0.01$.
+
+\paragraph{Results: Configs A and B (training from scratch).}
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Metric & Config A (4L/4H) & Config B (6L/8H) \\
+\midrule
+Perplexity (mean $\pm$ CV) & 8.6 $\pm$ 0.7\% & 10.0 $\pm$ 1.0\% \\
+Split-half reliability ($\rho$) & 0.991 & 0.960 \\
+Full agreement ($\rho$ [95\% CI]) & 0.565 [0.53, 0.60] & 0.540 [0.52, 0.56] \\
+$G$-invariant ($\rho$ [95\% CI]) & \textbf{0.972} [0.97, 0.98] & \textbf{0.982} [0.98, 0.99] \\
+Heads raw ($\rho$) & 0.291 & 0.379 \\
+Heads averaged ($\rho$) & \textbf{0.849} & \textbf{0.931} \\
+Head lift & 0.558 & 0.553 \\
+Within-layer flip & 0.496 & 0.489 \\
+Head-vs-MLP flip & 0.000 & 0.000 \\
+Mann--Whitney $p$ (pair-aggregated) & $1.2 \times 10^{-18}$ & $1.3 \times 10^{-18}$ \\
+Cohen's $d$ (pair-aggregated) & 5.4 & 11.9 \\
+Permutation test $p$ & $< 0.001$ & $< 0.001$ \\
+Pre-registered & \textbf{7/7 PASS} & \textbf{7/7 PASS} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All 14 pre-registered predictions pass across both scales.  The within-layer head flip rates (0.496 and 0.489) are within sampling noise of the predicted 0.500.  The head-vs-MLP flip rate is exactly 0.000 across all 30 models (720 and 2{,}160 comparisons respectively)---every model agrees that MLPs are more important than attention heads at each layer.  The split-half reliability ($\rho = 0.991$ and $0.960$) far exceeds the between-model agreement ($\rho = 0.565$ and $0.540$), confirming that the disagreement is genuine Rashomon, not measurement noise.
+
+The heads-only random projection control is critical: random $n_\mathrm{heads} \to n_\mathrm{layers}$ projections give $\rho = 0.300 \pm 0.223$ (Config~A) and $\rho = 0.407 \pm 0.182$ (Config~B), while the symmetry-based mean-head projection gives $\rho = 0.849$ and $0.931$ (100th percentile in both cases).  The lift is from the specific within-layer symmetry structure, not dimensionality reduction.
+
+For Config~B, the full-vector random projection ($\rho = 0.988$) outperforms the $G$-invariant ($\rho = 0.982$) because MLP0 dominates the importance landscape ($\sim 6.7$ vs $\sim 0.4$ for all other components); any random projection preserving MLP0 achieves high agreement.  The heads-only control isolates the symmetry-specific lift and remains at the 100th percentile.
+
+In Config~A, all four heads in layer~0 appear as the ``most important head'' across the 10 seeds (H0, H1, H2, H3 each take the top spot), fully realising the $S_4$ symmetry.  The role ``important attention head in layer~0'' is stable; which head fills that role is a coin flip.
+
+\paragraph{Results: Config C (GPT-2 fine-tuned --- boundary condition).}
+Config~C produces $\rho = 0.993$ (full agreement), within-layer flip~$= 0.043$, and head lift~$= 0.003$.  Three of seven predictions fail: full~$\rho < 0.70$, within-flip~$> 0.40$, and head lift~$> 0.15$.  This is the predicted boundary condition: fine-tuning from a shared pretrained checkpoint does not create the Rashomon property.  The pretrained circuit structure is preserved --- the same five components (MLP0, MLP2, MLP1, MLP11, MLP8) are the top~5 in every seed.
+
+This confirms the theorem's precondition: the impossibility predicts instability \emph{if and only if} the Rashomon property holds.  When it does not (Config~C), the theorem correctly predicts no instability.  The split-half reliability ($\rho = 0.878$) is \emph{lower} than the between-model agreement ($\rho = 0.993$), meaning fine-tuned models are more similar to each other than the same model measured on different data subsets.  This is additional evidence that fine-tuning genuinely preserves circuits.
+
+Head-vs-MLP flip $= 0.000$ holds even for Config~C: the layer-level MLP hierarchy is a structural invariant that persists regardless of whether the Rashomon property holds.
+
+\paragraph{Cross-scale comparison.}
+\begin{center}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Config & $\eta$ & Full $\rho$ & $G$-inv $\rho$ & Lift & W-flip & B-flip \\
+\midrule
+A (4L/4H) & 0.600 & 0.565 & 0.972 & 0.408 & 0.496 & 0.000 \\
+B (6L/8H) & 0.778 & 0.540 & 0.982 & 0.441 & 0.489 & 0.000 \\
+C (GPT-2 ft) & 0.846 & 0.993 & 0.999 & 0.006 & 0.043 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+For the two from-scratch configurations (A and B), higher $\eta$ correlates with lower full agreement ($0.565 \to 0.540$) and higher $G$-invariant agreement ($0.972 \to 0.982$), consistent with the $\eta$ law.  Config~C does not participate in this comparison because it lacks the Rashomon property.  The within-layer flip rate is indistinguishable from 0.500 for both from-scratch configs and near zero for the fine-tuned config---a clean separation governed by the Rashomon precondition.
+
+\paragraph{Limitations.}
+TinyStories is a synthetic dataset of simple children's stories; extrapolation to frontier language models (GPT-4-scale) requires further work.  The ablation method is weight zeroing; mean ablation may give different absolute importance values, though the theorem predicts the same structural pattern (within-layer instability, between-group stability) under any consistent ablation method.  The cross-scale $\eta$ rank-order test has only $n = 2$ valid data points (Configs~A and~B) and cannot be tested statistically.
+
 \subsection{Model-Class Universality of the Impossibility}
 \label{sec:model-class}
 
