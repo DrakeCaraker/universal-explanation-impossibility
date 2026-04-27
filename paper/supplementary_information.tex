@@ -265,11 +265,13 @@ Mean: faithfulness 0.669, unfaithfulness 0.739.  Median: 0.660, 0.719.  Trimmed 
 \section{Classification of Impossibility Theorems}
 \label{sec:classification-si}
 
-Extended Data Table~2 classifies 20 impossibility theorems by tightness type.  Full details: 6 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the \texttt{UnifiedMetaTheorem.lean} file (companion Ostrowski repository: 240 theorems, 10 axioms, 0 sorry).
+Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (434 theorems, 11 axioms, 0 sorry across 31 files).
 
 Bell (CHSH) and Kochen-Specker are naturally 2-ary impossibilities; their 3-property decomposition into locality/determinism/correctness (Bell) and row-assignment/column-assignment/consistency (KS) is decomposition-dependent.  Alternative decompositions may yield different tightness types.
 
 The quantum linearity trilemma (universality + amplification + informativeness) is formalised as a 3-element model, not a structural proof over all quantum channels.  Structural formalization would require formalizing CPTP maps in Lean --- a substantial future project.
+
+The GL($n$) representation impossibility (\texttt{GLnLanglands.lean}) is proved structurally for all $n \geq 2$ and all primes $p$ over finite fields $\mathbb{F}_p$.  The Rashomon witnesses are the upper and lower unipotent matrices $I + E_{01}$ and $I + E_{10}$, which have the same trace but are distinct for $n \geq 2$.  The trace (= character) is conjugation-invariant and is the optimal stable resolution (\texttt{reynolds\_best\_approximation}).  For $n = 1$, the trace determines the $1 \times 1$ matrix uniquely (no Rashomon, full tightness).  The boundary $n = 1$ (full) vs $n \geq 2$ (collapsed) is the abelian/non-abelian divide that organises the Langlands programme.  The structural argument (distinct conjugate-class representatives exist in any non-abelian group) extends beyond finite fields, but the Lean formalization covers the finite-field case.
 
 \section{Approximate Rashomon Extension}
 

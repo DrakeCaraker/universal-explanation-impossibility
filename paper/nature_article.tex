@@ -438,17 +438,18 @@ Impossibility theorems appear across science---Arrow, G\"odel, Bell,
 the CAP theorem, the laws of thermodynamics---but they differ in
 \emph{tightness}: which pairs of desirable properties survive when the
 full triple fails.  A classification of 21 impossibility theorems from
-13~domains (Extended Data Table~2) reveals that 16 have \emph{full
+13+~domains (Extended Data Table~2) reveals that 16 have \emph{full
 tightness}: every pair is independently achievable, and practitioners
 can ``pick two.''  Only three have \emph{collapsed tightness}---property
 pairs are blocked, not just the triple: the explanation bilemma, the
 quantum linearity trilemma (no-cloning $+$ measurement disturbance),
-and the GL($n$) representation impossibility, which holds for all
-$n \geq 2$ and all primes $p$ (Lean-verified).  In the GL($n$) case,
-the trace (= character) is the unique stable resolution; the boundary
-between full and collapsed tightness ($n = 1$ vs $n \geq 2$) is
-precisely the boundary between abelian and non-abelian representations
-that organises the Langlands
+and the GL($n$) representation impossibility, proved for all
+$n \geq 2$ and all primes $p$ over finite fields (Lean-verified;
+the structural argument extends to any non-abelian group).  In the
+GL($n$) case, the trace (= character) is the optimal stable
+resolution; the boundary between full and collapsed tightness
+($n = 1$ vs $n \geq 2$) is precisely the abelian/non-abelian
+boundary that organises the Langlands
 programme~\citep{langlands1970problems}.  All three collapsed instances
 share the same mechanism: a uniformity property (stability / linearity /
 conjugation invariance) individually incompatible with two desiderata,
@@ -701,7 +702,7 @@ Causal discovery
 \centering
 \small
 \caption{\textbf{Extended Data Table 2.}
-  Twenty-one impossibility theorems from 13~domains classified by tightness
+  Twenty-one impossibility theorems from 13+~domains classified by tightness
   type.  Full: every property pair achievable (``pick two'' works).
   Collapsed: property pairs blocked (enrichment required).  Structural:
   non-trivial Lean proof over unbounded solution space.  Model:
