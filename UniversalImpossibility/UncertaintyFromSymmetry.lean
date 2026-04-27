@@ -181,4 +181,58 @@ uses integration over the unit sphere. The algebraic core — the Pythagorean
 decomposition, information loss formula, best approximation property, and
 norm bounds — is fully proved above. -/
 
+/-- **Reynolds naturality.** Equivariant maps commute with Reynolds projections.
+    If φ : V → W intertwines R_V and R_W (R_W ∘ φ = φ ∘ R_V pointwise),
+    then the stable resolutions are compatible as linear maps.
+
+    In Langlands terms: functoriality of the correspondence follows from
+    naturality of the Reynolds operator. Any map between representations
+    that respects the group action automatically respects the stable
+    resolution (the character). -/
+theorem reynolds_naturality
+    {W : Type*} [NormedAddCommGroup W] [InnerProductSpace ℝ W]
+    (R_V : V →ₗ[ℝ] V) (R_W : W →ₗ[ℝ] W)
+    (φ : V →ₗ[ℝ] W)
+    (hequiv : ∀ v, R_W (φ v) = φ (R_V v)) :
+    R_W ∘ₗ φ = φ ∘ₗ R_V :=
+  LinearMap.ext hequiv
+
+/-- **Fixed points are orthogonal to residuals.** For any fixed point w
+    (R w = w) and any vector v, ⟨w, v - Rv⟩ = 0. This generalizes
+    `reynolds_orthogonal` from Rv to arbitrary fixed points. -/
+theorem fixed_perp_residual
+    (R : V →ₗ[ℝ] V)
+    (hIdem : ∀ (v : V), R (R v) = R v)
+    (hSA : ∀ (v w : V), @inner ℝ V _ (R v) w = @inner ℝ V _ v (R w))
+    (w v : V) (hw : R w = w) :
+    @inner ℝ V _ w (v - R v) = (0 : ℝ) := by
+  have h1 : @inner ℝ V _ w (v - R v) = @inner ℝ V _ (R w) (v - R v) := by rw [hw]
+  rw [h1, hSA]
+  have hres : R (v - R v) = 0 := by
+    simp [map_sub, hIdem]
+  rw [hres, inner_zero_right]
+
+/-- **Best approximation theorem.** The Reynolds projection Rv is the
+    closest fixed point to v: ‖v - Rv‖ ≤ ‖v - w‖ for any fixed point w.
+
+    This is the optimality of the stable resolution: among all stable
+    (G-invariant) approximations to the original data, the Reynolds
+    projection minimizes information loss. In Langlands terms: the
+    character is the unique minimum-information-loss stable invariant. -/
+theorem reynolds_best_approximation
+    (R : V →ₗ[ℝ] V)
+    (hIdem : ∀ (v : V), R (R v) = R v)
+    (hSA : ∀ (v w : V), @inner ℝ V _ (R v) w = @inner ℝ V _ v (R w))
+    (v w : V) (hw : R w = w) :
+    ‖v - R v‖ ≤ ‖v - w‖ := by
+  have decomp : v - w = (v - R v) + (R v - w) := by abel
+  have hRvw_fixed : R (R v - w) = R v - w := by
+    simp [map_sub, hIdem, hw]
+  have horth : @inner ℝ V _ (v - R v) (R v - w) = (0 : ℝ) := by
+    have := fixed_perp_residual R hIdem hSA (R v - w) v hRvw_fixed
+    rwa [real_inner_comm] at this
+  have pyth : ‖v - w‖ ^ 2 = ‖v - R v‖ ^ 2 + ‖R v - w‖ ^ 2 := by
+    rw [decomp, norm_add_sq_real, horth, mul_zero, add_zero]
+  nlinarith [sq_nonneg ‖R v - w‖, norm_nonneg (v - R v), norm_nonneg (v - w)]
+
 end UniversalImpossibility
