@@ -3714,7 +3714,7 @@ Multi-analyst data: OSF (osf.io/gvm2z) and GitHub (nbreznau/CRI).
 \section{Classification of Impossibility Theorems by Tightness}
 \label{sec:classification}
 
-Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 434 theorems, 0 sorry across 31 files in a companion repository) and classify 20 impossibility theorems from 12+ domains.
+Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 434 theorems, 0 sorry across 31 files in a companion repository) and classify 21 impossibility theorems from 13+ domains.
 
 \subsection{Tightness Types}
 
@@ -3730,7 +3730,7 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
 \begin{table}[h]
 \centering
 \small
-\caption{Twenty impossibility theorems classified by tightness type.  ``Structural'': non-trivial Lean proof over unbounded solution space.  ``Model'': 3-element type that forces its tightness by construction.  Bell and Kochen-Specker tightness is decomposition-dependent.}
+\caption{Twenty-one impossibility theorems classified by tightness type.  ``Structural'': non-trivial Lean proof over unbounded solution space.  ``Model'': 3-element type that forces its tightness by construction.  Bell and Kochen-Specker tightness is decomposition-dependent.  GL($n$) is proved for all $n \geq 2$ and all primes $p$ over finite fields.}
 \label{tab:classification}
 \begin{tabular}{@{}lllll@{}}
 \toprule
@@ -3738,26 +3738,27 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
 \midrule
 1 & \textbf{Bilemma} & ML explanation & \textbf{Collapsed} & structural \\
 2 & \textbf{Quantum linearity} & Quantum information & \textbf{Collapsed} & model \\
+3 & \textbf{GL($n$) representation} & Langlands programme & \textbf{Collapsed} & structural \\
 \midrule
-3 & Arrow & Social choice & Full & structural \\
-4 & Gibbard-Satterthwaite & Social choice & Full & structural \\
-5 & Bell (CHSH) & Quantum physics & Full & structural \\
-6 & Kochen-Specker & Quantum physics & Full & structural \\
-7 & G\"odel incompleteness & Mathematical logic & Full & structural \\
-8 & ML fairness & ML prediction & Full & model \\
-9 & Bias-variance & Statistics & Full & model \\
-10 & Sen's liberal paradox & Social choice & Full & model \\
-11 & CAP theorem & Distributed systems & Full & model \\
-12 & FLP impossibility & Distributed systems & Full & model \\
-13 & Mundell-Fleming & Economics & Full & model \\
-14 & Perpetual motion & Thermodynamics & Full & model \\
-15 & Second law & Thermodynamics & Full & model \\
-16 & M\"unchhausen trilemma & Epistemology & Full & model \\
-17 & Competitive exclusion & Ecology & Full & model \\
-18 & Penrose-Hawking & General relativity & Full & model \\
+4 & Arrow & Social choice & Full & structural \\
+5 & Gibbard-Satterthwaite & Social choice & Full & structural \\
+6 & Bell (CHSH) & Quantum physics & Full & structural \\
+7 & Kochen-Specker & Quantum physics & Full & structural \\
+8 & G\"odel incompleteness & Mathematical logic & Full & structural \\
+9 & ML fairness & ML prediction & Full & model \\
+10 & Bias-variance & Statistics & Full & model \\
+11 & Sen's liberal paradox & Social choice & Full & model \\
+12 & CAP theorem & Distributed systems & Full & model \\
+13 & FLP impossibility & Distributed systems & Full & model \\
+14 & Mundell-Fleming & Economics & Full & model \\
+15 & Perpetual motion & Thermodynamics & Full & model \\
+16 & Second law & Thermodynamics & Full & model \\
+17 & M\"unchhausen trilemma & Epistemology & Full & model \\
+18 & Competitive exclusion & Ecology & Full & model \\
+19 & Penrose-Hawking & General relativity & Full & model \\
 \midrule
-19 & Eastin-Knill & Quantum computing & p12-blocked & model \\
-20 & Shannon secrecy & Cryptography & p23-blocked & model \\
+20 & Eastin-Knill & Quantum computing & p12-blocked & model \\
+21 & Shannon secrecy & Cryptography & p23-blocked & model \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -3765,12 +3766,34 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
 \subsection{Key Findings}
 
 \paragraph{Full tightness is the overwhelming default.}
-Sixteen of 20 impossibilities have full tightness---every pair is achievable, and only the triple conjunction fails.  This holds across ML, physics, logic, economics, ecology, epistemology, thermodynamics, and distributed systems.  Full tightness is the ``normal'' state; it propagates under embeddings (\emph{enlargement monotonicity}: if the triple conjunction is impossible and every pair is achievable, embedding into a larger solution space preserves these properties).
+Sixteen of 21 impossibilities have full tightness---every pair is achievable, and only the triple conjunction fails.  This holds across ML, physics, logic, economics, ecology, epistemology, thermodynamics, and distributed systems.  Full tightness is the ``normal'' state; it propagates under embeddings (\emph{enlargement monotonicity}: if the triple conjunction is impossible and every pair is achievable, embedding into a larger solution space preserves these properties).
 
 \paragraph{Collapsed tightness is rare and mechanistically specific.}
-Only 2/20 impossibilities have collapsed tightness: the bilemma and the quantum linearity trilemma.  Both arise from the ``universal poison'' mechanism: a property ($P_2$) that forces uniform treatment, simultaneously incompatible with two different desiderata ($P_1$ and $P_3$).  For the bilemma, stability is the poison (same output for same observation $\Rightarrow$ can't be faithful to one AND decisive against the other).  For quantum linearity, universality is the poison (working for all states $\Rightarrow$ can't amplify AND can't extract information).
+Only 3/21 impossibilities have collapsed tightness: the bilemma, the quantum linearity trilemma, and the GL($n$) representation impossibility.  All three arise from the ``universal poison'' mechanism: a property ($P_2$) that forces uniform treatment, simultaneously incompatible with two different desiderata ($P_1$ and $P_3$).  For the bilemma, stability is the poison.  For quantum linearity, universality.  For GL($n$), conjugation invariance (same output for conjugate group elements $\Rightarrow$ can't faithfully track full matrix data AND can't decisively distinguish conjugates).
 
-The structural parallel is precise: stability plays the role of linearity.  Both are resolved by enrichment---adding neutral elements (bilemma) or ancillary systems (quantum).  The bilemma is therefore a structural parallel to the quantum no-cloning/no-information-without-disturbance pair.
+The structural parallel across all three is precise: stability plays the role of linearity plays the role of conjugation invariance.  All are resolved by enrichment---adding neutral elements (bilemma), ancillary systems (quantum), or the trace/character (GL($n$)).
+
+\paragraph{The Langlands boundary.}
+The GL($n$) instance is proved for all $n \geq 2$ and all primes $p$ over finite fields (\texttt{GLnLanglands.lean}, companion Ostrowski repository).  The Rashomon witnesses are the upper and lower unipotent matrices $I + E_{01}$ and $I + E_{10}$: same trace, distinct matrices.  For $n = 1$, the trace determines the $1 \times 1$ matrix uniquely---no Rashomon, full tightness.  The boundary $n = 1$ (full) vs $n \geq 2$ (collapsed) is the abelian/non-abelian boundary that organises the Langlands programme~\citep{langlands1970problems}.
+
+The trace (= character) is the optimal stable resolution (\texttt{reynolds\_best\_approximation}): it is conjugation-invariant, correctly normalized ($\mathrm{tr}(I_n) = n$), and forced by the bilemma.  The impossibility framework proves the correspondence's NECESSITY---the alternative (stable tracking of full representation data) is impossible---without constructing it (which required Harris-Taylor, Wiles, Arthur, et al.).
+
+Three known Langlands instances match the structural predictions:
+\begin{itemize}
+  \item GL(1): class field theory = no bilemma (abelian, full tightness).
+  \item GL(2) over $\mathbb{F}_q$: Deligne-Lusztig theory = character construction = bilemma resolution.
+  \item GL(2) over $\mathbb{Q}$: modularity theorem = modular forms as the stable resolution.
+\end{itemize}
+The structural argument (distinct conjugacy class representatives exist in any non-abelian group) extends beyond finite fields, but the Lean formalization covers the finite-field case.
+
+\paragraph{The gauge reading.}
+The three collapsed instances share a gauge-theoretic description.  In each case, a ``gauge freedom'' (observational equivalence between configurations) makes faithful tracking of gauge-dependent data incompatible with stability:
+\begin{itemize}
+  \item \textbf{ML explanation:} the Rashomon set is the gauge orbit; SHAP values are gauge-dependent; DASH averages over the gauge orbit.
+  \item \textbf{Quantum information:} conjugate preparations are gauge-equivalent; the decoherence-free subspace is gauge-invariant.
+  \item \textbf{Langlands:} conjugacy classes are gauge orbits in GL($n$); the character (trace) is the gauge-invariant observable.
+\end{itemize}
+The gauge principle of physics, the Langlands correspondence, and the interpretability crisis of AI are all instances of the same impossibility: you cannot stably track gauge-dependent data.  The orbit average (Reynolds operator / character / DASH) is the unique optimal gauge-invariant projection.
 
 \paragraph{The explanation impossibility is structurally more severe than fairness.}
 Within ML: the bilemma (collapsed) blocks property pairs, while ML fairness (full) only blocks the triple.  Resolution strategies that work for fairness (``pick two'': choose which fairness metric to sacrifice) do NOT work for explanation (some pairs are blocked; must enrich).  This is a precise structural distinction with practical consequences: explanation methods require qualitatively different design approaches than fairness methods.
