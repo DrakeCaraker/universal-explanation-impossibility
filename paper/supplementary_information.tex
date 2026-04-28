@@ -265,7 +265,7 @@ Mean: faithfulness 0.669, unfaithfulness 0.739.  Median: 0.660, 0.719.  Trimmed 
 \section{Classification of Impossibility Theorems}
 \label{sec:classification-si}
 
-Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (451 theorems, 10 axioms, 0 sorry across 34 files).
+Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (455 theorems, 10 axioms, 0 sorry across 34 files).
 
 Bell (CHSH) and Kochen-Specker are naturally 2-ary impossibilities; their 3-property decomposition into locality/determinism/correctness (Bell) and row-assignment/column-assignment/consistency (KS) is decomposition-dependent.  Alternative decompositions may yield different tightness types.
 
@@ -304,6 +304,29 @@ Information loss & Attribution variance & Adjoint character \\
 The adjoint connection (\texttt{adjoint\_connection}): for a representation of dimension~$d$, the information loss at group element~$g$ is $(d^2 - 1 - \chi_{\mathrm{Ad}}(g))/d$.  This equals the Pythagorean residual $\|v - Rv\|^2$ from the Uncertainty from Symmetry theorem.  Computationally verified for GL($2$, $\mathbb{F}_p$) at $p = 3, 5, 7$.
 
 Character orthogonality (\texttt{impossibility\_trace\_formula}): for simple representations $V, W$, the inner product of characters is $\delta_{V \cong W}$.  Characters separate isomorphism classes (\texttt{characters\_separate\_reps}), making the Reynolds projection complete: it retains all distinguishing information while discarding only the gauge-dependent part.
+
+\section{Fairness Tightness Transition}
+\label{sec:fairness-tightness}
+
+The Chouldechova--Kleinberg fairness impossibility (calibration $+$ equal FPR $+$ equal FNR cannot coexist when base rates differ) was tested using the tightness classification.  The tightness type transitions under performance constraints:
+
+\begin{center}
+\small
+\begin{tabular}{lll}
+\toprule
+TPR constraint & Tightness & Achievable pairs \\
+\midrule
+$\tau = 0$ (unconstrained) & Full & All three pairs (degenerate classifiers) \\
+$\tau \geq 0.3$ (practical) & PPV-blocked & Equalized odds only (gap $< 0.006$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At practical performance (TPR $\geq 30\%$ for both groups), calibration (PPV parity) is a universal poison: it is individually incompatible with both equal FPR (gap $> 0.10$) and equal FNR (gap $> 0.13$).  The only achievable pairwise fairness compromise is equalized odds.
+
+Validated on Adult Income (sex as protected attribute, base-rate gap 0.20), synthetic data (gaps 0.25 and 0.40), three base models (logistic regression, random forest, gradient boosting), group-specific thresholds ($100 \times 100 = 10{,}000$ classifiers per model), with bootstrap model retraining (20 iterations, 100\% stable).  At base-rate gap 0.40, the PPV-blocked type persists even at $\tau = 0$.
+
+This demonstrates that the tightness classification is not merely a static taxonomy but a diagnostic tool: by varying operating conditions, it reveals when impossibilities become binding and which property is the structural bottleneck.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

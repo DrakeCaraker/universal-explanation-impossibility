@@ -2161,11 +2161,21 @@ We identify five limitations and directions for future work.
     ambiguous.  Whether downstream decision-makers can tolerate partial rankings
     or tied causal structures---and how to present such outputs
     effectively---is an empirical question we do not address here.
-  \item \textbf{Fairness instance not experimentally validated.}  The fairness
+  \item \textbf{Fairness tightness transition.}  The fairness
     audit impossibility (Instance~6, formalized in \texttt{FairnessAudit.lean})
-    is proved but not empirically validated in this paper.
-    \citet{chouldechova2017fair} provides the original empirical context;
-    replicating it within our framework is left to future work.
+    has been experimentally validated.  The Chouldechova--Kleinberg impossibility
+    (calibration $+$ equal FPR $+$ equal FNR) exhibits a tightness \emph{transition}
+    under performance constraints: at $\tau = 0$ (unconstrained), full tightness holds
+    (all pairs achievable by degenerate classifiers); at $\tau \geq 0.3$ (practical
+    performance: TPR $\geq 30\%$ for both groups), the tightness transitions to
+    PPV-blocked---calibration becomes a universal poison, individually incompatible
+    with both equal FPR and equal FNR.  The only achievable pairwise compromise at
+    practical performance is equalized odds (gap $< 0.006$).  Validated on Adult
+    Income (sex as protected attribute, base-rate gap 0.20) and synthetic data
+    (gap 0.25, 0.40), with bootstrap retraining (20 iterations, 100\% stable).
+    This changes the practical recommendation from ``choose a fairness criterion''
+    to ``equalized odds is the only achievable criterion at practical performance;
+    calibration is structurally incompatible.''
   \item \textbf{Exact vs.\ approximate Rashomon.}  The framework now includes a Lean-verified approximate extension (\texttt{ApproximateRashomon.lean}).  An \texttt{ApproxExplanationSystem} adds a `nearness' relation on observables, with $\varepsilon$-stability requiring $E$ to be constant on approximately-equivalent observations.  The approximate trilemma follows: if approximately-equivalent configurations have incompatible explanations (approximate Rashomon), then faithful + $\varepsilon$-stable + decisive is impossible.  The exact framework is the special case where nearness is equality.  The Gaussian flip rate formula provides the quantitative bridge: the SNR measures how `near' two observations must be for their explanations to flip.
   \item \textbf{Approximate symmetry: null model comparison.}
     At intermediate correlations ($\rho < 1$), a simple null model $\Phi(-c\sqrt{1-\rho^2})$ with one fitted parameter ($c = 1.06$, $R^2 = 0.925$) predicts the average within-group flip rate as well as or better than the framework's Gaussian formula ($R^2 = -6.08$ at the aggregate level). The framework's distinctive contribution at approximate symmetry is the bimodal \emph{structure} (within-group vs.\ between-group separation, dip $p < 0.002$), not the aggregate magnitude. At exact symmetry ($\rho = 1$) and cross-domain ($\eta$ law across 7 domains), the framework's predictions are unchallenged. The practical recommendation: use the Gaussian formula for per-pair prediction (Spearman 0.28 on real data), coverage conflict for per-feature screening (Spearman $\rho = 0.92$--$0.98$ per dataset, $0.96$ aggregate across 15 datasets; permutation-validated), and the $\eta$ law for cross-domain understanding.
@@ -3705,7 +3715,7 @@ The attribution-specific formalization is at
 (58~files, 357~theorems, 6~axioms, 0~\texttt{sorry}).
 The tightness classification and physics application are at
 \url{https://github.com/DrakeCaraker/ostrowski-impossibility}
-(34~files, 451~theorems, 10~axioms, 0~\texttt{sorry}).
+(34~files, 455~theorems, 10~axioms, 0~\texttt{sorry}).
 All code is released under the Apache~2.0 licence.
 Gene-expression data: OpenML (IDs 1137 and related).
 Neuroimaging: NeuroVault collection~6047.
@@ -3714,7 +3724,7 @@ Multi-analyst data: OSF (osf.io/gvm2z) and GitHub (nbreznau/CRI).
 \section{Classification of Impossibility Theorems by Tightness}
 \label{sec:classification}
 
-Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 451 theorems, 0 sorry across 34 files in a companion repository) and classify 21 impossibility theorems from 13+ domains.
+Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 455 theorems, 0 sorry across 34 files in a companion repository) and classify 21 impossibility theorems from 13+ domains.
 
 \subsection{Tightness Types}
 
@@ -3730,7 +3740,7 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
 \begin{table}[h]
 \centering
 \small
-\caption{Twenty-one impossibility theorems classified by tightness type.  ``Structural'': non-trivial Lean proof over unbounded solution space.  ``Model'': 3-element type that forces its tightness by construction.  Bell and Kochen-Specker tightness is decomposition-dependent.  GL($n$) is proved for all $n \geq 2$ and all primes $p$ over finite fields.}
+\caption{Twenty-one impossibility theorems classified by tightness type.  ``Structural'': non-trivial Lean proof over unbounded solution space.  ``Model'': 3-element type that forces its tightness by construction.  Bell and Kochen-Specker tightness is decomposition-dependent.  GL($n$) is proved for all $n \geq 2$ and all primes $p$ over finite fields.  $^\dagger$ML fairness transitions from full to PPV-blocked under performance constraints (TPR $\geq 0.3$); see text.}
 \label{tab:classification}
 \begin{tabular}{@{}lllll@{}}
 \toprule
@@ -3745,7 +3755,7 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
 6 & Bell (CHSH) & Quantum physics & Full & structural \\
 7 & Kochen-Specker & Quantum physics & Full & structural \\
 8 & G\"odel incompleteness & Mathematical logic & Full & structural \\
-9 & ML fairness & ML prediction & Full & model \\
+9 & ML fairness$^\dagger$ & ML prediction & Full$^\dagger$ & model \\
 10 & Bias-variance & Statistics & Full & model \\
 11 & Sen's liberal paradox & Social choice & Full & model \\
 12 & CAP theorem & Distributed systems & Full & model \\
@@ -3808,6 +3818,8 @@ The gauge principle of physics, the Langlands correspondence, and the interpreta
 
 \paragraph{The explanation impossibility is structurally more severe than fairness.}
 Within ML: the bilemma (collapsed) blocks property pairs, while ML fairness (full) only blocks the triple.  Resolution strategies that work for fairness (``pick two'': choose which fairness metric to sacrifice) do NOT work for explanation (some pairs are blocked; must enrich).  This is a precise structural distinction with practical consequences: explanation methods require qualitatively different design approaches than fairness methods.
+
+However, the fairness tightness type is not static: under performance constraints ($\mathrm{TPR} \geq 0.3$), the Chouldechova--Kleinberg impossibility transitions from full to PPV-blocked, with calibration as the universal poison (Section~\ref{sec:limitations}, item~5).  This demonstrates that tightness classification is not merely a binary taxonomy but a diagnostic tool that reveals how impossibility structure changes with operating conditions.
 
 \paragraph{Intermediate types are embedded 2-ary impossibilities.}
 Eastin-Knill (p12-blocked) and Shannon secrecy (p23-blocked) are naturally 2-property impossibilities (transversal $+$ universal; unconditional $+$ short-key) with a third property added.  Any 2-ary impossibility can produce an intermediate type this way.  The meaningful binary classification is \emph{collapsed vs.\ full}.
