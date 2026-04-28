@@ -265,7 +265,7 @@ Mean: faithfulness 0.669, unfaithfulness 0.739.  Median: 0.660, 0.719.  Trimmed 
 \section{Classification of Impossibility Theorems}
 \label{sec:classification-si}
 
-Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (434 theorems, 10 axioms, 0 sorry across 31 files).
+Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (451 theorems, 10 axioms, 0 sorry across 34 files).
 
 Bell (CHSH) and Kochen-Specker are naturally 2-ary impossibilities; their 3-property decomposition into locality/determinism/correctness (Bell) and row-assignment/column-assignment/consistency (KS) is decomposition-dependent.  Alternative decompositions may yield different tightness types.
 
@@ -278,6 +278,32 @@ The GL($n$) representation impossibility (\texttt{GLnLanglands.lean}) is proved 
 The approximate Rashomon extension relaxes exact observational equivalence to $\epsilon$-approximate equivalence: $d(obs(\theta_1), obs(\theta_2)) < \epsilon$.  The Lean formalization (\texttt{ApproximateEquity.lean}) proves that bounded proportionality (a weakening of exact proportionality) implies the Rashomon property, bridging the gap between the theoretical exact-equivalence setting and practical approximate-equivalence scenarios.
 
 The key result is that for any $\epsilon > 0$, if the system has $\epsilon$-approximate Rashomon witnesses, the impossibility holds with a degradation factor bounded by $O(\epsilon)$ in the faithfulness guarantee.  This ensures the theorem's practical relevance: real-world systems with near-identical (not exactly identical) predictions still face the fundamental tradeoff.
+
+\section{The DASH--Langlands Bridge}
+\label{sec:dash-langlands}
+
+The DASH ensemble average (feature attribution) and the Langlands character (representation theory) are both Reynolds projections---orbit averaging onto the trivial representation of different symmetry groups.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+& \textbf{DASH (ML)} & \textbf{Langlands (Math)} \\
+\midrule
+Group $G$ & $S_M$ (model permutations) & GL($n$, $\mathbb{F}_p$) (conjugation) \\
+Configuration & Model orderings & Group elements \\
+Observable & Predictive function & Conjugacy class \\
+Explanation & Attribution vector & Representation matrix \\
+Gauge freedom & Relabeling models & Changing basis \\
+Resolution & DASH average & Character $\chi(g) = \mathrm{tr}(\rho(g))$ \\
+Information loss & Attribution variance & Adjoint character \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The adjoint connection (\texttt{adjoint\_connection}): for a representation of dimension~$d$, the information loss at group element~$g$ is $(d^2 - 1 - \chi_{\mathrm{Ad}}(g))/d$.  This equals the Pythagorean residual $\|v - Rv\|^2$ from the Uncertainty from Symmetry theorem.  Computationally verified for GL($2$, $\mathbb{F}_p$) at $p = 3, 5, 7$.
+
+Character orthogonality (\texttt{impossibility\_trace\_formula}): for simple representations $V, W$, the inner product of characters is $\delta_{V \cong W}$.  Characters separate isomorphism classes (\texttt{characters\_separate\_reps}), making the Reynolds projection complete: it retains all distinguishing information while discarding only the gauge-dependent part.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

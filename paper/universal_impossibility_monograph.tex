@@ -3705,7 +3705,7 @@ The attribution-specific formalization is at
 (58~files, 357~theorems, 6~axioms, 0~\texttt{sorry}).
 The tightness classification and physics application are at
 \url{https://github.com/DrakeCaraker/ostrowski-impossibility}
-(31~files, 434~theorems, 10~axioms, 0~\texttt{sorry}).
+(34~files, 451~theorems, 10~axioms, 0~\texttt{sorry}).
 All code is released under the Apache~2.0 licence.
 Gene-expression data: OpenML (IDs 1137 and related).
 Neuroimaging: NeuroVault collection~6047.
@@ -3714,7 +3714,7 @@ Multi-analyst data: OSF (osf.io/gvm2z) and GitHub (nbreznau/CRI).
 \section{Classification of Impossibility Theorems by Tightness}
 \label{sec:classification}
 
-Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 434 theorems, 0 sorry across 31 files in a companion repository) and classify 21 impossibility theorems from 13+ domains.
+Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 451 theorems, 0 sorry across 34 files in a companion repository) and classify 21 impossibility theorems from 13+ domains.
 
 \subsection{Tightness Types}
 
@@ -3785,6 +3785,15 @@ Three known Langlands instances match the structural predictions:
   \item GL(2) over $\mathbb{Q}$: modularity theorem = modular forms as the stable resolution.
 \end{itemize}
 The structural argument (distinct conjugacy class representatives exist in any non-abelian group) extends beyond finite fields, but the Lean formalization covers the finite-field case.
+
+\paragraph{The DASH--Langlands bridge.}
+The DASH ensemble average for feature attribution and the Langlands character for representations are instances of the same algebraic structure: the Reynolds projection onto the trivial representation of the symmetry group.  For DASH, the group is $S_M$ (permutations of equivalent models); for GL($n$), the group acts by conjugation.  Both are proved Pareto-optimal (\texttt{reynolds\_best\_approximation}).
+
+The \emph{impossibility trace formula} (\texttt{impossibility\_trace\_formula}) proves character orthogonality within the impossibility framework: for simple representations $V$ and $W$, the inner product of characters is 1 if $V \cong W$ and 0 otherwise.  This is the impossibility-theoretic reading of Schur orthogonality: characters separate representations because the bilemma leaves no other option---the trace is the unique stable invariant that distinguishes non-isomorphic representations.
+
+The \emph{adjoint connection} (\texttt{adjoint\_connection}) quantifies the information loss in both settings: for a representation of dimension~$d$, the loss at a group element is $(d^2 - 1 - \chi_{\mathrm{Ad}}(g)) / d$, where $\chi_{\mathrm{Ad}}$ is the adjoint character.  This is the Pythagorean decomposition $\|v - Rv\|^2 = \|v\|^2 - \|Rv\|^2$ applied to the conjugation action: the stable content ($\|Rv\|^2 = |\chi(g)|^2/d$) captures the character, and the unstable content ($\|v - Rv\|^2$) is the adjoint.  The formula is computationally verified for GL($2$, $\mathbb{F}_p$) at $p = 3, 5, 7$ and proved algebraically for all dimensions.
+
+The characters-separate-representations theorem (\texttt{characters\_separate\_reps}) proves that the character map is injective on isomorphism classes of simple representations: if two simple representations have the same character, they are isomorphic.  This means the Reynolds projection (character) is not just optimal but \emph{complete}---it loses the minimum possible information (the gauge-dependent part) while retaining all distinguishing information (the isomorphism class).
 
 \paragraph{The gauge reading.}
 The three collapsed instances share a gauge-theoretic description.  In each case, a ``gauge freedom'' (observational equivalence between configurations) makes faithful tracking of gauge-dependent data incompatible with stability:

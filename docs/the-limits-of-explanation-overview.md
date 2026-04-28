@@ -68,8 +68,8 @@ The entire framework is verified in Lean 4 across three repositories:
 |------------|----------|--------|---------|
 | Universal | 501 | 25 | Core theorem, 9 ML + 14 cross-domain instances |
 | Attribution | 357 | 6 | SHAP-specific: GBDT, Lasso, neural net, DASH equity |
-| Ostrowski | 434 | 10 | Bilemma, tightness classification, enrichment stack, physics |
-| **Total** | **1,292** | **41** | **0 sorry** |
+| Ostrowski | 451 | 10 | Bilemma, tightness classification, enrichment stack, physics |
+| **Total** | **1,309** | **41** | **0 sorry** |
 
 The core impossibility theorem uses zero domain-specific axioms — only the Rashomon property as a hypothesis. This means: the theorem cannot be wrong. It can be irrelevant (if the Rashomon property doesn't hold), it can be trivial (if the consequences are obvious), but it cannot be logically false. For a result with implications across eight sciences, this level of certainty is rare.
 
@@ -119,7 +119,7 @@ Among impossibility theorems, this one is unusual in five ways:
 
 **Cross-domain.** The same structure — the Rashomon property — appears in eight sciences, and the same resolution — orbit averaging — works in each. The convergence of independent solutions now has a mathematical explanation.
 
-**Formally verified.** Among major impossibility theorems in science, almost none have been machine-checked as part of the original contribution. 1,292 theorems across 3 repos with 0 sorry tactics.
+**Formally verified.** Among major impossibility theorems in science, almost none have been machine-checked as part of the original contribution. 1,309 theorems across 3 repos with 0 sorry tactics.
 
 **Empirically validated.** Arrow's theorem is pure mathematics — there's no experiment that "confirms" it. This theorem makes quantitative predictions (the η law, the Noether counting, the convergence prescription) confirmed across seven domains.
 
@@ -170,14 +170,14 @@ The enrichment mechanism — adding a neutral element to resolve the impossibili
 | Lean theorems (universal) | 501 |
 | Lean theorems (attribution) | 357 |
 | Lean theorems (Ostrowski) | 434 |
-| **Lean theorems (total)** | **1,292** |
+| **Lean theorems (total)** | **1,309** |
 | Lean axioms (universal) | 25 |
 | Lean axioms (attribution) | 6 |
 | Lean axioms (Ostrowski) | 10 |
 | Sorry tactics | **0** |
 | Lean files (universal) | 101 |
 | Lean files (attribution) | 58 |
-| Lean files (Ostrowski) | 31 |
+| Lean files (Ostrowski) | 34 |
 | ML explanation instances | 9 |
 | Cross-domain instances | 14 |
 | Impossibility classification | 20 theorems, 12 domains |
