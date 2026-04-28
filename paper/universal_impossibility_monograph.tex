@@ -3795,6 +3795,8 @@ The \emph{adjoint connection} (\texttt{adjoint\_connection}) quantifies the info
 
 The characters-separate-representations theorem (\texttt{characters\_separate\_reps}) proves that the character map is injective on isomorphism classes of simple representations: if two simple representations have the same character, they are isomorphic.  This means the Reynolds projection (character) is not just optimal but \emph{complete}---it loses the minimum possible information (the gauge-dependent part) while retaining all distinguishing information (the isomorphism class).
 
+The \emph{Reynolds naturality} theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections: if $\varphi : V \to W$ intertwines the group actions ($R_W \circ \varphi = \varphi \circ R_V$), then the stable resolutions are compatible.  In Langlands terms, this is functoriality: any map between representations that respects the group action automatically respects the character.  The impossibility framework predicts that Langlands functoriality must hold because the Reynolds operator is a natural transformation---a structural consequence of the bilemma, not an additional axiom.
+
 \paragraph{The gauge reading.}
 The three collapsed instances share a gauge-theoretic description.  In each case, a ``gauge freedom'' (observational equivalence between configurations) makes faithful tracking of gauge-dependent data incompatible with stability:
 \begin{itemize}
