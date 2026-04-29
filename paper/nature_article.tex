@@ -432,10 +432,17 @@ science where correlated variables create underdetermined
 explanations---which risk factor drives a disease (epidemiology), which
 feedback mechanism drives warming (climate science), which policy lever
 drove growth (economics)---wherever the Rashomon property holds.
-A prevalence study across 77 standard ML benchmark datasets finds that
-68\% show feature ranking instability under retraining (Supplementary
-Information), confirming that the Rashomon property is the norm, not the
-exception, in applied machine learning.
+In every domain where independent analysts have been given the same data,
+the majority of explanatory claims depend on analytical
+choices: 68\% of 77~ML benchmark datasets show feature ranking
+instability under retraining (Supplementary Information); 70
+neuroimaging teams reached different conclusions from the same fMRI
+data~\citep{botviniknezer2020variability}; 29~psychology teams reported
+effect sizes ranging from~0.89 to~2.93 for the same
+hypothesis~\citep{silberzahn2018many}; and 73~political science teams
+disagreed on the sign of the same
+relationship~\citep{breznau2022observing}.  The Rashomon property is
+empirically ubiquitous across the sciences.
 Any study that explains \emph{why} a complex system produced a
 particular outcome---which gene, which circuit, which cause, which
 risk factor---should include a stability audit: vary the model, the
