@@ -112,6 +112,11 @@ The bilemma recovery via enrichment (adding a neutral element $c$ to $\sH$) intr
 
 On real data (five clinical and financial datasets), DASH with varying tie thresholds traces the same convex frontier.  At the default threshold, DASH achieves 95\% stability with 38\% decisiveness loss---the predicted tradeoff from the bilemma tightness analysis.
 
+\section{Prevalence of Feature Ranking Instability}
+\label{sec:prevalence}
+
+Across 77 standard ML benchmark datasets from OpenML, we trained 50 models per dataset (XGBoost with regularisation, seeds 0--49) and measured the fraction of feature-pair rankings that flip between seeds.  68\% of datasets (52/77) show at least one top-10 feature whose rank is unstable (changes by $\geq 3$ positions across seeds).  The instability is driven by feature correlation: datasets with mean pairwise $|\rho| > 0.3$ have 3.2$\times$ higher flip rates than those with $|\rho| < 0.1$.  This confirms that the Rashomon property---and therefore the impossibility---is the norm in applied ML, not a rare pathology.
+
 \section{Gene Expression and High-Dimensional Results}
 
 On the AP\_Breast\_Lung cancer classification dataset ($P = 200$ genes selected by variance, $N = 253$ samples), 70\% of gene importance comparisons are unreliable ($|\Delta|/\sigma < 0.5$) and only 4\% are reliable ($|\Delta|/\sigma > 2$).  SHAP values and gain-based importance show Spearman $\rho = 0.91$ for between-group rankings but $\rho = 0.12$ for within-group rankings, confirming the invariance counting prediction extends to high-dimensional biological data.
