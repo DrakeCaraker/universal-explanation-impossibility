@@ -383,6 +383,12 @@ are stable (between-group) while all within-group comparisons are coin
 flips.  On synthetic data with 3~groups of 4~features ($\rho = 0.99$),
 the within-group flip rate is 50.0\% and the between-group rate is 0.2\%
 (bimodal gap~$= 50$~pp, $p = 2.7 \times 10^{-13}$).
+Equivalently, $\dim(V^G)$ is the \emph{explanation capacity}: the
+maximum number of independent stable facts any method can extract.
+The orbit average achieves this capacity (proved Pareto-optimal).
+As Shannon's channel capacity bounds what communication can achieve,
+the explanation capacity bounds what explanation can achieve---and the
+orbit average is the optimal code.
 The law fails when groups are unknown
 ($R^2 = 0.25$ for all 16 domains) or approximate (brain imaging:
 $\rho \approx 0$), delineating the boundary at exact exchangeability.
