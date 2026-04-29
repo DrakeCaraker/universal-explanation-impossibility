@@ -137,13 +137,13 @@ The theorem proves this convergence is not coincidence: the orbit-averaged proje
 
 ## Lean Formalization
 
-Three repositories, 1,313 theorems total, **0 sorry**:
+Three repositories, 1,333 theorems total, **0 sorry**:
 
 | Repository | Files | Theorems | Axioms | Content |
 |------------|-------|----------|--------|---------|
 | [universal-explanation-impossibility](.) | 101 | 501 | 25 | Core theorem, 9 ML instances, 14 cross-domain instances, η law, resolution, uncertainty from symmetry |
 | [dash-impossibility-lean](https://github.com/DrakeCaraker/dash-impossibility-lean) | 58 | 357 | 6 | SHAP-specific: GBDT ratios, Lasso, neural nets, DASH equity |
-| [ostrowski-impossibility](https://github.com/DrakeCaraker/ostrowski-impossibility) | 34 | 455 | 10 | Bilemma, tightness classification, enrichment stack, physics application |
+| [ostrowski-impossibility](https://github.com/DrakeCaraker/ostrowski-impossibility) | 37 | 475 | 11 | Bilemma, tightness classification, enrichment stack, physics application |
 
 The core impossibility theorem uses **zero axioms** — only the Rashomon property as a hypothesis.
 
@@ -213,7 +213,7 @@ docs/                             # Documentation + handoffs
 | NARPS convergence (M₉₅) | 16 [10, 22] | `results_brain_imaging_bulletproof.json` |
 | Gene alternation (TSPAN8) | 92% of seeds | `results_gene_expression_replication.json` |
 | Tightness classification | 20 impossibilities, 12 domains | Lean-verified |
-| Lean theorems (total) | 1,313 across 3 repos | 0 sorry |
+| Lean theorems (total) | 1,333 across 3 repos | 0 sorry |
 | Falsified predictions | 5 of 8 pre-registered | Honest reporting |
 
 ## Related Papers
@@ -234,7 +234,7 @@ docs/                             # Documentation + handoffs
   author  = {Caraker, Drake and Arnold, Bryan and Rhoads, David},
   title   = {The Limits of Explanation},
   year    = {2026},
-  note    = {Lean 4 formalization: 1,313 theorems, 0 sorry}
+  note    = {Lean 4 formalization: 1,333 theorems, 0 sorry}
 }
 ```
 
