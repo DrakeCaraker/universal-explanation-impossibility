@@ -298,6 +298,30 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 \label{sec:framework}
 %%% ==========================================================================
 
+\paragraph{Terminology.}
+The framework introduces concepts at three levels.  For readers familiar
+with information theory, the Shannon parallels are indicated.
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.5cm}p{4cm}p{5cm}@{}}
+\toprule
+\textbf{Concept} & \textbf{Name} & \textbf{Shannon parallel} \\
+\midrule
+F+S+D impossible & The explanation trilemma & --- \\
+F+S impossible (binary) & The bilemma & --- \\
+$C = \dim(V^G)$ & Explanation capacity & Channel capacity \\
+$\eta = 1 - C/\dim(V)$ & Explanation loss rate & --- \\
+Capacity predicts instability & Explanation Capacity Law & Shannon's theorem \\
+$\mathrm{unfaith}_1 + \mathrm{unfaith}_2 \geq \Delta - \delta$ & Explanation uncertainty relation & Heisenberg's relation \\
+Orbit average / DASH / character & The explanation code & Optimal channel code \\
+Which pairs survive & Tightness (full / collapsed) & --- \\
+No neutral element & Explanation conflict & Noise (channel impairment) \\
+Add neutral element & Enrichment & Alphabet extension \\
+$M$ models for $\varepsilon$-stability & Convergence prescription & Block length \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 We introduce a minimal abstract framework sufficient to state and prove the
 Explanation Impossibility.  All instances in
 Sections~\ref{sec:derived-instances} and~\ref{sec:ml-instances} are special cases.
