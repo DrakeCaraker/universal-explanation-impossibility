@@ -98,8 +98,8 @@ Botvinik-Nezer et al. (Nature 2020) gave the same fMRI data to 70 teams who reac
 
 ## Key Theoretical Results
 
-### The Universal η Law
-The character-theoretic formula η = 1 − dim(V^G)/dim(V) predicts instability from the symmetry group alone, with zero free parameters. Across 7 well-characterized domains: **R² = 0.957**, slope 0.91. A Noether-type counting law follows: within-group comparisons are coin flips (50.0% vs 0.2%, bimodal gap = 50pp, p = 2.7 × 10⁻¹³).
+### The Explanation Capacity Law
+Every system with symmetry group G has an **explanation capacity** C = dim(V^G): the maximum number of independent stable facts any method can extract. The **explanation loss rate** η = 1 − C/dim(V) predicts instability from the group alone, with zero free parameters. Across 7 well-characterized domains: **R² = 0.957**, slope 0.91. The orbit average (**the explanation code**) achieves the capacity — it is the unique optimal strategy, the way Shannon's optimal code achieves channel capacity. A stability counting theorem follows: within-group comparisons are coin flips (50.0% vs 0.2%, bimodal gap = 50pp, p = 2.7 × 10⁻¹³).
 
 ### Classification of 20 Impossibility Theorems
 A classification by **tightness type** — which property pairs survive when the full triple fails:
@@ -113,7 +113,7 @@ A classification by **tightness type** — which property pairs survive when the
 The explanation bilemma is one of only two collapsed instances — structurally more severe than Arrow, Gödel, Bell, CAP, or fairness impossibilities.
 
 ### Uncertainty from Symmetry
-The η law and quantum uncertainty arise from the same representation-theoretic decomposition. The Reynolds operator (explanation) and the quantum twirl (QM) are instances of the same algebraic structure. The approximate bilemma (unfaith(θ₁) + unfaith(θ₂) ≥ Δ − δ) is a formal uncertainty relation analogous to Heisenberg's ΔxΔp ≥ ℏ/2. Proved in Lean (`UncertaintyFromSymmetry.lean`, 10 theorems, 0 sorry).
+The Explanation Capacity Law and quantum uncertainty arise from the same representation-theoretic decomposition. The orbit average (the **explanation code**) and the quantum twirl are both capacity-achieving projections onto the trivial representation. The **explanation uncertainty relation** (unfaith(θ₁) + unfaith(θ₂) ≥ Δ − δ) is analogous to Heisenberg's ΔxΔp ≥ ℏ/2. Proved in Lean (`UncertaintyFromSymmetry.lean`, 13 theorems, 0 sorry).
 
 ### Recursive Resolution
 Enrichment restores blocked property pairs but creates a new impossibility at the next level. Levels are independent (proved). The enrichment stack mirrors the algebraic structure of a tower of field extensions in Galois theory.
