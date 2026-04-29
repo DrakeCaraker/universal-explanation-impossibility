@@ -1626,8 +1626,18 @@ dose-response (entropy scaling with degeneracy $k$) directly to
 representation-theoretic structure: the ratio
 $\dim(V^G) / \dim(V) = 1/k$ determines the fraction of explanation
 content that survives projection onto the invariant subspace.
+We call $C = \dim(V^G)$ the \emph{explanation capacity}: the maximum
+number of independent stable facts any method can extract from a system
+with symmetry group~$G$.  The complementary quantity $\eta = 1 - C/\dim(V)$
+is the \emph{explanation loss rate}: the fraction of explanatory content
+irretrievably lost by any stable method.  The orbit average (Reynolds
+operator) achieves the capacity---it is the \emph{capacity-achieving
+projection} (Theorem~\ref{thm:uncertainty-from-symmetry}, proved
+Pareto-optimal).  As Shannon's channel capacity bounds the rate of
+reliable communication, the explanation capacity bounds the rate of
+reliable explanation.
 
-The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that this ratio predicts explanation instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Law}.
 
 \paragraph{Uncertainty from symmetry: the representation-theoretic connection to quantum mechanics.}
 The $\eta$ law and quantum uncertainty both arise from the same representation-theoretic decomposition.  We state and prove the connection.
@@ -1752,7 +1762,7 @@ Psychology & Garden of forking paths & Which analysis yields the effect & Pre-re
 In each domain, the pattern is identical: (1)~correlated variables or underdetermined models create the Rashomon property; (2)~the specific explanation (which gene, which circuit, which risk factor, which feedback mechanism) depends on the particular model or analysis pipeline; (3)~the resolution involves some form of averaging, ensembling, or abstraction to a coarser level where the instability vanishes.  The theorem proves that step~(3) is not a methodological preference but the unique Pareto-optimal response to a structural constraint.
 
 \paragraph{The theorem as an uncertainty principle for scientific explanation.}
-The Uncertainty from Symmetry theorem (Section~\ref{sec:group-classification}) formalises this scope.  For any system with symmetry group~$G$, the fraction of explanatory content that is stable equals $\dim(V^G)/\dim(V)$, and the complementary fraction $\eta = 1 - \dim(V^G)/\dim(V)$ is irretrievably lost by any stable method.  This is not specific to ML explanations, SHAP values, or feature importance.  It applies to any vector-valued description of any system with a symmetry group---physical, biological, economic, or social.  The approximate bilemma ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$) provides the corresponding uncertainty relation: reducing unfaithfulness at one configuration forces increased unfaithfulness at another, with a lower bound determined by the system's structure.
+The Uncertainty from Symmetry theorem (Section~\ref{sec:group-classification}) formalises this scope.  For any system with symmetry group~$G$, the explanation capacity is $C = \dim(V^G)$ and the explanation loss rate is $\eta = 1 - C/\dim(V)$.  These are not specific to ML explanations, SHAP values, or feature importance.  They apply to any vector-valued description of any system with a symmetry group---physical, biological, economic, or social.  The \emph{explanation uncertainty relation} ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$, the quantitative form of the bilemma) provides the complementary bound: reducing unfaithfulness at one configuration forces increased unfaithfulness at another, with a lower bound determined by the system's structure.
 
 The practical consequence for working scientists in \emph{any} field: if your system has correlated explanatory variables, the specific attribution you report (which variable is most important, which mechanism is primary) is not a stable property of the data.  It is a joint property of the data and the particular model or analysis pipeline.  The stable content---what survives averaging over valid pipelines---is at a coarser level (variable groups, pathway classes, mechanism families).  The theorem identifies exactly what that coarser level is ($V^G$, the symmetry-invariant subspace) and proves the orbit average is the optimal way to access it.
 

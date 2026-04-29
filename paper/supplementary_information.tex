@@ -75,7 +75,7 @@ Audit results on 8 datasets (clinical, financial, genomics): SAGE reduces false 
 
 \section{CCA Spectrum and Continuous Symmetry}
 
-The character-theoretic formula $\eta = \dim(V^G)/\dim(V)$ quantifies the fraction of explanation space that is stably interpretable.  For finite groups, $\dim(V^G)$ counts the multiplicity of the trivial representation in the decomposition of $V$; equivalently, it equals the number of orbits (by Burnside's lemma for permutation representations).
+The \emph{explanation capacity} $C = \dim(V^G)$ is the maximum number of independent stable facts extractable from a system with symmetry group~$G$.  The \emph{explanation loss rate} $\eta = 1 - C/\dim(V)$ quantifies the fraction of explanation space that is irretrievably unstable (the Explanation Capacity Law).  For finite groups, $C$ counts the multiplicity of the trivial representation; equivalently, it equals the number of orbits (by Burnside's lemma for permutation representations).
 
 Across seven domain instances, the predicted $\eta$ vs.\ observed instability rate yields $R^2 = 0.957$, slope $= 0.91$, intercept $= 0.008$ ($p = 1.4 \times 10^{-4}$).  The spectral analysis reveals that the gap between the first and second singular values in the CCA decomposition corresponds to the $G$-invariant subspace dimension, providing a data-driven estimator of $\eta$ when the group structure is unknown.
 
