@@ -432,6 +432,14 @@ science where correlated variables create underdetermined
 explanations---which risk factor drives a disease (epidemiology), which
 feedback mechanism drives warming (climate science), which policy lever
 drove growth (economics)---wherever the Rashomon property holds.
+Any study reporting feature importance, circuit analysis, or causal
+attribution should include a stability audit: retrain with independent
+seeds and report only the conclusions that survive averaging.  Without
+such an audit, the specific finding is a property of the training run,
+not of the data.  The EU AI Act (Article~13) requires ``meaningful
+explanations'' for high-risk systems; the theorem shows that the
+specific explanation depends on the training run, and regulators should
+require stability-audited explanations rather than single-model reports.
 
 \paragraph{The explanation impossibility is structurally more severe than other impossibilities.}
 Impossibility theorems appear across science---Arrow, G\"odel, Bell,
