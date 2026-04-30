@@ -45,27 +45,6 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/session-bookmark.sh",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/feedback-capture.sh",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "/Users/drake.caraker/.claude/plugins/cache/alfred-marketplace/alfred/0.3.0/hooks/pilot-telemetry.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "PreCompact": [
       {
         "hooks": [

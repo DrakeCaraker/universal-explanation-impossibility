@@ -1,0 +1,177 @@
+{
+  "sage_comparison": {
+    "Breast_Cancer": {
+      "corr": {
+        "ng": 11,
+        "nw": 58,
+        "gap": -0.0047214854111405635,
+        "nw_eval": 58,
+        "nb_eval": 377
+      },
+      "mi": {
+        "ng": 11,
+        "nw": 75,
+        "gap": 0.000222222222222207,
+        "nw_eval": 75,
+        "nb_eval": 360
+      },
+      "sage": {
+        "ng": 12,
+        "nw": 41,
+        "gap": 0.28844372910734184,
+        "nw_eval": 41,
+        "nb_eval": 394
+      }
+    },
+    "Digits": {
+      "corr": {
+        "ng": 53,
+        "nw": 9,
+        "gap": 0.007585575691012265,
+        "nw_eval": 9,
+        "nb_eval": 1821
+      },
+      "mi": {
+        "ng": 53,
+        "nw": 15,
+        "gap": -0.029134986225895318,
+        "nw_eval": 15,
+        "nb_eval": 1815
+      },
+      "sage": {
+        "ng": 47,
+        "nw": 17,
+        "gap": 0.3665085493656922,
+        "nw_eval": 17,
+        "nb_eval": 1813
+      }
+    },
+    "Wine": {
+      "corr": {
+        "ng": 11,
+        "nw": 3,
+        "gap": -0.04533333333333334,
+        "nw_eval": 3,
+        "nb_eval": 75
+      },
+      "mi": {
+        "ng": 11,
+        "nw": 3,
+        "gap": -0.04533333333333334,
+        "nw_eval": 3,
+        "nb_eval": 75
+      },
+      "sage": {
+        "ng": 12,
+        "nw": 1,
+        "gap": 0.33402597402597406,
+        "nw_eval": 1,
+        "nb_eval": 77
+      }
+    },
+    "California": {
+      "corr": {
+        "ng": 7,
+        "nw": 1,
+        "gap": 0.21925925925925924,
+        "nw_eval": 1,
+        "nb_eval": 27
+      },
+      "mi": {
+        "ng": 7,
+        "nw": 1,
+        "gap": 0.21925925925925924,
+        "nw_eval": 1,
+        "nb_eval": 27
+      },
+      "sage": {
+        "ng": 6,
+        "nw": 2,
+        "gap": 0.20615384615384616,
+        "nw_eval": 2,
+        "nb_eval": 26
+      }
+    },
+    "Diabetes": {
+      "corr": {
+        "ng": 8,
+        "nw": 2,
+        "gap": 0.11348837209302329,
+        "nw_eval": 2,
+        "nb_eval": 43
+      },
+      "mi": {
+        "ng": 8,
+        "nw": 2,
+        "gap": 0.11348837209302329,
+        "nw_eval": 2,
+        "nb_eval": 43
+      },
+      "sage": {
+        "ng": 8,
+        "nw": 3,
+        "gap": 0.1733333333333333,
+        "nw_eval": 3,
+        "nb_eval": 42
+      }
+    },
+    "PMLB_clean1": {
+      "corr": {
+        "ng": 34,
+        "nw": 304,
+        "gap": 0.055407991027935755,
+        "nw_eval": 304,
+        "nb_eval": 4646
+      },
+      "mi": {
+        "ng": 35,
+        "nw": 193,
+        "gap": 0.01925509284926169,
+        "nw_eval": 193,
+        "nb_eval": 4757
+      },
+      "sage": {
+        "ng": 36,
+        "nw": 119,
+        "gap": 0.1707076670452904,
+        "nw_eval": 119,
+        "nb_eval": 4831
+      }
+    },
+    "PMLB_vehicle": {
+      "corr": {
+        "ng": 6,
+        "nw": 58,
+        "gap": 0.012239564428312158,
+        "nw_eval": 58,
+        "nb_eval": 95
+      },
+      "mi": {
+        "ng": 6,
+        "nw": 49,
+        "gap": 0.00857142857142857,
+        "nw_eval": 49,
+        "nb_eval": 104
+      },
+      "sage": {
+        "ng": 6,
+        "nw": 31,
+        "gap": 0.2255314648334215,
+        "nw_eval": 31,
+        "nb_eval": 122
+      }
+    }
+  },
+  "extended_sample": {
+    "n_datasets": 14,
+    "n_pairs": 13511,
+    "n_within": 1309,
+    "n_between": 12202,
+    "quadratic_coef_within": 0.03726483996822638,
+    "cluster_bootstrap_ci": [
+      0.013983611981067722,
+      0.04523392444872239
+    ],
+    "excludes_zero": true
+  }
+}

@@ -1,0 +1,353 @@
+{
+  "part1_pooled_null_model": {
+    "total_pairs": 850,
+    "ols_no_fe": {
+      "coef_diff": -0.015564615018829152,
+      "coef_within": 0.080467221327427,
+      "r_squared": 0.08064219975601361
+    },
+    "ols_with_fe": {
+      "coef_diff": -0.040142859423414556,
+      "coef_within": 0.0878749863864284,
+      "r_squared": 0.23571875111006624,
+      "bootstrap_ci": [
+        0.05855225356060789,
+        0.11587028388035922
+      ],
+      "ci_excludes_zero": true
+    },
+    "permutation_p": 0.0,
+    "stratified": [
+      {
+        "decile": 0,
+        "n_within": 18,
+        "n_between": 67,
+        "within_mean": 0.42,
+        "between_mean": 0.3835820895522388,
+        "gap": 0.03641791044776116,
+        "mw_p": 0.04919440051542482
+      },
+      {
+        "decile": 1,
+        "n_within": 18,
+        "n_between": 67,
+        "within_mean": 0.3588888888888889,
+        "between_mean": 0.2617910447761194,
+        "gap": 0.0970978441127695,
+        "mw_p": 0.0029985518855432337
+      },
+      {
+        "decile": 2,
+        "n_within": 23,
+        "n_between": 62,
+        "within_mean": 0.21739130434782614,
+        "between_mean": 0.1554838709677419,
+        "gap": 0.061907433380084226,
+        "mw_p": 0.0007808396710445523
+      },
+      {
+        "decile": 3,
+        "n_within": 17,
+        "n_between": 68,
+        "within_mean": 0.1988235294117647,
+        "between_mean": 0.09970588235294117,
+        "gap": 0.09911764705882353,
+        "mw_p": 0.00013546594532628527
+      },
+      {
+        "decile": 4,
+        "n_within": 16,
+        "n_between": 69,
+        "within_mean": 0.095,
+        "between_mean": 0.061449275362318846,
+        "gap": 0.033550724637681155,
+        "mw_p": 0.007982917809165189
+      },
+      {
+        "decile": 5,
+        "n_within": 10,
+        "n_between": 75,
+        "within_mean": 0.044000000000000004,
+        "between_mean": 0.020266666666666665,
+        "gap": 0.02373333333333334,
+        "mw_p": 0.03863896856689482
+      },
+      {
+        "decile": 6,
+        "n_within": 11,
+        "n_between": 74,
+        "within_mean": 0.021818181818181816,
+        "between_mean": 0.009729729729729731,
+        "gap": 0.012088452088452085,
+        "mw_p": 0.002103822061299244
+      },
+      {
+        "decile": 7,
+        "n_within": 12,
+        "n_between": 73,
+        "within_mean": 0.015,
+        "between_mean": 0.015342465753424656,
+        "gap": -0.00034246575342465613,
+        "mw_p": 0.016084893351950638
+      },
+      {
+        "decile": 8,
+        "n_within": 10,
+        "n_between": 75,
+        "within_mean": 0.032,
+        "between_mean": 0.004533333333333334,
+        "gap": 0.027466666666666667,
+        "mw_p": 0.19117909876357203
+      }
+    ],
+    "per_dataset": {
+      "Breast_Cancer": {
+        "P": 30,
+        "n_groups": 11,
+        "n_within": 58,
+        "n_between": 377,
+        "within_flip": 0.13,
+        "between_flip": 0.1386737400530504,
+        "rand_test": {
+          "observed_gap": -0.008673740053050383,
+          "perm_p": 0.6005,
+          "perm_mean": -0.00015059681697613151,
+          "perm_std": 0.023232442116070694,
+          "effect_z": -0.36686385329153554,
+          "n_within": 58,
+          "n_between": 377
+        },
+        "elapsed": 5.5
+      },
+      "Digits": {
+        "status": "error",
+        "error": "index 2 is out of bounds for axis 0 with size 2"
+      },
+      "Wine": {
+        "P": 13,
+        "n_groups": 11,
+        "n_within": 3,
+        "n_between": 75,
+        "within_flip": 0.02666666666666667,
+        "between_flip": 0.07519999999999999,
+        "rand_test": {
+          "observed_gap": -0.04853333333333332,
+          "perm_p": 0.643,
+          "perm_mean": 0.001005333333333334,
+          "perm_std": 0.07793324966063372,
+          "effect_z": -0.6356550879423937,
+          "n_within": 3,
+          "n_between": 75
+        },
+        "elapsed": 6.4
+      },
+      "California": {
+        "P": 8,
+        "n_groups": 7,
+        "n_within": 1,
+        "n_between": 27,
+        "within_flip": 0.18,
+        "between_flip": 0.03185185185185185,
+        "rand_test": {
+          "observed_gap": 0.14814814814814814,
+          "perm_p": 0.1205,
+          "perm_mean": 0.0027762962962962997,
+          "perm_std": 0.08369838231528008,
+          "effect_z": 1.7368537817643408,
+          "n_within": 1,
+          "n_between": 27
+        },
+        "elapsed": 8.9
+      },
+      "Diabetes": {
+        "P": 10,
+        "n_groups": 8,
+        "n_within": 2,
+        "n_between": 43,
+        "within_flip": 0.29000000000000004,
+        "between_flip": 0.1725581395348837,
+        "rand_test": {
+          "observed_gap": 0.11744186046511634,
+          "perm_p": 0.153,
+          "perm_mean": 0.004758720930232574,
+          "perm_std": 0.12011585100753325,
+          "effect_z": 0.9381204777695549,
+          "n_within": 2,
+          "n_between": 43
+        },
+        "elapsed": 7.1
+      },
+      "Synth_3g_rho80": {
+        "P": 12,
+        "n_groups": 3,
+        "n_within": 18,
+        "n_between": 48,
+        "within_flip": 0.17777777777777778,
+        "between_flip": 0.011250000000000001,
+        "rand_test": {
+          "observed_gap": 0.16652777777777777,
+          "perm_p": 0.001,
+          "perm_mean": -0.00048506944444444433,
+          "perm_std": 0.031727596701191366,
+          "effect_z": 5.263961490532655,
+          "n_within": 18,
+          "n_between": 48
+        },
+        "elapsed": 4.4
+      },
+      "Synth_3g_rho90": {
+        "P": 12,
+        "n_groups": 3,
+        "n_within": 18,
+        "n_between": 48,
+        "within_flip": 0.21333333333333335,
+        "between_flip": 0.02416666666666667,
+        "rand_test": {
+          "observed_gap": 0.18916666666666668,
+          "perm_p": 0.001,
+          "perm_mean": 0.0012484722222222222,
+          "perm_std": 0.041293518682305276,
+          "effect_z": 4.550791515012487,
+          "n_within": 18,
+          "n_between": 48
+        },
+        "elapsed": 3.9
+      },
+      "Synth_3g_rho95": {
+        "P": 12,
+        "n_groups": 3,
+        "n_within": 18,
+        "n_between": 48,
+        "within_flip": 0.3177777777777778,
+        "between_flip": 0.013333333333333334,
+        "rand_test": {
+          "observed_gap": 0.3044444444444445,
+          "perm_p": 0.001,
+          "perm_mean": 0.00033111111111111253,
+          "perm_std": 0.048724851764528836,
+          "effect_z": 6.241441940203595,
+          "n_within": 18,
+          "n_between": 48
+        },
+        "elapsed": 3.9
+      },
+      "Synth_3g_rho99": {
+        "P": 12,
+        "n_groups": 3,
+        "n_within": 18,
+        "n_between": 48,
+        "within_flip": 0.23444444444444443,
+        "between_flip": 0.03666666666666666,
+        "rand_test": {
+          "observed_gap": 0.19777777777777777,
+          "perm_p": 0.001,
+          "perm_mean": -5.4930555555555536e-05,
+          "perm_std": 0.040670377335202706,
+          "effect_z": 4.864294882312217,
+          "n_within": 18,
+          "n_between": 48
+        },
+        "elapsed": 4.4
+      }
+    }
+  },
+  "part2_threshold_dip": {
+    "0.50": {
+      "testable": 123,
+      "mean_nw": 102.42276422764228,
+      "median_nw": 12.0,
+      "pct_nw_ge10": 52.84552845528455,
+      "mean_groups": 16.59731543624161
+    },
+    "0.60": {
+      "testable": 120,
+      "mean_nw": 88.49166666666666,
+      "median_nw": 7.5,
+      "pct_nw_ge10": 47.5,
+      "mean_groups": 17.959731543624162
+    },
+    "0.70": {
+      "testable": 111,
+      "mean_nw": 81.0,
+      "median_nw": 6.0,
+      "pct_nw_ge10": 45.04504504504504,
+      "mean_groups": 19.248322147651006
+    },
+    "0.80": {
+      "testable": 103,
+      "mean_nw": 61.48543689320388,
+      "median_nw": 5.0,
+      "pct_nw_ge10": 41.74757281553398,
+      "mean_groups": 20.677852348993287
+    },
+    "0.90": {
+      "testable": 74,
+      "mean_nw": 42.9054054054054,
+      "median_nw": 6.0,
+      "pct_nw_ge10": 45.94594594594595,
+      "mean_groups": 22.751677852348994
+    }
+  },
+  "part3_clustering_sensitivity": {
+    "Breast_Cancer": {
+      "average": {
+        "n_groups": 11,
+        "n_w": 58
+      },
+      "complete": {
+        "n_groups": 12,
+        "n_w": 40
+      },
+      "ward": {
+        "n_groups": 12,
+        "n_w": 40
+      }
+    },
+    "California": {
+      "average": {
+        "n_groups": 7,
+        "n_w": 1
+      },
+      "complete": {
+        "n_groups": 7,
+        "n_w": 1
+      },
+      "ward": {
+        "n_groups": 7,
+        "n_w": 1
+      }
+    },
+    "Diabetes": {
+      "average": {
+        "n_groups": 8,
+        "n_w": 2
+      },
+      "complete": {
+        "n_groups": 8,
+        "n_w": 2
+      },
+      "ward": {
+        "n_groups": 8,
+        "n_w": 2
+      }
+    },
+    "Wine": {
+      "average": {
+        "n_groups": 11,
+        "n_w": 3
+      },
+      "complete": {
+        "n_groups": 12,
+        "n_w": 1
+      },
+      "ward": {
+        "n_groups": 12,
+        "n_w": 1
+      }
+    }
+  },
+  "part4_dermatology": {
+    "status": "error",
+    "error": "ufunc 'isnan' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''"
+  }
+}

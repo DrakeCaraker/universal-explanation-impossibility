@@ -1,0 +1,57 @@
+{
+  "real_world_datasets": {
+    "Breast_Cancer": {
+      "n_w": 58,
+      "gap": -0.008673740053050383,
+      "perm_p": 0.6005,
+      "P": 30,
+      "n_groups": 11
+    },
+    "Digits": {
+      "n_w": 9,
+      "gap": 0.028995057660626024,
+      "perm_p": 0.1785,
+      "P": 61,
+      "n_groups": 53
+    },
+    "Wine": {
+      "n_w": 3,
+      "gap": -0.04853333333333332,
+      "perm_p": 0.643,
+      "P": 13,
+      "n_groups": 11
+    },
+    "California": {
+      "n_w": 1,
+      "gap": 0.14814814814814814,
+      "perm_p": 0.1205,
+      "P": 8,
+      "n_groups": 7
+    },
+    "Diabetes": {
+      "n_w": 2,
+      "gap": 0.11744186046511634,
+      "perm_p": 0.153,
+      "P": 10,
+      "n_groups": 8
+    },
+    "Dermatology": {
+      "n_w": 31,
+      "gap": 0.09662446743761417,
+      "perm_p": 0.008,
+      "P": 34,
+      "n_groups": 22
+    }
+  },
+  "pooled": {
+    "n_pairs": 2977,
+    "n_within": 104,
+    "n_between": 2873,
+    "coef_within": 0.02773844558365879,
+    "bootstrap_ci": [
+      -0.0013849275801561616,
+      0.05676765421731782
+    ],
+    "permutation_p": 0.0405
+  }
+}

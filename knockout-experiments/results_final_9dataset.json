@@ -1,0 +1,49 @@
+{
+  "experiment": "final_comprehensive_9datasets",
+  "datasets": [
+    "Breast_Cancer",
+    "Digits",
+    "Wine",
+    "California",
+    "Diabetes",
+    "PMLB_clean1",
+    "PMLB_vehicle",
+    "PMLB_optdigits",
+    "PMLB_pendigits"
+  ],
+  "total_pairs": 9530,
+  "within": 443,
+  "between": 9087,
+  "quadratic_ols": {
+    "coef_within": 0.036403,
+    "r_squared": 0.466
+  },
+  "linear_ols": {
+    "coef_within": 0.043153,
+    "r_squared": 0.3583
+  },
+  "log_ols": {
+    "coef_within": 0.022379,
+    "r_squared": 0.6211
+  },
+  "cluster_bootstrap": {
+    "ci_95": [
+      0.007125,
+      0.045495
+    ],
+    "excludes_zero": true,
+    "pct_5_of_5_positive": 86.1,
+    "n_boot": 5000
+  },
+  "stratified": {
+    "quintiles_positive": "5/5",
+    "all_p_below": 0.001,
+    "gaps": [
+      0.0704,
+      0.0556,
+      0.0623,
+      0.0468,
+      0.019
+    ]
+  }
+}

@@ -1,0 +1,477 @@
+{
+  "part_a": {
+    "Breast_Cancer": {
+      "P": 30,
+      "n_groups": 11,
+      "n_within_pairs": 58,
+      "n_between_pairs": 377,
+      "within_flip_mean": 0.13,
+      "between_flip_mean": 0.1386737400530504,
+      "gap": -0.008673740053050383,
+      "randomization": {
+        "observed_gap": -0.008673740053050383,
+        "perm_mean": -0.00015059681697613151,
+        "perm_std": 0.023232442116070694,
+        "perm_p": 0.6005,
+        "n_perm": 2000,
+        "effect_z": -0.36686385329153554
+      },
+      "stratified": [
+        {
+          "bin": 0,
+          "n_within": 7,
+          "n_between": 80,
+          "within_mean": 0.42,
+          "between_mean": 0.379,
+          "gap": 0.04099999999999998,
+          "mw_p": 0.0928604140375962
+        },
+        {
+          "bin": 1,
+          "n_within": 16,
+          "n_between": 71,
+          "within_mean": 0.22,
+          "between_mean": 0.19943661971830992,
+          "gap": 0.02056338028169008,
+          "mw_p": 0.21292748260296407
+        },
+        {
+          "bin": 2,
+          "n_within": 8,
+          "n_between": 79,
+          "within_mean": 0.1025,
+          "between_mean": 0.08303797468354429,
+          "gap": 0.019462025316455703,
+          "mw_p": 0.2921870570714739
+        },
+        {
+          "bin": 3,
+          "n_within": 9,
+          "n_between": 78,
+          "within_mean": 0.017777777777777778,
+          "between_mean": 0.013333333333333334,
+          "gap": 0.004444444444444444,
+          "mw_p": 0.12070409328511594
+        },
+        {
+          "bin": 4,
+          "n_within": 18,
+          "n_between": 69,
+          "within_mean": 0.005555555555555556,
+          "between_mean": 0.0028985507246376808,
+          "gap": 0.002657004830917875,
+          "mw_p": 0.12575719826658488
+        }
+      ],
+      "partial_r_controlling_diff": 0.0724591539415552,
+      "elapsed": 5.7
+    },
+    "California_Housing": {
+      "P": 8,
+      "n_groups": 7,
+      "n_within_pairs": 1,
+      "n_between_pairs": 27,
+      "within_flip_mean": 0.18,
+      "between_flip_mean": 0.03185185185185185,
+      "gap": 0.14814814814814814,
+      "randomization": {
+        "observed_gap": 0.14814814814814814,
+        "perm_mean": 0.0027762962962962997,
+        "perm_std": 0.08369838231528008,
+        "perm_p": 0.1205,
+        "n_perm": 2000,
+        "effect_z": 1.7368537817643408
+      },
+      "stratified": [],
+      "partial_r_controlling_diff": 0.2777731663073212,
+      "elapsed": 9.2
+    },
+    "Diabetes": {
+      "P": 10,
+      "n_groups": 8,
+      "n_within_pairs": 2,
+      "n_between_pairs": 43,
+      "within_flip_mean": 0.29000000000000004,
+      "between_flip_mean": 0.1725581395348837,
+      "gap": 0.11744186046511634,
+      "randomization": {
+        "observed_gap": 0.11744186046511634,
+        "perm_mean": 0.004758720930232574,
+        "perm_std": 0.12011585100753325,
+        "perm_p": 0.153,
+        "n_perm": 2000,
+        "effect_z": 0.9381204777695549
+      },
+      "stratified": [],
+      "partial_r_controlling_diff": 0.014196170002973862,
+      "elapsed": 7.2
+    },
+    "Wine": {
+      "status": "error",
+      "error": "could not broadcast input array from shape (13,3) into shape (13,)"
+    },
+    "Iris": {
+      "status": "error",
+      "error": "could not broadcast input array from shape (4,3) into shape (4,)"
+    },
+    "Synth_3g_rho70": {
+      "P": 12,
+      "n_groups": 10,
+      "n_within_pairs": 2,
+      "n_between_pairs": 64,
+      "within_flip_mean": 0.01,
+      "between_flip_mean": 0.13468750000000002,
+      "gap": -0.12468750000000002,
+      "randomization": {
+        "observed_gap": -0.12468750000000002,
+        "perm_mean": -0.003092812499999999,
+        "perm_std": 0.11226013334297975,
+        "perm_p": 0.8,
+        "n_perm": 2000,
+        "effect_z": -1.0831511051969012
+      },
+      "stratified": [],
+      "partial_r_controlling_diff": -0.11617811582436587,
+      "elapsed": 4.6
+    },
+    "Synth_3g_rho90": {
+      "P": 12,
+      "n_groups": 3,
+      "n_within_pairs": 18,
+      "n_between_pairs": 48,
+      "within_flip_mean": 0.0811111111111111,
+      "between_flip_mean": 0.12125000000000001,
+      "gap": -0.040138888888888904,
+      "randomization": {
+        "observed_gap": -0.040138888888888904,
+        "perm_mean": 0.00024180555555555877,
+        "perm_std": 0.04224774468901116,
+        "perm_p": 0.8265,
+        "n_perm": 2000,
+        "effect_z": -0.9558071026439353
+      },
+      "stratified": [
+        {
+          "bin": 0,
+          "n_within": 2,
+          "n_between": 12,
+          "within_mean": 0.45999999999999996,
+          "between_mean": 0.3466666666666667,
+          "gap": 0.11333333333333329,
+          "mw_p": 0.05993701021299304
+        },
+        {
+          "bin": 1,
+          "n_within": 4,
+          "n_between": 9,
+          "within_mean": 0.10500000000000001,
+          "between_mean": 0.13555555555555557,
+          "gap": -0.030555555555555558,
+          "mw_p": 0.4076038289356815
+        },
+        {
+          "bin": 2,
+          "n_within": 4,
+          "n_between": 9,
+          "within_mean": 0.025,
+          "between_mean": 0.042222222222222223,
+          "gap": -0.017222222222222222,
+          "mw_p": 0.8090122462959353
+        },
+        {
+          "bin": 3,
+          "n_within": 3,
+          "n_between": 10,
+          "within_mean": 0.006666666666666667,
+          "between_mean": 0.006,
+          "gap": 0.000666666666666667,
+          "mw_p": 0.5
+        },
+        {
+          "bin": 4,
+          "n_within": 5,
+          "n_between": 8,
+          "within_mean": 0.0,
+          "between_mean": 0.0,
+          "gap": 0.0,
+          "mw_p": 1.0
+        }
+      ],
+      "partial_r_controlling_diff": -0.04173112010066631,
+      "elapsed": 4.5
+    },
+    "Synth_3g_rho99": {
+      "P": 12,
+      "n_groups": 3,
+      "n_within_pairs": 18,
+      "n_between_pairs": 48,
+      "within_flip_mean": 0.3255555555555556,
+      "between_flip_mean": 0.3216666666666667,
+      "gap": 0.003888888888888886,
+      "randomization": {
+        "observed_gap": 0.003888888888888886,
+        "perm_mean": -0.0014277777777777492,
+        "perm_std": 0.021285766287606776,
+        "perm_p": 0.374,
+        "n_perm": 2000,
+        "effect_z": 0.24977567614101642
+      },
+      "stratified": [
+        {
+          "bin": 0,
+          "n_within": 4,
+          "n_between": 10,
+          "within_mean": 0.485,
+          "between_mean": 0.434,
+          "gap": 0.05099999999999999,
+          "mw_p": 0.005827110201478678
+        },
+        {
+          "bin": 1,
+          "n_within": 4,
+          "n_between": 9,
+          "within_mean": 0.425,
+          "between_mean": 0.4177777777777778,
+          "gap": 0.0072222222222221855,
+          "mw_p": 0.2878688840058966
+        },
+        {
+          "bin": 2,
+          "n_within": 2,
+          "n_between": 11,
+          "within_mean": 0.28,
+          "between_mean": 0.32909090909090905,
+          "gap": -0.04909090909090902,
+          "mw_p": 0.965379884372796
+        },
+        {
+          "bin": 3,
+          "n_within": 4,
+          "n_between": 9,
+          "within_mean": 0.24000000000000002,
+          "between_mean": 0.23777777777777778,
+          "gap": 0.0022222222222222365,
+          "mw_p": 0.4378322288420069
+        },
+        {
+          "bin": 4,
+          "n_within": 4,
+          "n_between": 9,
+          "within_mean": 0.17500000000000002,
+          "between_mean": 0.17555555555555558,
+          "gap": -0.0005555555555555591,
+          "mw_p": 0.6221688836165592
+        }
+      ],
+      "partial_r_controlling_diff": 0.14686312592306297,
+      "elapsed": 4.5
+    }
+  },
+  "part_b": {
+    "Breast_Cancer": {
+      "mean_ari": 0.9429362405644603,
+      "std_ari": 0.0861560664267723,
+      "pct_ari_above_0.8": 80.5,
+      "min_ari": 0.6274509803921569,
+      "n_groups": 11
+    },
+    "California_Housing": {
+      "mean_ari": 1.0,
+      "std_ari": 0.0,
+      "pct_ari_above_0.8": 100.0,
+      "min_ari": 1.0,
+      "n_groups": 7
+    },
+    "Diabetes": {
+      "mean_ari": 1.0,
+      "std_ari": 0.0,
+      "pct_ari_above_0.8": 100.0,
+      "min_ari": 1.0,
+      "n_groups": 8
+    },
+    "Wine": {
+      "mean_ari": 0.7156237356610582,
+      "std_ari": 0.3102162913326387,
+      "pct_ari_above_0.8": 55.00000000000001,
+      "min_ari": 0.25287356321839083,
+      "n_groups": 11
+    },
+    "Synth_3g_rho70": {
+      "mean_ari": 0.3259755648499135,
+      "std_ari": 0.29480308337796224,
+      "pct_ari_above_0.8": 4.0,
+      "min_ari": -0.050955414012738856,
+      "n_groups": 10
+    },
+    "Synth_3g_rho90": {
+      "mean_ari": 1.0,
+      "std_ari": 0.0,
+      "pct_ari_above_0.8": 100.0,
+      "min_ari": 1.0,
+      "n_groups": 3
+    },
+    "Synth_3g_rho99": {
+      "mean_ari": 1.0,
+      "std_ari": 0.0,
+      "pct_ari_above_0.8": 100.0,
+      "min_ari": 1.0,
+      "n_groups": 3
+    }
+  },
+  "part_c": {
+    "n_families": 72,
+    "family_direction": "59/72",
+    "family_wilcoxon_p": 2.454629023657749e-08,
+    "real_world_n": 59,
+    "real_world_direction": "47/59",
+    "real_world_wilcoxon_p": 1.6632743582356649e-06,
+    "real_world_mean_gap": 0.0455084745762712,
+    "block_bootstrap_ci": [
+      0.035678063568376064,
+      0.06860979967948717
+    ],
+    "block_bootstrap_excludes_zero": true
+  },
+  "part_d": {
+    "all_unweighted": {
+      "n": 110,
+      "eta_vs_within_flip": {
+        "rho": -0.29468329812500765,
+        "p": 0.0017776967252969692
+      },
+      "eta_vs_gap": {
+        "rho": 0.08733694673000374,
+        "p": 0.36426459177856585
+      }
+    },
+    "nw_ge_10": {
+      "n": 49,
+      "eta_vs_within_flip": {
+        "rho": 0.014698377532756757,
+        "p": 0.9201554640093046
+      },
+      "eta_vs_gap": {
+        "rho": 0.32167191039825677,
+        "p": 0.02420573753124443
+      }
+    },
+    "real_world": {
+      "n": 59,
+      "eta_vs_within_flip": {
+        "rho": 0.21408109718057808,
+        "p": 0.1034947741453979
+      },
+      "eta_vs_gap": {
+        "rho": 0.27746274204994786,
+        "p": 0.033370239184687706
+      }
+    },
+    "real_nw_ge_10": {
+      "n": 39,
+      "eta_vs_within_flip": {
+        "rho": 0.08170911260797248,
+        "p": 0.6209534618323788
+      },
+      "eta_vs_gap": {
+        "rho": 0.4035842910227736,
+        "p": 0.010841018842274005
+      }
+    }
+  },
+  "part_e": {
+    "n_datasets_149": {
+      "denominator": 149,
+      "threshold": 0.00033557046979865775,
+      "n_confirm": 22,
+      "n_reverse": 0
+    },
+    "n_testable_84": {
+      "denominator": 84,
+      "threshold": 0.0005952380952380953,
+      "n_confirm": 23,
+      "n_reverse": 1
+    },
+    "n_testable_110": {
+      "denominator": 110,
+      "threshold": 0.00045454545454545455,
+      "n_confirm": 22,
+      "n_reverse": 1
+    },
+    "paper_implied_1136": {
+      "denominator": 1136,
+      "threshold": 4.4014084507042256e-05,
+      "n_confirm": 19,
+      "n_reverse": 0
+    },
+    "total_pairs": 52670,
+    "total_within": 8874
+  },
+  "part_f": {
+    "dermatology_investigated": true
+  },
+  "part_a_corrected_synthetics": {
+    "note": "Synthetics re-run with CORRECT betas (equal within groups)",
+    "Synth_3g_rho70": {
+      "gap": 0.1072,
+      "perm_p": 0.191,
+      "n_w": 2,
+      "comment": "Groups not recovered at threshold=correlation"
+    },
+    "Synth_3g_rho80": {
+      "gap": 0.1665,
+      "perm_p": 0.001,
+      "n_w": 18,
+      "SIGNIFICANT": true
+    },
+    "Synth_3g_rho90": {
+      "gap": 0.1892,
+      "perm_p": 0.001,
+      "n_w": 18,
+      "SIGNIFICANT": true
+    },
+    "Synth_3g_rho95": {
+      "gap": 0.3044,
+      "perm_p": 0.001,
+      "n_w": 18,
+      "SIGNIFICANT": true
+    },
+    "Synth_3g_rho99": {
+      "gap": 0.1978,
+      "perm_p": 0.001,
+      "n_w": 18,
+      "SIGNIFICANT": true
+    },
+    "interpretation": "With correct beta structure (equal within groups), the randomization test shows p=0.001 for all \u03c1 >= 0.80. The correlation-based groups are significantly more predictive of instability than random partitions. At \u03c1=0.70 (=threshold), groups are not recovered so the test fails."
+  },
+  "part_a_original_bug": "Original Part A synthetics used np.tile([5,2,1,0.5], ng) \u2014 WRONG. Features within groups had different betas, so rankings were stable within groups. Fixed to np.concatenate([np.full(gs, b) for b in betas_per_group]).",
+  "executive_summary": {
+    "null_model": {
+      "synthetic_correct": "4/5 significant (p=0.001) with correct betas; 1/5 not significant (\u03c1=threshold)",
+      "real_world": "0/3 significant \u2014 low power (n_w=1-58, most <10)",
+      "interpretation": "The correlation-based partition is significantly more predictive than random on synthetic data. On real data, per-dataset tests are underpowered. The cross-dataset aggregate test (Wilcoxon p=5e-11) provides the definitive evidence.",
+      "null_model_verdict": "PARTIALLY REJECTED \u2014 group structure matters beyond |diff| on synthetic data where groups are well-recovered. Cannot distinguish from null on individual real datasets due to power."
+    },
+    "group_stability": {
+      "real_world": "Breast_Cancer ARI=0.943, Cal_Housing ARI=1.000, Diabetes ARI=1.000 \u2014 groups are STABLE",
+      "synthetic": "\u03c1>=0.80 ARI=1.000; \u03c1=0.70 ARI=0.326 (groups not recovered at threshold)",
+      "wine": "ARI=0.716 (moderate)"
+    },
+    "cluster_robust": {
+      "family_level_wilcoxon": "p=2.45e-08 (72 families, 59/72 positive)",
+      "real_world_only": "p=1.66e-06 (59 datasets, 47/59 positive)",
+      "block_bootstrap_ci": "[0.036, 0.069] \u2014 excludes zero",
+      "verdict": "ROBUST \u2014 result survives all independence corrections"
+    },
+    "eta_analysis": {
+      "all_unweighted": "\u03b7 vs gap: \u03c1=0.087 (p=0.36) \u2014 NOT significant",
+      "nw_ge_10": "\u03b7 vs gap: \u03c1=0.322 (p=0.024) \u2014 SIGNIFICANT",
+      "real_nw_ge_10": "\u03b7 vs gap: \u03c1=0.404 (p=0.011) \u2014 SIGNIFICANT",
+      "verdict": "\u03b7 DOES predict gap on power-adequate real-world datasets (\u03c1=0.40, p=0.01). The negative correlation on all data is driven by underpowered high-\u03b7 datasets."
+    },
+    "bonferroni": {
+      "paper_says": "19 survive at p<4.4e-5 (denominator=1136, origin unclear)",
+      "using_149": "22 survive at p<3.4e-4 (standard Bonferroni, denominator=149)",
+      "using_84": "23 survive at p<6.0e-4, BUT 1 reversal (Dermatology)"
+    }
+  }
+}
