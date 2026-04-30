@@ -391,7 +391,7 @@ under the Reynolds projection $R$ partitions any explanation vector
 into stable ($Rv$) and unstable ($v - Rv$) components with zero
 cross-talk (Lean-verified).
 The law fails when groups are unknown
-($R^2 = 0.25$ for all 16 domains) or approximate (brain imaging:
+(holdout $R^2 = 0.24$ for 9 domains with approximate groups) or approximate (brain imaging:
 $\rho \approx 0$), delineating the boundary at exact exchangeability.
 
 %%% =========================================================================
@@ -638,7 +638,7 @@ AP\_Colon\_Kidney, AP\_Endometrium\_Colon, AP\_Breast\_Colon, and
 AP\_Breast\_Lung microarray datasets (OpenML, Affymetrix HG-U133A) were
 processed with top-50-by-variance feature selection.  50~XGBoost
 classifiers (subsample~$= 0.8$, colsample\_bytree~$= 0.5$, 100
-estimators, max\_depth~$= 6$, seeds 0--49) were trained per dataset.
+estimators, max\_depth~$= 4$, seeds 0--49) were trained per dataset.
 TreeSHAP importances (mean $|\text{SHAP}|$ across test samples) determined
 the top gene per seed.  Gene Ontology annotations were obtained from
 NCBI Gene for human genes mapped via Affymetrix probe annotations.
