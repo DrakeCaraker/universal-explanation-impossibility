@@ -1,0 +1,1317 @@
+{
+  "n_datasets": 131,
+  "mean_ari": 0.8418723594419828,
+  "pct_ari_above_90": 70.22900763358778,
+  "results": [
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "N": 1600,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "N": 1600,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "N": 1600,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "N": 1600,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "N": 1600,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "agaricus_lepiota",
+      "N": 8145,
+      "P": 21,
+      "n_corr_groups": 19,
+      "n_mi_groups": 19,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 0.4951923076923077
+    },
+    {
+      "dataset": "allbp",
+      "N": 3772,
+      "P": 27,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 3,
+      "n_w_mi": 2,
+      "ari": 0.3958691910499139
+    },
+    {
+      "dataset": "allhyper",
+      "N": 3771,
+      "P": 27,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 4,
+      "n_w_mi": 4,
+      "ari": 0.7471181556195965
+    },
+    {
+      "dataset": "allhypo",
+      "N": 3770,
+      "P": 27,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 3,
+      "n_w_mi": 2,
+      "ari": 0.3958691910499139
+    },
+    {
+      "dataset": "allrep",
+      "N": 3772,
+      "P": 27,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 3,
+      "n_w_mi": 2,
+      "ari": 0.3958691910499139
+    },
+    {
+      "dataset": "analcatdata_authorship",
+      "N": 841,
+      "P": 60,
+      "n_corr_groups": 58,
+      "n_mi_groups": 58,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "ann_thyroid",
+      "N": 7200,
+      "P": 21,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": -0.004784688995215311
+    },
+    {
+      "dataset": "backache",
+      "N": 180,
+      "P": 32,
+      "n_corr_groups": 30,
+      "n_mi_groups": 30,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": -0.004048582995951417
+    },
+    {
+      "dataset": "biomed",
+      "N": 209,
+      "P": 8,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "breast_cancer",
+      "N": 286,
+      "P": 9,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "calendarDOW",
+      "N": 399,
+      "P": 32,
+      "n_corr_groups": 18,
+      "n_mi_groups": 18,
+      "n_w_corr": 28,
+      "n_w_mi": 23,
+      "ari": 0.3595468177274242
+    },
+    {
+      "dataset": "cars",
+      "N": 392,
+      "P": 8,
+      "n_corr_groups": 4,
+      "n_mi_groups": 4,
+      "n_w_corr": 10,
+      "n_w_mi": 10,
+      "ari": 1.0
+    },
+    {
+      "dataset": "chess",
+      "N": 3196,
+      "P": 36,
+      "n_corr_groups": 36,
+      "n_mi_groups": 36,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "churn",
+      "N": 5000,
+      "P": 20,
+      "n_corr_groups": 15,
+      "n_mi_groups": 15,
+      "n_w_corr": 5,
+      "n_w_mi": 5,
+      "ari": 1.0
+    },
+    {
+      "dataset": "clean1",
+      "N": 476,
+      "P": 60,
+      "n_corr_groups": 17,
+      "n_mi_groups": 17,
+      "n_w_corr": 283,
+      "n_w_mi": 140,
+      "ari": 0.3998386783575067
+    },
+    {
+      "dataset": "clean2",
+      "N": 6598,
+      "P": 60,
+      "n_corr_groups": 20,
+      "n_mi_groups": 22,
+      "n_w_corr": 188,
+      "n_w_mi": 164,
+      "ari": 0.36940660092344524
+    },
+    {
+      "dataset": "coil2000",
+      "N": 9822,
+      "P": 60,
+      "n_corr_groups": 47,
+      "n_mi_groups": 47,
+      "n_w_corr": 14,
+      "n_w_mi": 14,
+      "ari": 0.7120078099576961
+    },
+    {
+      "dataset": "collins",
+      "N": 485,
+      "P": 22,
+      "n_corr_groups": 19,
+      "n_mi_groups": 19,
+      "n_w_corr": 4,
+      "n_w_mi": 6,
+      "ari": 0.5915119363395226
+    },
+    {
+      "dataset": "dermatology",
+      "N": 366,
+      "P": 34,
+      "n_corr_groups": 22,
+      "n_mi_groups": 22,
+      "n_w_corr": 31,
+      "n_w_mi": 31,
+      "ari": 1.0
+    },
+    {
+      "dataset": "dis",
+      "N": 3772,
+      "P": 27,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 3,
+      "n_w_mi": 2,
+      "ari": 0.3958691910499139
+    },
+    {
+      "dataset": "dna",
+      "N": 3186,
+      "P": 60,
+      "n_corr_groups": 60,
+      "n_mi_groups": 60,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "flags",
+      "N": 178,
+      "P": 43,
+      "n_corr_groups": 39,
+      "n_mi_groups": 39,
+      "n_w_corr": 4,
+      "n_w_mi": 10,
+      "ari": 0.13739850342302182
+    },
+    {
+      "dataset": "glass2",
+      "N": 163,
+      "P": 9,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "hepatitis",
+      "N": 155,
+      "P": 19,
+      "n_corr_groups": 19,
+      "n_mi_groups": 19,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "hypothyroid",
+      "N": 3163,
+      "P": 25,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 11,
+      "n_w_mi": 11,
+      "ari": 0.9056307014784524
+    },
+    {
+      "dataset": "ionosphere",
+      "N": 351,
+      "P": 33,
+      "n_corr_groups": 29,
+      "n_mi_groups": 29,
+      "n_w_corr": 5,
+      "n_w_mi": 4,
+      "ari": 0.21561969439728354
+    },
+    {
+      "dataset": "kr_vs_kp",
+      "N": 3196,
+      "P": 36,
+      "n_corr_groups": 36,
+      "n_mi_groups": 35,
+      "n_w_corr": 0,
+      "n_w_mi": 1,
+      "ari": 0.0
+    },
+    {
+      "dataset": "led24",
+      "N": 3200,
+      "P": 24,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "lymphography",
+      "N": 148,
+      "P": 18,
+      "n_corr_groups": 18,
+      "n_mi_groups": 18,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "mfeat_fourier",
+      "N": 2000,
+      "P": 60,
+      "n_corr_groups": 60,
+      "n_mi_groups": 60,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "mfeat_karhunen",
+      "N": 2000,
+      "P": 60,
+      "n_corr_groups": 60,
+      "n_mi_groups": 60,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "mfeat_zernike",
+      "N": 2000,
+      "P": 47,
+      "n_corr_groups": 22,
+      "n_mi_groups": 24,
+      "n_w_corr": 50,
+      "n_w_mi": 49,
+      "ari": 0.9259001752856961
+    },
+    {
+      "dataset": "mofn_3_7_10",
+      "N": 1324,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "molecular_biology_promoters",
+      "N": 106,
+      "P": 57,
+      "n_corr_groups": 57,
+      "n_mi_groups": 57,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "movement_libras",
+      "N": 360,
+      "P": 60,
+      "n_corr_groups": 7,
+      "n_mi_groups": 7,
+      "n_w_corr": 266,
+      "n_w_mi": 308,
+      "ari": 0.7839751022151705
+    },
+    {
+      "dataset": "mushroom",
+      "N": 8124,
+      "P": 21,
+      "n_corr_groups": 18,
+      "n_mi_groups": 18,
+      "n_w_corr": 3,
+      "n_w_mi": 4,
+      "ari": 0.27385892116182575
+    },
+    {
+      "dataset": "optdigits",
+      "N": 5620,
+      "P": 60,
+      "n_corr_groups": 54,
+      "n_mi_groups": 55,
+      "n_w_corr": 7,
+      "n_w_mi": 7,
+      "ari": -0.003970504821327283
+    },
+    {
+      "dataset": "page_blocks",
+      "N": 5473,
+      "P": 10,
+      "n_corr_groups": 6,
+      "n_mi_groups": 6,
+      "n_w_corr": 10,
+      "n_w_mi": 6,
+      "ari": 0.4
+    },
+    {
+      "dataset": "parity5+5",
+      "N": 1124,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "profb",
+      "N": 672,
+      "P": 9,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "ring",
+      "N": 7400,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "saheart",
+      "N": 462,
+      "P": 9,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "satimage",
+      "N": 6435,
+      "P": 36,
+      "n_corr_groups": 3,
+      "n_mi_groups": 3,
+      "n_w_corr": 225,
+      "n_w_mi": 225,
+      "ari": 1.0
+    },
+    {
+      "dataset": "schizo",
+      "N": 340,
+      "P": 14,
+      "n_corr_groups": 14,
+      "n_mi_groups": 14,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "segmentation",
+      "N": 2310,
+      "P": 18,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 30,
+      "n_w_mi": 45,
+      "ari": 0.6687179487179488
+    },
+    {
+      "dataset": "sonar",
+      "N": 208,
+      "P": 60,
+      "n_corr_groups": 39,
+      "n_mi_groups": 39,
+      "n_w_corr": 25,
+      "n_w_mi": 25,
+      "ari": 0.7971346704871061
+    },
+    {
+      "dataset": "soybean",
+      "N": 675,
+      "P": 35,
+      "n_corr_groups": 27,
+      "n_mi_groups": 27,
+      "n_w_corr": 12,
+      "n_w_mi": 12,
+      "ari": 0.4046598056032018
+    },
+    {
+      "dataset": "spambase",
+      "N": 4601,
+      "P": 57,
+      "n_corr_groups": 51,
+      "n_mi_groups": 51,
+      "n_w_corr": 8,
+      "n_w_mi": 16,
+      "ari": 0.3288477712363331
+    },
+    {
+      "dataset": "spect",
+      "N": 267,
+      "P": 22,
+      "n_corr_groups": 19,
+      "n_mi_groups": 18,
+      "n_w_corr": 4,
+      "n_w_mi": 5,
+      "ari": 0.8867091711623345
+    },
+    {
+      "dataset": "spectf",
+      "N": 349,
+      "P": 44,
+      "n_corr_groups": 37,
+      "n_mi_groups": 39,
+      "n_w_corr": 10,
+      "n_w_mi": 5,
+      "ari": 0.6643009226401704
+    },
+    {
+      "dataset": "splice",
+      "N": 3188,
+      "P": 60,
+      "n_corr_groups": 60,
+      "n_mi_groups": 60,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "texture",
+      "N": 5500,
+      "P": 40,
+      "n_corr_groups": 2,
+      "n_mi_groups": 2,
+      "n_w_corr": 636,
+      "n_w_mi": 636,
+      "ari": 1.0
+    },
+    {
+      "dataset": "threeOf9",
+      "N": 512,
+      "P": 9,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "tic_tac_toe",
+      "N": 958,
+      "P": 9,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "tokyo1",
+      "N": 959,
+      "P": 42,
+      "n_corr_groups": 14,
+      "n_mi_groups": 13,
+      "n_w_corr": 105,
+      "n_w_mi": 99,
+      "ari": 0.3772714944399241
+    },
+    {
+      "dataset": "twonorm",
+      "N": 7400,
+      "P": 20,
+      "n_corr_groups": 20,
+      "n_mi_groups": 20,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "vehicle",
+      "N": 846,
+      "P": 18,
+      "n_corr_groups": 6,
+      "n_mi_groups": 6,
+      "n_w_corr": 58,
+      "n_w_mi": 49,
+      "ari": 0.8425189482548892
+    },
+    {
+      "dataset": "vowel",
+      "N": 990,
+      "P": 13,
+      "n_corr_groups": 12,
+      "n_mi_groups": 12,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": -0.012987012987012988
+    },
+    {
+      "dataset": "waveform_21",
+      "N": 5000,
+      "P": 21,
+      "n_corr_groups": 18,
+      "n_mi_groups": 19,
+      "n_w_corr": 4,
+      "n_w_mi": 2,
+      "ari": 0.3247588424437299
+    },
+    {
+      "dataset": "waveform_40",
+      "N": 5000,
+      "P": 40,
+      "n_corr_groups": 38,
+      "n_mi_groups": 39,
+      "n_w_corr": 2,
+      "n_w_mi": 1,
+      "ari": 0.666095890410959
+    },
+    {
+      "dataset": "wine_quality_red",
+      "N": 1599,
+      "P": 11,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 0.4811320754716981
+    },
+    {
+      "dataset": "wine_quality_white",
+      "N": 4898,
+      "P": 11,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "wine_recognition",
+      "N": 178,
+      "P": 13,
+      "n_corr_groups": 11,
+      "n_mi_groups": 11,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "xd6",
+      "N": 973,
+      "P": 9,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "yeast",
+      "N": 1479,
+      "P": 8,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "1028_SWD",
+      "N": 1000,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "197_cpu_act",
+      "N": 8192,
+      "P": 21,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 21,
+      "n_w_mi": 18,
+      "ari": 0.8587570621468926
+    },
+    {
+      "dataset": "225_puma8NH",
+      "N": 8192,
+      "P": 8,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "227_cpu_small",
+      "N": 8192,
+      "P": 12,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 5,
+      "n_w_mi": 4,
+      "ari": 0.6425992779783394
+    },
+    {
+      "dataset": "229_pwLinear",
+      "N": 200,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "294_satellite_image",
+      "N": 6435,
+      "P": 36,
+      "n_corr_groups": 3,
+      "n_mi_groups": 3,
+      "n_w_corr": 225,
+      "n_w_mi": 225,
+      "ari": 1.0
+    },
+    {
+      "dataset": "4544_GeographicalOriginalofMusic",
+      "N": 1059,
+      "P": 60,
+      "n_corr_groups": 13,
+      "n_mi_groups": 13,
+      "n_w_corr": 1128,
+      "n_w_mi": 553,
+      "ari": 0.4089079651487844
+    },
+    {
+      "dataset": "503_wind",
+      "N": 6574,
+      "P": 14,
+      "n_corr_groups": 5,
+      "n_mi_groups": 5,
+      "n_w_corr": 45,
+      "n_w_mi": 45,
+      "ari": 1.0
+    },
+    {
+      "dataset": "505_tecator",
+      "N": 240,
+      "P": 60,
+      "n_corr_groups": 15,
+      "n_mi_groups": 15,
+      "n_w_corr": 991,
+      "n_w_mi": 991,
+      "ari": 1.0
+    },
+    {
+      "dataset": "560_bodyfat",
+      "N": 252,
+      "P": 14,
+      "n_corr_groups": 7,
+      "n_mi_groups": 7,
+      "n_w_corr": 17,
+      "n_w_mi": 18,
+      "ari": 0.8938981733385154
+    },
+    {
+      "dataset": "562_cpu_small",
+      "N": 8192,
+      "P": 12,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 5,
+      "n_w_mi": 4,
+      "ari": 0.6425992779783394
+    },
+    {
+      "dataset": "573_cpu_act",
+      "N": 8192,
+      "P": 21,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 21,
+      "n_w_mi": 18,
+      "ari": 0.8587570621468926
+    },
+    {
+      "dataset": "581_fri_c3_500_25",
+      "N": 500,
+      "P": 25,
+      "n_corr_groups": 23,
+      "n_mi_groups": 23,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "582_fri_c1_500_25",
+      "N": 500,
+      "P": 25,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "583_fri_c1_1000_50",
+      "N": 1000,
+      "P": 50,
+      "n_corr_groups": 49,
+      "n_mi_groups": 49,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "584_fri_c4_500_25",
+      "N": 500,
+      "P": 25,
+      "n_corr_groups": 22,
+      "n_mi_groups": 22,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "586_fri_c3_1000_25",
+      "N": 1000,
+      "P": 25,
+      "n_corr_groups": 23,
+      "n_mi_groups": 23,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "588_fri_c4_1000_100",
+      "N": 1000,
+      "P": 60,
+      "n_corr_groups": 59,
+      "n_mi_groups": 59,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "589_fri_c2_1000_25",
+      "N": 1000,
+      "P": 25,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "590_fri_c0_1000_50",
+      "N": 1000,
+      "P": 50,
+      "n_corr_groups": 50,
+      "n_mi_groups": 50,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "591_fri_c1_100_10",
+      "N": 100,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "592_fri_c4_1000_25",
+      "N": 1000,
+      "P": 25,
+      "n_corr_groups": 22,
+      "n_mi_groups": 22,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "593_fri_c1_1000_10",
+      "N": 1000,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "595_fri_c0_1000_10",
+      "N": 1000,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "598_fri_c0_1000_25",
+      "N": 1000,
+      "P": 25,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "602_fri_c3_250_10",
+      "N": 250,
+      "P": 10,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "603_fri_c0_250_50",
+      "N": 250,
+      "P": 50,
+      "n_corr_groups": 50,
+      "n_mi_groups": 50,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "604_fri_c4_500_10",
+      "N": 500,
+      "P": 10,
+      "n_corr_groups": 7,
+      "n_mi_groups": 7,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "605_fri_c2_250_25",
+      "N": 250,
+      "P": 25,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "606_fri_c2_1000_10",
+      "N": 1000,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "607_fri_c4_1000_50",
+      "N": 1000,
+      "P": 50,
+      "n_corr_groups": 47,
+      "n_mi_groups": 47,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "608_fri_c3_1000_10",
+      "N": 1000,
+      "P": 10,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "615_fri_c4_250_10",
+      "N": 250,
+      "P": 10,
+      "n_corr_groups": 7,
+      "n_mi_groups": 7,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "616_fri_c4_500_50",
+      "N": 500,
+      "P": 50,
+      "n_corr_groups": 47,
+      "n_mi_groups": 47,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "618_fri_c3_1000_50",
+      "N": 1000,
+      "P": 50,
+      "n_corr_groups": 48,
+      "n_mi_groups": 48,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "620_fri_c1_1000_25",
+      "N": 1000,
+      "P": 25,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "621_fri_c0_100_10",
+      "N": 100,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "622_fri_c2_1000_50",
+      "N": 1000,
+      "P": 50,
+      "n_corr_groups": 49,
+      "n_mi_groups": 49,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "623_fri_c4_1000_10",
+      "N": 1000,
+      "P": 10,
+      "n_corr_groups": 7,
+      "n_mi_groups": 7,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "626_fri_c2_500_50",
+      "N": 500,
+      "P": 50,
+      "n_corr_groups": 49,
+      "n_mi_groups": 49,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "627_fri_c2_500_10",
+      "N": 500,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "633_fri_c0_500_25",
+      "N": 500,
+      "P": 25,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "634_fri_c2_100_10",
+      "N": 100,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "635_fri_c0_250_10",
+      "N": 250,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "637_fri_c1_500_50",
+      "N": 500,
+      "P": 50,
+      "n_corr_groups": 49,
+      "n_mi_groups": 49,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "641_fri_c1_500_10",
+      "N": 500,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "643_fri_c2_500_25",
+      "N": 500,
+      "P": 25,
+      "n_corr_groups": 24,
+      "n_mi_groups": 24,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "644_fri_c4_250_25",
+      "N": 250,
+      "P": 25,
+      "n_corr_groups": 22,
+      "n_mi_groups": 22,
+      "n_w_corr": 3,
+      "n_w_mi": 3,
+      "ari": 1.0
+    },
+    {
+      "dataset": "645_fri_c3_500_50",
+      "N": 500,
+      "P": 50,
+      "n_corr_groups": 48,
+      "n_mi_groups": 48,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "646_fri_c3_500_10",
+      "N": 500,
+      "P": 10,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "647_fri_c1_250_10",
+      "N": 250,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "648_fri_c1_250_50",
+      "N": 250,
+      "P": 50,
+      "n_corr_groups": 49,
+      "n_mi_groups": 49,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "650_fri_c0_500_50",
+      "N": 500,
+      "P": 50,
+      "n_corr_groups": 50,
+      "n_mi_groups": 50,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "651_fri_c0_100_25",
+      "N": 100,
+      "P": 25,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "653_fri_c0_250_25",
+      "N": 250,
+      "P": 25,
+      "n_corr_groups": 25,
+      "n_mi_groups": 25,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "654_fri_c0_500_10",
+      "N": 500,
+      "P": 10,
+      "n_corr_groups": 10,
+      "n_mi_groups": 10,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    },
+    {
+      "dataset": "657_fri_c2_250_10",
+      "N": 250,
+      "P": 10,
+      "n_corr_groups": 9,
+      "n_mi_groups": 9,
+      "n_w_corr": 1,
+      "n_w_mi": 1,
+      "ari": 1.0
+    },
+    {
+      "dataset": "658_fri_c3_250_25",
+      "N": 250,
+      "P": 25,
+      "n_corr_groups": 23,
+      "n_mi_groups": 23,
+      "n_w_corr": 2,
+      "n_w_mi": 2,
+      "ari": 1.0
+    },
+    {
+      "dataset": "666_rmftsa_ladata",
+      "N": 508,
+      "P": 10,
+      "n_corr_groups": 5,
+      "n_mi_groups": 5,
+      "n_w_corr": 6,
+      "n_w_mi": 8,
+      "ari": 0.6629213483146067
+    },
+    {
+      "dataset": "695_chatfield_4",
+      "N": 235,
+      "P": 12,
+      "n_corr_groups": 2,
+      "n_mi_groups": 2,
+      "n_w_corr": 55,
+      "n_w_mi": 55,
+      "ari": 1.0
+    },
+    {
+      "dataset": "titanic",
+      "N": 2099,
+      "P": 8,
+      "n_corr_groups": 8,
+      "n_mi_groups": 8,
+      "n_w_corr": 0,
+      "n_w_mi": 0,
+      "ari": 1.0
+    }
+  ]
+}

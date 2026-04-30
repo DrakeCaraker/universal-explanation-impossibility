@@ -65,7 +65,7 @@ These falsifications delineate the framework's proven domain (existence of insta
 
 \section{SAGE Algorithm}
 
-The Stability-Aware Grouped Explanation (SAGE) algorithm extends DASH to exploit the invariance counting law.  Given $P$ features in $g$ correlation groups, SAGE:
+The Stability-Aware Grouped Explanation (SAGE) algorithm extends DASH to exploit the invariance counting law.  Given $P$ features in $g$ dependence groups (identified via correlation for continuous features; the exact boundary is $I(X_j; X_k) > 0$), SAGE:
 (1)~identifies correlation groups via hierarchical clustering at threshold $\rho_0$;
 (2)~computes group-level importance via orbit averaging within groups;
 (3)~reports only the $\binom{g}{2}$ stably answerable between-group comparisons;
