@@ -54,60 +54,108 @@ def groupSize (fs : FeatureSpace) (ℓ : Fin fs.L) : ℕ :=
 
 end FeatureSpace
 
-/-! ## Model and attribution types -/
+/-! ## Bundled GBDT infrastructure
+
+  All model infrastructure and behavioral axioms are bundled into two
+  structures. A single axiom for each asserts existence, reducing the
+  total axiom count from 14 to 2. Backward-compatible definitions
+  extract each field with the original name and type signature.
+
+  Theorem semantics are unchanged: `#print axioms` on any GBDT theorem
+  shows `gbdtWorld` and/or `gbdtAxioms` instead of the individual axioms,
+  but the logical content is identical (the structures carry exactly the
+  same hypotheses the axioms did). -/
+
+/-- Model type, tree count, and measure infrastructure (independent of FeatureSpace). -/
+structure GBDTWorld where
+  /-- A trained model (abstract type). -/
+  Model : Type
+  /-- Number of boosting rounds -/
+  numTrees : ℕ
+  numTrees_pos : 0 < numTrees
+  /-- Measurable space structure on Model. -/
+  modelMeasurableSpace : MeasurableSpace Model
+  /-- Probability measure on Model representing the training distribution. -/
+  modelMeasure : MeasureTheory.Measure Model
+
+/-- Feature-space-dependent behavioral axioms. -/
+structure GBDTAxiomsBundle (W : GBDTWorld) (fs : FeatureSpace) where
+  /-- Attribution (global feature importance) for feature j in model f -/
+  attribution : Fin fs.P → W.Model → ℝ
+  /-- Split count (ℝ because axiomatized values are generally irrational). -/
+  splitCount : Fin fs.P → W.Model → ℝ
+  /-- The first-mover feature in a model (root of tree 1). -/
+  firstMover : W.Model → Fin fs.P
+  /-- Every feature in a group can be the first-mover. -/
+  firstMover_surjective : ∀ (ℓ : Fin fs.L) (j : Fin fs.P),
+    j ∈ fs.group ℓ → ∃ f : W.Model, firstMover f = j
+  /-- Split count for first-mover = T/(2-ρ²). -/
+  splitCount_firstMover : ∀ (f : W.Model) (j : Fin fs.P),
+    firstMover f = j → splitCount j f = W.numTrees / (2 - fs.ρ ^ 2)
+  /-- Split count for non-first-mover in same group = (1-ρ²)T/(2-ρ²). -/
+  splitCount_nonFirstMover : ∀ (f : W.Model) (j : Fin fs.P) (ℓ : Fin fs.L),
+    j ∈ fs.group ℓ → firstMover f ≠ j → firstMover f ∈ fs.group ℓ →
+    splitCount j f = (1 - fs.ρ ^ 2) * W.numTrees / (2 - fs.ρ ^ 2)
+  /-- Proportionality with UNIFORM constant: φ_j(f) = c · n_j(f). -/
+  proportionality_global : ∃ c : ℝ, 0 < c ∧ ∀ (f : W.Model) (j : Fin fs.P),
+    attribution j f = c * splitCount j f
+  /-- Cross-group symmetry: equal split counts when first-mover is elsewhere. -/
+  splitCount_crossGroup_symmetric : ∀ (f : W.Model) (j k : Fin fs.P) (ℓ : Fin fs.L),
+    j ∈ fs.group ℓ → k ∈ fs.group ℓ → firstMover f ∉ fs.group ℓ →
+    splitCount j f = splitCount k f
+  /-- Cross-group stability: first-mover choice within a group doesn't affect other groups. -/
+  splitCount_crossGroup_stable : ∀ (f f' : W.Model) (j : Fin fs.P) (ℓ : Fin fs.L),
+    j ∉ fs.group ℓ → firstMover f ∈ fs.group ℓ → firstMover f' ∈ fs.group ℓ →
+    splitCount j f = splitCount j f'
+
+/-- The GBDT world exists (model type + measure infrastructure). -/
+axiom gbdtWorld : GBDTWorld
+
+/-- The GBDT behavioral axioms hold for every feature space. -/
+axiom gbdtAxioms (fs : FeatureSpace) : GBDTAxiomsBundle gbdtWorld fs
+
+/-! ## Backward-compatible definitions (same names and types as the former axioms) -/
 
 /-- A trained model (abstract type). -/
-axiom Model : Type
+noncomputable def Model : Type := gbdtWorld.Model
 
 /-- Number of boosting rounds -/
-axiom numTrees : ℕ
-axiom numTrees_pos : 0 < numTrees
+noncomputable def numTrees : ℕ := gbdtWorld.numTrees
+theorem numTrees_pos : 0 < numTrees := gbdtWorld.numTrees_pos
 
 variable (fs : FeatureSpace)
 
 /-- Attribution (global feature importance) for feature j in model f -/
-axiom attribution : Fin fs.P → Model → ℝ
+noncomputable def attribution : Fin fs.P → Model → ℝ := (gbdtAxioms fs).attribution
 
-/-- Split count returns ℝ (not ℕ) because the axiomatized values
-    T/(2-ρ²) and (1-ρ²)T/(2-ρ²) are generally irrational, and
-    the ratio theorem (Ratio.lean) requires real division.
-    The values are non-negative by construction. -/
-axiom splitCount : Fin fs.P → Model → ℝ
+/-- Split count -/
+noncomputable def splitCount : Fin fs.P → Model → ℝ := (gbdtAxioms fs).splitCount
 
-/-- The first-mover feature in a model (the feature selected at root of tree 1) -/
-axiom firstMover : Model → Fin fs.P
+/-- The first-mover feature in a model -/
+noncomputable def firstMover : Model → Fin fs.P := (gbdtAxioms fs).firstMover
 
-/-! ## Axioms: properties of sequential gradient boosting under Gaussian DGP -/
+/-! ## Behavioral properties (derived from the bundled axiom) -/
 
-/-- AXIOM 1: Every feature in a group can be the first-mover.
-    By DGP symmetry and randomness in sub-sampling/tie-breaking,
-    each feature in a group serves as first-mover for some model. -/
-axiom firstMover_surjective (ℓ : Fin fs.L) (j : Fin fs.P) (hj : j ∈ fs.group ℓ) :
-    ∃ f : Model, firstMover fs f = j
+theorem firstMover_surjective (ℓ : Fin fs.L) (j : Fin fs.P) (hj : j ∈ fs.group ℓ) :
+    ∃ f : Model, firstMover fs f = j :=
+  (gbdtAxioms fs).firstMover_surjective ℓ j hj
 
-/-- AXIOM 2: Split count for first-mover = T/(2-ρ²).
-    Leading-order behavior from Gaussian conditioning (Lemma 1). -/
-axiom splitCount_firstMover (f : Model) (j : Fin fs.P)
+theorem splitCount_firstMover (f : Model) (j : Fin fs.P)
     (hfm : firstMover fs f = j) :
-    splitCount fs j f = numTrees / (2 - fs.ρ ^ 2)
+    splitCount fs j f = numTrees / (2 - fs.ρ ^ 2) :=
+  (gbdtAxioms fs).splitCount_firstMover f j hfm
 
-/-- AXIOM 3: Split count for non-first-mover in same group = (1-ρ²)T/(2-ρ²).
-    Residual signal after the first-mover absorbs the ρ-aligned component. -/
-axiom splitCount_nonFirstMover (f : Model) (j : Fin fs.P)
+theorem splitCount_nonFirstMover (f : Model) (j : Fin fs.P)
     (ℓ : Fin fs.L) (hj : j ∈ fs.group ℓ)
     (hfm : firstMover fs f ≠ j)
     (hfm_group : firstMover fs f ∈ fs.group ℓ) :
-    splitCount fs j f = (1 - fs.ρ ^ 2) * numTrees / (2 - fs.ρ ^ 2)
+    splitCount fs j f = (1 - fs.ρ ^ 2) * numTrees / (2 - fs.ρ ^ 2) :=
+  (gbdtAxioms fs).splitCount_nonFirstMover f j ℓ hj hfm hfm_group
 
-/-- AXIOM 4 (strengthened): Proportionality with UNIFORM constant.
-    Under the uniform-contribution model with identical hyperparameters,
-    the proportionality constant c is the same across all models:
-    φ_j(f) = c · n_j(f) for a global c > 0.
-    Strictly stronger than per-model c; justified by the uniform-contribution
-    model of Lundberg & Lee (2017) with fixed hyperparameters. -/
-axiom proportionality_global :
+theorem proportionality_global :
     ∃ c : ℝ, 0 < c ∧ ∀ (f : Model) (j : Fin fs.P),
-      attribution fs j f = c * splitCount fs j f
+      attribution fs j f = c * splitCount fs j f :=
+  (gbdtAxioms fs).proportionality_global
 
 /-- Per-model proportionality (consequence of the global version).
     Provided for backward compatibility with downstream proofs. -/
@@ -178,12 +226,12 @@ def IsBalanced (M : ℕ) (models : Fin M → Model) : Prop :=
 -/
 
 /-- Measurable space structure on Model. -/
-axiom modelMeasurableSpace : MeasurableSpace Model
+noncomputable def modelMeasurableSpace : MeasurableSpace Model := gbdtWorld.modelMeasurableSpace
 
 /-- Probability measure on Model representing the training distribution. -/
 noncomputable instance : MeasurableSpace Model := modelMeasurableSpace
 
-axiom modelMeasure : MeasureTheory.Measure Model
+noncomputable def modelMeasure : MeasureTheory.Measure Model := gbdtWorld.modelMeasure
 
 /-- Variance of a single model's attribution for feature j.
     Defined as Var(φ_j(f)) where f ~ modelMeasure. -/
@@ -209,27 +257,20 @@ theorem consensus_variance_bound (M : ℕ) (_hM : 0 < M) (j : Fin fs.P) :
 
 /-! ## Cross-group symmetry -/
 
-/-- AXIOM: Features in a group have equal split counts when the first-mover
-    is in a different group. By DGP symmetry: if the dominant feature is
-    elsewhere, all features in this group receive identical residual signal.
-    This complements Axiom 3 (which covers same-group first-movers). -/
-axiom splitCount_crossGroup_symmetric (f : Model)
+theorem splitCount_crossGroup_symmetric (f : Model)
     (j k : Fin fs.P) (ℓ : Fin fs.L)
     (hj : j ∈ fs.group ℓ) (hk : k ∈ fs.group ℓ)
     (hfm_not_group : firstMover fs f ∉ fs.group ℓ) :
-    splitCount fs j f = splitCount fs k f
+    splitCount fs j f = splitCount fs k f :=
+  (gbdtAxioms fs).splitCount_crossGroup_symmetric f j k ℓ hj hk hfm_not_group
 
-/-- AXIOM: Cross-group stability — changing the first-mover within a group
-    does not affect split counts for features outside that group.
-    Justified: features in other groups have independent signal;
-    the first-mover choice within one group only affects the
-    signal partitioning within that group. -/
-axiom splitCount_crossGroup_stable (f f' : Model)
+theorem splitCount_crossGroup_stable (f f' : Model)
     (j : Fin fs.P) (ℓ : Fin fs.L)
     (hj : j ∉ fs.group ℓ)
     (hfm : firstMover fs f ∈ fs.group ℓ)
     (hfm' : firstMover fs f' ∈ fs.group ℓ) :
-    splitCount fs j f = splitCount fs j f'
+    splitCount fs j f = splitCount fs j f' :=
+  (gbdtAxioms fs).splitCount_crossGroup_stable f f' j ℓ hj hfm hfm'
 
 /-! ## Symmetry theorem for DASH analysis
 
