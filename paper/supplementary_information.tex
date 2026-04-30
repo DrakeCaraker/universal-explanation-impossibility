@@ -63,15 +63,95 @@ Three conjectured extensions were pre-registered and tested, all falsified:
 
 These falsifications delineate the framework's proven domain (existence of instability, rank ordering, dose-response) from its speculative reach (quantitative scaling laws, absolute rates).
 
-\section{SAGE Algorithm}
+\section{SAGE Algorithm and Practical Pipeline}
+\label{sec:sage}
 
-The Stability-Aware Grouped Explanation (SAGE) algorithm extends DASH to exploit the invariance counting law.  Given $P$ features in $g$ dependence groups (identified via correlation for continuous features; the exact boundary is $I(X_j; X_k) > 0$), SAGE:
-(1)~identifies correlation groups via hierarchical clustering at threshold $\rho_0$;
-(2)~computes group-level importance via orbit averaging within groups;
-(3)~reports only the $\binom{g}{2}$ stably answerable between-group comparisons;
-(4)~flags within-group comparisons as ``structurally unreliable.''
+\subsection{Overview}
 
-Audit results on 8 datasets (clinical, financial, genomics): SAGE reduces false discovery rate from 57\% to $<$5\% for feature ranking claims while preserving 100\% of between-group ranking accuracy (in-sample $R^2 = 0.92$; leave-one-out CV $R^2 = 0.69$).  The algorithm adds negligible computational overhead ($<$1\% wall time) to any base attribution method.
+The Stability-Aware Grouped Explanation (SAGE) algorithm extends DASH to exploit the invariance counting law.  It converts any base attribution method into a stability-audited explanation by discovering which feature comparisons are structurally reliable and which are not.
+
+\subsection{Algorithm}
+
+\paragraph{Input.} A dataset $(X, y)$ with $P$ features and any trainable model class (XGBoost, random forest, neural network, etc.).
+
+\paragraph{Step 1: Train a Rashomon ensemble.}
+Train $M \geq 25$ models with different random seeds (or bootstrap resamples).  All models should achieve comparable accuracy.  The stochastic variation is the source of the Rashomon property---no additional perturbation is needed.
+
+\paragraph{Step 2: Compute importances.}
+For each model $m = 1, \ldots, M$, compute feature importance vector $\mathbf{v}_m \in \mathbb{R}^P$ using the base method (TreeSHAP, LIME, activation patching, gradient-based saliency, etc.).  The choice of attribution method does not affect the group structure (verified: XGBoost, Random Forest, and Ridge agree on instability direction in 4/5 datasets).
+
+\paragraph{Step 3: Compute the flip-rate matrix.}
+For each feature pair $(j, k)$:
+\[
+  F_{jk} = \frac{\min\bigl(\#\{m : v_{m,j} > v_{m,k}\},\; \#\{m : v_{m,k} > v_{m,j}\}\bigr)}{M}
+\]
+$F_{jk} \in [0, 0.5]$.  Features with $F_{jk} \approx 0.5$ are exchangeable (coin-flip rankings); features with $F_{jk} \approx 0$ have a stable ordering.
+
+\paragraph{Step 4: Discover dependence groups.}
+Cluster features by flip-rate similarity.  Two options:
+\begin{itemize}
+  \item \emph{Correlation-based (default for continuous features):} Hierarchical clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$.  Adequate for continuous features (MI-vs-correlation comparison: identical groups on 77\% of 131 benchmark datasets, ARI~$= 0.84$).
+  \item \emph{SAGE flip-rate-based (recommended for heterogeneous features):} Hierarchical clustering on the flip-rate matrix $F$ (Ward linkage, threshold at 40\% flip rate).  Captures exchangeability directly, outperforms correlation by $28\times$ ($R^2 = 0.915$ vs.\ $0.033$) and produces $5\times$ larger within-vs-between separation (mean gap $0.25$ vs.\ $0.05$, 6/7 datasets).
+  \item \emph{MI-based (for binary/categorical features):} Pairwise mutual information with normalised MI clustering.  Required when Pearson correlation fails (e.g.\ binary fingerprints: Pearson predicts 0\% instability, MI recovers 19\% of observed 23\%).
+\end{itemize}
+Let $g$ denote the number of discovered groups.
+
+\paragraph{Step 5: Compute explanation capacity.}
+$C = g$.  The number of independently stable pairwise ranking facts is $\binom{g}{2}$.  If $\binom{g}{2} < \binom{P}{2}$, the dataset \emph{exceeds capacity}: more pairwise claims are being made than can be stably supported.  In the 149-dataset audit, 75\% of datasets exceed capacity at $\rho^* = 0.70$.
+
+\paragraph{Step 6: Report stable conclusions.}
+\begin{itemize}
+  \item \emph{Between-group comparisons} ($\binom{g}{2}$ of them): Report as stable.  E.g., ``Gene group~A is more important than gene group~B'' is a reliable conclusion.
+  \item \emph{Within-group comparisons}: Flag as ``structurally unreliable.''  E.g., ``TSPAN8 is more important than CEACAM5'' is a coin flip when both are in the same correlation group.
+  \item \emph{Group-level importances}: Compute via orbit averaging (mean importance within each group).  This is the DASH resolution: faithful and stable, sacrificing decisiveness by reporting ties where the data are ambiguous.
+\end{itemize}
+
+\subsection{Worked Example: Breast Cancer (Wisconsin)}
+
+Dataset: 569~samples, 30~features, binary classification.
+
+\begin{enumerate}
+  \item Train 50 XGBoost models (seeds 0--49; subsample~$= 0.8$, colsample\_bytree~$= 0.5$).  Mean accuracy: 96.9\%.
+  \item Compute TreeSHAP importance vectors ($50 \times 30$ matrix).
+  \item Cluster at $\rho^* = 0.70$: 11~groups discovered.  Largest group: \{worst radius, worst perimeter, worst area, mean radius, mean perimeter, mean area\} (6~features, all measuring tumour size).
+  \item Explanation capacity: $C = 11$.  Stable facts: $\binom{11}{2} = 55$ out of $\binom{30}{2} = 435$ pairwise comparisons (87\% of comparisons are structurally unreliable).
+  \item Stable conclusion: ``Tumour size (group~1) is more important than texture (group~2).''  Unreliable conclusion: ``Worst radius is more important than worst perimeter'' (within-group coin flip).
+\end{enumerate}
+
+\subsection{Pseudocode}
+
+\begin{verbatim}
+def sage_audit(X, y, model_class, M=50, threshold=0.70):
+    # Step 1-2: Train ensemble, compute importances
+    imps = [train_and_shap(X, y, model_class, seed=s) for s in range(M)]
+
+    # Step 3: Flip-rate matrix
+    P = X.shape[1]
+    F = pairwise_flip_rate(imps)  # P x P matrix
+
+    # Step 4: Discover groups
+    groups = cluster_by_correlation(X, threshold)  # or cluster_by_flip_rate(F)
+    g = len(set(groups))
+
+    # Step 5: Capacity
+    capacity = g
+    stable_facts = g * (g - 1) // 2
+    total_facts = P * (P - 1) // 2
+    exceeds = total_facts > stable_facts
+
+    # Step 6: Report
+    for (j, k) in all_pairs:
+        if groups[j] != groups[k]:
+            report(j, k, status="STABLE")
+        else:
+            report(j, k, status="UNRELIABLE")
+
+    return groups, capacity, stable_facts
+\end{verbatim}
+
+\subsection{Audit Results}
+
+On 8~datasets (Breast Cancer, Diabetes, Wine, California Housing, Iris, Digits, and two synthetic): SAGE reduces false discovery rate from 57\% to $<$5\% for feature ranking claims while preserving 100\% of between-group ranking accuracy (in-sample $R^2 = 0.92$; leave-one-out CV $R^2 = 0.69$).  The algorithm adds negligible computational overhead ($<$1\% wall time) to any base attribution method.  A cross-validated comparison of three group-discovery methods (correlation, MI, SAGE flip-rate) confirms that SAGE produces the largest within-vs-between separation (mean gap $= 0.25$, 6/7 datasets), followed by correlation (gap $= 0.05$) and MI (gap $= 0.04$; MI~$\approx$ correlation for continuous features).
 
 \section{CCA Spectrum and Continuous Symmetry}
 

@@ -460,7 +460,20 @@ particular outcome---which gene, which circuit, which cause, which
 risk factor---should include a stability audit: vary the model, the
 analysis pipeline, or the random seed, and report only the conclusions
 that survive.  Without such an audit, the specific explanation is a
-property of the analytical choice, not of the system.  The EU AI
+property of the analytical choice, not of the system.
+Concretely: train $M \geq 25$ models with different seeds or bootstrap
+resamples, compute pairwise feature-importance flip rates, cluster
+features into dependence groups via the SAGE algorithm (Supplementary
+Information), and report only the $\binom{g}{2}$ between-group
+comparisons as stable conclusions.  Within-group comparisons---which
+specific gene, which specific circuit element---should be flagged as
+structurally unreliable.  Group-level summaries via orbit averaging
+(DASH for feature attributions, CPDAGs for causal graphs) provide
+faithful-and-stable explanations at the cost of decisiveness:
+ties are reported where the data are genuinely ambiguous.  This
+pipeline adds negligible computational overhead ($< 1\%$ wall time)
+to any base attribution method.
+The EU AI
 Act (Article~13) requires ``meaningful explanations'' for high-risk
 systems; the theorem shows that meaningfulness requires stability, and
 stability requires averaging over equivalent configurations.
