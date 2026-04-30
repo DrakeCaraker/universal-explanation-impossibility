@@ -6,7 +6,7 @@ Lean 4 formalization of the universal explanation impossibility theorem. Target 
 
 No explanation of an underspecified system can be simultaneously faithful (reflect the system's actual structure), stable (consistent across observationally equivalent configurations), and decisive (commit to a single answer) when the Rashomon property holds. The core theorem (`explanation_impossibility` in `ExplanationSystem.lean`) requires **zero model-specific axioms** — only the Rashomon property as a hypothesis.
 
-A strengthened form, the **bilemma** (`MaximalIncompatibility.lean`), shows that for maximally incompatible systems, even faithful + stable alone is impossible. The **tightness classification meta-theorem** (`BilemmaCharacterization.lean`) characterizes exactly which property pairs are achievable based on neutral/committal element existence. Enrichment (adding a neutral element) restores F+S at the cost of decisiveness; the enrichment is unique on the Rashomon fiber.
+A strengthened form, the **explanation bilemma** (`MaximalIncompatibility.lean`), shows that for maximally incompatible systems, even faithful + stable alone is impossible. The **tightness classification meta-theorem** (`BilemmaCharacterization.lean`) characterizes exactly which property pairs are achievable based on neutral/committal element existence. Enrichment (adding a neutral element) restores F+S at the cost of decisiveness; the enrichment is unique on the Rashomon fiber.
 
 This is a **meta-theorem**: it applies uniformly to 9 ML explanation types — additive attributions (SHAP, IG, LIME), attention maps, counterfactual explanations, concept probes (TCAV), causal discovery (DAGs), model selection, saliency maps (GradCAM), LLM self-explanations, and mechanistic interpretability — and 14 cross-domain instances (Arrow's theorem, quantum contextuality, Duhem-Quine, gauge theory, statistical mechanics, genetic code, phase problem, QM interpretation, syntactic ambiguity, value alignment, view-update, linear systems, quantum measurement revolution, simultaneity revolution).
 
@@ -237,6 +237,22 @@ Four papers forming a layered publication strategy:
 **Strategy:** Nature for flagship (broadest audience, cross-domain framing). arXiv monograph for priority + definitive reference. Attribution paper to NeurIPS (different paper — SHAP-specific). Physics companion to arXiv for priority.
 
 **Do not dual-submit** the universal paper to both Nature and NeurIPS — they overlap substantially.
+
+## Naming Conventions
+
+**Canonical reference:** `docs/naming-conventions.md`. All papers, docs, and new code must use these names. Key terms:
+
+- **The explanation trilemma** (F+S+D impossible), **the explanation bilemma** (F+S impossible for binary H)
+- **Explanation capacity** (C = dim V^G), **explanation loss rate** (η = 1 − C/dim V)
+- **Explanation Capacity Theorem** (capacity predicts instability; NOT "law")
+- **Explanation uncertainty bound** (unfaith₁+unfaith₂ ≥ Δ−δ; NOT "tradeoff bound" or "uncertainty relation")
+- **The stable projection** (orbit average / Reynolds projection / DASH; NOT "the explanation code")
+- **Stable fact count** (g(g−1)/2 stable pairwise facts; NOT "Noether counting law")
+- **Explanatory information loss** (‖v−Rv‖²+‖Rv‖²=‖v‖²; NOT "Pythagorean decomposition" as prose name)
+- **Over-explanation penalty** (‖w‖ ≤ ‖u−w‖; NOT "beyond-capacity penalty")
+- **Explanation Stability Theorem** (the 4-part theorem; NOT "Explanation Coding Theorem")
+- **Explanation stability convergence rate** (MSE = tr(RΣR)/M)
+- **Stability threshold** (M*(ε) = tr(RΣR)/ε)
 
 ## Submission
 

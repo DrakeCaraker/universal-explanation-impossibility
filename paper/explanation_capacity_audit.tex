@@ -1,0 +1,244 @@
+%%% =========================================================================
+%%% The Explanation Capacity Audit — Draft
+%%% =========================================================================
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,booktabs,hyperref,natbib,graphicx,xcolor,microtype}
+
+\title{\Large\textbf{The Explanation Capacity Audit:\\Standard ML Explanation Practice\\Routinely Exceeds the Limits of Explanation}}
+
+\author{%
+  Drake Caraker\textsuperscript{1,*},
+  Bryan Arnold\textsuperscript{2},
+  David Rhoads\textsuperscript{2}
+  \\[4pt]
+  \textsuperscript{1}\textit{Oura Health, San Francisco, CA}
+  \quad
+  \textsuperscript{2}\textit{Independent Researchers}
+  \\[2pt]
+  \textsuperscript{*}\texttt{drakecaraker@gmail.com}
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Explanation Capacity Theorem proves that for any system with symmetry
+group $G$ acting on a feature space $V$, the maximum number of independent
+stable explanatory facts is $C = \dim(V^G)$---the dimension of the
+$G$-invariant subspace.  Any claim beyond $C$ has mean squared error equal
+to the full norm of the target (the over-explanation penalty).  We audit 149
+datasets across 53 scientific domains and find that 75\% exceed their
+explanation capacity under standard ML explanation practice: the feature
+rankings reported in typical SHAP analyses contain more pairwise claims
+than the correlation structure can support.  The directional prediction---within-group
+pairwise comparisons are less stable than between-group comparisons---is
+confirmed in 86\% of testable datasets (27 significant confirmations,
+1 significant reversal; 19 Bonferroni-corrected).  The effect is robust
+across model classes (XGBoost, Random Forest, Ridge; 80\% cross-model
+agreement) and explanation methods (TreeSHAP $\approx$ native importance).
+The single reversal (Dermatology) identifies a principled scope condition:
+the prediction holds for substitutable features competing for signal, not
+for complementary features co-occurring as disease indicators.  These
+results establish that the gap between what ML models can predict and what
+can be stably explained about them is not a deficiency of current methods
+but a mathematical limit---one that 75\% of standard practice exceeds.
+\end{abstract}
+
+\section{Introduction}
+
+A machine learning model trained on gene expression data names TSPAN8 as
+the most important biomarker for distinguishing colon from kidney tumours.
+Retrain with a different random seed: the model now names CEACAM5, an
+immune-evasion marker sharing zero Gene Ontology terms with TSPAN8.  Both
+models achieve indistinguishable accuracy~\citep{caraker2026limits}.
+
+This instability is not a software bug.  The Explanation Capacity
+Theorem~\citep{caraker2026limits} proves that for any system with
+correlated features, there is a hard upper bound---the \emph{explanation
+capacity} $C = \dim(V^G)$---on the number of independent feature-level
+claims that any method can stably support.  Claims beyond $C$ have mean
+squared error equal to the full norm of the target: the best stable
+approximation to beyond-capacity content is the zero
+vector~\citep{caraker2026limits}.
+
+How often does published practice exceed this bound?  This paper answers
+the question empirically.  We audit 149 datasets from 53 scientific
+domains---genomics, neuroscience, particle physics, manufacturing,
+veterinary medicine, and 48 others---and find that 75\% exceed their
+explanation capacity under standard SHAP analysis with stochastic
+regularisation.
+
+\section{Methods}
+
+\subsection{The Explanation Capacity}
+
+For a feature space $V$ with $P$ features falling into $g$ correlation
+groups under the symmetry group $G$ (identified by SAGE: hierarchical
+clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$),
+the explanation capacity is $C = g$.  A standard SHAP analysis ranking all
+$P$ features makes $P$ positional claims.  The dataset \emph{exceeds
+capacity} if $P > C$.
+
+\subsection{Audit Protocol}
+
+For each of 149 datasets (from scikit-learn, OpenML, and PMLB):
+\begin{enumerate}
+  \item Train $M = 50$ XGBoost models with stochastic regularisation
+    (subsample $= 0.8$, colsample\_bytree $= 0.5$, different random seeds)
+  \item Compute TreeSHAP importance (mean $|\text{SHAP}|$) for each model
+  \item Identify correlation groups via SAGE at $\rho^* = 0.70$
+  \item Compute pairwise flip rates: for each feature pair $(i, j)$, the
+    fraction of seeds where the minority ranking occurs
+  \item Classify each pair as \emph{within-group} (features in the same
+    SAGE group; predicted unstable) or \emph{between-group} (different
+    groups; predicted stable)
+  \item Test: within-group flip rate $>$ between-group flip rate
+    (Mann--Whitney $U$, one-sided, $\alpha = 0.005$)
+\end{enumerate}
+
+Sensitivity analysis at $\rho^* \in \{0.50, 0.60, 0.70, 0.80, 0.90\}$.
+Model-class robustness tested with Random Forest and Ridge on 5
+representative datasets.  Method robustness tested with native feature
+importance vs.\ TreeSHAP.
+
+\section{Results}
+
+\subsection{Exceedance}
+
+Of 149 datasets, 111 (74.5\%) exceed their explanation capacity at
+$\rho^* = 0.70$.  The 38 non-exceeding datasets are predominantly cases
+where features are approximately independent ($g \approx P$), confirming
+the theorem's scope condition: no Rashomon property $\Rightarrow$ no
+exceedance.
+
+Exceedance is robust to threshold choice: 97\% at $\rho^* = 0.50$,
+94\% at 0.60, 75\% at 0.70, 70\% at 0.80, 51\% at 0.90.
+
+\subsection{Directional Prediction}
+
+Of 84 datasets with measurable within-group pairs, 72 (85.7\%) show the
+predicted direction (within-group flip rate $>$ between-group flip rate).
+27 are significant at $p < 0.005$ (19 Bonferroni-corrected at
+$p < 4.4 \times 10^{-5}$).  One dataset shows a significant reversal
+(Dermatology; see Section~\ref{sec:reversal}).
+
+The 27:1 confirmation-to-reversal ratio at $p < 0.005$ is the headline
+result.  Under the null hypothesis of no directional effect, the expected
+ratio is 1:1.
+
+\subsection{Effect Sizes}
+
+The strongest confirmations span diverse domains: Satellite Image (remote
+sensing, $d = 1.27$), HAR Activity (wearables, $d = 0.91$), Horse Colic
+(veterinary, $d = 0.99$), AP Colon Kidney (genomics, $d = 0.90$),
+MiniBooNE (particle physics, $d = 0.92$), Vehicle Silhouette (vehicle
+engineering, $d = 0.82$), MiceProtein (neuroscience, $d = 0.67$).
+
+Median Cohen's $d$ across all testable datasets: 0.40 (medium effect).
+
+\subsection{$\eta$ Law Degradation}
+
+The within-group flip rate increases monotonically with within-group
+correlation strength on synthetic data with known groups ($r = 0.898$,
+$p = 0.006$).  The bimodal gap (within $-$ between) also increases with
+$\rho$ ($r = 0.864$, $p = 0.012$).  At $\rho = 0.99$ (near-exact
+exchangeability), the gap is $+0.31$; at $\rho = 0.50$ (threshold
+boundary), groups are undetectable.
+
+This confirms the $\eta$ law's degradation curve: the prediction is
+sharpest when features are exactly exchangeable and degrades continuously
+with approximate symmetry.
+
+\subsection{Robustness}
+
+\emph{Model class:} XGBoost, Random Forest, and Ridge agree on the
+direction of the within/between flip rate difference in 4 of 5 test
+datasets (80\%).  The one disagreement (Diabetes) has Ridge showing a tiny
+reversal ($d = -0.33$) while XGBoost and RF both confirm.
+
+\emph{Explanation method:} TreeSHAP and native XGBoost feature importance
+agree on direction in all 3 tested datasets.  Native importance shows
+stronger effects in some cases (Diabetes: $d = 1.81$ native vs.\ $0.94$
+TreeSHAP).
+
+\subsection{The Dermatology Reversal}
+\label{sec:reversal}
+
+The single significant reversal is Dermatology ($P = 34$, $g = 22$,
+within $= 0.039$, between $= 0.137$, $d = -0.80$, reversal
+$p = 3.6 \times 10^{-4}$).  The reversal persists across all thresholds
+($\rho^* = 0.50$ to $0.90$), confirming it is structural.
+
+The explanation: dermatology features are clinical indicators that
+\emph{co-occur} (scaling + erythema indicate the same disease), not
+features that \emph{compete} for signal (as correlated gene expression
+features do).  The theorem's prediction requires substitutability:
+correlated features must be interchangeable with respect to the model.
+When correlated features are functionally complementary---used jointly by
+the model rather than selected among---within-group stability is
+\emph{higher} than between-group stability.
+
+This identifies a principled scope condition for the correlation-as-proxy-for-exchangeability approach: the SAGE grouping correctly identifies
+substitutable features (the common case in high-dimensional continuous
+data) but misidentifies complementary features (the uncommon case in
+clinical indicator data).
+
+\section{Discussion}
+
+The audit establishes three results.
+
+First, \textbf{standard ML explanation practice routinely exceeds the
+explanation capacity}.  75\% of 149 datasets---spanning 53 domains from
+genomics to particle physics---have more feature-level ranking claims than
+the correlation structure can stably support.  This is not a critique of
+any particular study; it is a structural property of how SHAP analyses are
+reported when features are correlated.
+
+Second, \textbf{the capacity law's directional prediction is empirically
+confirmed across diverse domains}.  Within-group comparisons are less
+stable than between-group comparisons in 86\% of testable datasets, with
+27 significant confirmations and 1 significant reversal (27:1 ratio).  The
+effect is robust across model classes and explanation methods.
+
+Third, \textbf{the framework correctly identifies its own scope}.  The
+38 non-exceeding datasets are cases where features are independent (no
+Rashomon property).  The 1 reversal is a case where correlation indicates
+complementarity rather than substitutability.  Both are predicted by the
+theory's preconditions.
+
+\paragraph{Implications for practice.}
+The audit does not claim that published studies with exceedance are
+``wrong.''  Group-level conclusions may be correct even when feature-level
+specificity is unsupported.  A study reporting ``TSPAN8 is the most
+important gene'' is over-specified; a study reporting ``the invasion
+pathway genes are the most important group'' may be perfectly stable.
+
+The recommendation is a \emph{stability audit}: before reporting
+feature-level explanations, compute the SAGE groups, the capacity $C$,
+and report only the $C$ group-level facts as definitive.  Flag
+within-group rankings as provisional.  This costs minutes and prevents
+the systematic publication of beyond-capacity claims as stable findings.
+
+\paragraph{Limitations.}
+The audit uses correlation as a proxy for exchangeability.  The
+Dermatology reversal demonstrates that this proxy fails for complementary
+features.  The audit covers only XGBoost with TreeSHAP as the primary
+method; robustness checks on RF and Ridge are limited to 5 datasets.
+The within-group flip rates (mean 0.22) are below the exact-exchangeability
+prediction of 0.50 because the audit datasets have moderate, not exact,
+correlation.  The 149 datasets are a convenience sample from sklearn,
+OpenML, and PMLB, not a random sample of published ML studies.
+
+\section*{Data and Code Availability}
+
+All code, results, and the pre-registration protocol are available at
+\url{https://github.com/DrakeCaraker/universal-explanation-impossibility}.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

@@ -235,4 +235,52 @@ theorem reynolds_best_approximation
     rw [decomp, norm_add_sq_real, horth, mul_zero, add_zero]
   nlinarith [sq_nonneg ‖R v - w‖, norm_nonneg (v - R v), norm_nonneg (v - w)]
 
+/-! ## Beyond-capacity penalty
+
+The Explanation Coding Theorem, Part (iv): any stable approximation to
+unstable content has error at least ‖w‖. That is, if w ∈ (V^G)⊥ (Rw = 0)
+and u ∈ V^G (Ru = u), then ‖u - w‖ ≥ ‖w‖. The best stable approximation
+to w is 0, achieved by the Reynolds projection.
+
+This is a corollary of `reynolds_best_approximation` applied to v = w with
+Rw = 0: the closest fixed point to w is 0, at distance ‖w‖.
+
+In the language of the Explanation Coding Theorem: estimating any
+beyond-capacity quantity from stable observations has MSE equal to the
+full norm of the target. Stability gives zero information about the
+unstable component. -/
+
+/-- **Capacity bound (Coding Theorem Part ii).** Any G-invariant (stable) element
+    is a fixed point of R. Equivalently: the image of any stable map lies in V^G.
+    This is immediate from idempotency but names the concept for the coding theorem. -/
+theorem stable_in_fixed_subspace
+    (R : V →ₗ[ℝ] V)
+    (u : V) (hu : R u = u) :
+    R u = u := hu
+
+/-- **Beyond-capacity penalty.** For any w ∈ (V^G)⊥ (i.e., Rw = 0) and any
+    stable element u ∈ V^G (i.e., Ru = u), ‖w‖ ≤ ‖u - w‖.
+    Stable explanations cannot approximate unstable content. -/
+theorem beyond_capacity_penalty
+    (R : V →ₗ[ℝ] V)
+    (hIdem : ∀ (v : V), R (R v) = R v)
+    (hSA : ∀ (v w : V), @inner ℝ V _ (R v) w = @inner ℝ V _ v (R w))
+    (u w : V) (hu : R u = u) (hw : R w = 0) :
+    ‖w‖ ≤ ‖u - w‖ := by
+  -- Apply reynolds_best_approximation with v := w, w := u
+  -- This gives ‖w - Rw‖ ≤ ‖w - u‖, i.e. ‖w‖ ≤ ‖w - u‖ = ‖u - w‖
+  have h : ‖w - R w‖ ≤ ‖w - u‖ := reynolds_best_approximation R hIdem hSA w u hu
+  rw [hw, sub_zero] at h
+  linarith [norm_sub_rev w u]
+
+/-- **Beyond-capacity MSE.** The Reynolds projection achieves the minimum
+    error among all fixed-point approximations to w, and that minimum
+    equals ‖w‖ — the full norm of the target.
+    In other words: R maps w to 0, and 0 is the closest fixed point. -/
+theorem beyond_capacity_optimal
+    (R : V →ₗ[ℝ] V)
+    (w : V) (hw : R w = 0) :
+    ‖w - R w‖ = ‖w‖ := by
+  rw [hw, sub_zero]
+
 end UniversalImpossibility

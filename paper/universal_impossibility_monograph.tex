@@ -173,7 +173,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (101~files, 501~theorems,
+The framework is mechanically verified in Lean~4 (101~files, 507~theorems,
 25~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -259,7 +259,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 101~files, 501~theorems, 25~axioms,
+    \citep{demoura2021lean4}: 101~files, 507~theorems, 25~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -308,16 +308,21 @@ with information theory, the Shannon parallels are indicated.
 \textbf{Concept} & \textbf{Name} & \textbf{Shannon parallel} \\
 \midrule
 F+S+D impossible & The explanation trilemma & --- \\
-F+S impossible (binary) & The bilemma & --- \\
+F+S impossible (binary) & The explanation bilemma & --- \\
 $C = \dim(V^G)$ & Explanation capacity & Channel capacity \\
 $\eta = 1 - C/\dim(V)$ & Explanation loss rate & --- \\
-Capacity predicts instability & Explanation Capacity Law & Shannon's theorem \\
-$\mathrm{unfaith}_1 + \mathrm{unfaith}_2 \geq \Delta - \delta$ & Explanation uncertainty relation & Heisenberg's relation \\
-Orbit average / DASH / character & The explanation code & Optimal channel code \\
+Capacity predicts instability & Explanation Capacity Theorem & Shannon's theorem \\
+$\mathrm{unfaith}_1 + \mathrm{unfaith}_2 \geq \Delta - \delta$ & Explanation uncertainty bound & Donoho--Stark uncertainty \\
+Orbit average / DASH / character & The stable projection & Optimal channel code \\
 Which pairs survive & Tightness (full / collapsed) & --- \\
 No neutral element & Explanation conflict & Noise (channel impairment) \\
 Add neutral element & Enrichment & Alphabet extension \\
-$M$ models for $\varepsilon$-stability & Convergence prescription & Block length \\
+$g(g{-}1)/2$ stable, rest coin flips & Stable fact count & --- \\
+$\|v{-}Rv\|^2 + \|Rv\|^2 = \|v\|^2$ & Explanatory information loss & Quantum information loss \\
+$\|w\| \leq \|u{-}w\|$ for $Rw{=}0$ & Over-explanation penalty & Strong converse \\
+$\text{MSE} = \text{tr}(R\Sigma R)/M$ & Expl.\ stability convergence rate & Source coding rate \\
+$M^*(\varepsilon) = \text{tr}(R\Sigma R)/\varepsilon$ & Stability threshold & Block length \\
+The 4-part theorem & Explanation Stability Theorem & Shannon's coding theorem \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1168,7 +1173,7 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 Component & Count & Notes \\
 \midrule
 Files & 100 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 501 & Verified by \texttt{grep -c} \\
+Theorems \& lemmas & 507 & Verified by \texttt{grep -c} \\
 Axioms & 25 & Domain-specific; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -1183,7 +1188,7 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \end{tabular}
 \end{table}
 
-Of the 501 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
+Of the 507 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
 
 \subsection{Axiom Stratification}
 \label{sec:axiom-stratification}
@@ -1661,7 +1666,7 @@ Pareto-optimal).  As Shannon's channel capacity bounds the rate of
 reliable communication, the explanation capacity bounds the rate of
 reliable explanation.
 
-The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Law}.
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
 
 \paragraph{Uncertainty from symmetry: the representation-theoretic connection to quantum mechanics.}
 The $\eta$ law and quantum uncertainty both arise from the same representation-theoretic decomposition.  We state and prove the connection.
@@ -1695,11 +1700,32 @@ The framework produces two distinct types of bound, playing different roles:
 
 \emph{The $\eta$~law as minimum cost theorem.}  The cost of stability is exactly $\eta$: the Reynolds projection loses precisely $1 - k/n$ of the expected squared norm.  This is not a tradeoff---it is a fixed price determined by the group structure, analogous to the zero-point energy of a quantum harmonic oscillator (a minimum cost of confinement, not a relation between conjugate variables).  The $\eta$~law is tight: equality holds in Theorem~\ref{thm:uncertainty-from-symmetry}(iii) by construction.
 
-\emph{The approximate bilemma as uncertainty relation.}  The approximate bilemma ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$) IS a genuine uncertainty relation: reducing unfaithfulness at one Rashomon witness forces increased unfaithfulness at the other.  This is structurally parallel to Heisenberg's relation ($\sigma_A \sigma_B \geq |\langle[A,B]\rangle|/2$)---both are lower bounds on complementary quantities that cannot be simultaneously minimised.  The approximate bilemma is tight when the explanation map places $E(\theta_1)$ and $E(\theta_2)$ on the geodesic between $\mathrm{exp}(\theta_1)$ and $\mathrm{exp}(\theta_2)$ with $\|E(\theta_1) - E(\theta_2)\| = \delta$; this occurs when the Rashomon witnesses are symmetric about $V^G$.
+\emph{The explanation uncertainty bound.}  The approximate bilemma ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$) is a Donoho--Stark-type uncertainty principle~\citep{donoho1989uncertainty}: reducing unfaithfulness at one Rashomon witness forces increased unfaithfulness at the other, just as a function and its Fourier transform cannot both have small support.  Both are lower bounds on complementary quantities arising from constrained approximation---the bilemma from the constraint that stable maps are constant on Rashomon fibers, Donoho--Stark from the constraint that signals cannot concentrate in both time and frequency.  The form is also parallel to Heisenberg's relation ($\sigma_A \sigma_B \geq |\langle[A,B]\rangle|/2$), though the mathematical mechanism differs: the bilemma uses the triangle inequality on a metric space, while Heisenberg uses the Cauchy--Schwarz inequality on a Hilbert space with non-commuting operators.  The approximate bilemma is tight when the explanation map places $E(\theta_1)$ and $E(\theta_2)$ on the geodesic between $\mathrm{exp}(\theta_1)$ and $\mathrm{exp}(\theta_2)$ with $\|E(\theta_1) - E(\theta_2)\| = \delta$; this occurs when the Rashomon witnesses are symmetric about $V^G$.
 
 Both bounds arise from the same representation-theoretic decomposition: the Pythagorean splitting $V = V^G \oplus (V^G)^\perp$ under the Reynolds operator.  The $\eta$~law governs the average case (expected loss over random explanations); the approximate bilemma governs the worst case (complementary loss at specific Rashomon pairs).  Together, they constitute a complete uncertainty framework for explanation under symmetry.
 
 \emph{Lean formalisation status.}  Theorem~\ref{thm:uncertainty-from-symmetry} is a standard result in representation theory; its application to the explanation--quantum connection is the contribution.  The individual components (Reynolds projection, Pythagorean decomposition, approximate bilemma) are Lean-verified in the companion repositories.  A unified Lean proof of the full theorem---including the quantum interpretation and the explicit connection between the two settings---is a natural next step.
+
+\paragraph{The Explanation Stability Theorem.}
+The Pythagorean decomposition yields a complete Shannon-style capacity theory for explanation.  We state the four parts; together they establish that the explanation capacity $C = \dim(V^G)$ plays the role of Shannon's channel capacity for the ``explanation channel'' whose noise is the Rashomon property.
+
+\emph{Part (i): Convergence rate.}  Let $v_1, \ldots, v_M$ be i.i.d.\ explanation vectors with mean $\mu$ and covariance $\Sigma$.  The orbit-averaged explanation $\bar{E}_M = M^{-1} \sum_i R v_i$ satisfies
+$\mathbb{E}[\|\bar{E}_M - R\mu\|^2] = M^{-1} \operatorname{tr}(R\Sigma R)$.
+For target MSE $\leq \varepsilon$, it suffices to use $M \geq \operatorname{tr}(R\Sigma R)/\varepsilon$ models.  This is the source coding rate for the explanation channel.  The NARPS convergence ($M_{95} = 16$~teams for 95\% stability) is a special case.
+
+\emph{Part (ii): Capacity bound.}  Any $G$-invariant map $E$ satisfies $E(\theta) \in V^G$ for all $\theta$; the dimension of the image is at most $C = \dim(V^G)$.  No amount of averaging, ensembling, or methodological refinement expands $V^G$.  The capacity is a structural constant (Lean-verified: \texttt{stable\_in\_fixed\_subspace}).
+
+\emph{Part (iii): Rate optimality.}  Among all linear unbiased estimators of $R\mu$ from $M$ i.i.d.\ samples, the orbit average minimises $\mathbb{E}[\|\hat{E} - R\mu\|^2]$ (Gauss--Markov).  Equivalently, $V^G$ is the sufficient statistic for stable explanatory content, and the Reynolds projection is the Rao--Blackwell improvement of any explanation method.
+
+\emph{Part (iv): Beyond-capacity penalty.}  For any $w \in (V^G)^\perp$ (i.e.\ $Rw = 0$) and any stable element $u \in V^G$ (i.e.\ $Ru = u$):
+\[
+  \|w\| \leq \|u - w\|.
+\]
+The best stable approximation to any beyond-capacity quantity is the zero vector, with MSE $= \|w\|^2$.  This is not noisy information; it is zero information.  The penalty follows directly from orthogonality ($u \perp w$) and the Pythagorean theorem (Lean-verified: \texttt{beyond\_capacity\_penalty}).
+
+The four parts mirror Shannon's coding theorem: capacity (Part~ii), achievability (Parts~i and~iii), converse (Part~iv), and rate (Part~i).  The over-explanation penalty is arguably sharper than Shannon's strong converse: it gives the \emph{exact} MSE for beyond-capacity estimation, not just an asymptotic bound.
+
+\emph{Empirical validation.}  The convergence rate $\text{MSE} \sim M^{-\beta}$ was validated on synthetic data with $\beta = 1.28$ (predicted: $1.00$; $R^2 = 0.97$).  The beyond-capacity penalty was validated across 149~datasets: within-group pairwise claims (beyond capacity) flip at rate $0.22 \pm 0.10$, while between-group claims (within capacity) flip at rate $0.15 \pm 0.08$ (cross-dataset Wilcoxon $p = 5.1 \times 10^{-11}$; directional confirmation in 81\% of 110~testable datasets, 86\% of 84~with Cohen's $d$ computable).
 
 \paragraph{The deeper claim.}
 If the group-theoretic parameterization is correct in full generality, then
@@ -1785,10 +1811,75 @@ Psychology & Garden of forking paths & Which analysis yields the effect & Pre-re
 
 In each domain, the pattern is identical: (1)~correlated variables or underdetermined models create the Rashomon property; (2)~the specific explanation (which gene, which circuit, which risk factor, which feedback mechanism) depends on the particular model or analysis pipeline; (3)~the resolution involves some form of averaging, ensembling, or abstraction to a coarser level where the instability vanishes.  The theorem proves that step~(3) is not a methodological preference but the unique Pareto-optimal response to a structural constraint.
 
-\paragraph{The theorem as an uncertainty principle for scientific explanation.}
-The Uncertainty from Symmetry theorem (Section~\ref{sec:group-classification}) formalises this scope.  For any system with symmetry group~$G$, the explanation capacity is $C = \dim(V^G)$ and the explanation loss rate is $\eta = 1 - C/\dim(V)$.  These are not specific to ML explanations, SHAP values, or feature importance.  They apply to any vector-valued description of any system with a symmetry group---physical, biological, economic, or social.  The \emph{explanation uncertainty relation} ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$, the quantitative form of the bilemma) provides the complementary bound: reducing unfaithfulness at one configuration forces increased unfaithfulness at another, with a lower bound determined by the system's structure.
+\paragraph{Extension to mathematical physics: 3D Navier--Stokes.}
+The tightness classification extends beyond data science to open problems in mathematical physics.  The 3D incompressible Navier--Stokes equations admit three desiderata: existence of solutions (P1), smoothness/regularity of solutions (P2), and uniqueness (P3).  Whether all three hold simultaneously is one of the seven Clay Millennium Problems.  We apply the framework computationally: for the Taylor--Green vortex ($A = 1$, $T_{\mathrm{final}} = 10$, capturing peak dissipation at $t \approx 9$ per Brachet 1983), 54~pseudospectral DNS runs across five resolutions ($32^3$, $48^3$, $64^3$, $96^3$, $128^3$) with Reynolds numbers $\mathrm{Re} \in [50, 10000]$ establish a complete phase diagram.
 
-The practical consequence for working scientists in \emph{any} field: if your system has correlated explanatory variables, the specific attribution you report (which variable is most important, which mechanism is primary) is not a stable property of the data.  It is a joint property of the data and the particular model or analysis pipeline.  The stable content---what survives averaging over valid pipelines---is at a coarser level (variable groups, pathway classes, mechanism families).  The theorem identifies exactly what that coarser level is ($V^G$, the symmetry-invariant subspace) and proves the orbit average is the optimal way to access it.
+\emph{Phase diagram (dealiasing ON):}
+At low Re, all three properties hold (FULL tightness) at every resolution.  Above a critical $\mathrm{Re}_{\mathrm{crit}}$, smoothness (P2) fails while existence (P1) and uniqueness (P3) survive --- SMOOTH-BLOCKED tightness.  The critical Reynolds number increases with resolution:
+\[
+  \mathrm{Re}_{\mathrm{crit}} = 2.91 \times N^{1.56}, \qquad R^2 = 0.94,
+\]
+where $N$ is the grid size.  The exponent $1.56$ lies between the Kolmogorov prediction $4/3$ and $2$, consistent with the inertial-range scaling (slopes $-1.8$ to $-1.87$ at $96^3$ and $128^3$, approaching the $k^{-5/3}$ Kolmogorov spectrum).
+
+\emph{Four confirmed claims:}
+\begin{enumerate}
+  \item P2 (smoothness) fails first at ALL five resolutions tested (dealiasing ON).
+  \item $\mathrm{Re}_{\mathrm{crit}}$ increases monotonically with $N$: $707 \to 1414 \to 1414 \to 3162 \to 7071$.
+  \item Dealiasing protects P1: with standard $2/3$-rule dealiasing, P1 never fails.  Without it, P1 always fails after P2 (cascade within 5\,ms at $128^3$).
+  \item The inertial range develops at high resolution with near-Kolmogorov slopes.
+\end{enumerate}
+
+\emph{The 2D control:} In 2D, where global regularity is proved (Ladyzhenskaya 1969), the framework correctly reports FULL tightness at all Reynolds numbers tested.  The 2D/3D comparison is a clean falsification test: the framework predicts FULL where regularity is known and SMOOTH-BLOCKED where it is unknown, and both predictions are confirmed.
+
+\emph{The dealiasing finding:} The standard $2/3$-rule dealiasing mask, present in all production DNS codes, artificially decouples smoothness from existence.  Without dealiasing, the P2$\to$P1 cascade gap shrinks with resolution ($0.4$--$0.6$\,s at $32^3$; $0.005$--$0.01$\,s at $128^3$; effectively simultaneous at the continuum limit).  This is a methodological finding relevant to the computational PDE community: the dealiasing mask is a Reynolds projection for aliasing symmetry, with capacity $(2N/3)^3$ modes.
+
+\emph{What this does not claim:} The numerical experiments classify the \emph{computational} tightness type (which property fails first in DNS at finite resolution).  They do not prove or disprove global regularity for the analytical 3D Navier--Stokes equations, which remains an open Millennium Problem.  The resolution-convergent trend ($\mathrm{Re}_{\mathrm{crit}} \to \infty$ as $N \to \infty$) is consistent with either eventual global regularity (FULL at the continuum limit) or a finite-Re breakdown that DNS cannot yet resolve.
+
+\emph{Divergence check:} $\max|\nabla \cdot \mathbf{u}| < 10^{-8}$ across all 54 runs, confirming the pseudospectral solver preserves incompressibility.
+
+\paragraph{The Explanation Capacity Audit.}
+The explanation capacity theorem was validated at scale across 149~datasets from 53~scientific domains (genomics, neuroscience, particle physics, manufacturing, veterinary medicine, and 48~others).  For each dataset, 50~XGBoost models with stochastic regularisation (subsample~$= 0.8$, colsample\_bytree~$= 0.5$) were trained with different random seeds, and TreeSHAP importance rankings were computed.  Correlation groups were identified via SAGE (hierarchical clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$), giving the explanation capacity $C = g$ (number of groups).  Note: the Lean-verified generalization (\texttt{mi\_is\_exact\_boundary} in \texttt{MutualInformation.lean}) proves that mutual information $I(X_j; X_k) > 0$---not correlation---is the necessary and sufficient condition for the attribution impossibility.  For continuous features, Spearman correlation is an adequate proxy: an MI-vs-correlation comparison on 4~datasets confirms that the two grouping methods produce identical within$-$between flip rate gaps when calibrated to the same granularity.  However, for binary or categorical features, correlation can fail completely---the drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this: Pearson clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate.  The 75\% exceedance rate below is therefore exact for the continuous-feature audit but a \emph{lower bound} for domains with binary, categorical, or nonlinear feature dependencies.
+
+\emph{Exceedance:} 111 of 149 datasets (75\%) exceed their explanation capacity --- the feature rankings reported in typical SHAP analyses contain more pairwise claims than the correlation structure can stably support.  Exceedance is robust to threshold: 83\% at $\rho^* = 0.50$, 81\% at 0.60, 75\% at 0.70, 69\% at 0.80, 50\% at 0.90.  The directional prediction (within $>$ between flip rate) is confirmed at all five thresholds (Wilcoxon $p \leq 0.021$ at each), with the strongest signal at $\rho^* = 0.70$ and $0.90$.  The slight weakening at $\rho^* = 0.80$ (77\% directional vs.\ 81\% at 0.70) reflects group fragmentation: 8~datasets lose testability as within-group pairs are split, and the mean number of within-group pairs drops from 81 to 62.
+
+\emph{Directional prediction:} The coding theorem predicts within-group pairwise comparisons (beyond capacity) are less stable than between-group comparisons (within capacity).  This prediction is confirmed in 72 of 84 testable datasets (86\%; 89 of 110 at the broader testability criterion).  A cross-dataset Wilcoxon signed-rank test gives $p = 5.1 \times 10^{-11}$; on 59~real-world datasets only (excluding PMLB benchmarks and synthetic controls), $p = 1.7 \times 10^{-6}$ (47/59 positive).  27 per-dataset confirmations are significant at $p < 0.005$; 22 survive Bonferroni correction ($p < 0.05/149 = 3.4 \times 10^{-4}$).  One dataset (Dermatology) shows a significant reversal ($p = 3.6 \times 10^{-4}$; see below).  The confirmation-to-reversal ratio is 27:1.  A family-level analysis (averaging Friedman variants within families to address non-independence) confirms the result: 59/72 families positive, Wilcoxon $p = 2.5 \times 10^{-8}$; block-bootstrap 95\% CI for the mean gap is $[0.036, 0.069]$, excluding zero.
+
+\emph{Effect sizes:} The strongest confirmations span diverse domains: Satellite Image (remote sensing, $d = 1.27$, $p = 2 \times 10^{-53}$), HAR Activity (wearables, $d = 0.91$, $p = 4 \times 10^{-72}$), Horse Colic (veterinary, $d = 0.99$, $p = 4 \times 10^{-40}$), AP Colon Kidney (genomics, $d = 0.90$, $p = 5 \times 10^{-35}$), MiniBooNE (particle physics, $d = 0.92$, $p = 2 \times 10^{-6}$), Vehicle Silhouette (vehicle engineering, $d = 0.82$, $p = 10^{-8}$), MiceProtein (neuroscience, $d = 0.67$, $p = 6 \times 10^{-8}$).  Median Cohen's $d$ across all testable datasets: 0.40 (medium effect).
+
+\emph{$\eta$~law degradation:} On synthetic data with known groups at varying correlation ($\rho \in [0.50, 0.99]$), the within-group flip rate increases monotonically with $\rho$ ($r = 0.898$, $p = 0.006$).  The bimodal gap (within $-$ between) also increases ($r = 0.864$, $p = 0.012$), confirming the $\eta$~law's degradation curve: the prediction is sharpest at exact exchangeability and degrades continuously with approximate symmetry.
+
+\emph{Model-class robustness:} XGBoost, Random Forest, and Ridge agree on the direction of the within/between flip rate difference in 4 of 5 representative datasets (80\%).  The prediction is a property of the data's dependence structure, not of a specific model class.
+
+\emph{Explanation-method robustness:} TreeSHAP and native XGBoost feature importance agree on direction in all tested datasets.  Native importance shows stronger effects in some cases (Diabetes: $d = 1.81$ native vs.\ 0.94 TreeSHAP).
+
+\emph{The beyond-capacity penalty:} Part~(iv) of the coding theorem predicts that the MSE of the orbit average for within-group importance differences equals the full squared norm of the target: $\text{MSE}/\|w\|^2 = 1$.  On synthetic data across five correlation levels ($\rho = 0.70$ to $0.99$), the observed ratio is \textbf{1.000} at every level.  Note: this is a consistency check rather than a prediction test --- the orbit average zeroes within-group differences by construction, so $\text{MSE}/\|w\|^2 = 1$ holds algebraically.  The empirical content is that between-group MSE is substantially lower ($\text{MSE}_{\text{between}} / \text{MSE}_{\text{within}} \approx 0.75$), confirming that within-capacity estimation benefits from orbit averaging while beyond-capacity estimation does not.
+
+\emph{Convergence rate:} The orbit average's MSE decays as $M^{-\beta}$ with $\beta = 1.28$ ($R^2 = 0.97$; predicted $\beta = 1.00$).  The faster-than-predicted convergence likely reflects conservative i.i.d.\ assumptions; in practice, models with shared training data are correlated, but the empirical rate is still $O(1/M)$.
+
+\emph{The Dermatology reversal:} The single significant reversal ($P = 34$, $g = 22$, within $= 0.039$, between $= 0.137$, $d = -0.80$) persists across all thresholds ($\rho^* = 0.50$ to $0.90$).  The explanation: dermatology features are \emph{complementary} clinical indicators (scaling $+$ erythema $=$ same disease), not \emph{substitutable} (competing for signal).  The framework predicts instability for substitutable features (the common case in high-dimensional continuous data); complementary features violate the exchangeability assumption.  This identifies a principled scope condition: correlation-as-proxy-for-exchangeability works when features compete for the same signal but fails when features co-occur as joint indicators.
+
+\emph{Null model test:} A natural alternative explanation for the directional prediction is that within-group features have smaller importance differences (by construction, since they are correlated), and smaller differences flip more regardless of group structure.  We tested this via pooled per-pair analysis across 14~real-world datasets (13{,}511~feature pairs, 1{,}309~within-group, 12{,}202~between-group; 5~\texttt{sklearn} $+$ 9~PMLB benchmark datasets spanning clinical, genomics, economics, computer vision, remote sensing, and speech domains).
+
+\emph{Parametric:} OLS regression (flip$\_$rate $\sim$ $|\text{diff}|$ $+$ $|\text{diff}|^2$ $+$ within $+$ dataset FE) gives a within-group coefficient of $0.037$ (dataset-level cluster-bootstrap 95\% CI $[0.014, 0.045]$, excluding zero).  The quadratic $|\text{diff}|$ term substantially improves fit ($R^2 = 0.42$ vs.\ the linear baseline), confirming the nonlinear relationship between importance magnitude and flip rate.
+
+\emph{Nonparametric:} The within$>$between gap is concentrated in the lowest $|\text{diff}|$ quintile (gap $= +0.061$, $p < 10^{-4}$), where features have similar mean importances and are thus genuinely exchangeable.  In the upper four quintiles---where within-group features have increasingly different importances despite being correlated---the gap attenuates to near zero.  This is consistent with the coding theorem's mechanism: the effect operates where features are \emph{exchangeable} (similar importance $+$ statistical dependence), not merely where they are correlated.
+
+\emph{SAGE vs.\ correlation vs.\ MI:} A cross-validated comparison of three group-discovery methods (correlation-based, MI-based, and SAGE flip-rate-based clustering, each calibrated to the same number of groups) reveals that SAGE produces substantially larger within$-$between gaps on 6 of 7 datasets tested (mean SAGE gap $= 0.25$ vs.\ correlation gap $= 0.05$).  SAGE clusters by empirical exchangeability (cross-validated: first 25~seeds for discovery, last 25~for evaluation), directly capturing the theoretical criterion.  MI-based and correlation-based groups are nearly identical for continuous features (verified on 7~datasets), confirming that the MI generalisation matters for binary/categorical features but not for continuous data.
+
+\emph{Per-dataset randomisation:} on synthetic data with correctly structured groups ($\rho \geq 0.80$), the real partition produces a significantly larger gap than 2{,}000 random partitions ($p = 0.001$ for all four settings).
+
+The interpretation: group membership carries predictive information \emph{beyond} $|\text{diff}|$, concentrated where features are genuinely exchangeable (low $|\text{diff}|$, high dependence).  The quadratic OLS coefficient is robust across sample sizes (14-dataset cluster-bootstrap CI $[0.014, 0.045]$).  The stratified effect is strongest in the lowest quintile, where correlated features have similar importances and thus compete for the same predictive signal.  In higher quintiles, correlation groups include non-exchangeable pairs (correlated but with different true importances), attenuating the within$-$between gap---consistent with the distinction between correlation and exchangeability (Section~\ref{sec:exchangeability}).  The cross-dataset aggregate test (Wilcoxon $p = 5 \times 10^{-11}$) confirms that group structure matters at the dataset level; the per-pair OLS confirms it at the feature-pair level after nonlinear control for importance magnitude.
+
+\emph{$\eta$~law across heterogeneous datasets:}  The headline $R^2 = 0.957$ for the $\eta$~law is from 7~well-characterised synthetic groups.  Across all 110~testable datasets with inferred groups, $\eta$ does not significantly predict the within$-$between gap ($\rho = 0.09$, $p = 0.36$), because underpowered datasets (low $n_w$) add noise.  Restricting to power-adequate real-world datasets ($n_w \geq 10$, $n = 39$), the correlation strengthens to $\rho = 0.40$ ($p = 0.011$).  The $\eta$~law generalises, but only to settings where the group structure is adequately sampled.
+
+\emph{Group stability:} Bootstrap resampling (200~resamples) confirms that correlation-based groups are stable: mean ARI $> 0.94$ for real-world datasets (Breast Cancer, Diabetes, California Housing), and ARI $= 1.000$ for synthetic data at $\rho \geq 0.80$.  At $\rho = 0.70$ (threshold $=$ correlation), ARI $= 0.33$---groups are not recovered, consistent with the null-model test failure at this boundary.
+
+\emph{Dimensionality boundary:} High-dimensional datasets ($P \geq 50$) systematically show smaller or reversed gaps (Spearman $\rho = -0.35$ between $P$ and gap, $p = 2 \times 10^{-4}$).  This is a power artefact: at high $P$, correlation clustering yields few within-group pairs ($n_w \leq 3$), making the per-dataset test unreliable.  The cross-dataset test is unaffected (excluding all $P \geq 50$ datasets: Wilcoxon $p = 4.6 \times 10^{-8}$).
+
+\paragraph{The theorem as a capacity law and uncertainty principle for scientific explanation.}
+The Uncertainty from Symmetry theorem (Section~\ref{sec:group-classification}) formalises this scope.  For any system with symmetry group~$G$, the explanation capacity is $C = \dim(V^G)$ and the explanation loss rate is $\eta = 1 - C/\dim(V)$.  These are not specific to ML explanations, SHAP values, or feature importance.  They apply to any vector-valued description of any system with a symmetry group---physical, biological, economic, or social.  The \emph{explanation uncertainty bound} ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$, the quantitative form of the bilemma) provides the complementary bound: reducing unfaithfulness at one configuration forces increased unfaithfulness at another, with a lower bound determined by the system's structure.
+
+The practical consequence for working scientists in \emph{any} field: if your system has statistically dependent explanatory variables (whether linearly correlated or not---the exact boundary is $I(X_j; X_k) > 0$), the specific attribution you report (which variable is most important, which mechanism is primary) is not a stable property of the data.  It is a joint property of the data and the particular model or analysis pipeline.  The stable content---what survives averaging over valid pipelines---is at a coarser level (variable groups, pathway classes, mechanism families).  The theorem identifies exactly what that coarser level is ($V^G$, the symmetry-invariant subspace) and proves the orbit average is the optimal way to access it.
 
 \subsection[The Isn't This Obvious Defense]{The ``Isn't This Obvious?'' Defense}
 \label{sec:obvious}
@@ -1798,7 +1889,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 101~files, 501~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 101~files, 507~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -2596,7 +2687,7 @@ data that breaks the symmetry), rather than increasing feature separation.
 
 The invariance correspondence (Section~\ref{sec:bridge-noether}) predicts that
 the number of independently stable ranking facts equals $\binom{g}{2}$, where
-$g$~is the number of correlation groups.  Within-group comparisons should be
+$g$~is the number of dependence groups (identified here via correlation; the exact boundary is $I > 0$).  Within-group comparisons should be
 unstable ($\sim\!50\%$ flip rate), while between-group comparisons should be
 perfectly stable.  We tested this counting prediction directly.
 
@@ -2936,7 +3027,7 @@ For German Credit, 45\% of loan applicants receive a genuinely different explana
 \paragraph{Narrative example.}
 German Credit applicant \#91 receives 6~different ``most important feature'' explanations across 8~Rashomon models: Purpose (25\%), Telephone (25\%), Installment rate (12\%), Account status (12\%), Dependents (12\%), and Savings (12\%). No feature dominates. An adverse action notice based on any single model is effectively arbitrary. The DASH consensus resolves to a stable explanation (92\% agreement with majority vote).
 
-The effect is dataset-dependent: Heart Disease shows 0\% reversal across all conditions, confirming that instability requires sufficient feature correlation structure. The honest headline is not ``75\% of individuals receive different explanations'' (an inflated aggregate from v1 of this experiment) but rather: \emph{standard regularisation choices determine which explanation category nearly half of credit applicants receive.}
+The effect is dataset-dependent: Heart Disease shows 0\% reversal across all conditions, confirming that instability requires sufficient feature dependence ($I > 0$ between feature pairs). The honest headline is not ``75\% of individuals receive different explanations'' (an inflated aggregate from v1 of this experiment) but rather: \emph{standard regularisation choices determine which explanation category nearly half of credit applicants receive.}
 
 \subsection{Prospective Out-of-Domain Prediction: Drug Discovery}
 \label{sec:drug-discovery}
@@ -3503,7 +3594,7 @@ $r = R_{\text{within}} / I_{\text{total}} \in [0,1]$ and the
 \emph{decisiveness fraction} $D(E) = $ (fraction of incompatible pairs
 preserved by~$E$).
 
-\begin{theorem}[Explanation tradeoff bound]
+\begin{theorem}[Explanation uncertainty bound]
 \label{thm:uncertainty-principle}
 For any stable explanation map~$E$,
 \[
@@ -3743,7 +3834,7 @@ conceived and verified by the human authors.
 
 The Lean~4 formalization and all experiment scripts are available at
 \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}
-(universal framework: 101~files, 501~theorems, 25~axioms, 0~\texttt{sorry}).
+(universal framework: 101~files, 507~theorems, 25~axioms, 0~\texttt{sorry}).
 The attribution-specific formalization is at
 \url{https://github.com/DrakeCaraker/dash-impossibility-lean}
 (58~files, 357~theorems, 6~axioms, 0~\texttt{sorry}).

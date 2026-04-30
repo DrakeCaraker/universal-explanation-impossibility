@@ -91,9 +91,9 @@ causal inference, statistical mechanics, genetics, linguistics, and
 database theory---independently converged on this same resolution,
 without cross-pollination, is now explained: the orbit-averaged
 projection is the unique Pareto-optimal strategy for any system with the
-Rashomon property.  The framework is verified in Lean~4 (501~theorems,
+Rashomon property.  The framework is verified in Lean~4 (507~theorems,
 0~unproved goals) and generates quantitative predictions confirmed across
-seven domains ($R^2 = 0.96$, zero free parameters), establishing an
+seven domains ($R^2 = 0.96$, zero free parameters), establishing a capacity law and
 uncertainty principle for scientific explanation.
 \end{abstract}
 
@@ -378,17 +378,18 @@ parameters.  Across seven well-characterised domains---SHAP attributions
 codon degeneracy classes ($S_2$, $S_4$, $S_6$), and statistical
 mechanics ($S_{252}$)---the prediction achieves $R^2 = 0.957$ with slope
 0.91 (Extended Data Fig.~1).  A Noether-type counting law follows: for
-$P$ features in $g$ correlation groups, exactly $g(g-1)/2$ ranking facts
+$P$ features in $g$ dependence groups (identified via correlation; the exact boundary is $I > 0$), exactly $g(g-1)/2$ ranking facts
 are stable (between-group) while all within-group comparisons are coin
 flips.  On synthetic data with 3~groups of 4~features ($\rho = 0.99$),
 the within-group flip rate is 50.0\% and the between-group rate is 0.2\%
 (bimodal gap~$= 50$~pp, $p = 2.7 \times 10^{-13}$).
 Equivalently, $\dim(V^G)$ is the \emph{explanation capacity}: the
 maximum number of independent stable facts any method can extract.
-The orbit average achieves this capacity (proved Pareto-optimal).
-As Shannon's channel capacity bounds what communication can achieve,
-the explanation capacity bounds what explanation can achieve---and the
-orbit average is the optimal code.
+The orbit average achieves this capacity (proved Pareto-optimal):
+the Pythagorean decomposition $\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$
+under the Reynolds projection $R$ partitions any explanation vector
+into stable ($Rv$) and unstable ($v - Rv$) components with zero
+cross-talk (Lean-verified).
 The law fails when groups are unknown
 ($R^2 = 0.25$ for all 16 domains) or approximate (brain imaging:
 $\rho \approx 0$), delineating the boundary at exact exchangeability.
@@ -468,8 +469,8 @@ stability requires averaging over equivalent configurations.
 Impossibility theorems appear across science---Arrow, G\"odel, Bell,
 the CAP theorem, the laws of thermodynamics---but they differ in
 \emph{tightness}: which pairs of desirable properties survive when the
-full triple fails.  A classification of 21 impossibility theorems from
-13+~domains (Extended Data Table~2) reveals that 16 have \emph{full
+full triple fails.  A classification of 23 impossibility theorems from
+14+~domains (Extended Data Table~2) reveals that 17 have \emph{full
 tightness}: every pair is independently achievable, and practitioners
 can ``pick two.''  Only three have \emph{collapsed tightness}---property
 pairs are blocked, not just the triple: the explanation bilemma, the
@@ -488,29 +489,27 @@ the trivial representation of the symmetry group, proved
 Pareto-optimal in both cases.  All three collapsed instances share the
 same mechanism: a uniformity property (stability / linearity /
 conjugation invariance) individually incompatible with two desiderata,
-resolved by enrichment.  The explanation uncertainty relation makes the
-parallel quantitative: any stable explanation satisfies
+resolved by enrichment.  The explanation uncertainty bound makes this
+quantitative: any stable explanation satisfies
 $\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta -
-\delta$ on each Rashomon pair---a lower bound on complementary quantities
-analogous in form to Heisenberg's uncertainty relation.  Collapsed tightness means the standard ``pick two''
+\delta$ on each Rashomon pair---a lower bound on complementary
+quantities, in the lineage of Donoho--Stark-type uncertainty principles
+for constrained approximation~\citep{donoho1989uncertainty}.  Collapsed tightness means the standard ``pick two''
 resolution strategy fails; enrichment or approximation bounds are
 required---explaining why explanation methods need qualitatively different
 design approaches than, for example, fairness methods (which have full
 tightness).
 
-\paragraph{The resolution is recursive.}
-Enrichment restores the blocked property pairs by adding new elements
-to~$\sH$, but the enriched space hosts a new impossibility at the next
-level, and the levels are independent: resolving level~$k$ gives zero
-information about level~$k+1$ (both proved in
-Lean~\citep{caraker2026ostrowski}).  The same recursive pattern appears
-in G\"odel's incompleteness (add $\mathrm{Con}(T)$; new unprovable
-sentence) and in Galois theory (adjoin a root; new irreducible
-polynomials)---the enrichment stack mirrors the algebraic structure of a
-tower of field extensions.  A complete explanatory theory therefore
-classifies which questions have formulation-independent answers at each
-level, rather than answering all questions---an epistemological limit
-that holds wherever collapsed tightness obtains.
+\paragraph{The classification extends to mathematical physics.}
+For the 3D Navier--Stokes equations---where global regularity is an open
+Millennium Problem---54 numerical experiments across five resolutions
+($32^3$ to $128^3$) show smoothness is the first property to fail, with
+a resolution-convergent transition at $\mathrm{Re}_{\mathrm{crit}} =
+2.91\,N^{1.56}$ ($R^2 = 0.94$; Supplementary Information).  In 2D,
+where global regularity is proved, the framework correctly reports full
+tightness---a clean control confirming the classification's scope.
+Without dealiasing, the smoothness failure cascades to existence within
+5\,ms at $128^3$, confirming the two failures are coupled.
 
 \paragraph{Limitations.}
 The gene-expression alternation requires stochastic regularisation
@@ -537,7 +536,7 @@ The proof of the core impossibility is four lines (Methods).  Its
 brevity is not a weakness---it reflects the generality of the Rashomon
 property as a hypothesis, ensuring the result applies to any
 explanation system meeting the definition.  The full framework is
-verified in Lean~4 across three repositories (501 $+$ 357 $+$ 475
+verified in Lean~4 across three repositories (507 $+$ 357 $+$ 475
 theorems, 0~unproved goals).  All ML instances use constructive types
 with zero domain-specific axioms.
 
@@ -546,15 +545,22 @@ The most compelling evidence for the theorem's universality is not the
 formal proof---it is the convergence of eight scientific communities on
 the same resolution, discovered independently over a century, now
 explained by a single structural condition.  The impossibility is
-permanent.  The resolution is known.  As Heisenberg's uncertainty
-principle established that conjugate physical quantities cannot be
-simultaneously known, and Shannon's theorem established the fundamental
-limits of communication, this framework establishes the fundamental
-limits of explanation---with a quantitative tradeoff bound, a proved
-structural connection to quantum measurement uncertainty, and an optimal
-explanatory strategy.  The
-question for each domain is no longer ``how do we fix the instability?''\
-but ``which conclusions survive the resolution?''  That the same
+permanent.  The resolution is known.  In companion work, an audit of
+149~datasets across 53~scientific domains finds that 75\% exceed their
+explanation capacity under standard practice, with a 27:1
+confirmation-to-reversal ratio for the directional
+prediction.  As Shannon's channel capacity
+bounds what communication can achieve, the explanation capacity
+$C = \dim(V^G)$ bounds what explanation can achieve---and the orbit
+average is the optimal code.  The algebraic identity connecting these
+limits to quantum information theory is the Pythagorean decomposition
+under group projection: the fraction of explanatory content lost to
+symmetry is $\eta = 1 - \dim(V^G)/\dim(V)$, the same formula governing
+quantum information loss under covariant
+channels~\citep{bartlett2007reference}---explanatory content decomposes
+into a stable component and an unstable component with zero cross-talk.
+The question for each domain is no longer ``how do we fix the
+instability?''\ but ``which conclusions survive the resolution?''  That the same
 structure governs voting theory, quantum physics, neural network
 interpretability, and the Langlands programme suggests the impossibility
 is not a property of any particular science but of explanation itself.
@@ -737,7 +743,7 @@ Causal discovery
 \centering
 \small
 \caption{\textbf{Extended Data Table 2.}
-  Twenty-one impossibility theorems from 13+~domains classified by tightness
+  Twenty-three impossibility theorems from 14+~domains classified by tightness
   type.  Full: every property pair achievable (``pick two'' works).
   Collapsed: property pairs blocked (enrichment required).  Structural:
   non-trivial Lean proof over unbounded solution space.  Model:
@@ -772,6 +778,9 @@ Penrose-Hawking & General relativity & Full & model \\
 \midrule
 Eastin-Knill & Quantum computing & p12-blocked & model \\
 Shannon secrecy & Cryptography & p23-blocked & model \\
+\midrule
+Navier--Stokes (3D) & Math.\ physics & Smooth-blocked & numerical (54 runs) \\
+Navier--Stokes (2D) & Math.\ physics & Full (control) & numerical \\
 \bottomrule
 \end{tabular}
 \end{table}
