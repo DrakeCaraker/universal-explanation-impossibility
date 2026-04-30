@@ -464,18 +464,19 @@ theorem informationFate_maxIncompat (f₁ f₂ : InformationFate) :
     ¬InformationFate.incompatible f₁ f₂ → f₁ = f₂ := by
   cases f₁ <;> cases f₂ <;> simp [InformationFate.incompatible]
 
-axiom BHFramework : Type
-axiom BHPrediction : Type
-axiom bh_observe : BHFramework → BHPrediction
-axiom bh_explain : BHFramework → InformationFate
+section BlackHole
 
-/-- The black hole Rashomon: Hawking's framework and the unitarity
-    framework agree on accessible predictions but disagree on
-    information fate. -/
-axiom bh_rashomon :
+variable (BHFramework : Type) (BHPrediction : Type)
+variable (bh_observe : BHFramework → BHPrediction)
+variable (bh_explain : BHFramework → InformationFate)
+
+-- The black hole Rashomon: Hawking's framework and the unitarity
+-- framework agree on accessible predictions but disagree on
+-- information fate.
+variable (bh_rashomon :
   ∃ θ₁ θ₂ : BHFramework,
     bh_observe θ₁ = bh_observe θ₂ ∧
-    InformationFate.incompatible (bh_explain θ₁) (bh_explain θ₂)
+    InformationFate.incompatible (bh_explain θ₁) (bh_explain θ₂))
 
 /-- The black hole information explanation system. -/
 noncomputable def bhSystem :
@@ -496,10 +497,12 @@ noncomputable def bhSystem :
     observer-dependent" is the neutral element. -/
 theorem bh_bilemma
     (E : BHFramework → InformationFate)
-    (hf : faithful bhSystem E)
-    (hs : stable bhSystem E) :
+    (hf : faithful (bhSystem BHFramework BHPrediction bh_observe bh_explain bh_rashomon) E)
+    (hs : stable (bhSystem BHFramework BHPrediction bh_observe bh_explain bh_rashomon) E) :
     False :=
-  bilemma bhSystem informationFate_maxIncompat E hf hs
+  bilemma (bhSystem BHFramework BHPrediction bh_observe bh_explain bh_rashomon) informationFate_maxIncompat E hf hs
+
+end BlackHole
 
 /-- The enrichment stack now has a concrete Level 2 with a proved bilemma. -/
 theorem physicalStack_depth_3 :
@@ -553,17 +556,18 @@ theorem spacetimeStatus_maxIncompat (s₁ s₂ : SpacetimeStatus) :
     ¬SpacetimeStatus.incompatible s₁ s₂ → s₁ = s₂ := by
   cases s₁ <;> cases s₂ <;> simp [SpacetimeStatus.incompatible]
 
-axiom QGFramework : Type
-axiom QGPrediction : Type
-axiom qg_observe : QGFramework → QGPrediction
-axiom qg_explain : QGFramework → SpacetimeStatus
+section QuantumGravity
 
-/-- Rashomon: fundamental-spacetime and emergent-spacetime frameworks
-    agree on accessible predictions. -/
-axiom qg_rashomon :
+variable (QGFramework : Type) (QGPrediction : Type)
+variable (qg_observe : QGFramework → QGPrediction)
+variable (qg_explain : QGFramework → SpacetimeStatus)
+
+-- Rashomon: fundamental-spacetime and emergent-spacetime frameworks
+-- agree on accessible predictions.
+variable (qg_rashomon :
   ∃ θ₁ θ₂ : QGFramework,
     qg_observe θ₁ = qg_observe θ₂ ∧
-    SpacetimeStatus.incompatible (qg_explain θ₁) (qg_explain θ₂)
+    SpacetimeStatus.incompatible (qg_explain θ₁) (qg_explain θ₂))
 
 noncomputable def qgSystem :
     ExplanationSystem QGFramework SpacetimeStatus QGPrediction :=
@@ -580,10 +584,12 @@ noncomputable def qgSystem :
     status of spacetime is description-dependent." -/
 theorem qg_bilemma
     (E : QGFramework → SpacetimeStatus)
-    (hf : faithful qgSystem E)
-    (hs : stable qgSystem E) :
+    (hf : faithful (qgSystem QGFramework QGPrediction qg_observe qg_explain qg_rashomon) E)
+    (hs : stable (qgSystem QGFramework QGPrediction qg_observe qg_explain qg_rashomon) E) :
     False :=
-  bilemma qgSystem spacetimeStatus_maxIncompat E hf hs
+  bilemma (qgSystem QGFramework QGPrediction qg_observe qg_explain qg_rashomon) spacetimeStatus_maxIncompat E hf hs
+
+end QuantumGravity
 
 -- ============================================================================
 -- The extended physical enrichment stack (depth 3, Level 3 as prediction)
