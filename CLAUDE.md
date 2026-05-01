@@ -283,7 +283,7 @@ Four papers forming a layered publication strategy:
 
 **Full reference with explanations, methodology, and provenance:** [`docs/comprehensive-reference.md`](docs/comprehensive-reference.md)
 
-**Complete publication strategy (all 4 repos, 13 papers, dual submission analysis):** [`docs/publication-strategy-complete.md`](docs/publication-strategy-complete.md)
+**Archived publication strategy (superseded):** [`docs/archive/publication-strategy-complete-2026-04-30.md`](docs/archive/publication-strategy-complete-2026-04-30.md)
 
 ### Core Lean Theorems (519 total, 2 axioms, 0 sorry)
 
