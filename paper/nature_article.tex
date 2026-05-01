@@ -155,12 +155,13 @@ documented this instability
 empirically~\citep{krishna2022disagreement}, characterised importance
 ranges across the Rashomon set~\citep{fisher2019models}, identified
 underspecification as a systemic
-challenge~\citep{damour2022underspecification}, and proved special cases
-for Shapley-based methods~\citep{bilodeau2024impossibility}; here we
-prove the general impossibility for \emph{any} explanation type,
-characterise the complete design space, and show that the same structure
-governs five domains across clinical biology, AI safety, foundational
-physics, social choice, and mathematical physics
+challenge~\citep{damour2022underspecification}, and proved impossibility for Shapley-based methods under collinearity
+axioms~\citep{bilodeau2024impossibility}; here we prove the general
+impossibility for \emph{any} explanation method under any form of
+statistical dependence ($I > 0$ is the exact boundary; Lean-verified),
+requiring zero axioms about the explanation method itself.  The same
+structure governs five domains across clinical biology, AI safety,
+foundational physics, social choice, and mathematical physics
 (Fig.~\ref{fig:1}).  The proof is verified in Lean~4 with zero
 domain-specific axioms.  A strengthened form---the bilemma---shows that
 for binary explanations (significant or not, positive or negative), even
@@ -483,7 +484,9 @@ partitions any explanation vector into stable ($Rv$) and unstable
 ($v - Rv$) components with zero cross-talk (Lean-verified).
 The capacity formula requires identifying the symmetry group---a
 practical bottleneck (holdout $R^2 = 0.24$ for 9~domains with
-approximate groups).  Three empirical bridges address this at
+approximate groups; on 39~real-world datasets with power-adequate
+inferred groups, the formula partially generalises at Spearman
+$\rho = 0.40$, $p = 0.011$).  Three empirical bridges address this at
 decreasing cost.  First, the Gaussian flip formula
 $\Phi(-\mathrm{SNR})$ predicts per-pair instability from bootstrap
 retrains alone, with per-dataset $R^2 = 0.95$--$0.98$ across 6~datasets
