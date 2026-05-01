@@ -10,7 +10,7 @@ This repository contains the Lean 4 formalization, empirical experiments, and pa
 
 ### Main Article (`paper/nature_article.tex`)
 
-The flagship paper. Proves the impossibility from first principles, demonstrates it in four empirical domains, identifies the unique optimal resolution, and classifies 20 impossibility theorems from 12 domains by structural type.
+The flagship paper. Proves the impossibility from first principles, demonstrates it in four empirical domains, identifies the unique optimal resolution, and classifies 23 impossibility theorems from 14+ domains by structural type.
 
 **Contents:**
 - The impossibility theorem (4-line proof, zero axioms)
@@ -18,7 +18,7 @@ The flagship paper. Proves the impossibility from first principles, demonstrates
 - Tightness classification (which property pairs survive)
 - Four empirical instances: genomics, mechanistic interpretability, causal inference, neuroimaging
 - The universal η law (R² = 0.957, zero free parameters)
-- Classification of 20 impossibility theorems — the bilemma is one of only two with collapsed tightness
+- Classification of 23 impossibility theorems — the bilemma is one of only three with collapsed tightness
 - Recursive resolution (enrichment creates new impossibility; Gödel/Galois parallels)
 - Connection to Heisenberg's uncertainty principle (same structural type, proved)
 
@@ -43,7 +43,7 @@ Full details for all experiments and domain instances referenced in the Nature p
 
 ### Monograph (`paper/universal_impossibility_monograph.tex`)
 
-The definitive technical reference (~4,400 lines). Contains everything in the main article and supplement plus:
+The definitive technical reference (~4,900 lines). Contains everything in the main article and supplement plus:
 
 - Complete abstract framework with all definitions and proof details
 - Full tightness analysis with constructive witnesses for all property pairs
@@ -98,19 +98,20 @@ Botvinik-Nezer et al. (Nature 2020) gave the same fMRI data to 70 teams who reac
 
 ## Key Theoretical Results
 
-### The Explanation Capacity Law
-Every system with symmetry group G has an **explanation capacity** C = dim(V^G): the maximum number of independent stable facts any method can extract. The **explanation loss rate** η = 1 − C/dim(V) predicts instability from the group alone, with zero free parameters. Across 7 well-characterized domains: **R² = 0.957**, slope 0.91. The orbit average (**the explanation code**) achieves the capacity — it is the unique optimal strategy, the way Shannon's optimal code achieves channel capacity. A stability counting theorem follows: within-group comparisons are coin flips (50.0% vs 0.2%, bimodal gap = 50pp, p = 2.7 × 10⁻¹³).
+### The Explanation Capacity Theorem
+Every system with symmetry group G has an **explanation capacity** C = dim(V^G): the maximum number of independent stable facts any method can extract. The **explanation loss rate** η = 1 − C/dim(V) predicts instability from the group alone, with zero free parameters. Across 7 well-characterized domains: **R² = 0.957**, slope 0.91. The **stable projection** (orbit average) achieves the capacity — it is the unique optimal strategy, the way Shannon's optimal code achieves channel capacity. The **stable fact count** follows: within-group comparisons are coin flips (50.0% vs 0.2%, bimodal gap = 50pp, p = 2.7 × 10⁻¹³).
 
-### Classification of 20 Impossibility Theorems
+### Classification of 23 Impossibility Theorems
 A classification by **tightness type** — which property pairs survive when the full triple fails:
 
 | Tightness | Count | Examples |
 |-----------|-------|----------|
 | **Full** (pick two works) | 16 | Arrow, Gödel, Bell, KS, CAP, FLP, Mundell-Fleming, thermodynamics, ... |
-| **Collapsed** (pairs blocked) | 2 | Explanation bilemma, quantum linearity trilemma |
+| **Collapsed** (pairs blocked) | 3 | Explanation bilemma, quantum linearity trilemma, GL(n) representation |
 | **Intermediate** | 2 | Eastin-Knill (p12), Shannon secrecy (p23) |
+| **Conditional** | 2 | Navier-Stokes 3D (smooth-blocked), 2D (full, control) |
 
-The explanation bilemma is one of only two collapsed instances — structurally more severe than Arrow, Gödel, Bell, CAP, or fairness impossibilities.
+The explanation bilemma is one of only three collapsed instances — structurally more severe than Arrow, Gödel, Bell, CAP, or fairness impossibilities.
 
 ### Uncertainty from Symmetry
 The Explanation Capacity Law and quantum uncertainty arise from the same representation-theoretic decomposition. The orbit average (the **explanation code**) and the quantum twirl are both capacity-achieving projections onto the trivial representation. The **explanation uncertainty relation** (unfaith(θ₁) + unfaith(θ₂) ≥ Δ − δ) is analogous to Heisenberg's ΔxΔp ≥ ℏ/2. Proved in Lean (`UncertaintyFromSymmetry.lean`, 13 theorems, 0 sorry).
@@ -137,13 +138,13 @@ The theorem proves this convergence is not coincidence: the orbit-averaged proje
 
 ## Lean Formalization
 
-Three repositories, 1,333 theorems total, **0 sorry**:
+Three repositories, **1,359 theorems** total, **5 axioms**, **0 sorry**:
 
 | Repository | Files | Theorems | Axioms | Content |
 |------------|-------|----------|--------|---------|
-| [universal-explanation-impossibility](.) | 101 | 501 | 25 | Core theorem, 9 ML instances, 14 cross-domain instances, η law, resolution, uncertainty from symmetry |
-| [dash-impossibility-lean](https://github.com/DrakeCaraker/dash-impossibility-lean) | 58 | 357 | 6 | SHAP-specific: GBDT ratios, Lasso, neural nets, DASH equity |
-| [ostrowski-impossibility](https://github.com/DrakeCaraker/ostrowski-impossibility) | 37 | 475 | 11 | Bilemma, tightness classification, enrichment stack, physics application |
+| [universal-explanation-impossibility](.) | 102 | 519 | 2 | Core theorem, 9 ML instances, 14 cross-domain, capacity theorem, resolution, MI boundary |
+| [dash-impossibility-lean](https://github.com/DrakeCaraker/dash-impossibility-lean) | 58 | 358 | 2 | Attribution-specific: GBDT ratios, Lasso, neural nets, bilemma instances, DASH equity |
+| [ostrowski-impossibility](https://github.com/DrakeCaraker/ostrowski-impossibility) | 38 | 482 | 1 | Physics, number theory, Langlands, tightness classification, enrichment stack |
 
 The core impossibility theorem uses **zero axioms** — only the Rashomon property as a hypothesis.
 
@@ -175,7 +176,7 @@ python3 uncertainty_from_symmetry.py                # Uncertainty theorem numeri
 ## Repository Structure
 
 ```
-UniversalImpossibility/           # Lean 4 source (101 files)
+UniversalImpossibility/           # Lean 4 source (102 files)
   ExplanationSystem.lean          # Core theorem (zero axioms)
   MaximalIncompatibility.lean     # Bilemma + tightness
   UniversalResolution.lean        # G-invariant resolution
@@ -189,7 +190,7 @@ UniversalImpossibility/           # Lean 4 source (101 files)
 paper/
   nature_article.tex              # Main article (~2700 words)
   supplementary_information.tex   # Supplement (13 sections)
-  universal_impossibility_monograph.tex  # arXiv monograph (~4400 lines)
+  universal_impossibility_monograph.tex  # arXiv monograph (~4900 lines)
   references.bib                  # References
   figures/                        # Publication-quality figures
   scripts/                        # Figure generation, validation, numerical proofs
@@ -212,9 +213,12 @@ docs/                             # Documentation + handoffs
 | Noether bimodal gap | 50 pp (p = 2.7 × 10⁻¹³) | `results_noether_counting.json` |
 | NARPS convergence (M₉₅) | 16 [10, 22] | `results_brain_imaging_bulletproof.json` |
 | Gene alternation (TSPAN8) | 92% of seeds | `results_gene_expression_replication.json` |
-| Tightness classification | 20 impossibilities, 12 domains | Lean-verified |
-| Lean theorems (total) | 1,333 across 3 repos | 0 sorry |
-| Falsified predictions | 5 of 8 pre-registered | Honest reporting |
+| Capacity audit (149 datasets) | 75% exceed capacity, Wilcoxon p = 5.1 × 10⁻¹¹ | `results_audit_150_final.json` |
+| Gaussian flip formula | Per-pair R² = 0.946–0.980 | `results_open_questions_capstone.json` |
+| MI vs correlation (131 datasets) | ARI = 0.84, identical 77% | `results_mi_reaudit.json` |
+| Tightness classification | 23 impossibilities, 14+ domains | Lean-verified |
+| Lean theorems (total) | 1,359 across 3 repos, 5 axioms | 0 sorry |
+| Falsified predictions | 8 total (5 pre-registered + 3 session) | Honest reporting |
 
 ## Related Papers
 
@@ -234,7 +238,7 @@ docs/                             # Documentation + handoffs
   author  = {Caraker, Drake and Arnold, Bryan and Rhoads, David},
   title   = {The Limits of Explanation},
   year    = {2026},
-  note    = {Lean 4 formalization: 1,333 theorems, 0 sorry}
+  note    = {Lean 4 formalization: 1,359 theorems across 3 repositories, 5 axioms, 0 sorry}
 }
 ```
 
