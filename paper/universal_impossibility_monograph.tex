@@ -173,7 +173,7 @@ The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
 into this regime.
-The framework is mechanically verified in Lean~4 (102~files, 519~theorems,
+The framework is mechanically verified in Lean~4 (104~files, 530~theorems,
 2~axioms, 0~\texttt{sorry}).
 \end{abstract}
 
@@ -259,7 +259,7 @@ Our contributions are:
     parameter dimension exceeds the observable dimension, covering
     virtually all modern overparameterized models.
   \item \textbf{Mechanical verification} in Lean~4
-    \citep{demoura2021lean4}: 102~files, 519~theorems, 2~axioms,
+    \citep{demoura2021lean4}: 104~files, 530~theorems, 2~axioms,
     0~\texttt{sorry}.
 \end{enumerate}
 
@@ -1173,7 +1173,7 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 Component & Count & Notes \\
 \midrule
 Files & 100 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 519 & Verified by \texttt{grep -c} \\
+Theorems \& lemmas & 530 & Verified by \texttt{grep -c} \\
 Axioms & 2 & Bundled GBDT infrastructure; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
@@ -1188,7 +1188,7 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \end{tabular}
 \end{table}
 
-Of the 519 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
+Of the 530 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
 
 \subsection{Axiom Stratification}
 \label{sec:axiom-stratification}
@@ -1232,9 +1232,18 @@ Theorem & Axioms & Description \\
 \texttt{view\_update\_impossibility} & 0 & Database view update \\
 \texttt{stat\_mech\_impossibility} & 0 & Microstate degeneracy \\
 \texttt{causal\_impossibility\_derived} & 0 & Markov equivalence \\
+\texttt{langlands\_boundary\_statement} & 0 & $n{=}1$ full, $n{\geq}2$ collapsed \\
+\texttt{multiAnalyst\_impossibility} & 0 & Multi-analyst F+S+D impossible \\
+\texttt{multiAnalyst\_bilemma} & 0 & Multi-analyst F+S impossible \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\paragraph{Zero-axiom scope.}
+The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.
+
+\paragraph{Reynolds naturality predicts Langlands functoriality.}
+The Reynolds naturality theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections.  For GL($n$), the Reynolds projection is the trace (conjugation-averaging).  Reynolds naturality therefore implies that the trace commutes with group homomorphisms---which IS Langlands functoriality for finite fields.  The impossibility framework predicts functoriality as a structural consequence of the bilemma's resolution: collapsed tightness for $n \geq 2$ forces the trace as the unique Pareto-optimal resolution; Reynolds naturality forces the trace to be functorial.  The Langlands programme classifies which characters arise from automorphic representations; the impossibility framework provides a structural explanation for why characters are the natural invariant.
 
 The critical observation is that the core theorem
 \texttt{explanation\_impossibility} uses \textbf{zero custom axioms}---it is pure
@@ -1893,7 +1902,7 @@ A natural reaction is that practitioners already know explanations are unstable
 eight scientific domains and nine ML explanation types share \emph{one}
 mechanism---the Rashomon property---rather than seventeen unrelated
 pathologies.  Second, the Lean~4
-formalization (Section~\ref{sec:lean}: 102~files, 519~theorems, 0~\texttt{sorry})
+formalization (Section~\ref{sec:lean}: 104~files, 530~theorems, 0~\texttt{sorry})
 eliminates logical gaps that informal arguments inevitably leave.  Third, the
 empirical experiments (Section~\ref{sec:ml-instances}) show quantifiable severity:
 33\% attribution flip rates, measurable counterfactual and concept instability on
@@ -3836,13 +3845,13 @@ conceived and verified by the human authors.
 
 The Lean~4 formalization and all experiment scripts are available at
 \url{https://github.com/DrakeCaraker/universal-explanation-impossibility}
-(universal framework: 102~files, 519~theorems, 2~axioms, 0~\texttt{sorry}).
+(universal framework: 104~files, 530~theorems, 2~axioms, 0~\texttt{sorry}).
 The attribution-specific formalization is at
 \url{https://github.com/DrakeCaraker/dash-impossibility-lean}
 (58~files, 358~theorems, 2~axioms, 0~\texttt{sorry}).
 The tightness classification and physics application are at
 \url{https://github.com/DrakeCaraker/ostrowski-impossibility}
-(38~files, 482~theorems, 1~axiom, 0~\texttt{sorry}).
+(38~files, 482~theorems, 0~axioms, 0~\texttt{sorry}).
 All code is released under the Apache~2.0 licence.
 Gene-expression data: OpenML (IDs 1137 and related).
 Neuroimaging: NeuroVault collection~6047.
