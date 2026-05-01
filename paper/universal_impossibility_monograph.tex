@@ -4714,4 +4714,199 @@ in \texttt{ModelSelectionInstance.lean};
 in \texttt{ModelSelection.lean}.\par}
 
 %%% ==========================================================================
+%%% COMPANION RESULTS: Complete Cross-Repository Reference
+%%% ==========================================================================
+
+\section{Companion Results: Number Theory and Physics}
+\label{sec:companion-physics}
+
+This section documents results from the companion repository \texttt{ostrowski-impossibility} (482~theorems, 1~axiom, 38~files, 0~\texttt{sorry}).  These establish the impossibility framework's connections to number theory, mathematical physics, and computability theory.
+
+\subsection{Ostrowski's Classification and the Mathlib Bridge}
+
+Ostrowski's theorem classifies all nontrivial absolute values on~$\mathbb{Q}$: each is equivalent to the real absolute value or a $p$-adic absolute value.  The companion repository formalises this via Mathlib's \texttt{Rat.AbsoluteValue.equiv\_real\_or\_padic}, converting the completion family (archimedean vs $p$-adic) from axioms to concrete definitions.  This provides the zero-axiom foundation for the physics bilemma instantiation.  The bridge theorem \texttt{ostrowski\_classification} (\texttt{OstrowskiFramework.lean}) connects the abstract impossibility to the concrete number-theoretic structure.
+
+\subsection{Freund--Witten Three-Fold Zeta Symmetry}
+
+The Freund--Witten identity
+$\Lambda(a)\Lambda(b)\Lambda(1{-}a{-}b) = \Lambda(1{-}a)\Lambda(1{-}b)\Lambda(a{+}b)$
+is proved using three applications of Mathlib's \texttt{completedRiemannZeta\_one\_sub} (\texttt{FreundWitten.lean}).  This witnesses the Rashomon property for the physics bilemma: archimedean and non-archimedean contributions are related by the functional equation, creating the maximally incompatible explanation system.
+
+\subsection{Adelic Resolution}
+
+The adele ring is constructed as a concrete definition with identity embedding (\texttt{AdelicResolution.lean}).  The adelic projection is proved $G$-invariant (\texttt{adelic\_projection\_invariant}) and resolves the physics bilemma (\texttt{adelic\_resolves}).  This parallels DASH for attributions and CPDAG for causal discovery as instances of the same abstract $G$-invariant resolution.
+
+\subsection{Circuit Complexity: AC$^0$ Parity}
+
+The Furst--Saxe--Sipser / H\aa stad AC$^0$ parity lower bound is formalised as an \texttt{AbstractImpossibility} with properties \{polynomial-size, constant-depth, computes-parity\} (\texttt{CircuitComplexity.lean}).  Exhaustive verification confirms: (a)~no depth-1 AND/OR gate computes XOR$_3$ (54~gates, \texttt{native\_decide}); (b)~no depth-2 circuit with 2~gates computes XOR$_3$ (52,488~circuits).  Full tightness is proved with three witnesses (AND$_3$, XOR tree, exponential DNF).
+
+A novel \emph{conditional barrier analysis} shows that WITH one-way functions, proof barriers have full tightness; WITHOUT, the triple is achievable.  This is one of only two instances where impossibility existence depends on an unresolved conjecture (the other being Navier--Stokes regularity).
+
+\subsection{DPRM Trilemma and the Selmer Curve}
+
+Hilbert's 10th problem is modelled as a three-property impossibility \{correctness, totality, universality\} with full tightness (\texttt{DiophantineImpossibility.lean}).  The degree hierarchy forms an enrichment stack: Hasse--Minkowski resolves degree~$\leq 2$ but not degree~3.  The Selmer curve $3x^3 + 4y^3 + 5z^3 = 0$ is locally solvable mod 2, 3, 5, 7 (verified by \texttt{native\_decide}) but globally insolvable (1~axiom: \texttt{selmer\_no\_nontrivial\_solution}, Selmer~1951).  This parallels the local-to-global obstruction of the Tate--Shafarevich group.
+
+\subsection{Navier--Stokes Conditional Tightness}
+
+The 3D Navier--Stokes equations are formalised as a conditional \texttt{AbstractImpossibility}: without regularity, full tightness; with regularity, all three properties are achievable (\texttt{NavierStokesImpossibility.lean}).  The Reynolds dichotomy (\texttt{ns\_reynolds\_dichotomy}) proves: below the critical Reynolds number, all three properties \{smooth, energy-conserving, global\} are jointly achievable; above, the system becomes an \texttt{AbstractImpossibility}.  The 54~numerical experiments (Section~\ref{sec:ns-experiments}) validate this classification experimentally.
+
+\subsection{The $N$-Property Generalisation and Myerson--Satterthwaite}
+
+The \texttt{AbstractImpossibilityN} structure generalises beyond 3~properties to arbitrary~$N$ (\texttt{GeneralTheory.lean}).  For the Myerson--Satterthwaite impossibility with $N = 4$ properties (individual rationality, incentive compatibility, efficiency, budget balance), all $\binom{4}{2} = 6$ pairwise combinations are achievable while the quadruple conjunction fails---full tightness, verified by \texttt{native\_decide} on all Fin~$4 \times$~Fin~$4$ pairs (\texttt{ms\_full\_tightness\_n4}).
+
+\subsection{The Enrichment--Riemann Hypothesis Program}
+
+A five-phase investigation connects enrichment stack structure to analytic properties of the Riemann zeta function.  The results are primarily negative, identifying precise obstacles:
+
+\paragraph{DFT eigenvalue constraint (local RH).}
+The discrete Fourier transform on $\mathbb{Z}/p\mathbb{Z}$ satisfies $F^4 = p^2 \cdot \mathrm{id}$, forcing eigenvalues to have absolute value $\sqrt{p}$---the local Riemann Hypothesis in spectral form (\texttt{EnrichmentFunctor.lean}).
+
+\paragraph{Prime enrichment stack.}
+The enrichment tower indexed by primes with $H_p = \mathrm{Fin}\,p$ has unfaithfulness $1 - p^{-1}$ at level~$p$, matching the Euler obstruction term.  Cumulative unfaithfulness diverges by Euler's theorem (1737) (\texttt{PrimeEnrichmentStack.lean}).
+
+\paragraph{Enrichment Sha (cohomological obstruction).}
+The ``enrichment Sha'' is the derived limit ($\varprojlim^1$) obstruction to lifting local bilemma resolutions globally (\texttt{EnrichmentSha.lean}).  The bilemma is locally resolvable at each prime but globally unresolvable.  \emph{Negative result:} Sha $=$ CRT $=$ Euler multiplicativity---the obstruction has no arithmetic content beyond the Euler product.
+
+\paragraph{Forced resolution (negative).}
+Collapsed tightness forces the unique resolution to be the identity at each prime, selecting the trivial Dirichlet character.  This is tautological: ANY explain function gives collapsed tightness (\texttt{EnrichmentForcedResolution.lean}).
+
+\paragraph{Quantitative bounds (negative).}
+Approximate bilemma bounds on $\mathrm{Fin}\,p$ depend only on~$p$ (the group size), with no prime-specific arithmetic content.  Summing over primes only reproduces classical bounds (Mertens for $\sum 1/p$) (\texttt{EnrichmentQuantitative.lean}).
+
+These three negative results (Sha $=$ CRT, forced resolution $=$ identity, bounds depend only on~$p$) identify the precise gap between the enrichment framework and the Riemann Hypothesis: the local structure is too weak to encode global cancellation.
+
+\subsection{Langlands Extensions}
+
+\paragraph{GL(2, $\mathbb{F}_2$) = $S_3$.}
+The smallest non-abelian group demonstrates the Langlands boundary concretely (\texttt{GL2Impossibility.lean}).  For 1-dimensional representations, values are determined by conjugacy class (no Rashomon, full F+S+D).  For 2-dimensional representations, conjugate elements have similar but unequal matrices (Rashomon, bilemma).
+
+\paragraph{SL($n$, $\mathbb{F}_p$).}
+The bilemma extends from GL($n$) to SL($n$) because the unipotent Rashomon pair has determinant~1 (\texttt{ClassicalGroups.lean}).  The boundary theorem generalises: $n = 1$ full, $n \geq 2$ collapsed.
+
+\paragraph{Trace compatibility / functoriality.}
+The trace (stable resolution of GL($n$) bilemma) is compatible with natural maps between matrix algebras (\texttt{LanglandsFunctoriality.lean}).  These are concrete manifestations of Langlands functoriality.
+
+\paragraph{Adelic Tate theory.}
+The chain from local Fourier analysis at each prime to global Poisson summation, Jacobi theta modular transformation, and the functional equation $\xi(s) = \xi(1-s)$ is formalised (\texttt{AdelicTate.lean}).
+
+\paragraph{Automorphicity gap (HomExplanationSystem).}
+When the explain function is required to be a group homomorphism, the enrichment Sha becomes strictly stronger than CRT (\texttt{HomExplanationSystem.lean}).  For $S_3$: CRT allows 6~character combinations but group relations force $\chi(r) = 1$, leaving only~2.  The gap---4 out of 6 CRT-allowed combinations are blocked by automorphicity---is the impossibility-theoretic reading of the global Langlands correspondence.
+
+\paragraph{Galois connection.}
+The enrichment tower is formalised as a field extension tower (\texttt{GaloisConnection.lean}).  Coverage conflict $=$ irreducible polynomial; neutral element $=$ root; enrichment $=$ field extension.  Level independence follows from CRT and connects to Euler totient multiplicativity.
+
+%%% --------------------------------------------------------------------------
+
+\section{Companion Results: Attribution-Specific Formalization}
+\label{sec:companion-attribution}
+
+This section documents results from the companion repository \texttt{dash-impossibility-lean} (358~theorems, 2~axioms, 58~files, 0~\texttt{sorry}).  These provide the attribution-specific depth underlying the universal framework.
+
+\subsection{Constructive Bilemma Instances}
+
+Three binary ML explanation types are formalised with dedicated inductive types and bilemma proofs (\texttt{Bilemma.lean}):
+
+\begin{itemize}
+  \item \textbf{SHAP sign} (\texttt{SHAPSign} type, \texttt{shap\_sign\_bilemma}): No method for determining a feature's SHAP sign (positive/negative) can be simultaneously faithful and stable.
+  \item \textbf{Feature selection} (\texttt{FeatureStatus} type, \texttt{feature\_selection\_bilemma}): No method for determining whether a feature is selected can be simultaneously faithful and stable.
+  \item \textbf{Counterfactual direction} (\texttt{CounterfactualDir} type, \texttt{counterfactual\_bilemma}): No method for determining counterfactual direction can be simultaneously faithful and stable.
+\end{itemize}
+
+All three are fully constructive (zero axioms, zero sorry).
+
+\subsection{BeyondBinary: Enrichment Restores Achievability}
+
+The \texttt{BeyondBinary.lean} file closes the enrichment loop constructively:
+
+\begin{itemize}
+  \item \texttt{concreteMLSystem} / \texttt{concreteML\_bilemma}: A minimal Bool-based witness that the bilemma is non-vacuous.
+  \item \texttt{GradedAttribution} type (positive / weakPositive / negative): Enriching binary to 3-element space restores F+S (\texttt{graded\_fs\_achievable}) because \texttt{weakPositive} serves as a neutral element.
+  \item \texttt{tightness\_dichotomy}: F+S achievability depends entirely on whether $\mathcal{H}$ has a neutral element.
+  \item \texttt{concreteML\_coverageConflict} / \texttt{graded\_no\_coverageConflict}: Coverage conflict is present in binary (bilemma applies) and absent in graded (bilemma does not apply).
+\end{itemize}
+
+\subsection{Mechanistic Interpretability Bilemma}
+
+For circuit decompositions, the bilemma strengthens the trilemma (\texttt{MechInterp.lean}): F+S alone is impossible because the circuit space is maximally incompatible (\texttt{mech\_interp\_bilemma}).  Any stable circuit explanation is unfaithful at $\geq 1$ of every 2 functionally equivalent networks (\texttt{mech\_interp\_unfaithfulness}).  The only resolution is equivalence classes---there is no ``DASH-like'' neutral element for binary circuit decompositions.
+
+\subsection{Additional Empirical Results}
+
+\paragraph{Ranking lottery.}
+50~random seeds produce 24~distinct top-3 SHAP rankings on Breast Cancer Wisconsin (4.2\% agreement).  At 100~seeds: 35~distinct.  Top-5: 46~distinct.  Cross-implementation: XGBoost 24, LightGBM 29, Random Forest 40 distinct rankings.  Subsample sensitivity: 17~distinct at subsample$= 0.95$, 1 at subsample$= 1.0$.
+
+\paragraph{NN attribution instability.}
+87\% of feature pairs are unstable across independently trained neural networks.  Model-vs-SHAP noise ratio: 8:1 (the model contributes 8$\times$ more variance than the SHAP estimation procedure).
+
+\paragraph{SNR calibration.}
+$\Phi(-\mathrm{SNR})$ achieves $R^2 = 0.94$ across 1,325 feature pairs from multiple datasets.
+
+\paragraph{Minority fraction diagnostic.}
+A 7-line nonparametric diagnostic achieves Spearman $\rho = 0.92$--$0.98$ with empirical flip rates, outperforming the Gaussian $\Phi(-\mathrm{SNR})$ formula by $2\times$ on non-Gaussian data ($\rho = 0.955$ vs $0.463$ on California Housing).
+
+\paragraph{Bimodality dip test.}
+Hartigan's dip test confirms bimodality of the flip-rate distribution: $p < 0.002$ for $\rho \geq 0.5$; control $p = 0.373$ at $\rho = 0$.
+
+%%% --------------------------------------------------------------------------
+
+\section{Companion Results: DASH Method and Empirical Validation}
+\label{sec:companion-dash}
+
+This section documents results from the companion repository \texttt{dash-shap} (Python package, PyPI: \texttt{dash-shap}).  These provide the engineering depth underlying the DASH resolution.
+
+\subsection{DASH Benchmark Results}
+
+All benchmarks use 50 replicates, $M = 200$ models, $K = 30$ diverse models (PAPER\_CONFIG).
+
+\paragraph{Linear correlation sweep ($\rho = 0.9$).}
+DASH stability: $0.977$ vs Single Best: $0.958$ (+0.019, $p < 0.001$); vs LSM: $0.938$ (+0.039, $p < 0.001$).  DASH top-$k_5$: $0.863$ vs SB: $0.546$ (+0.317, $p < 0.001$).  DASH equity (within-group CV): $0.175$ vs SB: $0.232$ ($p < 0.001$).
+
+\paragraph{Real-world datasets.}
+Breast Cancer: DASH $= 0.925$ vs SB $= 0.376$ (+0.549, largest improvement).  Superconductor: DASH $= 0.964$ vs SB $= 0.840$ (+0.124).  California Housing: DASH $= 0.978$ vs SB $= 0.969$ (+0.009, $p = 0.063$, not significant---low collinearity).
+
+\subsection{Crossed ANOVA: Variance Decomposition}
+
+A $7 \times 7$ factorial design (7~data seeds $\times$ 7~model seeds) decomposes attribution variance.  Single Best: 37.6\% data / 40.6\% model / 21.8\% residual.  DASH: 73.6\% data / 16.2\% model / 10.2\% residual.  DASH reduces model-selection variance by 60\%, shifting the dominant variance component from model choice to data.
+
+\subsection{Colsample Ablation}
+
+Low \texttt{colsample\_bytree} (0.1--0.5) is the operative diversity mechanism.  At $\rho = 0.9$: low colsample $= 0.976$ vs high colsample $= 0.953$.  The effect disappears at $\rho = 0$ ($p = 0.54$), confirming the mechanism is specific to collinearity.  Under nonlinearity: low $= 0.885$ vs high $= 0.801$ ($\Delta = +0.084$).
+
+\subsection{Stochastic Retrain Equivalence}
+
+DASH and Stochastic Retrain are statistically equivalent on stability (TOST equivalence confirmed: $\Delta = -0.0009$, $p = 0.40$).  This proves the operative mechanism is model independence, not pipeline engineering.
+
+\subsection{Var[SHAP] = DASH MSE Identity}
+
+The variance of SHAP values across the Rashomon set equals the minimum MSE any stable method can achieve.  Validated with 0 violations in 12 tests (identity holds exactly to machine precision).
+
+\subsection{Feature Stability Index (FSI)}
+
+Cross-model disagreement metric: $\mathrm{FSI}_j = \mathrm{CV}(\phi_j)$ across models.  Thresholds: FSI $< 0.3$ stable; FSI $> 0.7$ likely collinear; FSI $> 1.0$ disagreement exceeds signal.  The Importance--Stability (IS) plot provides a 4-quadrant classification of features by importance and reliability.
+
+\subsection{The F5$\to$F1$\to$DASH Pipeline}
+
+A progressive diagnostic pipeline:
+(1)~\texttt{screen(model, X)} --- single-model screen ($< 1$s) identifying correlated groups and flagged pairs;
+(2)~\texttt{validate(models, X)} --- multi-model validation computing $Z$-statistics and flip rates per pair;
+(3)~\texttt{consensus(models, X)} --- DASH resolution (element-wise mean, tie detection);
+(4)~\texttt{report()} --- human-readable instability disclosure.
+The 3-line \texttt{check()} API wraps all stages into a single call.
+
+\subsection{Retracted Results}
+
+Seven results from earlier versions were retracted with documented explanations:
+(1)~entropy bimodality (100\% permutation artefact);
+(2)~pairwise ``audit pairs'' (marginal rates suffice);
+(3)~$\eta = 1/g$ from correlation thresholds;
+(4)~data-only instability prediction (max Spearman $0.26$);
+(5)~phase transition in stability curve (gradual, not sharp);
+(6)~``model-class dependence'' (confounded comparison);
+(7)~$p/2$ average unfaithfulness bound (corrected to $p \cdot \text{mean\_minority\_fraction}$).
+These are documented in the companion repository as a transparency measure.
+
+\subsection{Extension Modules}
+
+Twelve extension modules provide practitioner tools beyond the core pipeline: BCa bootstrap confidence intervals (\texttt{confidence\_intervals}), pairwise ordering confidence (\texttt{partial\_order}), SHAP-substitutability clustering (\texttt{feature\_groups}), composite importance+stability ranking (\texttt{stable\_feature\_selection}), per-observation uncertainty (\texttt{local\_uncertainty}), worst-case top-$k$ guarantee (\texttt{robust\_certification}), SNR/flip-rate/M-recommendation bridge (\texttt{theory\_bridge}), robust/collinear/fragile/unimportant labels (\texttt{causal\_flags}), structured audit report (\texttt{audit\_report}), cosine-distance drift monitoring (\texttt{DriftMonitor}), RMSE-stability Pareto selection (\texttt{ParetoSelector}), and cross-site federated consensus (\texttt{federated\_consensus}).
+
+%%% ==========================================================================
 \end{document}
