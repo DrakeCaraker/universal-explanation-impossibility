@@ -322,11 +322,18 @@ gap~$= 0.273$, Mann--Whitney $p = 2.4 \times 10^{-5}$).  The universal structura
 dominant in every seed (CV~$= 0.027$)---emerges only after the
 $G$-invariant projection.
 
-The same pattern replicates on real language.  Ten transformers
-(4~layers, 4~heads, $d = 256$) trained from independent seeds on
-TinyStories~\citep{eldan2023tinystories} achieve near-identical
-perplexity (CV~$= 0.7\%$) but agree on circuit rankings at only
-$\rho = 0.565$; the $G$-invariant projection lifts this to $\rho =
+An adversarial audit confirms the non-uniqueness goes beyond
+permutation symmetry: after optimal Hungarian alignment of neurons
+across model pairs, the mean Jaccard overlap is only 0.079 (chance
+level: 0.041), indicating genuinely different feature decompositions,
+not mere relabelling.
+
+The same pattern replicates on \emph{real language trained from
+scratch}.  Ten transformers (4~layers, 4~heads, $d = 256$) trained
+from independent random initialisations on
+TinyStories~\citep{eldan2023tinystories}---a corpus of children's
+stories, not synthetic data---achieve near-identical perplexity
+(CV~$= 0.7\%$) but agree on circuit rankings at only $\rho = 0.565$; the $G$-invariant projection lifts this to $\rho =
 0.972$ (7/7~pre-registered predictions confirmed; within-layer flip
 rate~$= 0.496$; head-vs-MLP flip~$= 0.000$; Cohen's $d = 5.4$; $n =
 45$~pairs).  At a second scale (6~layers, 8~heads, $d = 512$), the lift
@@ -468,9 +475,18 @@ the within-group flip rate is 50.0\% and the between-group rate is 0.2\%
 The Pythagorean decomposition $\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$
 partitions any explanation vector into stable ($Rv$) and unstable
 ($v - Rv$) components with zero cross-talk (Lean-verified).
-The law fails when groups are unknown
-(holdout $R^2 = 0.24$ for 9 domains with approximate groups) or approximate (brain imaging:
-$\rho \approx 0$), delineating the boundary at exact exchangeability.
+The capacity formula requires identifying the symmetry group---a
+practical bottleneck (holdout $R^2 = 0.24$ for 9~domains with
+approximate groups).  Three empirical bridges address this at
+decreasing cost.  First, the Gaussian flip formula
+$\Phi(-\mathrm{SNR})$ predicts per-pair instability from bootstrap
+retrains alone, with per-dataset $R^2 = 0.95$--$0.98$ across 6~datasets
+and no group assignment.  Second, the coverage conflict degree---the
+fraction of feature pairs with $\mathrm{SNR} < 0.5$---predicts mean
+instability with Spearman $\rho = 0.96$ across 15~datasets, computable
+from bootstrap retrains in 7~lines of code.  Third, the SAGE algorithm
+discovers dependence groups automatically from pairwise flip rates
+($R^2 = 0.81$ after calibration; Supplementary Information).
 
 %%% =========================================================================
 %%% Discussion
@@ -551,6 +567,16 @@ gauge theory, statistical mechanics, genetics, linguistics, database
 theory, causal inference, and linear algebra---confirm the Rashomon
 property with independent empirical tests (Supplementary Information).
 The Rashomon property is empirically ubiquitous across the sciences.
+In companion work, the capacity theorem was validated at scale across
+149~datasets from 53~scientific domains.  75\% exceed their explanation
+capacity under standard practice (cross-dataset Wilcoxon
+$p = 5.1 \times 10^{-11}$), with a 27:1 confirmation-to-reversal ratio
+at $p < 0.005$.  The null model---that correlated features flip more
+simply because they have smaller importance differences---is rejected:
+after nonlinear control for importance magnitude, within-group pairs
+remain more unstable in the lowest $|\text{diff}|$ quintile
+($p < 10^{-4}$; 14~real-world datasets, 13{,}511 feature pairs,
+cluster-bootstrap CI $[0.014, 0.045]$ excluding zero).
 Any study that explains \emph{why} a complex system produced a
 particular outcome---which gene, which circuit, which cause, which
 risk factor---should include a stability audit: vary the model, the
@@ -618,7 +644,11 @@ a resolution-convergent transition at $\mathrm{Re}_{\mathrm{crit}} =
 where global regularity is proved, the framework correctly reports full
 tightness---a clean control confirming the classification's scope.
 Without dealiasing, the smoothness failure cascades to existence within
-5\,ms at $128^3$, confirming the two failures are coupled.
+5\,ms at $128^3$, confirming the two failures are coupled.  The
+variation in tightness type---F$+$S resolution for Instances~1--4,
+SMOOTH-BLOCKED for Instance~5---demonstrates that the classification
+is empirically discriminating across structural types, not merely
+a relabelling of known results.
 
 \paragraph{Limitations.}
 The gene-expression alternation requires stochastic regularisation
