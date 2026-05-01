@@ -81,7 +81,7 @@ consequence of underdetermination: whenever observationally equivalent
 configurations coexist (the Rashomon property), no explanation can
 simultaneously be faithful, stable, and decisive.  The impossibility
 requires no domain-specific axioms; it is verified in Lean~4
-(519~theorems, 0~unproved goals) and instantiated across foundational
+(530~theorems, 0~unproved goals) and instantiated across foundational
 physics (Peres--Mermin quantum contextuality), social choice (Arrow's
 theorem and multi-analyst scientific aggregation), mathematical physics
 (3D Navier--Stokes tightness classification, 54~DNS runs, $R^2 = 0.94$),
@@ -376,7 +376,10 @@ $R = |G|^{-1}\sum_g \rho(g)$ governs both the explanation residual
 (information lost to $G$-invariant aggregation) and quantum information
 loss under the twirl $T(\rho) = |G|^{-1}\sum_g U(g)\rho\,U(g)^\dagger$.
 The two settings are instances of the same projection onto the trivial
-representation, applied to different spaces.
+representation, applied to different spaces.  Concretely: for a qubit
+with SU(2) symmetry, $\eta = 1 - \dim(\mathcal{H}^G)/\dim(\mathcal{H})
+= 1/2$, recovering the known quantum information
+bound~\citep{bartlett2007reference} from the explanation capacity formula.
 
 The resolution---reporting the equivalence class of measurement outcomes
 rather than committing to context-dependent values---is the quantum-mechanical
@@ -398,8 +401,9 @@ is \emph{formal} (Lean-verified for the preference-aggregation problem).
 
 The same mathematical structure governs scientific aggregation, with
 analysts in place of voters and analyses in place of preference orderings.
-This connection is structural, not formal: same trilemma, different
-configuration space.  Botvinik-Nezer et
+This connection is also formalised: a \texttt{MultiAnalystInstance.lean}
+constructs the Rashomon witness from analysis pipelines reaching
+contradictory conclusions on the same data (zero axioms).  Botvinik-Nezer et
 al.~\citep{botviniknezer2020variability} gave the same fMRI data to 70
 independent analysis teams who reached different conclusions on every
 hypothesis.  Functional network membership, defined from independent
@@ -424,8 +428,10 @@ The framework's tightness classification (proved as a meta-theorem;
 impossibility system, with explanation systems as one class of instance.
 The 3D incompressible Navier--Stokes equations, the subject of a Clay
 Millennium Problem, provide a foundational test of the classification's
-empirical reach.  Three desiderata are at stake: existence of solutions
-(P1), smoothness (P2), and uniqueness (P3).  Below a critical Reynolds
+empirical reach.  Three desiderata are at stake---existence (P1), smoothness (P2), and
+uniqueness (P3)---mapping directly to the trilemma: a description of
+fluid flow that is simultaneously smooth (faithful to the classical PDE),
+globally defined (stable), and unique (decisive) may be impossible.  Below a critical Reynolds
 number all three hold (FULL tightness); above, the classification changes.
 
 54 pseudospectral DNS runs of the Taylor--Green vortex across five
@@ -616,8 +622,9 @@ the structural argument extends to any non-abelian group).  In the
 GL($n$) case, the trace (= character) is the optimal stable
 resolution; the boundary between full and collapsed tightness
 ($n = 1$ vs $n \geq 2$) is precisely the abelian/non-abelian
-boundary that organises the Langlands
-programme~\citep{langlands1970problems}.  The DASH ensemble average for
+boundary; for GL($n$, $\mathbb{F}_p$) the trace IS the character in
+the Langlands correspondence (a theorem for finite fields;
+Lean-verified in \texttt{LanglandsCorrespondence.lean}).  The DASH ensemble average for
 feature attribution and the Langlands character for representations are
 instances of the same algebraic structure: the Reynolds projection onto
 the trivial representation of the symmetry group, proved
@@ -675,7 +682,7 @@ The proof of the core impossibility is four lines (Methods).  Its
 brevity is not a weakness---it reflects the generality of the Rashomon
 property as a hypothesis, ensuring the result applies to any
 explanation system meeting the definition.  The full framework is
-verified in Lean~4 across three repositories (519 $+$ 358 $+$ 482
+verified in Lean~4 across three repositories (530 $+$ 358 $+$ 482
 theorems, 0~unproved goals).  All ML instances use constructive types
 with zero domain-specific axioms.
 

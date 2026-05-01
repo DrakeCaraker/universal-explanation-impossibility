@@ -108,3 +108,5 @@ import UniversalImpossibility.MeasureHypotheses
 import UniversalImpossibility.RecursiveImpossibility
 import UniversalImpossibility.ExplanationLandscape
 import UniversalImpossibility.GoedelIncompleteness
+import UniversalImpossibility.LanglandsCorrespondence
+import UniversalImpossibility.MultiAnalystInstance
