@@ -2331,7 +2331,7 @@ We identify five limitations and directions for future work.
     incorporating tRNA abundance and codon context would break the
     $S_k$ symmetry.
   \item \textbf{Cross-domain instances are structural analogies, not domain-specific results.}  No individual domain instance was surprising to domain experts---each formalized a known phenomenon (microstate multiplicity, gauge redundancy, Markov equivalence, codon degeneracy).  The formalization verifies the structural correspondence but does not produce new domain-specific results.  The contribution is the unification: showing that these known phenomena share a common trilemma structure, that the trilemma strengthens to a bilemma under maximal incompatibility, and that the resolution (enrichment via neutral element) is a single mechanism underlying DASH averaging, CPDAG reporting, Bayesian model averaging, and quantum error correction.
-  \item \textbf{Group identification bottleneck.}  The universal $\eta$ law ($\dim(V^G)/\dim(V)$ predicts instability) achieves $R^2 = 0.957$ for seven instances with well-characterized symmetry groups but only $R^2 = 0.25$ across all sixteen.  The nine poorly-fit instances share a common cause: the assigned symmetry group was approximate.  This group identification problem is fundamental, not merely technical---determining the correct symmetry group from data remains open.  The SAGE algorithm sidesteps it heuristically but without a formal optimality guarantee.
+  \item \textbf{Group identification bottleneck.}  The universal $\eta$ law ($\dim(V^G)/\dim(V)$ predicts instability) achieves $R^2 = 0.957$ for seven instances with well-characterized symmetry groups but only holdout $R^2 = 0.24$ for the nine instances with approximate or unknown groups.  The nine poorly-fit instances share a common cause: the assigned symmetry group was approximate.  This group identification problem is fundamental, not merely technical---determining the correct symmetry group from data remains open.  The SAGE algorithm sidesteps it heuristically but without a formal optimality guarantee.
 
 The drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this bottleneck concretely: Pearson-based clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate within 16\%. However, the Noether bimodal structure transfers only for domains with discrete group structure, not for diffuse overlap patterns.
   \item \textbf{Coverage conflict is a conceptual naming, not a deep theorem.}  The biconditional ``coverage conflict $\leftrightarrow$ no neutral element'' (proved in \texttt{BilemmaCharacterization.lean}) is a definitional equivalence: both express that no element of $\mathcal{H}$ is compatible with all explain-values.  The value of naming this ``coverage conflict'' is conceptual---it identifies the algebraic feature that powers the bilemma and clarifies why binary $\mathcal{H}$ strengthens the impossibility (maximum coverage) while larger $\mathcal{H}$ weakens it (room for neutral elements).
@@ -2392,7 +2392,7 @@ We classify empirical results by strength of support.
 \textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), $\eta$~law for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), Noether counting bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$).
 \textbf{Consistent} (observation matching qualitative prediction): attention flip 19.9\% [CI: 19.1--20.6\%], counterfactual flip 23.5\% [CI: 20.6--26.6\%], model selection flip 80\%.
 \textbf{Calibration checks} (expected from framework structure, not independently informative): codon degeneracy--entropy rank correlation ($\rho = 1.0$; monotonicity in degeneracy is guaranteed by construction---see \S\ref{sec:domain-validation}).
-\textbf{Partial}: group identification $\eta$~law for 9 instances with unknown group structure ($R^2 = 0.25$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
+\textbf{Partial}: group identification $\eta$~law for 9 instances with unknown group structure (holdout $R^2 = 0.24$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
 
 \subsection{Resolution Transfer: Ensemble Causal Discovery}
 \label{sec:ensemble-causal}
@@ -2833,7 +2833,7 @@ prediction holds for discrete symmetry groups but requires extension to
 continuous groups, where stability becomes a spectrum rather than a
 dichotomy.
 
-\subsection{Universal $\eta$ Law: Predictive Scope and Boundary}
+\subsection{The Explanation Capacity Theorem: Predictive Scope and Boundary}
 \label{sec:universal-eta}
 
 The character-theoretic formula $\eta = \dim(V^G) / \dim(V)$ predicts the
@@ -2877,16 +2877,14 @@ pre-specified subset analysis: the ``well-characterized group'' criterion
 (defined in the pre-registration document, \texttt{PRE\_REGISTRATION.md})
 requires that (1)~the symmetry be exact by construction (part of the domain's
 mathematical definition) and (2)~the instability metric directly measure
-flip/disagreement rate.  Across all 16~instances (including those with
-approximate group assignments---attention, GradCAM, LLM citation, gauge
-lattice, phase retrieval, parser, causal discovery), $R^2 = 0.25$.  The nine poorly-fit instances share a
+flip/disagreement rate.  Across all 16~instances, the linear fit gives $R^2 = 0.60$.  However, holdout prediction (calibrating on the 7~well-characterised instances and predicting the remaining 9) gives only $R^2 = 0.24$.  The nine poorly-fit instances share a
 common cause: the assigned symmetry group was approximate (e.g., not all
 attention heads are exchangeable; GradCAM has broken spatial symmetry;
 parsers exhibit ambiguity on a subset of arcs).  The $\eta$ formula is correct;
 the group identification is the bottleneck.
 
 \paragraph{$\eta$~law failure mode.}
-The $\eta$~law achieves $R^2 = 0.957$ for 7 instances where $G$ is well-characterised but only $R^2 = 0.25$ for 9 instances where $G$ is unknown or approximately specified. The failure is attributable to group misspecification: for lattice symmetry, parser ambiguity, causal discovery, and phase retrieval, the acting group is either infinite, unknown, or approximated by a finite proxy. The $\eta$~law is a \emph{conditional} prediction: given the correct $G$, it predicts instability accurately. The practical bottleneck is group identification.
+The $\eta$~law achieves $R^2 = 0.957$ for 7 instances where $G$ is well-characterised but only holdout $R^2 = 0.24$ for 9 instances where $G$ is unknown or approximately specified. The failure is attributable to group misspecification: for lattice symmetry, parser ambiguity, causal discovery, and phase retrieval, the acting group is either infinite, unknown, or approximated by a finite proxy. The $\eta$~law is a \emph{conditional} prediction: given the correct $G$, it predicts instability accurately. The practical bottleneck is group identification.
 
 Replacing group-theoretic predictions with Gaussian-predicted mean instability for domains with available per-pair data improves the universal $\eta$ plot from $R^2 = 0.60$ to $R^2 = 0.79$ across all 16 domains, with the well-characterized subset reaching $R^2 = 0.98$.
 
@@ -3587,7 +3585,7 @@ Rao--Blackwell theorem (1945/47), and the explanation impossibility are the
 same theorem in different notation (Table~\ref{tab:sufficiency-dictionary}).
 Under a uniform prior on the fiber $\{\theta : \mathrm{obs}(\theta) = y\}$, the orbit average $\bar{E}(\theta) = (1/|G|)\sum_{g \in G} E(g \cdot \theta)$ is literally the conditional expectation $\E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta) = y]$.  The identification is exact when the prior is uniform and the group acts transitively on fibers; it is approximate otherwise.
 
-\subsection{The Explanation Tradeoff Bound}
+\subsection{The Explanation Uncertainty Bound}
 \label{sec:bridge-uncertainty}
 
 The qualitative impossibility (``at least one of faithfulness, stability, or

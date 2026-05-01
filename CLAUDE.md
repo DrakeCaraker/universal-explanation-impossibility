@@ -178,26 +178,24 @@ knockout-experiments/           — Empirical validation (90+ scripts, 80+ resul
   PRE_REGISTRATION.md           — Pre-registered predictions
 ```
 
-## Lean State: 101 files, 25 axioms, 501 theorems+lemmas, 0 sorry
+## Lean State: 102 files, 2 axioms, 519 theorems+lemmas, 0 sorry
 
-## Axiom Inventory (25 total)
+## Axiom Inventory (2 total)
 
-| Category | Axioms | Used by |
-|----------|--------|---------|
-| Type declarations | Model, numTrees, numTrees_pos, attribution, splitCount, firstMover | Infrastructure (bundled in Setup.lean) |
-| Core properties | firstMover_surjective, splitCount_firstMover, splitCount_nonFirstMover, proportionality_global, splitCount_crossGroup_symmetric, splitCount_crossGroup_stable | GBDT bounds |
-| Measure infrastructure | modelMeasurableSpace, modelMeasure | Variance (Mathlib connection) |
-| Query complexity | testing_constant, testing_constant_pos | Query complexity scaling |
-| Universal instances | AttentionConfig, AttentionMap, attention_rashomon, etc. | Per-instance Rashomon witnesses |
+All GBDT infrastructure is bundled into two structure axioms in Defs.lean:
+
+| Axiom | Type | Contains |
+|-------|------|----------|
+| `gbdtWorld` | `GBDTWorld` | Model type, numTrees, numTrees_pos, modelMeasurableSpace, modelMeasure |
+| `gbdtAxioms` | `GBDTAxiomsBundle gbdtWorld fs` | attribution, splitCount, firstMover + 6 behavioral properties |
+
+All former axioms (Model, attribution, firstMover_surjective, etc.) are now `noncomputable def` or `theorem` extracting from these bundles. Physics axioms (BH, QG frameworks) converted to section variables.
 
 **Axiom stratification (verified by `#print axioms`):**
 - **Core universal impossibility** (`explanation_impossibility`): ZERO axioms (Rashomon is a hypothesis)
-- **Core attribution impossibility** (`attribution_impossibility`): ZERO behavioral axioms (only Model + attribution types)
-- **Qualitative impossibility** (`impossibility_qualitative`): ZERO behavioral axioms (dominance + surjectivity as hypotheses)
-- **GBDT impossibility** (`gbdt_impossibility_local`): 4 axioms (surj, fm, nfm — NO proportionality_global)
-- **Quantitative impossibility** (`impossibility`): 5 axioms (+ proportionality_global for ratio)
-- **DASH resolution** (`consensus_equity`): 6 axioms (+ cross-group symmetric)
+- **Core attribution impossibility** (`attribution_impossibility`): ZERO behavioral axioms (only gbdtWorld)
 - **Bundled impossibility** (`attribution_impossibility_bundled`): ZERO axioms (fully parametric via GBDTSetup)
+- **GBDT quantitative bounds**: 2 axioms (gbdtWorld + gbdtAxioms)
 
 **Formerly axiomatized, now derived:**
 - `spearman_classical_bound` → `spearman_instability_bound` in SpearmanDef.lean (derived from split-count structure; bound 3(m-1)²/(P³-P) is weaker than classical m³/P³ but fully proved)
@@ -276,7 +274,7 @@ Four papers forming a layered publication strategy:
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 501)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 519)
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.
