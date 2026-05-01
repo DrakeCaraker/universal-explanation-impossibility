@@ -283,6 +283,8 @@ Four papers forming a layered publication strategy:
 
 **Full reference with explanations, methodology, and provenance:** [`docs/comprehensive-reference.md`](docs/comprehensive-reference.md)
 
+**Complete publication strategy (all 4 repos, 13 papers, dual submission analysis):** [`docs/publication-strategy-complete.md`](docs/publication-strategy-complete.md)
+
 ### Core Lean Theorems (519 total, 2 axioms, 0 sorry)
 
 **Level 0 — Universal impossibility (zero axioms):**
