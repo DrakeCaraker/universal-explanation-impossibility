@@ -1,316 +1,420 @@
 # Comprehensive Reference: The Limits of Explanation
 
-This document provides a thorough explanation of every proof, experiment, result, and paper in this project. It is designed to be shared with other sessions so they can quickly understand what is available, what it means, and where to find it.
+Every proof, experiment, result, and paper in this project. Designed for sharing with other sessions.
 
-**Verified state (2026-04-30): 519 theorems, 2 axioms, 102 Lean files, 0 sorry. Full build: 2954 jobs, 0 errors.**
+**Verified state (2026-04-30): 519 theorems, 2 axioms, 102 Lean files, 0 sorry. Build: 2954 jobs, 0 errors.**
 
 ---
 
 ## 1. The Core Theorem
 
-### What it proves
+No explanation of an underspecified system can simultaneously be **faithful** (reflect actual structure), **stable** (consistent across equivalent configurations), and **decisive** (commit to a single answer) — whenever the **Rashomon property** holds.
 
-No explanation of an underspecified system can simultaneously be **faithful** (reflect the system's actual structure), **stable** (consistent across observationally equivalent configurations), and **decisive** (commit to a single answer) — whenever the **Rashomon property** holds (multiple valid configurations produce incompatible explanations).
+- **Lean**: `ExplanationSystem.lean` → `explanation_impossibility` (4 lines, zero axioms)
+- **Paper**: Nature Theorem 1; Monograph §2
 
-### Why it matters
-
-This is not a limitation of current methods. It is a mathematical theorem. No future algorithm can overcome it. The gap between what a system can *predict* and what can be *explained* about it is permanent.
-
-### Where it is
-
-- **Lean proof**: `ExplanationSystem.lean` → `explanation_impossibility` (4 lines, zero axioms)
-- **Paper**: Nature article Theorem 1 (lines 178-182); Monograph §2
-- The proof requires ONLY the Rashomon property as a hypothesis — no domain-specific axioms.
-
-### The strengthened form (bilemma)
-
-For binary explanation spaces (significant/not, positive/negative), even **faithful + stable alone** is impossible when every pair of distinct explanations is incompatible. This triggers for SHAP sign, feature selection, edge orientation.
-
-- **Lean**: `MaximalIncompatibility.lean` → `bilemma`
-- **Paper**: Nature lines 188-192
+The proof requires ONLY the Rashomon property as a hypothesis — no domain-specific axioms. A strengthened form (the **bilemma**, `MaximalIncompatibility.lean`) shows F+S alone is impossible for binary explanation spaces.
 
 ---
 
-## 2. The Resolution
+## 2. Complete Lean File Inventory (102 files, 519 theorems)
 
-### What it is
+### Universal Framework (zero axioms)
 
-The orbit-averaged projection onto the symmetry-invariant subspace V^G. For feature attributions: DASH (Diversified Aggregation for Stable Hypotheses) — average importances within each dependence group. For causal graphs: CPDAG. For gauge theory: gauge-invariant observables.
+| File | Theorems | Content |
+|------|----------|---------|
+| `ExplanationSystem.lean` | 4 | Abstract ExplanationSystem type; `explanation_impossibility` |
+| `MaximalIncompatibility.lean` | 7 | Bilemma, S+D impossibility, tightness, recovery |
+| `BilemmaCharacterization.lean` | 3 | Neutral element characterization |
+| `PredictiveConsequences.lean` | 5 | All-or-nothing, Rashomon unfaithfulness |
+| `ApproximateRashomon.lean` | 4 | ε-stability extension |
+| `Necessity.lean` | 3 | Necessity of Rashomon (possibility iff no Rashomon) |
+| `NecessityBiconditional.lean` | 3 | Biconditional necessity |
+| `UniversalDesignSpace.lean` | 1 | `universal_design_space_dichotomy` (Family A/B) |
+| `UniversalResolution.lean` | 1 | `gInvariant_stable` |
+| `UniversalImpossibility.lean` | 0 | Import hub; 9-instance inventory documentation |
+| `Ubiquity.lean` | 3 | Structural ubiquity: dimensional argument + impossibility bridge |
+| `GeneralizedBilemma.lean` | 13 | Generalized bilemma for arbitrary incompatibility |
+| `AxiomSubstitution.lean` | 14 | Axiom substitution framework |
+| `RecursiveImpossibility.lean` | 7 | Enrichment stack: levels independent, depth unbounded |
+| `EnrichmentStack.lean` | 18 | Physical enrichment stack (BH, QG — now parametric) |
+| `GoedelIncompleteness.lean` | 5 | Gödel-pattern parallel |
+| `ExplanationLandscape.lean` | 8 | Coverage conflict ↔ no neutral element bridge |
 
-### Why it's optimal
+### MI Generalization (zero axioms)
 
-The orbit average is the **unique Pareto-optimal** strategy: it achieves zero disagreement for within-group comparisons (ties), while ANY committed ranking disagrees with exactly half the model distribution.
+| File | Theorems | Content |
+|------|----------|---------|
+| `MutualInformation.lean` | 11 | `mi_is_exact_boundary`: MI>0 is necessary and sufficient |
+| `MIQuantitativeBridge.lean` | 5 | MI>0 → unfaithfulness ≥ Δ/2 |
 
-- **Lean**: `ParetoOptimality.lean` → `dash_unique_pareto_optimal` (7 theorems, zero axioms beyond GBDT infrastructure)
-- The proof does NOT use Cramér-Rao — it uses the measure-theoretic fact that DGP symmetry forces μ({φ_k > φ_j}) = 1/2 for within-group pairs.
+### Resolution and Optimality
 
-### The design space dichotomy
+| File | Theorems | Content |
+|------|----------|---------|
+| `UncertaintyFromSymmetry.lean` | 16 | Pythagorean decomposition, best approximation, over-explanation penalty |
+| `ParetoOptimality.lean` | 7 | DASH unique Pareto-optimal; frontier dichotomy (0 or 1/2) |
+| `BayesOptimalTie.lean` | 4 | Bayes-optimality of ties for symmetric features |
+| `DASHResolution.lean` | 2 | DASH as G-invariant resolution for attributions |
+| `CPDAGResolution.lean` | 2 | CPDAG as G-invariant resolution for causal discovery |
 
-Every explanation method falls into exactly two families:
-- **Family A**: Faithful + decisive, but unstable (any single model's explanation)
-- **Family B**: Stable, with ties where data is ambiguous (orbit average)
-No third option exists.
+### 9 ML Instances (all constructive, zero axioms)
 
-- **Lean**: `UniversalDesignSpace.lean` → `universal_design_space_dichotomy`; `DesignSpaceFull.lean` → `design_space_exhaustiveness`
+| File | Theorems | Domain |
+|------|----------|--------|
+| `AttributionInstanceConstructive.lean` | 2 | SHAP, IG, LIME |
+| `AttentionInstanceConstructive.lean` | 3 | Attention maps (DistilBERT) |
+| `CounterfactualInstanceConstructive.lean` | 3 | Counterfactual explanations |
+| `ConceptInstanceConstructive.lean` | 3 | Concept probes (TCAV) |
+| `CausalInstanceConstructive.lean` | 2 | Causal discovery (DAG Markov equivalence) |
+| `ModelSelectionInstanceConstructive.lean` | 3 | Model selection (Rashomon multiplicity) |
+| `MechInterpInstanceConstructive.lean` | 3 | Mechanistic interpretability |
+| `SaliencyInstanceConstructive.lean` | 3 | Saliency maps (GradCAM) |
+| `LLMExplanationInstanceConstructive.lean` | 3 | LLM self-explanations |
+| `MarkovEquivalence.lean` | 4 | Derives Rashomon from Markov equivalence first principles |
+| `CausalExplanationSystem.lean` | 1 | Causal explanation system abstraction |
 
----
+### 14 Cross-Domain Instances (all constructive, zero axioms)
 
-## 3. The Explanation Capacity
+| File | Theorems | Domain |
+|------|----------|--------|
+| `ArrowInstance.lean` | 3 | Arrow's theorem (social choice) |
+| `PeresMermin.lean` | 3 | Quantum contextuality |
+| `DuhemQuine.lean` | 6 | Theory underdetermination |
+| `GaugeTheory.lean` | 5 | Gauge theory (physics) |
+| `StatisticalMechanics.lean` | 5 | Statistical mechanics |
+| `GeneticCode.lean` | 3 | Codon degeneracy |
+| `PhaseProblem.lean` | 4 | Crystallographic phase problem |
+| `QMInterpretation.lean` | 3 | Quantum measurement interpretation |
+| `SyntacticAmbiguity.lean` | 3 | Linguistic ambiguity |
+| `ValueAlignment.lean` | 2 | AI value alignment impossibility |
+| `ViewUpdate.lean` | 3 | Database view-update problem |
+| `LinearSystem.lean` | 3 | Linear systems |
+| `QuantumMeasurementRevolution.lean` | 2 | Quantum measurement as paradigm shift |
+| `SimultaneityRevolution.lean` | 2 | Relativity of simultaneity as paradigm shift |
 
-### C = dim(V^G)
+### GBDT-Specific Quantitative Bounds (2 bundled axioms)
 
-The **explanation capacity** is the dimension of the fixed subspace under the symmetry group G. It equals the maximum number of independent, stable ranking facts any method can extract. For P features in g dependence groups: C = g, and the number of stable pairwise facts is g(g-1)/2.
-
-### The explanatory information loss identity
-
-For any explanation vector v, the Reynolds projection R decomposes it:
-
-‖v − Rv‖² + ‖Rv‖² = ‖v‖²
-
-The stable component Rv ∈ V^G has dimension C; the unstable component (v − Rv) ∈ (V^G)⊥ is irretrievably lost. These are orthogonal — zero cross-talk.
-
-- **Lean**: `UncertaintyFromSymmetry.lean` → `uncertainty_from_symmetry`, `best_approximation`, `beyond_capacity_penalty` (16 theorems)
-
-### The Explanation Stability Theorem (4 parts)
-
-Mirrors Shannon's coding theorem:
-1. **Convergence rate**: MSE = tr(RΣR)/M (source coding rate)
-2. **Capacity bound**: Stable maps have image in V^G (channel capacity)
-3. **Rate optimality**: Orbit average minimizes MSE among linear unbiased estimators (achievability)
-4. **Over-explanation penalty**: ‖w‖ ≤ ‖u − w‖ for w ∈ (V^G)⊥ (strong converse — exact MSE, not asymptotic)
-
-- **Lean**: `stable_in_fixed_subspace`, `beyond_capacity_penalty`, `beyond_capacity_optimal`
-- **Paper**: Monograph §5.2 (The Explanation Stability Theorem)
-
-### The capacity theorem (η law)
-
-η = 1 − dim(V^G)/dim(V) predicts instability rate with R² = 0.957 across 7 well-characterised domains and zero free parameters.
-
-- **Empirical**: `results_universal_eta.json` (16 instances; 7 well-characterised: R²=0.957; holdout 9: R²=0.24)
-- **Paper**: Nature Extended Data Fig 1; Monograph §6 (The Explanation Capacity Theorem)
-
----
-
-## 4. The MI Exact Boundary
-
-### MI > 0 is necessary and sufficient
-
-The Lean theorem `mi_is_exact_boundary` proves that mutual information I(X_j; X_k) > 0 — not correlation — is the necessary and sufficient condition for the attribution impossibility. Features with ρ = 0 but I > 0 (binary fingerprints, nonlinear dependencies like X_k = X_j²) are subject to the impossibility.
-
-- **Lean**: `MutualInformation.lean` → `mi_is_exact_boundary`, `gaussian_mi_positive_of_corr_nonzero`, `impossibility_from_mi` (11 theorems)
-- **Lean**: `MIQuantitativeBridge.lean` → `mi_quantitative_unfaithfulness`: MI > 0 → unfaithfulness ≥ Δ/2 (5 theorems)
-
-### Empirical validation
-
-- **Drug discovery (BBBP)**: Pearson predicts 0% instability on binary fingerprints. MI predicts 19%. Actual: 23%. (`results_drug_discovery_mi_clustering.json`)
-- **131-dataset comparison**: MI-vs-correlation grouping across 131 PMLB datasets: ARI = 0.84 mean, identical groups 77%. MI ≈ correlation for continuous features. (`results_mi_reaudit.json`)
-
----
-
-## 5. The 149-Dataset Capacity Audit
-
-### Setup
-
-149 datasets from 53 scientific domains. 50 XGBoost models per dataset (subsample=0.8, colsample_bytree=0.5). TreeSHAP importances. Correlation groups via hierarchical clustering at |Spearman ρ| > 0.70.
-
-### Key results
-
-| Metric | Value | Source |
-|--------|-------|--------|
-| Datasets exceeding capacity | 75% (111/149 at ρ*=0.70) | `results_audit_150_final.json` |
-| Cross-dataset Wilcoxon | p = 5.09 × 10⁻¹¹ (110 testable) | Computed from audit data |
-| Real-world only | p = 1.7 × 10⁻⁶ (59 datasets) | Computed from audit data |
-| Family-level (cluster-robust) | p = 2.5 × 10⁻⁸ (72 families) | `results_audit_strengthening.json` |
-| Block bootstrap CI | [0.036, 0.069], excludes zero | `results_audit_strengthening.json` |
-| Confirmation-to-reversal | 27:1 at p<0.005 | Computed from audit data |
-| Bonferroni | 22:0 at p<0.05/149 | Computed from audit data |
-| Exceedance sweep | 83%/81%/75%/69%/50% at ρ*=0.50/0.60/0.70/0.80/0.90 | `results_audit_150_final.json` |
-
-### Null model rejection
-
-The alternative hypothesis — "within-group features flip more simply because they have smaller importance differences" — is rejected:
-
-- **Synthetic**: Randomization test rejects at p=0.001 (4/4 settings with ρ≥0.80)
-- **Real-world (14 datasets, 13,511 pairs)**: Quadratic OLS coef_within = 0.037, cluster-bootstrap CI [0.014, 0.045] excludes zero
-- **Stratified**: Within > between in lowest |diff| quintile (p<10⁻⁴); attenuates at higher |diff|
-- **SAGE vs correlation**: SAGE (flip-rate clustering) produces 5× larger within-between gaps (0.25 vs 0.05) — see `results_open_questions_final.json`
-
-### The Gaussian flip formula
-
-Φ(-SNR) predicts per-pair flip rate at R² = 0.946–0.980 across 6 datasets. The strongest per-pair predictor in the framework. See `results_open_questions_capstone.json`.
-
----
-
-## 6. Four Domain Instances (Nature paper)
-
-### Instance 1: Genomics
-
-TSPAN8 (#1 gene in 92% of seeds) vs CEACAM5 (6%) on AP_Colon_Kidney. Zero shared GO Biological Process terms. Replicates on 3 additional datasets. Resolution: DASH reports both.
-
-- **Data**: `results_gene_expression_replication.json`
-- **Key numbers**: ρ=0.858, max_depth=4, 50 seeds
-
-### Instance 2: Mechanistic Interpretability
-
-10 modular-addition transformers: raw agreement ρ=0.518, Fourier Jaccard=2.2%. G-invariant projection (S₄×S₄) lifts to ρ=0.929. Replicates on TinyStories (ρ=0.565→0.972) and 6L/8H scale (ρ=0.540→0.982).
-
-- **Data**: `results_mi_v2_final_validation.json`, `results_mech_interp_definitive_v2.json`
-- **Adversarial audit**: `results_mi_audit.json` — non-uniqueness goes deeper than permutation symmetry (alignment Jaccard=0.079)
-
-### Instance 3: Causal Inference
-
-Chain A→B→C and fork A←B→C are Markov-equivalent. CPDAG is the neutral-element resolution. PC/GES already implement this — the framework proves their output is Pareto-optimal.
-
-### Instance 4: Neuroimaging
-
-48 teams, NARPS data. M₉₅=16 [10,22] for 95% stability. Network membership predicts disagreement (d=0.32 after activation control).
-
-- **Data**: `results_brain_imaging_bulletproof.json`
+| File | Theorems | Content |
+|------|----------|---------|
+| `Defs.lean` | 11 | FeatureSpace, GBDTWorld/GBDTAxiomsBundle structures, definitions |
+| `Trilemma.lean` | 2 | RashomonProperty, `attribution_impossibility` |
+| `General.lean` | 6 | GBDT instance, gbdt_impossibility |
+| `Iterative.lean` | 2 | IterativeOptimizer abstraction |
+| `SplitGap.lean` | 7 | split_gap_exact, split_gap_ge_half |
+| `Ratio.lean` | 3 | Attribution ratio 1/(1-ρ²), `ratio_tendsto_atTop` |
+| `SpearmanDef.lean` | 20 | Spearman from midranks, qualitative + quantitative bounds |
+| `Lasso.lean` | 2 | Lasso impossibility (ratio = ∞) |
+| `NeuralNet.lean` | 1 | Neural net impossibility (conditional) |
+| `Impossibility.lean` | 4 | Combined: equity violation + stability bound |
+| `Corollary.lean` | 5 | DASH consensus equity, variance convergence |
+| `DesignSpace.lean` | 6 | Design Space Theorem (composite), DASH ties |
+| `DesignSpaceFull.lean` | 3 | Design Space exhaustiveness (Family A or B) |
+| `SymmetryDerive.lean` | 1 | `attribution_sum_symmetric` (DERIVED from axioms) |
+| `FlipRate.lean` | 13 | Exact GBDT flip rate, binary group = coin flip |
+| `GaussianFlipRate.lean` | 13 | Gaussian CDF Φ, flip rate formula |
+| `FIMImpossibility.lean` | 6 | Gaussian FIM impossibility, Rashomon ellipsoid |
+| `QueryComplexity.lean` | 16 | Query complexity Ω(σ²/Δ²), Le Cam structural |
+| `QueryComplexityDerived.lean` | 12 | Chebyshev-derived query complexity |
+| `QueryComplexityParametric.lean` | 10 | Parametric query complexity (axiom-free) |
+| `QueryRelative.lean` | 2 | Relative query complexity |
+| `EnsembleBound.lean` | 9 | DASH variance optimality + ensemble size |
+| `Efficiency.lean` | 10 | SHAP efficiency amplification m/(m-1) |
+| `ModelSelection.lean` | 2 | Model selection impossibility |
+| `ModelSelectionDesignSpace.lean` | 3 | Model selection design space |
+| `CausalDiscovery.lean` | 3 | Causal discovery impossibility |
+| `SymmetricBayes.lean` | 16 | General SBD: orbit bounds, trichotomy |
+| `SBDInstances.lean` | 5 | SBD instances + abstract aggregation |
+| `ConditionalImpossibility.lean` | 3 | Conditional SHAP impossibility + escape |
+| `FairnessAudit.lean` | 4 | Fairness audit impossibility |
+| `IntersectionalFairness.lean` | 13 | Intersectional fairness compounding |
+| `LocalGlobal.lean` | 2 | Local ≥ global instability |
+| `RashomonUniversality.lean` | 4 | Rashomon from symmetry via feature swap |
+| `RashomonInevitability.lean` | 5 | Impossibility is inescapable for standard ML |
+| `AlphaFaithful.lean` | 3 | α-faithfulness bound |
+| `UnfaithfulBound.lean` | 3 | Unfaithfulness ≥ 1/2, ties optimal |
+| `UnfaithfulQuantitative.lean` | 2 | Pr(unfaithfulness) = 1/2 |
+| `PathConvergence.lean` | 3 | Relaxation path convergence |
+| `ProportionalityLocal.lean` | 4 | Impossibility from per-model c only |
+| `Qualitative.lean` | 4 | Impossibility from 2 axioms: dominance + surjectivity |
+| `ApproximateEquity.lean` | 3 | Rashomon from bounded proportionality |
+| `VarianceDerivation.lean` | 6 | Variance derivation from independence |
+| `StumpProportionality.lean` | 6 | Decision stump proportionality |
+| `BinaryQuantizer.lean` | 7 | Binary quantization |
+| `Consistency.lean` | 7 | Internal consistency checks |
+| `LossPreservation.lean` | 3 | Loss preservation under aggregation |
+| `MeasureHypotheses.lean` | 0 | Measure-theoretic hypothesis documentation |
+| `LocalSufficiency.lean` | 6 | Local proportionality suffices for all bounds |
+| `RobustnessLipschitz.lean` | 11 | Lipschitz robustness |
+| `QuantitativeBound.lean` | 3 | Quantitative instability bounds |
+| `Setup.lean` | 1 | GBDTSetup structure (backward-compatible bundling) |
+| `RandomForest.lean` | 0 | Documentation only (bounded violations, no formal proofs) |
+| `Basic.lean` | 0 | Import hub |
 
 ---
 
-## 7. Tightness Classification
+## 3. Complete Experiment Results Inventory (116 JSON files)
 
-23 impossibility theorems from 14+ domains classified by tightness type:
-
-- **Collapsed** (3): Explanation bilemma, quantum linearity, GL(n) representation — "pick two" fails; enrichment required
-- **Full** (17): Arrow, Gödel, Bell, fairness, CAP, etc. — every pair achievable
-- **Intermediate** (2): Eastin-Knill (p12-blocked), Shannon secrecy (p23-blocked)
-- **Numerical** (2): Navier-Stokes 3D (smooth-blocked), 2D (full, control)
-
-The explanation bilemma is one of only 3 collapsed instances — structurally more severe than Arrow, Gödel, or Bell.
-
-- **Lean**: All 23 instances have Lean formalization (structural or model evidence)
-- **Paper**: Nature Extended Data Table 2
-
----
-
-## 8. The Enrichment Stack
-
-Enrichment (adding a neutral element) restores F+S at the cost of decisiveness, but creates new impossibility at the next level. The levels are proved independent.
-
-Three physics levels formalized (now as parametric theorems, not axioms):
-- Level 1: Quantum measurement (which-slit) → complementarity
-- Level 2: Black hole information (destroyed/preserved) → complementarity
-- Level 3: Spacetime emergence (fundamental/emergent) → description-dependence
-
-- **Lean**: `EnrichmentStack.lean` (18 theorems), `RecursiveImpossibility.lean`
-- Mirrors Gödel's incompleteness pattern (proved as common RecursiveImpossibility interface)
-
----
-
-## 9. The SAGE Algorithm
-
-### What it does
-
-Automatically discovers which feature comparisons are stable vs unreliable, without requiring knowledge of the symmetry group G.
-
-### Algorithm (6 steps)
-
-1. Train M ≥ 25 models (bootstrap/seed variation)
-2. Compute pairwise flip-rate matrix F
-3. Cluster features by flip-rate similarity
-4. Count groups g → capacity C = g
-5. Report g(g-1)/2 between-group comparisons as stable
-6. Flag within-group comparisons as unreliable
-
-### Performance
-
-- R² = 0.809 (8 datasets, LOO-CV R² = 0.689)
-- Outperforms correlation baseline by 28× (R² = 0.915 vs 0.033)
-- SAGE gap = 0.25 vs correlation gap = 0.05 (6/7 datasets)
-- Reduces false discovery rate from 57% to <5%
-- <1% computational overhead
-
-- **Data**: `results_sage_audit.json`, `results_sage_baseline_comparison.json`
-- **Paper**: Monograph §5.5; SI §SAGE Algorithm
-
----
-
-## 10. Axiom Architecture
-
-### Current state: 2 axioms
-
-All GBDT infrastructure is bundled into two structures:
-
-| Axiom | Structure | Contains |
-|-------|-----------|----------|
-| `gbdtWorld` | `GBDTWorld` | Model type, numTrees, measure infrastructure |
-| `gbdtAxioms` | `GBDTAxiomsBundle` | attribution, splitCount, firstMover + 6 behavioral properties |
-
-### Axiom stratification
-
-- **Core impossibility** (`explanation_impossibility`): ZERO axioms
-- **MI boundary** (`mi_is_exact_boundary`): ZERO axioms
-- **Pareto optimality** (`dash_unique_pareto_optimal`): ZERO axioms (beyond GBDT infra)
-- **Quantitative bounds** (ratio, flip rate, etc.): 2 axioms (gbdtWorld + gbdtAxioms)
-
-### Reduction history
-
-25 → 14 (physics axioms → variables) → 2 (GBDT axioms → bundled structures)
-
----
-
-## 11. Paper Strategy
-
-| Paper | File | Venue | Status |
-|-------|------|-------|--------|
-| Nature (flagship) | `paper/nature_article.tex` | Nature | Ready for submission |
-| Monograph (definitive) | `paper/universal_impossibility_monograph.tex` | arXiv | Ready |
-| Supplement | `paper/supplementary_information.tex` | Nature SI | Ready |
-| JMLR | `paper/universal_impossibility_jmlr.tex` | JMLR | Ready |
-| NeurIPS | `paper/universal_impossibility_neurips.tex` | NeurIPS 2026 | Ready |
-| Attribution (companion) | In dash-shap repo | NeurIPS 2026 | ~70% ready |
-| Physics (companion) | ostrowski-impossibility repo | arXiv (hep-th) | Draft complete |
-
----
-
-## 12. Key Experiment Files
+### Capacity Audit (the 149-dataset validation)
 
 | File | Content | Key Numbers |
 |------|---------|-------------|
-| `results_audit_150_final.json` | 149-dataset capacity audit | 75% exceedance, Wilcoxon p=5.1e-11 |
-| `results_audit_strengthening.json` | Null model, bootstrap, cluster-robust | Family p=2.5e-8, CI [0.036,0.069] |
-| `results_final_gaps.json` | Pooled OLS, stratified, alt clustering | 14 datasets, coef=0.037 |
-| `results_open_questions_final.json` | SAGE comparison, extended sample | SAGE gap 0.25, CI [0.014,0.045] |
-| `results_open_questions_capstone.json` | Gaussian flip R², conformal, regularization | R²=0.946-0.980, coverage 84-88% |
-| `results_mi_reaudit.json` | MI vs correlation at scale | 131 datasets, ARI=0.84 |
-| `results_gene_expression_replication.json` | Gene alternation | TSPAN8 92%, ρ=0.858 |
-| `results_mi_v2_final_validation.json` | Mech interp | ρ=0.518→0.929 |
-| `results_brain_imaging_bulletproof.json` | NARPS | M₉₅=16 [10,22] |
-| `results_universal_eta.json` | η law across domains | R²=0.957 (7), R²=0.60 (16) |
-| `results_drug_discovery_mi_clustering.json` | MI on binary features | Pearson 0%, MI 19%, actual 23% |
+| `results_audit_150_final.json` | 149 datasets, 53 domains, 50 seeds each | 75% exceedance, Wilcoxon p=5.1e-11, 27:1 |
+| `results_audit_150_clean.json` | Cleaned version of above | Same |
+| `results_audit_150_checkpoint.json` | Intermediate checkpoint | — |
+| `results_capacity_audit_150.json` | Raw capacity audit (153 datasets) | Predecessor |
+| `results_capacity_audit_expanded.json` | 63-dataset expanded audit | Earlier version |
+| `results_capacity_audit_pilot.json` | 9-dataset pilot | Earlier version |
+| `results_audit_expanded_partial.json` | Partial expanded results | — |
+
+### Audit Strengthening (session experiments)
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_audit_strengthening.json` | Null model, bootstrap, family-level, weighted η | Family p=2.5e-8, CI [0.036,0.069], η ρ=0.40 |
+| `results_final_gaps.json` | Pooled OLS, stratified, alt clustering | OLS coef=0.028, 5/5 quintiles (9 datasets) |
+| `results_final_comprehensive.json` | 6-dataset pooled (incl Dermatology) | Dermatology preprocessing discrepancy |
+| `results_final_9dataset.json` | 9-dataset summary | coef=0.036, CI [0.007,0.045] |
+| `results_open_questions_final.json` | SAGE comparison, 14-dataset pooled | SAGE gap=0.25, 14-dataset CI [0.014,0.045] |
+| `results_open_questions_capstone.json` | Gaussian flip R², conformal, reg, topology | R²=0.946-0.980, coverage 84-88% |
+| `results_mi_reaudit.json` | MI vs correlation across 131 PMLB datasets | ARI=0.84, identical 77% |
+| `results_coding_theorem_validation.json` | Convergence rate, beyond-capacity MSE | β=-1.28, MSE/‖w‖²=1.000 |
+
+### Gene Expression
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_gene_expression_replication.json` | 4 datasets, TSPAN8/CEACAM5 alternation | 92%/6%, ρ=0.858 |
+| `results_gene_expression.json` | Earlier version | — |
+| `results_gene_expression_validation.json` | Validation run | — |
+| `results_gene_expression_shap.json` | SHAP-specific analysis | — |
+| `results_go_enrichment.json` | Gene Ontology enrichment | Zero shared BP terms |
+
+### Mechanistic Interpretability
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_mi_v2_final_validation.json` | 10 transformers, G-invariant projection | ρ=0.518→0.929, Jaccard=2.2% |
+| `results_mi_v2_comprehensive.json` | Comprehensive MI v2 analysis | — |
+| `results_mech_interp_definitive_v2.json` | Full circuit stability | Noether counting confirmed |
+| `results_mech_interp_definitive.json` | Earlier version | — |
+| `results_mech_interp_stability.json` | Basic stability analysis | — |
+| `results_mech_interp_rashomon.json` | Rashomon set analysis | — |
+| `results_mech_interp_rashomon_gpu.json` | GPU-accelerated version | — |
+| `results_mi_nonuniqueness.json` | MLP feature probing non-uniqueness | Jaccard=0.041≈chance |
+| `results_mi_audit.json` | Adversarial audit of non-uniqueness | Alignment lift 1.92x |
+| `results_mi_perturbation_dose_response.json` | Dose-response analysis | — |
+| `results_comprehensive_circuit_stability.json` | Multi-config circuit stability | Configs A/B/C |
+| `results_circuit_stability_configA/B/C.json` | Per-config results | — |
+| `results_tinystories_circuit_stability_pilot.json` | TinyStories pilot | ρ=0.565→0.972 |
+| `results_mean_ablation_comparison.json` | Mean vs zero ablation | Both give ρ≈0.97 |
+| `results_continuous_symmetry.json` | CCA spectrum analysis | — |
+| `results_neuron_sage.json` | SAGE on neurons | — |
+
+### Brain Imaging / Neuroimaging
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_brain_imaging_bulletproof.json` | Definitive NARPS analysis | M₉₅=16 [10,22], d=0.32 |
+| `results_brain_imaging_definitive.json` | Definitive version | — |
+| `results_brain_imaging_rashomon_v3.json` | Rashomon analysis v3 | — |
+| `results_brain_imaging_rashomon_v2.json` | v2 | — |
+| `results_brain_imaging_rashomon.json` | v1 | — |
+| `results_brain_imaging_noether_direct.json` | Noether direct test | — |
+| `results_brain_imaging_knockout.json` | Knockout analysis | — |
+| `results_brain_imaging_eta_approx.json` | Approximate η | — |
+| `results_brain_imaging_resolution.json` | Resolution analysis | — |
+| `results_multi_analyst_bulletproof.json` | Multi-analyst convergence | — |
+| `results_multi_analyst_resolution.json` | Multi-analyst resolution | — |
+
+### Universal η Law / Capacity Theorem
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_universal_eta.json` | 16 instances | R²=0.957 (7), R²=0.60 (16) |
+| `results_eta_law_oos_gof.json` | Out-of-sample goodness of fit | LOO R²=0.79, holdout R²=0.24 |
+| `results_universal_law.json` | Earlier version | — |
+| `results_gaussian_eta_rescue.json` | Gaussian correction | R²: 0.60→0.79 |
+
+### Gaussian Flip Formula
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_gaussian_flip_validated.json` | Validated formula | — |
+| `results_gaussian_flip_cv.json` | Cross-validated | — |
+| `results_gaussian_flip_knockout.json` | Knockout test | — |
+| `results_gaussian_diagnostics.json` | Diagnostic tests | — |
+| `results_gaussian_multimodel.json` | Multi-model comparison | — |
+
+### Stable Fact Count (Noether)
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_noether_counting.json` | Core counting experiment | 47.1pp bimodal gap |
+| `results_noether_permutation_test.json` | Permutation test | — |
+| `results_noether_sensitivity.json` | Sensitivity across ρ | Gap invariant 0.50-0.99 |
+| `results_noether_real.json` | Real datasets | — |
+| `results_noether_treeshap.json` | TreeSHAP version | — |
+| `results_noether_cross_domain.json` | Cross-domain | — |
+
+### SAGE Algorithm
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_sage_discovery.json` | Group discovery | — |
+| `results_sage_audit.json` | Adversarial audit | R²=0.809, LOO=0.689 |
+| `results_sage_baseline_comparison.json` | vs 5 baselines | SAGE 28× better |
+| `results_sage_real.json` | Real-world datasets | — |
+| `results_sage_treeshap.json` | TreeSHAP version | — |
+
+### Drug Discovery
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_drug_discovery_mi_clustering.json` | MI on binary fingerprints | Pearson 0%, MI 19%, actual 23% |
+| `results_drug_discovery_prediction.json` | Prediction validation | — |
+| `results_drug_discovery_prospective.json` | Prospective test | — |
+
+### Clinical / Regulatory
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_clinical_decision_reversal.json` | Decision reversal analysis | — |
+| `results_clinical_decision_reversal_v2.json` | v2 | 48% of credit applicants |
+| `results_clinical_shap_audit.json` | Clinical TreeSHAP audit | 28% unreliable top-5 |
+| `results_regulatory_compliance.json` | Regulatory compliance metrics | 83% gap |
+| `results_regulatory_topk.json` | Top-k regulatory audit | — |
+| `results_reliability_summary.json` | Reliability summary | — |
+
+### Multiverse Analysis
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_multiverse.json` | Multiverse analysis | — |
+| `results_multiverse_corrected.json` | Corrected version | — |
+| `results_multiverse_expanded.json` | Expanded version | — |
+| `results_multiverse_layer_decomposition.json` | Layer decomposition | — |
+
+### Enrichment / Abstraction
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_enrichment_demo.json` | Enrichment demonstration | — |
+| `results_enrichment_statistical_tests.json` | Statistical tests | — |
+| `results_abstraction_balanced_control.json` | Balanced control | — |
+| `results_abstraction_enrichment_expanded.json` | Expanded enrichment | — |
+| `results_abstraction_random_control.json` | Random control | — |
+| `results_alignment_abstraction.json` | Alignment abstraction | — |
+
+### Other Experiments
+
+| File | Content | Key Numbers |
+|------|---------|-------------|
+| `results_approximate_symmetry.json` | Approximate symmetry | — |
+| `results_approximate_symmetry_v2.json` | v2 | — |
+| `results_attribution_pca_eigenspectrum.json` | PCA eigenspectrum | Gap at PC10 not PC3 |
+| `results_bootstrap_calibration.json` | Bootstrap calibration | — |
+| `results_causal_sachs.json` | Sachs causal dataset | — |
+| `results_dimVG_vs_classes.json` | dim(V^G) vs classes | — |
+| `results_explanation_landscape_bridge.json` | Landscape bridge | — |
+| `results_explanation_landscape_bridge_expanded.json` | Expanded | ρ=0.961 across 15 datasets |
+| `results_final_experiments.json` | Final experiments | — |
+| `results_flip_generalization.json` | Flip generalization | — |
+| `results_flip_gen_expanded.json` | Expanded | — |
+| `results_flip_rate_robustness.json` | Flip rate robustness | — |
+| `results_knockout_battery.json` | Knockout battery | — |
+| `results_lean_complexity.json` | Lean complexity analysis | — |
+| `results_llm_self_explanation.json` | LLM self-explanation | Citation flip rate 34.5% |
+| `results_molecular_evolution.json` | Molecular evolution | R²=0.0 (falsified) |
+| `results_phase_transition_r.json` | Phase transition | Falsified (r*≠1) |
+| `results_power_analysis.json` | Power analysis | — |
+| `results_predictor_comparison.json` | 7-predictor comparison | Max ρ=0.26 |
+| `results_proportionality_sensitivity.json` | Proportionality sensitivity | — |
+| `results_published_findings_audit.json` | Published findings audit | — |
+| `results_quantitative_bilemma_test.json` | Bilemma test | — |
+| `results_quantum_verification.json` | Quantum verification | — |
+| `results_rashomon_topology.json` | Rashomon topology | — |
+| `results_spectral_gap_ensemble.json` | Spectral gap | — |
+| `results_topk_expanded_and_null.json` | Top-k analysis | — |
+| `results_uncertainty_principle.json` | Uncertainty principle | — |
+| `results_value_alignment_compas.json` | Value alignment COMPAS | — |
 
 ---
 
-## 13. Honest Negatives
+## 4. Tightness Classification (23 theorems, 14+ domains)
 
-Five pre-registered predictions were falsified:
+| System | Domain | Tightness | Evidence |
+|--------|--------|-----------|----------|
+| **Bilemma** | **ML explanation** | **Collapsed** | **structural (Lean)** |
+| **Quantum linearity** | **Quantum info** | **Collapsed** | **model** |
+| **GL(n) representation** | **Langlands** | **Collapsed** | **structural (Lean)** |
+| Arrow | Social choice | Full | structural (Lean) |
+| Gibbard-Satterthwaite | Social choice | Full | structural (Lean) |
+| Bell (CHSH) | Quantum physics | Full | structural (Lean) |
+| Kochen-Specker | Quantum physics | Full | structural (Lean) |
+| Gödel | Mathematical logic | Full | structural (Lean) |
+| ML fairness | ML prediction | Full | model |
+| Bias-variance | Statistics | Full | model |
+| Sen's paradox | Social choice | Full | model |
+| CAP theorem | Distributed systems | Full | model |
+| FLP | Distributed systems | Full | model |
+| Mundell-Fleming | Economics | Full | model |
+| Perpetual motion | Thermodynamics | Full | model |
+| Second law | Thermodynamics | Full | model |
+| Münchhausen | Epistemology | Full | model |
+| Competitive exclusion | Ecology | Full | model |
+| Penrose-Hawking | General relativity | Full | model |
+| Eastin-Knill | Quantum computing | p12-blocked | model |
+| Shannon secrecy | Cryptography | p23-blocked | model |
+| Navier-Stokes (3D) | Math physics | Smooth-blocked | numerical (54 runs) |
+| Navier-Stokes (2D) | Math physics | Full (control) | numerical |
+
+---
+
+## 5. Paper Files
+
+| Paper | File | Venue | Status |
+|-------|------|-------|--------|
+| Nature (flagship) | `paper/nature_article.tex` | Nature | Ready |
+| Monograph | `paper/universal_impossibility_monograph.tex` | arXiv | Ready |
+| Supplement | `paper/supplementary_information.tex` | Nature SI | Ready |
+| JMLR | `paper/universal_impossibility_jmlr.tex` | JMLR | Ready |
+| NeurIPS | `paper/universal_impossibility_neurips.tex` | NeurIPS 2026 | Ready |
+| Capacity audit | `paper/explanation_capacity_audit.tex` | — | Companion |
+
+---
+
+## 6. Honest Negatives (8 falsified predictions)
+
 1. Phase transition location (predicted r*=1, observed 0.01-0.12)
 2. Uncertainty bound (predicted α+σ+δ≤2, observed max 2.86)
 3. Molecular evolution from character theory (partial R²=0.0)
 4. Spectral gap convergence rate (14-100× too fast)
 5. Flip correlations from irreducible decomposition (within ≈ between)
-
-Additional negatives from this session:
-6. Regularization increases instability (opposite of SAM prediction — but consistent with theory: regularization creates the Rashomon property)
+6. Regularization increases instability (opposite of SAM prediction)
 7. Rashomon topology does not predict bimodality (1/6 datasets)
 8. DASH tie rate vs Rashomon fraction (directional 4/6, weak quantitatively)
 
-These define the framework's boundary: the impossibility and resolution work universally; the quantitative predictions work only with known groups.
+---
+
+## 7. Axiom Architecture
+
+2 bundled axioms in `Defs.lean`:
+- `gbdtWorld : GBDTWorld` — Model type, numTrees, measure infrastructure
+- `gbdtAxioms (fs) : GBDTAxiomsBundle gbdtWorld fs` — attribution, splitCount, firstMover + 6 behavioral properties
+
+Core impossibility uses ZERO of these. Reduction history: 25 → 14 → 2.
 
 ---
 
-## 14. Building and Verification
+## 8. Build and Verification
 
 ```bash
-make lean          # Compile Lean (~5 min)
-make paper         # Compile all paper versions
-make verify        # Build + count consistency check
-lake build         # Direct Lean build (2954 jobs)
+lake build              # Full Lean build (~5 min, 2954 jobs)
+make verify             # Build + count consistency check
 
-# Verification block (run before committing paper changes):
-grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print "theorems:", s}'
-grep -c "^axiom " UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print "axioms:", s}'
-ls UniversalImpossibility/*.lean | wc -l | awk '{print "files:", $1}'
+# Manual verification:
+grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'  # → 519
+grep -c "^axiom " UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'           # → 2
+ls UniversalImpossibility/*.lean | wc -l                                                     # → 102
 ```
