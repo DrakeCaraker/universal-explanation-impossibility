@@ -4,7 +4,9 @@
 All material references point to specific files across 4 repositories.
 
 **Last verified: 2026-05-01**
-**Total Lean: 1,358 theorems (519 + 482 + 357), 19 axioms (2 + 11 + 6), 0 sorry across 3 repos**
+**Total Lean: 1,359 theorems (519 + 482 + 358), 5 axioms (2 + 1 + 2), 0 sorry across 3 repos**
+
+**URGENT: NeurIPS 2026 abstract deadline May 4 (3 days). Paper deadline May 6.**
 
 ---
 
@@ -382,9 +384,11 @@ Per `universal-explanation-impossibility/docs/naming-conventions.md`:
 | Repo | Theorems | Axioms | Files | Sorry |
 |------|----------|--------|-------|-------|
 | universal-explanation-impossibility | 519 | 2 | 102 | 0 |
-| ostrowski-impossibility | 482 | 11 | 38 | 0 |
-| dash-impossibility-lean | 357 | 6 | 58 | 0 |
-| **Total** | **1,358** | **19** | **198** | **0** |
+| ostrowski-impossibility | 482 | 1 | 38 | 0 |
+| dash-impossibility-lean | 358 | 2 | 58 | 0 |
+| **Total** | **1,359** | **5** | **198** | **0** |
+
+**TMLR contingency:** If the DASH method paper (Paper 5) is rejected, its engineering content can fold into the JMLR attribution paper (Paper 7), creating a combined theory+method submission. The JMLR paper is already written and would absorb the benchmarks with minimal editing.
 
 ### Key empirical numbers
 
