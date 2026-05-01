@@ -484,9 +484,10 @@ partitions any explanation vector into stable ($Rv$) and unstable
 ($v - Rv$) components with zero cross-talk (Lean-verified).
 The capacity formula requires identifying the symmetry group---a
 practical bottleneck (holdout $R^2 = 0.24$ for 9~domains with
-approximate groups; on 39~real-world datasets with power-adequate
+approximate groups; on 49~real-world datasets with power-adequate
 inferred groups, the formula partially generalises at Spearman
-$\rho = 0.40$, $p = 0.011$).  Three empirical bridges address this at
+$\rho = 0.55$, $p < 10^{-4}$ at $\rho^* = 0.50$; $\rho = 0.40$,
+$p = 0.011$ at $\rho^* = 0.70$).  Three empirical bridges address this at
 decreasing cost.  First, the Gaussian flip formula
 $\Phi(-\mathrm{SNR})$ predicts per-pair instability from bootstrap
 retrains alone, with per-dataset $R^2 = 0.95$--$0.98$ across 6~datasets

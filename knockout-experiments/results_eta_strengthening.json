@@ -1,0 +1,184 @@
+{
+  "phase1_threshold_sweep": {
+    "0.50": {},
+    "0.60": {},
+    "0.70": {},
+    "0.80": {},
+    "0.90": {}
+  },
+  "phase1_power_weighting": {
+    "unweighted_rho": -0.29468329812500765,
+    "weighted_rho": -0.20004400725689347,
+    "unweighted_ci": [
+      -0.45714724573629045,
+      -0.11988653403885617
+    ],
+    "weighted_ci": [
+      -0.41929859899029476,
+      0.020720967696199646
+    ]
+  },
+  "phase1_cc_eta": {
+    "rho": 0.9739631806372044,
+    "p": 1.2077452898187392e-96,
+    "n": 149
+  },
+  "phase2_three_method": {
+    "corr_rho": 0.5368540102302805,
+    "sage_rho": 0.4569580959930881,
+    "sage_within_rho": -0.6969043604266516,
+    "n_datasets": 14,
+    "per_dataset": [
+      {
+        "dataset": "Breast_Cancer",
+        "P": 30,
+        "eta_corr": 0.6333333333333333,
+        "eta_sage": 0.6,
+        "n_corr_groups": 11,
+        "n_sage_groups": 12,
+        "mean_instability": 0.13581609195402297,
+        "sage_within_flip": 0.3970731707317073
+      },
+      {
+        "dataset": "Digits",
+        "P": 61,
+        "eta_corr": 0.1311475409836066,
+        "eta_sage": 0.2295081967213115,
+        "n_corr_groups": 53,
+        "n_sage_groups": 47,
+        "mean_instability": 0.036896174863387976,
+        "sage_within_flip": 0.4
+      },
+      {
+        "dataset": "Wine",
+        "P": 13,
+        "eta_corr": 0.15384615384615385,
+        "eta_sage": 0.07692307692307687,
+        "n_corr_groups": 11,
+        "n_sage_groups": 12,
+        "mean_instability": 0.07025641025641026,
+        "sage_within_flip": 0.4
+      },
+      {
+        "dataset": "California",
+        "P": 8,
+        "eta_corr": 0.125,
+        "eta_sage": 0.25,
+        "n_corr_groups": 7,
+        "n_sage_groups": 6,
+        "mean_instability": 0.028571428571428574,
+        "sage_within_flip": 0.22
+      },
+      {
+        "dataset": "Diabetes",
+        "P": 10,
+        "eta_corr": 0.19999999999999996,
+        "eta_sage": 0.19999999999999996,
+        "n_corr_groups": 8,
+        "n_sage_groups": 8,
+        "mean_instability": 0.17155555555555557,
+        "sage_within_flip": 0.3333333333333333
+      },
+      {
+        "dataset": "PMLB_clean1",
+        "P": 100,
+        "eta_corr": 0.6599999999999999,
+        "eta_sage": 0.64,
+        "n_corr_groups": 34,
+        "n_sage_groups": 36,
+        "mean_instability": 0.2115474747474747,
+        "sage_within_flip": 0.3781512605042016
+      },
+      {
+        "dataset": "PMLB_vehicle",
+        "P": 18,
+        "eta_corr": 0.6666666666666667,
+        "eta_sage": 0.6666666666666667,
+        "n_corr_groups": 6,
+        "n_sage_groups": 6,
+        "mean_instability": 0.0627450980392157,
+        "sage_within_flip": 0.24258064516129038
+      },
+      {
+        "dataset": "PMLB_optdigits",
+        "P": 62,
+        "eta_corr": 0.09677419354838712,
+        "eta_sage": 0.17741935483870963,
+        "n_corr_groups": 56,
+        "n_sage_groups": 51,
+        "mean_instability": 0.03547329455314648,
+        "sage_within_flip": 0.38181818181818183
+      },
+      {
+        "dataset": "PMLB_pendigits",
+        "P": 16,
+        "eta_corr": 0.0625,
+        "eta_sage": 0.0625,
+        "n_corr_groups": 15,
+        "n_sage_groups": 15,
+        "mean_instability": 0.05633333333333333,
+        "sage_within_flip": 0.44
+      },
+      {
+        "dataset": "PMLB_satimage",
+        "P": 36,
+        "eta_corr": 0.9166666666666666,
+        "eta_sage": 0.9166666666666666,
+        "n_corr_groups": 3,
+        "n_sage_groups": 3,
+        "mean_instability": 0.1060952380952381,
+        "sage_within_flip": 0.22022641509433963
+      },
+      {
+        "dataset": "PMLB_texture",
+        "P": 40,
+        "eta_corr": 0.95,
+        "eta_sage": 0.975,
+        "n_corr_groups": 2,
+        "n_sage_groups": 1,
+        "mean_instability": 0.05928205128205129,
+        "sage_within_flip": 0.05928205128205129
+      },
+      {
+        "dataset": "PMLB_vowel",
+        "P": 13,
+        "eta_corr": 0.07692307692307687,
+        "eta_sage": 0.07692307692307687,
+        "n_corr_groups": 12,
+        "n_sage_groups": 12,
+        "mean_instability": 0.01641025641025641,
+        "sage_within_flip": 0.44
+      },
+      {
+        "dataset": "PMLB_analcatdata_authorship",
+        "P": 70,
+        "eta_corr": 0.02857142857142858,
+        "eta_sage": 0.37142857142857144,
+        "n_corr_groups": 68,
+        "n_sage_groups": 44,
+        "mean_instability": 0.08013250517598343,
+        "sage_within_flip": 0.3668965517241379
+      },
+      {
+        "dataset": "PMLB_sleep",
+        "P": 13,
+        "eta_corr": 0.15384615384615385,
+        "eta_sage": 0.07692307692307687,
+        "n_corr_groups": 11,
+        "n_sage_groups": 12,
+        "mean_instability": 0.05743589743589744,
+        "sage_within_flip": 0.36
+      }
+    ]
+  },
+  "phase3_domain_knowledge": {
+    "breast_cancer": {
+      "corr_groups": 11,
+      "sage_groups": 12,
+      "domain_groups": 10,
+      "eta_corr": 0.6333333333333333,
+      "eta_sage": 0.6,
+      "eta_domain": 0.6666666666666667
+    }
+  }
+}
