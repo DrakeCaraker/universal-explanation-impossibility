@@ -278,3 +278,87 @@ Four papers forming a layered publication strategy:
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.
+
+## Comprehensive Reference: Proofs, Experiments, Results
+
+### Core Lean Theorems (519 total, 2 axioms, 0 sorry)
+
+**Level 0 — Universal impossibility (zero axioms):**
+- `explanation_impossibility` (ExplanationSystem.lean): F+S+D impossible under Rashomon. 4-line proof.
+- `bilemma` (MaximalIncompatibility.lean): F+S impossible for maximally incompatible H.
+- `universal_design_space_dichotomy` (UniversalDesignSpace.lean): Every method is Family A or B.
+- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is necessary and sufficient for impossibility.
+- `mi_quantitative_unfaithfulness` (MIQuantitativeBridge.lean): MI > 0 → unfaithfulness ≥ Δ/2.
+
+**Level 1 — Resolution and optimality:**
+- `gInvariant_stable` (UniversalResolution.lean): G-invariant maps are stable.
+- `uncertainty_from_symmetry` (UncertaintyFromSymmetry.lean): Pythagorean decomposition ‖v-Rv‖²+‖Rv‖²=‖v‖².
+- `best_approximation` / `reynolds_best_approximation`: Rv is closest fixed point to v.
+- `beyond_capacity_penalty`: ‖w‖ ≤ ‖u-w‖ for w ∈ (V^G)⊥.
+- `stable_in_fixed_subspace`: Stable maps have image in V^G.
+- `dash_unique_pareto_optimal` (ParetoOptimality.lean): DASH is unique Pareto-optimal for within-group.
+- `pareto_frontier_dichotomy`: Disagreement is exactly 0 (tie) or 1/2 (commitment).
+
+**Level 2 — Tightness and enrichment:**
+- `tightness_full` / `tightness_collapsed` (BilemmaCharacterization.lean): Classification by neutral/committal elements.
+- `enrichment_unique_on_fiber` (MaximalIncompatibility.lean): Enrichment is unique on Rashomon fiber.
+- `enrichment_creates_new_impossibility` / `levels_independent` (RecursiveImpossibility.lean): Enrichment stack.
+- `bh_bilemma` / `qg_bilemma` (EnrichmentStack.lean): Physics enrichment levels (now parametric, 0 axioms).
+
+**Level 3 — Quantitative bounds (2 axioms: gbdtWorld, gbdtAxioms):**
+- `attribution_impossibility` (Trilemma.lean): GBDT-specific impossibility.
+- `ratio_tendsto_atTop` (Ratio.lean): Attribution ratio 1/(1-ρ²) → ∞.
+- `consensus_equity` (Corollary.lean): DASH achieves equity for balanced ensembles.
+- `spearman_instability_bound` (SpearmanDef.lean): Derived Spearman bound.
+- `flip_rate_binary_group` (FlipRate.lean): Exact GBDT flip rate.
+
+**Level 4 — 9 ML instances + 14 cross-domain (all constructive, zero axioms):**
+- AttributionInstanceConstructive, AttentionInstanceConstructive, CounterfactualInstanceConstructive, ConceptInstanceConstructive, CausalInstanceConstructive, ModelSelectionInstanceConstructive, MechInterpInstanceConstructive, SaliencyInstanceConstructive, LLMExplanationInstanceConstructive
+- ArrowInstance, PeresMermin, DuhemQuine, GaugeTheory, StatisticalMechanics, GeneticCode, PhaseProblem, QMInterpretation, SyntacticAmbiguity, ValueAlignment, ViewUpdate, LinearSystem, QuantumMeasurementRevolution, SimultaneityRevolution
+
+### Key Experiment Results (116 JSON files)
+
+**Capacity Audit (149 datasets):**
+- `results_audit_150_final.json`: 149 datasets, 53 domains, 50 seeds each. 75% exceed capacity (ρ*=0.70). Wilcoxon p=5.09e-11 (cross-dataset). 27:1 at p<0.005.
+- `results_audit_strengthening.json`: Null model test (randomization p=0.001 synthetic), bootstrap group stability (ARI>0.94), family-level Wilcoxon (p=2.5e-8), block bootstrap CI [0.036,0.069], η law on real data (ρ=0.40, p=0.011).
+- `results_final_gaps.json`: Pooled per-pair OLS (6 datasets), real-world stratified (5/5 quintiles on 5 datasets), SAGE vs MI vs correlation comparison.
+- `results_open_questions_final.json`: SAGE wins 6/7 (gap 0.25 vs 0.05), 14-dataset OLS (coef=0.037, CI [0.014,0.045]), cluster-bootstrap confirms.
+- `results_mi_reaudit.json`: MI vs correlation across 131 PMLB datasets. ARI=0.84 mean, identical 77%. MI ≈ correlation for continuous features.
+
+**Gene Expression:**
+- `results_gene_expression_replication.json`: TSPAN8 92%/CEACAM5 6% on AP_Colon_Kidney. Replicates on 3 additional datasets. ρ=0.858 feature correlation. max_depth=4.
+
+**Mechanistic Interpretability:**
+- `results_mi_v2_final_validation.json`: 10 transformers, ρ=0.518 raw → 0.929 G-invariant. Fourier Jaccard=2.2%. Within-layer flip=0.500 exactly.
+- `results_mech_interp_definitive_v2.json`: Full circuit stability analysis, Noether counting, control hierarchy.
+- `results_mi_audit.json`: Adversarial audit — alignment lift 1.92x, deeper than permutation symmetry.
+
+**Neuroimaging:**
+- `results_brain_imaging_bulletproof.json`: M₉₅=16 [10,22]. Network structure predicts disagreement (d=0.32 after activation control).
+
+**Universal η Law:**
+- `results_universal_eta.json`: 16 instances, R²=0.60 (all), R²=0.957 (7 well-characterised). Slope=0.91.
+- `results_eta_law_oos_gof.json`: LOO-CV R²=0.79, holdout R²=0.24 (9 approximate groups).
+
+**Drug Discovery:**
+- `results_drug_discovery_mi_clustering.json`: BBBP binary fingerprints. Pearson: 0% predicted, MI: 19%, actual: 23%.
+
+**Capstone (OQ-29 through OQ-50):**
+- `results_open_questions_capstone.json`: Gaussian flip formula per-pair R²=0.946–0.980 (6 datasets). Regularization creates Rashomon (falsified prediction). Conformal SHAP intervals (84–88% coverage). Rashomon topology (1/6 bimodal). DASH tie rate (4/6 directional).
+
+### Paper Files
+
+| Paper | File | Venue | Key numbers |
+|-------|------|-------|-------------|
+| Nature (flagship) | `paper/nature_article.tex` | Nature | 519 theorems, 4 instances, R²=0.96 |
+| Monograph (definitive) | `paper/universal_impossibility_monograph.tex` | arXiv | ~4500 lines, all proofs |
+| Supplement | `paper/supplementary_information.tex` | Nature SI | SAGE algorithm, falsifications |
+| JMLR | `paper/universal_impossibility_jmlr.tex` | JMLR | Full technical |
+| NeurIPS | `paper/universal_impossibility_neurips.tex` | NeurIPS 2026 | Companion |
+
+### Verified State (as of 2026-04-30)
+```
+Theorems: 519 | Axioms: 2 | Files: 102 | Sorry: 0
+Build: lake build → 2954 jobs, 0 errors
+Papers: 0 stale numbers (last verified this session)
+```
