@@ -69,32 +69,33 @@
 %%% =========================================================================
 
 \begin{abstract}
-Train a machine learning classifier to distinguish colon from kidney
-tumours using 10{,}935 gene-expression features, and the algorithm names
-TSPAN8---a gene in the invasion/metastasis pathway---as the single most
-important biomarker.  Change nothing but the random seed and retrain: now
-the top gene is CEACAM5, an immune-evasion marker with zero shared Gene
-Ontology biological process terms.  We prove that this instability is not
-a software bug: it is a mathematical certainty.  Whenever
-observationally equivalent configurations coexist (the Rashomon
-property), no explanation can simultaneously be faithful, stable, and
-decisive.  We derive this impossibility from first principles in four
-high-stakes domains---genomics, mechanistic interpretability of neural
-networks, causal inference, and neuroimaging---each requiring zero shared
-axioms.  In each domain, a constructive resolution exists: projecting
-onto the symmetry-invariant subspace.  For neural circuits, this
-projection lifts inter-model agreement from $\rho = 0.52$ to $\rho =
-0.93$.  For neuroimaging, orbit averaging across 48 analysis teams is
-near-optimal, with 16 independent analyses sufficing for 95\% stability.
-That eight scientific communities---in ML, crystallography, gauge theory,
-causal inference, statistical mechanics, genetics, linguistics, and
-database theory---independently converged on this same resolution,
-without cross-pollination, is now explained: the orbit-averaged
-projection is the unique Pareto-optimal strategy for any system with the
-Rashomon property.  The framework is verified in Lean~4 (519~theorems,
-0~unproved goals) and generates quantitative predictions confirmed across
-seven domains ($R^2 = 0.96$, zero free parameters), establishing a capacity law and
-uncertainty principle for scientific explanation.
+Across empirical science, the same structural problem recurs:
+observationally equivalent configurations of a system admit incompatible
+internal explanations.  Train a machine learning classifier to
+distinguish colon from kidney tumours using 10{,}935 gene-expression
+features, and the algorithm names TSPAN8---an invasion/metastasis
+gene---as the most important biomarker; change only the random seed and
+the top gene becomes CEACAM5, an immune-evasion marker with zero shared
+biological function.  We prove this instability is a mathematical
+consequence of underdetermination: whenever observationally equivalent
+configurations coexist (the Rashomon property), no explanation can
+simultaneously be faithful, stable, and decisive.  The impossibility
+requires no domain-specific axioms; it is verified in Lean~4
+(519~theorems, 0~unproved goals) and instantiated across foundational
+physics (Peres--Mermin quantum contextuality), social choice (Arrow's
+theorem and multi-analyst scientific aggregation), mathematical physics
+(3D Navier--Stokes tightness classification, 54~DNS runs, $R^2 = 0.94$),
+clinical biology (gene-expression pathway instability), and AI
+interpretability (transformer circuit multiplicity, agreement lifted from
+$\rho = 0.52$ to $\rho = 0.93$).  In every instance, a constructive
+resolution exists: projecting onto the symmetry-invariant subspace.
+The orbit-averaged projection is the unique Pareto-optimal strategy.
+The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
+content any method can extract, structurally analogous to Shannon's
+channel capacity in the symmetric regime.  The capacity formula predicts
+instability across seven domains ($R^2 = 0.96$, zero free parameters),
+establishing a capacity theorem and uncertainty principle for
+scientific explanation.
 \end{abstract}
 
 %%% =========================================================================
@@ -103,59 +104,70 @@ uncertainty principle for scientific explanation.
 
 \section*{Introduction}
 
-A biologist following the first model into the wet lab would pursue
-invasion signalling through TSPAN8's tetraspanin-enriched microdomains;
-a biologist following the second would pursue immune evasion through
-CEACAM5's role in cell--cell adhesion.  Both models predict patient labels
-with indistinguishable accuracy.  The alternation replicates on an
-independent tissue contrast (endometrium vs colon: TSPAN8 78\%, CEACAM5
-22\%) and on a different gene pair (breast vs colon: COL3A1 72\%,
-COL1A1 28\%), where both collagens share the extracellular matrix
-pathway---two modes of instability, one within and one between biological
-pathways, both governed by the same theorem.
+Whenever a system's observable behaviour is consistent with multiple
+incompatible internal configurations, a structural tension arises: any
+faithful explanation must commit to specifics that an equally valid
+configuration contradicts.  This tension has been recognised independently
+across disciplines---in Quine's confirmational
+holism~\citep{quine1951dogmas}, Arrow's impossibility of fair
+aggregation~\citep{arrow1951social}, gauge invariance in physics, and
+Markov equivalence in causal
+inference~\citep{verma1991equivalence}---but never unified.
 
-The same structure appears wherever a system admits multiple valid
-explanations.  Over the past century, eight scientific communities have
-independently converged on a single mathematical strategy for such
-problems: project onto the subspace invariant under the symmetry of
-equivalent configurations.  Crystallographers who cannot recover phase
-from diffraction amplitudes use Patterson maps.  Causal modellers who
-face Markov-equivalent graphs report CPDAGs.  Gauge theorists quotient
-out local symmetry.  Neuroimaging teams who reach different
-conclusions~\citep{botviniknezer2020variability} compute overlap maps.
-Ten neural networks trained on the same task discover circuits that
-overlap by only 2.2\%, yet all achieve 100\% accuracy.  That these
-communities arrived at structurally identical solutions without any
-cross-pollination demands an explanation.  The structure is not specific
-to any one domain: it arises wherever multiple valid configurations of a
-system produce identical observables---in gene regulation, neural
-circuits, causal graphs, brain imaging, climate models, economic
-forecasts, and any high-dimensional system with correlated variables.
+Over the past century, eight scientific communities have independently
+converged on a single mathematical strategy for this problem: project
+onto the subspace invariant under the symmetry of equivalent
+configurations.  Crystallographers who cannot recover phase from
+diffraction amplitudes use Patterson maps.  Causal modellers who face
+Markov-equivalent graphs report CPDAGs.  Gauge theorists quotient out
+local symmetry.  When multiple analysts examine the same data, the
+impossibility applies with researchers as voters in Arrow's
+sense~\citep{arrow1951social}: 70 neuroimaging
+teams~\citep{botviniknezer2020variability}, 29 psychology
+teams~\citep{silberzahn2018many}, and 73 political science
+teams~\citep{breznau2022observing} reached divergent conclusions from
+identical data.  Ten neural networks trained on the same task discover
+circuits that overlap by only 2.2\%, yet all achieve 100\% accuracy.
+That these communities arrived at structurally identical solutions
+without any cross-pollination demands an explanation.
 
-Here we supply one.  A single theorem, requiring only the
-Rashomon property~\citep{breiman2001statistical} as a hypothesis, proves
-that no explanation of an underspecified system can be simultaneously
-faithful (reflect the system's actual structure), stable (consistent
-across equivalent configurations), and decisive (commit to a specific
-answer).  The gap between what a system can \emph{predict} and what can
-be \emph{explained} about it is not a deficiency of current methods but a
+The operational consequences are immediate.  Train a machine learning
+classifier to distinguish colon from kidney tumours using 10{,}935
+gene-expression features, and the algorithm names TSPAN8---an
+invasion/metastasis gene---as the most important biomarker; change only
+the random seed and the top gene becomes CEACAM5, an immune-evasion
+marker with zero shared biological function
+(Fig.~\ref{fig:1}).  The alternation replicates across datasets (endometrium
+vs colon: TSPAN8 78\%, CEACAM5 22\%; breast vs colon: COL3A1 72\%,
+COL1A1 28\%), with two modes of instability---between pathways and within
+pathways---both governed by the same theorem.
+
+Here we supply one.  A single theorem, requiring only the Rashomon
+property~\citep{breiman2001statistical} as a hypothesis, proves that no
+explanation of an underspecified system can be simultaneously faithful
+(reflect the system's actual structure), stable (consistent across
+equivalent configurations), and decisive (commit to a specific answer).
+The gap between what a system can \emph{predict} and what can be
+\emph{explained} about it is not a deficiency of current methods but a
 permanent feature of underspecified systems---and the resolution these
-communities discovered is the unique optimal response.  Prior work has documented this instability
+communities discovered is the unique optimal response.  Prior work has
+documented this instability
 empirically~\citep{krishna2022disagreement}, characterised importance
-ranges across the Rashomon set~\citep{fisher2019models},
-identified underspecification as a systemic
+ranges across the Rashomon set~\citep{fisher2019models}, identified
+underspecification as a systemic
 challenge~\citep{damour2022underspecification}, and proved special cases
 for Shapley-based methods~\citep{bilodeau2024impossibility}; here we
 prove the general impossibility for \emph{any} explanation type,
 characterise the complete design space, and show that the same structure
-governs four high-stakes domains (Fig.~\ref{fig:1}).  The proof is verified in
-Lean~4 with zero domain-specific axioms.  A strengthened form---the
-bilemma---shows that for binary explanations (significant or not,
-positive or negative), even faithful and stable together are impossible.
-The complete design space is characterised by a tightness
-classification: whether the impossibility admits a resolution depends on
-whether the explanation space contains a neutral element
-(Table~\ref{tab:tightness}).
+governs five domains across clinical biology, AI safety, foundational
+physics, social choice, and mathematical physics
+(Fig.~\ref{fig:1}).  The proof is verified in Lean~4 with zero
+domain-specific axioms.  A strengthened form---the bilemma---shows that
+for binary explanations (significant or not, positive or negative), even
+faithful and stable together are impossible.  The complete design space
+is characterised by a tightness classification: whether the impossibility
+admits a resolution depends on whether the explanation space contains a
+neutral element (Table~\ref{tab:tightness}).
 
 %%% =========================================================================
 %%% Results
@@ -330,50 +342,120 @@ fine-tuning does not create it.  The layer-level structure is robust
 to ablation methodology: both weight zeroing and mean ablation produce
 $G$-invariant $\rho \approx 0.97$--$0.99$ (Supplementary Information).
 
-\subsection*{Instance 3: Causal inference}
+\subsection*{Instance 3: Quantum contextuality}
 
-A causal chain $A \to B \to C$ and a fork $A \leftarrow B \to C$ are
-Markov-equivalent: they share the same conditional independence
-structure~\citep{verma1991equivalence}.  No algorithm observing only
-conditional independence can orient the $A$--$B$ edge.  The completed
-partially directed acyclic graph (CPDAG), which reports an undirected
-edge where orientation is ambiguous, is the neutral-element resolution.
-PC and GES algorithms already implement this~\citep{spirtes2000causation}---the
-framework proves their output is Pareto-optimal.
+The Peres--Mermin square~\citep{peres1990incompatible,mermin1990simple}
+is a $3 \times 3$ grid of nine quantum observables with the property that
+each row and each column consists of three mutually commuting observables
+whose product equals $+I$ (rows) or $-I$ (one column).  Any noncontextual
+value assignment must reproduce these products multiplicatively, but the
+row-product and column-product constraints are jointly inconsistent: no
+assignment exists.  The framework recovers this as an instance of
+Theorem~\ref{thm:impossibility}.  Configurations are measurement contexts;
+observations are measurement outcomes; explanations are noncontextual
+value assignments; incompatibility is sign disagreement on the constraint
+products.  Faithful $+$ stable $+$ decisive value assignment is impossible.
+Lean-verified, zero domain-specific axioms (\texttt{PeresMermin.lean}).
 
-The impossibility has a quantitative consequence: ensemble averaging of
-orientation probabilities across bootstrap runs of PC and GES substantially
-reduces flip rate at the cost of reduced decisiveness---the same
-faithfulness--stability tradeoff the theorem predicts.
+The impossibility has been experimentally
+confirmed~\citep{kirchmair2009state,amselem2009state} for
+state-independent contextuality.  The connection to the framework's
+quantitative core is exact, not analogical: the explanation capacity
+formula $\eta = 1 - \dim(V^G)/\dim(V)$ is the same algebraic identity
+that bounds quantum information accessible to symmetry-respecting
+measurements.  The Pythagorean decomposition
+$\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$ under the Reynolds operator
+$R = |G|^{-1}\sum_g \rho(g)$ governs both the explanation residual
+(information lost to $G$-invariant aggregation) and quantum information
+loss under the twirl $T(\rho) = |G|^{-1}\sum_g U(g)\rho\,U(g)^\dagger$.
+The two settings are instances of the same projection onto the trivial
+representation, applied to different spaces.
 
-\subsection*{Instance 4: Neuroimaging}
+The resolution---reporting the equivalence class of measurement outcomes
+rather than committing to context-dependent values---is the quantum-mechanical
+instantiation of the orbit average that resolves ML attribution instability.
+Both are Pareto-optimal stable explanations under their respective symmetry
+groups.
 
-Botvinik-Nezer et al.~\citep{botviniknezer2020variability} gave the same
-fMRI data to 70 independent analysis teams who reached different
-conclusions.  This is the impossibility theorem in action: the Rashomon
-set comprises the valid analysis pipelines.  Orbit averaging across
-pipelines---the overlap map used descriptively in the original
-study---provides a near-optimal resolution (all aggregation methods within
-3\%).  From 48 teams with available statistical maps, 16 independent
-analyses [95\% CI: 10--22] suffice for 95\% stability between
-assessments.
+\subsection*{Instance 4: Social choice and scientific aggregation}
 
-Functional network membership, defined from independent resting-state
-data~\citep{yeo2011organization}, predicts which brain regions show
-similar disagreement patterns ($d = 0.32$ after controlling for
-activation level, permutation $p < 0.001$, consistent across all 7
-non-empty hypotheses).  The same impossibility pattern appears in
-multi-analyst studies in psychology~\citep{silberzahn2018many} (29 teams)
-and political science~\citep{breznau2022observing} (73 teams).  On 24
-neuroimaging teams with known software (12~FSL, 8~SPM, 4~AFNI), both
-network structure and software choice independently predict flip rates
-($p < 10^{-4}$ and $p < 10^{-54}$ respectively).
+Arrow's impossibility theorem~\citep{arrow1951social} proves that no
+preference aggregation rule can simultaneously satisfy unanimity,
+independence of irrelevant alternatives, and non-dictatorship for three
+or more alternatives.  The framework recovers Arrow as an instance of
+Theorem~\ref{thm:impossibility} with zero domain-specific axioms
+(\texttt{ArrowInstance.lean}): configurations are voter preference orderings,
+observations are induced outcomes, explanations are aggregation rules,
+and incompatibility is contradictory aggregate ranking.  This recovery
+is \emph{formal} (Lean-verified for the preference-aggregation problem).
 
-\subsection*{The universal $\eta$ law}
+The same mathematical structure governs scientific aggregation, with
+analysts in place of voters and analyses in place of preference orderings.
+This connection is structural, not formal: same trilemma, different
+configuration space.  Botvinik-Nezer et
+al.~\citep{botviniknezer2020variability} gave the same fMRI data to 70
+independent analysis teams who reached different conclusions on every
+hypothesis.  Functional network membership, defined from independent
+resting-state data~\citep{yeo2011organization}, predicts which brain
+regions show similar disagreement patterns ($d = 0.32$ after activation
+control, permutation $p < 0.001$, consistent across all 7 non-empty
+hypotheses).  Software choice independently predicts flip rates
+($p < 10^{-54}$ on 24 teams).  Two further multi-analyst studies replicate
+the impossibility: 29 psychology teams report effect sizes from 0.89 to
+2.93~\citep{silberzahn2018many}; 73 political science teams disagree on
+the sign of the same relationship~\citep{breznau2022observing}.
 
-The character-theoretic formula $\eta = 1 - \dim(V^G)/\dim(V)$ predicts
-the instability rate from the symmetry group $G$ alone, with zero free
-parameters.  Across seven well-characterised domains---SHAP attributions
+The orbit average---averaging conclusions across the Rashomon set of valid
+analyses---is the unique Pareto-optimal aggregation.  For NARPS, all
+aggregation methods are within 3\% of each other, and 16 independent
+analyses [95\% CI: 10--22] suffice for 95\% stability.
+
+\subsection*{Instance 5: Mathematical physics (3D Navier--Stokes)}
+
+The framework's tightness classification (proved as a meta-theorem;
+\texttt{MaximalIncompatibility.lean}) applies to any three-property
+impossibility system, with explanation systems as one class of instance.
+The 3D incompressible Navier--Stokes equations, the subject of a Clay
+Millennium Problem, provide a foundational test of the classification's
+empirical reach.  Three desiderata are at stake: existence of solutions
+(P1), smoothness (P2), and uniqueness (P3).  Below a critical Reynolds
+number all three hold (FULL tightness); above, the classification changes.
+
+54 pseudospectral DNS runs of the Taylor--Green vortex across five
+resolutions ($32^3$ to $128^3$, Re $\in [50, 10000]$) establish a phase
+diagram.  With standard $2/3$-rule dealiasing, smoothness (P2) fails first
+at every resolution while existence (P1) and uniqueness (P3) survive: the
+system transitions to SMOOTH-BLOCKED tightness---a different tightness type
+from the F$+$S resolutions of Instances~1--4.  The critical Reynolds number
+scales as $\mathrm{Re}_{\mathrm{crit}} = 2.91\,N^{1.56}$ ($R^2 = 0.94$),
+with the inertial range developing toward the Kolmogorov $k^{-5/3}$ spectrum
+at the highest resolution.
+
+The 2D Navier--Stokes equations, where global regularity is
+proved~\citep{ladyzhenskaya1969mathematical}, serve as a control: the
+framework correctly reports FULL tightness at every Reynolds number tested.
+The 2D-vs-3D comparison is a falsification check---the framework predicts
+FULL where regularity is known and SMOOTH-BLOCKED where it is open, both
+confirmed.
+
+The numerical experiments classify the \emph{computational} tightness type
+at finite resolution; they do not prove or disprove global regularity for
+the analytical 3D Navier--Stokes equations.  The resolution-convergent trend
+($\mathrm{Re}_{\mathrm{crit}} \to \infty$ as $N \to \infty$) is consistent
+with either eventual global regularity or a finite-Re breakdown that DNS
+cannot yet resolve.  (Lean: \texttt{NavierStokesImpossibility.lean} in
+the companion repository.)
+
+\subsection*{The explanation capacity theorem}
+
+Every explanation system with symmetry group~$G$ has an \emph{explanation
+capacity} $C = \dim(V^G)$: the maximum number of independent stable facts
+any method can extract.  The orbit average (Reynolds projection $R$)
+achieves this capacity; no stable method can exceed it
+(\texttt{reynolds\_best\_approximation}, Lean-verified).  The
+\emph{explanation loss rate} $\eta = 1 - C/\dim(V)$ predicts instability
+from the group alone, with zero free parameters.
+Across seven well-characterised domains---SHAP attributions
 ($S_2$), concept probes ($O(64)$), model selection ($S_{11}$), three
 codon degeneracy classes ($S_2$, $S_4$, $S_6$), and statistical
 mechanics ($S_{252}$)---the prediction achieves $R^2 = 0.957$ with slope
@@ -383,13 +465,9 @@ are stable (between-group) while all within-group comparisons are coin
 flips.  On synthetic data with 3~groups of 4~features ($\rho = 0.99$),
 the within-group flip rate is 50.0\% and the between-group rate is 0.2\%
 (bimodal gap~$= 50$~pp, $p = 2.7 \times 10^{-13}$).
-Equivalently, $\dim(V^G)$ is the \emph{explanation capacity}: the
-maximum number of independent stable facts any method can extract.
-The orbit average achieves this capacity (proved Pareto-optimal):
-the Pythagorean decomposition $\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$
-under the Reynolds projection $R$ partitions any explanation vector
-into stable ($Rv$) and unstable ($v - Rv$) components with zero
-cross-talk (Lean-verified).
+The Pythagorean decomposition $\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$
+partitions any explanation vector into stable ($Rv$) and unstable
+($v - Rv$) components with zero cross-talk (Lean-verified).
 The law fails when groups are unknown
 (holdout $R^2 = 0.24$ for 9 domains with approximate groups) or approximate (brain imaging:
 $\rho \approx 0$), delineating the boundary at exact exchangeability.
@@ -411,7 +489,25 @@ quantitative predictions and proof of optimal resolution, of the
 Duhem--Quine thesis that theories are underdetermined by
 data~\citep{duhem1906aim,quine1951dogmas}.  Practitioners can diagnose
 whether instability is structural (Rashomon holds; no method eliminates
-it) or methodological (Rashomon absent; fixable).
+it) or methodological (Rashomon absent; fixable).  Where structural
+realists argue that invariant content survives theory
+change~\citep{ladyman2007every}, the Reynolds projection identifies
+that content as the unique stably-reportable fraction
+$\dim(V^G)/\dim(V)$---a quantitative version of the structural realist
+thesis.
+
+The theorem's implications span foundational sciences.  In foundational
+physics, the explanation capacity formula has an exact quantum
+interpretation: it bounds the information accessible to
+symmetry-respecting measurements, with the Pythagorean decomposition
+under the Reynolds operator and the quantum twirl as instances of the
+same projection onto the trivial representation (Instance~3).  In
+mathematical physics, the tightness classification distinguishes
+2D Navier--Stokes (regularity proved $\to$ FULL tightness) from
+3D Navier--Stokes (open $\to$ SMOOTH-BLOCKED tightness; Instance~5).
+In social choice, Arrow's impossibility and the multi-analyst
+replication crisis are instances of the same theorem, with orbit-averaged
+consensus as the prescription (Instance~4).
 
 The constructive resolution---projecting onto the symmetry-invariant
 subspace---is the algebraic content of the practices that eight
@@ -436,7 +532,7 @@ neuroimaging (Instance~4): the overlap map is provably near-optimal, and
 universal across model classes: four ML model families (XGBoost, Random
 Forest, Ridge, LASSO) agree on instability patterns within families
 ($\rho = 0.79$--$0.94$) but not across families (Supplementary
-Information).  Beyond these four instances, the theorem applies to any
+Information).  Beyond these five instances, the theorem applies to any
 science where correlated variables create underdetermined
 explanations---which risk factor drives a disease (epidemiology), which
 feedback mechanism drives warming (climate science), which policy lever
@@ -667,11 +763,33 @@ metadata from narps\_open\_pipelines (12~FSL, 8~SPM, 4~AFNI).
 Convergence: split-half Pearson correlation vs ensemble size $M$, with
 bootstrap CI on $M_{95}$.
 
-\paragraph{Causal inference.}
-PC and GES algorithms on the 8-node Asia network (Lauritzen \& Spiegelhalter 1988),
-200 bootstrap seeds, sample sizes 100--10{,}000.  Flip rate: fraction
-of edge orientations that reverse between seeds.  DASH: majority-vote
-orientation across the 200 runs.
+\paragraph{Quantum contextuality.}
+The Peres--Mermin square consists of nine Pauli observables arranged in
+a $3 \times 3$ grid where each row and column commutes.  Row products $= +I$;
+one column product $= -I$.  Noncontextual value assignment requires
+consistency with these products; the joint constraints are inconsistent.
+The framework instance (\texttt{PeresMermin.lean}) constructs the explicit
+Rashomon witnesses via \texttt{decide}.  Experimental confirmations
+cited:~\citet{kirchmair2009state,amselem2009state}.
+
+\paragraph{Multi-analyst aggregation analysis.}
+Three published multi-analyst studies were re-analysed: NARPS
+(Botvinik-Nezer et al.~2020, $N = 70$ teams; 48 with accessible
+$t$-maps from NeuroVault); Silberzahn et al.\ (2018, $N = 29$ teams);
+Breznau et al.\ (2022, $N = 73$ teams).  Convergence measured by
+split-half Pearson correlation vs ensemble size $M$.  $M_{95}$ is the
+smallest $M$ at which median split-half correlation exceeds 0.95.
+The Lean instance (\texttt{ArrowInstance.lean}) formalises the Arrow
+correspondence; the multi-analyst connection is structural.
+
+\paragraph{Navier--Stokes phase diagram.}
+Pseudospectral DNS of the Taylor--Green vortex at five resolutions
+($32^3$ to $128^3$) with $\mathrm{Re} \in [50, 10000]$.  Standard
+$2/3$-rule dealiasing.  Time integration: RK4 with adaptive timestep.
+Smoothness monitored via $\|\nabla u\|_\infty$; existence via energy
+boundedness; uniqueness via convergence under timestep refinement.
+Divergence check: $\max|\nabla \cdot u| < 10^{-8}$ across all 54 runs.
+(Lean: \texttt{NavierStokesImpossibility.lean} in companion repository.)
 
 \paragraph{Reproducibility.}
 All scripts, data processing code, and figure generation are in the
@@ -720,12 +838,28 @@ Causal discovery
   & Edge orientations
   & Chain \& fork share CI structure
   & CPDAG
-  & F+S (sacrifices D) \\
+  & F+S (sacrifices D) \\[6pt]
+Quantum contextuality
+  & Value assignments
+  & Two contexts assign incompatible values
+  & Equivalence class report
+  & F+S (sacrifices D) \\[6pt]
+Social choice (Arrow)
+  & Aggregate rankings
+  & 70 NARPS teams reach different conclusions
+  & Orbit-averaged consensus
+  & F+S (sacrifices D) \\[6pt]
+3D Navier--Stokes
+  & Solution properties
+  & Smoothness fails at high Re
+  & SMOOTH-BLOCKED
+  & F+D (sacrifices S)$^\dagger$ \\
 \bottomrule
+\multicolumn{5}{@{}l}{\footnotesize $^\dagger$NS demonstrates a different tightness type, confirming the classification discriminates across types.}
 \end{tabular}
 \end{table}
 
-\subsection*{Extended Data Figure 1: Universal $\eta$ law}
+\subsection*{Extended Data Figure 1: The explanation capacity theorem}
 
 \begin{figure}[h]
 \centering
