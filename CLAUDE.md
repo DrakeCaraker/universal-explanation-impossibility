@@ -283,6 +283,8 @@ Four papers forming a layered publication strategy:
 
 **Full reference with explanations, methodology, and provenance:** [`docs/comprehensive-reference.md`](docs/comprehensive-reference.md)
 
+**Domain classification and applications pipeline (39 instances, 27+ domains):** [`docs/domain-classification-and-pipeline.md`](docs/domain-classification-and-pipeline.md)
+
 **Archived publication strategy (superseded):** [`docs/archive/publication-strategy-complete-2026-04-30.md`](docs/archive/publication-strategy-complete-2026-04-30.md)
 
 ### Core Lean Theorems (519 total, 2 axioms, 0 sorry)
