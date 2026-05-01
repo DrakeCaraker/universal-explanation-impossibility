@@ -281,6 +281,8 @@ Four papers forming a layered publication strategy:
 
 ## Comprehensive Reference: Proofs, Experiments, Results
 
+**Full reference with explanations, methodology, and provenance:** [`docs/comprehensive-reference.md`](docs/comprehensive-reference.md)
+
 ### Core Lean Theorems (519 total, 2 axioms, 0 sorry)
 
 **Level 0 — Universal impossibility (zero axioms):**
