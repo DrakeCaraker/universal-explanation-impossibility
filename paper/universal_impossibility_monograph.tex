@@ -3119,10 +3119,10 @@ outcome, using held-out data splits for SAGE to prevent circularity.
 \toprule
 Diagnostic tool & Where applicable & Success rate \\
 \midrule
-DASH resolution (variance reduction) & All Rashomon datasets & 33/33 (100\%) \\
-Gaussian $\Phi(-\text{SNR})$, $R^2 > 0.80$ & Shapiro--Wilk $p > 0.10$ & 19/20 (95\%) \\
-SAGE directional (data-split) & $\geq 2$ groups discovered & 21/22 (95\%) \\
-Correlation directional & $\geq 2$ groups discovered & 16/22 (73\%) \\
+DASH resolution (variance reduction) & All Rashomon datasets & 33/33 (100\%) [CI: 90--100\%] \\
+Gaussian $\Phi(-\text{SNR})$, $R^2 > 0.80$ & Shapiro--Wilk $p > 0.10$ & 19/20 (95\%) [CI: 76--99\%] \\
+SAGE directional (data-split) & $\geq 2$ groups discovered & 21/22 (95\%) [CI: 78--99\%] \\
+Correlation directional & $\geq 2$ groups discovered & 16/22 (73\%) [CI: 52--87\%] \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -3145,6 +3145,49 @@ These results validate the full pipeline as a practical tool: check for
 Rashomon, apply the Gaussian formula for per-pair reliability, use SAGE
 for group-level directional predictions, and resolve via DASH.  The
 pipeline requires only bootstrap retrains and standard SHAP computation.
+Wilson 95\% confidence intervals (reported in the table) confirm that
+even the lower bounds exceed 75\% for all tools except correlation
+grouping.
+
+\paragraph{DASH preserves accuracy.}
+A natural concern is that DASH's variance reduction might degrade
+predictive accuracy.  On 8~datasets, DASH ensemble averaging
+preserves accuracy within one standard deviation of the individual
+models in all cases (8/8), and strictly improves mean accuracy in 5/8.
+On 3~verification datasets, DASH reduces the pairwise flip rate by
+3--5$\times$ (churn: 5$\times$, ionosphere: 3$\times$, waveform:
+4$\times$).  The DASH resolution is faithful: it reduces explanation
+variance without sacrificing predictive performance.
+
+\paragraph{Gaussianity characterisation.}
+Of the 33~Rashomon datasets, 13 (39\%) fail the Shapiro--Wilk
+Gaussianity check.  Non-Gaussian datasets tend to have larger sample
+sizes ($N = 2196 \pm 940$ vs $1492 \pm 1026$; Mann--Whitney $p = 0.049$,
+not significant after Bonferroni correction for 3~comparisons)
+and significantly lower mean flip rates ($0.10 \pm 0.06$ vs $0.17 \pm 0.08$;
+$p = 0.009$).  Crucially, SAGE directional prediction succeeds on
+10/10 applicable non-Gaussian datasets---the same rate as on Gaussian
+ones (11/12).  The Gaussian formula's exclusion criterion (39\% of
+datasets) does not limit the other pipeline tools.
+
+\paragraph{The spectf anomaly.}
+The sole SAGE failure (spectf, gap~$= -0.021$) arises because
+$N = 349$ samples split in half leave too few observations for stable
+group discovery.  On the full dataset, SAGE correctly identifies 27
+groups with a strong within--between gap ($-0.24$, within $< $
+between).  The data-split gap oscillates around zero across different
+splits ($-0.089$ and $+0.030$), confirming this is a sample-size
+effect rather than a structural failure.
+
+\paragraph{High-dimensional extension ($P > 50$).}
+On 11~additional PMLB datasets with 57--180~features, DASH preserves
+accuracy in 11/11 cases.  However, correlation-based grouping breaks
+down: at $|r| > 0.8$, most features form singletons (groups $\approx
+P$), yielding negative or undefined directional gaps (0/4 applicable
+datasets succeed).  The SAGE algorithm and lower correlation thresholds
+are needed for high-dimensional settings, consistent with the drug
+discovery findings (\S\ref{sec:drug-discovery}).  The DASH resolution
+itself is dimension-independent and works without modification.
 
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
 \label{sec:gaussian-flip}

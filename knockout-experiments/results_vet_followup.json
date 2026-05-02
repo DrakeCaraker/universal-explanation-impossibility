@@ -1,0 +1,284 @@
+{
+  "binomial_cis": {
+    "DASH resolution": {
+      "k": 33,
+      "n": 33,
+      "pct": 100.0,
+      "ci_lo": 89.6,
+      "ci_hi": 100
+    },
+    "Gaussian R\u00b2>0.80": {
+      "k": 19,
+      "n": 20,
+      "pct": 95.0,
+      "ci_lo": 76.4,
+      "ci_hi": 99.1
+    },
+    "SAGE directional": {
+      "k": 21,
+      "n": 22,
+      "pct": 95.5,
+      "ci_lo": 78.2,
+      "ci_hi": 99.2
+    },
+    "Correlation directional": {
+      "k": 16,
+      "n": 22,
+      "pct": 72.7,
+      "ci_lo": 51.8,
+      "ci_hi": 86.8
+    }
+  },
+  "dash_faithfulness": {
+    "per_dataset": {
+      "churn": {
+        "individual_mean": 0.9574,
+        "individual_std": 0.006,
+        "dash_accuracy": 0.9633,
+        "delta": 0.0059,
+        "improves": true,
+        "preserves": true
+      },
+      "segmentation": {
+        "individual_mean": 0.9848,
+        "individual_std": 0.0027,
+        "dash_accuracy": 0.9848,
+        "delta": 0.0001,
+        "improves": true,
+        "preserves": true
+      },
+      "ionosphere": {
+        "individual_mean": 0.9544,
+        "individual_std": 0.0121,
+        "dash_accuracy": 0.9718,
+        "delta": 0.0175,
+        "improves": true,
+        "preserves": true
+      },
+      "waveform_21": {
+        "individual_mean": 0.8358,
+        "individual_std": 0.0077,
+        "dash_accuracy": 0.8417,
+        "delta": 0.0059,
+        "improves": true,
+        "preserves": true
+      },
+      "vehicle": {
+        "individual_mean": 0.8007,
+        "individual_std": 0.0135,
+        "dash_accuracy": 0.7882,
+        "delta": -0.0125,
+        "improves": false,
+        "preserves": true
+      },
+      "wine_quality_red": {
+        "individual_mean": 0.6349,
+        "individual_std": 0.013,
+        "dash_accuracy": 0.6344,
+        "delta": -0.0005,
+        "improves": false,
+        "preserves": true
+      },
+      "dermatology": {
+        "individual_mean": 0.9865,
+        "individual_std": 0.0,
+        "dash_accuracy": 0.9865,
+        "delta": -0.0,
+        "improves": false,
+        "preserves": true
+      },
+      "soybean": {
+        "individual_mean": 0.9316,
+        "individual_std": 0.0113,
+        "dash_accuracy": 0.9333,
+        "delta": 0.0018,
+        "improves": true,
+        "preserves": true
+      }
+    },
+    "n_improves": 5,
+    "n_preserves": 8,
+    "n_total": 8
+  },
+  "non_gaussian": {
+    "n_gaussian": 20,
+    "n_non_gaussian": 13,
+    "P_gaussian_mean": 23.6,
+    "P_non_gaussian_mean": 28.5,
+    "N_gaussian_mean": 1492.0,
+    "N_non_gaussian_mean": 2196.0,
+    "flip_gaussian_mean": 0.1689,
+    "flip_non_gaussian_mean": 0.1029,
+    "p_P": 0.1114,
+    "p_N": 0.0492,
+    "p_flip": 0.0094,
+    "ng_r2_good": 7
+  },
+  "spectf_analysis": {
+    "N": 349,
+    "P": 44,
+    "class_balance": [
+      95,
+      254
+    ],
+    "sage_groups": 27,
+    "sage_within": 0.114,
+    "sage_between": 0.3541,
+    "sage_gap": -0.2401,
+    "note": "spectf has diffuse correlation structure (126/946 pairs with |r|>0.5). SAGE finds many small groups; within-between gap is near zero, indicating uniform instability rather than structured groups."
+  },
+  "high_dimensional": {
+    "n_tested": 11,
+    "per_dataset": {
+      "spambase": {
+        "P": 57,
+        "N": 4601,
+        "mean_flip": 0.1567,
+        "pct_gaussian": 33.3,
+        "n_groups": 54,
+        "gap": -0.0869,
+        "directional_ok": "False",
+        "individual_acc": 0.9463,
+        "dash_acc": 0.95,
+        "dash_delta": 0.0037,
+        "dash_preserves": true
+      },
+      "sonar": {
+        "P": 60,
+        "N": 208,
+        "mean_flip": 0.3992,
+        "pct_gaussian": 33.3,
+        "n_groups": 45,
+        "gap": 0.0712,
+        "directional_ok": "True",
+        "individual_acc": 0.8876,
+        "dash_acc": 0.9286,
+        "dash_delta": 0.041,
+        "dash_preserves": true
+      },
+      "splice": {
+        "P": 60,
+        "N": 3188,
+        "mean_flip": 0.1954,
+        "pct_gaussian": 80.0,
+        "n_groups": 60,
+        "gap": -0.1954,
+        "directional_ok": null,
+        "individual_acc": 0.9726,
+        "dash_acc": 0.9733,
+        "dash_delta": 0.0007,
+        "dash_preserves": true
+      },
+      "mfeat_karhunen": {
+        "P": 64,
+        "N": 2000,
+        "mean_flip": 0.2033,
+        "pct_gaussian": 73.3,
+        "n_groups": 64,
+        "gap": -0.2033,
+        "directional_ok": null,
+        "individual_acc": 0.9709,
+        "dash_acc": 0.9775,
+        "dash_delta": 0.0066,
+        "dash_preserves": true
+      },
+      "analcatdata_authorship": {
+        "P": 70,
+        "N": 841,
+        "mean_flip": 0.2807,
+        "pct_gaussian": 86.7,
+        "n_groups": 70,
+        "gap": -0.2807,
+        "directional_ok": null,
+        "individual_acc": 0.9983,
+        "dash_acc": 1.0,
+        "dash_delta": 0.0017,
+        "dash_preserves": true
+      },
+      "mfeat_fourier": {
+        "P": 76,
+        "N": 2000,
+        "mean_flip": 0.2123,
+        "pct_gaussian": 80.0,
+        "n_groups": 76,
+        "gap": -0.2123,
+        "directional_ok": null,
+        "individual_acc": 0.8363,
+        "dash_acc": 0.835,
+        "dash_delta": -0.0013,
+        "dash_preserves": true
+      },
+      "movement_libras": {
+        "P": 90,
+        "N": 360,
+        "mean_flip": 0.3644,
+        "pct_gaussian": 66.7,
+        "n_groups": 21,
+        "gap": 0.0972,
+        "directional_ok": "True",
+        "individual_acc": 0.7756,
+        "dash_acc": 0.7639,
+        "dash_delta": -0.0117,
+        "dash_preserves": true
+      },
+      "Hill_Valley_with_noise": {
+        "P": 100,
+        "N": 1212,
+        "mean_flip": 0.477,
+        "pct_gaussian": 93.3,
+        "n_groups": 1,
+        "gap": 0.477,
+        "directional_ok": null,
+        "individual_acc": 0.5733,
+        "dash_acc": 0.5885,
+        "dash_delta": 0.0151,
+        "dash_preserves": true
+      },
+      "Hill_Valley_without_noise": {
+        "P": 100,
+        "N": 1212,
+        "mean_flip": 0.4741,
+        "pct_gaussian": 66.7,
+        "n_groups": 1,
+        "gap": 0.4741,
+        "directional_ok": null,
+        "individual_acc": 0.6051,
+        "dash_acc": 0.6008,
+        "dash_delta": -0.0043,
+        "dash_preserves": true
+      },
+      "clean1": {
+        "P": 168,
+        "N": 476,
+        "mean_flip": 0.3241,
+        "pct_gaussian": 0.0,
+        "n_groups": 85,
+        "gap": 0.072,
+        "directional_ok": "True",
+        "individual_acc": 1.0,
+        "dash_acc": 1.0,
+        "dash_delta": 0.0,
+        "dash_preserves": true
+      },
+      "dna": {
+        "P": 180,
+        "N": 3186,
+        "mean_flip": 0.2606,
+        "pct_gaussian": 46.7,
+        "n_groups": 180,
+        "gap": -0.2606,
+        "directional_ok": null,
+        "individual_acc": 0.9774,
+        "dash_acc": 0.9783,
+        "dash_delta": 0.0009,
+        "dash_preserves": true
+      }
+    },
+    "n_dash_preserves": 11,
+    "n_directional_ok": 0,
+    "n_directional_applicable": 4
+  },
+  "dash_verification": {
+    "method": "Individual flip rate = fraction of model-pair/feature-pair combos that flip. DASH flip rate = same metric on bootstrap-resampled ensemble averages. dash_better=True means DASH < individual."
+  }
+}
