@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-05-01T17:43:17.500846",
+  "methodology": "Pre-registered predictions written before any experiment data is seen",
+  "domains": {
+    "A_finance": {
+      "description": "Download S&P 500 stock returns. Features = daily returns of 20 stocks. Target = next-day return of SPY. Train 50 XGBoost models with different seeds. Compute SHAP.",
+      "prediction_1": "Within-sector stocks (e.g., tech stocks AAPL/MSFT/GOOG) will have higher pairwise SHAP flip rates than cross-sector stocks",
+      "prediction_2": "The within-sector vs between-sector flip rate gap will be positive (within > between)",
+      "prediction_3": "DASH orbit averaging will reduce flip rate for within-sector comparisons",
+      "prediction_4": "The framework's directional prediction holds: correlation-grouped features flip more",
+      "null_hypothesis": "Flip rates are uniform across all stock pairs regardless of sector correlation"
+    },
+    "B_hyperparameter": {
+      "description": "Use Breast Cancer dataset. Instead of varying random seed only, vary max_depth in {3,4,5,6,7} \u00d7 learning_rate in {0.01,0.05,0.1,0.2,0.3} = 25 configs \u00d7 2 seeds = 50 models.",
+      "prediction_1": "Feature ranking instability will INCREASE compared to seed-only variation (hyperparameter variation creates a LARGER Rashomon set)",
+      "prediction_2": "The group structure (correlation groups) will predict instability direction (within > between)",
+      "prediction_3": "The capacity formula \u03b7 will correlate with observed gap",
+      "null_hypothesis": "Hyperparameter variation produces the same instability pattern as seed variation"
+    },
+    "C_multi_specification": {
+      "description": "Use California Housing. Fit 50 model specifications: vary feature subsets (all 8, drop 1, drop 2 = C(8,1)+C(8,2)+1 = 37 specs, each with 2 seeds \u2248 50+ models). Compute importance for the COMMON features.",
+      "prediction_1": "Features that are retained across more specifications will have MORE stable rankings",
+      "prediction_2": "Correlated features (latitude/longitude) will show within-group instability under specification variation",
+      "prediction_3": "The impossibility applies: specification variation IS a form of Rashomon",
+      "null_hypothesis": "Feature importance is robust to specification choice"
+    },
+    "D_cross_architecture": {
+      "description": "Use Diabetes dataset. Train 50 models: 17 XGBoost + 17 RandomForest + 16 Ridge. Compare SHAP across architectures.",
+      "prediction_1": "Within-architecture agreement will be HIGHER than cross-architecture agreement",
+      "prediction_2": "Correlated features will show higher flip rates in ALL architecture families",
+      "prediction_3": "DASH across all 50 models (mixed architectures) will produce a more stable ranking than any single architecture's DASH",
+      "null_hypothesis": "All architectures agree on feature importance rankings"
+    }
+  },
+  "hash": "4429983c61750b22"
+}
