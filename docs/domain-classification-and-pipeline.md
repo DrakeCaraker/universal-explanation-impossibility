@@ -391,43 +391,113 @@ These counter-examples are themselves predictions of the framework: the impossib
 
 ---
 
-## Predicted Instance Confidence Tiers
+## Validation Status Definitions
 
-Not all 67 predicted instances are equally likely to exhibit the impossibility. Subcategorized by confidence:
+| Status | Meaning | Evidence required |
+|--------|---------|-------------------|
+| **VALIDATED** | Formally proved or experimentally confirmed | Lean file with 0 sorry, OR experiment JSON with p-value, OR published study with citation |
+| **DOCUMENTED** | Discussed in the monograph with informal argument | Monograph section reference; no Lean proof or experiment |
+| **PREDICTED (Tier 1)** | Rashomon-like phenomena documented in domain literature | At least one published reference describing the multiplicity |
+| **PREDICTED (Tier 2)** | Correlated variables or equivalent configurations exist | Domain knowledge suggests Rashomon but no published instability documentation |
+| **PREDICTED (Tier 3)** | Structural analogy only | The ExplanationSystem mapping is debatable |
+
+---
+
+## Predicted Instance Confidence Tiers (Complete List)
+
+Not all 67 predicted instances are equally likely to exhibit the impossibility. Every instance is listed below with its tier assignment and rationale.
 
 ### Tier 1: Strong Candidates (26 instances)
-Well-documented Rashomon-like phenomena in the domain; the framework provides the formal language for what practitioners already observe.
+Well-documented Rashomon-like phenomena in the domain. Published literature describes the multiplicity; the framework provides the formal language.
 
-- **Drug binding mode (pose selection)** — well-known in computational chemistry; multiple valid poses, same docking score
-- **Protein folding pathway** — multiple valid pathways documented (Wolynes et al.); folding funnel = Rashomon set
-- **Gene regulatory networks** — correlated TF activities; multiple valid regulatory attributions
-- **Climate forcing attribution** — IPCC multi-model ensembles show forcing attribution instability
-- **Bayesian prior selection** — sensitivity to prior choice is well-documented
-- **Hyperparameter selection** — standard ML practice; multiple configs give similar validation scores
-- **Treatment response prediction** — well-documented specification sensitivity in clinical prediction
-- **Factor attribution (finance)** — Fama-French factors are correlated; attribution depends on factor set
-- **Ensemble selection** — multiple valid ensemble compositions give similar performance
-- **GWAS fine-mapping** — LD blocks → fine-mapping instability is documented
-- *...and 16 others in physics, chemistry, economics, neuroscience*
+| Instance | Domain | Rationale | Key reference |
+|----------|--------|-----------|---------------|
+| Drug binding mode (pose selection) | Chemistry | Multiple valid poses, same docking score | Warren et al. 2006, J Med Chem |
+| Protein folding pathway | Chemistry | Multiple valid pathways; folding funnel = Rashomon set | Wolynes et al. 1995, Science |
+| Gene regulatory networks | Biology | Correlated TF activities; multiple valid attributions | Marbach et al. 2012, Nature Methods (DREAM challenge) |
+| Climate forcing attribution | Earth/Climate | IPCC multi-model ensembles show attribution instability | IPCC AR6 WG1 Ch7 (2021) |
+| Bayesian prior selection | Statistics | Sensitivity to prior documented across fields | Gelman et al. 2013, Bayesian Data Analysis Ch6 |
+| Hyperparameter selection | ML/CS | Multiple configs give similar validation; standard practice | Bischl et al. 2023, JMLR (HPO benchmark) |
+| Treatment response prediction | Medicine | Specification sensitivity in clinical prediction | Riley et al. 2019, BMJ (prediction models review) |
+| Factor attribution (finance) | Finance | Fama-French factors correlated; attribution depends on set | Harvey et al. 2016, RFS (factor zoo) |
+| Ensemble selection | ML/CS | Multiple valid compositions, similar performance | Caruana et al. 2004, ICML |
+| GWAS fine-mapping | Genomics | LD blocks → fine-mapping instability documented | Schaid et al. 2018, Nat Rev Genet |
+| Dark matter models | Physics | NFW/isothermal/MOND all fit rotation curves | de Blok 2010, Adv Astron |
+| Turbulence modeling | Physics | RANS/LES/DNS: multiple closures, same mean flow | Pope 2000, Turbulent Flows Ch11 |
+| Reaction mechanism attribution | Chemistry | Multiple mechanisms fit same kinetics | Simm & Reiher 2017, JCTC |
+| Catalyst active site | Chemistry | Multiple valid assignments, same activity | Nørskov et al. 2009, Nature Chem |
+| Microbiome attribution | Biology | Correlated species abundances documented | Gloor et al. 2017, Front Microbiol (compositional data) |
+| Phylogenetic tree selection | Biology | Multiple topologies from same alignment | Huelsenbeck & Rannala 2004, Science |
+| EEG source localization | Neuroscience | Multiple valid source configs (inverse problem) | Pascual-Marqui 2002, Methods Find Exp Clin Pharmacol |
+| Connectome analysis | Neuroscience | Parcellation-dependent connectivity | Eickhoff et al. 2018, NeuroImage |
+| Disease risk factor attribution | Epidemiology | Confounding and collinearity in exposure data | VanderWeele 2019, Epidemiology |
+| Treatment recommendation | Medicine | Multiple valid treatment models with similar outcomes | Kent et al. 2020, NEJM |
+| Factor model selection (economics) | Economics | Correlated factors in macro models | Stock & Watson 2002, JASA |
+| Instrument variable selection | Economics | Multiple valid instruments, different estimates | Andrews et al. 2019, QJE |
+| Treatment effect heterogeneity | Economics | Multiple valid subgroup definitions | Athey & Imbens 2016, PNAS |
+| Architecture search | ML/CS | Multiple valid architectures, similar performance | Zoph & Le 2017, ICLR |
+| Cognitive model selection | Psychology | Multiple valid cognitive architectures fit data | Navarro 2019, Comp Brain & Behavior |
+| Neural decoding features | Neuroscience | Correlated voxel responses across regions | Haynes 2015, Nat Neurosci |
 
 ### Tier 2: Plausible Candidates (28 instances)
-The domain has correlated variables or equivalent configurations, but Rashomon-like phenomena haven't been systematically documented.
+Correlated variables or equivalent configurations exist in the domain, but Rashomon-like instability hasn't been systematically documented in the published literature.
 
-- **Spectral decomposition** — overlapping peaks, but standard methods may resolve uniquely
-- **Earthquake prediction features** — correlated indicators exist but instability undocumented
-- **EEG source localization** — multiple valid source configurations known
-- *...and 25 others*
+| Instance | Domain | Rationale |
+|----------|--------|-----------|
+| Protein designability | Biology | Multiple sequences → same structure; but inverse folding may be unique |
+| Cell type classification markers | Biology | Correlated markers; but marker sets may be standardized |
+| Ice core proxy interpretation | Earth/Climate | Multiple valid calibrations; domain practice may resolve |
+| Weather forecast attribution | Earth/Climate | Correlated variables; but NWP models are deterministic |
+| Ocean circulation parameterization | Earth/Climate | Multiple valid closures; but standard choices dominate |
+| Earthquake prediction features | Earth/Climate | Correlated indicators; instability undocumented |
+| Spectral decomposition | Chemistry | Overlapping peaks; standard methods may resolve uniquely |
+| Diagnostic imaging interpretation | Medicine | Multiple valid readings; but structured reporting may reduce |
+| Survival prediction features | Medicine | Correlated clinical variables |
+| Clinical trial endpoint selection | Medicine | Multiple valid endpoints |
+| Gerrymandering detection | Political Science | Multiple valid metrics, different conclusions |
+| Electoral prediction models | Political Science | Multiple valid poll models |
+| Personality factor attribution | Psychology | Correlated measures |
+| Treatment response (psychology) | Psychology | Multiple valid predictive models |
+| Multiple testing correction | Statistics | Multiple valid corrections, different conclusions |
+| Risk model attribution | Finance | Multiple valid decompositions |
+| Portfolio attribution | Finance | Correlated asset returns |
+| Trading explanation | Finance | Multiple valid signal attributions |
+| Sensor importance (engineering) | Engineering | Correlated sensor readings |
+| Fault diagnosis | Engineering | Multiple valid failure modes |
+| Material property prediction | Engineering | Correlated material descriptors |
+| Structural reliability | Engineering | Multiple valid load cases |
+| Process optimization | Engineering | Correlated process parameters |
+| DNA mixture interpretation | Forensics | Multiple valid contributor assignments |
+| Fingerprint comparison | Forensics | Subjective comparison criteria |
+| Evidence weighting | Forensics | Correlated evidence types |
+| Intervention attribution (education) | Education | Bundled interventions |
+| Student performance prediction | Education | Correlated predictors |
 
 ### Tier 3: Speculative (13 instances)
-The analogy to the framework is structural but the Rashomon property hasn't been demonstrated or may not apply cleanly.
+The analogy to the framework is structural, but the Rashomon property may not apply cleanly or the "explanation" concept doesn't map directly.
 
-- **String landscape (vacuum selection)** — the Rashomon set (~10^500 vacua) exists but "observationally equivalent" is debatable at Planck scale
-- **Nuclear structure models** — shell/cluster/collective models give the same binding energies, but the models are not typically treated as competing explanations
-- **Proof search strategy** — different proofs of the same theorem aren't "incompatible explanations" in the framework's sense
-- **Theory choice (Kuhn)** — paradigms as enrichment events is a philosophical reading, not a formal instantiation
-- *...and 9 others*
+| Instance | Domain | Why speculative |
+|----------|--------|-----------------|
+| String landscape (vacuum selection) | Physics | ~10^500 vacua exist but "observationally equivalent" is debatable at Planck scale; no experimental access |
+| Nuclear structure models | Physics | Shell/cluster/collective give same binding energies, but not typically framed as competing explanations |
+| Proof search strategy | Mathematics | Different proofs aren't "incompatible explanations" — they're equivalent justifications |
+| Theory choice (Kuhn) | Philosophy | Paradigms as enrichment is a philosophical reading, not a formal instantiation |
+| Machine translation attribution | Linguistics | Multiple alignments, but neural MT may not exhibit instability |
+| Sentiment analysis attribution | Linguistics | Correlated text features, but task may be too simple |
+| Curriculum effect attribution | Education | Hard to separate curriculum from teacher/student effects |
+| Social mobility attribution | Sociology | Too many confounders; unclear configuration space |
+| Network influence attribution | Sociology | Network effects are inherently non-exchangeable |
+| Institutional effect attribution | Sociology | Macro-level; unclear what "retraining" means |
+| Reinforcement learning reward | ML/CS | Reward shaping equivalence exists but stability under it is unclear |
+| Federated learning attribution | ML/CS | Cross-site heterogeneity may dominate over Rashomon |
+| Diffusion model attribution | ML/CS | Novel architecture; exchange symmetry unclear |
 
-The tier assignment is based on: (a) whether the Rashomon property is documented in the literature, (b) whether the "explanation" concept maps cleanly to the framework's abstract definition, and (c) whether practitioners in the domain already observe instability.
+**Tier assignment criteria:**
+- **(a)** Is the Rashomon property documented in the published literature?
+- **(b)** Does the "explanation" concept map cleanly to the ExplanationSystem definition?
+- **(c)** Do practitioners in the domain already observe instability?
+
+Tier 1 requires YES to all three. Tier 2 requires YES to (b) and plausible for (a). Tier 3 has NO or UNCLEAR for at least one.
 
 ---
 
