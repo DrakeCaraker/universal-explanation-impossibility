@@ -1,0 +1,64 @@
+{
+  "n": 3,
+  "per_dataset": [
+    {
+      "dataset": "spectf",
+      "P": 44,
+      "N": 349,
+      "pct_gaussian": 80.0,
+      "gaussian_ok": true,
+      "r2_gaussian": 0.9099452795634663,
+      "r2_minority_fraction": 0.34548358387171985,
+      "gap_sage_datasplit": 0.0017105831533477667,
+      "gap_corr": 0.058290598290598294,
+      "sage_better": false,
+      "sage_positive": true,
+      "mw_p": 0.4799604452883746,
+      "dash_better": true
+    },
+    {
+      "dataset": "tokyo1",
+      "P": 42,
+      "N": 959,
+      "pct_gaussian": 75.0,
+      "gaussian_ok": false,
+      "r2_gaussian": 0.8966649250079131,
+      "r2_minority_fraction": 0.5210101342886413,
+      "gap_sage_datasplit": 0.0819785450888367,
+      "gap_corr": 0.07172486772486775,
+      "sage_better": true,
+      "sage_positive": true,
+      "mw_p": 1.4183900698059435e-07,
+      "dash_better": true
+    },
+    {
+      "dataset": "waveform_21",
+      "P": 21,
+      "N": 5000,
+      "pct_gaussian": 90.0,
+      "gaussian_ok": true,
+      "r2_gaussian": 0.957508794487985,
+      "r2_minority_fraction": 0.7491165799414314,
+      "gap_sage_datasplit": 0.23227053140096618,
+      "gap_corr": 0.2605825242718447,
+      "sage_better": false,
+      "sage_positive": true,
+      "mw_p": 0.002151248285705642,
+      "dash_better": true
+    }
+  ],
+  "scorecard": {
+    "gaussian_pass": 2,
+    "gaussian_n": 2,
+    "minority_fraction_r2s": [
+      0.5210101342886413
+    ],
+    "sage_positive": 3,
+    "sage_better": 1,
+    "sage_gap_range": [
+      0.0017105831533477667,
+      0.23227053140096618
+    ],
+    "dash_ok": 3
+  }
+}
