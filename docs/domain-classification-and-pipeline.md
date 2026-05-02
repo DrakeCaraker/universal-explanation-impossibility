@@ -372,3 +372,72 @@ Group-level importance: compute via orbit average (DASH)
 | **Total validated** | **41** | **41/41 evidence files verified** |
 | Predicted (untested) | 67 | Framework predicts; no experiment yet |
 | **Grand total** | **114** | |
+
+---
+
+## Counter-Examples: Where the Rashomon Property Does NOT Hold
+
+The impossibility requires the Rashomon property. These are documented cases where it fails — and the framework correctly predicts NO instability:
+
+| Setting | Why Rashomon fails | Evidence | Prediction |
+|---------|-------------------|----------|------------|
+| Deterministic XGBoost (subsample=1.0) | No stochastic regularization → single ranking | Gene expression experiments | Confirmed: single ranking emerges |
+| AP_Breast_Lung (SFTPB) | One gene dominates overwhelmingly (98% of seeds) | `results_gene_expression_replication.json` | Confirmed: near-zero instability |
+| GPT-2 fine-tuned from shared checkpoint | Shared initialization eliminates multiplicity | MI v2 experiments (ρ=0.993) | Confirmed: within-layer flip=0.043 |
+| Ridge regression on California Housing | Near-deterministic coefficients, negligible variance | Multiverse experiments | Confirmed: R²=-1.96 (formula degenerates) |
+| Low-dimensional, well-separated features | No correlation → no exchangeability | Heart Disease dataset (0% reversal) | Confirmed: no instability |
+
+These counter-examples are themselves predictions of the framework: the impossibility holds IF AND ONLY IF the Rashomon property holds. The boundary is precise and testable.
+
+---
+
+## Predicted Instance Confidence Tiers
+
+Not all 67 predicted instances are equally likely to exhibit the impossibility. Subcategorized by confidence:
+
+### Tier 1: Strong Candidates (26 instances)
+Well-documented Rashomon-like phenomena in the domain; the framework provides the formal language for what practitioners already observe.
+
+- **Drug binding mode (pose selection)** — well-known in computational chemistry; multiple valid poses, same docking score
+- **Protein folding pathway** — multiple valid pathways documented (Wolynes et al.); folding funnel = Rashomon set
+- **Gene regulatory networks** — correlated TF activities; multiple valid regulatory attributions
+- **Climate forcing attribution** — IPCC multi-model ensembles show forcing attribution instability
+- **Bayesian prior selection** — sensitivity to prior choice is well-documented
+- **Hyperparameter selection** — standard ML practice; multiple configs give similar validation scores
+- **Treatment response prediction** — well-documented specification sensitivity in clinical prediction
+- **Factor attribution (finance)** — Fama-French factors are correlated; attribution depends on factor set
+- **Ensemble selection** — multiple valid ensemble compositions give similar performance
+- **GWAS fine-mapping** — LD blocks → fine-mapping instability is documented
+- *...and 16 others in physics, chemistry, economics, neuroscience*
+
+### Tier 2: Plausible Candidates (28 instances)
+The domain has correlated variables or equivalent configurations, but Rashomon-like phenomena haven't been systematically documented.
+
+- **Spectral decomposition** — overlapping peaks, but standard methods may resolve uniquely
+- **Earthquake prediction features** — correlated indicators exist but instability undocumented
+- **EEG source localization** — multiple valid source configurations known
+- *...and 25 others*
+
+### Tier 3: Speculative (13 instances)
+The analogy to the framework is structural but the Rashomon property hasn't been demonstrated or may not apply cleanly.
+
+- **String landscape (vacuum selection)** — the Rashomon set (~10^500 vacua) exists but "observationally equivalent" is debatable at Planck scale
+- **Nuclear structure models** — shell/cluster/collective models give the same binding energies, but the models are not typically treated as competing explanations
+- **Proof search strategy** — different proofs of the same theorem aren't "incompatible explanations" in the framework's sense
+- **Theory choice (Kuhn)** — paradigms as enrichment events is a philosophical reading, not a formal instantiation
+- *...and 9 others*
+
+The tier assignment is based on: (a) whether the Rashomon property is documented in the literature, (b) whether the "explanation" concept maps cleanly to the framework's abstract definition, and (c) whether practitioners in the domain already observe instability.
+
+---
+
+## Inclusion Criterion
+
+An instance is included in this classification if:
+1. **The domain has a configuration space** (models, analyses, theories, interpretations)
+2. **Observational equivalence exists** (multiple configurations produce the same observables)
+3. **Internal explanations differ** (the configurations assign different internal structure)
+
+This maps directly to the ExplanationSystem tuple (Θ, H, Y, obs, exp, ⊥). Any system satisfying these three conditions is an instance of the impossibility.
+
+The 67 PREDICTED instances are a **research agenda**: each is a testable prediction that the framework makes about a domain where no experiment has been run. Confirming or falsifying these predictions would extend or delimit the framework's scope.
