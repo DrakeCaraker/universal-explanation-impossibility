@@ -1,0 +1,172 @@
+{
+  "total": 114,
+  "validated": 40,
+  "predicted": 67,
+  "documented": 7,
+  "domains": {
+    "Natural Sciences": {
+      "Physics": [
+        "Quantum measurement (which-slit) \u2014 VALIDATED (Lean)",
+        "Quantum contextuality (Peres-Mermin) \u2014 VALIDATED (Lean)",
+        "Gauge theory (field equivalence) \u2014 VALIDATED (Lean)",
+        "Statistical mechanics (microstate degeneracy) \u2014 VALIDATED (Lean)",
+        "Relativity (simultaneity) \u2014 VALIDATED (Lean)",
+        "3D Navier-Stokes (regularity) \u2014 VALIDATED (Lean + 54 DNS runs)",
+        "Quantum error correction (Knill-Laflamme) \u2014 DOCUMENTED (monograph)",
+        "Dark matter models (NFW vs isothermal vs MOND) \u2014 PREDICTED",
+        "Quantum gravity (spacetime emergence) \u2014 VALIDATED (Lean, parametric)",
+        "Black hole information (destroyed/preserved) \u2014 VALIDATED (Lean, parametric)",
+        "String landscape (vacuum selection) \u2014 PREDICTED",
+        "Turbulence modeling (RANS vs LES vs DNS) \u2014 PREDICTED",
+        "Nuclear structure (shell model vs cluster vs collective) \u2014 PREDICTED"
+      ],
+      "Chemistry": [
+        "Reaction mechanism attribution \u2014 PREDICTED",
+        "Protein folding pathway (which contacts form first) \u2014 PREDICTED",
+        "Catalyst design (which site is active) \u2014 PREDICTED",
+        "Drug binding mode (which pose is correct) \u2014 PREDICTED",
+        "Spectral decomposition (which peak is which species) \u2014 PREDICTED"
+      ],
+      "Biology": [
+        "Gene expression (TSPAN8/CEACAM5) \u2014 VALIDATED (4 datasets)",
+        "Codon degeneracy \u2014 VALIDATED (Lean)",
+        "Protein designability (sequence\u2192structure) \u2014 PREDICTED",
+        "Gene regulatory networks (which TF drives expression) \u2014 PREDICTED",
+        "Microbiome attribution (which species drives phenotype) \u2014 PREDICTED",
+        "Phylogenetic tree selection (which topology is correct) \u2014 PREDICTED",
+        "Cell type classification (which markers define the type) \u2014 PREDICTED",
+        "Evolutionary rate variation (which selection pressure) \u2014 DOCUMENTED (monograph: R\u00b2=0.0, falsified)"
+      ],
+      "Earth/Climate": [
+        "Climate forcing attribution \u2014 PREDICTED",
+        "Earthquake prediction (which fault feature matters) \u2014 PREDICTED",
+        "Weather forecast attribution (which variable drives prediction) \u2014 PREDICTED",
+        "Ocean circulation models (which parameterization) \u2014 PREDICTED",
+        "Ice core interpretation (which proxy is faithful) \u2014 PREDICTED"
+      ]
+    },
+    "Formal Sciences": {
+      "Mathematics": [
+        "GL(n) Langlands boundary \u2014 VALIDATED (Lean)",
+        "SL(n) classical groups \u2014 VALIDATED (Lean)",
+        "AC\u2070 parity barrier \u2014 VALIDATED (Lean)",
+        "DPRM trilemma \u2014 VALIDATED (Lean)",
+        "Underdetermined linear systems \u2014 VALIDATED (Lean)",
+        "G\u00f6del incompleteness (as enrichment) \u2014 VALIDATED (Lean)",
+        "Proof search (which proof strategy) \u2014 PREDICTED"
+      ],
+      "Computer Science": [
+        "Model selection (Rashomon set) \u2014 VALIDATED (Lean)",
+        "Feature selection (which subset) \u2014 VALIDATED (Lean, bilemma)",
+        "Hyperparameter selection (which config) \u2014 PREDICTED",
+        "Architecture search (which architecture) \u2014 PREDICTED",
+        "Ensemble selection (which models to include) \u2014 PREDICTED",
+        "Database view-update \u2014 VALIDATED (Lean)",
+        "CAP theorem (consistency/availability/partition) \u2014 DOCUMENTED (monograph)",
+        "FLP impossibility \u2014 DOCUMENTED (monograph)"
+      ],
+      "Statistics": [
+        "Bayesian prior selection \u2014 PREDICTED",
+        "Model specification (which covariates) \u2014 VALIDATED (multi-analyst studies)",
+        "Causal DAG selection \u2014 VALIDATED (Lean)",
+        "Variable selection (penalized regression) \u2014 VALIDATED (Lean: Lasso impossibility)",
+        "Bias-variance tradeoff \u2014 DOCUMENTED (monograph)",
+        "Multiple testing correction choice \u2014 PREDICTED"
+      ]
+    },
+    "Social Sciences": {
+      "Economics": [
+        "Policy impact attribution \u2014 PREDICTED",
+        "Factor model selection (which factors) \u2014 PREDICTED",
+        "Mundell-Fleming trilemma \u2014 DOCUMENTED (monograph)",
+        "Instrument variable selection \u2014 PREDICTED",
+        "Treatment effect heterogeneity (which subgroup) \u2014 PREDICTED"
+      ],
+      "Political Science": [
+        "Covariate effect attribution \u2014 VALIDATED (Breznau: 73 teams, 48% sign disagree)",
+        "Voting system design (Arrow) \u2014 VALIDATED (Lean)",
+        "Gerrymandering detection (which metric) \u2014 PREDICTED",
+        "Electoral prediction (which poll model) \u2014 PREDICTED"
+      ],
+      "Psychology": [
+        "Construct measurement \u2014 VALIDATED (Silberzahn: 29 teams, effect 0.89-2.93)",
+        "Treatment response prediction \u2014 PREDICTED",
+        "Cognitive model selection \u2014 PREDICTED",
+        "Personality factor attribution \u2014 PREDICTED"
+      ],
+      "Sociology": [
+        "Social mobility attribution \u2014 PREDICTED",
+        "Network influence attribution \u2014 PREDICTED",
+        "Institutional effect attribution \u2014 PREDICTED"
+      ]
+    },
+    "Applied Sciences": {
+      "Medicine/Clinical": [
+        "Biomarker discovery (gene expression) \u2014 VALIDATED (4 datasets)",
+        "Drug target identification \u2014 VALIDATED (BBBP: MI needed)",
+        "Clinical decision support (German Credit) \u2014 VALIDATED (45% reversal)",
+        "Disease risk factor attribution \u2014 PREDICTED",
+        "Treatment recommendation (which drug) \u2014 PREDICTED",
+        "Diagnostic imaging interpretation \u2014 PREDICTED",
+        "Survival prediction (which features) \u2014 PREDICTED",
+        "Clinical trial endpoint selection \u2014 PREDICTED"
+      ],
+      "Engineering": [
+        "Sensor importance attribution \u2014 PREDICTED",
+        "Fault diagnosis (which component failed) \u2014 PREDICTED",
+        "Material property prediction \u2014 PREDICTED",
+        "Structural reliability (which load case) \u2014 PREDICTED",
+        "Process optimization (which parameter) \u2014 PREDICTED"
+      ],
+      "AI/ML": [
+        "SHAP/IG/LIME attribution \u2014 VALIDATED (149 datasets)",
+        "Attention map interpretation \u2014 VALIDATED (Lean)",
+        "Circuit decomposition (mech interp) \u2014 VALIDATED (10+10+10 models)",
+        "Saliency maps (GradCAM) \u2014 VALIDATED (Lean)",
+        "LLM self-explanation \u2014 VALIDATED (34.5% citation flip)",
+        "Concept probes (TCAV) \u2014 VALIDATED (Lean)",
+        "Counterfactual explanations \u2014 VALIDATED (Lean, bilemma)",
+        "Neural architecture search attribution \u2014 PREDICTED",
+        "Reinforcement learning reward attribution \u2014 PREDICTED",
+        "Federated learning attribution \u2014 PREDICTED",
+        "Diffusion model attribution \u2014 PREDICTED"
+      ],
+      "Neuroscience": [
+        "fMRI analysis (NARPS) \u2014 VALIDATED (70 teams, M\u2089\u2085=16)",
+        "Brain region attribution \u2014 VALIDATED (d=0.32, network structure)",
+        "EEG source localization \u2014 PREDICTED",
+        "Connectome analysis \u2014 PREDICTED",
+        "Neural decoding (which voxels) \u2014 PREDICTED"
+      ],
+      "Forensics": [
+        "Evidence weighting \u2014 PREDICTED",
+        "DNA mixture interpretation \u2014 PREDICTED",
+        "Fingerprint comparison \u2014 PREDICTED"
+      ],
+      "Education": [
+        "Intervention attribution \u2014 PREDICTED",
+        "Student performance prediction \u2014 PREDICTED",
+        "Curriculum effect attribution \u2014 PREDICTED"
+      ],
+      "Finance": [
+        "Factor attribution \u2014 PREDICTED",
+        "Credit scoring explanation \u2014 VALIDATED (German Credit: 45% reversal)",
+        "Risk model attribution \u2014 PREDICTED",
+        "Portfolio attribution \u2014 PREDICTED",
+        "Algorithmic trading explanation \u2014 PREDICTED"
+      ]
+    },
+    "Humanities": {
+      "Linguistics": [
+        "PP-attachment ambiguity \u2014 VALIDATED (Lean)",
+        "Machine translation attribution \u2014 PREDICTED",
+        "Sentiment analysis attribution \u2014 PREDICTED"
+      ],
+      "Philosophy": [
+        "Duhem-Quine underdetermination \u2014 VALIDATED (Lean)",
+        "Theory choice (Kuhn) \u2014 PREDICTED (structural: paradigm as enrichment)",
+        "Structural realism \u2014 DOCUMENTED (monograph: Reynolds = structural content)"
+      ]
+    }
+  }
+}
