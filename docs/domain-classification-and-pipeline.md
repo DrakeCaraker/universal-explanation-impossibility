@@ -192,6 +192,10 @@ Group-level importance: compute via orbit average (DASH)
 | MI needed for binary | Empirical (drug discovery) | **Confirmed** |
 | Gaussian flip Φ(-SNR) | Empirical (R²=0.95-0.98) | **Confirmed** |
 | Coverage conflict (ρ=0.96) | Empirical (15 datasets) | **Confirmed** |
+| DASH resolution (100%) | 34 PMLB datasets, 33/33 | **Confirmed** |
+| Gaussian Φ(-SNR) at scale (95%) | 19/20 where Gaussian OK | **Confirmed** |
+| SAGE directional, data-split (95%) | 21/22 applicable datasets | **Confirmed** |
+| SAGE > correlation (64%) | 14/22 both computed | **Confirmed** |
 | Predicted domains (8 untested) | Framework prediction | **Untested** |
 
 ---

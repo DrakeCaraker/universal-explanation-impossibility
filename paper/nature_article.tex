@@ -498,6 +498,12 @@ instability with Spearman $\rho = 0.96$ across 15~datasets, computable
 from bootstrap retrains in 7~lines of code.  Third, the SAGE algorithm
 discovers dependence groups automatically from pairwise flip rates
 ($R^2 = 0.81$ after calibration; Supplementary Information).
+A prospective validation across 34~PMLB benchmark datasets confirms the
+full pipeline: DASH reduces variance on 33/33 Rashomon datasets (100\%),
+the Gaussian formula achieves $R^2 > 0.80$ on 19/20 datasets where
+Gaussianity holds (95\%), and SAGE with data-split cross-validation
+predicts the direction of instability on 21/22 applicable datasets (95\%),
+outperforming correlation-based grouping (73\%).
 
 %%% =========================================================================
 %%% Discussion

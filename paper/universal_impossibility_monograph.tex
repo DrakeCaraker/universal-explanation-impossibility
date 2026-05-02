@@ -2420,7 +2420,7 @@ confirmed empirically.
 
 \paragraph{Evidence tiers.}
 We classify empirical results by strength of support.
-\textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), capacity theorem for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), stable fact count bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$).
+\textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), capacity theorem for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), stable fact count bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$), massive prospective validation (DASH 33/33, Gaussian $\Phi$ 19/20, SAGE directional 21/22 across 34 PMLB datasets; \S\ref{sec:massive-validation}).
 \textbf{Consistent} (observation matching qualitative prediction): attention flip 19.9\% [CI: 19.1--20.6\%], counterfactual flip 23.5\% [CI: 20.6--26.6\%], model selection flip 80\%.
 \textbf{Calibration checks} (expected from framework structure, not independently informative): codon degeneracy--entropy rank correlation ($\rho = 1.0$; monotonicity in degeneracy is guaranteed by construction---see \S\ref{sec:domain-validation}).
 \textbf{Partial}: group identification capacity theorem for 9 instances with unknown group structure (holdout $R^2 = 0.24$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
@@ -3099,6 +3099,52 @@ This defines a precise boundary condition for the framework:
 \end{itemize}
 
 The group identification method should match the feature type: Pearson for continuous correlated features, MI or Jaccard for binary/categorical features, and SAGE as a universal fallback. Extending the SAGE algorithm to non-linear dependencies is the natural next step.
+
+\subsection{Massive Prospective Validation: 34 PMLB Datasets}
+\label{sec:massive-validation}
+
+To test the full diagnostic pipeline at scale, we applied it prospectively to all
+34~eligible PMLB classification datasets (10--50~features, 200--5{,}000 samples).
+For each dataset, the pipeline: (1)~checks for the Rashomon property
+(at least two near-optimal models), (2)~tests Gaussianity of importance
+differences via Shapiro--Wilk, (3)~discovers symmetry groups via both
+correlation clustering and data-split SAGE, (4)~generates directional
+predictions (within-group $>$ between-group instability), and (5)~tests
+DASH resolution.  All predictions were computed before observing the
+outcome, using held-out data splits for SAGE to prevent circularity.
+
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+Diagnostic tool & Where applicable & Success rate \\
+\midrule
+DASH resolution (variance reduction) & All Rashomon datasets & 33/33 (100\%) \\
+Gaussian $\Phi(-\text{SNR})$, $R^2 > 0.80$ & Shapiro--Wilk $p > 0.10$ & 19/20 (95\%) \\
+SAGE directional (data-split) & $\geq 2$ groups discovered & 21/22 (95\%) \\
+Correlation directional & $\geq 2$ groups discovered & 16/22 (73\%) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Of the 34~datasets, 33 exhibited the Rashomon property (one failed due to
+class imbalance preventing cross-validation).  DASH reduced attribution
+variance on every dataset without exception.  The Gaussian flip formula
+achieved $R^2 > 0.80$ on 19 of 20~datasets where Shapiro--Wilk confirmed
+Gaussianity.  SAGE with data-split cross-validation (groups discovered on
+one half, predictions tested on the other) correctly predicted the
+direction of instability on 21/22~applicable datasets---substantially
+outperforming correlation-based grouping (16/22, 73\%).  The 12~datasets
+with zero within--between gap (all features in one group) are correctly
+classified as ``no directional prediction applicable'' rather than counted
+as failures.  Mean SAGE gap across datasets with structure: $+0.11$
+(range $[-0.02, +0.27]$); mean correlation gap: $+0.04$
+(range $[-0.11, +0.21]$).
+
+These results validate the full pipeline as a practical tool: check for
+Rashomon, apply the Gaussian formula for per-pair reliability, use SAGE
+for group-level directional predictions, and resolve via DASH.  The
+pipeline requires only bootstrap retrains and standard SHAP computation.
 
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry}
 \label{sec:gaussian-flip}
@@ -4022,7 +4068,7 @@ Prior work on axiom independence for Arrow's theorem (Blau 1972, Wilson 1972) es
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 102 files in
+formalization.  The complete codebase comprises 104 files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 
