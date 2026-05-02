@@ -1,0 +1,145 @@
+{
+  "n": 10,
+  "per_dataset": [
+    {
+      "dataset": "churn",
+      "P": 20,
+      "g": 15,
+      "nw": 5,
+      "r2_gaussian": 0.9705076611210165,
+      "coverage_conflict": 0.10526315789473684,
+      "mean_instability": 0.09052631578947366,
+      "gap": -0.0601081081081081,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "collins",
+      "P": 22,
+      "g": 19,
+      "nw": 4,
+      "r2_gaussian": 0.9781440513391566,
+      "coverage_conflict": 0.15151515151515152,
+      "mean_instability": 0.11393939393939394,
+      "gap": -0.09559471365638766,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "dermatology",
+      "P": 34,
+      "g": 22,
+      "nw": 31,
+      "r2_gaussian": 0.9596023401506963,
+      "coverage_conflict": 0.13012477718360071,
+      "mean_instability": 0.09939393939393941,
+      "gap": 0.09966159464394399,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "dis",
+      "P": 27,
+      "g": 25,
+      "nw": 3,
+      "r2_gaussian": -5.659305715299913,
+      "coverage_conflict": 0.23931623931623933,
+      "mean_instability": 0.028547008547008545,
+      "gap": 0.1393103448275862,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "hypothyroid",
+      "P": 25,
+      "g": 20,
+      "nw": 11,
+      "r2_gaussian": -0.7193956616895838,
+      "coverage_conflict": 0.16666666666666666,
+      "mean_instability": 0.061333333333333344,
+      "gap": -0.04668134633532557,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "ionosphere",
+      "P": 33,
+      "g": 29,
+      "nw": 5,
+      "r2_gaussian": 0.9676053982906246,
+      "coverage_conflict": 0.2159090909090909,
+      "mean_instability": 0.1566287878787879,
+      "gap": 0.07205353728489486,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "mfeat_zernike",
+      "P": 47,
+      "g": 22,
+      "nw": 50,
+      "r2_gaussian": 0.9824064199575371,
+      "coverage_conflict": 0.08048103607770583,
+      "mean_instability": 0.05959296947271046,
+      "gap": 0.11953598448108627,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "segmentation",
+      "P": 18,
+      "g": 9,
+      "nw": 30,
+      "r2_gaussian": 0.9761151492899475,
+      "coverage_conflict": 0.058823529411764705,
+      "mean_instability": 0.05058823529411765,
+      "gap": 0.06063414634146343,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "soybean",
+      "P": 35,
+      "g": 27,
+      "nw": 12,
+      "r2_gaussian": 0.9801019641188788,
+      "coverage_conflict": 0.0773109243697479,
+      "mean_instability": 0.06181512605042017,
+      "gap": -0.003553459119496845,
+      "dash_more_stable": true
+    },
+    {
+      "dataset": "spect",
+      "P": 22,
+      "g": 19,
+      "nw": 4,
+      "r2_gaussian": 0.9451611413237154,
+      "coverage_conflict": 0.19480519480519481,
+      "mean_instability": 0.14337662337662335,
+      "gap": 0.13394273127753306,
+      "dash_more_stable": true
+    }
+  ],
+  "scorecard": {
+    "A": {
+      "pass": 8,
+      "n": 10,
+      "r2s": [
+        0.9705076611210165,
+        0.9781440513391566,
+        0.9596023401506963,
+        -5.659305715299913,
+        -0.7193956616895838,
+        0.9676053982906246,
+        0.9824064199575371,
+        0.9761151492899475,
+        0.9801019641188788,
+        0.9451611413237154
+      ]
+    },
+    "B": {
+      "rho": 0.309090909090909,
+      "p": 0.3848412302612835
+    },
+    "C": {
+      "positive": 6,
+      "n": 10
+    },
+    "D": {
+      "pass": 10,
+      "n": 10
+    }
+  }
+}
