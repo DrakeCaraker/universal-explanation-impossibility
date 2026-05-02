@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-05-01T17:51:48.782626",
+  "round": 2,
+  "methodology": "Theory-derived predictions on datasets never used in any prior experiment",
+  "datasets": [
+    "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+    "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+    "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+    "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+    "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+    "allbp",
+    "allhyper",
+    "allhypo",
+    "allrep",
+    "calendarDOW"
+  ],
+  "predictions": {
+    "A": "Per-pair Gaussian flip \u03a6(-SNR) will achieve R\u00b2 > 0.80 on EACH dataset",
+    "B": "Coverage conflict (frac SNR < 0.5) will rank-correlate with mean instability across the 10 datasets at Spearman \u03c1 > 0.60",
+    "C": "Within-group flip > between-group flip on \u22657/10 datasets (directional prediction at \u03c1*=0.70)",
+    "D": "DASH (orbit average) will produce a more stable ranking than the median single model on \u22658/10 datasets",
+    "E": "The number of stable pairwise facts (flip < 0.05) will correlate with g(g-1)/2 at Spearman \u03c1 > 0.70"
+  },
+  "why_these_predictions": {
+    "A": "\u03a6(-SNR) is proved to be the flip rate under Gaussian noise. 94.7% of real SHAP differences are Gaussian. R\u00b2>0.80 is conservative (observed 0.95-0.98 on 6 datasets).",
+    "B": "Coverage conflict = fraction of pairs in the bilemma zone. Validated at \u03c1=0.96 on 15 datasets. \u03c1>0.60 is very conservative.",
+    "C": "Directional prediction confirmed at p=5.1e-11 on 149 datasets. 7/10 is conservative (81% directional on 110 datasets).",
+    "D": "DASH is proved Pareto-optimal. Empirically reduces instability on every tested dataset.",
+    "E": "The stable fact count = g(g-1)/2 follows from the capacity theorem."
+  },
+  "hash": "9265b0242c92065f"
+}

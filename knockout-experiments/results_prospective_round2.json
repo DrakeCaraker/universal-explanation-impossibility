@@ -1,0 +1,177 @@
+{
+  "preregistration_hash": "9265b0242c92065f",
+  "timestamp": "2026-05-01T17:51:48.782626",
+  "n_datasets": 10,
+  "per_dataset": [
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "P": 20,
+      "g": 20,
+      "nw": 0,
+      "r2_gaussian": 0.9725217400210001,
+      "coverage_conflict": 0.18947368421052632,
+      "mean_instability": 0.1237894736842105,
+      "gap": 0.0,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 105,
+      "stable_pairs_predicted": 190
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "P": 20,
+      "g": 20,
+      "nw": 0,
+      "r2_gaussian": 0.9612559615522437,
+      "coverage_conflict": 0.19473684210526315,
+      "mean_instability": 0.11684210526315791,
+      "gap": 0.0,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 105,
+      "stable_pairs_predicted": 190
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "P": 20,
+      "g": 20,
+      "nw": 0,
+      "r2_gaussian": 0.9685479054068786,
+      "coverage_conflict": 0.2736842105263158,
+      "mean_instability": 0.17652631578947373,
+      "gap": 0.0,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 66,
+      "stable_pairs_predicted": 190
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "P": 20,
+      "g": 20,
+      "nw": 0,
+      "r2_gaussian": 0.9730640058889721,
+      "coverage_conflict": 0.12631578947368421,
+      "mean_instability": 0.07810526315789475,
+      "gap": 0.0,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 133,
+      "stable_pairs_predicted": 190
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "P": 20,
+      "g": 20,
+      "nw": 0,
+      "r2_gaussian": 0.9767266493427244,
+      "coverage_conflict": 0.13157894736842105,
+      "mean_instability": 0.09863157894736843,
+      "gap": 0.0,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 120,
+      "stable_pairs_predicted": 190
+    },
+    {
+      "dataset": "allbp",
+      "P": 27,
+      "g": 25,
+      "nw": 3,
+      "r2_gaussian": 0.8396704642577457,
+      "coverage_conflict": 0.06267806267806268,
+      "mean_instability": 0.057606837606837616,
+      "gap": 0.10999999999999999,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 269,
+      "stable_pairs_predicted": 300
+    },
+    {
+      "dataset": "allhyper",
+      "P": 27,
+      "g": 24,
+      "nw": 4,
+      "r2_gaussian": 0.3012931633637197,
+      "coverage_conflict": 0.08547008547008547,
+      "mean_instability": 0.051680911680911684,
+      "gap": 0.16520172910662825,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 276,
+      "stable_pairs_predicted": 276
+    },
+    {
+      "dataset": "allhypo",
+      "P": 27,
+      "g": 25,
+      "nw": 3,
+      "r2_gaussian": 0.3508663723583868,
+      "coverage_conflict": 0.07122507122507123,
+      "mean_instability": 0.03584045584045584,
+      "gap": 0.34712643678160926,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 296,
+      "stable_pairs_predicted": 300
+    },
+    {
+      "dataset": "allrep",
+      "P": 27,
+      "g": 25,
+      "nw": 3,
+      "r2_gaussian": 0.40224077413900183,
+      "coverage_conflict": 0.06552706552706553,
+      "mean_instability": 0.05521367521367521,
+      "gap": 0.05189655172413793,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 275,
+      "stable_pairs_predicted": 300
+    },
+    {
+      "dataset": "calendarDOW",
+      "P": 32,
+      "g": 18,
+      "nw": 28,
+      "r2_gaussian": 0.9746520581983619,
+      "coverage_conflict": 0.13306451612903225,
+      "mean_instability": 0.09798387096774194,
+      "gap": 0.06724053724053723,
+      "dash_more_stable": true,
+      "stable_pairs_observed": 297,
+      "stable_pairs_predicted": 153
+    }
+  ],
+  "scorecard": {
+    "A_gaussian_r2": {
+      "pass": 7,
+      "n": 10,
+      "confirmed": true,
+      "r2_values": [
+        0.9725217400210001,
+        0.9612559615522437,
+        0.9685479054068786,
+        0.9730640058889721,
+        0.9767266493427244,
+        0.8396704642577457,
+        0.3012931633637197,
+        0.3508663723583868,
+        0.40224077413900183,
+        0.9746520581983619
+      ]
+    },
+    "B_coverage_conflict": {
+      "rho": 0.8666666666666665,
+      "p": 0.0011735381801554687,
+      "confirmed": "True"
+    },
+    "C_directional": {
+      "positive": 5,
+      "n": 10,
+      "confirmed": false
+    },
+    "D_dash_stable": {
+      "pass": 10,
+      "n": 10,
+      "confirmed": true
+    },
+    "E_stable_facts": {
+      "rho": 0.2827723722285506,
+      "p": 0.42856824113512826,
+      "confirmed": "False"
+    },
+    "total_confirmed": "3"
+  }
+}
