@@ -491,20 +491,27 @@ surviving Bonferroni correction for 5~thresholds tested;
 $\rho = 0.40$, $p = 0.011$ at $\rho^* = 0.70$).  Three empirical bridges address this at
 decreasing cost.  First, the Gaussian flip formula
 $\Phi(-\mathrm{SNR})$ predicts per-pair instability from bootstrap
-retrains alone, with per-dataset $R^2 = 0.95$--$0.98$ across 6~datasets
-and no group assignment.  Second, the coverage conflict degree---the
+retrains alone, with in-sample $R^2 > 0.80$ on ${\sim}90\%$ of datasets
+(out-of-sample $R^2 > 0.80$ on 59\% with $M = 50$ independent
+calibration/validation models; median out-of-sample $R^2 = 0.82$).
+Second, the coverage conflict degree---the
 fraction of feature pairs with $\mathrm{SNR} < 0.5$---predicts mean
-instability with Spearman $\rho = 0.96$ across 15~datasets, computable
-from bootstrap retrains in 7~lines of code.  Third, the SAGE algorithm
+instability with Spearman $\rho = 0.90$ across datasets with
+$P \leq 20$~features, computable
+from bootstrap retrains in 7~lines of code (the correlation weakens for
+$P > 20$, where coverage conflict is a noisier summary; Supplementary
+Information).
+Third, the SAGE algorithm
 discovers dependence groups automatically from pairwise flip rates
 ($R^2 = 0.81$ after calibration; Supplementary Information).
-A prospective validation across 34~PMLB benchmark datasets confirms the
-full pipeline: DASH reduces variance on 33/33 Rashomon datasets (100\%)
-without degrading predictive accuracy (8/8 tested),
-the Gaussian formula achieves $R^2 > 0.80$ on 19/20 datasets where
-Gaussianity holds (95\%), and SAGE with data-split cross-validation
-predicts the direction of instability on 21/22 applicable datasets (95\%),
-outperforming correlation-based grouping (73\%).
+A prospective validation across 85~PMLB benchmark datasets (70
+classification, 15~regression, $P = 5$--$180$) confirms the
+full pipeline: DASH reduces variance on 84/85 Rashomon datasets (98.8\%)
+without degrading predictive accuracy,
+and SAGE with bidirectional data-split cross-validation
+predicts the direction of instability on 81/85 datasets (95.3\%,
+CI: 89--98\%), outperforming correlation-based grouping (76\%) at all
+feature dimensions including $P > 50$ (15/15).
 
 %%% =========================================================================
 %%% Discussion

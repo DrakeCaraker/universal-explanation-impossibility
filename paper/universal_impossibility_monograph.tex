@@ -2287,7 +2287,7 @@ The recursive impossibility framework generates four testable predictions beyond
 
   \item \textbf{DASH tie rate = Rashomon fraction.} The enrichment uniqueness theorem predicts that DASH's tie rate for a feature pair should equal the fraction of Rashomon pairs where the pair's attributions are incompatible. This is testable by comparing DASH's tied-pair count to the Gaussian flip formula's predicted flip rate.
 
-  \item \textbf{Coverage conflict diagnostic.} The \texttt{hasCoverageConflict} predicate (\S\ref{sec:bilemma}) should predict which feature pairs trigger the bilemma, independently of the Gaussian flip formula. The coverage conflict bridge ($\rho = 0.961$ across 15 datasets) validates the aggregate prediction; the per-pair prediction remains to be tested against the bilemma condition directly.
+  \item \textbf{Coverage conflict diagnostic.} The \texttt{hasCoverageConflict} predicate (\S\ref{sec:bilemma}) should predict which feature pairs trigger the bilemma, independently of the Gaussian flip formula. The coverage conflict bridge validates the aggregate prediction for small feature spaces ($\rho = 0.90$, $P \leq 20$) but weakens substantially at higher $P$ ($\rho = 0.25$, not significant); the originally reported $\rho = 0.961$ (15~datasets) reflected the small-$P$ regime and does not generalise to all datasets.
 \end{enumerate}
 
 These predictions are derived from the mathematical structure and testable with existing experimental infrastructure.
@@ -2420,7 +2420,8 @@ confirmed empirically.
 
 \paragraph{Evidence tiers.}
 We classify empirical results by strength of support.
-\textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), capacity theorem for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), stable fact count bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$), massive prospective validation (DASH 33/33, Gaussian $\Phi$ 19/20, SAGE directional 21/22 across 34 PMLB datasets; \S\ref{sec:massive-validation}).
+\textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), capacity theorem for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), stable fact count bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$), exhaustive pipeline validation (DASH 84/85, SAGE directional 81/85 at all $P$ ranges, across 85~PMLB datasets including regression; \S\ref{sec:massive-validation}).
+\textbf{Corrected from earlier reports}: Gaussian $\Phi(-\text{SNR})$ OOS $R^2 > 0.80$ on 59\% (not 95\%) of datasets with $M = 50$; earlier in-sample estimates inflated by 31~pp.  Coverage conflict $\rho = 0.90$ for $P \leq 20$ only (not $0.96$ across all datasets).
 \textbf{Consistent} (observation matching qualitative prediction): attention flip 19.9\% [CI: 19.1--20.6\%], counterfactual flip 23.5\% [CI: 20.6--26.6\%], model selection flip 80\%.
 \textbf{Calibration checks} (expected from framework structure, not independently informative): codon degeneracy--entropy rank correlation ($\rho = 1.0$; monotonicity in degeneracy is guaranteed by construction---see \S\ref{sec:domain-validation}).
 \textbf{Partial}: group identification capacity theorem for 9 instances with unknown group structure (holdout $R^2 = 0.24$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
@@ -3100,18 +3101,16 @@ This defines a precise boundary condition for the framework:
 
 The group identification method should match the feature type: Pearson for continuous correlated features, MI or Jaccard for binary/categorical features, and SAGE as a universal fallback. Extending the SAGE algorithm to non-linear dependencies is the natural next step.
 
-\subsection{Massive Prospective Validation: 34 PMLB Datasets}
+\subsection{Exhaustive Pipeline Validation: 85 PMLB Datasets}
 \label{sec:massive-validation}
 
-To test the full diagnostic pipeline at scale, we applied it prospectively to all
-34~eligible PMLB classification datasets (10--50~features, 200--5{,}000 samples).
-For each dataset, the pipeline: (1)~checks for the Rashomon property
-(at least two near-optimal models), (2)~tests Gaussianity of importance
-differences via Shapiro--Wilk, (3)~discovers symmetry groups via both
-correlation clustering and data-split SAGE, (4)~generates directional
-predictions (within-group $>$ between-group instability), and (5)~tests
-DASH resolution.  All predictions were computed before observing the
-outcome, using held-out data splits for SAGE to prevent circularity.
+To test the full diagnostic pipeline at scale, we applied it to all
+85~eligible PMLB datasets (70~classification, 15~regression;
+$P = 5$--$180$~features, $N = 200$--$5{,}000$ samples) with $M = 50$
+models per dataset and independent calibration/validation splits for
+the Gaussian formula.  SAGE uses bidirectional data-split: groups
+discovered on half~A and tested on half~B, then reversed and averaged,
+eliminating split-direction bias.
 
 \begin{center}
 \small
@@ -3119,35 +3118,52 @@ outcome, using held-out data splits for SAGE to prevent circularity.
 \toprule
 Diagnostic tool & Where applicable & Success rate \\
 \midrule
-DASH resolution (variance reduction) & All Rashomon datasets & 33/33 (100\%) [CI: 90--100\%] \\
-Gaussian $\Phi(-\text{SNR})$, $R^2 > 0.80$ & Shapiro--Wilk $p > 0.10$ & 19/20 (95\%) [CI: 76--99\%] \\
-SAGE directional (data-split) & $\geq 2$ groups discovered & 21/22 (95\%) [CI: 78--99\%] \\
-Correlation directional & $\geq 2$ groups discovered & 16/22 (73\%) [CI: 52--87\%] \\
+DASH resolution & All Rashomon datasets & 84/85 (98.8\%) [CI: 94--100\%] \\
+SAGE directional (data-split) & All datasets & 81/85 (95.3\%) [CI: 89--98\%] \\
+Gaussian $\Phi(-\text{SNR})$, $R^2 > 0.80$ (OOS) & Shapiro--Wilk OK & 29/49 (59\%) [CI: 45--72\%] \\
+Gaussian $\Phi(-\text{SNR})$, $R^2 > 0.80$ (in-sample) & Shapiro--Wilk OK & 44/49 (90\%) \\
+Correlation directional & $\geq 2$ groups discovered & 25/33 (76\%) [CI: 59--87\%] \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Of the 34~datasets, 33 exhibited the Rashomon property (one failed due to
-class imbalance preventing cross-validation).  DASH reduced attribution
-variance on every dataset without exception.  The Gaussian flip formula
-achieved $R^2 > 0.80$ on 19 of 20~datasets where Shapiro--Wilk confirmed
-Gaussianity.  SAGE with data-split cross-validation (groups discovered on
-one half, predictions tested on the other) correctly predicted the
-direction of instability on 21/22~applicable datasets---substantially
-outperforming correlation-based grouping (16/22, 73\%).  The 11~datasets
-with zero within--between gap (all features in one group) are correctly
-classified as ``no directional prediction applicable'' rather than counted
-as failures.  Mean SAGE gap across datasets with structure: $+0.11$
-(range $[-0.02, +0.27]$); mean correlation gap: $+0.05$
-(range $[-0.11, +0.21]$).
+All 85~datasets exhibit the Rashomon property.  The four pipeline tools
+stratify by reliability.
 
-These results validate the full pipeline as a practical tool: check for
-Rashomon, apply the Gaussian formula for per-pair reliability, use SAGE
-for group-level directional predictions, and resolve via DASH.  The
-pipeline requires only bootstrap retrains and standard SHAP computation.
-Wilson 95\% confidence intervals (reported in the table) confirm that
-even the lower bounds exceed 75\% for all tools except correlation
-grouping.
+SAGE is the strongest directional tool: 81/85 (95.3\%, CI: 89--98\%)
+across all feature dimensions, including 15/15 at $P > 50$---closing
+the high-dimensional gap.  SAGE outperforms correlation grouping by
+McNemar test (7~discordant SAGE wins vs 1~correlation win, $p = 0.07$)
+and produces $7.6\times$ larger within--between gaps than random
+grouping ($p = 1.5 \times 10^{-22}$).
+
+DASH reduces explanation variance on 84/85 datasets (98.8\%), including
+all 15~regression datasets.  The one classification failure is within
+one standard deviation of the individual model mean, making DASH
+accuracy-preserving in every case.
+
+The Gaussian flip formula requires careful interpretation.  With
+$M = 50$ models and independent calibration/validation splits, only
+59\% of datasets achieve out-of-sample $R^2 > 0.80$.  However,
+in-sample $R^2$ (using the same models for both SNR estimation and
+flip rate observation) exceeds $0.80$ on 90\%---a 31~percentage-point
+overfitting gap.  This gap is explained by the $M$-sensitivity analysis
+(Phase~5): at $M = 15$, median OOS $R^2 = 0.45$; at $M = 25$,
+$R^2 = 0.70$; at $M = 50$, $R^2 = 0.82$.  The formula is
+well-calibrated but requires $M \geq 50$ for reliable out-of-sample
+prediction.  Earlier validation (Table~\ref{tab:gaussian-flip}, $M = 60$,
+OOS $R^2 = 0.848$) is consistent with this finding.
+
+\paragraph{Coverage conflict scope.}
+The coverage conflict degree (fraction of pairs with
+$\text{SNR} < 0.5$) predicts mean instability with $\rho = 0.90$
+($p < 10^{-4}$) for datasets with $P \leq 20$, but only
+$\rho = 0.25$ ($p = 0.21$, not significant) for $P > 20$.
+The previously reported $\rho = 0.96$ (15~datasets) reflected the
+small-$P$ regime; at higher $P$, coverage conflict is a noisier
+summary of the SNR distribution.  The recommendation is to use
+coverage conflict as a quick screening tool for small feature spaces
+and SAGE for larger ones.
 
 \paragraph{DASH preserves accuracy.}
 A natural concern is that DASH's variance reduction might degrade
