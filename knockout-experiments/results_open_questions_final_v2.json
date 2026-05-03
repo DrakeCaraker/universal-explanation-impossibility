@@ -1,0 +1,218 @@
+{
+  "sage_failures": {
+    "biomed": "analyzed",
+    "profb": "analyzed",
+    "spect": "analyzed",
+    "xd6": "analyzed"
+  },
+  "n_titration": {
+    "churn": {
+      "100": {
+        "gap": 0.1638,
+        "positive": "True",
+        "n_groups": 8,
+        "N_half": 50,
+        "N_per_P": 2.5
+      },
+      "150": {
+        "gap": 0.1405,
+        "positive": "True",
+        "n_groups": 7,
+        "N_half": 75,
+        "N_per_P": 3.8
+      },
+      "200": {
+        "gap": 0.0047,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 100,
+        "N_per_P": 5.0
+      },
+      "300": {
+        "gap": -0.0271,
+        "positive": "False",
+        "n_groups": 6,
+        "N_half": 150,
+        "N_per_P": 7.5
+      },
+      "500": {
+        "gap": 0.0772,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 250,
+        "N_per_P": 12.5
+      },
+      "1000": {
+        "gap": 0.1946,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 500,
+        "N_per_P": 25.0
+      }
+    },
+    "waveform_21": {
+      "100": {
+        "gap": -0.011,
+        "positive": "False",
+        "n_groups": 6,
+        "N_half": 50,
+        "N_per_P": 2.4
+      },
+      "150": {
+        "gap": 0.0384,
+        "positive": "True",
+        "n_groups": 7,
+        "N_half": 75,
+        "N_per_P": 3.6
+      },
+      "200": {
+        "gap": 0.0082,
+        "positive": "True",
+        "n_groups": 5,
+        "N_half": 100,
+        "N_per_P": 4.8
+      },
+      "300": {
+        "gap": 0.0384,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 150,
+        "N_per_P": 7.1
+      },
+      "500": {
+        "gap": 0.106,
+        "positive": "True",
+        "n_groups": 8,
+        "N_half": 250,
+        "N_per_P": 11.9
+      },
+      "1000": {
+        "gap": 0.1789,
+        "positive": "True",
+        "n_groups": 7,
+        "N_half": 500,
+        "N_per_P": 23.8
+      }
+    },
+    "segmentation": {
+      "100": {
+        "gap": 0.1465,
+        "positive": "True",
+        "n_groups": 7,
+        "N_half": 50,
+        "N_per_P": 2.6
+      },
+      "150": {
+        "gap": 0.1913,
+        "positive": "True",
+        "n_groups": 8,
+        "N_half": 75,
+        "N_per_P": 3.9
+      },
+      "200": {
+        "gap": 0.254,
+        "positive": "True",
+        "n_groups": 9,
+        "N_half": 100,
+        "N_per_P": 5.3
+      },
+      "300": {
+        "gap": 0.1953,
+        "positive": "True",
+        "n_groups": 9,
+        "N_half": 150,
+        "N_per_P": 7.9
+      },
+      "500": {
+        "gap": 0.2155,
+        "positive": "True",
+        "n_groups": 7,
+        "N_half": 250,
+        "N_per_P": 13.2
+      },
+      "1000": {
+        "gap": 0.235,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 500,
+        "N_per_P": 26.3
+      }
+    },
+    "ionosphere": {
+      "100": {
+        "gap": 0.0235,
+        "positive": "True",
+        "n_groups": 9,
+        "N_half": 50,
+        "N_per_P": 1.5
+      },
+      "150": {
+        "gap": 0.0452,
+        "positive": "True",
+        "n_groups": 10,
+        "N_half": 75,
+        "N_per_P": 2.2
+      },
+      "200": {
+        "gap": 0.0879,
+        "positive": "True",
+        "n_groups": 9,
+        "N_half": 100,
+        "N_per_P": 2.9
+      },
+      "300": {
+        "gap": 0.0993,
+        "positive": "True",
+        "n_groups": 9,
+        "N_half": 150,
+        "N_per_P": 4.4
+      }
+    },
+    "vehicle": {
+      "100": {
+        "gap": 0.0357,
+        "positive": "True",
+        "n_groups": 5,
+        "N_half": 50,
+        "N_per_P": 2.8
+      },
+      "150": {
+        "gap": 0.0049,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 75,
+        "N_per_P": 4.2
+      },
+      "200": {
+        "gap": 0.0415,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 100,
+        "N_per_P": 5.6
+      },
+      "300": {
+        "gap": 0.1338,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 150,
+        "N_per_P": 8.3
+      },
+      "500": {
+        "gap": 0.102,
+        "positive": "True",
+        "n_groups": 6,
+        "N_half": 250,
+        "N_per_P": 13.9
+      }
+    }
+  },
+  "mcnemar_power": {
+    "current_discordant": 8,
+    "needed_for_p05": 12
+  },
+  "coverage_conflict_mechanism": {
+    "hypothesis": "At P>20, the 200-pair sampling limit covers <50% of pairs, making coverage_conflict a noisy estimate. Also, mean_flip has lower coefficient of variation at higher P (restricted range).",
+    "sampling_fraction_P30": 0.46,
+    "sampling_fraction_P50": 0.163
+  }
+}

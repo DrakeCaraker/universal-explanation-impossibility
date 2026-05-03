@@ -3135,7 +3135,14 @@ across all feature dimensions, including 15/15 at $P > 50$---closing
 the high-dimensional gap.  SAGE outperforms correlation grouping by
 McNemar test (7~discordant SAGE wins vs 1~correlation win, $p = 0.07$)
 and produces $7.6\times$ larger within--between gaps than random
-grouping ($p = 1.5 \times 10^{-22}$).
+grouping ($p = 1.5 \times 10^{-22}$).  The four SAGE failures have
+clear explanations: one dataset (\texttt{xd6}) has uniform instability
+(all pairwise flip rates in $[0.43, 0.51]$, no group structure exists);
+two have $P \leq 9$ features (insufficient pairs for stable clustering);
+and one (\texttt{spect}) has $N = 267$ with $P = 22$ (marginal sample
+size).  $N$-titration experiments confirm SAGE works reliably at
+$N/2 \geq 3P$ (not the more conservative $N/2 > 5P$ suggested
+by earlier analysis).
 
 DASH reduces explanation variance on 84/85 datasets (98.8\%), including
 all 15~regression datasets.  The one classification failure
@@ -3158,13 +3165,18 @@ OOS $R^2 = 0.848$) is consistent with this finding.
 \paragraph{Coverage conflict scope.}
 The coverage conflict degree (fraction of pairs with
 $\text{SNR} < 0.5$) predicts mean instability with $\rho = 0.90$
-($p < 10^{-4}$) for datasets with $P \leq 20$, but only
-$\rho = 0.25$ ($p = 0.21$, not significant) for $P > 20$.
+($p < 10^{-4}$) for datasets with $P \leq 20$, but $\rho = -0.31$
+(negative) for $P > 20$.
 The previously reported $\rho = 0.96$ (15~datasets) reflected the
-small-$P$ regime; at higher $P$, coverage conflict is a noisier
-summary of the SNR distribution.  The recommendation is to use
-coverage conflict as a quick screening tool for small feature spaces
-and SAGE for larger ones.
+small-$P$ regime.  The mechanism: at high $P$, ``low SNR'' conflates
+two distinct phenomena---genuinely competing features (which produce
+high flip rates) and mutually irrelevant features (both near-zero
+importance, producing low flip rates despite low SNR).  At $P \leq 20$,
+nearly all features are informative, so low SNR reliably indicates
+competition.  At $P > 20$, many features are uninformative, and the
+fraction of low-SNR pairs becomes dominated by irrelevant--irrelevant
+pairs rather than competitive ones.  The recommendation: coverage
+conflict for $P \leq 20$; SAGE for all other settings.
 
 \paragraph{DASH preserves accuracy.}
 A natural concern is that DASH's variance reduction might degrade
