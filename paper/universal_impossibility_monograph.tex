@@ -3138,9 +3138,10 @@ and produces $7.6\times$ larger within--between gaps than random
 grouping ($p = 1.5 \times 10^{-22}$).
 
 DASH reduces explanation variance on 84/85 datasets (98.8\%), including
-all 15~regression datasets.  The one classification failure is within
-one standard deviation of the individual model mean, making DASH
-accuracy-preserving in every case.
+all 15~regression datasets.  The one classification failure
+(\texttt{parity5+5}, a 10-class parity problem with near-random
+accuracy of 26\%) has DASH accuracy 5~pp below the individual mean---an
+effectively unsolvable task where all methods perform at chance.
 
 The Gaussian flip formula requires careful interpretation.  With
 $M = 50$ models and independent calibration/validation splits, only
