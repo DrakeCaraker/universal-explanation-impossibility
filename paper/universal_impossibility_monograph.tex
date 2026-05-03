@@ -3158,6 +3158,16 @@ On 3~verification datasets, DASH reduces the pairwise flip rate by
 3--5$\times$ (churn: 5$\times$, ionosphere: 3$\times$, waveform:
 4$\times$).  The DASH resolution is faithful: it reduces explanation
 variance without sacrificing predictive performance.
+This is consistent with the companion attribution
+paper~\citep{caraker2026dash}, which finds that DASH nearly triples
+stability on Breast Cancer ($0.376 \to 0.925$) while maintaining
+competitive predictive performance (TOST-confirmed equivalence on
+California Housing; Wilcoxon $p = 0.926$ for accuracy), and that
+the operative mechanism is model independence rather than any
+particular aggregation strategy (DASH $\approx$ Stochastic Retrain,
+Cohen's $d = +0.05$).  At 11~additional datasets with $P > 50$
+features, DASH preserves accuracy in 11/11 cases, confirming that the
+resolution scales to high-dimensional settings.
 
 \paragraph{Gaussianity characterisation.}
 Of the 33~Rashomon datasets, 13 (39\%) fail the Shapiro--Wilk
