@@ -1,0 +1,46 @@
+{
+  "sage_correctness_multi": [
+    {
+      "config": "2 groups \u00d7 10 features",
+      "true_groups": 2,
+      "sage_groups": 6,
+      "ari": 0.003,
+      "true_gap": 0.0314,
+      "sage_gap": 0.1962
+    },
+    {
+      "config": "4 groups \u00d7 5 features",
+      "true_groups": 4,
+      "sage_groups": 6,
+      "ari": 0.278,
+      "true_gap": 0.2891,
+      "sage_gap": 0.3675
+    },
+    {
+      "config": "6 groups \u00d7 3 features",
+      "true_groups": 6,
+      "sage_groups": 4,
+      "ari": 0.273,
+      "true_gap": 0.2799,
+      "sage_gap": 0.3933
+    },
+    {
+      "config": "3 unequal groups: 7+7+7=21 features",
+      "true_groups": 3,
+      "sage_groups": 7,
+      "ari": 0.606,
+      "true_gap": 0.3731,
+      "sage_gap": 0.3498
+    },
+    {
+      "config": "5 groups \u00d7 4 features",
+      "true_groups": 5,
+      "sage_groups": 4,
+      "ari": 0.308,
+      "true_gap": 0.2933,
+      "sage_gap": 0.3806
+    }
+  ],
+  "sage_random_forest": {},
+  "dash_improvement_predictors": "tested 6 predictors, see output"
+}
