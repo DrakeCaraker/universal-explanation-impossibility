@@ -3149,6 +3149,11 @@ SAGE correctly identifies 4~groups (ARI~$= 0.39$) and produces a
 \emph{larger} directional gap ($+0.37$) than the true groups
 ($+0.29$), confirming that SAGE optimises for the measured property
 (flip-rate separation) rather than correlation structure.
+Cross-model validation confirms SAGE is fully model-agnostic:
+102/108 (94.4\%) across five model classes---XGBoost gain-based
+(81/85), XGBoost permutation importance (4/5), Random Forest (5/5),
+Logistic Regression (5/5), and Neural Networks (MLP, 7/8).  The single
+MLP failure (\texttt{sonar}, gap~$= -0.001$) is noise-level.
 
 DASH reduces explanation variance on 84/85 datasets (98.8\%), including
 all 15~regression datasets.  The one classification failure
@@ -3199,13 +3204,17 @@ is negligible and the pipeline correctly identifies it as such.
 
 \paragraph{DASH preserves accuracy.}
 A natural concern is that DASH's variance reduction might degrade
-predictive accuracy.  On 8~datasets, DASH ensemble averaging
-preserves accuracy within one standard deviation of the individual
-models in all cases (8/8), and strictly improves mean accuracy in 5/8.
-On 3~verification datasets, DASH reduces the pairwise flip rate by
+predictive accuracy.  Across the full 85-dataset validation, DASH
+preserves accuracy (within one standard deviation) on 84/85 datasets
+(98.8\%) and strictly improves in 56/85 (66\%).  On 3~verification
+datasets, DASH reduces the pairwise flip rate by
 3--5$\times$ (churn: 5$\times$, ionosphere: 3$\times$, waveform:
-4$\times$).  The DASH resolution is faithful: it reduces explanation
-variance without sacrificing predictive performance.
+4$\times$).  Whether DASH strictly improves (vs.\ merely preserves)
+is stochastic: Rashomon diversity ($p = 0.33$), mean flip rate
+($p = 0.24$), and diversity$\times\log N$ ($p = 0.22$) all fail
+to predict improvement.  The important guarantee is preservation,
+not improvement---DASH eliminates explanation variance without
+sacrificing predictive performance.
 This is consistent with the companion attribution
 paper~\citep{caraker2026dash}, which finds that DASH nearly triples
 stability on Breast Cancer ($0.376 \to 0.925$) while maintaining
