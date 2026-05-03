@@ -1,0 +1,153 @@
+{
+  "expanded_titration": {
+    "dermatology": {
+      "80": {
+        "gap": 0.1349,
+        "positive": "True",
+        "n_groups": 13,
+        "N_half_per_P": 1.2
+      },
+      "120": {
+        "gap": 0.1115,
+        "positive": "True",
+        "n_groups": 10,
+        "N_half_per_P": 1.8
+      },
+      "200": {
+        "gap": 0.062,
+        "positive": "True",
+        "n_groups": 8,
+        "N_half_per_P": 2.9
+      }
+    },
+    "spambase": {
+      "80": {
+        "gap": 0.2303,
+        "positive": "True",
+        "n_groups": 48,
+        "N_half_per_P": 0.7
+      },
+      "120": {
+        "gap": 0.1234,
+        "positive": "True",
+        "n_groups": 45,
+        "N_half_per_P": 1.1
+      },
+      "200": {
+        "gap": 0.146,
+        "positive": "True",
+        "n_groups": 38,
+        "N_half_per_P": 1.8
+      },
+      "400": {
+        "gap": 0.0862,
+        "positive": "True",
+        "n_groups": 30,
+        "N_half_per_P": 3.5
+      }
+    },
+    "529_pollen": {
+      "80": {
+        "gap": null,
+        "positive": null,
+        "n_groups": 1,
+        "N_half_per_P": 10.0
+      },
+      "120": {
+        "gap": 0.1067,
+        "positive": "True",
+        "n_groups": 2,
+        "N_half_per_P": 15.0
+      },
+      "200": {
+        "gap": 0.1507,
+        "positive": "True",
+        "n_groups": 3,
+        "N_half_per_P": 25.0
+      },
+      "400": {
+        "gap": 0.012,
+        "positive": "True",
+        "n_groups": 3,
+        "N_half_per_P": 50.0
+      }
+    },
+    "1028_SWD": {
+      "80": {
+        "gap": -0.0711,
+        "positive": "False",
+        "n_groups": 4,
+        "N_half_per_P": 4.0
+      },
+      "120": {
+        "gap": 0.0945,
+        "positive": "True",
+        "n_groups": 3,
+        "N_half_per_P": 6.0
+      },
+      "200": {
+        "gap": 0.0609,
+        "positive": "True",
+        "n_groups": 3,
+        "N_half_per_P": 10.0
+      },
+      "400": {
+        "gap": 0.0686,
+        "positive": "True",
+        "n_groups": 4,
+        "N_half_per_P": 20.0
+      }
+    },
+    "1030_ERA": {
+      "80": {
+        "gap": -0.112,
+        "positive": "False",
+        "n_groups": 3,
+        "N_half_per_P": 10.0
+      },
+      "120": {
+        "gap": 0.0067,
+        "positive": "True",
+        "n_groups": 2,
+        "N_half_per_P": 15.0
+      },
+      "200": {
+        "gap": 0.0173,
+        "positive": "True",
+        "n_groups": 3,
+        "N_half_per_P": 25.0
+      },
+      "400": {
+        "gap": 0.1317,
+        "positive": "True",
+        "n_groups": 2,
+        "N_half_per_P": 50.0
+      }
+    },
+    "1096_FacultySalaries": {},
+    "192_vineyard": {}
+  },
+  "rashomon_meaningfulness": {
+    "rank_corr_median": 0.728,
+    "rank_corr_gt_095": 1,
+    "n_total": 85,
+    "n_meaningful_flip_gt_005": 74,
+    "mean_flip_high_corr": 0.0103,
+    "mean_flip_low_corr": 0.1956
+  },
+  "sage_correctness": {
+    "true_groups": 4,
+    "sage_groups": 4,
+    "ari": 0.389,
+    "true_gap": 0.2896,
+    "sage_gap": 0.3723
+  },
+  "coverage_mechanism_test": "confirmed",
+  "dash_non_improvement": {
+    "n_improves": 56,
+    "n_preserve_only": 28,
+    "flip_improves_mean": 0.1951,
+    "flip_preserve_mean": 0.1802,
+    "p_value": 0.2398
+  }
+}

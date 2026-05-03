@@ -3140,9 +3140,15 @@ clear explanations: one dataset (\texttt{xd6}) has uniform instability
 (all pairwise flip rates in $[0.43, 0.51]$, no group structure exists);
 two have $P \leq 9$ features (insufficient pairs for stable clustering);
 and one (\texttt{spect}) has $N = 267$ with $P = 22$ (marginal sample
-size).  $N$-titration experiments confirm SAGE works reliably at
-$N/2 \geq 3P$ (not the more conservative $N/2 > 5P$ suggested
-by earlier analysis).
+size).  $N$-titration experiments confirm SAGE works at remarkably low
+sample sizes ($N/2 \geq 0.7P$ observed on \texttt{spambase},
+$P = 57$; no sharp threshold exists).  The earlier conservative
+estimate $N/2 > 5P$ substantially understated SAGE's robustness.
+On a synthetic dataset with 4~known groups $\times$ 5~features,
+SAGE correctly identifies 4~groups (ARI~$= 0.39$) and produces a
+\emph{larger} directional gap ($+0.37$) than the true groups
+($+0.29$), confirming that SAGE optimises for the measured property
+(flip-rate separation) rather than correlation structure.
 
 DASH reduces explanation variance on 84/85 datasets (98.8\%), including
 all 15~regression datasets.  The one classification failure
@@ -3177,6 +3183,19 @@ competition.  At $P > 20$, many features are uninformative, and the
 fraction of low-SNR pairs becomes dominated by irrelevant--irrelevant
 pairs rather than competitive ones.  The recommendation: coverage
 conflict for $P \leq 20$; SAGE for all other settings.
+A controlled experiment confirms: adding 20~noise features to 10~informative
+ones increases coverage conflict from 0.38 to 0.65 ($+71\%$) while
+mean flip rate increases only from 0.22 to 0.38---the
+irrelevant--irrelevant pairs inflate the numerator without
+contributing proportional instability.
+
+\paragraph{Rashomon prevalence.}
+Of the 85~datasets, all exhibit the Rashomon property (median
+inter-model rank correlation $= 0.73$; only $1/85$ exceeds $0.95$).
+The threshold used ($<0.99$) is not too lenient: 74/85 datasets have
+mean flip rate~$> 0.05$ (meaningful instability).  The single dataset
+with rank correlation~$> 0.95$ has mean flip~$= 0.01$---instability
+is negligible and the pipeline correctly identifies it as such.
 
 \paragraph{DASH preserves accuracy.}
 A natural concern is that DASH's variance reduction might degrade
