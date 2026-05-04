@@ -2399,6 +2399,33 @@ Corrected controls (matched $n = 2000$): step~50 (random init, 0.2\% accuracy) $
 
 Earlier pilot experiments were inconclusive: zero-ablation on GPT-2/SST-2 (25.8\% flip) was dominated by classifier noise; LoRA fine-tuning ($\rho = 0.885$) was confounded by 99.3\% shared weights. The definitive experiment eliminates both confounds.
 
+\paragraph{Theorem scope vs.\ pipeline scope.}
+A critical distinction: the \emph{theorem} is universal (zero axioms,
+applies to any explanation system under Rashomon), but the
+\emph{diagnostic pipeline} (SAGE, DASH, Gaussian formula, coverage
+conflict) is validated for \textbf{tabular feature-importance
+explanations} on classification and regression tasks.  The factorial
+validation (30~datasets, 6~model/method configurations, Cochran's
+$Q$ confirming model-agnosticity) establishes the pipeline's scope
+as: any model type, any importance method, $P \geq 11$ features,
+tabular data.
+
+For non-tabular modalities---text (token importance), images
+(pixel/patch saliency), graphs (node/edge attribution), time
+series (temporal importance)---the \emph{impossibility applies}
+(proved) but the \emph{pipeline tools require adaptation}:
+\begin{itemize}
+  \item \textbf{Text:} SAGE clustering on token flip rates is
+    feasible but requires sequence-aware distance metrics (tokens
+    are ordered, not exchangeable columns).
+  \item \textbf{Images:} Patch-level SAGE requires spatial grouping
+    (nearby patches may form natural orbits under translation symmetry).
+  \item \textbf{Graphs:} Node importance under GNN Rashomon requires
+    graph-isomorphism-aware clustering.
+\end{itemize}
+These adaptations are natural extensions of the framework but require
+domain-specific validation and are left to future collaborative work.
+
 \paragraph{Extension to deep learning and LLMs.}
 The qualitative impossibility (Theorem~\ref{thm:universal}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
 
