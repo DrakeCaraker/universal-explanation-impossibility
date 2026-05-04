@@ -1,0 +1,166 @@
+{
+  "tests": [
+    {
+      "dataset": "xd6",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "known_failure",
+      "P": 9,
+      "N": 973,
+      "gap": -0.0078,
+      "positive": "False",
+      "n_groups": 2,
+      "rand_gap": -0.0019
+    },
+    {
+      "dataset": "biomed",
+      "category": "known_failure",
+      "error": "Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]"
+    },
+    {
+      "dataset": "profb",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "known_failure",
+      "P": 9,
+      "N": 672,
+      "gap": 0.3273,
+      "positive": "True",
+      "n_groups": 7,
+      "rand_gap": -0.1411
+    },
+    {
+      "dataset": "spect",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "known_failure",
+      "P": 22,
+      "N": 267,
+      "gap": 0.0539,
+      "positive": "True",
+      "n_groups": 8,
+      "rand_gap": -0.0278
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "known_failure",
+      "P": 20,
+      "N": 1500,
+      "gap": 0.1022,
+      "positive": "True",
+      "n_groups": 10,
+      "rand_gap": -0.0515
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "known_failure",
+      "P": 20,
+      "N": 1500,
+      "gap": 0.0353,
+      "positive": "True",
+      "n_groups": 7,
+      "rand_gap": -0.0452
+    },
+    {
+      "dataset": "mofn_3_7_10",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "random_selection",
+      "P": 10,
+      "N": 1324,
+      "gap": 0.3862,
+      "positive": "True",
+      "n_groups": 6,
+      "rand_gap": -0.1733
+    },
+    {
+      "dataset": "schizo",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "random_selection",
+      "P": 14,
+      "N": 340,
+      "gap": 0.1132,
+      "positive": "True",
+      "n_groups": 8,
+      "rand_gap": 0.0026
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "category": "random_selection",
+      "error": "Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]"
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "category": "random_selection",
+      "error": "Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]"
+    },
+    {
+      "dataset": "breast_cancer",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "random_selection",
+      "P": 9,
+      "N": 286,
+      "gap": -0.0998,
+      "positive": "False",
+      "n_groups": 7,
+      "rand_gap": -0.0824
+    },
+    {
+      "dataset": "saheart",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "random_selection",
+      "P": 9,
+      "N": 462,
+      "gap": 0.2046,
+      "positive": "True",
+      "n_groups": 6,
+      "rand_gap": -0.0975
+    },
+    {
+      "dataset": "parity5+5",
+      "model": "XGBoost",
+      "importance": "TreeSHAP",
+      "category": "random_selection",
+      "P": 10,
+      "N": 1124,
+      "gap": -0.0292,
+      "positive": "False",
+      "n_groups": 3,
+      "rand_gap": -0.041
+    },
+    {
+      "dataset": "threeOf9",
+      "category": "random_selection",
+      "error": "type numpy.ndarray doesn't define __round__ method"
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "category": "random_selection",
+      "error": "Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]"
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "category": "random_selection",
+      "error": "Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]"
+    }
+  ],
+  "summary": {
+    "n_all_shap": 39,
+    "n_positive": 36,
+    "pct": 92.3,
+    "ci": [
+      79.7,
+      97.3
+    ],
+    "n_new_this_run": 10,
+    "n_new_positive": 7,
+    "n_new_negative": 3
+  }
+}
