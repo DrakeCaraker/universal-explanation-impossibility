@@ -3140,7 +3140,12 @@ clear explanations: one dataset (\texttt{xd6}) has uniform instability
 (all pairwise flip rates in $[0.43, 0.51]$, no group structure exists);
 two have $P \leq 9$ features (insufficient pairs for stable clustering);
 and one (\texttt{spect}) has $N = 267$ with $P = 22$ (marginal sample
-size).  $N$-titration experiments confirm SAGE works at remarkably low
+size).  At $P \geq 11$, SAGE with TreeSHAP has zero observed failures
+(15/15 unique datasets); at $P \leq 10$, the rate drops to 50\% (3/6).
+TreeSHAP also rescues gain-based failures: \texttt{profb} (gap~$+0.33$),
+both GAMETES epistasis datasets ($+0.10$, $+0.04$), and \texttt{spect}
+($+0.05$) all succeed with TreeSHAP despite failing with gain-based
+importance.  $N$-titration experiments confirm SAGE works at remarkably low
 sample sizes ($N/2 \geq 0.7P$ observed on \texttt{spambase},
 $P = 57$; no sharp threshold exists).  The earlier conservative
 estimate $N/2 > 5P$ substantially understated SAGE's robustness.
