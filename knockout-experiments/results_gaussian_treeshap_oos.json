@@ -1,0 +1,447 @@
+{
+  "description": "Gaussian Phi(-SNR) OOS validation with TreeSHAP importance (M=50, independent cal/val)",
+  "n_processed": 56,
+  "n_gaussian_ok": 51,
+  "n_oos_pass": 36,
+  "pct_oos_pass": 70.6,
+  "n_insample_pass": 45,
+  "pct_insample_pass": 88.2,
+  "oos_r2_median": 0.861,
+  "oos_r2_mean": 0.555,
+  "elapsed_seconds": 1031.3,
+  "per_dataset": [
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "P": 20,
+      "gaussian_ok": true,
+      "r2_oos": 0.7803,
+      "r2_insample": 0.9704,
+      "n_pairs": 190
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "P": 20,
+      "gaussian_ok": true,
+      "r2_oos": 0.8846,
+      "r2_insample": 0.9802,
+      "n_pairs": 190
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "P": 20,
+      "gaussian_ok": true,
+      "r2_oos": 0.8317,
+      "r2_insample": 0.9623,
+      "n_pairs": 190
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "P": 20,
+      "gaussian_ok": true,
+      "r2_oos": 0.8828,
+      "r2_insample": 0.9846,
+      "n_pairs": 190
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "P": 20,
+      "gaussian_ok": true,
+      "r2_oos": 0.9024,
+      "r2_insample": 0.9799,
+      "n_pairs": 190
+    },
+    {
+      "dataset": "allbp",
+      "P": 29,
+      "gaussian_ok": false
+    },
+    {
+      "dataset": "allhyper",
+      "P": 29,
+      "gaussian_ok": false
+    },
+    {
+      "dataset": "allhypo",
+      "P": 29,
+      "gaussian_ok": true,
+      "r2_oos": 0.5052,
+      "r2_insample": 0.373,
+      "n_pairs": 196
+    },
+    {
+      "dataset": "allrep",
+      "P": 29,
+      "gaussian_ok": true,
+      "r2_oos": 0.5217,
+      "r2_insample": 0.5959,
+      "n_pairs": 195
+    },
+    {
+      "dataset": "analcatdata_germangss",
+      "P": 5,
+      "gaussian_ok": false
+    },
+    {
+      "dataset": "biomed",
+      "P": 8,
+      "gaussian_ok": true,
+      "r2_oos": 0.9278,
+      "r2_insample": 0.9721,
+      "n_pairs": 28
+    },
+    {
+      "dataset": "breast_cancer",
+      "P": 9,
+      "gaussian_ok": true,
+      "r2_oos": 0.7982,
+      "r2_insample": 0.9699,
+      "n_pairs": 36
+    },
+    {
+      "dataset": "bupa",
+      "P": 5,
+      "gaussian_ok": true,
+      "r2_oos": 0.2887,
+      "r2_insample": 0.9579,
+      "n_pairs": 10
+    },
+    {
+      "dataset": "calendarDOW",
+      "P": 32,
+      "gaussian_ok": true,
+      "r2_oos": 0.8925,
+      "r2_insample": 0.9799,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "car_evaluation",
+      "P": 6,
+      "gaussian_ok": true,
+      "r2_oos": 0.9145,
+      "r2_insample": 0.993,
+      "n_pairs": 15
+    },
+    {
+      "dataset": "cars",
+      "P": 8,
+      "gaussian_ok": true,
+      "r2_oos": 0.9754,
+      "r2_insample": 0.9967,
+      "n_pairs": 28
+    },
+    {
+      "dataset": "chess",
+      "P": 36,
+      "gaussian_ok": true,
+      "r2_oos": 0.8685,
+      "r2_insample": 0.9664,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "churn",
+      "P": 20,
+      "gaussian_ok": true,
+      "r2_oos": 0.8835,
+      "r2_insample": 0.9793,
+      "n_pairs": 190
+    },
+    {
+      "dataset": "collins",
+      "P": 23,
+      "gaussian_ok": true,
+      "r2_oos": 0.8427,
+      "r2_insample": 0.9834,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "dermatology",
+      "P": 34,
+      "gaussian_ok": true,
+      "r2_oos": 0.8216,
+      "r2_insample": 0.9768,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "dis",
+      "P": 29,
+      "gaussian_ok": true,
+      "r2_oos": -1.2779,
+      "r2_insample": -0.9843,
+      "n_pairs": 167
+    },
+    {
+      "dataset": "ecoli",
+      "P": 7,
+      "gaussian_ok": true,
+      "r2_oos": 0.9608,
+      "r2_insample": 0.9835,
+      "n_pairs": 21
+    },
+    {
+      "dataset": "hypothyroid",
+      "P": 25,
+      "gaussian_ok": true,
+      "r2_oos": 0.2741,
+      "r2_insample": 0.3775,
+      "n_pairs": 187
+    },
+    {
+      "dataset": "ionosphere",
+      "P": 34,
+      "gaussian_ok": true,
+      "r2_oos": 0.861,
+      "r2_insample": 0.9782,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "irish",
+      "P": 5,
+      "gaussian_ok": true,
+      "r2_oos": 0.2352,
+      "r2_insample": 0.8679,
+      "n_pairs": 10
+    },
+    {
+      "dataset": "kr_vs_kp",
+      "P": 36,
+      "gaussian_ok": true,
+      "r2_oos": 0.8315,
+      "r2_insample": 0.9577,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "led24",
+      "P": 24,
+      "gaussian_ok": true,
+      "r2_oos": 0.8507,
+      "r2_insample": 0.9812,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "led7",
+      "P": 7,
+      "gaussian_ok": true,
+      "r2_oos": 0.8685,
+      "r2_insample": 0.9893,
+      "n_pairs": 21
+    },
+    {
+      "dataset": "mfeat_morphological",
+      "P": 6,
+      "gaussian_ok": true,
+      "r2_oos": 0.785,
+      "r2_insample": 0.9957,
+      "n_pairs": 15
+    },
+    {
+      "dataset": "mfeat_zernike",
+      "P": 47,
+      "gaussian_ok": true,
+      "r2_oos": 0.8611,
+      "r2_insample": 0.9871,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "mofn_3_7_10",
+      "P": 10,
+      "gaussian_ok": true,
+      "r2_oos": 0.9708,
+      "r2_insample": 0.9956,
+      "n_pairs": 45
+    },
+    {
+      "dataset": "monk1",
+      "P": 6,
+      "gaussian_ok": true,
+      "r2_oos": 0.9453,
+      "r2_insample": 0.961,
+      "n_pairs": 15
+    },
+    {
+      "dataset": "monk2",
+      "P": 6,
+      "gaussian_ok": true,
+      "r2_oos": 0.965,
+      "r2_insample": 0.9595,
+      "n_pairs": 15
+    },
+    {
+      "dataset": "monk3",
+      "P": 6,
+      "gaussian_ok": true,
+      "r2_oos": 0.7172,
+      "r2_insample": 0.5304,
+      "n_pairs": 15
+    },
+    {
+      "dataset": "new_thyroid",
+      "P": 5,
+      "gaussian_ok": true,
+      "r2_oos": 0.8691,
+      "r2_insample": 0.9914,
+      "n_pairs": 10
+    },
+    {
+      "dataset": "parity5+5",
+      "P": 10,
+      "gaussian_ok": true,
+      "r2_oos": 0.5949,
+      "r2_insample": 0.8878,
+      "n_pairs": 45
+    },
+    {
+      "dataset": "penguins",
+      "P": 7,
+      "gaussian_ok": true,
+      "r2_oos": 0.66,
+      "r2_insample": 0.992,
+      "n_pairs": 21
+    },
+    {
+      "dataset": "prnn_crabs",
+      "P": 7,
+      "gaussian_ok": false
+    },
+    {
+      "dataset": "profb",
+      "P": 9,
+      "gaussian_ok": false
+    },
+    {
+      "dataset": "saheart",
+      "P": 9,
+      "gaussian_ok": true,
+      "r2_oos": 0.9144,
+      "r2_insample": 0.9906,
+      "n_pairs": 36
+    },
+    {
+      "dataset": "schizo",
+      "P": 14,
+      "gaussian_ok": true,
+      "r2_oos": 0.769,
+      "r2_insample": 0.9793,
+      "n_pairs": 91
+    },
+    {
+      "dataset": "segmentation",
+      "P": 19,
+      "gaussian_ok": true,
+      "r2_oos": 0.8452,
+      "r2_insample": 0.9522,
+      "n_pairs": 171
+    },
+    {
+      "dataset": "soybean",
+      "P": 35,
+      "gaussian_ok": true,
+      "r2_oos": 0.8607,
+      "r2_insample": 0.9737,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "spect",
+      "P": 22,
+      "gaussian_ok": true,
+      "r2_oos": 0.8114,
+      "r2_insample": 0.9804,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "spectf",
+      "P": 44,
+      "gaussian_ok": true,
+      "r2_oos": 0.8375,
+      "r2_insample": 0.976,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "threeOf9",
+      "P": 9,
+      "gaussian_ok": true,
+      "r2_oos": 0.986,
+      "r2_insample": 0.9951,
+      "n_pairs": 36
+    },
+    {
+      "dataset": "tic_tac_toe",
+      "P": 9,
+      "gaussian_ok": true,
+      "r2_oos": 0.9825,
+      "r2_insample": 0.9975,
+      "n_pairs": 36
+    },
+    {
+      "dataset": "tokyo1",
+      "P": 44,
+      "gaussian_ok": true,
+      "r2_oos": 0.7461,
+      "r2_insample": 0.888,
+      "n_pairs": 198
+    },
+    {
+      "dataset": "vehicle",
+      "P": 18,
+      "gaussian_ok": true,
+      "r2_oos": 0.8716,
+      "r2_insample": 0.977,
+      "n_pairs": 153
+    },
+    {
+      "dataset": "vowel",
+      "P": 13,
+      "gaussian_ok": true,
+      "r2_oos": 0.949,
+      "r2_insample": 0.9744,
+      "n_pairs": 78
+    },
+    {
+      "dataset": "waveform_21",
+      "P": 21,
+      "gaussian_ok": true,
+      "r2_oos": 0.8768,
+      "r2_insample": 0.9729,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "waveform_40",
+      "P": 40,
+      "gaussian_ok": true,
+      "r2_oos": 0.8399,
+      "r2_insample": 0.9856,
+      "n_pairs": 200
+    },
+    {
+      "dataset": "wine_quality_red",
+      "P": 11,
+      "gaussian_ok": true,
+      "r2_oos": 0.8432,
+      "r2_insample": 0.9834,
+      "n_pairs": 55
+    },
+    {
+      "dataset": "wine_quality_white",
+      "P": 11,
+      "gaussian_ok": true,
+      "r2_oos": 0.9147,
+      "r2_insample": 0.9888,
+      "n_pairs": 55
+    },
+    {
+      "dataset": "xd6",
+      "P": 9,
+      "gaussian_ok": true,
+      "r2_oos": -10.1561,
+      "r2_insample": 0.3755,
+      "n_pairs": 36
+    },
+    {
+      "dataset": "yeast",
+      "P": 8,
+      "gaussian_ok": true,
+      "r2_oos": 0.9334,
+      "r2_insample": 0.9977,
+      "n_pairs": 28
+    }
+  ]
+}
