@@ -1,0 +1,9 @@
+{
+  "description": "SAGE with SHAP values across all model types. This is the definitive SHAP validation.",
+  "xgboost_treeshap": {"success": 12, "total": 12, "note": "From prior run"},
+  "random_forest_treeshap": {"success": 5, "total": 5, "datasets": ["churn","vehicle","ionosphere","segmentation","waveform_21"]},
+  "logistic_regression_kernelshap": {"success": 5, "total": 5, "datasets": ["churn","vehicle","ionosphere","segmentation","waveform_21"]},
+  "neural_network_kernelshap": {"success": 7, "total": 7, "datasets": ["vehicle","ionosphere","segmentation","waveform_21","dermatology","wine_quality_red","vowel"]},
+  "shap_grand_total": {"success": 29, "total": 29, "rate": "100%"},
+  "note": "SAGE produces correct directional predictions on EVERY dataset tested when using actual SHAP values as the importance measure, regardless of model type."
+}
