@@ -1,0 +1,712 @@
+{
+  "description": "149-dataset audit replicated with TreeSHAP (mean |SHAP|) instead of gain-based importance",
+  "n_processed": 70,
+  "n_errors": 33,
+  "n_rashomon": 67,
+  "n_exceeds_capacity": 59,
+  "pct_exceeds": 84.3,
+  "mean_flip_treeshap": 0.1265,
+  "elapsed_seconds": 1387.6,
+  "per_dataset": [
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_1000atts_0.4H_EDM_1_EDM_1_1",
+      "N": 1600,
+      "P": 1000,
+      "mean_flip": 0.3427,
+      "mean_rank_corr": 0.4259,
+      "has_rashomon": true,
+      "coverage_conflict": 0.432,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "N": 1600,
+      "P": 20,
+      "mean_flip": 0.1672,
+      "mean_rank_corr": 0.8224,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1842,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "N": 1600,
+      "P": 20,
+      "mean_flip": 0.1479,
+      "mean_rank_corr": 0.8321,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1474,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "N": 1600,
+      "P": 20,
+      "mean_flip": 0.202,
+      "mean_rank_corr": 0.7943,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1737,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "N": 1600,
+      "P": 20,
+      "mean_flip": 0.1032,
+      "mean_rank_corr": 0.9258,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1053,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "N": 1600,
+      "P": 20,
+      "mean_flip": 0.119,
+      "mean_rank_corr": 0.8888,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1263,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "Hill_Valley_with_noise",
+      "N": 1212,
+      "P": 100,
+      "mean_flip": 0.3186,
+      "mean_rank_corr": 0.4904,
+      "has_rashomon": true,
+      "coverage_conflict": 0.376,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "Hill_Valley_without_noise",
+      "N": 1212,
+      "P": 100,
+      "mean_flip": 0.3513,
+      "mean_rank_corr": 0.3779,
+      "has_rashomon": true,
+      "coverage_conflict": 0.434,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "allbp",
+      "N": 3000,
+      "P": 29,
+      "mean_flip": 0.0577,
+      "mean_rank_corr": 0.9675,
+      "has_rashomon": true,
+      "coverage_conflict": 0.064,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "allhyper",
+      "N": 3000,
+      "P": 29,
+      "mean_flip": 0.0587,
+      "mean_rank_corr": 0.9714,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0493,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "allhypo",
+      "N": 3000,
+      "P": 29,
+      "mean_flip": 0.0363,
+      "mean_rank_corr": 0.9823,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0764,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "allrep",
+      "N": 3000,
+      "P": 29,
+      "mean_flip": 0.0606,
+      "mean_rank_corr": 0.9735,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0665,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "analcatdata_authorship",
+      "N": 841,
+      "P": 70,
+      "mean_flip": 0.0927,
+      "mean_rank_corr": 0.9491,
+      "has_rashomon": true,
+      "coverage_conflict": 0.094,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "analcatdata_germangss",
+      "N": 400,
+      "P": 5,
+      "mean_flip": 0.0,
+      "mean_rank_corr": 1.0,
+      "has_rashomon": false,
+      "coverage_conflict": 0.0,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "biomed",
+      "N": 209,
+      "P": 8,
+      "mean_flip": 0.042,
+      "mean_rank_corr": 0.9714,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0357,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "breast_cancer",
+      "N": 286,
+      "P": 9,
+      "mean_flip": 0.1094,
+      "mean_rank_corr": 0.9356,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0833,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "bupa",
+      "N": 345,
+      "P": 5,
+      "mean_flip": 0.2589,
+      "mean_rank_corr": 0.5756,
+      "has_rashomon": true,
+      "coverage_conflict": 0.2,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "calendarDOW",
+      "N": 399,
+      "P": 32,
+      "mean_flip": 0.1058,
+      "mean_rank_corr": 0.9358,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1008,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "car_evaluation",
+      "N": 1728,
+      "P": 6,
+      "mean_flip": 0.0579,
+      "mean_rank_corr": 0.9213,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0667,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "cars",
+      "N": 392,
+      "P": 8,
+      "mean_flip": 0.049,
+      "mean_rank_corr": 0.9783,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0714,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "chess",
+      "N": 3000,
+      "P": 36,
+      "mean_flip": 0.0734,
+      "mean_rank_corr": 0.96,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0762,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "churn",
+      "N": 3000,
+      "P": 20,
+      "mean_flip": 0.1403,
+      "mean_rank_corr": 0.8584,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1158,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "clean1",
+      "N": 476,
+      "P": 168,
+      "mean_flip": 0.2865,
+      "mean_rank_corr": 0.3151,
+      "has_rashomon": true,
+      "coverage_conflict": 0.56,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "collins",
+      "N": 485,
+      "P": 23,
+      "mean_flip": 0.1196,
+      "mean_rank_corr": 0.8828,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1028,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "dermatology",
+      "N": 366,
+      "P": 34,
+      "mean_flip": 0.0978,
+      "mean_rank_corr": 0.9277,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0909,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "dis",
+      "N": 3000,
+      "P": 29,
+      "mean_flip": 0.0376,
+      "mean_rank_corr": 0.9513,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1133,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "dna",
+      "N": 3000,
+      "P": 180,
+      "mean_flip": 0.1416,
+      "mean_rank_corr": 0.8601,
+      "has_rashomon": true,
+      "coverage_conflict": 0.138,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "ecoli",
+      "N": 327,
+      "P": 7,
+      "mean_flip": 0.0946,
+      "mean_rank_corr": 0.9438,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1429,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "hypothyroid",
+      "N": 3000,
+      "P": 25,
+      "mean_flip": 0.0538,
+      "mean_rank_corr": 0.9718,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1233,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "ionosphere",
+      "N": 351,
+      "P": 34,
+      "mean_flip": 0.1476,
+      "mean_rank_corr": 0.8592,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1444,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "irish",
+      "N": 500,
+      "P": 5,
+      "mean_flip": 0.0155,
+      "mean_rank_corr": 1.0,
+      "has_rashomon": false,
+      "coverage_conflict": 0.0,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "kr_vs_kp",
+      "N": 3000,
+      "P": 36,
+      "mean_flip": 0.0714,
+      "mean_rank_corr": 0.9523,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0683,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "led24",
+      "N": 3000,
+      "P": 24,
+      "mean_flip": 0.0963,
+      "mean_rank_corr": 0.9318,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1087,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "led7",
+      "N": 3000,
+      "P": 7,
+      "mean_flip": 0.0369,
+      "mean_rank_corr": 0.9587,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "mfeat_factors",
+      "N": 2000,
+      "P": 216,
+      "mean_flip": 0.1631,
+      "mean_rank_corr": 0.8606,
+      "has_rashomon": true,
+      "coverage_conflict": 0.152,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "mfeat_fourier",
+      "N": 2000,
+      "P": 76,
+      "mean_flip": 0.1107,
+      "mean_rank_corr": 0.9051,
+      "has_rashomon": true,
+      "coverage_conflict": 0.096,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "mfeat_karhunen",
+      "N": 2000,
+      "P": 64,
+      "mean_flip": 0.0571,
+      "mean_rank_corr": 0.9782,
+      "has_rashomon": true,
+      "coverage_conflict": 0.06,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "mfeat_morphological",
+      "N": 2000,
+      "P": 6,
+      "mean_flip": 0.1123,
+      "mean_rank_corr": 0.8286,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0667,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "mfeat_pixel",
+      "N": 2000,
+      "P": 240,
+      "mean_flip": 0.1475,
+      "mean_rank_corr": 0.8832,
+      "has_rashomon": true,
+      "coverage_conflict": 0.142,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "mfeat_zernike",
+      "N": 2000,
+      "P": 47,
+      "mean_flip": 0.0717,
+      "mean_rank_corr": 0.9701,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0703,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "mofn_3_7_10",
+      "N": 1324,
+      "P": 10,
+      "mean_flip": 0.2564,
+      "mean_rank_corr": 0.6628,
+      "has_rashomon": true,
+      "coverage_conflict": 0.4889,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "monk1",
+      "N": 556,
+      "P": 6,
+      "mean_flip": 0.0872,
+      "mean_rank_corr": 0.8781,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1333,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "monk2",
+      "N": 601,
+      "P": 6,
+      "mean_flip": 0.1579,
+      "mean_rank_corr": 0.8349,
+      "has_rashomon": true,
+      "coverage_conflict": 0.2667,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "monk3",
+      "N": 554,
+      "P": 6,
+      "mean_flip": 0.0052,
+      "mean_rank_corr": 1.0,
+      "has_rashomon": false,
+      "coverage_conflict": 0.0,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "movement_libras",
+      "N": 360,
+      "P": 90,
+      "mean_flip": 0.1784,
+      "mean_rank_corr": 0.8305,
+      "has_rashomon": true,
+      "coverage_conflict": 0.168,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "new_thyroid",
+      "N": 215,
+      "P": 5,
+      "mean_flip": 0.0906,
+      "mean_rank_corr": 0.8933,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "parity5+5",
+      "N": 1124,
+      "P": 10,
+      "mean_flip": 0.4362,
+      "mean_rank_corr": 0.1208,
+      "has_rashomon": true,
+      "coverage_conflict": 0.6222,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "penguins",
+      "N": 333,
+      "P": 7,
+      "mean_flip": 0.0674,
+      "mean_rank_corr": 0.9468,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0476,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "prnn_crabs",
+      "N": 200,
+      "P": 7,
+      "mean_flip": 0.0797,
+      "mean_rank_corr": 0.9119,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0476,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "profb",
+      "N": 672,
+      "P": 9,
+      "mean_flip": 0.0712,
+      "mean_rank_corr": 0.9581,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0833,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "saheart",
+      "N": 462,
+      "P": 9,
+      "mean_flip": 0.1411,
+      "mean_rank_corr": 0.8463,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1389,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "schizo",
+      "N": 340,
+      "P": 14,
+      "mean_flip": 0.1124,
+      "mean_rank_corr": 0.8876,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0769,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "segmentation",
+      "N": 2310,
+      "P": 19,
+      "mean_flip": 0.0428,
+      "mean_rank_corr": 0.9849,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0409,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "sonar",
+      "N": 208,
+      "P": 60,
+      "mean_flip": 0.1993,
+      "mean_rank_corr": 0.7913,
+      "has_rashomon": true,
+      "coverage_conflict": 0.196,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "soybean",
+      "N": 675,
+      "P": 35,
+      "mean_flip": 0.0706,
+      "mean_rank_corr": 0.9693,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0639,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "spambase",
+      "N": 3000,
+      "P": 57,
+      "mean_flip": 0.0752,
+      "mean_rank_corr": 0.9601,
+      "has_rashomon": true,
+      "coverage_conflict": 0.068,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "spect",
+      "N": 267,
+      "P": 22,
+      "mean_flip": 0.0914,
+      "mean_rank_corr": 0.9493,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0606,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "spectf",
+      "N": 349,
+      "P": 44,
+      "mean_flip": 0.1695,
+      "mean_rank_corr": 0.8469,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1723,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "splice",
+      "N": 3000,
+      "P": 60,
+      "mean_flip": 0.0928,
+      "mean_rank_corr": 0.918,
+      "has_rashomon": true,
+      "coverage_conflict": 0.076,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "threeOf9",
+      "N": 512,
+      "P": 9,
+      "mean_flip": 0.0833,
+      "mean_rank_corr": 0.9352,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1667,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "tic_tac_toe",
+      "N": 958,
+      "P": 9,
+      "mean_flip": 0.1635,
+      "mean_rank_corr": 0.8259,
+      "has_rashomon": true,
+      "coverage_conflict": 0.3333,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "tokyo1",
+      "N": 959,
+      "P": 44,
+      "mean_flip": 0.137,
+      "mean_rank_corr": 0.8669,
+      "has_rashomon": true,
+      "coverage_conflict": 0.1416,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "vehicle",
+      "N": 846,
+      "P": 18,
+      "mean_flip": 0.0673,
+      "mean_rank_corr": 0.9562,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0458,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "vowel",
+      "N": 990,
+      "P": 13,
+      "mean_flip": 0.0203,
+      "mean_rank_corr": 0.9873,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0128,
+      "exceeds_capacity": false
+    },
+    {
+      "dataset": "waveform_21",
+      "N": 3000,
+      "P": 21,
+      "mean_flip": 0.0801,
+      "mean_rank_corr": 0.9411,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0667,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "waveform_40",
+      "N": 3000,
+      "P": 40,
+      "mean_flip": 0.0865,
+      "mean_rank_corr": 0.9322,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0859,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "wine_quality_red",
+      "N": 1599,
+      "P": 11,
+      "mean_flip": 0.0631,
+      "mean_rank_corr": 0.9562,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0364,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "wine_quality_white",
+      "N": 3000,
+      "P": 11,
+      "mean_flip": 0.0952,
+      "mean_rank_corr": 0.9232,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0727,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "xd6",
+      "N": 973,
+      "P": 9,
+      "mean_flip": 0.497,
+      "mean_rank_corr": 0.1152,
+      "has_rashomon": true,
+      "coverage_conflict": 1.0,
+      "exceeds_capacity": true
+    },
+    {
+      "dataset": "yeast",
+      "N": 1479,
+      "P": 8,
+      "mean_flip": 0.0237,
+      "mean_rank_corr": 0.9804,
+      "has_rashomon": true,
+      "coverage_conflict": 0.0357,
+      "exceeds_capacity": false
+    }
+  ]
+}
