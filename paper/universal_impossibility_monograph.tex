@@ -2421,7 +2421,7 @@ confirmed empirically.
 \paragraph{Evidence tiers.}
 We classify empirical results by strength of support.
 \textbf{Strong validation} (quantitative prediction confirmed with $R^2 > 0.8$ or pre-registered): SAGE symmetry-group predictor ($R^2 = 0.809$, leave-one-out CV), capacity theorem for 7 well-characterised instances ($R^2 = 0.957$, $p = 1.4 \times 10^{-4}$), stable fact count bimodality (pre-registered, 47.1\,pp gap invariant across $\rho$), exhaustive pipeline validation (DASH 84/85, SAGE directional 81/85 at all $P$ ranges, across 85~PMLB datasets including regression; \S\ref{sec:massive-validation}).
-\textbf{Corrected from earlier reports}: Gaussian $\Phi(-\text{SNR})$ OOS $R^2 > 0.80$ on 59\% (not 95\%) of datasets with $M = 50$; earlier in-sample estimates inflated by 31~pp.  Coverage conflict $\rho = 0.90$ for $P \leq 20$ only (not $0.96$ across all datasets).
+\textbf{Corrected from earlier reports}: Gaussian $\Phi(-\text{SNR})$ OOS $R^2 > 0.80$ on 59\% (not 95\%) of datasets with $M = 50$ and gain-based importance; earlier in-sample estimates inflated by 31~pp.  Coverage conflict: $\rho = 0.87$ across all $P$ with TreeSHAP ($\rho = 0.90$ for $P \leq 20$ only with gain-based importance; the previously reported $\rho = 0.96$ on 15~datasets is consistent with the TreeSHAP finding).
 \textbf{Consistent} (observation matching qualitative prediction): attention flip 19.9\% [CI: 19.1--20.6\%], counterfactual flip 23.5\% [CI: 20.6--26.6\%], model selection flip 80\%.
 \textbf{Calibration checks} (expected from framework structure, not independently informative): codon degeneracy--entropy rank correlation ($\rho = 1.0$; monotonicity in degeneracy is guaranteed by construction---see \S\ref{sec:domain-validation}).
 \textbf{Partial}: group identification capacity theorem for 9 instances with unknown group structure (holdout $R^2 = 0.24$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
@@ -3173,26 +3173,29 @@ well-calibrated but requires $M \geq 50$ for reliable out-of-sample
 prediction.  Earlier validation (Table~\ref{tab:gaussian-flip}, $M = 60$,
 OOS $R^2 = 0.848$) is consistent with this finding.
 
-\paragraph{Coverage conflict scope.}
+\paragraph{Coverage conflict scope: importance-type dependent.}
 The coverage conflict degree (fraction of pairs with
-$\text{SNR} < 0.5$) predicts mean instability with $\rho = 0.90$
-($p < 10^{-4}$) for datasets with $P \leq 20$, but $\rho = -0.31$
-(negative) for $P > 20$.
-The previously reported $\rho = 0.96$ (15~datasets) reflected the
-small-$P$ regime.  The mechanism: at high $P$, ``low SNR'' conflates
-two distinct phenomena---genuinely competing features (which produce
-high flip rates) and mutually irrelevant features (both near-zero
-importance, producing low flip rates despite low SNR).  At $P \leq 20$,
-nearly all features are informative, so low SNR reliably indicates
-competition.  At $P > 20$, many features are uninformative, and the
-fraction of low-SNR pairs becomes dominated by irrelevant--irrelevant
-pairs rather than competitive ones.  The recommendation: coverage
-conflict for $P \leq 20$; SAGE for all other settings.
-A controlled experiment confirms: adding 20~noise features to 10~informative
-ones increases coverage conflict from 0.38 to 0.65 ($+71\%$) while
-mean flip rate increases only from 0.22 to 0.38---the
-irrelevant--irrelevant pairs inflate the numerator without
-contributing proportional instability.
+$\text{SNR} < 0.5$) is strongly importance-type dependent.
+With \textbf{TreeSHAP} (mean $|\text{SHAP}|$), coverage conflict
+predicts mean instability with $\rho = 0.87$ ($p = 2.2 \times 10^{-21}$,
+$n = 67$ datasets) across \emph{all} feature dimensions---$\rho = 0.90$
+for $P \leq 20$ and $\rho = 0.80$ for $P > 20$.  With
+\textbf{gain-based} importance (\texttt{feature\_importances\_}),
+coverage conflict works only for $P \leq 20$ ($\rho = 0.90$) and
+reverses for $P > 20$ ($\rho = -0.31$).
+
+The mechanism: gain-based importance is \emph{sparse}---features never
+selected as split points receive exactly zero importance, creating
+artificial low-SNR pairs (both features at zero) that are counted as
+``coverage conflicts'' but exhibit no actual instability.  TreeSHAP
+assigns non-zero values to all features via the Shapley mechanism,
+eliminating this sparsity artifact.  At $P > 20$, many features have
+gain${}=0$ in any given model, inflating the coverage conflict fraction
+without indicating genuine competition.
+
+The practical recommendation: use TreeSHAP for coverage conflict
+computation (reliable at all $P$); if only gain-based importance is
+available, restrict to $P \leq 20$ or use SAGE directly.
 
 \paragraph{Rashomon prevalence.}
 Of the 85~datasets, all exhibit the Rashomon property (median

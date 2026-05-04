@@ -496,11 +496,9 @@ retrains alone, with in-sample $R^2 > 0.80$ on ${\sim}90\%$ of datasets
 calibration/validation models; median out-of-sample $R^2 = 0.82$).
 Second, the coverage conflict degree---the
 fraction of feature pairs with $\mathrm{SNR} < 0.5$---predicts mean
-instability with Spearman $\rho = 0.90$ across datasets with
-$P \leq 20$~features, computable
-from bootstrap retrains in 7~lines of code (the correlation weakens for
-$P > 20$, where coverage conflict is a noisier summary; Supplementary
-Information).
+instability with Spearman $\rho = 0.87$ ($p < 10^{-20}$, 67~datasets)
+when computed from TreeSHAP values, computable
+from bootstrap retrains in 7~lines of code.
 Third, the SAGE algorithm
 discovers dependence groups automatically from pairwise flip rates
 ($R^2 = 0.81$ after calibration; Supplementary Information).
