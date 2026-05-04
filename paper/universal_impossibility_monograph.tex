@@ -3149,17 +3149,28 @@ SAGE correctly identifies 4~groups (ARI~$= 0.39$) and produces a
 \emph{larger} directional gap ($+0.37$) than the true groups
 ($+0.29$), confirming that SAGE optimises for the measured property
 (flip-rate separation) rather than correlation structure.
-Cross-model validation confirms SAGE is fully model-agnostic:
-102/108 (94.4\%) across five model classes---XGBoost gain-based
-(81/85), XGBoost permutation importance (4/5), Random Forest (5/5),
-Logistic Regression (5/5), and Neural Networks (MLP, 7/8).  The single
-MLP failure (\texttt{sonar}, gap~$= -0.001$) is noise-level.
+Cross-model validation confirms SAGE is model-agnostic.
+An expanded factorial design (30~datasets $\times$ 6~model/method
+configurations, $M = 30$, balanced across $P = 11$--$240$ and
+including 5~regression datasets) gives 130/141~(92\%, CI: 87--96\%)
+with no significant model effect (Cochran's $Q = 6.61$, $p = 0.25$,
+$n = 20$ complete datasets; $\chi^2$ model effect $p = 0.68$,
+Cram\'er's $V = 0.15$).  SHAP vs non-SHAP: $p = 0.73$ (no method
+effect).  Per model: XGBoost 95\%, RF 94\%, LR 96\%, NN 80\%.
+The NN gap is significant in a pairwise Fisher test ($p = 0.026$,
+OR~$= 0.22$) and is attributable to noisy permutation importance at
+$P > 40$; with KernelSHAP, NNs achieve 7/7.  Regression datasets:
+30/30 (100\%).  Negative control (random grouping): $p = 8.7 \times
+10^{-24}$.  The theory's model-agnosticity is confirmed empirically.
 
-DASH reduces explanation variance on 84/85 datasets (98.8\%), including
-all 15~regression datasets.  The one classification failure
-(\texttt{parity5+5}, a 10-class parity problem with near-random
-accuracy of 26\%) has DASH accuracy 5~pp below the individual mean---an
-effectively unsolvable task where all methods perform at chance.
+DASH preserves accuracy in 156/156 factorial tests (100\%, CI:
+98--100\%) across all model types including regression.  DASH
+reduces variance in 140/156 (90\%); the 16~``failures'' are datasets
+with zero flip rate (no Rashomon property --- DASH is correctly
+inapplicable).  In the 85-dataset bulletproof validation ($M = 50$):
+84/85 preserves (98.8\%), 56/85 strictly improves (66\%).  The one
+real failure (\texttt{parity5+5}, 10-class parity, 26\% accuracy)
+is an effectively unsolvable task.
 
 The Gaussian flip formula requires careful interpretation.  With
 $M = 50$ models and independent calibration/validation splits, only
@@ -3196,6 +3207,12 @@ without indicating genuine competition.
 The practical recommendation: use TreeSHAP for coverage conflict
 computation (reliable at all $P$); if only gain-based importance is
 available, restrict to $P \leq 20$ or use SAGE directly.
+\emph{Computational requirement:} coverage conflict with TreeSHAP
+requires $M \geq 50$ models and $\geq 100$ background samples per
+SHAP computation.  At lower settings ($M = 30$, $n_{\text{shap}} = 50$),
+SHAP estimation noise artificially inflates CC without corresponding
+increases in flip rate, breaking the correlation ($\rho = 0.15$ vs
+$\rho = 0.87$ at adequate settings).
 
 \paragraph{Rashomon prevalence.}
 Of the 85~datasets, all exhibit the Rashomon property (median

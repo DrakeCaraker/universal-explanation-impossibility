@@ -502,14 +502,15 @@ from bootstrap retrains in 7~lines of code.
 Third, the SAGE algorithm
 discovers dependence groups automatically from pairwise flip rates
 ($R^2 = 0.81$ after calibration; Supplementary Information).
-A prospective validation across 85~PMLB benchmark datasets (70
-classification, 15~regression, $P = 5$--$180$) confirms the
-full pipeline: DASH reduces variance on 84/85 Rashomon datasets (98.8\%)
-without degrading predictive accuracy,
-and SAGE with bidirectional data-split cross-validation
-predicts the direction of instability on 81/85 datasets (95.3\%,
-CI: 89--98\%), outperforming correlation-based grouping (76\%) at all
-feature dimensions including $P > 50$ (15/15).
+A factorial validation (30~datasets $\times$ 6~model/method
+configurations---XGBoost, Random Forest, Logistic Regression, and
+Neural Networks with TreeSHAP, gain-based, and permutation
+importance) confirms the pipeline is model-agnostic (Cochran's
+$Q = 6.61$, $p = 0.25$; no significant model or method effect).
+DASH preserves accuracy in 100\% of 156~tests (CI: 98--100\%).
+SAGE predicts directional instability on 92\% (CI: 87--96\%) across
+all configurations, with negative control $p < 10^{-23}$.
+Regression: 30/30.
 
 %%% =========================================================================
 %%% Discussion
