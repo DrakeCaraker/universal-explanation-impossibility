@@ -1,0 +1,25 @@
+{
+  "description": "SAGE on TreeSHAP values (mean |SHAP| as importance). The attribution method the paper discusses.",
+  "method": "XGBoost + shap.TreeExplainer. M=25 per split, 100 background samples, bidirectional data-split.",
+  "n_datasets_attempted": 15,
+  "n_errors": 3,
+  "error_reason": "XGBoost class-label issue (non-0-indexed), not SAGE failure",
+  "n_tested": 12,
+  "n_positive": 12,
+  "success_rate": 1.0,
+  "wilson_ci": [75.7, 100.0],
+  "per_dataset": [
+    {"dataset": "churn", "P": 20, "gap": 0.1216, "positive": true},
+    {"dataset": "vehicle", "P": 18, "gap": 0.0675, "positive": true},
+    {"dataset": "ionosphere", "P": 34, "gap": 0.0913, "positive": true},
+    {"dataset": "segmentation", "P": 19, "gap": 0.1342, "positive": true},
+    {"dataset": "waveform_21", "P": 21, "gap": 0.0023, "positive": true},
+    {"dataset": "dermatology", "P": 34, "gap": 0.0332, "positive": true},
+    {"dataset": "wine_quality_red", "P": 11, "gap": 0.0143, "positive": true},
+    {"dataset": "vowel", "P": 13, "gap": 0.2052, "positive": true},
+    {"dataset": "spect", "P": 22, "gap": 0.0362, "positive": true},
+    {"dataset": "calendarDOW", "P": 32, "gap": 0.022, "positive": true},
+    {"dataset": "hypothyroid", "P": 25, "gap": 0.1539, "positive": true},
+    {"dataset": "allbp", "P": 29, "gap": 0.0366, "positive": true}
+  ]
+}
