@@ -1,0 +1,1076 @@
+\subsection{Cross-Reference: Monograph $\leftrightarrow$ Lean}
+\label{sec:cross-ref}
+
+\noindent Key theorems with their Lean identifiers and source files.
+All files are in \texttt{UniversalImpossibility/}.
+
+{\small
+\begin{longtable}{@{}p{5.5cm}p{5.5cm}p{4cm}@{}}
+\toprule
+Monograph result & Lean name & File \\
+\midrule
+\endhead
+Core impossibility (Thm~\ref{thm:universal}) & \texttt{explanation\_impossibility} & \texttt{ExplanationSystem.lean} \\
+Bilemma (\S\ref{sec:bilemma}) & \texttt{bilemma} & \texttt{MaximalIncompatibility.lean} \\
+Tightness --- full & \texttt{tightness\_full} & \texttt{BilemmaCharacterization.lean} \\
+Tightness --- collapsed & \texttt{tightness\_collapsed} & \texttt{BilemmaCharacterization.lean} \\
+Enrichment uniqueness & \texttt{enrichment\_unique\_on\_fiber} & \texttt{MaximalIncompatibility.lean} \\
+$G$-invariant $\Rightarrow$ stable & \texttt{gInvariant\_stable} & \texttt{UniversalResolution.lean} \\
+Pythagorean decomposition & \texttt{uncertainty\_from\_symmetry} & \texttt{UncertaintyFromSymmetry.lean} \\
+Best approximation & \texttt{best\_approximation} & \texttt{UncertaintyFromSymmetry.lean} \\
+Over-explanation penalty & \texttt{beyond\_capacity\_penalty} & \texttt{UncertaintyFromSymmetry.lean} \\
+DASH Pareto-optimal & \texttt{dash\_unique\_pareto\_optimal} & \texttt{ParetoOptimality.lean} \\
+Pareto frontier dichotomy & \texttt{pareto\_frontier\_dichotomy} & \texttt{ParetoOptimality.lean} \\
+Design space dichotomy & \texttt{universal\_design\_space\_dichotomy} & \texttt{UniversalDesignSpace.lean} \\
+MI exact boundary & \texttt{mi\_is\_exact\_boundary} & \texttt{MutualInformation.lean} \\
+MI quantitative unfaithfulness & \texttt{mi\_quantitative\_unfaithfulness} & \texttt{MIQuantitativeBridge.lean} \\
+GBDT impossibility & \texttt{attribution\_impossibility} & \texttt{Trilemma.lean} \\
+Ratio divergence & \texttt{ratio\_tendsto\_atTop} & \texttt{Ratio.lean} \\
+DASH equity & \texttt{consensus\_equity} & \texttt{Corollary.lean} \\
+Necessity biconditional & \texttt{necessity\_biconditional} & \texttt{NecessityBiconditional.lean} \\
+Generic underspecification & \texttt{generic\_underspecification} & \texttt{Ubiquity.lean} \\
+Ubiquity impossibility & \texttt{ubiquity\_impossibility} & \texttt{Ubiquity.lean} \\
+Recursive enrichment & \texttt{enrichment\_creates\_new\_impossibility} & \texttt{RecursiveImpossibility.lean} \\
+Levels independent & \texttt{levels\_independent} & \texttt{RecursiveImpossibility.lean} \\
+\bottomrule
+\end{longtable}
+}
+
+\subsection{Complete Theorem Inventory (Type Signatures)}
+\label{sec:type-sigs}
+
+\noindent All 530 theorem and lemma statements from the Lean~4
+formalization, grouped by file.  Each entry gives the theorem name
+and its type signature (statement without proof).  The complete
+proofs are in the repository at
+\url{https://github.com/DrakeCaraker/universal-explanation-impossibility}.
+
+\paragraph{AlphaFaithful} (3 theorems)
+
+{\footnotesize\ttfamily
+stable\_ranking\_half\_unfaithful\\
+alpha\_faithful\_bound\\
+faithful\_exactly\_one\_witness\\
+}
+
+\paragraph{ApproximateEquity} (3 theorems)
+
+{\footnotesize\ttfamily
+global\_implies\_bounded\_one\\
+bounded\_proportionality\_constant\_implies\_global\\
+rashomon\_from\_bounded\_proportionality\\
+}
+
+\paragraph{ApproximateRashomon} (4 theorems)
+
+{\footnotesize\ttfamily
+approxStable\_implies\_stable\\
+approx\_impossibility\\
+approx\_trilemma\\
+exact\_implies\_approx\_rashomon\\
+}
+
+\paragraph{ArrowInstance} (3 theorems)
+
+{\footnotesize\ttfamily
+profiles\_same\_pairwise\\
+profiles\_different\_social\\
+social\_choice\_rashomon\\
+}
+
+\paragraph{AttentionInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+attn\_same\_output\\
+attn\_different\_argmax\\
+attention\_impossibility\_constructive\\
+}
+
+\paragraph{AttributionInstanceConstructive} (2 theorems)
+
+{\footnotesize\ttfamily
+attrIncompC\_irrefl\\
+attribution\_impossibility\_constructive\\
+}
+
+\paragraph{AxiomSubstitution} (14 theorems)
+
+{\footnotesize\ttfamily
+impossibility\_complete\\
+impossibility\_complete\_three\\
+tightness\_faithful\_complete\\
+tightness\_faithful\_stable\_complete\\
+no\_tightness\_stable\_complete\\
+resolving\_iff\_complete\\
+impossibility\_resolving\\
+impossibility\_resolving\_three\\
+tightness\_faithful\_resolving\\
+tightness\_faithful\_stable\_resolving\\
+no\_tightness\_stable\_resolving\\
+surjective\_consistent\\
+decisive\_implies\_complete\\
+axiom\_substitution\_summary\\
+}
+
+\paragraph{BayesOptimalTie} (4 theorems)
+
+{\footnotesize\ttfamily
+committed\_ranking\_error\_half\\
+tie\_disagreement\_zero\\
+tie\_dominates\_commitment\\
+design\_space\_step3\_substantive\\
+}
+
+\paragraph{BilemmaCharacterization} (3 theorems)
+
+{\footnotesize\ttfamily
+neutral\_implies\_faithful\_stable\\
+bilemma\_implies\_no\_neutral\\
+maxIncompat\_implies\_no\_neutral\\
+}
+
+\paragraph{BinaryQuantizer} (7 theorems)
+
+{\footnotesize\ttfamily
+binary\_quantizer\_variance\\
+binary\_quantizer\_fraction\\
+two\_over\_pi\_in\_unit\_interval\\
+two\_over\_pi\_le\_two\_thirds\\
+two\_over\_pi\_gt\_half\\
+quantizer\_signal\_loss\\
+quantizer\_better\_than\_half\\
+}
+
+\paragraph{CPDAGResolution} (2 theorems)
+
+{\footnotesize\ttfamily
+cpdagResolution\_gInvariant\\
+cpdag\_gInvariant\_implies\_stable\\
+}
+
+\paragraph{CausalDiscovery} (3 theorems)
+
+{\footnotesize\ttfamily
+causal\_discovery\_impossibility\\
+cpdag\_is\_stable\\
+causal\_discovery\_from\_sbd\\
+}
+
+\paragraph{CausalExplanationSystem} (1 theorems)
+
+{\footnotesize\ttfamily
+causal\_explanation\_impossibility\\
+}
+
+\paragraph{CausalInstanceConstructive} (2 theorems)
+
+{\footnotesize\ttfamily
+causalIncompC\_irrefl\\
+causal\_impossibility\_constructive\\
+}
+
+\paragraph{ConceptInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+concept\_same\_output\\
+concept\_different\_directions\\
+concept\_impossibility\_constructive\\
+}
+
+\paragraph{ConditionalImpossibility} (3 theorems)
+
+{\footnotesize\ttfamily
+conditional\_rashomon\_from\_symmetry\\
+conditional\_attribution\_impossibility\\
+conditional\_escape\\
+}
+
+\paragraph{Consistency} (7 theorems)
+
+{\footnotesize\ttfamily
+consistent\_firstMover\_surjective\\
+consistent\_splitCount\_firstMover\\
+consistent\_splitCount\_nonFirstMover\\
+consistent\_proportionality\_global\\
+consistent\_splitCount\_crossGroup\_symmetric\\
+consistent\_splitCount\_crossGroup\_stable\\
+axiom\_system\_consistent\\
+}
+
+\paragraph{Corollary} (5 theorems)
+
+{\footnotesize\ttfamily
+consensus\_equity\\
+consensus\_difference\_zero\\
+consensus\_variance\_rate\\
+consensus\_variance\_halves\\
+consensus\_variance\_nonneg\\
+}
+
+\paragraph{CounterfactualInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+cf\_same\_prediction\\
+cf\_different\_directions\\
+counterfactual\_impossibility\_constructive\\
+}
+
+\paragraph{DASHResolution} (2 theorems)
+
+{\footnotesize\ttfamily
+dashResolution\_gInvariant\\
+dash\_gInvariant\_implies\_stable\\
+}
+
+\paragraph{Defs} (11 theorems)
+
+{\footnotesize\ttfamily
+numTrees\_pos\\
+firstMover\_surjective\\
+splitCount\_firstMover\\
+splitCount\_nonFirstMover\\
+proportionality\_global\\
+attribution\_proportional\\
+attribution\_variance\_nonneg\\
+consensus\_variance\_bound\\
+splitCount\_crossGroup\_symmetric\\
+splitCount\_crossGroup\_stable\\
+splitCount\_eq\_of\_not\_firstMover\_j\_or\_k\\
+}
+
+\paragraph{DesignSpace} (6 theorems)
+
+{\footnotesize\ttfamily
+strongly\_faithful\_impossible\\
+balanced\_flip\_symmetry\\
+infeasible\_faithful\_stable\_complete\\
+dash\_produces\_ties\\
+dash\_variance\_decreases\\
+design\_space\_theorem\\
+}
+
+\paragraph{DesignSpaceFull} (3 theorems)
+
+{\footnotesize\ttfamily
+design\_space\_exhaustiveness\\
+no\_complete\_faithful\_ranking\\
+family\_a\_or\_family\_b\\
+}
+
+\paragraph{DuhemQuine} (6 theorems)
+
+{\footnotesize\ttfamily
+dq\_same\_outcome\\
+dq\_blame\_different\\
+duhem\_quine\_impossibility\\
+dq4\_same\_outcome\\
+dq4\_blame\_different\\
+duhem\_quine\_impossibility\_4\\
+}
+
+\paragraph{Efficiency} (10 theorems)
+
+{\footnotesize\ttfamily
+sum\_constraint\_swap\\
+swapAt\_sum\_eq\\
+amplification\_factor\_m2\\
+amplification\_factor\_m3\\
+amplification\_approaches\_one\\
+amplification\_gt\_one\\
+amplification\_bounds\\
+efficiency\_sum\_varies\_across\_models\\
+across\_model\_no\_constraint\\
+efficiency\_instability\_summary\\
+}
+
+\paragraph{EnrichmentStack} (18 theorems)
+
+{\footnotesize\ttfamily
+enriched\_neutral\_faithful\_stable\\
+enriched\_neutral\_not\_decisive\\
+cumulative\_indecisiveness\\
+incompleteness\_depth\\
+enrichment\_preserves\_deeper\_rashomon\\
+neutral\_at\_n\_not\_neutral\_at\_n1\\
+threeLevel\_rashomon\_0\\
+threeLevel\_rashomon\_1\\
+threeLevel\_rashomon\_2\\
+threeLevel\_independence\\
+twoLevel\_has\_multiLevel\\
+InformationFate\\
+informationFate\_maxIncompat\\
+bh\_bilemma\\
+physicalStack\_depth\_3\\
+SpacetimeStatus\\
+spacetimeStatus\_maxIncompat\\
+qg\_bilemma\\
+}
+
+\paragraph{EnsembleBound} (9 theorems)
+
+{\footnotesize\ttfamily
+consensus\_var\_eq\_over\_M\\
+variance\_decreases\_with\_M\\
+double\_ensemble\_halves\_variance\\
+single\_model\_variance\\
+variance\_at\_25\\
+ensemble\_bound\_formula\\
+z\_squared\_for\_5pct\\
+dash\_achieves\_minimum\_variance\\
+sum\_squares\_ge\_inv\_M\\
+}
+
+\paragraph{ExplanationLandscape} (8 theorems)
+
+{\footnotesize\ttfamily
+landscape\_bottom\_no\_fs\\
+landscape\_top\_fs\_achievable\\
+landscape\_top\_achievable\\
+coverage\_conflict\_iff\_no\_neutral\\
+enrichment\_expands\_landscape\\
+coverage\_conflict\_monotone\_restriction\\
+maxIncompat\_landscape\_chain\\
+local\_coverage\_conflict\_at\_pair\\
+}
+
+\paragraph{ExplanationSystem} (4 theorems)
+
+{\footnotesize\ttfamily
+explanation\_impossibility\\
+tightness\_faithful\_decisive\\
+tightness\_faithful\_stable\\
+tightness\_stable\_decisive\\
+}
+
+\paragraph{FIMImpossibility} (6 theorems)
+
+{\footnotesize\ttfamily
+excess\_loss\_nonneg\\
+gaussian\_rashomon\_witnesses\\
+hessian\_eigenvalue\_minus\\
+semi\_axis\_diverges\\
+gaussian\_fim\_impossibility\\
+gaussian\_fim\_impossibility\_weak\\
+}
+
+\paragraph{FairnessAudit} (4 theorems)
+
+{\footnotesize\ttfamily
+fairness\_audit\_impossibility\\
+fairness\_audit\_coin\_flip\\
+fairness\_audit\_coin\_flip\_reverse\\
+dash\_audit\_resolution\\
+}
+
+\paragraph{FlipRate} (13 theorems)
+
+{\footnotesize\ttfamily
+non\_firstmover\_tie\\
+non\_firstmover\_attribution\_tie\\
+firstmover\_dominates\\
+balanced\_firstmover\_count\_eq\\
+model\_trichotomy\\
+firstMoverSets\_disjoint\\
+tieSet\_disjoint\_left\\
+tieSet\_disjoint\_right\\
+fliprate\_partition\\
+binary\_group\_firstmover\_is\_j\_or\_k\\
+binary\_group\_no\_ties\\
+binary\_group\_flip\_rate\\
+binary\_flip\_pair\_count\\
+}
+
+\paragraph{GaugeTheory} (5 theorems)
+
+{\footnotesize\ttfamily
+same\_holonomy\\
+different\_configs\\
+gauge\_preserves\_holonomy\\
+gauge\_related\\
+gauge\_impossibility\\
+}
+
+\paragraph{GaussianFlipRate} (13 theorems)
+
+{\footnotesize\ttfamily
+Phi\_mono\\
+Phi\_nonneg\\
+Phi\_le\_one\\
+Phi\_tendsto\_atBot\\
+Phi\_tendsto\_atTop\\
+gaussianReal\_standard\_symm\\
+Phi\_neg\\
+Phi\_zero\\
+gaussianFlipRate\_le\_half\\
+gaussianFlipRate\_nonneg\\
+gaussianFlipRate\_zero\\
+gaussianFlipRate\_decreasing\\
+coin\_flip\_implies\_impossibility\\
+}
+
+\paragraph{General} (6 theorems)
+
+{\footnotesize\ttfamily
+splitCount\_firstMover\_gt\\
+attribution\_firstMover\_gt\\
+attribution\_reversal\\
+no\_stable\_ranking\\
+gbdt\_rashomon\\
+gbdt\_impossibility\\
+}
+
+\paragraph{GeneralizedBilemma} (13 theorems)
+
+{\footnotesize\ttfamily
+generalized\_bilemma\\
+maxIncompat\_implies\_no\_common\_compatible\\
+no\_bilemma\_of\_neutral\_on\_fiber\\
+fs\_achievable\_of\_fiber\_compatible\\
+incompEquiv\_refl\\
+incompEquiv\_symm\\
+fd\_from\_incomp\_equiv\\
+maxIncompat\_incompEquiv\_singleton\\
+coverageConflict\_implies\_no\_neutral\\
+maxIncompat\_implies\_coverageConflict\\
+neutral\_destroys\_coverageConflict\\
+explanation\_collapsed\_of\_maxIncompat\\
+explanation\_full\_tightness\_of\_neutral\_committal\\
+}
+
+\paragraph{GeneticCode} (3 theorems)
+
+{\footnotesize\ttfamily
+codon\_degeneracy\\
+codons\_different\\
+genetic\_code\_impossibility\\
+}
+
+\paragraph{GoedelIncompleteness} (5 theorems)
+
+{\footnotesize\ttfamily
+goedel\_first\_incompleteness\\
+goedel\_sentence\_true\\
+goedel\_recursion\\
+goedel\_infinite\_incompleteness\\
+proved\_shared\_structure\\
+}
+
+\paragraph{Impossibility} (4 theorems)
+
+{\footnotesize\ttfamily
+attribution\_ratio\_ge\\
+not\_equitable\\
+not\_stable\\
+impossibility\\
+}
+
+\paragraph{IntersectionalFairness} (13 theorems)
+
+{\footnotesize\ttfamily
+single\_audit\_wrong\\
+each\_audit\_has\_counterexample\\
+intersectional\_audit\_impossibility\\
+intersectional\_all\_audits\_wrong\\
+compounding\_ge\_half\\
+compounding\_strict\_mono\\
+compounding\_nonneg\\
+compounding\_le\_one\\
+compounding\_K2\\
+compounding\_K3\\
+compounding\_K5\\
+compounding\_K10\\
+dash\_intersectional\_resolution\\
+}
+
+\paragraph{Iterative} (2 theorems)
+
+{\footnotesize\ttfamily
+iterative\_rashomon\\
+iterative\_impossibility\\
+}
+
+\paragraph{LLMExplanationInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+llm\_same\_output\\
+llm\_different\_citations\\
+llm\_explanation\_impossibility\_constructive\\
+}
+
+\paragraph{LanglandsCorrespondence} (6 theorems)
+
+{\footnotesize\ttfamily
+trace\_mul\_comm\_applied\\
+dim1\_trace\_determines\\
+dim2\_rashomon\_witness\\
+langlands\_boundary\_statement\\
+scalar\_embedding\_trace\\
+trace\_identity\_n\\
+}
+
+\paragraph{Lasso} (2 theorems)
+
+{\footnotesize\ttfamily
+lasso\_impossibility\\
+lasso\_ratio\_infinite\\
+}
+
+\paragraph{LinearSystem} (3 theorems)
+
+{\footnotesize\ttfamily
+same\_output\\
+different\_solutions\\
+linear\_system\_impossibility\\
+}
+
+\paragraph{LocalGlobal} (2 theorems)
+
+{\footnotesize\ttfamily
+local\_attribution\_impossibility\\
+impossibility\_is\_attribution\_agnostic\\
+}
+
+\paragraph{LocalSufficiency} (6 theorems)
+
+{\footnotesize\ttfamily
+attribution\_ratio\_local\\
+ratio\_diverges\_local\\
+attribution\_sum\_from\_local\\
+equity\_violation\_local\\
+local\_proportionality\_suffices\\
+axiom\_stratification\_documented\\
+}
+
+\paragraph{LossPreservation} (3 theorems)
+
+{\footnotesize\ttfamily
+rashomon\_from\_swap\_with\_loss\\
+rashomon\_from\_swap\_loss\\
+impossibility\_with\_quality\\
+}
+
+\paragraph{MIQuantitativeBridge} (5 theorems)
+
+{\footnotesize\ttfamily
+mi\_implies\_positive\_gap\\
+gap\_implies\_unfaithfulness\\
+total\_unfaithfulness\_bound\\
+pointwise\_unfaithfulness\_bound\\
+mi\_quantitative\_unfaithfulness\\
+}
+
+\paragraph{MarkovEquivalence} (4 theorems)
+
+{\footnotesize\ttfamily
+chain\_fork\_same\_ci\\
+chain\_fork\_different\_edges\\
+causal\_rashomon\_derived\\
+causal\_impossibility\_derived\\
+}
+
+\paragraph{MaximalIncompatibility} (7 theorems)
+
+{\footnotesize\ttfamily
+faithful\_eq\_explain\_of\_maxIncompat\\
+decisive\_eq\_explain\_of\_maxIncompat\\
+bilemma\\
+no\_stable\_decisive\_of\_maxIncompat\\
+maxIncompat\_tightness\_fd\\
+explain\_not\_stable\\
+recovery\_faithful\_stable\\
+}
+
+\paragraph{MechInterpInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+mechInterp\_same\_output\\
+mechInterp\_different\_circuits\\
+mech\_interp\_impossibility\_constructive\\
+}
+
+\paragraph{ModelSelection} (2 theorems)
+
+{\footnotesize\ttfamily
+model\_selection\_impossibility\\
+model\_selection\_impossibility\_weak\\
+}
+
+\paragraph{ModelSelectionDesignSpace} (3 theorems)
+
+{\footnotesize\ttfamily
+model\_stable\_complete\_unfaithful\\
+model\_unfaithfulness\_free\_implies\_tie\\
+model\_family\_a\_or\_family\_b\\
+}
+
+\paragraph{ModelSelectionInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+ms\_same\_performance\\
+ms\_different\_models\\
+model\_selection\_impossibility\_constructive\\
+}
+
+\paragraph{MultiAnalystInstance} (5 theorems)
+
+{\footnotesize\ttfamily
+scientificConclusion\_irrefl\\
+multiAnalyst\_rashomon\\
+multiAnalyst\_impossibility\\
+multiAnalyst\_maxIncompat\\
+multiAnalyst\_bilemma\\
+}
+
+\paragraph{MutualInformation} (11 theorems)
+
+{\footnotesize\ttfamily
+mi\_dependent\_iff\_not\_independent\\
+mi\_independent\_symm\\
+mi\_dependent\_symm\\
+gaussian\_mi\_positive\_of\_corr\_nonzero\\
+gaussian\_mi\_zero\_of\_corr\_zero\\
+rashomon\_from\_mi\_dependence\\
+impossibility\_from\_mi\\
+no\_rashomon\_from\_agreement\\
+stable\_ranking\_from\_agreement\\
+mi\_is\_exact\_boundary\\
+correlation\_implies\_mi\_impossibility\\
+}
+
+\paragraph{Necessity} (3 theorems)
+
+{\footnotesize\ttfamily
+impossibility\_from\_rashomon\\
+fully\_specified\_possibility\\
+no\_rashomon\_from\_all\_three\\
+}
+
+\paragraph{NecessityBiconditional} (3 theorems)
+
+{\footnotesize\ttfamily
+possibility\_from\_factoring\\
+not\_rashomon\_iff\_factoring\_neq\\
+rashomon\_biconditional\_neq\\
+}
+
+\paragraph{NeuralNet} (1 theorems)
+
+{\footnotesize\ttfamily
+nn\_impossibility\\
+}
+
+\paragraph{ParetoOptimality} (7 theorems)
+
+{\footnotesize\ttfamily
+no\_method\_beats\_half\\
+committed\_ranking\_has\_positive\_error\\
+dash\_pareto\_dominance\_within\_group\\
+dash\_pareto\_gap\_exact\\
+universal\_within\_group\_half\\
+pareto\_frontier\_dichotomy\\
+dash\_unique\_pareto\_optimal\\
+}
+
+\paragraph{PathConvergence} (3 theorems)
+
+{\footnotesize\ttfamily
+impossibility\_as\_design\_space\_corollary\\
+relaxation\_paths\_converge\\
+complete\_implies\_unfaithful\\
+}
+
+\paragraph{PeresMermin} (3 theorems)
+
+{\footnotesize\ttfamily
+peres\_mermin\_bool\\
+peres\_mermin\_parity\\
+peres\_mermin\_impossibility\\
+}
+
+\paragraph{PhaseProblem} (4 theorems)
+
+{\footnotesize\ttfamily
+same\_energy\\
+different\_signals\\
+phase\_rashomon\_derived\\
+phase\_impossibility\\
+}
+
+\paragraph{PredictiveConsequences} (5 theorems)
+
+{\footnotesize\ttfamily
+stable\_implies\_unfaithful\\
+rashomon\_unfaithfulness\\
+faithful\_is\_explain\\
+faithful\_unique\\
+all\_or\_nothing\\
+}
+
+\paragraph{ProportionalityLocal} (4 theorems)
+
+{\footnotesize\ttfamily
+proportionality\_global\_implies\_local\\
+attribution\_firstMover\_gt\_local\\
+gbdt\_rashomon\_local\\
+gbdt\_impossibility\_local\\
+}
+
+\paragraph{QMInterpretation} (3 theorems)
+
+{\footnotesize\ttfamily
+qm\_same\_outcome\\
+qm\_ontology\_different\\
+qm\_interpretation\_impossibility\\
+}
+
+\paragraph{Qualitative} (4 theorems)
+
+{\footnotesize\ttfamily
+rashomon\_from\_qualitative\\
+impossibility\_qualitative\\
+quantitative\_implies\_dominates\\
+axiom\_implies\_surjective\\
+}
+
+\paragraph{QuantitativeBound} (3 theorems)
+
+{\footnotesize\ttfamily
+decisive\_fails\_on\_rashomon\_pair\\
+not\_decisive\_at\_rashomon\_pair\\
+quantitative\_impossibility\\
+}
+
+\paragraph{QuantumMeasurementRevolution} (2 theorems)
+
+{\footnotesize\ttfamily
+quantum\_ontology\_maxIncompat\\
+quantum\_measurement\_revolution\\
+}
+
+\paragraph{QueryComplexity} (16 theorems)
+
+{\footnotesize\ttfamily
+testing\_constant\_pos\\
+le\_cam\_lower\_bound\\
+query\_bound\_nonneg\\
+query\_bound\_pos\\
+query\_complexity\_lower\_bound\\
+query\_bound\_scales\_with\_sigma\\
+query\_bound\_scales\_with\_gap\\
+query\_bound\_mono\_sigma\\
+query\_bound\_antimono\_gap\\
+z\_test\_query\_count\_nonneg\\
+query\_gap\_ratio\\
+z\_test\_optimal\_up\_to\_constant\\
+snr\_at\_0\_15\\
+snr\_denominator\\
+snr\_multiplier\\
+breast\_cancer\_query\_bound\\
+}
+
+\paragraph{QueryComplexityDerived} (12 theorems)
+
+{\footnotesize\ttfamily
+chebyshev\_query\_bound\\
+chebyshev\_query\_lower\_bound\\
+chebyshev\_bound\_simplify\\
+query\_complexity\_lower\_bound\_derived\\
+derived\_query\_bound\_nonneg\\
+derived\_query\_bound\_pos\\
+derived\_bound\_scales\_with\_sigma\\
+derived\_bound\_scales\_with\_gap\\
+derived\_bound\_mono\_sigma\\
+derived\_bound\_antimono\_gap\\
+derived\_snr\_at\_0\_15\\
+derived\_snr\_value\\
+}
+
+\paragraph{QueryComplexityParametric} (10 theorems)
+
+{\footnotesize\ttfamily
+TestingBound\\
+TestingBound\\
+query\_complexity\_parametric\\
+queryBound\_scales\_sigma\\
+queryBound\_scales\_gap\\
+queryBound\_mono\_sigma\\
+queryBound\_antimono\_gap\\
+zTest\_optimal\\
+leCam\_breast\_cancer\\
+axiom\_free\_check\\
+}
+
+\paragraph{QueryRelative} (2 theorems)
+
+{\footnotesize\ttfamily
+query\_impossibility\\
+query\_possibility\\
+}
+
+\paragraph{RashomonInevitability} (5 theorems)
+
+{\footnotesize\ttfamily
+nondegen\_implies\_strict\_one\_direction\\
+rashomon\_from\_nondegen\_and\_symmetry\\
+rashomon\_inevitability\\
+impossibility\_inevitable\\
+escape\_unanimous\_agreement\\
+}
+
+\paragraph{RashomonUniversality} (4 theorems)
+
+{\footnotesize\ttfamily
+rashomon\_witnesses\_from\_swap\\
+rashomon\_pair\_from\_swap\\
+rashomon\_from\_symmetry\\
+impossibility\_from\_symmetry\\
+}
+
+\paragraph{Ratio} (3 theorems)
+
+{\footnotesize\ttfamily
+splitCount\_ratio\\
+attribution\_ratio\\
+ratio\_tendsto\_atTop\\
+}
+
+\paragraph{RecursiveImpossibility} (7 theorems)
+
+{\footnotesize\ttfamily
+recursive\_impossibility\_persists\\
+unbounded\_undecidability\\
+kthBit\_rashomon\\
+infiniteStack\_bilemma\\
+infiniteStack\_independence\\
+self\_referential\_undecidability\\
+shared\_recursive\_structure\\
+}
+
+\paragraph{RobustnessLipschitz} (11 theorems)
+
+{\footnotesize\ttfamily
+C\_Phi\_pos\\
+flipOfSNR\_eq\\
+isLipschitzWith\_id\\
+isLipschitzWith\_neg\\
+isLipschitzWith\_comp\\
+isLipschitzWith\_const\\
+flipOfSNR\_lipschitz\\
+flipOfRho\_lipschitz\\
+flip\_rate\_robust\\
+flip\_rate\_continuous\_at\\
+flip\_perturbation\_bound\_monotone\\
+}
+
+\paragraph{SBDInstances} (5 theorems)
+
+{\footnotesize\ttfamily
+attribution\_is\_sbd\_instance\\
+attribution\_sbd\_unfaithful\\
+model\_selection\_is\_sbd\_instance\\
+abstract\_aggregation\_impossibility\\
+abstract\_aggregation\_impossibility\_weak\\
+}
+
+\paragraph{SaliencyInstanceConstructive} (3 theorems)
+
+{\footnotesize\ttfamily
+saliency\_same\_output\\
+saliency\_different\_regions\\
+saliency\_impossibility\_constructive\\
+}
+
+\paragraph{Setup} (1 theorems)
+
+{\footnotesize\ttfamily
+attribution\_impossibility\_bundled\\
+}
+
+\paragraph{SimultaneityRevolution} (2 theorems)
+
+{\footnotesize\ttfamily
+simultaneity\_maxIncompat\\
+simultaneity\_revolution\\
+}
+
+\paragraph{SpearmanDef} (20 theorems)
+
+{\footnotesize\ttfamily
+countEqual\_pos\\
+countBelow\_of\_gt\\
+midrank\_strict\_mono\\
+sumSqRankDiff\_nonneg\\
+sumSqRankDiff\_pos\_of\_reversal\\
+spearmanCorr\_lt\_one\_of\_reversal\\
+spearmanCorr\_bound\\
+attribution\_eq\_outside\_group\\
+attribution\_eq\_non\_firstMover\\
+attribution\_swap\_structure\\
+attribution\_non\_fm\_stable\\
+countEqual\_ge\_groupSize\_minus\_one\\
+midrank\_gap\_ge\_half\_groupSize\\
+sumSqRankDiff\_ge\_sq\_groupSize\\
+spearmanCorr\_bound\_groupSize\\
+spearman\_instability\_bound\\
+midrank\_gap\_ge\_half\_groupSize\_tight\\
+sumSqRankDiff\_ge\_sq\_groupSize\_tight\\
+spearmanCorr\_bound\_groupSize\_tight\\
+spearman\_instability\_bound\_tight\\
+}
+
+\paragraph{SplitGap} (7 theorems)
+
+{\footnotesize\ttfamily
+rho\_sq\_lt\_one\\
+one\_minus\_rho\_sq\_pos\\
+denom\_pos\\
+denom\_ne\_zero\\
+split\_gap\_exact\\
+split\_gap\_ge\_half\\
+split\_gap\_lower\_bound\\
+}
+
+\paragraph{StatisticalMechanics} (5 theorems)
+
+{\footnotesize\ttfamily
+same\_macrostate\\
+different\_microstates\\
+swap\_related\\
+swap\_preserves\_macrostate\\
+stat\_mech\_impossibility\\
+}
+
+\paragraph{StumpProportionality} (6 theorems)
+
+{\footnotesize\ttfamily
+stump\_proportionality\\
+stump\_attribution\_ratio\\
+stump\_proportionality\_positive\\
+stump\_proportionality\_exists\\
+stump\_proportionality\_unique\\
+stump\_cv\_zero\\
+}
+
+\paragraph{SymmetricBayes} (16 theorems)
+
+{\footnotesize\ttfamily
+sbd\_unfaithful\_witness\\
+sbd\_infeasible\\
+tie\_is\_stable\\
+sbd\_faithful\_at\_most\_one\\
+sbd\_faithful\_unique\\
+sbd\_binary\_orbit\_half\_unfaithful\\
+sbd\_ternary\_orbit\_unfaithful\\
+attribution\_from\_sbd\\
+sbd\_faithful\_at\_most\_one\_in\_orbit\\
+sbd\_trichotomy\\
+sbd\_family\_a\_or\_b\\
+orbitEquiv\_refl\\
+orbitEquiv\_symm\\
+orbitEquiv\_trans\\
+family\_b\_output\_not\_optimal\\
+symmetric\_bayes\_dichotomy\\
+}
+
+\paragraph{SymmetryDerive} (1 theorems)
+
+{\footnotesize\ttfamily
+attribution\_sum\_symmetric\\
+}
+
+\paragraph{SyntacticAmbiguity} (3 theorems)
+
+{\footnotesize\ttfamily
+same\_yield\\
+different\_bracketings\\
+syntactic\_ambiguity\_impossibility\\
+}
+
+\paragraph{Trilemma} (2 theorems)
+
+{\footnotesize\ttfamily
+attribution\_impossibility\\
+attribution\_impossibility\_weak\\
+}
+
+\paragraph{Ubiquity} (3 theorems)
+
+{\footnotesize\ttfamily
+generic\_underspecification\\
+fiber\_nondegeneracy\_implies\_impossibility\\
+ubiquity\_impossibility\\
+}
+
+\paragraph{UncertaintyFromSymmetry} (16 theorems)
+
+{\footnotesize\ttfamily
+inner\_Rv\_v\_eq\_inner\_Rv\_Rv\\
+inner\_v\_Rv\_eq\_inner\_Rv\_Rv\\
+reynolds\_orthogonal\\
+uncertainty\_from\_symmetry\\
+information\_loss\\
+stable\_bounded\\
+unstable\_bounded\\
+reynolds\_residual\_zero\\
+residual\_orthogonal\_to\_fixed\\
+best\_approximation\\
+reynolds\_naturality\\
+fixed\_perp\_residual\\
+reynolds\_best\_approximation\\
+stable\_in\_fixed\_subspace\\
+beyond\_capacity\_penalty\\
+beyond\_capacity\_optimal\\
+}
+
+\paragraph{UnfaithfulBound} (3 theorems)
+
+{\footnotesize\ttfamily
+stable\_complete\_unfaithful\\
+tie\_is\_never\_unfaithful\\
+unfaithfulness\_free\_implies\_tie\\
+}
+
+\paragraph{UnfaithfulQuantitative} (2 theorems)
+
+{\footnotesize\ttfamily
+attribution\_prob\_half\\
+stable\_ranking\_unfaithfulness\_half\\
+}
+
+\paragraph{UniversalDesignSpace} (1 theorems)
+
+{\footnotesize\ttfamily
+universal\_design\_space\_dichotomy\\
+}
+
+\paragraph{UniversalResolution} (1 theorems)
+
+{\footnotesize\ttfamily
+gInvariant\_stable\\
+}
+
+\paragraph{ValueAlignment} (2 theorems)
+
+{\footnotesize\ttfamily
+value\_maxIncompat\\
+value\_alignment\_impossibility\\
+}
+
+\paragraph{VarianceDerivation} (6 theorems)
+
+{\footnotesize\ttfamily
+variance\_of\_mean\_from\_sum\_variance\\
+consensus\_variance\_from\_independence\\
+consensus\_variance\_nonneg\_from\_independence\\
+double\_M\_halves\_variance\_derived\\
+variance\_ratio\_from\_independence\\
+weighted\_variance\_ge\_consensus\_variance\\
+}
+
+\paragraph{ViewUpdate} (3 theorems)
+
+{\footnotesize\ttfamily
+same\_view\\
+different\_rows\\
+view\_update\_impossibility\\
+}

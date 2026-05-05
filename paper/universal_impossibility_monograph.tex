@@ -25,6 +25,7 @@
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage{microtype}
+\usepackage{longtable}
 
 %% ---- Widow/orphan control ----
 \widowpenalty=10000
@@ -5197,6 +5198,13 @@ These are documented in the companion repository as a transparency measure.
 \subsection{Extension Modules}
 
 Twelve extension modules provide practitioner tools beyond the core pipeline: BCa bootstrap confidence intervals (\texttt{confidence\_intervals}), pairwise ordering confidence (\texttt{partial\_order}), SHAP-substitutability clustering (\texttt{feature\_groups}), composite importance+stability ranking (\texttt{stable\_feature\_selection}), per-observation uncertainty (\texttt{local\_uncertainty}), worst-case top-$k$ guarantee (\texttt{robust\_certification}), SNR/flip-rate/M-recommendation bridge (\texttt{theory\_bridge}), robust/collinear/fragile/unimportant labels (\texttt{causal\_flags}), structured audit report (\texttt{audit\_report}), cosine-distance drift monitoring (\texttt{DriftMonitor}), RMSE-stability Pareto selection (\texttt{ParetoSelector}), and cross-site federated consensus (\texttt{federated\_consensus}).
+
+%%% ==========================================================================
+\newpage
+\section*{Appendix: Lean 4 Cross-Reference and Theorem Inventory}
+\addcontentsline{toc}{section}{Appendix: Lean 4 Cross-Reference}
+
+\input{lean_appendix}
 
 %%% ==========================================================================
 \end{document}
