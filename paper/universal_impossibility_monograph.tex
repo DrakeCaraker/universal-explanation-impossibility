@@ -358,7 +358,7 @@ $\|v{-}Rv\|^2 + \|Rv\|^2 = \|v\|^2$ & Explanatory information loss & Quantum inf
 $\|w\| \leq \|u{-}w\|$ for $Rw{=}0$ & Over-explanation penalty & Strong converse \\
 $\text{MSE} = \text{tr}(R\Sigma R)/M$ & Expl.\ stability convergence rate & Source coding rate \\
 $M^*(\varepsilon) = \text{tr}(R\Sigma R)/\varepsilon$ & Stability threshold & Block length \\
-The 4-part theorem & Explanation Stability Theorem & (structural form of coding thm) \\
+The 4-part theorem & Explanation Stability Theorem & --- \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -591,7 +591,7 @@ case of maximally incompatible~$\sH$.  It is not logically independent
 of Theorem~\ref{thm:universal}---once $\sH$ is binary with
 $\mathrm{incomp} = (\neq)$, faithful~$+$~decisive collapses to faithful,
 and the impossibility reduces to the standard form.  The reason this
-specialization warrants separate treatment is empirical: 19 of 23
+specialization warrants separate treatment is empirical: 19 of 29
 Lean-verified instance files use $\mathrm{incomp} = (\neq)$, making this
 the most common configuration in practice.  The theorems below are
 consequences of this common configuration, not strengthenings of the
@@ -1225,7 +1225,7 @@ Table~\ref{tab:lean-summary} summarizes the formalization.
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 100 & All in \texttt{UniversalImpossibility/} \\
+Files & 104 & All in \texttt{UniversalImpossibility/} \\
 Theorems \& lemmas & 530 & Verified by \texttt{grep -c} \\
 Axioms & 2 & Bundled GBDT infrastructure; core theorem uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
@@ -1457,7 +1457,8 @@ crystallography, computer science, statistical mechanics, and
 mathematics---to converge on structurally the same resolution strategy
 (orbit averaging) over more than a century of independent work
 (Table~\ref{tab:structural-differences}).
-Our framework explains \emph{why} they converged---they were independently
+Our framework identifies what these eight independently developed methods
+share---instances of the same Reynolds projection---and proves
 solving the same impossibility---and proves the resolution they found is
 optimal.
 
@@ -2226,7 +2227,7 @@ structure is supported by five formalized instances but requires engagement
 with historians and philosophers of science.  The enrichment mechanism is closer to Lakatos's progressive research programmes (where the new theory subsumes the old plus new content) than to Kuhn's incommensurable revolutions (where the old framework's terms cannot be translated). We use `paradigm shift' loosely; the formal claim is about framework enrichment, not incommensurability.
 
 \paragraph{Prospective prediction.}
-The scientific-revolution-as-$H$-enrichment pattern predicts that the next paradigm shift in a maximally-incompatible domain will add a neutral element to $H$ (restoring faithfulness + stability at the cost of decisiveness) and that this enrichment will be unique (the companion paper~\citep{caraker2026ostrowski}). A concrete test: if the black hole information paradox is resolved by a framework that introduces a new category of information state (neither preserved nor destroyed, but complementary), this would instantiate the predicted enrichment. Conversely, a resolution that modifies the configuration space $\Theta$ (e.g., adding firewall degrees of freedom) rather than enriching $H$ would fall outside the pattern. The prediction is specific enough to be wrong.
+\emph{If} the bilemma-enrichment pattern applies to scientific revolutions, then a future resolution of a maximally-incompatible domain would add a neutral element to $H$ (restoring faithfulness + stability at the cost of decisiveness).  This is consistent with the historical pattern; whether the pattern applies predictively is the open question.  A concrete test: if the black hole information paradox is resolved by a framework that introduces a new category of information state (neither preserved nor destroyed, but complementary), this would instantiate the pattern. Conversely, a resolution that modifies $\Theta$ (e.g., adding firewall degrees of freedom) rather than enriching $H$ would fall outside it.
 
 \paragraph{Falsifiability.}
 The enrichment stack is falsifiable in two senses: (i)~a physical argument showing that the Rashomon property fails at some level would cap the stack; (ii)~a paradigm shift that changes $\Theta$ rather than enriching $H$ would fall outside the pattern (e.g., Bohmian mechanics adds hidden variables to $\Theta$ rather than enriching $H$). The pattern predicts that $H$-enrichment is forced and unique when $H$ is maximally incompatible; observing a non-unique enrichment would falsify the uniqueness claim.
@@ -2262,9 +2263,9 @@ $H' = \{\text{poodle}, \text{labrador}, \ldots, \text{dog}\}$ restores
 faithful + stable via $E(\theta) = \text{dog}$, at the cost of
 decisiveness (can't specify the breed).
 
-The bilemma thus provides a mathematical explanation for \emph{why
-abstraction exists}: it is the unique minimal enrichment that restores
-stability under perceptual multiplicity.  The all-or-nothing theorem
+The bilemma thus offers a mathematical \emph{interpretation} of why
+abstraction might exist: it is the unique minimal enrichment that
+restores stability under perceptual multiplicity.  The all-or-nothing theorem
 explains why abstraction is discrete (``dog'' or a specific breed, no
 interpolation).  The enrichment uniqueness theorem explains why abstract
 concepts are canonical (the neutral element is unique on each
@@ -3698,7 +3699,7 @@ C (GPT-2 ft) & 0.846 & 0.993 & 0.999 & 0.006 & 0.043 & 0.000 \\
 \bottomrule
 \end{tabular}
 \end{center}
-For the two from-scratch configurations (A and B), higher $\eta$ correlates with lower full agreement ($0.565 \to 0.540$) and higher $G$-invariant agreement ($0.972 \to 0.982$), consistent with the capacity theorem.  Config~C does not participate in this comparison because it lacks the Rashomon property.  The within-layer flip rate is indistinguishable from 0.500 for both from-scratch configs and near zero for the fine-tuned config---a clean separation governed by the Rashomon precondition.
+The two from-scratch configurations are ordered consistent with the capacity theorem ($\eta_A < \eta_B$, $\rho_A > \rho_B$: full agreement $0.565 \to 0.540$, $G$-invariant agreement $0.972 \to 0.982$), but with only $n = 2$ valid data points this is descriptive, not inferential.  Config~C does not participate because it lacks the Rashomon property.  The within-layer flip rate is indistinguishable from 0.500 for both from-scratch configs and near zero for the fine-tuned config---a clean separation governed by the Rashomon precondition.
 
 \paragraph{Ablation method robustness.}
 To test whether the results depend on the choice of ablation method, we repeated the importance measurement using mean ablation (replacing each component's output with its mean activation) on the cached Config~A and~B models.  The layer-level structure is method-invariant: both weight zeroing and mean ablation produce $G$-invariant agreement $\rho \approx 0.97$--$0.99$ ($G$-invariant $\rho = 0.975$ and $0.987$ for mean ablation vs $0.972$ and $0.982$ for weight zeroing).  The cross-method per-model agreement is moderate ($\rho = 0.59$ for Config~A, $\rho = 0.50$ for Config~B).  For $n = 20$ components, the null expectation under independence is $|\rho| \approx 0.23$, so the observed $\rho \approx 0.5$ represents significant positive agreement at the head level ($p < 0.05$) combined with near-perfect agreement at the layer level ($\rho \approx 0.97$--$0.99$ on $V^G$).  The two methods agree on the importance structure more than chance, but disagree on the specific head-level ranking---and the $G$-invariant resolution captures exactly the content on which they agree.
@@ -4164,7 +4165,7 @@ The attribution-specific formalization is at
 (58~files, 358~theorems, 2~axioms, 0~\texttt{sorry}).
 The tightness classification and physics application are at
 \url{https://github.com/DrakeCaraker/ostrowski-impossibility}
-(38~files, 482~theorems, 0~axioms, 0~\texttt{sorry}).
+(38~files, 482~theorems, 1~axiom, 0~\texttt{sorry}).
 All code is released under the Apache~2.0 licence.
 Gene-expression data: OpenML (IDs 1137 and related).
 Neuroimaging: NeuroVault collection~6047.
@@ -5052,7 +5053,7 @@ in \texttt{ModelSelection.lean}.\par}
 \section{Companion Results: Number Theory and Physics}
 \label{sec:companion-physics}
 
-This section documents results from the companion repository \texttt{ostrowski-impossibility} (482~theorems, 1~axiom, 38~files, 0~\texttt{sorry}).  These establish the impossibility framework's connections to number theory, mathematical physics, and computability theory.
+This section documents results from the companion repository \texttt{ostrowski-impossibility} (482~theorems, 0~axioms, 38~files, 0~\texttt{sorry}).  These establish the impossibility framework's connections to number theory, mathematical physics, and computability theory.
 
 \subsection{Ostrowski's Classification and the Mathlib Bridge}
 
