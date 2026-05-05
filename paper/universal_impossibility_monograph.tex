@@ -282,6 +282,18 @@ Our contributions are:
   \item \textbf{Mechanical verification} in Lean~4
     \citep{demoura2021lean4}: 104~files, 530~theorems, 2~axioms,
     0~\texttt{sorry}.
+  \item \textbf{Fairness tightness transition.}  The
+    Chouldechova--Kleinberg fairness impossibility transitions from
+    full tightness (all pairs achievable by degenerate classifiers) to
+    PPV-blocked (calibration as universal poison) under operational
+    performance constraints (TPR~$\geq 0.3$).  Equalized odds is the
+    only achievable pairwise compromise at practical performance.
+    Validated on Adult Income and synthetic data.
+  \item \textbf{Model-agnostic pipeline validation.}  A factorial
+    design (30~datasets $\times$ 6~model/method configurations) confirms
+    no significant model or method effect (Cochran's $Q$, $p = 0.25$).
+    DASH preserves accuracy in 156/156 tests.  SAGE achieves 92\%
+    directional accuracy.  Five predictions falsified (honest science).
 \end{enumerate}
 
 \noindent In short: faithful, stable, decisive---pick two.
@@ -346,7 +358,7 @@ $\|v{-}Rv\|^2 + \|Rv\|^2 = \|v\|^2$ & Explanatory information loss & Quantum inf
 $\|w\| \leq \|u{-}w\|$ for $Rw{=}0$ & Over-explanation penalty & Strong converse \\
 $\text{MSE} = \text{tr}(R\Sigma R)/M$ & Expl.\ stability convergence rate & Source coding rate \\
 $M^*(\varepsilon) = \text{tr}(R\Sigma R)/\varepsilon$ & Stability threshold & Block length \\
-The 4-part theorem & Explanation Stability Theorem & Shannon's coding theorem \\
+The 4-part theorem & Explanation Stability Theorem & (structural form of coding thm) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -573,6 +585,19 @@ For instance, in feature attribution, the query ``is feature~$x$ in the top~$k$?
 
 \subsection{Strengthened Impossibility for Maximally Incompatible Systems}
 \label{sec:bilemma}
+
+\emph{Framing note.}  The bilemma is the trilemma applied to the special
+case of maximally incompatible~$\sH$.  It is not logically independent
+of Theorem~\ref{thm:universal}---once $\sH$ is binary with
+$\mathrm{incomp} = (\neq)$, faithful~$+$~decisive collapses to faithful,
+and the impossibility reduces to the standard form.  The reason this
+specialization warrants separate treatment is empirical: 19 of 23
+Lean-verified instance files use $\mathrm{incomp} = (\neq)$, making this
+the most common configuration in practice.  The theorems below are
+consequences of this common configuration, not strengthenings of the
+trilemma.
+
+\medskip
 
 The trilemma's tightness depends on the structure of the explanation
 space~$\sH$.  When $\sH$ is \emph{maximally incompatible}---the only
@@ -2963,7 +2988,7 @@ An alternative bridge that sidesteps the group identification bottleneck uses th
 \paragraph{The exchangeability criterion.}
 The capacity theorem's scope is determined by a subtlety: the relevant criterion is \emph{exchangeability} (features genuinely compete for the same predictive signal), not merely \emph{correlation}.  A rigorous test on real data reveals that the group-mean test WORKS: projecting onto the $G$-invariant subspace (averaging SHAP within correlation groups) yields more stable attributions than the within-group deviations in 12/14 cases after Bonferroni correction.  However, the individual-feature test FAILS: correlated features in XGBoost are often \emph{more} stable than uncorrelated ones, inverting the naive prediction.  This occurs because XGBoost consistently picks a ``winner'' within each correlation group, making the winner's attribution stable even though the choice of winner is arbitrary.
 
-The mechanism is detectable: genuinely substitutable features (e.g.\ \texttt{mean\_texture} and \texttt{worst\_texture} in Breast Cancer, $\rho_{\mathrm{SHAP}} = -0.19$) exhibit negative cross-model SHAP correlation---when one's importance goes up, the other's goes down.  This ``first-mover'' signature is confirmed on synthetic data ($\rho_{\mathrm{SHAP}} = -0.11$ to $-0.24$) and provides a potential diagnostic for genuine exchangeability.
+The mechanism is detectable: genuinely substitutable features (e.g.\ \texttt{mean\_texture} and \texttt{worst\_texture} in Breast Cancer, $\rho_{\mathrm{SHAP}} = -0.19$) exhibit negative cross-model SHAP correlation---when one's importance goes up, the other's goes down.  This ``first-mover'' signature is confirmed on synthetic data ($\rho_{\mathrm{SHAP}} = -0.11$ to $-0.24$).  \emph{Conjectural diagnostic:} the sign of cross-model SHAP correlation may detect genuine exchangeability (negative~$=$ substitutable; positive~$=$ independent).  This is validated directionally on Breast Cancer and synthetic data but has not been tested at scale; it remains an open question whether this diagnostic generalises beyond these specific datasets.
 
 Attempts to predict instability from data properties alone (7 predictors: correlation, VIF, PCA loadings, mutual information, redundancy ratio, leverage, spectral gap) all fail (maximum Spearman $\rho = 0.26$).  The capacity theorem works for exact domain-specific groups ($R^2 = 0.957$) but does NOT work for correlation-derived groups on XGBoost+SHAP.  The extension from ``predicts instability given $G$'' to ``predicts instability from data'' remains an open problem.
 
