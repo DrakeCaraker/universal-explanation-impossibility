@@ -3237,6 +3237,24 @@ inapplicable).  In the 85-dataset bulletproof validation ($M = 50$):
 real failure (\texttt{parity5+5}, 10-class parity, 26\% accuracy)
 is an effectively unsolvable task.
 
+\paragraph{SHAP-specific validation.}
+Since the paper discusses SHAP throughout, SAGE was separately validated
+using actual SHAP values (not gain-based surrogates) across all model
+types.  With TreeSHAP (XGBoost: 12/12, RF: 5/5) and KernelSHAP (LR:
+5/5, NN: 7/7), SAGE achieves 29/29 on well-behaved datasets.  Including
+adversarial cases (known failures, random selection), the honest rate is
+35/38 (92\%, CI: 80--97\%).  Three failures---all at $P \leq 10$---are:
+\texttt{xd6} (uniform instability, no group structure), \texttt{breast\_cancer}
+(36~pairs insufficient for clustering), \texttt{parity5+5} (XOR structure
+SHAP doesn't capture).  At $P \geq 11$, SAGE with TreeSHAP has zero
+observed failures (15/15 unique datasets).  Separately, SAGE with
+PyTorch MLP gradient saliency achieves 13/15 (87\%), with the two
+failures on purely epistatic GAMETES datasets where gradient-based
+attribution cannot detect interaction effects.  TreeSHAP rescues
+gain-based failures: \texttt{profb} ($+0.33$), both GAMETES epistasis
+datasets ($+0.10$, $+0.04$), and \texttt{spect} ($+0.05$) all succeed
+with TreeSHAP despite failing with gain-based importance.
+
 The Gaussian flip formula requires careful interpretation.  With
 $M = 50$ models and independent calibration/validation splits, only
 59\% of datasets achieve out-of-sample $R^2 > 0.80$.  However,
