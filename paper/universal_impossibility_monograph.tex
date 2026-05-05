@@ -321,12 +321,15 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 
 \paragraph{Terminology.}
 The framework introduces concepts at three levels.  For readers familiar
-with information theory, the Shannon parallels are indicated.
+with information theory, the structural correspondences to Shannon's
+theory are indicated.  These identify shared \emph{form}
+(limit/code/converse/rate); we do not claim equivalent mathematical
+depth (see introduction).
 \begin{center}
 \small
 \begin{tabular}{@{}p{3.5cm}p{4cm}p{5cm}@{}}
 \toprule
-\textbf{Concept} & \textbf{Name} & \textbf{Shannon parallel} \\
+\textbf{Concept} & \textbf{Name} & \textbf{Shannon parallel (structural)} \\
 \midrule
 F+S+D impossible & The explanation trilemma & --- \\
 F+S impossible (binary) & The explanation bilemma & --- \\
@@ -1422,8 +1425,7 @@ pointwise faithfulness on every observe-fiber.  This means the trade-off
 identified by the theorem is \emph{tight}---the practitioner cannot do better
 by being clever.
 
-\paragraph{4.\ Independent convergence: eight domains instantiate the same
-resolution.}
+\paragraph{4.\ Shared resolution structure across eight domains.}
 If the impossibility were trivial, one would not expect eight independent
 scientific communities---spanning physics, biology, statistics, linguistics,
 crystallography, computer science, statistical mechanics, and
@@ -1439,8 +1441,9 @@ optimal.
 \caption{\textbf{Structural differences across the eight derived instances.}
   The eight cross-domain instances are not notational variants of a single
   example: they differ in symmetry group, group type, and resolution strategy.
-  Their independent convergence on orbit averaging is explained by the
-  $G$-invariant resolution framework.}
+  These independently developed methods share a common mathematical
+  structure (orbit averaging / Reynolds projection), which the
+  $G$-invariant resolution framework identifies retrospectively.}
 \label{tab:structural-differences}
 \small
 \setlength{\tabcolsep}{3pt}
@@ -1744,7 +1747,7 @@ Both bounds arise from the same representation-theoretic decomposition: the Pyth
 \emph{Lean formalisation status.}  Theorem~\ref{thm:uncertainty-from-symmetry} is a standard result in representation theory; its application to the explanation--quantum connection is the contribution.  The individual components (Reynolds projection, explanatory information loss identity, approximate bilemma) are Lean-verified in the companion repositories.  A unified Lean proof of the full theorem---including the quantum interpretation and the explicit connection between the two settings---is a natural next step.
 
 \paragraph{The Explanation Stability Theorem.}
-The explanatory information loss identity yields a complete Shannon-style capacity theory for explanation.  We state the four parts; together they establish that the explanation capacity $C = \dim(V^G)$ plays the role of Shannon's channel capacity for the ``explanation channel'' whose noise is the Rashomon property.
+The explanatory information loss identity yields a capacity theory for explanation with the structural form of Shannon's coding theorem.  We state the four parts; together they establish that the explanation capacity $C = \dim(V^G)$ separates stably-reportable content from unreportable, analogously to how channel capacity separates reliable from unreliable communication.  (We claim structural parallel, not depth equivalence; the mathematical techniques differ---see the introduction.)
 
 \emph{Part (i): Convergence rate.}  Let $v_1, \ldots, v_M$ be i.i.d.\ explanation vectors with mean $\mu$ and covariance $\Sigma$.  The orbit-averaged explanation $\bar{E}_M = M^{-1} \sum_i R v_i$ satisfies
 $\mathbb{E}[\|\bar{E}_M - R\mu\|^2] = M^{-1} \operatorname{tr}(R\Sigma R)$.
@@ -1760,7 +1763,7 @@ For target MSE $\leq \varepsilon$, it suffices to use $M \geq \operatorname{tr}(
 \]
 The best stable approximation to any beyond-capacity quantity is the zero vector, with MSE $= \|w\|^2$.  This is not noisy information; it is zero information.  The penalty follows directly from orthogonality ($u \perp w$) and the Pythagorean theorem (Lean-verified: \texttt{beyond\_capacity\_penalty}).
 
-The four parts mirror Shannon's coding theorem: capacity (Part~ii), achievability (Parts~i and~iii), converse (Part~iv), and rate (Part~i).  The over-explanation penalty is arguably sharper than Shannon's strong converse: it gives the \emph{exact} MSE for beyond-capacity estimation, not just an asymptotic bound.
+The four parts mirror Shannon's coding theorem: capacity (Part~ii), achievability (Parts~i and~iii), converse (Part~iv), and rate (Part~i).  The over-explanation penalty gives the \emph{exact} MSE for beyond-capacity estimation (not an asymptotic bound), a consequence of working in finite-dimensional inner product spaces.
 
 \emph{Empirical validation.}  The convergence rate $\text{MSE} \sim M^{-\beta}$ was validated on synthetic data with $\beta = 1.28$ (predicted: $1.00$; $R^2 = 0.97$).  The over-explanation penalty was validated across 149~datasets: within-group pairwise claims (beyond capacity) flip at rate $0.22 \pm 0.10$, while between-group claims (within capacity) flip at rate $0.15 \pm 0.08$ (cross-dataset Wilcoxon $p = 5.1 \times 10^{-11}$; directional confirmation in 81\% of 110~testable datasets, 86\% of 84~with Cohen's $d$ computable).
 
@@ -2292,17 +2295,20 @@ The enrichment stack mirrors the algebraic structure of a tower of field extensi
 \paragraph{Unification consequence.}
 If the enrichment stack continues to arbitrary depth, any unified framework (one that resolves the bilemma at every level) must sacrifice decisiveness at every level---an infinite hierarchy of indeterminacies. This is a structural analogue of the observation that no finite extension of Peano arithmetic can prove all arithmetic truths. Whether the physical stack extends beyond depth~3 is an empirical question.
 
-\paragraph{The GUT consequence.}
-Applied to physics, the enrichment stack interprets as follows. A Grand Unified Theory (GUT) that is faithful (consistent with all observations) and stable (formulation-independent) must sacrifice decisiveness at every level of its enrichment stack:
+\paragraph{Speculative application to fundamental physics.}
+\emph{If} the enrichment stack applies to physics, and \emph{if} the
+Rashomon property holds at each level, the framework would interpret as:
 \begin{itemize}
-  \item \textbf{Level~0 (quantum):} ``Which measurement outcome?'' --- enrichment via superposition.
-  \item \textbf{Level~1 (adelic):} ``Which geometry?'' --- enrichment via the indeterminate geometry (Lean-verified).
-  \item \textbf{Level~2 (black hole information):} ``What happens to information?'' --- enrichment via complementarity (conjectural).
-  \item \textbf{Level~3 (spacetime emergence):} ``How does spacetime emerge?'' --- enrichment via pre-geometric structure (conjectural).
+  \item \textbf{Level~0 (quantum):} ``Which measurement outcome?'' --- enrichment via superposition. \emph{(Proved; the bilemma for quantum measurement is Lean-verified.)}
+  \item \textbf{Level~1 (adelic):} ``Which geometry?'' --- enrichment via the indeterminate geometry. \emph{(Lean-verified for finite fields; conjectural for number fields.)}
+  \item \textbf{Level~2 (black hole information):} ``What happens to information?'' --- enrichment via complementarity. \emph{(Speculative application: the framework does not establish that the Rashomon property holds at this level.)}
+  \item \textbf{Level~3 (spacetime emergence):} ``How does spacetime emerge?'' --- enrichment via pre-geometric structure. \emph{(Speculative: beyond current formalization.)}
 \end{itemize}
-A comprehensive theory does not answer all questions --- it classifies which questions have formulation-independent answers and which do not, predicting its own incompleteness.
-
-This consequence is conditional on the stack having depth $\geq 3$ (which requires the Level~3 Rashomon property to hold, an open question). Levels~1 and~2 are Lean-verified. The Gödel parallel clarifies the nature of the limitation: as with arithmetic, the incompleteness is not a failure of the theory but a structural feature of any sufficiently expressive framework.
+We emphasise that Levels~2--3 represent speculative applications of
+the framework to open physical questions, not predictions the framework
+itself makes.  Whether the Rashomon property holds at each putative
+level is precisely the open physics question; the framework says only
+``if it holds, the bilemma applies.''
 
 \paragraph{Confidence tiers for the enrichment stack.}
 \textbf{Proved (zero domain-specific axioms):} Levels 0--1 (quantum contextuality, adelic geometry). The bilemma, tightness classification, and resolution spectrum at these levels are machine-checked.
@@ -4237,7 +4243,17 @@ The gauge principle of physics, the Langlands correspondence, and the interpreta
 \paragraph{The explanation impossibility is structurally more severe than fairness.}
 Within ML: the bilemma (collapsed) blocks property pairs, while ML fairness (full) only blocks the triple.  Resolution strategies that work for fairness (``pick two'': choose which fairness metric to sacrifice) do NOT work for explanation (some pairs are blocked; must enrich).  This is a precise structural distinction with practical consequences: explanation methods require qualitatively different design approaches than fairness methods.
 
-However, the fairness tightness type is not static: under performance constraints ($\mathrm{TPR} \geq 0.3$), the Chouldechova--Kleinberg impossibility transitions from full to PPV-blocked, with calibration as the universal poison (Section~\ref{sec:limitations}, item~5).  This demonstrates that tightness classification is not merely a binary taxonomy but a diagnostic tool that reveals how impossibility structure changes with operating conditions.
+However, the fairness tightness type is not static---it is
+\textbf{operating-point dependent}.  Under performance constraints
+($\mathrm{TPR} \geq 0.3$), the Chouldechova--Kleinberg impossibility
+transitions from full to PPV-blocked, with calibration as the universal
+poison (Section~\ref{sec:limitations}, item~5).  At practical performance
+levels, the standard ``pick two'' advice is wrong: equalized odds is the
+\emph{only} achievable pairwise compromise (gap~$< 0.006$), validated on
+Adult Income and synthetic data.  This is arguably the framework's most
+novel empirical finding: the tightness classification is not merely a
+taxonomy but a diagnostic that reveals how impossibility structure changes
+with operating conditions.
 
 \paragraph{Intermediate types are embedded 2-ary impossibilities.}
 Eastin-Knill (p12-blocked) and Shannon secrecy (p23-blocked) are naturally 2-property impossibilities (transversal $+$ universal; unconditional $+$ short-key) with a third property added.  Any 2-ary impossibility can produce an intermediate type this way.  The meaningful binary classification is \emph{collapsed vs.\ full}.
