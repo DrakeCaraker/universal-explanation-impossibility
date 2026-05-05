@@ -81,14 +81,14 @@ property (observationally equivalent configurations coexist)---under
 which no explanation can simultaneously be faithful (correct), stable
 (consistent across equivalent configurations), and decisive (specific).
 The impossibility is verified in Lean~4 (530~theorems, 0~unproved
-goals) and instantiated as constructive witnesses across foundational
-physics (Peres--Mermin quantum contextuality), social choice (Arrow's
-theorem and multi-analyst scientific aggregation), mathematical physics
-(3D Navier--Stokes tightness classification, 54~DNS runs, $R^2 = 0.94$),
-clinical biology (gene-expression pathway instability), and AI
-interpretability (transformer circuit multiplicity, agreement lifted from
-$\rho = 0.52$ to $\rho = 0.93$).  In every instance, the same
-resolution appears: projecting onto the symmetry-invariant subspace.
+goals).  We demonstrate the impossibility and its resolution in five
+instances spanning clinical biology (gene-expression pathway
+instability), AI interpretability (transformer circuit multiplicity,
+agreement lifted from $\rho = 0.52$ to $\rho = 0.93$), social choice
+(Arrow's theorem), foundational physics (quantum contextuality), and
+mathematical physics (Navier--Stokes tightness classification).  In
+every instance, the same resolution applies: projecting onto the
+symmetry-invariant subspace.
 This orbit-averaged projection is the unique Pareto-optimal strategy
 (a consequence of classical invariant decision theory).
 The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
@@ -114,25 +114,16 @@ aggregation~\citep{arrow1951social}, gauge invariance in physics, and
 Markov equivalence in causal
 inference~\citep{verma1991equivalence}---but never unified.
 
-The same mathematical strategy appears across eight scientific
-communities: projecting onto the subspace invariant under the symmetry
-of equivalent configurations.  This shared structure was not previously
-identified---each community arrived at its resolution to address
-domain-specific concerns.  Crystallographers who cannot recover phase from
-diffraction amplitudes use Patterson maps.  Causal modellers who face
-Markov-equivalent graphs report CPDAGs.  Gauge theorists quotient out
-local symmetry.  When multiple analysts examine the same data, the
-impossibility applies with researchers as voters in Arrow's
-sense~\citep{arrow1951social}: 70 neuroimaging
-teams~\citep{botviniknezer2020variability}, 29 psychology
-teams~\citep{silberzahn2018many}, and 73 political science
-teams~\citep{breznau2022observing} reached divergent conclusions from
-identical data.  Ten neural networks trained on the same task discover
-circuits that overlap by only 2.2\%, yet all achieve 100\% accuracy.
-We identify the common mathematical structure: each community
-projects onto the subspace invariant under the symmetry group of
-observationally equivalent configurations---the orbit average,
-proved Pareto-optimal by classical invariant decision theory.
+Eight scientific communities have independently developed methods
+that share the same algebraic structure: projecting onto the
+symmetry-invariant subspace.  This shared structure was not previously
+identified.  Ten neural networks trained on the same task discover
+circuits that overlap by only 2.2\%, yet all achieve 100\% accuracy;
+70 neuroimaging teams reached divergent conclusions from the same
+data~\citep{botviniknezer2020variability}; crystallographers, causal
+modellers, and gauge theorists each quotient out equivalent
+configurations.  We identify the common operation---the orbit
+average---and prove it is the unique Pareto-optimal stable explanation.
 
 The operational consequences are immediate.  Train a machine learning
 classifier to distinguish colon from kidney tumours using 10{,}935
@@ -583,11 +574,9 @@ neuroimaging (Instance~4): the overlap map is provably near-optimal, and
 universal across model classes: four ML model families (XGBoost, Random
 Forest, Ridge, LASSO) agree on instability patterns within families
 ($\rho = 0.79$--$0.94$) but not across families (Supplementary
-Information).  Beyond these five instances, the theorem applies to any
-science where correlated variables create underdetermined
-explanations---which risk factor drives a disease (epidemiology), which
-feedback mechanism drives warming (climate science), which policy lever
-drove growth (economics)---wherever the Rashomon property holds.
+Information).  The theorem's preconditions (Rashomon property $+$ incompatible
+explanations) are satisfied wherever correlated variables create
+underdetermined explanations.
 The theorem is universal; the diagnostic pipeline (SAGE, DASH) is
 validated for tabular feature-importance explanations across all tested
 model types and attribution methods (Cochran's $Q$ $p = 0.25$; no
@@ -653,16 +642,16 @@ can ``pick two.''  Only three have \emph{collapsed tightness}---property
 pairs are blocked, not just the triple: the explanation bilemma, the
 quantum linearity trilemma (no-cloning $+$ measurement disturbance),
 and the GL($n$) representation impossibility (Lean-verified for all
-$n \geq 2$ and primes $p$ over finite fields).  All three share the
-same mechanism: a uniformity property (stability, linearity,
-conjugation invariance) individually incompatible with two desiderata,
-resolved by enrichment (the DASH average, a linear subspace, the trace
-character---all Reynolds projections onto the trivial representation,
-proved
-Pareto-optimal in both cases.  All three collapsed instances share the
-same mechanism: a uniformity property (stability / linearity /
-conjugation invariance) individually incompatible with two desiderata,
-resolved by enrichment.  The explanation uncertainty bound makes this
+$n \geq 2$ and primes $p$ over finite fields).  All share the same
+mechanism: a uniformity property individually incompatible with two
+desiderata, resolved by enrichment (the DASH average, a linear
+subspace, the trace character---all Reynolds projections onto the
+trivial representation, proved Pareto-optimal).
+Note: the bilemma and the GL($n$) instance apply the same theorem to
+different domains (explanation stability vs conjugation invariance);
+they are not independent impossibilities but instances of the same
+structural obstruction.
+The explanation uncertainty bound makes this
 quantitative: any stable explanation satisfies
 $\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta -
 \delta$ on each Rashomon pair---a lower bound on complementary
@@ -726,12 +715,8 @@ circumvented by algorithmic innovation---only by eliminating the
 Rashomon property itself.
 
 \paragraph{Outlook.}
-The most compelling evidence for the theorem's universality is not the
-formal proof---it is the convergence of eight scientific communities on
-the same resolution, discovered independently over a century, now
-explained by a single structural condition.  The impossibility is
-inescapable for any system with the Rashomon property.  The resolution
-is known and provably Pareto-optimal.  In companion work, an audit of
+The impossibility is inescapable for any system with the Rashomon
+property.  The resolution is known and provably Pareto-optimal.  In companion work, an audit of
 149~datasets across 53~scientific domains finds that 75\% exceed their
 explanation capacity under standard practice (cross-dataset Wilcoxon
 $p = 5.1 \times 10^{-11}$), with a 27:1
