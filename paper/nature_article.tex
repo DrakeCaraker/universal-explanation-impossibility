@@ -92,13 +92,10 @@ resolution appears: projecting onto the symmetry-invariant subspace.
 This orbit-averaged projection is the unique Pareto-optimal strategy
 (a consequence of classical invariant decision theory).
 The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
-content any method can extract---structurally parallel to channel
-capacity: a computable limit separating achievable from unachievable,
-with an explicit optimal code and a tight converse.  The capacity
-formula predicts instability across seven domains ($R^2 = 0.96$, zero
-free parameters),
-establishing a capacity theorem and uncertainty principle for
-scientific explanation.
+content any method can extract.  The capacity formula predicts
+instability across seven domains ($R^2 = 0.96$, zero free parameters),
+establishing quantitative limits on stable explanation across the
+sciences.
 \end{abstract}
 
 %%% =========================================================================
@@ -117,10 +114,11 @@ aggregation~\citep{arrow1951social}, gauge invariance in physics, and
 Markov equivalence in causal
 inference~\citep{verma1991equivalence}---but never unified.
 
-Over the past century, eight scientific communities have independently
-converged on a single mathematical strategy for this problem: project
-onto the subspace invariant under the symmetry of equivalent
-configurations.  Crystallographers who cannot recover phase from
+The same mathematical strategy appears across eight scientific
+communities: projecting onto the subspace invariant under the symmetry
+of equivalent configurations.  This shared structure was not previously
+identified---each community arrived at its resolution to address
+domain-specific concerns.  Crystallographers who cannot recover phase from
 diffraction amplitudes use Patterson maps.  Causal modellers who face
 Markov-equivalent graphs report CPDAGs.  Gauge theorists quotient out
 local symmetry.  When multiple analysts examine the same data, the
@@ -530,10 +528,12 @@ prediction, which circuit implements the computation, which causal
 direction holds---cannot be faithfully, stably, and decisively reported.
 This is not a limitation of current methods.  It is a mathematical fact
 about underspecified systems, proved from pure logic with zero axioms
-about explanation methods---a formalisation, with the first quantitative
-predictions and proof of optimal resolution, of the Duhem--Quine thesis
-that theories are underdetermined by
-data~\citep{duhem1906aim,quine1951dogmas}.  The impossibility requires
+about explanation methods---a quantitative formalisation of explanatory
+underdetermination, related to but distinct from Duhem--Quine
+confirmational holism~\citep{duhem1906aim,quine1951dogmas}: where
+Duhem--Quine concerns which \emph{theory} the evidence supports, the
+present theorem concerns which \emph{explanation} is correct when
+multiple valid models agree on the prediction.  The impossibility requires
 no assumptions about the explanation method; it cannot be circumvented
 by algorithmic innovation, only by eliminating the Rashomon property
 itself.  Practitioners can diagnose whether instability is structural
@@ -546,11 +546,13 @@ $\dim(V^G)/\dim(V)$---a quantitative version of the structural realist
 thesis.
 
 The theorem's implications span foundational sciences.  In foundational
-physics, the explanation capacity formula has an exact quantum
-interpretation: it bounds the information accessible to
-symmetry-respecting measurements, with the Pythagorean decomposition
-under the Reynolds operator and the quantum twirl as instances of the
-same projection onto the trivial representation (Instance~3).  In
+physics, the explanation capacity formula $\eta = 1 - \dim(V^G)/\dim(V)$
+has a direct quantum interpretation: it equals the fraction of
+information inaccessible to $G$-covariant measurements.  The Pythagorean
+decomposition under the Reynolds operator is the same algebraic identity
+that governs quantum information loss under the
+twirl---both are projections onto the trivial representation of~$G$
+(Instance~3).  In
 mathematical physics, the tightness classification distinguishes
 2D Navier--Stokes (regularity proved $\to$ FULL tightness) from
 3D Navier--Stokes (open $\to$ SMOOTH-BLOCKED tightness; Instance~5).
@@ -650,28 +652,13 @@ tightness}: every pair is independently achievable, and practitioners
 can ``pick two.''  Only three have \emph{collapsed tightness}---property
 pairs are blocked, not just the triple: the explanation bilemma, the
 quantum linearity trilemma (no-cloning $+$ measurement disturbance),
-and the GL($n$) representation impossibility, proved for all
-$n \geq 2$ and all primes $p$ over finite fields (Lean-verified;
-the structural argument extends to any non-abelian group).  In the
-GL($n$) case, the trace (= character) is the optimal stable
-resolution; the boundary between full and collapsed tightness
-($n = 1$ vs $n \geq 2$) is precisely the abelian/non-abelian
-boundary; for GL($n$, $\mathbb{F}_p$) the trace IS the character in
-the Langlands correspondence (a theorem for finite fields;
-Lean-verified in \texttt{LanglandsCorrespondence.lean}).  The
-Reynolds naturality theorem (Lean-verified) predicts that the character
-must be functorial---compatible with group homomorphisms---as a
-structural consequence of the bilemma's resolution, independently of
-the Langlands programme's classification.  The framework identifies
-the automorphicity condition---that stable resolutions must respect
-global group structure, not merely local compatibility---as the precise
-content separating structural predictions from arithmetic
-classification; for finite fields this is computable (Lean-verified
-for $S_3$; companion repository), while for number fields it remains
-the central open problem.  The DASH ensemble average
-for feature attribution and the Langlands character for representations
-are instances of the same algebraic structure: the Reynolds projection
-onto the trivial representation of the symmetry group, proved
+and the GL($n$) representation impossibility (Lean-verified for all
+$n \geq 2$ and primes $p$ over finite fields).  All three share the
+same mechanism: a uniformity property (stability, linearity,
+conjugation invariance) individually incompatible with two desiderata,
+resolved by enrichment (the DASH average, a linear subspace, the trace
+character---all Reynolds projections onto the trivial representation,
+proved
 Pareto-optimal in both cases.  All three collapsed instances share the
 same mechanism: a uniformity property (stability / linearity /
 conjugation invariance) individually incompatible with two desiderata,
@@ -743,17 +730,20 @@ The most compelling evidence for the theorem's universality is not the
 formal proof---it is the convergence of eight scientific communities on
 the same resolution, discovered independently over a century, now
 explained by a single structural condition.  The impossibility is
-permanent.  The resolution is known.  In companion work, an audit of
+inescapable for any system with the Rashomon property.  The resolution
+is known and provably Pareto-optimal.  In companion work, an audit of
 149~datasets across 53~scientific domains finds that 75\% exceed their
 explanation capacity under standard practice (cross-dataset Wilcoxon
 $p = 5.1 \times 10^{-11}$), with a 27:1
 confirmation-to-reversal ratio for the directional
-prediction.  As Shannon's channel capacity
-bounds what communication can achieve, the explanation capacity
-$C = \dim(V^G)$ bounds what explanation can achieve---and the orbit
-average is the optimal code.  The algebraic identity connecting these
-limits to quantum information theory is the Pythagorean decomposition
-under group projection: the fraction of explanatory content lost to
+prediction.  The explanation capacity
+$C = \dim(V^G)$ bounds what stable explanation can extract from a
+system with symmetry group~$G$.  The orbit average achieves this bound
+and is provably Pareto-optimal.  The structural form parallels capacity
+theories in information theory; the underlying mathematics
+(representation theory, the Reynolds operator) is classical, and the
+contribution is identifying that this machinery applies to explanation
+stability.  The fraction of explanatory content lost to
 symmetry is $\eta = 1 - \dim(V^G)/\dim(V)$, the same formula governing
 quantum information loss under covariant
 channels~\citep{bartlett2007reference}---explanatory content decomposes
