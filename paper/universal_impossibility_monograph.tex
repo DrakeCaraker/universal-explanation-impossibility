@@ -155,10 +155,10 @@ contradiction---and Lean-verified tightness theorems show that each pair of
 properties is achievable, confirming that the impossibility is non-trivial.
 Cross-domain experiments empirically validate the impossibility in seven of
 the eight scientific domains (Table~\ref{tab:cross-domain}), including a
-perfect dose-response between codon degeneracy and usage entropy across
-120 eukaryotic cytochrome~c sequences from NCBI RefSeq
-(Kruskal--Wallis $p = 2.0 \times 10^{-3}$, Spearman $\rho = 1.0$;
-simulated null: $p = 2.3 \times 10^{-18}$), significant parser disagreement on ambiguous sentences
+protein-level test on 120~cytochrome~c sequences where the capacity
+formula predicts sequence diversity with $r = 0.798$ ($p = 0.018$) and
+systematic undershoot attributable to purifying selection,
+significant parser disagreement on ambiguous sentences
 ($p = 9 \times 10^{-4}$), and causal discovery convergence only at infinite
 sample size.
 Empirical experiments on four ML instances confirm severe instability among
@@ -2796,20 +2796,16 @@ Fashion-MNIST & Random Forest & 10 & \textbf{1.000} & 0.818 \\
 \end{tabular}
 \end{center}
 
-Rashomon overlap achieves \emph{perfect} rank correlation ($\rho = 1.000$)
-with the confusion matrix on every dataset and model type tested.  Feature
-similarity ranges from 0.29 to 0.82---sometimes moderate but never perfect.
-The result is model-agnostic (holds for both ensemble and boosting methods)
-and domain-agnostic (holds for pixel images, TF-IDF text, and low-dimensional
-tabular data).
-
-This result is not derivable from standard ML theory, which attributes
-confusion to feature overlap.  The framework predicts that confusion arises
-from \emph{model multiplicity}---different near-optimal models routing the
-same input to different classes---rather than from input similarity per se.
-The practical implication: to reduce confusion between specific classes,
-reduce the Rashomon overlap (e.g., by regularization or additional training
-data that breaks the symmetry), rather than increasing feature separation.
+Rashomon overlap achieves rank correlation $\rho = 1.000$
+with the confusion matrix on every dataset and model type tested.
+\emph{Caveat:} this perfect correlation likely reflects a near-identity
+between the two quantities (both are functions of the same Rashomon
+predictions on the same test data) rather than a non-trivial prediction.
+The observation is noted here for completeness but should not be
+interpreted as independent empirical evidence for the framework.  The
+practical implication---that confusion between classes may be driven by
+model multiplicity rather than input similarity---remains a hypothesis
+requiring independent validation.
 
 \subsection{Invariance Counting: Exact Enumeration of Stable Queries}
 \label{sec:noether-counting}
