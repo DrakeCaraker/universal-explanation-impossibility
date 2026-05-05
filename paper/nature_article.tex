@@ -76,24 +76,27 @@ distinguish colon from kidney tumours using 10{,}935 gene-expression
 features, and the algorithm names TSPAN8---an invasion/metastasis
 gene---as the most important biomarker; change only the random seed and
 the top gene becomes CEACAM5, an immune-evasion marker with zero shared
-biological function.  We prove this instability is a mathematical
-consequence of underdetermination: whenever observationally equivalent
-configurations coexist (the Rashomon property), no explanation can
-simultaneously be faithful, stable, and decisive.  The impossibility
-requires no domain-specific axioms; it is verified in Lean~4
-(530~theorems, 0~unproved goals) and instantiated across foundational
+biological function.  We identify a structural condition---the Rashomon
+property (observationally equivalent configurations coexist)---under
+which no explanation can simultaneously be faithful (correct), stable
+(consistent across equivalent configurations), and decisive (specific).
+The impossibility is verified in Lean~4 (530~theorems, 0~unproved
+goals) and instantiated as constructive witnesses across foundational
 physics (Peres--Mermin quantum contextuality), social choice (Arrow's
 theorem and multi-analyst scientific aggregation), mathematical physics
 (3D Navier--Stokes tightness classification, 54~DNS runs, $R^2 = 0.94$),
 clinical biology (gene-expression pathway instability), and AI
 interpretability (transformer circuit multiplicity, agreement lifted from
-$\rho = 0.52$ to $\rho = 0.93$).  In every instance, a constructive
-resolution exists: projecting onto the symmetry-invariant subspace.
-The orbit-averaged projection is the unique Pareto-optimal strategy.
+$\rho = 0.52$ to $\rho = 0.93$).  In every instance, the same
+resolution appears: projecting onto the symmetry-invariant subspace.
+This orbit-averaged projection is the unique Pareto-optimal strategy
+(a consequence of classical invariant decision theory).
 The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
-content any method can extract, structurally analogous to Shannon's
-channel capacity in the symmetric regime.  The capacity formula predicts
-instability across seven domains ($R^2 = 0.96$, zero free parameters),
+content any method can extract---structurally parallel to channel
+capacity: a computable limit separating achievable from unachievable,
+with an explicit optimal code and a tight converse.  The capacity
+formula predicts instability across seven domains ($R^2 = 0.96$, zero
+free parameters),
 establishing a capacity theorem and uncertainty principle for
 scientific explanation.
 \end{abstract}
@@ -128,8 +131,10 @@ teams~\citep{silberzahn2018many}, and 73 political science
 teams~\citep{breznau2022observing} reached divergent conclusions from
 identical data.  Ten neural networks trained on the same task discover
 circuits that overlap by only 2.2\%, yet all achieve 100\% accuracy.
-That these communities arrived at structurally identical solutions
-without any cross-pollination demands an explanation.
+We identify the common mathematical structure: each community
+projects onto the subspace invariant under the symmetry group of
+observationally equivalent configurations---the orbit average,
+proved Pareto-optimal by classical invariant decision theory.
 
 The operational consequences are immediate.  Train a machine learning
 classifier to distinguish colon from kidney tumours using 10{,}935

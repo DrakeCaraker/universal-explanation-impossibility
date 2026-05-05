@@ -221,18 +221,38 @@ the directed acyclic graph.  No one has asked: is there \emph{one} structural
 cause?  Is the impossibility intrinsic to underspecification itself, rather
 than to any particular domain?
 
-In this paper we answer affirmatively.  We prove a \emph{Universal Explanation
-Impossibility}: no explanation of an underspecified system can simultaneously
-be faithful, stable, and decisive.  The theorem requires only the
-\emph{Rashomon property}---the existence of equivalent hypotheses that
-honestly report incompatible explanations---and the proof is four lines.
+In this paper we answer affirmatively.  We identify a structural
+condition---the Rashomon property---under which no explanation can
+simultaneously be faithful, stable, and decisive.  The proof is four
+lines; the content is in the consequences.  From this structural foundation
+we derive: a parameter-free quantitative predictor of instability (the
+explanation capacity $\dim(V^G)/\dim(V)$, confirmed at $R^2 = 0.957$
+across seven domains), a unique Pareto-optimal resolution (orbit
+averaging, a consequence of classical invariant decision theory), and a
+model-agnostic diagnostic pipeline validated on 30~datasets $\times$
+6~model/method configurations (Cochran's $Q$, $p = 0.25$; no model or
+method effect).  The framework has the structural form of a capacity
+theory---computable limit, explicit optimal code, tight converse,
+convergence rate---though the mathematics is classical (representation
+theory, the Reynolds operator); the contribution is identifying that
+this machinery applies to explanation stability and validating the
+application empirically.
+
+This monograph serves as the definitive reference.  It documents the
+complete formal theory (all proofs, Lean~4 verification), the full
+empirical validation, 23~cross-domain instantiations, speculative
+connections (clearly labeled), five falsified predictions, and the
+validated practitioner pipeline.  The associated Nature submission
+presents the focused empirical contribution.
+
 Our contributions are:
 \begin{enumerate}[label=(\arabic*)]
-  \item \textbf{A universal impossibility theorem}
-    (Theorem~\ref{thm:universal}) that unifies impossibility results
-    across eight domains and nine ML explanation types under a single
-    proof requiring only the Rashomon property.
-  \item \textbf{Eight derived instances across eight domains}
+  \item \textbf{A structural impossibility theorem}
+    (Theorem~\ref{thm:universal}) identifying the Rashomon property
+    as the universal condition generating explanation instability,
+    with constructive witnesses across eight scientific domains and
+    nine ML explanation types.
+  \item \textbf{Eight cross-domain instances}
     (Section~\ref{sec:derived-instances}): underdetermined linear systems
     (mathematics), genetic code degeneracy (biology), gauge freedom
     (physics), microstate degeneracy in statistical mechanics (physics),
@@ -399,16 +419,20 @@ the same explanation:
 
 \begin{definition}[Decisive]
 \label{def:decisive}
-An explanation map $E$ is \emph{decisive} if $E(\theta)$ inherits every
-incompatibility of the native explanation: whatever
-$\mathsf{explain}(\theta)$ rules out, $E(\theta)$ also rules out.  Formally,
+Practitioners want explanations that commit to specifics: ``Feature~$A$ is
+more important than Feature~$B$,'' not ``it depends on the model.''
+We formalise this desideratum as: $E$ is \emph{decisive} if $E(\theta)$
+inherits every incompatibility of the native explanation---whatever
+$\mathsf{explain}(\theta)$ rules out, $E(\theta)$ also rules out:
 \[
   \forall\,\theta \in \Params,\;\forall\,h \in \sH,\quad
   \incomp\bigl(\mathsf{explain}(\theta),\, h\bigr)
   \;\Longrightarrow\;
   \incomp\bigl(E(\theta),\, h\bigr).
 \]
-$E$ is at least as committal as $\mathsf{explain}$.
+The formal encoding references $\mathsf{explain}(\theta)$ for
+precision; the underlying intuition---explanations should commit to
+specifics---is method-independent.
 \end{definition}
 
 In the feature attribution instance (Section~\ref{sec:instance-attribution}),
@@ -2116,6 +2140,15 @@ The tightness classification has a topological interpretation via the \emph{comp
 
 \paragraph{Relation to structuralist philosophy of science.}
 The trilemma framework sits within the structuralist tradition of Sneed~\cite{sneed1971logical} and Stegm\"uller, which formalises scientific theories as set-theoretic predicates. Our explanation system $(\Theta, Y, H, \text{observe}, \text{explain}, \text{incomp})$ is a Sneedian structure; the trilemma is a structural constraint on admissible maps. The enrichment pattern (adding a neutral element to resolve the bilemma) parallels Sneed's treatment of theory specialisation, where new structure is adjoined to an existing core.
+
+\bigskip
+\noindent\textbf{--- Speculative Connections and Open Questions ---}
+
+\medskip
+\noindent\emph{The following subsections document structural connections that
+are conjectural, historical interpretations, or beyond the current scope
+of empirical validation.  They are included as a research program record,
+not as validated claims of the framework.}
 
 \subsection{Scientific Revolutions as Enrichment Events}
 \label{sec:revolutions}
