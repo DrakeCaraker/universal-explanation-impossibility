@@ -93,9 +93,9 @@ This orbit-averaged projection is the unique Pareto-optimal strategy
 (a consequence of classical invariant decision theory).
 The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
 content any method can extract.  The capacity formula predicts
-instability across seven domains ($R^2 = 0.96$, zero free parameters),
-predicting empirical instability across seven domains with zero free
-parameters.
+empirical instability across seven domains ($R^2 = 0.96$, zero free
+parameters); a group-free diagnostic generalises the prediction across
+67~datasets (Spearman $\rho = 0.87$, $p < 10^{-20}$).
 \end{abstract}
 
 %%% =========================================================================
@@ -473,7 +473,9 @@ or method effect).  DASH preserves accuracy in 100\% of 156~tests (CI:
 
 The capacity formula achieves $R^2 = 0.957$ when $G$ is known but only
 holdout $R^2 = 0.24$ when groups are inferred approximately---a
-group-identification bottleneck.  Two further bridges address this:
+group-identification bottleneck.  The coverage conflict diagnostic
+above bypasses this requirement when group identification is infeasible;
+two further bridges complete the picture:
 the Gaussian flip formula $\Phi(-\mathrm{SNR})$ predicts per-pair
 instability (median out-of-sample $R^2 = 0.82$ at $M = 50$), and the
 SAGE algorithm discovers dependence groups automatically from pairwise
@@ -633,7 +635,11 @@ for constrained approximation~\citep{donoho1989uncertainty}.  Collapsed tightnes
 resolution strategy fails; enrichment or approximation bounds are
 required---explaining why explanation methods need qualitatively different
 design approaches than, for example, fairness methods (which have full
-tightness).
+tightness).  Tightness type can also depend on operating conditions: ML
+fairness has full tightness when accuracy is unconstrained, but
+transitions to PPV-blocked at TPR~$\geq 0.3$, where calibration becomes
+universally incompatible with the other criteria and equalised odds is
+the only achievable pairwise compromise (Supplementary Information).
 
 \paragraph{The classification extends to mathematical physics.}
 For the 3D Navier--Stokes equations---where global regularity is an open
@@ -945,16 +951,16 @@ Social choice (Arrow)
 \toprule
 \textbf{System} & \textbf{Domain} & \textbf{Tightness} & \textbf{Evidence} \\
 \midrule
-\textbf{Bilemma} & \textbf{ML explanation} & \textbf{Collapsed} & \textbf{structural} \\
+\textbf{Bilemma}$^\dagger$ & \textbf{ML explanation} & \textbf{Collapsed} & \textbf{structural} \\
 \textbf{Quantum linearity} & \textbf{Quantum info} & \textbf{Collapsed} & \textbf{model} \\
-\textbf{GL($n$) representation} & \textbf{Langlands program} & \textbf{Collapsed} & \textbf{structural} \\
+\textbf{GL($n$) representation}$^\dagger$ & \textbf{Langlands program} & \textbf{Collapsed} & \textbf{structural} \\
 \midrule
 Arrow & Social choice & Full & structural \\
 Gibbard-Satterthwaite & Social choice & Full & structural \\
 Bell (CHSH) & Quantum physics & Full & structural \\
 Kochen-Specker & Quantum physics & Full & structural \\
 G\"odel incompleteness & Mathematical logic & Full & structural \\
-ML fairness & ML prediction & Full & model \\
+ML fairness$^\dagger$ & ML prediction & Full$\to$PPV-blocked & model \\
 Bias-variance & Statistics & Full & model \\
 Sen's liberal paradox & Social choice & Full & model \\
 CAP theorem & Distributed systems & Full & model \\
