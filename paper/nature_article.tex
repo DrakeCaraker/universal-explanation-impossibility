@@ -94,8 +94,8 @@ This orbit-averaged projection is the unique Pareto-optimal strategy
 The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
 content any method can extract.  The capacity formula predicts
 instability across seven domains ($R^2 = 0.96$, zero free parameters),
-establishing quantitative limits on stable explanation across the
-sciences.
+predicting empirical instability across seven domains with zero free
+parameters.
 \end{abstract}
 
 %%% =========================================================================
@@ -347,40 +347,21 @@ $G$-invariant $\rho \approx 0.97$--$0.99$ (Supplementary Information).
 \subsection*{Instance 3: Quantum contextuality}
 
 The Peres--Mermin square~\citep{peres1990incompatible,mermin1990simple}
-is a $3 \times 3$ grid of nine quantum observables with the property that
-each row and each column consists of three mutually commuting observables
-whose product equals $+I$ (rows) or $-I$ (one column).  Any noncontextual
-value assignment must reproduce these products multiplicatively, but the
-row-product and column-product constraints are jointly inconsistent: no
-assignment exists.  The framework recovers this as an instance of
-Theorem~\ref{thm:impossibility}.  Configurations are measurement contexts;
-observations are measurement outcomes; explanations are noncontextual
-value assignments; incompatibility is sign disagreement on the constraint
-products.  Faithful $+$ stable $+$ decisive value assignment is impossible.
-Lean-verified, zero domain-specific axioms (\texttt{PeresMermin.lean}).
-
-The impossibility has been experimentally
-confirmed~\citep{kirchmair2009state,amselem2009state} for
-state-independent contextuality.  The connection to the framework's
-quantitative core is exact, not analogical: the explanation capacity
-formula $\eta = 1 - \dim(V^G)/\dim(V)$ is the same algebraic identity
-that bounds quantum information accessible to symmetry-respecting
-measurements.  The Pythagorean decomposition
-$\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$ under the Reynolds operator
-$R = |G|^{-1}\sum_g \rho(g)$ governs both the explanation residual
-(information lost to $G$-invariant aggregation) and quantum information
-loss under the twirl $T(\rho) = |G|^{-1}\sum_g U(g)\rho\,U(g)^\dagger$.
-The two settings are instances of the same projection onto the trivial
-representation, applied to different spaces.  Concretely: for a qubit
-with SU(2) symmetry, $\eta = 1 - \dim(\mathcal{H}^G)/\dim(\mathcal{H})
-= 1/2$, recovering the known quantum information
-bound~\citep{bartlett2007reference} from the explanation capacity formula.
-
-The resolution---reporting the equivalence class of measurement outcomes
-rather than committing to context-dependent values---is the quantum-mechanical
-instantiation of the orbit average that resolves ML attribution instability.
-Both are Pareto-optimal stable explanations under their respective symmetry
-groups.
+--- a $3 \times 3$ grid of nine observables whose row/column product
+constraints are jointly inconsistent --- is recovered as an instance of
+Theorem~\ref{thm:impossibility}: configurations are measurement
+contexts, explanations are noncontextual value assignments, and
+faithful $+$ stable $+$ decisive assignment is impossible
+(Lean-verified, zero axioms; experimentally
+confirmed~\citep{kirchmair2009state,amselem2009state}).  The capacity
+formula $\eta = 1 - \dim(V^G)/\dim(V)$ has a direct quantum
+interpretation: it equals the fraction of information inaccessible to
+$G$-covariant measurements, with the Reynolds projection and the
+quantum twirl as instances of the same projection onto the trivial
+representation~\citep{bartlett2007reference}.  The
+resolution---reporting equivalence classes rather than
+context-dependent values---is the same orbit average that resolves ML
+attribution instability.
 
 \subsection*{Instance 4: Social choice and scientific aggregation}
 
@@ -476,35 +457,27 @@ the within-group flip rate is 50.0\% and the between-group rate is 0.2\%
 The Pythagorean decomposition $\|v - Rv\|^2 + \|Rv\|^2 = \|v\|^2$
 partitions any explanation vector into stable ($Rv$) and unstable
 ($v - Rv$) components with zero cross-talk (Lean-verified).
-The capacity formula requires identifying the symmetry group---a
-practical bottleneck (holdout $R^2 = 0.24$ for 9~domains with
-approximate groups; on 49~real-world datasets with power-adequate
-inferred groups, the formula partially generalises at Spearman
-$\rho = 0.55$, $p = 3.8 \times 10^{-5}$ at $\rho^* = 0.50$,
-surviving Bonferroni correction for 5~thresholds tested;
-$\rho = 0.40$, $p = 0.011$ at $\rho^* = 0.70$).  Three empirical bridges address this at
-decreasing cost.  First, the Gaussian flip formula
-$\Phi(-\mathrm{SNR})$ predicts per-pair instability from bootstrap
-retrains alone, with in-sample $R^2 > 0.80$ on ${\sim}90\%$ of datasets
-(out-of-sample $R^2 > 0.80$ on 59\% with $M = 50$ independent
-calibration/validation models; median out-of-sample $R^2 = 0.82$).
-Second, the coverage conflict degree---the
-fraction of feature pairs with $\mathrm{SNR} < 0.5$---predicts mean
-instability with Spearman $\rho = 0.87$ ($p < 10^{-20}$, 67~datasets)
-when computed from TreeSHAP values, computable
-from bootstrap retrains in 7~lines of code.
-Third, the SAGE algorithm
-discovers dependence groups automatically from pairwise flip rates
-($R^2 = 0.81$ after calibration; Supplementary Information).
-A factorial validation (30~datasets $\times$ 6~model/method
-configurations---XGBoost, Random Forest, Logistic Regression, and
-Neural Networks with TreeSHAP, gain-based, and permutation
-importance) confirms the pipeline is model-agnostic (Cochran's
-$Q = 6.61$, $p = 0.25$; no significant model or method effect).
-DASH preserves accuracy in 100\% of 156~tests (CI: 98--100\%).
-SAGE predicts directional instability on 92\% (CI: 87--96\%) across
-all configurations, with negative control $p < 10^{-23}$.
-Regression: 30/30.
+For practitioners who cannot identify $G$ \emph{a priori}, a
+group-free diagnostic suffices: the coverage conflict degree---the
+fraction of feature pairs with signal-to-noise ratio $< 0.5$---predicts
+mean instability with Spearman $\rho = 0.87$ ($p < 10^{-20}$,
+67~datasets), computable from bootstrap retrains in 7~lines of code
+with no group identification.  A factorial validation
+(30~datasets $\times$ 6~model/method configurations---XGBoost, Random
+Forest, Logistic Regression, and Neural Networks with TreeSHAP,
+gain-based, and permutation importance) confirms the pipeline is
+model-agnostic: Cochran's $Q = 6.61$, $p = 0.25$ (no significant model
+or method effect).  DASH preserves accuracy in 100\% of 156~tests (CI:
+98--100\%); SAGE predicts directional instability on 92\% (CI:
+87--96\%) with negative control $p < 10^{-23}$; regression: 30/30.
+
+The capacity formula achieves $R^2 = 0.957$ when $G$ is known but only
+holdout $R^2 = 0.24$ when groups are inferred approximately---a
+group-identification bottleneck.  Two further bridges address this:
+the Gaussian flip formula $\Phi(-\mathrm{SNR})$ predicts per-pair
+instability (median out-of-sample $R^2 = 0.82$ at $M = 50$), and the
+SAGE algorithm discovers dependence groups automatically from pairwise
+flip rates ($R^2 = 0.81$ after calibration; Supplementary Information).
 
 %%% =========================================================================
 %%% Discussion
@@ -961,7 +934,12 @@ Social choice (Arrow)
   non-trivial Lean proof over unbounded solution space.  Model:
   3-element type that forces its tightness.  Bell and Kochen-Specker
   tightness is decomposition-dependent (see text).  The GL($n$) result
-  holds for all $n \geq 2$ and all primes $p$ (Lean-verified).}
+  holds for all $n \geq 2$ and all primes $p$ (Lean-verified).
+  $^\dagger$The bilemma and GL($n$) instance are not independent:
+  both apply the same structural theorem (maximal incompatibility
+  $\Rightarrow$ F$+$S blocked) to different domains.  ML fairness
+  transitions from Full to PPV-blocked under performance constraints
+  (TPR~$\geq 0.3$); see Supplementary Information.}
 \label{tab:ed-classification}
 \begin{tabular}{@{}llll@{}}
 \toprule
