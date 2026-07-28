@@ -189,6 +189,16 @@ repository we do \\emph{not} sum them; the distinct program-wide count is approx
 rep("""The Noether permutation test is confirmatory (pre-specified test on a pre-registered prediction).  We label each analysis accordingly throughout the text.""",
 """The Noether permutation test is confirmatory (pre-specified test on a pre-registered prediction).  We label each analysis accordingly throughout the text.  \\emph{Caveat on temporal precedence:} \\texttt{PRE\\_REGISTRATION.md} entered version control in the same commit as the knockout results it governs, so its precedence cannot be independently established from the repository history; and its own primary criterion---capacity $R^2>0.90$ on the \\emph{full} domain set---was not met (the all-domain fit is $R^2\\approx0.60$).  The headline $R^2=0.957$ is the pre-specified well-characterised-group subset, defined by an a-priori criterion but a subset nonetheless; we report the full-set figure alongside it and treat the capacity law as Tier~B (empirical), not as a consequence of the impossibility theorem.""")
 
+# ---- appendix companion-section overclaims (parity with body) ----
+rep("""The trace (stable resolution of GL($n$) bilemma) is compatible with natural maps between matrix algebras (\\texttt{LanglandsFunctoriality.lean}).  These are concrete manifestations of Langlands functoriality.""",
+"""The trace (stable resolution of the GL($n$) bilemma) is compatible with natural maps between matrix algebras (\\texttt{LanglandsFunctoriality.lean}).  These are elementary trace-compatibility facts; we do \\emph{not} claim they constitute Langlands functoriality, which concerns automorphic representations that are absent from this formalization.""")
+
+rep("""The gap---4 out of 6 CRT-allowed combinations are blocked by automorphicity---is the impossibility-theoretic reading of the global Langlands correspondence.""",
+"""The gap---4 out of 6 CRT-allowed combinations are blocked by the group relations---is a structural analogy to the local-global tension in the Langlands programme, not a formalization of the Langlands correspondence.""")
+
+rep("""The discrete Fourier transform on $\\mathbb{Z}/p\\mathbb{Z}$ satisfies $F^4 = p^2 \\cdot \\mathrm{id}$, forcing eigenvalues to have absolute value $\\sqrt{p}$---the local Riemann Hypothesis in spectral form (\\texttt{EnrichmentFunctor.lean}).""",
+"""The discrete Fourier transform on $\\mathbb{Z}/p\\mathbb{Z}$ satisfies $F^4 = p^2 \\cdot \\mathrm{id}$, forcing eigenvalues to have absolute value $\\sqrt{p}$---an eigenvalue-modulus fact sometimes called the ``local Riemann Hypothesis'' in spectral form, unrelated to the analytic Riemann Hypothesis (\\texttt{EnrichmentFunctor.lean}).""")
+
 text=text.replace('\\textquotesingle',"'")
 open(OUT,'w').write(text)
 

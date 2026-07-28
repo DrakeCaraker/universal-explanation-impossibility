@@ -5230,7 +5230,7 @@ The \texttt{AbstractImpossibilityN} structure generalises beyond 3~properties to
 A five-phase investigation connects enrichment stack structure to analytic properties of the Riemann zeta function.  The results are primarily negative, identifying precise obstacles:
 
 \paragraph{DFT eigenvalue constraint (local RH).}
-The discrete Fourier transform on $\mathbb{Z}/p\mathbb{Z}$ satisfies $F^4 = p^2 \cdot \mathrm{id}$, forcing eigenvalues to have absolute value $\sqrt{p}$---the local Riemann Hypothesis in spectral form (\texttt{EnrichmentFunctor.lean}).
+The discrete Fourier transform on $\mathbb{Z}/p\mathbb{Z}$ satisfies $F^4 = p^2 \cdot \mathrm{id}$, forcing eigenvalues to have absolute value $\sqrt{p}$---an eigenvalue-modulus fact sometimes called the ``local Riemann Hypothesis'' in spectral form, unrelated to the analytic Riemann Hypothesis (\texttt{EnrichmentFunctor.lean}).
 
 \paragraph{Prime enrichment stack.}
 The enrichment tower indexed by primes with $H_p = \mathrm{Fin}\,p$ has unfaithfulness $1 - p^{-1}$ at level~$p$, matching the Euler obstruction term.  Cumulative unfaithfulness diverges by Euler's theorem (1737) (\texttt{PrimeEnrichmentStack.lean}).
@@ -5255,13 +5255,13 @@ The smallest non-abelian group demonstrates the Langlands boundary concretely (\
 The bilemma extends from GL($n$) to SL($n$) because the unipotent Rashomon pair has determinant~1 (\texttt{ClassicalGroups.lean}).  The boundary theorem generalises: $n = 1$ full, $n \geq 2$ collapsed.
 
 \paragraph{Trace compatibility / functoriality.}
-The trace (stable resolution of GL($n$) bilemma) is compatible with natural maps between matrix algebras (\texttt{LanglandsFunctoriality.lean}).  These are concrete manifestations of Langlands functoriality.
+The trace (stable resolution of the GL($n$) bilemma) is compatible with natural maps between matrix algebras (\texttt{LanglandsFunctoriality.lean}).  These are elementary trace-compatibility facts; we do \emph{not} claim they constitute Langlands functoriality, which concerns automorphic representations that are absent from this formalization.
 
 \paragraph{Adelic Tate theory.}
 The chain from local Fourier analysis at each prime to global Poisson summation, Jacobi theta modular transformation, and the functional equation $\xi(s) = \xi(1-s)$ is formalised (\texttt{AdelicTate.lean}).
 
 \paragraph{Automorphicity gap (HomExplanationSystem).}
-When the explain function is required to be a group homomorphism, the enrichment Sha becomes strictly stronger than CRT (\texttt{HomExplanationSystem.lean}).  For $S_3$: CRT allows 6~character combinations but group relations force $\chi(r) = 1$, leaving only~2.  The gap---4 out of 6 CRT-allowed combinations are blocked by automorphicity---is the impossibility-theoretic reading of the global Langlands correspondence.
+When the explain function is required to be a group homomorphism, the enrichment Sha becomes strictly stronger than CRT (\texttt{HomExplanationSystem.lean}).  For $S_3$: CRT allows 6~character combinations but group relations force $\chi(r) = 1$, leaving only~2.  The gap---4 out of 6 CRT-allowed combinations are blocked by the group relations---is a structural analogy to the local-global tension in the Langlands programme, not a formalization of the Langlands correspondence.
 
 \paragraph{Galois connection.}
 The enrichment tower is formalised as a field extension tower (\texttt{GaloisConnection.lean}).  Coverage conflict $=$ irreducible polynomial; neutral element $=$ root; enrichment $=$ field extension.  Level independence follows from CRT and connects to Euler totient multiplicativity.
