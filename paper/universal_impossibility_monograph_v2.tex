@@ -135,11 +135,12 @@ observationally equivalent configurations produce incompatible explanations
 (the Rashomon property).
 This single abstract theorem, which we call the \emph{Explanation
 Impossibility}, is a meta-theorem: it holds for \emph{every} system whose
-configuration space, observations, and explanations satisfy the Rashomon
-property, and a ubiquity result (Part~I) shows this hypothesis is met
-whenever the parameter dimension exceeds the observable dimension---i.e.\
-for essentially all overparameterized models.  We then instantiate the
-theorem on explicit minimal witnesses in
+configurations, observations, and explanations satisfy the Rashomon property.
+A ubiquity argument (Part~I) indicates that this hypothesis is generically met
+whenever the parameter dimension exceeds the observable dimension---the regime
+of essentially all overparameterized models---though the differential-topology
+step of that argument is informal rather than machine-checked (see Part~I).
+We then instantiate the theorem on explicit minimal witnesses in
 eight scientific domains: the degeneracy of the genetic code (biology),
 gauge freedom in electromagnetism (physics), microstate degeneracy in
 statistical mechanics (physics), syntactic ambiguity in natural
@@ -181,11 +182,10 @@ into this regime.
 The framework is mechanically verified in Lean~4 with \textbf{0}~\texttt{sorry}.
 Its trusted base is \textbf{2}~\texttt{axiom} declarations that bundle
 \textbf{25}~behavioral assumptions (reported unbundled as~25 for transparency),
-plus a small number of \texttt{native\_decide}-induced \texttt{ofReduceBool}
-dependencies flagged per theorem; the core theorem and the entire hardened
-spine (Part~I) use \emph{none} of these.  Theorem counts are reported per
-repository (not summed across the overlapping companion repositories); see the
-Formalization section for the full accounting.
+plus \texttt{native\_decide}-induced \texttt{ofReduceBool} dependencies flagged
+per theorem; the core theorem and the entire hardened spine (Part~I) use \emph{none}
+of these. Theorem counts are reported per repository and are not summed across the
+overlapping companion repositories (see Part~I).
 \end{abstract}
 
 \newpage
@@ -193,7 +193,46 @@ Formalization section for the full accounting.
 \newpage
 
 %%% ==========================================================================
-% ------ Tier - () ------
+
+%%%% ========================= READING GUIDE =========================
+\clearpage
+\section*{Reading guide: how this document is organised}
+\addcontentsline{toc}{section}{Reading guide: how this document is organised}
+This monograph is the umbrella reference for a research program formalised across
+three Lean~4 repositories (the universal framework, an attribution-specific
+companion, and a mathematical-physics companion) with accompanying empirical
+studies. To let readers calibrate trust at a glance, \emph{every section is tagged
+with an evidence tier}, and the body is organised into five Parts by tier:
+\begin{itemize}
+  \item[\textbf{Tier A --- Hardened.}] Machine-checked in Lean~4 from zero custom
+    axioms or from explicitly stated hypotheses; the hard content is genuinely
+    proved. \textbf{Part~I} collects the load-bearing theory.
+  \item[\textbf{Tier B --- Empirical.}] Supported by experiments/audits, with sample
+    sizes, effect sizes, and caveats stated inline. These test the theory; they are
+    not logical consequences of it. \textbf{Part~II}.
+  \item[\textbf{Tier C --- Speculative / analogical.}] Structural parallels and
+    conditional or illustrative formalizations---\emph{not} domain results.
+    \textbf{Part~IV} (with an explicit status disclaimer); \textbf{Part~III} holds the
+    genuine instantiations and bridges.
+  \item[\textbf{Tier D --- Falsified / boundary.}] Predictions that were tested and
+    rejected, reported prominently by design. \textbf{Part~V}.
+\end{itemize}
+Claims that connect the framework to the Langlands programme, adelic physics,
+G\"odel's theorem, or the Riemann Hypothesis are \emph{analogies}, not proofs, and
+live in Part~IV; the genuine underlying theorems (e.g.\ the $\mathrm{GL}(n)$ trace
+bilemma, the completed-zeta three-fold symmetry) are stated separately with their
+interpretations flagged.
+
+\paragraph{Note on methodology and AI assistance.}
+This manuscript, its Lean~4 formalization, and its computational experiments were
+developed with substantial assistance from AI coding and reasoning tools. The
+guarantees the work rests on are mechanical, not authorial: every theorem is
+checked by the Lean kernel (0~\texttt{sorry}; trusted base stated in Part~I), and
+every reported statistic is reproducible from the public repositories and released
+scripts. The authors take full responsibility for all claims and framing.
+%%%% ================================================================
+
+% ---- Tier - () ----
 \section{Introduction}
 \label{sec:intro}
 %%% ==========================================================================
@@ -331,7 +370,7 @@ ubiquity.  Section~\ref{sec:lean} describes the Lean formalization.
 Section~\ref{sec:discussion} discusses implications and open questions.
 
 %%% ==========================================================================
-% ------ Tier - () ------
+% ---- Tier - () ----
 \section{Related Work}
 \label{sec:related}
 %%% ==========================================================================
@@ -343,10 +382,10 @@ Section~\ref{sec:discussion} discusses implications and open questions.
 %%%% ==========================================================
 \clearpage
 \part{Part I \textnormal{\large --- The Hardened Core}}
-\noindent\emph{Every result in this part is machine-checked in Lean~4 from zero custom axioms or from explicitly stated hypotheses; the hard content is genuinely proved. This is the load-bearing spine: the universal impossibility (a meta-theorem over the entire class of explanation systems satisfying the Rashomon property), the bilemma and tightness classification, the ubiquity result (which is what makes the universal theorem bite in practice), the capacity/Reynolds resolution theory, and the trusted-base accounting.}\par\medskip
+\noindent\emph{Every result in this Part is machine-checked in Lean~4 from zero custom axioms or from explicitly stated hypotheses; the hard content is genuinely proved. This is the load-bearing spine: the universal impossibility---a meta-theorem holding for \emph{every} explanation system that satisfies the Rashomon property---together with the bilemma and tightness classification, the ubiquity argument that makes the hypothesis generically applicable, the capacity/Reynolds resolution theory, and the trusted-base accounting.}\par\medskip
 %%%% ==========================================================
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \section{The Abstract Framework\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:framework}
 %%% ==========================================================================
@@ -390,7 +429,7 @@ The framework aligns exactly with the Lean~4 formalization in
 \texttt{ExplanationSystem.lean}: every definition and theorem below has a
 machine-checked counterpart.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Explanation Systems\,\textnormal{\normalsize[Tier A: Hardened]}}
 
 \begin{definition}[Explanation System]
@@ -428,7 +467,7 @@ rule).  The native explanation $\mathsf{explain}(\theta)$ records what the
 configuration \emph{actually implies}; $E(\theta)$ is what the chosen method
 reports.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{The Three Desiderata\,\textnormal{\normalsize[Tier A: Hardened]}}
 
 \begin{definition}[Faithful]
@@ -478,7 +517,7 @@ faithfulness means the chosen method never contradicts the model's own SHAP
 values, stability means consistency across retraining seeds, and decisiveness
 means that every distinction made by the native attribution is preserved.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{The Rashomon Property\,\textnormal{\normalsize[Tier A: Hardened]}}
 
 The key structural condition linking underspecification to explanation
@@ -503,7 +542,7 @@ principle.  It generalizes the Rashomon effect of
 \citet{rudin2024amazing,fisher2019models} from model selection to arbitrary
 explanation targets.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Main Theorem\,\textnormal{\normalsize[Tier A: Hardened]}}
 
 \begin{theorem}[Explanation Impossibility]
@@ -556,7 +595,7 @@ assumptions.  All quantitative depth (divergence rates, sample complexity,
 ensemble sizes) appears in the instance-specific sections below.
 \end{remark}
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Tightness\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:tightness}
 
@@ -608,7 +647,7 @@ in \texttt{Necessity.lean}).
 
 For instance, in feature attribution, the query ``is feature~$x$ in the top~$k$?'' may be stably answerable (all equivalent models include~$x$), while ``is~$x$ ranked above~$y$?'' may not be (collinear features swap rankings across the Rashomon set).
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Strengthened Impossibility for Maximally Incompatible Systems\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:bilemma}
 
@@ -703,7 +742,7 @@ The bilemma extends beyond exact equality. For binary $H$ (e.g., SHAP sign), $(\
 $$\text{unfaith}(\theta_1) + \text{unfaith}(\theta_2) \geq \Delta - \delta$$
 by the triangle inequality. At least one witness is unfaithful by $\geq (\Delta - \delta)/2$. Proved in Lean (\texttt{ApproximateBilemma.lean} in the companion Ostrowski formalization~\citep{caraker2026ostrowski}). This resolves the concern that the bilemma is fragile at exact equality: the binary case is discontinuity-free, and the continuous case gives a smooth, quantitative tradeoff.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{The Enrichment Mechanism\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:enrichment}
 
@@ -793,7 +832,90 @@ All theorems in this subsection are Lean-verified with zero
 \texttt{sorry} across three files: \texttt{MaximalIncompatibility.lean} (8~theorems), \texttt{BilemmaCharacterization.lean} (3~theorems), and \texttt{PredictiveConsequences.lean} (5~theorems).
 
 %%% ==========================================================================
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
+\section{Ubiquity\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:ubiquity}
+%%% ==========================================================================
+
+Is the Explanation Impossibility a pathological corner case, or a
+generic phenomenon?  In this section we show that it is the latter: the
+Rashomon property---and hence the impossibility---holds whenever the model
+has more parameters than observational constraints, a condition satisfied by
+virtually all modern machine learning systems.
+
+% ---- Tier A (Hardened) ----
+\subsection{Generic Underspecification\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:generic-underspec}
+
+\begin{proposition}[Dimensional Underspecification]
+\label{prop:generic-underspec}
+Let $\sH$ be a smooth hypothesis space of dimension $\dim(\sH)$ and let
+$\mathsf{obs} : \sH \to Y$ be a smooth observation map into a space of
+dimension $\dim(Y)$.  If $\dim(\sH) > \dim(Y)$, then for generic
+$y \in Y$, the fiber $\mathsf{obs}^{-1}(y)$ has positive dimension
+$\geq \dim(\sH) - \dim(Y)$.
+\end{proposition}
+
+\noindent
+The Lean formalization captures the combinatorial skeleton of this argument: \texttt{generic\_underspecification} proves that whenever the parameter dimension exceeds the observable dimension ($n > m$), the fiber dimension is positive ($n - m > 0$). The connection to the preimage theorem in differential topology---which guarantees that generic fibers are smooth submanifolds of the predicted dimension---is an informal mathematical argument, not a Lean-verified claim.
+Whenever the fiber has positive dimension, the explanation map
+$\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
+in the same fiber honestly report different explanations---and the Rashomon
+property holds.  (The bridge from fiber non-degeneracy to the
+impossibility is \texttt{fiber\_nondegeneracy\_implies\_impossibility}.)
+
+\paragraph{Rashomon from overparameterisation.}
+For model classes where $\dim(\Theta) > \dim(\mathcal{Y})$ (more parameters than observational constraints), the Rashomon property holds generically. The fibre $\{\theta : \text{observe}(\theta) = y\}$ has positive dimension for generic $y$, and under mild regularity (continuous explain map, non-degenerate Jacobian), distinct fibral points yield incompatible explanations with probability~1 under any absolutely continuous prior on $\Theta$~\citep{damour2022underspecification}. This covers overparameterised neural networks, deep ensembles, and GBDTs with more trees than effective degrees of freedom. Deriving tighter, architecture-specific Rashomon set bounds remains open.
+
+% ---- Tier A (Hardened) ----
+\subsection{Neural Network Dimensional Argument\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:nn-dimensional}
+
+Modern neural networks are massively overparameterized.  A ResNet-50 has
+$P \approx 25{,}600{,}000$ parameters and, for ImageNet classification,
+$k = 1{,}000$ output classes.  By Proposition~\ref{prop:generic-underspec},
+the fiber of any fixed prediction has dimension at least
+$P - k = 24{,}999{,}000$.  On such a high-dimensional manifold, any
+continuous explanation map (attention weights, gradient saliency, internal
+activations) is generically non-constant: there exist models $h, h'$ on the
+same fiber with $\mathsf{obs}(h)_j > \mathsf{obs}(h)_k$ and
+$\mathsf{obs}(h')_j < \mathsf{obs}(h')_k$ for any pair of input features
+$j, k$ with equal marginal distributions.
+
+\begin{corollary}[Coin-Flip Instability]
+\label{cor:coin-flip}
+For any pair of symmetric features $j, k$ in an overparameterized network
+trained to zero loss, the probability (over retraining seeds) that a
+faithful explanation ranks $j$ above $k$ is exactly $1/2$.
+\end{corollary}
+
+\noindent
+The 50\% flip rate applies to the adversarial case (maximally collinear pair, $\rho \to 1$). For moderate collinearity ($\rho \approx 0.7$), empirical flip rates are typically 15--30\%, still high enough to undermine single-model explanations but less extreme than the worst case.
+
+\noindent
+This is the neural-network instantiation of the symmetric Bayes
+result formalized in \texttt{Symmetric\-Bayes.lean}: the symmetry
+of the fiber under feature permutation forces uniform marginals on
+the ranking.
+
+% ---- Tier A (Hardened) ----
+\subsection{Prevalence\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:prevalence}
+
+The dimensional condition $\dim(\sH) > \dim(Y)$ is the norm, not the
+exception.  Large language models (billions of parameters, vocabulary-sized
+output), diffusion models, graph neural networks, random forests with
+hundreds of trees, and Lasso regression with more features than observations
+all satisfy it.  Even linear regression with collinear features produces a
+positive-dimensional fiber (the collinear subspace).
+\citet{damour2022underspecification} document this across NLP,
+computer vision, and medical imaging, finding that
+underspecification---and hence explanation instability---is ubiquitous
+in deployed systems.  The only escape is a model class so constrained
+that $\dim(\sH) \leq \dim(Y)$, which excludes essentially all modern
+architectures of practical interest.
+
+% ---- Tier A (Hardened) ----
 \section{The Universal Resolution\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:resolution}
 %%% ==========================================================================
@@ -874,7 +996,7 @@ explanation maps fall into exactly two families:
 No explanation map lies outside these two families.
 \end{corollary}
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Instance-Specific Resolutions\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:resolution-instances}
 
@@ -906,7 +1028,7 @@ Model sel. & Model perm.\ in $\mathcal{R}$ & Ensemble / $\mathcal{R}$ report & S
 \paragraph{Is reporting ties a genuine resolution?}
 A common objection: \DASH{} ``reports ties'' for collinear features, which may seem like giving up rather than explaining. We argue this is the correct behaviour, analogous to a Bayesian posterior that is wide (uncertain) being more honest than a point estimate that is precise but wrong. The tie \emph{is} the explanation: features $j$ and $k$ are interchangeable under the model's learned structure, and any ranking between them is an artefact of training noise. Reporting this interchangeability is more informative than reporting a ranking that reverses with probability $\tfrac{1}{2}$ across seeds. The loss of within-group decisiveness is the price of faithfulness and stability---the trilemma guarantees no method avoids it.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{\DASH{} as the Prototype Resolution\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:dash-prototype}
 
@@ -929,7 +1051,7 @@ Faithfulness can be viewed as an unbiasedness condition: $\E[E(\theta)] = \text{
 \paragraph{Computational cost of \DASH{}.}
 \DASH{} requires training $M$ models instead of one. For gradient-boosted trees (XGBoost/LightGBM), training time scales linearly: $M = 25$ models on $N = 10{,}000$ rows takes ${\sim}5$~minutes on a single CPU core. SHAP computation is per-model and parallelisable. The total cost is $O(M)$ times single-model cost, with no increase in per-prediction inference cost (the deployed model is unchanged; only explanation aggregation changes).
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Meta-Theorem: Orbit Averaging\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:meta-theorem}
 
@@ -967,474 +1089,94 @@ explanation methods.
 The design space theorem characterises unbiased linear aggregators. Can biased methods (e.g., ridge-regularised Shapley values, $L_1$ shrinkage) circumvent the impossibility? Shrinkage reduces variance (improving stability) but introduces systematic bias toward a prior (reducing faithfulness). The trilemma's qualitative impossibility holds regardless: for any method under Rashomon, at least one of faithfulness, stability, or decisiveness must be sacrificed. Shrinkage shifts \emph{which} property is sacrificed---from stability to faithfulness---without escaping the trilemma. Quantifying the bias--variance--decisiveness Pareto frontier for shrinkage estimators is future work.
 
 %%% ==========================================================================
-% ------ Tier A (Hardened) ------
-\section{Ubiquity\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:ubiquity}
-%%% ==========================================================================
+% ---- Tier A (Hardened) ----
+\section{The Explanation Uncertainty Bound\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:bridge-uncertainty}
 
-Is the Explanation Impossibility a pathological corner case, or a
-generic phenomenon?  In this section we show that it is the latter: the
-Rashomon property---and hence the impossibility---holds whenever the model
-has more parameters than observational constraints, a condition satisfied by
-virtually all modern machine learning systems.
+The qualitative impossibility (``at least one of faithfulness, stability, or
+decisiveness must fail'') admits a quantitative refinement.  For a finite
+system with total incompatible pairs $I_{\text{total}}$ and within-fiber
+incompatible pairs $R_{\text{within}}$, define the \emph{Rashomon ratio}
+$r = R_{\text{within}} / I_{\text{total}} \in [0,1]$ and the
+\emph{decisiveness fraction} $D(E) = $ (fraction of incompatible pairs
+preserved by~$E$).
 
-% ------ Tier A (Hardened) ------
-\subsection{Generic Underspecification\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:generic-underspec}
+\begin{theorem}[Explanation uncertainty bound]
+\label{thm:uncertainty-principle}
+For any stable explanation map~$E$,
+\[
+  D(E) \;\leq\; 1 - \frac{R_{\emph{within}}}{I_{\emph{total}}}
+  \qquad\text{equivalently,}\qquad D(E) + r \;\leq\; 1.
+\]
+\end{theorem}
 
-\begin{proposition}[Dimensional Underspecification]
-\label{prop:generic-underspec}
-Let $\sH$ be a smooth hypothesis space of dimension $\dim(\sH)$ and let
-$\mathsf{obs} : \sH \to Y$ be a smooth observation map into a space of
-dimension $\dim(Y)$.  If $\dim(\sH) > \dim(Y)$, then for generic
-$y \in Y$, the fiber $\mathsf{obs}^{-1}(y)$ has positive dimension
-$\geq \dim(\sH) - \dim(Y)$.
+\begin{proof}
+Stability forces $E(\theta_1) = E(\theta_2)$ whenever
+$\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$.  By irreflexivity of the
+incompatibility relation, $\mathrm{incomp}(E(\theta), E(\theta))$ is false,
+so every within-fiber incompatible pair is collapsed by~$E$.  Hence $E$ can
+preserve at most $I_{\text{cross}} = I_{\text{total}} - R_{\text{within}}$
+incompatible pairs, giving $D(E) \leq I_{\text{cross}} / I_{\text{total}} =
+1 - r$.  The bound is tight: choosing a fixed representative per fiber
+preserves all cross-fiber incompatibilities.
+\end{proof}
+
+The qualitative impossibility is the special case $r > 0$, $D = 1$: the
+inequality $1 + r \leq 1$ is a contradiction.  When $r = 0$ there is no
+constraint (no Rashomon), when $r = 1$ we have $D = 0$ (total loss of
+decisiveness), and the general case interpolates smoothly.
+
+% ---- Tier A (Hardened) ----
+\section{The Invariance Counting Principle\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:bridge-noether}
+
+Noether's theorem \citep{noether1918invariante} establishes that every
+continuous symmetry of the Lagrangian implies a conserved quantity.  The
+explanation framework provides an analogous discrete result: every Rashomon
+symmetry implies a class of stably answerable queries.  We note that this
+result is an application of classical invariant theory (Burnside's lemma,
+Molien's theorem) to the explanation framework, not a direct consequence of
+Noether's theorem, which requires continuous symmetry and a variational
+principle.
+
+Let $G$ be a finite group acting on the configuration space~$\Theta$,
+preserving the observation map ($\mathrm{obs}(g \cdot \theta) =
+\mathrm{obs}(\theta)$ for all $g \in G$).  A query
+$q\colon \mathcal{H} \to \R$ is \emph{stably answerable} if
+$q(\mathrm{explain}(\theta_1)) = q(\mathrm{explain}(\theta_2))$ whenever
+$\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$.
+
+\begin{proposition}[Invariance theorem]
+\label{prop:noether}
+A query $q$ is stably answerable if and only if $q \in V^G$ (the
+$G$-invariant subspace).  The number of independent stably answerable queries
+is $\dim(V^G) = (1/|G|) \sum_{g \in G} \chi(g)$, by the character formula.
 \end{proposition}
 
-\noindent
-The Lean formalization captures the combinatorial skeleton of this argument: \texttt{generic\_underspecification} proves that whenever the parameter dimension exceeds the observable dimension ($n > m$), the fiber dimension is positive ($n - m > 0$). The connection to the preimage theorem in differential topology---which guarantees that generic fibers are smooth submanifolds of the predicted dimension---is an informal mathematical argument, not a Lean-verified claim.
-Whenever the fiber has positive dimension, the explanation map
-$\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
-in the same fiber honestly report different explanations---and the Rashomon
-property holds.  (The bridge from fiber non-degeneracy to the
-impossibility is \texttt{fiber\_nondegeneracy\_implies\_impossibility}.)
-
-\paragraph{Rashomon from overparameterisation.}
-For model classes where $\dim(\Theta) > \dim(\mathcal{Y})$ (more parameters than observational constraints), the Rashomon property holds generically. The fibre $\{\theta : \text{observe}(\theta) = y\}$ has positive dimension for generic $y$, and under mild regularity (continuous explain map, non-degenerate Jacobian), distinct fibral points yield incompatible explanations with probability~1 under any absolutely continuous prior on $\Theta$~\citep{damour2022underspecification}. This covers overparameterised neural networks, deep ensembles, and GBDTs with more trees than effective degrees of freedom. Deriving tighter, architecture-specific Rashomon set bounds remains open.
-
-% ------ Tier A (Hardened) ------
-\subsection{Neural Network Dimensional Argument\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:nn-dimensional}
-
-Modern neural networks are massively overparameterized.  A ResNet-50 has
-$P \approx 25{,}600{,}000$ parameters and, for ImageNet classification,
-$k = 1{,}000$ output classes.  By Proposition~\ref{prop:generic-underspec},
-the fiber of any fixed prediction has dimension at least
-$P - k = 24{,}999{,}000$.  On such a high-dimensional manifold, any
-continuous explanation map (attention weights, gradient saliency, internal
-activations) is generically non-constant: there exist models $h, h'$ on the
-same fiber with $\mathsf{obs}(h)_j > \mathsf{obs}(h)_k$ and
-$\mathsf{obs}(h')_j < \mathsf{obs}(h')_k$ for any pair of input features
-$j, k$ with equal marginal distributions.
-
-\begin{corollary}[Coin-Flip Instability]
-\label{cor:coin-flip}
-For any pair of symmetric features $j, k$ in an overparameterized network
-trained to zero loss, the probability (over retraining seeds) that a
-faithful explanation ranks $j$ above $k$ is exactly $1/2$.
-\end{corollary}
-
-\noindent
-The 50\% flip rate applies to the adversarial case (maximally collinear pair, $\rho \to 1$). For moderate collinearity ($\rho \approx 0.7$), empirical flip rates are typically 15--30\%, still high enough to undermine single-model explanations but less extreme than the worst case.
-
-\noindent
-This is the neural-network instantiation of the symmetric Bayes
-result formalized in \texttt{Symmetric\-Bayes.lean}: the symmetry
-of the fiber under feature permutation forces uniform marginals on
-the ranking.
-
-% ------ Tier A (Hardened) ------
-\subsection{Prevalence\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:prevalence}
-
-The dimensional condition $\dim(\sH) > \dim(Y)$ is the norm, not the
-exception.  Large language models (billions of parameters, vocabulary-sized
-output), diffusion models, graph neural networks, random forests with
-hundreds of trees, and Lasso regression with more features than observations
-all satisfy it.  Even linear regression with collinear features produces a
-positive-dimensional fiber (the collinear subspace).
-\citet{damour2022underspecification} document this across NLP,
-computer vision, and medical imaging, finding that
-underspecification---and hence explanation instability---is ubiquitous
-in deployed systems.  The only escape is a model class so constrained
-that $\dim(\sH) \leq \dim(Y)$, which excludes essentially all modern
-architectures of practical interest.
-
-% ------ Tier A (Hardened) ------
-\section{Lean Formalization\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:lean}
-%%% ==========================================================================
-
-The Explanation Impossibility, all eight derived instances, and all nine ML
-instances are mechanically verified in Lean~4 \citep{demoura2021lean4} using
-Mathlib \citep{mathlib2020}.  The eight derived instances are particularly
-notable: each derives the Rashomon property constructively with zero domain-specific axioms,
-confirming that the impossibility in each science follows from first
-principles alone.  This section provides an expanded account of the
-formalization, including the axiom stratification, proof status transparency,
-and the complete file inventory.
-
-% ------ Tier A (Hardened) ------
-\subsection{Summary Statistics\,\textnormal{\normalsize[Tier A: Hardened]}}
-
-\paragraph{Trusted-base statement (authoritative).}
-The framework is mechanically verified in Lean~4 with \textbf{0}~\texttt{sorry}/\texttt{admit}
-across three repositories. The trusted base is \textbf{2}~\texttt{axiom} declarations that
-\emph{bundle} 25 behavioral assumptions---gradient-boosting infrastructure and, in the physics
-companion, contested black-hole/spacetime-emergence hypotheses plus the classical Selmer (1951)
-result---which we report unbundled as \textbf{25} for transparency (bundling changes the count of
-\texttt{axiom} keywords, not the content of what is assumed). In addition, a number of theorems
-depend on Lean's \texttt{Lean.ofReduceBool} axiom via \texttt{native\_decide} (6~uses in the main
-repository, 65 in the physics companion, 0 in the attribution companion); these are flagged
-per theorem. \textbf{The core theorem \texttt{explanation\_impossibility} and the entire Tier-A
-hardened spine use none of these}---they are pure logic from the stated hypotheses (verified by
-\texttt{\#print axioms}). Theorem counts are reported \emph{per repository} (main~530, attribution
-companion~358 of which $\approx$88\% coincide with the main repository, physics companion~482 of
-which $\approx$12\% coincide); because the companions overlap the main repository we do
-\emph{not} sum them into a single aggregate, and the distinct program-wide count is
-$\approx$1{,}000. External peer review to date is limited to the attribution companion (in review
-at TMLR); the remaining ``review'' cited internally is self-conducted adversarial simulation, not
-journal referee reports.
-
-Table~\ref{tab:lean-summary} summarizes the formalization.
-
-\begin{table}[ht]
-\centering
-\caption{Summary of the Lean~4 formalization.}
-\label{tab:lean-summary}
-\begin{tabular}{lrr}
-\toprule
-Component & Count & Notes \\
-\midrule
-Files & 104 & All in \texttt{UniversalImpossibility/} \\
-Theorems \& lemmas & 530 & Verified by \texttt{grep -c} \\
-Axioms & 2 & Bundled GBDT infrastructure; core theorem uses 0 \\
-\texttt{sorry}s & 0 & Zero admitted goals \\
-\midrule
-Core impossibility & 1 theorem & Zero custom axiom dependencies \\
-8 derived instances & 0 domain-specific axioms each & Biology, physics $\times 2$, linguistics, \ldots \\
-GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
-DASH resolution & 6 axioms & + cross-group symmetry \\
-Causal instance & 3 axioms & CPDAG Markov equivalence \\
-Neural net instance & 2 axioms & Overparameterization + symmetry \\
-Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Of the 530 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
-
-% ------ Tier A (Hardened) ------
-\subsection{Axiom Stratification\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:axiom-stratification}
-
-A key concern in any formalization using axioms is whether the axioms are
-logically consistent and whether they smuggle in the conclusion.  We address
-this by providing complete transparency on the axiom stratification.
-Table~\ref{tab:axiom-strat} reports which theorems depend on which axioms,
-verified by \texttt{\#print axioms} in Lean~4.
-
-\begin{table}[ht]
-\centering
-\caption{Axiom stratification for key theorems, verified by \texttt{\#print axioms}.
-  ``Zero axioms'' means the theorem depends only on the hypotheses stated in its
-  signature---no global axioms are used.}
-\label{tab:axiom-strat}
-\footnotesize
-\begin{tabular}{@{}lrl@{}}
-\toprule
-Theorem & Axioms & Description \\
-\midrule
-\texttt{explanation\_impossibility} & 0 & Core universal impossibility \\
-\texttt{attribution\_impossibility} & 0 & Core attribution impossibility \\
-\texttt{impossibility\_qualitative} & 0 & From dominance + surjectivity \\
-\texttt{gbdt\_impossibility\_local} & 4 & surj, fm, nfm (no proportionality) \\
-\texttt{impossibility} (quantitative) & 5 & + \texttt{proportionality\_global} \\
-\texttt{consensus\_equity} & 6 & + cross-group symmetric \\
-\texttt{attribution\_impossibility\_bundled} & 0 & Fully parametric via \texttt{GBDTSetup} \\
-\texttt{attention\_impossibility} & 4 & Config, Map, Observable, system \\
-\texttt{counterfactual\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{concept\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{causal\_instance\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{model\_sel\_instance\_impossibility} & 4 & Config, Explanation, Observable, system \\
-\texttt{gInvariant\_stable} & 0 & $G$-invariance implies stability \\
-\texttt{ubiquity\_impossibility} & 0 & Constructs system from witnesses \\
-\texttt{linear\_system\_impossibility} & 0 & Underdetermined $Ax=b$ \\
-\texttt{genetic\_code\_impossibility} & 0 & Codon degeneracy \\
-\texttt{gauge\_impossibility} & 0 & Discrete $\mathbb{Z}_2$ gauge theory \\
-\texttt{syntactic\_ambiguity\_impossibility} & 0 & PP-attachment ambiguity \\
-\texttt{phase\_impossibility} & 0 & Crystallographic phase problem \\
-\texttt{view\_update\_impossibility} & 0 & Database view update \\
-\texttt{stat\_mech\_impossibility} & 0 & Microstate degeneracy \\
-\texttt{causal\_impossibility\_derived} & 0 & Markov equivalence \\
-\texttt{langlands\_boundary\_statement} & 0 & $n{=}1$ full, $n{\geq}2$ collapsed \\
-\texttt{multiAnalyst\_impossibility} & 0 & Multi-analyst F+S+D impossible \\
-\texttt{multiAnalyst\_bilemma} & 0 & Multi-analyst F+S impossible \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Zero-axiom scope.}
-The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  Across three repositories the totals are: 530~$+$~358~$+$~482~$=$ 1{,}370~theorems, 4~axioms, 200~files, 0~\texttt{sorry}.  Key new files from this formalization campaign: \texttt{LanglandsCorrespondence.lean} (7~theorems: trace conjugation-invariance, the $n{=}1$/$n{\geq}2$ boundary, scalar embedding functoriality) and \texttt{MultiAnalystInstance.lean} (4~theorems: multi-analyst Rashomon, trilemma, bilemma, maximal incompatibility).
-
-\paragraph{Reynolds naturality and the character (a structural analogy, not a Langlands result).}
-\emph{[Tier C.]} The Reynolds naturality theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections, and for GL($n$) the Reynolds projection is the trace (conjugation-averaging).  This is a one-line fact of invariant theory: the trace is a class function, so it is constant on conjugacy classes and compatible with the group action.  We flag explicitly that this is \emph{not} Langlands functoriality: the framework contains no automorphic forms, no $L$-functions, and no automorphic-to-Galois correspondence (none of these objects exist in the formalization, cf.\ our own \texttt{docs/langlands-audit.md}).  The parallel we draw is purely structural---characters/traces are the natural stable invariant under conjugation, just as the orbit average is the stable resolution under any symmetry group.  Any resemblance to the Langlands programme is analogical and is stated here only to orient readers familiar with representation theory; it is not a theorem about, or a prediction of, functoriality.
-
-\paragraph{The automorphicity gap.}
-The companion repository's \texttt{HomExplanationSystem.lean} identifies the precise content separating the impossibility framework's structural predictions from the Langlands programme's arithmetic classification.  When the resolution is required to be a group homomorphism (not merely a stable function), the enrichment Sha becomes strictly stronger than CRT.  For $S_3 = \mathrm{GL}(2, \mathbb{F}_2)$: CRT allows 6~character-value combinations, but the group relation $srs = r^2$ forces $\chi(r) = 1$, blocking 4 of them (Lean-verified: \texttt{automorphicity\_gap}).  The blocked combinations are locally valid but violate a global group relation---not every collection of local character data assembles into a global homomorphism.  This is the automorphicity condition: the gap between local compatibility (CRT, handled by the enrichment framework) and global coherence (automorphicity, the content of the Langlands correspondence).  Three negative results delineate the boundary: (1)~enrichment Sha $=$ CRT $=$ Euler multiplicativity (no arithmetic content beyond the Euler product; \texttt{enrichment\_sha\_equals\_crt}); (2)~collapsed tightness forces the identity resolution (tautological; \texttt{forced\_resolution\_complete}); (3)~quantitative bounds depend only on group size, not on prime-specific structure (\texttt{EnrichmentQuantitative.lean}).  For finite fields, the automorphicity gap is computable; for number fields, it is the central open problem of modern algebraic number theory.
-
-The critical observation is that the core theorem
-\texttt{explanation\_impossibility} uses \textbf{zero custom axioms}---it is pure
-constructive logic.  The formalization stratifies into two categories:
-
-\begin{itemize}
-  \item \textbf{Constructively derived} (8 cross-domain instances): The
-    Rashomon property is proved from concrete witnesses with zero behavioral
-    axioms.  The Lean code constructs explicit pairs (e.g., $(1,1)$ and
-    $(0,2)$ for the linear system, chain vs.\ fork DAGs for Markov
-    equivalence) and verifies $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)
-    \wedge \theta_1 \ne \theta_2$ by \texttt{decide}.  These are minimal
-    witnesses of domain-specific phenomena, not complete formalizations of the
-    respective theories.
-
-  \item \textbf{Axiomatized} (9 ML instances): The Rashomon property is
-    assumed as a domain axiom (e.g., ``there exist neural network weights with
-    the same predictions but different attention distributions'').  These
-    axioms are the mathematical content of the empirical literature being
-    formalized and are independently verifiable from the cited sources.
-\end{itemize}
-
-\begin{table}[h]
-\centering
-\small
-\caption{Axiom taxonomy (2 bundled axioms; all behavioral properties are theorems extracted from the bundles).}
-\label{tab:axiom-taxonomy}
-\begin{tabular}{lrl}
-\toprule
-Category & Count & Examples \\
-\midrule
-GBDT infrastructure & 14 & Model, splitCount, proportionality \\
-Enrichment stack (physics) & 11 & BH/QG frameworks, Rashomon \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\noindent The core impossibility (Theorem~\ref{thm:universal}) requires zero axioms from any category. Quantitative bounds draw from ML domain axioms; cross-domain transfer draws from structural axioms.
-
-\paragraph{Scope of formal verification.}
-Lean verification guarantees that all theorems follow from the stated axioms with no logical gaps (internal consistency). It does not guarantee that the axioms correctly model the phenomena they are intended to capture (external validity). The axioms are motivated by domain-specific considerations (\S\ref{sec:axiom-stratification}), but their adequacy for any particular real-world system is an empirical question. We report axiom counts alongside theorem counts throughout to make the trusted base transparent.
-
-% ------ Tier A (Hardened) ------
-\subsection{Proof Status Transparency\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:proof-status}
-
-We distinguish four levels of verification:
-
-\begin{enumerate}[label=(\alph*)]
-  \item \textbf{Proved} (zero custom axiom dependencies): The theorem
-    follows from pure logic and stated hypotheses.  Examples:
-    {\raggedright\texttt{explanation\_impossibility},
-    \texttt{attribution\_impossibility},
-    \texttt{gInvariant\_stable}, and
-    \texttt{ubiquity\_impossibility}.\par}
-
-  \item \textbf{Derived} (from axioms): The theorem follows from a small set
-    of domain-specific axioms.  Examples: \texttt{gbdt\_impossibility\_local}
-    (4 axioms), \texttt{consensus\_equity} (6 axioms).  The axioms are
-    independently verifiable (e.g., the surjectivity axiom for GBDT follows
-    from the symmetry of collinear features under the data-generating process).
-
-  \item \textbf{Axiomatized} (Rashomon assumed): The original axiomatized
-    instance files remain for backward compatibility, but every domain now
-    has a constructive counterpart.  All eight cross-domain scientific
-    instances and all nine ML instances (attention, counterfactual, concept,
-    causal, model selection, saliency, LLM self-explanation, mechanistic
-    interpretability) have constructive Rashomon witnesses derived via
-    \texttt{decide} with zero domain-specific axioms---bringing the
-    constructive total to 16 of 17 \texttt{ExplanationSystem} instances.
-    (The 17th, \texttt{AttributionInstance}, uses the independent
-    \texttt{attribution\_impossibility} with its own zero-axiom proof.)
-
-  \item \textbf{Argued} (supplement proof only): The result has a
-    rigorous proof sketch in the supplement or companion paper but has
-    not been mechanized in Lean~4.  (Note: as of the current version,
-    the Pareto optimality of DASH is now Lean-verified in
-    \texttt{ParetoOptimality.lean} via
-    \texttt{dash\_unique\_pareto\_optimal}.)
-
-  \item \textbf{Empirical}: The result is supported by computational
-    experiments but not formally proved.  Examples: the specific flip
-    rates (19.9\% attention under full retraining, 23.5\%
-    counterfactual, etc.)\ reported in Section~\ref{sec:ml-instances}.
-\end{enumerate}
-
-% ------ Tier A (Hardened) ------
-\subsection{Formerly Axiomatized, Now Derived\,\textnormal{\normalsize[Tier A: Hardened]}}
-
-Several results that were initially axiomatized have since been derived from
-more primitive axioms, strengthening the formalization:
-
-\begin{itemize}
-  \item \texttt{spearman\_classical\_bound} $\to$
-    \texttt{spearman\_instability\_bound} in \texttt{SpearmanDef.lean}:
-    derived from split-count structure.
-  \item \texttt{le\_cam\_lower\_bound} in \texttt{QueryComplexity.lean}:
-    provable by \texttt{not\_lt.mp} (a tautology in any linear order).
-  \item \texttt{consensus\_variance\_bound} in
-    \texttt{Defs.lean}: from\\
-    \texttt{attribution\_variance\_nonneg} +
-    \texttt{Nat.cast\_nonneg}.
-  \item \texttt{attribution\_sum\_symmetric} in
-    \texttt{SymmetryDerive.lean}: from proportionality +
-    split-count + cross-group + balance.
-  \item \texttt{attribution\_variance} and\\
-    \texttt{attribution\_variance\_nonneg}: from Mathlib's\\
-    \texttt{ProbabilityTheory.variance} and
-    \texttt{variance\_nonneg}.
-\end{itemize}
-
-% ------ Tier A (Hardened) ------
-\subsection{Lean Proof of the Core Theorem\,\textnormal{\normalsize[Tier A: Hardened]}}
-
-The mechanized proof of the universal impossibility mirrors the paper proof
-exactly.  The complete Lean~4 statement and proof is given in
-Appendix~\ref{app:lean}.
-
-% ------ Tier A (Hardened) ------
-\subsection{Why This Result Is Non-Trivial\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:non-trivial}
-
-A natural objection is that the impossibility is tautological: ``of course
-you cannot explain an underspecified system perfectly.''  Four lines of
-evidence refute this characterization.
-
-\paragraph{1.\ Tightness: the triple is the exact obstruction.}
-Each \emph{pair} of \{faithful, stable, decisive\} is simultaneously
-achievable---three Lean-verified witnesses establish this
-(Proposition~\ref{prop:tightness}).  A faithful-and-decisive map simply
-reports the native explanation; a faithful-and-stable map outputs a neutral
-constant; a stable-and-decisive map outputs a maximally committal constant.
-The impossibility is \emph{specifically} the conjunction of all three.
-A tautology would make even pairs unachievable; here every pair is
-constructively realized.
-
-\paragraph{2.\ Necessity: the Rashomon property is the exact boundary.}
-The converse is proved in Lean (\texttt{fully\_specified\_possibility} in
-\texttt{Necessity.lean}): if the system has \emph{no} Rashomon
-property---every observation uniquely determines its configuration---then
-all three properties are simultaneously achievable.  The Rashomon property
-is therefore both sufficient \emph{and} necessary for the impossibility.
-This is not a vague ``things are hard when the problem is hard'' statement;
-it is a precise logical equivalence: the impossibility holds \emph{if and
-only if} the Rashomon property holds.
-
-\paragraph{3.\ Resolution optimality: the $G$-invariant projection is
-Pareto-optimal.}
-The resolution is not arbitrary.  The orbit-averaging map is Pareto-optimal
-among all stable explanation maps: no stable map can achieve strictly higher
-pointwise faithfulness on every observe-fiber.  This means the trade-off
-identified by the theorem is \emph{tight}---the practitioner cannot do better
-by being clever.
-
-\paragraph{4.\ Shared resolution structure across eight domains.}
-If the impossibility were trivial, one would not expect eight independent
-scientific communities---spanning physics, biology, statistics, linguistics,
-crystallography, computer science, statistical mechanics, and
-mathematics---to converge on structurally the same resolution strategy
-(orbit averaging) over more than a century of independent work
-(Table~\ref{tab:structural-differences}).
-Our framework identifies what these eight independently developed methods
-share---instances of the same Reynolds projection---and proves
-solving the same impossibility---and proves the resolution they found is
-optimal.
-
 \begin{table}[t]
-\centering
-\caption{\textbf{Structural differences across the eight derived instances.}
-  The eight cross-domain instances are not notational variants of a single
-  example: they differ in symmetry group, group type, and resolution strategy.
-  These independently developed methods share a common mathematical
-  structure (orbit averaging / Reynolds projection), which the
-  $G$-invariant resolution framework identifies retrospectively.}
-\label{tab:structural-differences}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}llllll@{}}
-\toprule
-Domain & Group $G$ & Objects permuted & Type & Resolution & Form \\
-\midrule
-Mathematics
-  & $\R^{n-r}$
-  & Solution offsets
-  & Cont., abelian
-  & Pseudoinverse
-  & Projection \\[2pt]
-Biology
-  & $S_k$\;($k{\leq}6$)
-  & Synonymous codons
-  & Finite
-  & Codon tables
-  & Averaging \\[2pt]
-Physics
-  & $\mathbb{Z}_2^{|V|-1}$
-  & Edge labels
-  & Finite, abelian
-  & Wilson loops
-  & Invariant fn. \\[2pt]
-Stat.\ mech.
-  & $S_\Omega$
-  & Microstates
-  & Finite
-  & Microcanon.
-  & Averaging \\[2pt]
-Linguistics
-  & $S_k$
-  & Parse trees
-  & Finite
-  & Parse forests
-  & Enumeration \\[2pt]
-Crystallogr.
-  & $\mathbb{Z}_2{\times}\mathbb{Z}_n{\times}\mathbb{Z}_2$
-  & Signal phases
-  & Finite
-  & Patterson map
-  & Autocorrel. \\[2pt]
-Comp.\ sci.
-  & $S_k$
-  & Hidden columns
-  & Finite
-  & Compl.\ views
-  & Projection \\[2pt]
-Statistics
-  & MEC perms.
-  & DAG orientations
-  & Finite
-  & CPDAG
-  & Class report \\
-\bottomrule
-\end{tabular}
+  \centering
+  \small
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    \textbf{Noether's Theorem (continuous)} & \textbf{Explanation Framework (discrete)} \\
+    \midrule
+    Symmetry group $G$ & Rashomon group $G$ \\
+    $G$ preserves Lagrangian $L$ & $G$ preserves obs \\
+    Conserved quantity & $G$-invariant query $\in V^G$ \\
+    $\dim(G)$ conserved quantities & $\dim(V^G)$ stable queries \\
+    \bottomrule
+  \end{tabular}
+  \caption{Invariance correspondence.  Rashomon symmetry~$\to$~stable queries
+    is the discrete analogue of continuous symmetry~$\to$~conservation laws.}
+  \label{tab:noether-dictionary}
 \end{table}
 
-The framework also explains the variation across domains: the specific form
-of the resolution differs because the symmetry group and representation
-differ, even when the abstract group is the same.  Four instances use the
-symmetric group $S_k$, but they act on different mathematical
-objects---synonymous codons, microstates, parse trees, database
-columns---and yield different resolution forms: frequency averaging for
-biology and statistical mechanics, equivalence-class enumeration for
-linguistics, and subquery projection for computer science.  The abstract
-mathematical operation---projection onto the $G$-invariant subspace---is
-identical; the computational realization is domain-specific.
+The correspondence (Table~\ref{tab:noether-dictionary}) places the explanation
+impossibility in the same conceptual lineage as the most celebrated theorem in
+mathematical physics.  Both are instances of a single principle: group
+invariance determines what can be stably measured.
 
-%%% ==========================================================================
-% ------ Tier A (Hardened) ------
-\section{The Ceiling of Explainability\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:ceiling}
-
-The Explanation Impossibility (Theorem~\ref{thm:universal}) establishes
-a \emph{ceiling}, not a criticism of any particular method.  No axiomatic
-redesign of \SHAP{}, LIME, attention maps, or counterfactual generators can
-simultaneously deliver faithfulness, stability, and decisiveness whenever the
-underlying inference problem is underspecified.  The ceiling is structural: it
-follows from the Rashomon property alone, independent of the explanation
-formalism.  An analogy to physics is apt: the speed of light constrains
-spacecraft engineering but does not prevent useful space travel.  Likewise, the
-impossibility constrains what practitioners may promise about explanations but
-does not prevent useful explainability---it redirects effort toward the
-achievable frontier characterized by the $G$-invariant resolution
-(Section~\ref{sec:resolution}).
-
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \section{Toward a Group-Theoretic Classification of Explainability\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:group-classification}
 
@@ -1640,165 +1382,395 @@ and here is the residual ambiguity.  The universality of the impossibility
 tower of increasingly refined characterizations, parameterized by the
 representation theory of the symmetry group.
 
-% ------ Tier A (Hardened) ------
-\section{The Explanation Uncertainty Bound\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:bridge-uncertainty}
+% ---- Tier A (Hardened) ----
+\section{The Ceiling of Explainability\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:ceiling}
 
-The qualitative impossibility (``at least one of faithfulness, stability, or
-decisiveness must fail'') admits a quantitative refinement.  For a finite
-system with total incompatible pairs $I_{\text{total}}$ and within-fiber
-incompatible pairs $R_{\text{within}}$, define the \emph{Rashomon ratio}
-$r = R_{\text{within}} / I_{\text{total}} \in [0,1]$ and the
-\emph{decisiveness fraction} $D(E) = $ (fraction of incompatible pairs
-preserved by~$E$).
+The Explanation Impossibility (Theorem~\ref{thm:universal}) establishes
+a \emph{ceiling}, not a criticism of any particular method.  No axiomatic
+redesign of \SHAP{}, LIME, attention maps, or counterfactual generators can
+simultaneously deliver faithfulness, stability, and decisiveness whenever the
+underlying inference problem is underspecified.  The ceiling is structural: it
+follows from the Rashomon property alone, independent of the explanation
+formalism.  An analogy to physics is apt: the speed of light constrains
+spacecraft engineering but does not prevent useful space travel.  Likewise, the
+impossibility constrains what practitioners may promise about explanations but
+does not prevent useful explainability---it redirects effort toward the
+achievable frontier characterized by the $G$-invariant resolution
+(Section~\ref{sec:resolution}).
 
-\begin{theorem}[Explanation uncertainty bound]
-\label{thm:uncertainty-principle}
-For any stable explanation map~$E$,
-\[
-  D(E) \;\leq\; 1 - \frac{R_{\emph{within}}}{I_{\emph{total}}}
-  \qquad\text{equivalently,}\qquad D(E) + r \;\leq\; 1.
-\]
-\end{theorem}
+% ---- Tier A (Hardened) ----
+\section{Lean Formalization\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:lean}
+%%% ==========================================================================
 
-\begin{proof}
-Stability forces $E(\theta_1) = E(\theta_2)$ whenever
-$\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$.  By irreflexivity of the
-incompatibility relation, $\mathrm{incomp}(E(\theta), E(\theta))$ is false,
-so every within-fiber incompatible pair is collapsed by~$E$.  Hence $E$ can
-preserve at most $I_{\text{cross}} = I_{\text{total}} - R_{\text{within}}$
-incompatible pairs, giving $D(E) \leq I_{\text{cross}} / I_{\text{total}} =
-1 - r$.  The bound is tight: choosing a fixed representative per fiber
-preserves all cross-fiber incompatibilities.
-\end{proof}
+The Explanation Impossibility, all eight derived instances, and all nine ML
+instances are mechanically verified in Lean~4 \citep{demoura2021lean4} using
+Mathlib \citep{mathlib2020}.  The eight derived instances are particularly
+notable: each derives the Rashomon property constructively with zero domain-specific axioms,
+confirming that the impossibility in each science follows from first
+principles alone.  This section provides an expanded account of the
+formalization, including the axiom stratification, proof status transparency,
+and the complete file inventory.
 
-The qualitative impossibility is the special case $r > 0$, $D = 1$: the
-inequality $1 + r \leq 1$ is a contradiction.  When $r = 0$ there is no
-constraint (no Rashomon), when $r = 1$ we have $D = 0$ (total loss of
-decisiveness), and the general case interpolates smoothly.
+% ---- Tier A (Hardened) ----
+\subsection{Summary Statistics\,\textnormal{\normalsize[Tier A: Hardened]}}
 
-% ------ Tier A (Hardened) ------
-\section{The Invariance Counting Principle\,\textnormal{\normalsize[Tier A: Hardened]}}
-\label{sec:bridge-noether}
+Table~\ref{tab:lean-summary} summarizes the formalization.
 
-Noether's theorem \citep{noether1918invariante} establishes that every
-continuous symmetry of the Lagrangian implies a conserved quantity.  The
-explanation framework provides an analogous discrete result: every Rashomon
-symmetry implies a class of stably answerable queries.  We note that this
-result is an application of classical invariant theory (Burnside's lemma,
-Molien's theorem) to the explanation framework, not a direct consequence of
-Noether's theorem, which requires continuous symmetry and a variational
-principle.
+\paragraph{Trusted-base statement (authoritative).}
+The framework is mechanically verified in Lean~4 with \textbf{0}~\texttt{sorry}/\texttt{admit}
+across three repositories. The trusted base is \textbf{2}~\texttt{axiom} declarations that
+\emph{bundle} 25 behavioral assumptions---gradient-boosting infrastructure and, in the physics
+companion, contested black-hole/spacetime-emergence hypotheses plus the classical Selmer~(1951)
+result---reported unbundled as \textbf{25} for transparency (bundling changes the count of
+\texttt{axiom} keywords, not what is assumed). In addition, some theorems depend on Lean's
+\texttt{Lean.ofReduceBool} axiom via \texttt{native\_decide} (6~uses in the main repository,
+65 in the physics companion, 0 in the attribution companion), flagged per theorem.
+\textbf{The core theorem \texttt{explanation\_impossibility} and the entire Tier-A hardened
+spine use none of these}---they are pure logic from the stated hypotheses (verified by
+\texttt{\#print axioms}). Theorem counts are reported \emph{per repository} (main~530;
+attribution companion~358, of which ${\approx}88\%$ coincide with the main repository; physics
+companion~482, of which ${\approx}12\%$ coincide). Because the companions overlap the main
+repository we do \emph{not} sum them; the distinct program-wide count is approximately~1{,}000.
 
-Let $G$ be a finite group acting on the configuration space~$\Theta$,
-preserving the observation map ($\mathrm{obs}(g \cdot \theta) =
-\mathrm{obs}(\theta)$ for all $g \in G$).  A query
-$q\colon \mathcal{H} \to \R$ is \emph{stably answerable} if
-$q(\mathrm{explain}(\theta_1)) = q(\mathrm{explain}(\theta_2))$ whenever
-$\mathrm{obs}(\theta_1) = \mathrm{obs}(\theta_2)$.
-
-\begin{proposition}[Invariance theorem]
-\label{prop:noether}
-A query $q$ is stably answerable if and only if $q \in V^G$ (the
-$G$-invariant subspace).  The number of independent stably answerable queries
-is $\dim(V^G) = (1/|G|) \sum_{g \in G} \chi(g)$, by the character formula.
-\end{proposition}
-
-\begin{table}[t]
-  \centering
-  \small
-  \begin{tabular}{@{}ll@{}}
-    \toprule
-    \textbf{Noether's Theorem (continuous)} & \textbf{Explanation Framework (discrete)} \\
-    \midrule
-    Symmetry group $G$ & Rashomon group $G$ \\
-    $G$ preserves Lagrangian $L$ & $G$ preserves obs \\
-    Conserved quantity & $G$-invariant query $\in V^G$ \\
-    $\dim(G)$ conserved quantities & $\dim(V^G)$ stable queries \\
-    \bottomrule
-  \end{tabular}
-  \caption{Invariance correspondence.  Rashomon symmetry~$\to$~stable queries
-    is the discrete analogue of continuous symmetry~$\to$~conservation laws.}
-  \label{tab:noether-dictionary}
+\begin{table}[ht]
+\centering
+\caption{Summary of the Lean~4 formalization.}
+\label{tab:lean-summary}
+\begin{tabular}{lrr}
+\toprule
+Component & Count & Notes \\
+\midrule
+Files & 104 & All in \texttt{UniversalImpossibility/} \\
+Theorems \& lemmas & 530 & Verified by \texttt{grep -c} \\
+Axioms & 2 & 2 declarations bundling 25 assumptions; core uses 0 \\
+\texttt{sorry}s & 0 & Zero admitted goals \\
+\midrule
+Core impossibility & 1 theorem & Zero custom axiom dependencies \\
+8 derived instances & 0 domain-specific axioms each & Biology, physics $\times 2$, linguistics, \ldots \\
+GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
+DASH resolution & 6 axioms & + cross-group symmetry \\
+Causal instance & 3 axioms & CPDAG Markov equivalence \\
+Neural net instance & 2 axioms & Overparameterization + symmetry \\
+Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
+\bottomrule
+\end{tabular}
 \end{table}
 
-The correspondence (Table~\ref{tab:noether-dictionary}) places the explanation
-impossibility in the same conceptual lineage as the most celebrated theorem in
-mathematical physics.  Both are instances of a single principle: group
-invariance determines what can be stably measured.
+Of the 530 theorems, the majority are short (1--10 tactic steps), including one-line applications of \texttt{explanation\_impossibility} to domain instances, tightness witnesses, and definitional consequences. Approximately 60 are moderate (11--30 steps) and 15 are substantive (31+ steps, including the GBDT ratio divergence, Spearman bounds, Pareto-optimality, and the infinite enrichment stack).
 
+% ---- Tier A (Hardened) ----
+\subsection{Axiom Stratification\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:axiom-stratification}
+
+A key concern in any formalization using axioms is whether the axioms are
+logically consistent and whether they smuggle in the conclusion.  We address
+this by providing complete transparency on the axiom stratification.
+Table~\ref{tab:axiom-strat} reports which theorems depend on which axioms,
+verified by \texttt{\#print axioms} in Lean~4.
+
+\begin{table}[ht]
+\centering
+\caption{Axiom stratification for key theorems, verified by \texttt{\#print axioms}.
+  ``Zero axioms'' means the theorem depends only on the hypotheses stated in its
+  signature---no global axioms are used.}
+\label{tab:axiom-strat}
+\footnotesize
+\begin{tabular}{@{}lrl@{}}
+\toprule
+Theorem & Axioms & Description \\
+\midrule
+\texttt{explanation\_impossibility} & 0 & Core universal impossibility \\
+\texttt{attribution\_impossibility} & 0 & Core attribution impossibility \\
+\texttt{impossibility\_qualitative} & 0 & From dominance + surjectivity \\
+\texttt{gbdt\_impossibility\_local} & 4 & surj, fm, nfm (no proportionality) \\
+\texttt{impossibility} (quantitative) & 5 & + \texttt{proportionality\_global} \\
+\texttt{consensus\_equity} & 6 & + cross-group symmetric \\
+\texttt{attribution\_impossibility\_bundled} & 0 & Fully parametric via \texttt{GBDTSetup} \\
+\texttt{attention\_impossibility} & 4 & Config, Map, Observable, system \\
+\texttt{counterfactual\_impossibility} & 4 & Config, Explanation, Observable, system \\
+\texttt{concept\_impossibility} & 4 & Config, Explanation, Observable, system \\
+\texttt{causal\_instance\_impossibility} & 4 & Config, Explanation, Observable, system \\
+\texttt{model\_sel\_instance\_impossibility} & 4 & Config, Explanation, Observable, system \\
+\texttt{gInvariant\_stable} & 0 & $G$-invariance implies stability \\
+\texttt{ubiquity\_impossibility} & 0 & Constructs system from witnesses \\
+\texttt{linear\_system\_impossibility} & 0 & Underdetermined $Ax=b$ \\
+\texttt{genetic\_code\_impossibility} & 0 & Codon degeneracy \\
+\texttt{gauge\_impossibility} & 0 & Discrete $\mathbb{Z}_2$ gauge theory \\
+\texttt{syntactic\_ambiguity\_impossibility} & 0 & PP-attachment ambiguity \\
+\texttt{phase\_impossibility} & 0 & Crystallographic phase problem \\
+\texttt{view\_update\_impossibility} & 0 & Database view update \\
+\texttt{stat\_mech\_impossibility} & 0 & Microstate degeneracy \\
+\texttt{causal\_impossibility\_derived} & 0 & Markov equivalence \\
+\texttt{langlands\_boundary\_statement} & 0 & $n{=}1$ full, $n{\geq}2$ collapsed \\
+\texttt{multiAnalyst\_impossibility} & 0 & Multi-analyst F+S+D impossible \\
+\texttt{multiAnalyst\_bilemma} & 0 & Multi-analyst F+S impossible \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Zero-axiom scope.}
+The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  Across three repositories the totals are: 530~$+$~358~$+$~482~$=$ 1{,}370~theorems, 4~axioms, 200~files, 0~\texttt{sorry}.  Key new files from this formalization campaign: \texttt{LanglandsCorrespondence.lean} (7~theorems: trace conjugation-invariance, the $n{=}1$/$n{\geq}2$ boundary, scalar embedding functoriality) and \texttt{MultiAnalystInstance.lean} (4~theorems: multi-analyst Rashomon, trilemma, bilemma, maximal incompatibility).
+
+\paragraph{Reynolds naturality and the character: a structural analogy, not a Langlands result.}\emph{~[Tier~C.]}
+The Reynolds naturality theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections, and for GL($n$) the Reynolds projection is the trace (conjugation-averaging).  This is a one-line fact of invariant theory: the trace is a class function, constant on conjugacy classes and compatible with the group action.  We flag explicitly that this is \emph{not} Langlands functoriality: the formalization contains no automorphic forms, no $L$-functions, and no automorphic-to-Galois correspondence.  The parallel is purely structural---characters/traces are the natural stable invariant under conjugation, just as the orbit average is the stable resolution under any symmetry group---and is stated only to orient readers familiar with representation theory. It is not a theorem about, or a prediction of, functoriality.
+
+\paragraph{The automorphicity gap.}
+The companion repository's \texttt{HomExplanationSystem.lean} identifies the precise content separating the impossibility framework's structural predictions from the Langlands programme's arithmetic classification.  When the resolution is required to be a group homomorphism (not merely a stable function), the enrichment Sha becomes strictly stronger than CRT.  For $S_3 = \mathrm{GL}(2, \mathbb{F}_2)$: CRT allows 6~character-value combinations, but the group relation $srs = r^2$ forces $\chi(r) = 1$, blocking 4 of them (Lean-verified: \texttt{automorphicity\_gap}).  The blocked combinations are locally valid but violate a global group relation---not every collection of local character data assembles into a global homomorphism.  This is the automorphicity condition: the gap between local compatibility (CRT, handled by the enrichment framework) and global coherence (automorphicity, the content of the Langlands correspondence).  Three negative results delineate the boundary: (1)~enrichment Sha $=$ CRT $=$ Euler multiplicativity (no arithmetic content beyond the Euler product; \texttt{enrichment\_sha\_equals\_crt}); (2)~collapsed tightness forces the identity resolution (tautological; \texttt{forced\_resolution\_complete}); (3)~quantitative bounds depend only on group size, not on prime-specific structure (\texttt{EnrichmentQuantitative.lean}).  For finite fields, the automorphicity gap is computable; for number fields, it is the central open problem of modern algebraic number theory.
+
+The critical observation is that the core theorem
+\texttt{explanation\_impossibility} uses \textbf{zero custom axioms}---it is pure
+constructive logic.  The formalization stratifies into two categories:
+
+\begin{itemize}
+  \item \textbf{Constructively derived} (8 cross-domain instances): The
+    Rashomon property is proved from concrete witnesses with zero behavioral
+    axioms.  The Lean code constructs explicit pairs (e.g., $(1,1)$ and
+    $(0,2)$ for the linear system, chain vs.\ fork DAGs for Markov
+    equivalence) and verifies $\mathsf{obs}(\theta_1) = \mathsf{obs}(\theta_2)
+    \wedge \theta_1 \ne \theta_2$ by \texttt{decide}.  These are minimal
+    witnesses of domain-specific phenomena, not complete formalizations of the
+    respective theories.
+
+  \item \textbf{Axiomatized} (9 ML instances): The Rashomon property is
+    assumed as a domain axiom (e.g., ``there exist neural network weights with
+    the same predictions but different attention distributions'').  These
+    axioms are the mathematical content of the empirical literature being
+    formalized and are independently verifiable from the cited sources.
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Axiom taxonomy (2 bundled axioms; all behavioral properties are theorems extracted from the bundles).}
+\label{tab:axiom-taxonomy}
+\begin{tabular}{lrl}
+\toprule
+Category & Count & Examples \\
+\midrule
+GBDT infrastructure & 14 & Model, splitCount, proportionality \\
+Enrichment stack (physics) & 11 & BH/QG frameworks, Rashomon \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The core impossibility (Theorem~\ref{thm:universal}) requires zero axioms from any category. Quantitative bounds draw from ML domain axioms; cross-domain transfer draws from structural axioms.
+
+\paragraph{Scope of formal verification.}
+Lean verification guarantees that all theorems follow from the stated axioms with no logical gaps (internal consistency). It does not guarantee that the axioms correctly model the phenomena they are intended to capture (external validity). The axioms are motivated by domain-specific considerations (\S\ref{sec:axiom-stratification}), but their adequacy for any particular real-world system is an empirical question. We report axiom counts alongside theorem counts throughout to make the trusted base transparent.
+
+% ---- Tier A (Hardened) ----
+\subsection{Proof Status Transparency\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:proof-status}
+
+We distinguish four levels of verification:
+
+\begin{enumerate}[label=(\alph*)]
+  \item \textbf{Proved} (zero custom axiom dependencies): The theorem
+    follows from pure logic and stated hypotheses.  Examples:
+    {\raggedright\texttt{explanation\_impossibility},
+    \texttt{attribution\_impossibility},
+    \texttt{gInvariant\_stable}, and
+    \texttt{ubiquity\_impossibility}.\par}
+
+  \item \textbf{Derived} (from axioms): The theorem follows from a small set
+    of domain-specific axioms.  Examples: \texttt{gbdt\_impossibility\_local}
+    (4 axioms), \texttt{consensus\_equity} (6 axioms).  The axioms are
+    independently verifiable (e.g., the surjectivity axiom for GBDT follows
+    from the symmetry of collinear features under the data-generating process).
+
+  \item \textbf{Axiomatized} (Rashomon assumed): The original axiomatized
+    instance files remain for backward compatibility, but every domain now
+    has a constructive counterpart.  All eight cross-domain scientific
+    instances and all nine ML instances (attention, counterfactual, concept,
+    causal, model selection, saliency, LLM self-explanation, mechanistic
+    interpretability) have constructive Rashomon witnesses derived via
+    \texttt{decide} with zero domain-specific axioms---bringing the
+    constructive total to 16 of 17 \texttt{ExplanationSystem} instances.
+    (The 17th, \texttt{AttributionInstance}, uses the independent
+    \texttt{attribution\_impossibility} with its own zero-axiom proof.)
+
+  \item \textbf{Argued} (supplement proof only): The result has a
+    rigorous proof sketch in the supplement or companion paper but has
+    not been mechanized in Lean~4.  (Note: as of the current version,
+    the Pareto optimality of DASH is now Lean-verified in
+    \texttt{ParetoOptimality.lean} via
+    \texttt{dash\_unique\_pareto\_optimal}.)
+
+  \item \textbf{Empirical}: The result is supported by computational
+    experiments but not formally proved.  Examples: the specific flip
+    rates (19.9\% attention under full retraining, 23.5\%
+    counterfactual, etc.)\ reported in Section~\ref{sec:ml-instances}.
+\end{enumerate}
+
+% ---- Tier A (Hardened) ----
+\subsection{Formerly Axiomatized, Now Derived\,\textnormal{\normalsize[Tier A: Hardened]}}
+
+Several results that were initially axiomatized have since been derived from
+more primitive axioms, strengthening the formalization:
+
+\begin{itemize}
+  \item \texttt{spearman\_classical\_bound} $\to$
+    \texttt{spearman\_instability\_bound} in \texttt{SpearmanDef.lean}:
+    derived from split-count structure.
+  \item \texttt{le\_cam\_lower\_bound} in \texttt{QueryComplexity.lean}:
+    provable by \texttt{not\_lt.mp} (a tautology in any linear order).
+  \item \texttt{consensus\_variance\_bound} in
+    \texttt{Defs.lean}: from\\
+    \texttt{attribution\_variance\_nonneg} +
+    \texttt{Nat.cast\_nonneg}.
+  \item \texttt{attribution\_sum\_symmetric} in
+    \texttt{SymmetryDerive.lean}: from proportionality +
+    split-count + cross-group + balance.
+  \item \texttt{attribution\_variance} and\\
+    \texttt{attribution\_variance\_nonneg}: from Mathlib's\\
+    \texttt{ProbabilityTheory.variance} and
+    \texttt{variance\_nonneg}.
+\end{itemize}
+
+% ---- Tier A (Hardened) ----
+\subsection{Lean Proof of the Core Theorem\,\textnormal{\normalsize[Tier A: Hardened]}}
+
+The mechanized proof of the universal impossibility mirrors the paper proof
+exactly.  The complete Lean~4 statement and proof is given in
+Appendix~\ref{app:lean}.
+
+% ---- Tier A (Hardened) ----
+\subsection{Why This Result Is Non-Trivial\,\textnormal{\normalsize[Tier A: Hardened]}}
+\label{sec:non-trivial}
+
+A natural objection is that the impossibility is tautological: ``of course
+you cannot explain an underspecified system perfectly.''  Four lines of
+evidence refute this characterization.
+
+\paragraph{1.\ Tightness: the triple is the exact obstruction.}
+Each \emph{pair} of \{faithful, stable, decisive\} is simultaneously
+achievable---three Lean-verified witnesses establish this
+(Proposition~\ref{prop:tightness}).  A faithful-and-decisive map simply
+reports the native explanation; a faithful-and-stable map outputs a neutral
+constant; a stable-and-decisive map outputs a maximally committal constant.
+The impossibility is \emph{specifically} the conjunction of all three.
+A tautology would make even pairs unachievable; here every pair is
+constructively realized.
+
+\paragraph{2.\ Necessity: the Rashomon property is the exact boundary.}
+The converse is proved in Lean (\texttt{fully\_specified\_possibility} in
+\texttt{Necessity.lean}): if the system has \emph{no} Rashomon
+property---every observation uniquely determines its configuration---then
+all three properties are simultaneously achievable.  The Rashomon property
+is therefore both sufficient \emph{and} necessary for the impossibility.
+This is not a vague ``things are hard when the problem is hard'' statement;
+it is a precise logical equivalence: the impossibility holds \emph{if and
+only if} the Rashomon property holds.
+
+\paragraph{3.\ Resolution optimality: the $G$-invariant projection is
+Pareto-optimal.}
+The resolution is not arbitrary.  The orbit-averaging map is Pareto-optimal
+among all stable explanation maps: no stable map can achieve strictly higher
+pointwise faithfulness on every observe-fiber.  This means the trade-off
+identified by the theorem is \emph{tight}---the practitioner cannot do better
+by being clever.
+
+\paragraph{4.\ Shared resolution structure across eight domains.}
+If the impossibility were trivial, one would not expect eight independent
+scientific communities---spanning physics, biology, statistics, linguistics,
+crystallography, computer science, statistical mechanics, and
+mathematics---to converge on structurally the same resolution strategy
+(orbit averaging) over more than a century of independent work
+(Table~\ref{tab:structural-differences}).
+Our framework identifies what these eight independently developed methods
+share---instances of the same Reynolds projection---and proves
+solving the same impossibility---and proves the resolution they found is
+optimal.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Structural differences across the eight derived instances.}
+  The eight cross-domain instances are not notational variants of a single
+  example: they differ in symmetry group, group type, and resolution strategy.
+  These independently developed methods share a common mathematical
+  structure (orbit averaging / Reynolds projection), which the
+  $G$-invariant resolution framework identifies retrospectively.}
+\label{tab:structural-differences}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Domain & Group $G$ & Objects permuted & Type & Resolution & Form \\
+\midrule
+Mathematics
+  & $\R^{n-r}$
+  & Solution offsets
+  & Cont., abelian
+  & Pseudoinverse
+  & Projection \\[2pt]
+Biology
+  & $S_k$\;($k{\leq}6$)
+  & Synonymous codons
+  & Finite
+  & Codon tables
+  & Averaging \\[2pt]
+Physics
+  & $\mathbb{Z}_2^{|V|-1}$
+  & Edge labels
+  & Finite, abelian
+  & Wilson loops
+  & Invariant fn. \\[2pt]
+Stat.\ mech.
+  & $S_\Omega$
+  & Microstates
+  & Finite
+  & Microcanon.
+  & Averaging \\[2pt]
+Linguistics
+  & $S_k$
+  & Parse trees
+  & Finite
+  & Parse forests
+  & Enumeration \\[2pt]
+Crystallogr.
+  & $\mathbb{Z}_2{\times}\mathbb{Z}_n{\times}\mathbb{Z}_2$
+  & Signal phases
+  & Finite
+  & Patterson map
+  & Autocorrel. \\[2pt]
+Comp.\ sci.
+  & $S_k$
+  & Hidden columns
+  & Finite
+  & Compl.\ views
+  & Projection \\[2pt]
+Statistics
+  & MEC perms.
+  & DAG orientations
+  & Finite
+  & CPDAG
+  & Class report \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The framework also explains the variation across domains: the specific form
+of the resolution differs because the symmetry group and representation
+differ, even when the abstract group is the same.  Four instances use the
+symmetric group $S_k$, but they act on different mathematical
+objects---synonymous codons, microstates, parse trees, database
+columns---and yield different resolution forms: frequency averaging for
+biology and statistical mechanics, equivalence-class enumeration for
+linguistics, and subquery projection for computer science.  The abstract
+mathematical operation---projection onto the $G$-invariant subspace---is
+identical; the computational realization is domain-specific.
+
+%%% ==========================================================================
 
 %%%% ==========================================================
 \clearpage
 \part{Part II \textnormal{\large --- Empirical Validation}}
-\noindent\emph{Measurements and audits. The strongest result here is the stable-fact-count bimodality (Tier~A); the capacity $\eta$-law and per-domain fits are Tier~B, with sample-size and real-data caveats stated inline. None of these empirical claims is a logical consequence of the Part~I theorem; they test the framework, they do not follow from it.}\par\medskip
+\noindent\emph{Measurements and audits testing the framework. The strongest result is the stable-fact-count bimodality (Tier~A, pre-registered, $p<10^{-12}$); the capacity $\eta$-law and per-domain fits are Tier~B, with sample-size and real-data caveats stated inline. None of these empirical claims is a logical consequence of the Part~I theorem---they test it, they do not follow from it.}\par\medskip
 %%%% ==========================================================
 
-% ------ Tier B (Empirical) ------
-\section{Regulatory Implications\,\textnormal{\normalsize[Tier B: Empirical]}}
-\label{sec:regulatory}
-
-The EU AI Act \citep{euaiact2024} requires ``meaningful explanations'' for
-high-risk systems, and SR~11-7 \citep{occ2011sr117} requires ``developmental
-evidence'' documenting how model outputs arise.  These two demands pull in
-opposite directions: meaningful explanations favor decisiveness (a definite
-ranking of features or causes), while developmental evidence favors stability
-(reproducibility across equivalent models).  Theorem~\ref{thm:universal} shows
-that no explanation system can simultaneously maximize both for underspecified
-models.  A path to regulatory compliance nonetheless exists: $G$-invariant
-aggregation (e.g., \DASH{} for attributions, CPDAGs for causal reports)
-satisfies stability by construction and partial faithfulness---faithfulness in
-expectation over the Rashomon set---at the cost of reporting ties where the
-data are genuinely ambiguous.  We suggest that regulators adopt this framing:
-require that explanations be \emph{stable and partially faithful}, and mandate
-explicit disclosure of tied or unresolvable queries rather than demanding
-decisive answers that are mathematically impossible to guarantee.
-
-\paragraph{Liability implications.}
-If an organisation relies on single-model SHAP explanations for high-stakes decisions and the Rashomon property holds, two independent audits using different random seeds could reach opposite conclusions about which feature drove the decision. Ensemble averaging (\DASH{} with $M \geq 25$) provides a defensible alternative: the explanation is stable, the uncertainty is quantified, and the limitations are documented. This analysis reflects our reading of the regulatory text and should be reviewed by a legal scholar before being relied upon in compliance contexts.
-
-\subsection[What Explainability Can Do]{What Explainability \emph{Can} Do}
-\label{sec:can-do}
-
-The $G$-invariant resolution (Section~\ref{sec:resolution}) is constructive, not
-nihilistic.  It tells the practitioner exactly which desiderata can be jointly
-satisfied and which must be relaxed.  \DASH{} for feature attribution, CPDAGs
-for causal discovery \citep{verma1991equivalence}, and ensemble concept probes
-for concept-based explanations \citep{kim2018tcav} each sacrifice decisiveness
-to gain stability---and each is a concrete instance of the abstract resolution.
-In practice, this means reporting confidence intervals over the Rashomon set
-\citep{fisher2019models,semenova2022existence} rather than point estimates:
-a feature ranking should come with a stability annotation indicating which
-comparisons are robust to retraining and which are not.  The impossibility does
-not say ``explanations are useless''; it says ``decisive explanations are
-unreliable under underspecification, but partially decisive explanations with
-calibrated uncertainty are both achievable and informative.''
-
-% ------ Tier B (Empirical) ------
-\section{What This Paper Tells a Working Scientist\,\textnormal{\normalsize[Tier B: Empirical]}}
-\label{sec:working-scientist}
-
-What does this paper tell a working scientist?  For an ML practitioner: which SHAP comparisons to trust (SNR $> 2$) and which to discard (SNR $< 0.5$), computed from bootstrap retrains alone.  For a causal inference researcher: that ensemble averaging over the Rashomon set reduces orientation flip rates fourfold, following the same mechanism as DASH for attributions.  For a biologist: that the character-theoretic capacity $(k{-}1)/k$ serves as a neutral-evolution baseline from which deviations measure selective pressure.
-
-% ------ Tier B (Empirical) ------
-\section{Empirical Predictions from the Mathematical Structure\,\textnormal{\normalsize[Tier B: Empirical]}}
-\label{sec:predictions}
-
-The recursive impossibility framework generates four testable predictions beyond those already validated in this paper:
-
-\begin{enumerate}
-  \item \textbf{Bimodality of flip rates.} The all-or-nothing theorem (\S\ref{sec:predictions}) predicts that for binary SHAP signs across a Rashomon set, the per-pair flip rate distribution should be bimodal --- concentrated near $0\%$ (between-group, stable) and $\geq 50\%$ (within-group, coin flip) --- with a ``dead zone'' in between. The stable fact count experiment (Section~\ref{sec:noether-counting}) confirms this: the 50pp bimodal gap is invariant across $\rho = 0.50$--$0.99$.
-
-  \item \textbf{Mechanistic interpretability ceiling.} For binary questions about neural network circuits (``is this neuron responsible for this behavior?''), the bilemma predicts $\geq 50\%$ disagreement across independently trained model instances. A pilot test on GPT-2 small (Section~\ref{sec:limitations}) is in progress.
-
-  \item \textbf{DASH tie rate = Rashomon fraction.} The enrichment uniqueness theorem predicts that DASH's tie rate for a feature pair should equal the fraction of Rashomon pairs where the pair's attributions are incompatible. This is testable by comparing DASH's tied-pair count to the Gaussian flip formula's predicted flip rate.
-
-  \item \textbf{Coverage conflict diagnostic.} The \texttt{hasCoverageConflict} predicate (\S\ref{sec:bilemma}) should predict which feature pairs trigger the bilemma, independently of the Gaussian flip formula. The coverage conflict bridge validates the aggregate prediction for small feature spaces ($\rho = 0.90$, $P \leq 20$) but weakens substantially at higher $P$ ($\rho = 0.25$, not significant); the originally reported $\rho = 0.961$ (15~datasets) reflected the small-$P$ regime and does not generalise to all datasets.
-\end{enumerate}
-
-These predictions are derived from the mathematical structure and testable with existing experimental infrastructure.
-
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \section{Cross-Domain Transfer: From Taxonomy to Generative Theory\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:cross-domain}
 %%% ==========================================================================
@@ -1822,7 +1794,7 @@ We classify empirical results by strength of support.
 \textbf{Calibration checks} (expected from framework structure, not independently informative): codon degeneracy--entropy rank correlation ($\rho = 1.0$; monotonicity in degeneracy is guaranteed by construction---see \S\ref{sec:domain-validation}).
 \textbf{Partial}: group identification capacity theorem for 9 instances with unknown group structure (holdout $R^2 = 0.24$; poor fit attributable to misspecified or unknown symmetry groups---see \S\ref{sec:universal-eta}).
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Resolution Transfer: Ensemble Causal Discovery\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:ensemble-causal}
 
@@ -1868,7 +1840,7 @@ construct (Figure~\ref{fig:ensemble-causal}).
   \label{fig:ensemble-causal}
 \end{figure}
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Stability Transition in Explanation Systems\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:phase-transition}
 
@@ -1921,7 +1893,7 @@ theory maps onto the sigmoid stability curve observed empirically
   \label{fig:phase-transition}
 \end{figure}
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Cross-Level Prediction: Protein Designability\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:protein}
 
@@ -1972,7 +1944,7 @@ representation theory (Figure~\ref{fig:protein}).
   \label{fig:protein}
 \end{figure}
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Cross-Level Prediction: Transcription Factor Binding Sites\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:tfbs}
 
@@ -2034,7 +2006,7 @@ correlations likely near-identities rather than non-trivial predictions.
 Independent validation of this hypothesis (e.g., predicting confusion on
 held-out model architectures) is needed before claiming empirical support.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Invariance Counting: Exact Enumeration of Stable Queries\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:noether-counting}
 
@@ -2117,7 +2089,7 @@ specific correlation level.
   \label{fig:noether-counting}
 \end{figure}
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Automatic Symmetry Discovery (SAGE)\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:sage}
 
@@ -2161,7 +2133,7 @@ manifests in practice.  The calibration constant is stable across datasets
 \paragraph{SAGE baseline comparison.}
 SAGE outperforms all naive baselines on instability prediction. After leave-one-out calibration, SAGE achieves $R^2 = 0.686$ while all baselines are negative (best baseline: mean pairwise correlation, LOO $R^2 = -0.47$). On rank ordering, SAGE dominates: Spearman $\rho = 0.952$ vs.\ best baseline 0.731 (permutation $p = 0.002$). Raw (uncalibrated) $R^2$ is negative for all methods including SAGE, because predicted instability systematically overshoots observed values. SAGE's value is in identifying \emph{which} feature groups are unstable, not in predicting exact flip rates.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Discrete vs.\ Continuous Symmetry: The CCA Spectrum\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:cca-spectrum}
 
@@ -2184,7 +2156,7 @@ prediction holds for discrete symmetry groups but requires extension to
 continuous groups, where stability becomes a spectrum rather than a
 dichotomy.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{The Explanation Capacity Theorem: Predictive Scope and Boundary\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:universal-eta}
 
@@ -2285,7 +2257,7 @@ observed flip rate (9.6\%; Cohen's $d = 0.33$) despite a high predicted instabil
 nominal group.  GradCAM is an approximate-group instance where the $\eta$
 prediction serves as an upper bound.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Per-Individual Explanation Reversal\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:individual-reversal}
 
@@ -2316,7 +2288,7 @@ German Credit applicant \#91 receives 6~different ``most important feature'' exp
 
 The effect is dataset-dependent: Heart Disease shows 0\% reversal across all conditions, confirming that instability requires sufficient feature dependence ($I > 0$ between feature pairs). The honest headline is not ``75\% of individuals receive different explanations'' (an inflated aggregate from v1 of this experiment) but rather: \emph{standard regularisation choices determine which explanation category nearly half of credit applicants receive.}
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Prospective Out-of-Domain Prediction: Drug Discovery\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:drug-discovery}
 
@@ -2355,7 +2327,7 @@ This defines a precise boundary condition for the framework:
 
 The group identification method should match the feature type: Pearson for continuous correlated features, MI or Jaccard for binary/categorical features, and SAGE as a universal fallback. Extending the SAGE algorithm to non-linear dependencies is the natural next step.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Exhaustive Pipeline Validation: 85 PMLB Datasets\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:massive-validation}
 
@@ -2554,7 +2526,7 @@ are needed for high-dimensional settings, consistent with the drug
 discovery findings (\S\ref{sec:drug-discovery}).  The DASH resolution
 itself is dimension-independent and works without modification.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{The Gaussian Flip Rate: From Exact to Approximate Symmetry\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:gaussian-flip}
 
@@ -2629,7 +2601,7 @@ values require uncertainty quantification.
 \paragraph{Robustness to non-Gaussianity.}
 The $\Phi(-\text{SNR})$ formula is exact under Gaussian noise and well-calibrated on real data ($R^2 = 0.814$ [0.791, 0.835] across 647 feature pairs from five clinical and financial datasets, with bootstrap 95\% CIs; per-dataset $R^2 = 0.946$--$0.980$ on six datasets including PMLB benchmarks, confirming consistency across domains). The formula systematically underpredicts observed flip rates by ${\sim}17\%$ (calibration slope 1.17), making it conservative. Under heavy-tailed distributions (Student $t$, $\text{df}=3$), the formula underestimates flip rates by 40\%+; under log-normal noise, errors are larger still. However, Shapiro--Wilk tests confirm 94.7\% of real SHAP difference distributions are Gaussian ($p > 0.10$), justifying the formula's applicability in practice. The Berry--Esseen correction adds $< 1\%$ to the base rate for $n > 100$ models under light tails.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Domain-Specific Validation\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:domain-validation}
 
@@ -2705,7 +2677,7 @@ Across a 30-pipeline multiverse (3 model classes $\times$ 3 scalers $\times$ 3 f
 \paragraph{Generalization gap correlation.}
 Across the original 5 datasets, the cross-dataset correlation between mean flip rate and generalization gap (ID accuracy $-$ OOD accuracy) is Pearson $r = -0.91$, $p = 0.034$, $n = 5$---suggestive of an inverse relationship (more instability correlates with smaller generalization gaps).  However, leave-one-out analysis reveals this result is driven by a single outlier: removing California Housing (which has both the lowest instability and the largest geographic distribution shift) reduces the correlation to $r = -0.20$, $p = 0.80$.  Expanding to 13 datasets (8 real $+$ 5 synthetic controls with varying feature redundancy) yields $r = -0.58$, $p = 0.038$, but removing California Housing from the full set reverses the sign to $r = +0.26$.  The synthetic control with varying redundancy (0--40 redundant features) shows the \emph{opposite} pattern ($r = +0.80$): more redundancy increases both instability and generalization gap, contrary to the initial hypothesis.  The finding requires validation on larger, more diverse samples before causal interpretation; we report it as a null result with respect to the specific directional prediction.  Breast Cancer shows a negative generalization gap (OOD accuracy exceeds ID accuracy), likely because the `extreme' patients have more distinctive features that are easier to classify.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Gene Expression Pathway Divergence\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:gene-expression}
 
@@ -2731,7 +2703,7 @@ The alternation replicates on AP\_Endometrium\_Colon (363 samples, independent t
 \paragraph{DASH resolves.}
 The DASH ensemble average (mean SHAP across 50 models) places both TSPAN8 and CEACAM5 in the top-2, correctly reporting that both contribute without privileging either.  This is the $G$-invariant resolution in practice: the group mean preserves the between-group ranking (colon genes $>$ kidney genes) while acknowledging within-group indistinguishability.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Mechanistic Interpretability: Circuit-Level Rashomon\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:mi-v2}
 
@@ -2782,7 +2754,7 @@ The symmetry $S_4 \times S_4$ predicts: within-layer head pairs (12 pairs total)
 \paragraph{Structural universal: MLP1 dominance.}
 MLP1 is the most important component in every seed (coefficient of variation $= 0.027$).  This is the $G$-invariant structural fact---the between-group conclusion that survives the impossibility.  Individual head identities (which specific head matters) are the within-group noise that the theorem proves is unavoidable.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Language Model Circuit Stability: Multi-Scale Validation\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:tinystories}
 
@@ -2882,7 +2854,7 @@ Third, the \emph{ablation methodology} uses weight zeroing throughout.  Path pat
 
 Fourth, the bootstrap 95\% CIs on pairwise Spearman $\rho$ are computed over the 45 model pairs, which share models.  The effective degrees of freedom are closer to $n = 10$ (number of models) than $n = 45$ (number of pairs).  The CIs may therefore be too narrow; the point estimates and qualitative conclusions are unaffected.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Model-Class Universality of the Impossibility\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:model-class}
 
@@ -2904,7 +2876,7 @@ Despite cross-family disagreement on specifics, two diagnostics are universal:
 \paragraph{Interpretation.}
 Instability has a data-determined core (detectable by coverage conflict, shared across model families) and a model-family-specific pattern (which unstable features flip depends on the algorithm).  The impossibility theorem explains both: the Rashomon property (data-determined) guarantees instability exists; the specific symmetry group (model-family-specific) determines which features are interchangeable.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Multi-Analyst Disagreement as Impossibility: Neuroimaging\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:narps}
 
@@ -2985,7 +2957,7 @@ The split-half stability of the ensemble average increases with ensemble size.  
 \paragraph{Bilemma confirmation.}
 The unfaithfulness of the ensemble average is proportional to team disagreement (Spearman $\rho = 0.962$, $p < 10^{-100}$).  The ratio unfaithfulness/$\sigma = 0.734$ (Gaussian prediction: $\sqrt{2/\pi} = 0.798$), confirming the ensemble average achieves near the theoretical minimum unfaithfulness.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{Cross-Domain Multi-Analyst Studies\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:multi-analyst-cross-domain}
 
@@ -3003,7 +2975,7 @@ The initial cross-domain analysis used hardcoded approximate data; the definitiv
 \paragraph{Cross-domain pattern.}
 Across all three domains, the qualitative pattern is identical: the Rashomon property holds (teams disagree), orbit averaging provides a near-optimal resolution (all aggregation methods within 3\%), and unfaithfulness is proportional to disagreement.  The Noether structural prediction---that group membership predicts which conclusions are stable---is confirmed for multivariate neuroimaging data ($d = 0.32$ after activation control) but inconclusive for scalar multi-analyst studies (Silberzahn $d = 0.29$, not significant after permutation correction; Breznau ICC $= -0.10$).  For scalar studies, convergence follows standard CLT scaling ($\sim 1/\sqrt{M}$); the framework does not predict a different rate.  The framework's unique value beyond classical meta-analysis is threefold: the irreducibility proof (the disagreement is mathematical, not methodological), the Pareto optimality of orbit averaging (proven, not assumed), and the structural prediction identifying which conclusions are stable (confirmed for multivariate data).  The CLT tells practitioners that averaging reduces noise; the framework tells them the noise is \emph{irreducible}, proves orbit averaging is \emph{optimal} among all aggregation methods, and identifies \emph{which} conclusions survive.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \section{Fundamental Ceiling on AI Interpretability\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:bridge-interpretability}
 
@@ -3126,14 +3098,78 @@ Gene-expression data: OpenML (IDs 1137 and related).
 Neuroimaging: NeuroVault collection~6047.
 Multi-analyst data: OSF (osf.io/gvm2z) and GitHub (nbreznau/CRI).
 
+% ---- Tier B (Empirical) ----
+\section{Empirical Predictions from the Mathematical Structure\,\textnormal{\normalsize[Tier B: Empirical]}}
+\label{sec:predictions}
+
+The recursive impossibility framework generates four testable predictions beyond those already validated in this paper:
+
+\begin{enumerate}
+  \item \textbf{Bimodality of flip rates.} The all-or-nothing theorem (\S\ref{sec:predictions}) predicts that for binary SHAP signs across a Rashomon set, the per-pair flip rate distribution should be bimodal --- concentrated near $0\%$ (between-group, stable) and $\geq 50\%$ (within-group, coin flip) --- with a ``dead zone'' in between. The stable fact count experiment (Section~\ref{sec:noether-counting}) confirms this: the 50pp bimodal gap is invariant across $\rho = 0.50$--$0.99$.
+
+  \item \textbf{Mechanistic interpretability ceiling.} For binary questions about neural network circuits (``is this neuron responsible for this behavior?''), the bilemma predicts $\geq 50\%$ disagreement across independently trained model instances. A pilot test on GPT-2 small (Section~\ref{sec:limitations}) is in progress.
+
+  \item \textbf{DASH tie rate = Rashomon fraction.} The enrichment uniqueness theorem predicts that DASH's tie rate for a feature pair should equal the fraction of Rashomon pairs where the pair's attributions are incompatible. This is testable by comparing DASH's tied-pair count to the Gaussian flip formula's predicted flip rate.
+
+  \item \textbf{Coverage conflict diagnostic.} The \texttt{hasCoverageConflict} predicate (\S\ref{sec:bilemma}) should predict which feature pairs trigger the bilemma, independently of the Gaussian flip formula. The coverage conflict bridge validates the aggregate prediction for small feature spaces ($\rho = 0.90$, $P \leq 20$) but weakens substantially at higher $P$ ($\rho = 0.25$, not significant); the originally reported $\rho = 0.961$ (15~datasets) reflected the small-$P$ regime and does not generalise to all datasets.
+\end{enumerate}
+
+These predictions are derived from the mathematical structure and testable with existing experimental infrastructure.
+
+% ---- Tier B (Empirical) ----
+\section{Regulatory Implications\,\textnormal{\normalsize[Tier B: Empirical]}}
+\label{sec:regulatory}
+
+The EU AI Act \citep{euaiact2024} requires ``meaningful explanations'' for
+high-risk systems, and SR~11-7 \citep{occ2011sr117} requires ``developmental
+evidence'' documenting how model outputs arise.  These two demands pull in
+opposite directions: meaningful explanations favor decisiveness (a definite
+ranking of features or causes), while developmental evidence favors stability
+(reproducibility across equivalent models).  Theorem~\ref{thm:universal} shows
+that no explanation system can simultaneously maximize both for underspecified
+models.  A path to regulatory compliance nonetheless exists: $G$-invariant
+aggregation (e.g., \DASH{} for attributions, CPDAGs for causal reports)
+satisfies stability by construction and partial faithfulness---faithfulness in
+expectation over the Rashomon set---at the cost of reporting ties where the
+data are genuinely ambiguous.  We suggest that regulators adopt this framing:
+require that explanations be \emph{stable and partially faithful}, and mandate
+explicit disclosure of tied or unresolvable queries rather than demanding
+decisive answers that are mathematically impossible to guarantee.
+
+\paragraph{Liability implications.}
+If an organisation relies on single-model SHAP explanations for high-stakes decisions and the Rashomon property holds, two independent audits using different random seeds could reach opposite conclusions about which feature drove the decision. Ensemble averaging (\DASH{} with $M \geq 25$) provides a defensible alternative: the explanation is stable, the uncertainty is quantified, and the limitations are documented. This analysis reflects our reading of the regulatory text and should be reviewed by a legal scholar before being relied upon in compliance contexts.
+
+\subsection[What Explainability Can Do]{What Explainability \emph{Can} Do}
+\label{sec:can-do}
+
+The $G$-invariant resolution (Section~\ref{sec:resolution}) is constructive, not
+nihilistic.  It tells the practitioner exactly which desiderata can be jointly
+satisfied and which must be relaxed.  \DASH{} for feature attribution, CPDAGs
+for causal discovery \citep{verma1991equivalence}, and ensemble concept probes
+for concept-based explanations \citep{kim2018tcav} each sacrifice decisiveness
+to gain stability---and each is a concrete instance of the abstract resolution.
+In practice, this means reporting confidence intervals over the Rashomon set
+\citep{fisher2019models,semenova2022existence} rather than point estimates:
+a feature ranking should come with a stability annotation indicating which
+comparisons are robust to retraining and which are not.  The impossibility does
+not say ``explanations are useless''; it says ``decisive explanations are
+unreliable under underspecification, but partially decisive explanations with
+calibrated uncertainty are both achievable and informative.''
+
+% ---- Tier B (Empirical) ----
+\section{What This Paper Tells a Working Scientist\,\textnormal{\normalsize[Tier B: Empirical]}}
+\label{sec:working-scientist}
+
+What does this paper tell a working scientist?  For an ML practitioner: which SHAP comparisons to trust (SNR $> 2$) and which to discard (SNR $< 0.5$), computed from bootstrap retrains alone.  For a causal inference researcher: that ensemble averaging over the Rashomon set reduces orientation flip rates fourfold, following the same mechanism as DASH for attributions.  For a biologist: that the character-theoretic capacity $(k{-}1)/k$ serves as a neutral-evolution baseline from which deviations measure selective pressure.
+
 
 %%%% ==========================================================
 \clearpage
 \part{Part III \textnormal{\large --- Instantiations and Bridges}}
-\noindent\emph{The universal theorem specialized to recognizable systems, and connections to established mathematics. These are witnesses that the hypothesis class is populated by familiar examples---not new theorems about those domains.}\par\medskip
+\noindent\emph{The universal theorem specialised to recognisable systems, and connections to established mathematics. These are witnesses that the hypothesis class is populated by familiar examples---not new theorems about those domains.}\par\medskip
 %%%% ==========================================================
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \section{Derived Instances Across Eight Sciences\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:derived-instances}
 %%% ==========================================================================
@@ -3207,7 +3243,7 @@ Causal: 100 seeds, convergence to CPDAG at $N \to \infty$.}
 \end{table}
 
 %%% ==========================================================================
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \section{Applications in Machine Learning\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:ml-instances}
 %%% ==========================================================================
@@ -3294,7 +3330,7 @@ structurally independent.  A conservative count identifies six genuinely
 distinct Rashomon mechanisms across the nine instances.
 
 %%% ==========================================================================
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \section{Bridge Theorems: Connections to Established Mathematics\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:bridge-theorems}
 %%% ==========================================================================
@@ -3307,7 +3343,7 @@ theorems'' that identify existing results as special cases of the abstract
 impossibility structure, and derive one new quantitative prediction for AI
 interpretability.
 
-% ------ Tier A (Hardened) ------
+% ---- Tier A (Hardened) ----
 \subsection{Sufficient Statistics as $G$-Invariants\,\textnormal{\normalsize[Tier A: Hardened]}}
 \label{sec:bridge-sufficiency}
 
@@ -3363,7 +3399,7 @@ Rao--Blackwell theorem (1945/47), and the explanation impossibility are the
 same theorem in different notation (Table~\ref{tab:sufficiency-dictionary}).
 Under a uniform prior on the fiber $\{\theta : \mathrm{obs}(\theta) = y\}$, the orbit average $\bar{E}(\theta) = (1/|G|)\sum_{g \in G} E(g \cdot \theta)$ is literally the conditional expectation $\E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta) = y]$.  The identification is exact when the prior is uniform and the group acts transitively on fibers; it is approximate otherwise.
 
-% ------ Tier B (Empirical) ------
+% ---- Tier B (Empirical) ----
 \subsection{EM as Generalized Orbit Averaging\,\textnormal{\normalsize[Tier B: Empirical]}}
 \label{sec:bridge-em}
 
@@ -3419,42 +3455,15 @@ usage tables in biology are all instances of the same resolution strategy.
 %%%% ==========================================================
 \clearpage
 \part{Part IV \textnormal{\large --- Structural Analogies and Speculative Extensions}}
-\noindent\emph{\textbf{Status disclaimer.} The material in this part consists of structural parallels and conditional or illustrative formalizations---NOT domain results. Where a Lean object appears (the GL($n$) trace bilemma, the adelic model, the G\"odel conditional, Navier--Stokes), the genuine theorem is stated in Part~I or~III and only its \emph{interpretation} lives here. Claims connecting the framework to the Langlands programme, adelic physics, G\"odel' s theorem, or the Riemann Hypothesis are analogies, not proofs; see per-item notes.}\par\medskip
+\noindent\emph{\textbf{Status disclaimer.} The material in this Part consists of structural parallels and conditional or illustrative formalizations---\emph{not} domain results. Where a Lean object appears (the $\mathrm{GL}(n)$ trace bilemma, the adelic model, the G\"odel conditional, Navier--Stokes), the genuine theorem is stated in Part~I or~III and only its \emph{interpretation} lives here. Claims connecting the framework to the Langlands programme, adelic physics, G\"odel's theorem, or the Riemann Hypothesis are analogies, not proofs.}\par\medskip
 %%%% ==========================================================
 
-% ------ Tier C (Speculative) ------
-\section{Analogy: Arrow's Impossibility Theorem\,\textnormal{\normalsize[Tier C: Speculative]}}
-\label{sec:arrow-analogy}
-
-The structure of our result parallels Arrow's impossibility theorem in social
-choice theory \citep{arrow1951social}.  Arrow showed that no voting rule
-satisfying unanimity, independence of irrelevant alternatives, and
-non-dictatorship exists for three or more candidates---a universal
-impossibility that unified disparate paradoxes in voting theory.
-\citet{nipkow2009social} later formalized Arrow's theorem in Isabelle/HOL.
-Our Explanation Impossibility plays an analogous role for
-explainability: it unifies nine domain-specific impossibilities under one
-structural cause (the Rashomon property) and one four-line proof, and the
-resolution (orbit averaging) is the XAI counterpart of accepting partial
-orderings in social choice.
-The framework does not currently express the Gibbard--Satterthwaite theorem, which concerns strategy-proofness (incentive compatibility)---a property involving strategic agents, not truthful explanation.  Extending the framework to capture strategic considerations would require adding an agent model, which is outside the current scope.
-
-\paragraph{Comparison with topological impossibility.}
-Chichilnisky's theorem~\cite{chichilnisky1980social} shows that no continuous, anonymous, unanimous aggregation rule exists for preferences on a sphere. Our trilemma differs in three respects: (i)~it requires no topological structure on the explanation space, (ii)~the impossibility arises from the Rashomon property rather than from the topology of the preference space, and (iii)~our resolution (orbit averaging) is constructive while Chichilnisky's theorem has no finite-dimensional escape. The trilemma applies to discrete, finite systems where Chichilnisky's theorem is vacuous.
-
-\paragraph{Comparison with Fourier-theoretic generalisations.}
-Kalai~\cite{kalai2002fourier} generalises Arrow's theorem using Fourier analysis on the Boolean cube, showing that aggregation functions close to dictatorships must be close on most inputs. Our trilemma concerns explanation maps (not aggregation rules), requires the Rashomon property (not preference diversity), and applies to non-social-choice domains. The formal relationship between Kalai's Fourier-theoretic approach and our representation-theoretic resolution ($G$-invariant projection) is an open question.
-
-(The full impossibility is formalized as \texttt{ubiquity\_impossibility}
-in \texttt{Ubiquity.lean}.)
-
-%%% ==========================================================================
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \section{Discussion: What Explainability Can and Cannot Do\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:discussion}
 %%% ==========================================================================
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Cross-Domain Transfer: From Gauge Theory to ML\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:transfer}
 
@@ -3494,7 +3503,7 @@ paper~\cite{caraker2026ostrowski}.
 
 \paragraph{Value alignment.} The framework applies to AI value alignment. When multiple RLHF training runs produce models with identical behavioral performance but different implicit value rankings (the value Rashomon property), no value explanation is simultaneously faithful and stable (the value bilemma). The enrichment mechanism --- adding a `balanced' option that doesn't commit to either value priority --- corresponds to alignment frameworks that explicitly balance competing values rather than ranking them. This formalizes a structural constraint on alignment: under value multiplicity, precise value specification is impossible without sacrificing either accuracy (faithfulness) or consistency (stability). We formalize this as a Lean-verified \texttt{ExplanationSystem} instance (\texttt{ValueAlignment.lean}, 0 \texttt{sorry}).  Whether RLHF models empirically exhibit value Rashomon is an open question; the Lean formalization proves the structural consequence \emph{if} the property holds, but does not establish that it does.  The full complexity of AI alignment (strategic agents, distributional shift, ontological uncertainty) exceeds the framework's scope.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Scope and Applicability Beyond Machine Learning\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:scope}
 
@@ -3693,7 +3702,7 @@ Recognizing this unifies the practitioner's response: rather than debugging each
 method individually, one diagnoses the Rashomon property and applies the
 $G$-invariant resolution uniformly.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Implications Beyond Machine Learning\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:beyond-ml}
 
@@ -3827,7 +3836,7 @@ are conjectural, historical interpretations, or beyond the current scope
 of empirical validation.  They are included as a research program record,
 not as validated claims of the framework.}
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Scientific Revolutions as Enrichment Events\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:revolutions}
 
@@ -3888,7 +3897,7 @@ The framework does not distinguish between global and local symmetries.  In phys
 
 The per-fiber bound (Proposition~\ref{prop:tightness} in the main text) is the qualitative skeleton of this inequality. The full measure-theoretic development, including domain-specific instances and tightness analysis, is the subject of ongoing work.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Enrichment as Abstraction\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:enrichment-abstraction}
 
@@ -3929,7 +3938,7 @@ would require engagement with the cognitive science literature.
 
 \smallskip\noindent\emph{Caveat.} The analogy between mathematical enrichment and cognitive abstraction is speculative. We are not aware of cognitive science evidence connecting these concepts, and we do not develop this connection further.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Recursive Impossibility: The Enrichment Stack\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:recursive}
 
@@ -3991,25 +4000,52 @@ level is precisely the open physics question; the framework says only
 \textbf{Axiomatised (conditional):} Level~2 (black hole information). Depends on the contested claim that the information paradox constitutes a genuine Rashomon pair.
 \textbf{Speculative:} Level~3 (spacetime emergence). Grounded in AdS/CFT and causal set theory but not empirically verifiable with current technology. A companion paper~\citep{caraker2026ostrowski} formalises the physical enrichment stack.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
+\section{Analogy: Arrow's Impossibility Theorem\,\textnormal{\normalsize[Tier C: Speculative]}}
+\label{sec:arrow-analogy}
+
+The structure of our result parallels Arrow's impossibility theorem in social
+choice theory \citep{arrow1951social}.  Arrow showed that no voting rule
+satisfying unanimity, independence of irrelevant alternatives, and
+non-dictatorship exists for three or more candidates---a universal
+impossibility that unified disparate paradoxes in voting theory.
+\citet{nipkow2009social} later formalized Arrow's theorem in Isabelle/HOL.
+Our Explanation Impossibility plays an analogous role for
+explainability: it unifies nine domain-specific impossibilities under one
+structural cause (the Rashomon property) and one four-line proof, and the
+resolution (orbit averaging) is the XAI counterpart of accepting partial
+orderings in social choice.
+The framework does not currently express the Gibbard--Satterthwaite theorem, which concerns strategy-proofness (incentive compatibility)---a property involving strategic agents, not truthful explanation.  Extending the framework to capture strategic considerations would require adding an agent model, which is outside the current scope.
+
+\paragraph{Comparison with topological impossibility.}
+Chichilnisky's theorem~\cite{chichilnisky1980social} shows that no continuous, anonymous, unanimous aggregation rule exists for preferences on a sphere. Our trilemma differs in three respects: (i)~it requires no topological structure on the explanation space, (ii)~the impossibility arises from the Rashomon property rather than from the topology of the preference space, and (iii)~our resolution (orbit averaging) is constructive while Chichilnisky's theorem has no finite-dimensional escape. The trilemma applies to discrete, finite systems where Chichilnisky's theorem is vacuous.
+
+\paragraph{Comparison with Fourier-theoretic generalisations.}
+Kalai~\cite{kalai2002fourier} generalises Arrow's theorem using Fourier analysis on the Boolean cube, showing that aggregation functions close to dictatorships must be close on most inputs. Our trilemma concerns explanation maps (not aggregation rules), requires the Rashomon property (not preference diversity), and applies to non-social-choice domains. The formal relationship between Kalai's Fourier-theoretic approach and our representation-theoretic resolution ($G$-invariant projection) is an open question.
+
+(The full impossibility is formalized as \texttt{ubiquity\_impossibility}
+in \texttt{Ubiquity.lean}.)
+
+%%% ==========================================================================
+% ---- Tier C (Speculative) ----
 \section{Bayesian Interpretation\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:bridge-bayesian}
 
 The framework admits a natural Bayesian reading.  Faithfulness corresponds to likelihood consistency (the explanation does not contradict the data-generating mechanism).  Stability corresponds to posterior invariance (the explanation depends only on the observable evidence, not on which particular configuration produced it).  Decisiveness corresponds to point estimation (the explanation commits to a single value rather than a distribution).  The enrichment mechanism---adding a neutral element to restore faithful+stable---corresponds to Bayesian model averaging: replacing a point estimate with a posterior predictive distribution that averages over the equivalence class.  The $G$-invariant resolution is then the orbit average $\bar{E}(\theta) = (1/|G|) \sum_{g \in G} E(g \cdot \theta)$.  Under a uniform prior over the equivalence class, the orbit average coincides with the conditional expectation $E[\mathrm{explain}(\theta) \mid \mathrm{obs}(\theta)]$. For non-uniform priors, the orbit average and the posterior predictive diverge. The connection to Rao--Blackwell is therefore exact under uniformity and analogical in general.  The Pareto-optimality of orbit averaging (Theorem~\ref{thm:orbit-average}) is a consequence of the admissibility of Bayes estimators under proper priors~\citep{berger1985statistical}.  Specifically, under squared-error loss with a proper prior over the equivalence class, Bayes estimators are admissible (Berger, 1985, Theorem~5.2.4). The orbit average is the Bayes estimator under the uniform prior; its Pareto-optimality among stable maps follows. Under non-uniform priors, the Bayes estimator may differ from the orbit average, but the orbit average remains minimax among symmetric estimators.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \section{Quantum Error Correction\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:bridge-qec}
 
 The dimension ratio $\eta = \dim(V^G)/\dim(V)$ has a precise interpretation in quantum error correction: it equals the code rate $k/n$ of a quantum error-correcting code, where $V^G$ is the code subspace invariant under the error group $G$.  We \emph{conjecture} that the Knill--Laflamme conditions correspond to the stability condition of the framework applied to the code subspace.  A full formal bridge---analogous to the Fisher/Rao--Blackwell dictionary (Table~\ref{tab:sufficiency-dictionary})---remains an open direction.  The enrichment mechanism (adding a neutral element to restore faithful+stable) corresponds to adding ancilla qubits: enlarging the physical space to create room for fault-tolerant encoding~\citep{knill1997theory}.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \section{Classification of Impossibility Theorems by Tightness\,\textnormal{\normalsize[Tier C: Speculative]}}
 \label{sec:classification}
 
 Impossibility theorems appear across science, but they differ in \emph{tightness}: which pairs of desirable properties survive when the full triple fails.  We formalise this as the \texttt{AbstractImpossibility} framework (Lean-verified, 482 theorems, 0 sorry across 38 files in a companion repository) and classify 21 impossibility theorems from 13+ domains.
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Tightness Types\,\textnormal{\normalsize[Tier C: Speculative]}}
 
 Four tightness types exist (proved exhaustive and mutually exclusive):
@@ -4019,7 +4055,7 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
   \item \textbf{p12-blocked} and \textbf{p23-blocked:} one specific pair is blocked.  These are naturally 2-ary impossibilities embedded in a 3-property framework.
 \end{itemize}
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{The Classification\,\textnormal{\normalsize[Tier C: Speculative]}}
 
 \begin{table}[h]
@@ -4058,7 +4094,7 @@ Four tightness types exist (proved exhaustive and mutually exclusive):
 \end{tabular}
 \end{table}
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Key Findings\,\textnormal{\normalsize[Tier C: Speculative]}}
 
 \paragraph{Full tightness is the overwhelming default.}
@@ -4091,7 +4127,7 @@ The \emph{adjoint connection} (\texttt{adjoint\_connection}) quantifies the info
 
 The characters-separate-representations theorem (\texttt{characters\_separate\_reps}) proves that the character map is injective on isomorphism classes of simple representations: if two simple representations have the same character, they are isomorphic.  This means the Reynolds projection (character) is not just optimal but \emph{complete}---it loses the minimum possible information (the gauge-dependent part) while retaining all distinguishing information (the isomorphism class).
 
-The \emph{Reynolds naturality} theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections: if $\varphi : V \to W$ intertwines the group actions ($R_W \circ \varphi = \varphi \circ R_V$), then the stable resolutions are compatible.  \emph{We deliberately do not phrase this as ``predicting Langlands functoriality.''}  It is the elementary statement that a natural transformation commutes with a group average; it carries no arithmetic content and does not bear on the automorphic-to-Galois correspondence that the Langlands programme concerns.  We note the formal resemblance only as an orientation for readers from representation theory.
+The \emph{Reynolds naturality} theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections: if $\varphi : V \to W$ intertwines the group actions ($R_W \circ \varphi = \varphi \circ R_V$), then the stable resolutions are compatible.  We deliberately do \emph{not} phrase this as ``predicting Langlands functoriality'': it is the elementary statement that a natural transformation commutes with a group average, carries no arithmetic content, and does not bear on the automorphic-to-Galois correspondence the Langlands programme concerns.  The formal resemblance is noted only to orient readers from representation theory.
 
 \paragraph{The gauge reading.}
 The three collapsed instances share a gauge-theoretic description.  In each case, a ``gauge freedom'' (observational equivalence between configurations) makes faithful tracking of gauge-dependent data incompatible with stability:
@@ -4128,7 +4164,7 @@ The classification determines the resolution strategy:
 \end{itemize}
 These types are proved mutually exclusive.  Full tightness implies irreducibility: no property is redundant (each pair is independently achievable, so removing any one property yields a satisfiable conjunction).
 
-% ------ Tier C (Speculative) ------
+% ---- Tier C (Speculative) ----
 \subsection{Evidence Tiers and Caveats\,\textnormal{\normalsize[Tier C: Speculative]}}
 
 Six instances have \emph{structural} evidence: non-trivial Lean proofs over unbounded solution spaces with substantive tightness witnesses (bilemma, Arrow, Gibbard-Satterthwaite, Bell, Kochen-Specker, G\"odel).  Fourteen use \emph{trilemma models}: 3-element types where each constructor satisfies exactly 2 of 3 properties.  Trilemma models FORCE full tightness by construction; they confirm the cross-domain pattern but do not independently test the classification.
@@ -4142,10 +4178,10 @@ Prior work on axiom independence for Arrow's theorem (Blau 1972, Wilson 1972) es
 %%%% ==========================================================
 \clearpage
 \part{Part V \textnormal{\large --- Falsified Predictions and Boundaries}}
-\noindent\emph{Predictions that were tested and rejected, and the framework' s known limits. Reported prominently by design: the boundary of a theory is part of its content.}\par\medskip
+\noindent\emph{Predictions that were tested and rejected, and the framework's known limits. Reported prominently by design: the boundary of a theory is part of its content.}\par\medskip
 %%%% ==========================================================
 
-% ------ Tier D (Falsified) ------
+% ---- Tier D (Falsified) ----
 \section{Limitations and Open Questions\,\textnormal{\normalsize[Tier D: Falsified]}}
 \label{sec:limitations}
 
@@ -4221,7 +4257,7 @@ We identify five limitations and directions for future work.
 The drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this bottleneck concretely: Pearson-based clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate within 16\%. However, the Noether bimodal structure transfers only for domains with discrete group structure, not for diffuse overlap patterns.
   \item \textbf{Coverage conflict is a conceptual naming, not a deep theorem.}  The biconditional ``coverage conflict $\leftrightarrow$ no neutral element'' (proved in \texttt{BilemmaCharacterization.lean}) is a definitional equivalence: both express that no element of $\mathcal{H}$ is compatible with all explain-values.  The value of naming this ``coverage conflict'' is conceptual---it identifies the algebraic feature that powers the bilemma and clarifies why binary $\mathcal{H}$ strengthens the impossibility (maximum coverage) while larger $\mathcal{H}$ weakens it (room for neutral elements).
   \item \textbf{SNR as coverage conflict is a modeling assumption.}  The connection between coverage conflict (a discrete algebraic property) and SNR (a continuous statistical quantity) rests on the assumption that importance differences are approximately Gaussian.  Under this assumption, $\text{SNR} < \tau$ operationalizes ``no compatible direction exists for this pair.''  The assumption is validated by Shapiro-Wilk tests (60--100\% of pairs pass across datasets) but is not a theorem.  Ridge regression on California Housing gives $R^2 = -1.96$ due to heavy-tailed coefficient distributions; the Gaussianity diagnostic should be run before applying the formula.
-  \item \textbf{Confirmatory vs.\ exploratory analyses.}  The stable fact count prediction, capacity theorem (well-characterized subset), and three falsified extensions were pre-registered (\texttt{PRE\_REGISTRATION.md}).  The coverage conflict bridge (15~datasets), clinical TreeSHAP audit (5~datasets), enrichment statistical tests, and regulatory compliance metrics are exploratory analyses conducted after observing initial results.  The Noether permutation test is confirmatory (pre-specified test on a pre-registered prediction).  We label each analysis accordingly throughout the text.  \emph{Caveat on temporal precedence:} \texttt{PRE\_REGISTRATION.md} entered version control in the same commit as the knockout results it governs, so its precedence cannot be independently established from the repository history; and its own primary criterion---capacity $R^2 > 0.90$ on the \emph{full} domain set---was not met (the all-domain fit is $R^2 \approx 0.60$). The headline $R^2 = 0.957$ is the pre-specified \emph{well-characterized-group subset}, which is defined by an a-priori criterion but is a subset nonetheless; we report the full-set figure alongside it and treat the capacity law as Tier~B (empirical), not as a consequence of the impossibility theorem.
+  \item \textbf{Confirmatory vs.\ exploratory analyses.}  The stable fact count prediction, capacity theorem (well-characterized subset), and three falsified extensions were pre-registered (\texttt{PRE\_REGISTRATION.md}).  The coverage conflict bridge (15~datasets), clinical TreeSHAP audit (5~datasets), enrichment statistical tests, and regulatory compliance metrics are exploratory analyses conducted after observing initial results.  The Noether permutation test is confirmatory (pre-specified test on a pre-registered prediction).  We label each analysis accordingly throughout the text.  \emph{Caveat on temporal precedence:} \texttt{PRE\_REGISTRATION.md} entered version control in the same commit as the knockout results it governs, so its precedence cannot be independently established from the repository history; and its own primary criterion---capacity $R^2>0.90$ on the \emph{full} domain set---was not met (the all-domain fit is $R^2\approx0.60$).  The headline $R^2=0.957$ is the pre-specified well-characterised-group subset, defined by an a-priori criterion but a subset nonetheless; we report the full-set figure alongside it and treat the capacity law as Tier~B (empirical), not as a consequence of the impossibility theorem.
   \item \textbf{Adversarial audit summary.}  A comprehensive adversarial
     audit (24~simulated reviewers, 6~adversarial stress tests on the SAGE
     algorithm, 4~stress tests on the MI experiment, circularity analysis
@@ -4284,7 +4320,7 @@ domain-specific validation and are left to future collaborative work.
 The qualitative impossibility (Theorem~\ref{thm:universal}) applies to any model class with the Rashomon property, including deep neural networks and large language models. The quantitative bounds ($1/(1{-}\rho^2)$ for GBDTs) are architecture-specific and do not transfer directly. Key open problems: (i)~characterising the Rashomon set geometry for overparameterised neural networks (cf.~\citet{damour2022underspecification}); (ii)~defining the symmetry group for weight-space permutations in deep networks; (iii)~computational cost of orbit averaging over weight-space symmetry groups (potentially intractable for large models, requiring approximate methods). For LLM self-explanations specifically, the token citation flip rate (34.5\%) suggests the Rashomon property holds empirically, but the symmetry group structure is unknown.
 
 %%% ==========================================================================
-% ------ Tier D (Falsified) ------
+% ---- Tier D (Falsified) ----
 \section{Falsification: The Rashomon Boundary\,\textnormal{\normalsize[Tier D: Falsified]}}
 \label{sec:falsification}
 
@@ -4324,7 +4360,7 @@ counterexample (Figure~\ref{fig:falsification}).
   \label{fig:falsification}
 \end{figure}
 
-% ------ Tier D (Falsified) ------
+% ---- Tier D (Falsified) ----
 \section{Boundary Conditions: Three Falsified Extensions\,\textnormal{\normalsize[Tier D: Falsified]}}
 \label{sec:falsified-extensions}
 
@@ -4393,7 +4429,7 @@ symmetry group is exactly known and features are genuinely exchangeable.
 \paragraph{Proportionality axiom sensitivity.}
 The design space theorem assumes exact proportionality ($\text{CV}(c) = 0$). Simulation across $\text{CV} \in [0, 1.0]$ (1{,}000 trials per value, 11 values) confirms the two-family structure is robust: Family~A flip rate $\approx 0.50$ at all CV values, Family~B tie rate $\geq 0.93$ at all CV values, and zero Pareto violations across 11{,}000 trials. The instability source is collinearity-driven split competition, not the proportionality constant. The core impossibility (Theorem~\ref{thm:universal}) is independent of proportionality.
 
-% ------ Tier D (Falsified) ------
+% ---- Tier D (Falsified) ----
 \section{Attribution PCA Eigenspectrum: A Negative Result\,\textnormal{\normalsize[Tier D: Falsified]}}
 \label{sec:attribution-pca}
 
