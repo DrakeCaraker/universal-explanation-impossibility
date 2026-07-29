@@ -475,6 +475,17 @@ rep("""The 3D Navier--Stokes equations are formalised as a conditional \\texttt{
 rep("""multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma""",
 """multi-analyst aggregation, the Navier--Stokes tightness schema, the DPRM trilemma""")
 
+# ---- F5 residual: "0 axioms" for the physics companion needs the hypotheses rider
+# ---- wherever it appears, or it reads as bookkeeping-gamed (assumed content unchanged).
+rep("""(38~files, 482~theorems, 0~axioms, 0~\\texttt{sorry}).
+All code is released under the Apache~2.0 licence.""",
+"""(38~files, 482~theorems, 0~\\texttt{axiom} declarations with ${\\sim}11$ domain
+hypotheses carried as section variables, 0~\\texttt{sorry}).
+All code is released under the Apache~2.0 licence.""")
+
+rep("""This section documents results from the companion repository \\texttt{ostrowski-impossibility} (482~theorems, 0~axioms, 38~files, 0~\\texttt{sorry}).""",
+"""This section documents results from the companion repository \\texttt{ostrowski-impossibility} (482~theorems; 0~\\texttt{axiom} declarations, with ${\\sim}11$ domain hypotheses---including the Selmer~1951 result and the contested/speculative black-hole and spacetime-emergence properties---carried as section variables that gate their downstream results; 38~files; 0~\\texttt{sorry}).""")
+
 # ---- F6: stale citations (ostrowski_classify is a noncomputable def; Selmer 1951 is
 # ---- now a hypothesis parameter, not an axiom declaration).
 rep("""The bridge theorem \\texttt{ostrowski\\_classification} (\\texttt{OstrowskiFramework.lean}) connects the abstract impossibility to the concrete number-theoretic structure.""",
