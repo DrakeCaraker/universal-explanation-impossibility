@@ -49,7 +49,7 @@ The Lean~4 formalization (v4.30.0-rc1 with Mathlib) comprises 104 files containi
 
 The axiom inventory is stratified by dependency: the core universal impossibility (\texttt{explanation\_impossibility}) requires zero axioms beyond the Rashomon hypothesis.  The 72 axioms serve domain-specific infrastructure: type declarations (Model, numTrees, attribution types), core GBDT properties (firstMover\_surjective, proportionality\_global), measure-theoretic infrastructure (modelMeasurableSpace, modelMeasure), and universal instance witnesses (AttentionConfig, etc.).
 
-Key files: \texttt{ExplanationSystem.lean} (abstract impossibility), \texttt{AttributionInstance.lean} (SHAP/IG/LIME instance), \texttt{CausalInstance.lean} (DAG Markov equivalence), \texttt{MaximalIncompatibility.lean} (bilemma and tightness), \texttt{UniversalResolution.lean} ($G$-invariant resolution), \texttt{Necessity.lean} (biconditional: impossibility iff Rashomon).  Full file listing and build instructions are in the repository \texttt{CLAUDE.md}.
+Key files: \texttt{ExplanationSystem.lean} (abstract impossibility), \texttt{AttributionInstanceConstructive.lean} (SHAP/IG/LIME instance), \texttt{CausalInstanceConstructive.lean} (DAG Markov equivalence), \texttt{MaximalIncompatibility.lean} (bilemma and tightness), \texttt{UniversalResolution.lean} ($G$-invariant resolution), \texttt{NecessityBiconditional.lean} (\texttt{rashomon\_biconditional\_neq}: impossibility iff Rashomon, for inequality-incompatibility; \texttt{fully\_specified\_possibility} gives the general converse).  Full file listing and build instructions are in the repository \texttt{CLAUDE.md}.
 
 \section{Falsified Extensions}
 

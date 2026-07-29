@@ -61,6 +61,8 @@
 
 \date{}
 
+\input{claims}
+
 \begin{document}
 \maketitle
 
@@ -89,8 +91,9 @@ agreement lifted from $\rho = 0.52$ to $\rho = 0.93$), social choice
 mathematical physics (Navier--Stokes tightness classification).  In
 every instance, the same resolution applies: projecting onto the
 symmetry-invariant subspace.
-This orbit-averaged projection is the unique Pareto-optimal strategy
-(a consequence of classical invariant decision theory).
+This orbit-averaged projection is the Pareto-optimal strategy---strictly
+dominating any committed alternative within correlation groups (Lean-verified),
+and globally optimal by classical invariant decision theory.
 The explanation capacity $C = \dim(V^G)$ bounds the stable explanatory
 content any method can extract.  The capacity formula predicts
 empirical instability across seven domains ($R^2 = 0.96$, zero free
@@ -123,7 +126,7 @@ circuits that overlap by only 2.2\%, yet all achieve 100\% accuracy;
 data~\citep{botviniknezer2020variability}; crystallographers, causal
 modellers, and gauge theorists each quotient out equivalent
 configurations.  We identify the common operation---the orbit
-average---and prove it is the unique Pareto-optimal stable explanation.
+average---and prove it strictly dominates committed alternatives within groups (globally optimal by classical invariant decision theory).
 
 The operational consequences are immediate.  Train a machine learning
 classifier to distinguish colon from kidney tumours using 10{,}935
@@ -152,7 +155,7 @@ underspecification as a systemic
 challenge~\citep{damour2022underspecification}, and proved impossibility for Shapley-based methods under collinearity
 axioms~\citep{bilodeau2024impossibility}; here we prove the general
 impossibility for \emph{any} explanation method under any form of
-statistical dependence ($I > 0$ is the exact boundary; Lean-verified),
+statistical dependence ($I > 0$ is sufficient; Lean-verified conditional on a stated dependence-to-difference bridge),
 requiring zero axioms about the explanation method itself.  The same
 structure governs five domains across clinical biology, AI safety,
 foundational physics, social choice, and mathematical physics
@@ -393,7 +396,7 @@ the impossibility: 29 psychology teams report effect sizes from 0.89 to
 the sign of the same relationship~\citep{breznau2022observing}.
 
 The orbit average---averaging conclusions across the Rashomon set of valid
-analyses---is the unique Pareto-optimal aggregation.  For NARPS, all
+analyses---is the Pareto-optimal aggregation.  For NARPS, all
 aggregation methods are within 3\% of each other, and 16 independent
 analyses [95\% CI: 10--22] suffice for 95\% stability.
 
@@ -531,7 +534,7 @@ subspace---is the algebraic content of the practices that eight
 communities discovered independently~\citep{caraker2026ostrowski}.  The
 orbit average preserves exactly the structural content that structural
 realists argue survives theory change~\citep{ladyman2007every}; the
-theorem proves this projection is the unique Pareto-optimal strategy.  The variance
+theorem proves this projection is Pareto-optimal (within-group; global optimality argued).  The variance
 of explanations across the Rashomon set equals the minimum
 mean-squared error any stable method can achieve---a mathematical
 identity (0 violations in 800 tests) that provides a computable quality
@@ -681,8 +684,9 @@ The proof of the core impossibility is four lines (Methods).  Its
 brevity is not a weakness---it reflects the generality of the Rashomon
 property as a hypothesis, ensuring the result applies to any
 explanation system meeting the definition.  The full framework is
-verified in Lean~4 across three repositories (530 $+$ 358 $+$ 482
-$=$ 1{,}370~theorems, 0~unproved goals).  The entire theoretical
+verified in Lean~4 across three repositories (\ClaimMainTheorems, \ClaimDashTheorems, and
+\ClaimOstrowskiTheorems~theorems respectively---reported per repository, as the companions
+overlap the main one; 0~unproved goals).  The entire theoretical
 framework---impossibility, bilemma, tightness classification, capacity
 theorem, Pareto-optimal resolution, and all domain instances including
 Arrow, Peres--Mermin, the Langlands boundary, and 3D
@@ -695,7 +699,7 @@ Rashomon property itself.
 
 \paragraph{Outlook.}
 The impossibility is inescapable for any system with the Rashomon
-property.  The resolution is known and provably Pareto-optimal.  In companion work, an audit of
+property.  The resolution is known and Pareto-optimal (within-group Lean-verified; global argued).  In companion work, an audit of
 149~datasets across 53~scientific domains finds that 75\% exceed their
 explanation capacity under standard practice (cross-dataset Wilcoxon
 $p = 5.1 \times 10^{-11}$), with a 27:1
@@ -703,7 +707,7 @@ confirmation-to-reversal ratio for the directional
 prediction.  The explanation capacity
 $C = \dim(V^G)$ bounds what stable explanation can extract from a
 system with symmetry group~$G$.  The orbit average achieves this bound
-and is provably Pareto-optimal.  The structural form parallels capacity
+and is Pareto-optimal.  The structural form parallels capacity
 theories in information theory; the underlying mathematics
 (representation theory, the Reynolds operator) is classical, and the
 contribution is identifying that this machinery applies to explanation

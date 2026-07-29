@@ -15,6 +15,8 @@ colsample_bytree
 breast_cancer
 mean_texture
 worst_texture
+load_digits
+checking_status
 
 # --- DASH practitioner-pipeline API (Python, in dash-shap, not the Lean repos) ---
 confidence_intervals

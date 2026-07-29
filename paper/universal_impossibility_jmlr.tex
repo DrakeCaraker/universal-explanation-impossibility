@@ -589,7 +589,7 @@ Proposition~\ref{prop:g-invariant-stable} and faithful in expectation: the
 expected explanation matches the expected observation across the Rashomon set.
 The cost is indecisiveness---\DASH{} reports ties for feature pairs whose
 rankings disagree across the ensemble.  The companion paper proves that
-\DASH{} is Pareto-optimal: no other stable attribution method can achieve
+\DASH{} is Pareto-optimal for within-group pairs (Lean-verified, \texttt{dash\_within\_group\_dominance}); no other stable attribution method can achieve
 higher expected faithfulness.
 
 \subsection{Meta-Theorem: Orbit Averaging}
@@ -746,8 +746,8 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 \end{tabular}
 \end{table}
 
-The core impossibility (\texttt{universal\_explanation\_impossibility} in
-\texttt{UniversalImpossibility/Universal.lean}) depends on zero axioms beyond
+The core impossibility (\texttt{explanation\_impossibility} in
+\texttt{UniversalImpossibility/ExplanationSystem.lean}) depends on zero axioms beyond
 the Rashomon property, which is stated as a hypothesis rather than an axiom.
 Each instance introduces the minimum axioms needed to verify that its
 particular explanation system satisfies the Rashomon property.
