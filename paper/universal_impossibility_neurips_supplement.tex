@@ -161,7 +161,7 @@ Let $T$ be the number of tokens.  The 6-tuple:
 
 \subsection{Proof}
 
-By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} \approx f_{\theta_2}$ yet $\operatorname{argmax} \alpha_{\theta_1} \neq \operatorname{argmax} \alpha_{\theta_2}$.  Theorem~1 of the main paper yields the impossibility.  Lean: \texttt{attention\_impossibility} in \texttt{AttentionInstance.lean}.
+By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} \approx f_{\theta_2}$ yet $\operatorname{argmax} \alpha_{\theta_1} \neq \operatorname{argmax} \alpha_{\theta_2}$.  Theorem~1 of the main paper yields the impossibility.  Lean: \texttt{attention\_impossibility\_constructive} in \texttt{AttentionInstanceConstructive.lean}.
 
 \subsection{Experimental Methodology}
 
@@ -193,7 +193,7 @@ By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} \app
 
 \subsection{Rashomon Property and Proof}
 
-Within $\mathcal{R}_\varepsilon$, models place boundaries on opposite sides of $x_0$, producing counterfactuals in opposite directions.  Both achieve identical test predictions.  Theorem~1 applies.  Lean: \texttt{counterfactual\_impossibility} in \texttt{CounterfactualInstance.lean}.
+Within $\mathcal{R}_\varepsilon$, models place boundaries on opposite sides of $x_0$, producing counterfactuals in opposite directions.  Both achieve identical test predictions.  Theorem~1 applies.  Lean: \texttt{counterfactual\_impossibility\_constructive} in \texttt{CounterfactualInstanceConstructive.lean}.
 
 \subsection{Experimental Methodology}
 
@@ -234,7 +234,7 @@ The zero-loss manifold has dimension $\geq d - n > 0$ for hidden dimension $d > 
 
 \subsection{Proof}
 
-Let $\theta_1, \theta_2$ witness the Rashomon property.  Faithfulness: $\mathsf{exp}(\theta_i) = v_{\theta_i}$.  Stability: $v_{\theta_1} = v_{\theta_2}$.  But $(v_{\theta_1}, v_{\theta_2}) \in \incomp$ implies $v_{\theta_1} \neq v_{\theta_2}$---contradiction.  Lean: \texttt{concept\_impossibility} in \texttt{ConceptInstance.lean}.
+Let $\theta_1, \theta_2$ witness the Rashomon property.  Faithfulness: $\mathsf{exp}(\theta_i) = v_{\theta_i}$.  Stability: $v_{\theta_1} = v_{\theta_2}$.  But $(v_{\theta_1}, v_{\theta_2}) \in \incomp$ implies $v_{\theta_1} \neq v_{\theta_2}$---contradiction.  Lean: \texttt{concept\_impossibility\_constructive} in \texttt{ConceptInstanceConstructive.lean}.
 
 \subsection{Experimental Methodology}
 
@@ -272,7 +272,7 @@ Let $\theta_1, \theta_2$ witness the Rashomon property.  Faithfulness: $\mathsf{
 
 \subsection{Proof}
 
-For any CPDAG with undirected edge $\{X,Y\}$, let $h$ orient it as $X \to Y$ and $h'$ as $Y \to X$.  By Markov equivalence, $\mathsf{obs}(h) = \mathsf{obs}(h')$.  By definition, $(h, h') \in \incomp$.  Theorem~1 applies.  Lean: \texttt{causal\_instance\_impossibility} in \texttt{CausalInstance.lean} (3 axioms).
+For any CPDAG with undirected edge $\{X,Y\}$, let $h$ orient it as $X \to Y$ and $h'$ as $Y \to X$.  By Markov equivalence, $\mathsf{obs}(h) = \mathsf{obs}(h')$.  By definition, $(h, h') \in \incomp$.  Theorem~1 applies.  Lean: \texttt{causal\_impossibility\_constructive} in \texttt{CausalInstanceConstructive.lean} (0 axioms).
 
 \subsection{Resolution}
 
@@ -296,7 +296,7 @@ Report the CPDAG: stable by construction, faithful in the sense that it captures
 
 \subsection{Rashomon Property and Proof}
 
-The $\varepsilon$-Rashomon set $\mathcal{R}_\varepsilon = \{h : \mathsf{obs}(h) \geq \mathsf{obs}(h^*) - \varepsilon\}$ generically contains models with incompatible rankings on different evaluation samples.  Theorem~1 applies.  Lean: \texttt{model\_selection\_instance\_impossibility} in \texttt{ModelSelectionInstance.lean}.
+The $\varepsilon$-Rashomon set $\mathcal{R}_\varepsilon = \{h : \mathsf{obs}(h) \geq \mathsf{obs}(h^*) - \varepsilon\}$ generically contains models with incompatible rankings on different evaluation samples.  Theorem~1 applies.  Lean: \texttt{model\_selection\_impossibility\_constructive} in \texttt{ModelSelectionInstanceConstructive.lean}.
 
 \subsection{Experimental Methodology}
 

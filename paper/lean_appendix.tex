@@ -12,26 +12,26 @@ Monograph result & Lean name & File \\
 \endhead
 Core impossibility (Thm~\ref{thm:universal}) & \texttt{explanation\_impossibility} & \texttt{ExplanationSystem.lean} \\
 Bilemma (\S\ref{sec:bilemma}) & \texttt{bilemma} & \texttt{MaximalIncompatibility.lean} \\
-Tightness --- full & \texttt{tightness\_full} & \texttt{BilemmaCharacterization.lean} \\
-Tightness --- collapsed & \texttt{tightness\_collapsed} & \texttt{BilemmaCharacterization.lean} \\
-Enrichment uniqueness & \texttt{enrichment\_unique\_on\_fiber} & \texttt{MaximalIncompatibility.lean} \\
+Tightness: neutral $\Rightarrow$ F+S & \texttt{neutral\_implies\_faithful\_stable} & \texttt{BilemmaCharacterization.lean} \\
+Tightness: bilemma $\Rightarrow$ no neutral & \texttt{bilemma\_implies\_no\_neutral} & \texttt{BilemmaCharacterization.lean} \\
+Enrichment recovers F+S & \texttt{recovery\_faithful\_stable} & \texttt{MaximalIncompatibility.lean} \\
 $G$-invariant $\Rightarrow$ stable & \texttt{gInvariant\_stable} & \texttt{UniversalResolution.lean} \\
 Pythagorean decomposition & \texttt{uncertainty\_from\_symmetry} & \texttt{UncertaintyFromSymmetry.lean} \\
 Best approximation & \texttt{best\_approximation} & \texttt{UncertaintyFromSymmetry.lean} \\
 Over-explanation penalty & \texttt{beyond\_capacity\_penalty} & \texttt{UncertaintyFromSymmetry.lean} \\
-DASH Pareto-optimal & \texttt{dash\_unique\_pareto\_optimal} & \texttt{ParetoOptimality.lean} \\
+DASH within-group dominance & \texttt{dash\_within\_group\_dominance} & \texttt{ParetoOptimality.lean} \\
 Pareto frontier dichotomy & \texttt{pareto\_frontier\_dichotomy} & \texttt{ParetoOptimality.lean} \\
 Design space dichotomy & \texttt{universal\_design\_space\_dichotomy} & \texttt{UniversalDesignSpace.lean} \\
-MI exact boundary & \texttt{mi\_is\_exact\_boundary} & \texttt{MutualInformation.lean} \\
+MI sufficiency (conditional) & \texttt{mi\_sufficient\_for\_impossibility} & \texttt{MutualInformation.lean} \\
 MI quantitative unfaithfulness & \texttt{mi\_quantitative\_unfaithfulness} & \texttt{MIQuantitativeBridge.lean} \\
 GBDT impossibility & \texttt{attribution\_impossibility} & \texttt{Trilemma.lean} \\
 Ratio divergence & \texttt{ratio\_tendsto\_atTop} & \texttt{Ratio.lean} \\
 DASH equity & \texttt{consensus\_equity} & \texttt{Corollary.lean} \\
-Necessity biconditional & \texttt{necessity\_biconditional} & \texttt{NecessityBiconditional.lean} \\
+Necessity biconditional (ineq.\ case) & \texttt{rashomon\_biconditional\_neq} & \texttt{NecessityBiconditional.lean} \\
 Generic underspecification & \texttt{generic\_underspecification} & \texttt{Ubiquity.lean} \\
 Ubiquity impossibility & \texttt{ubiquity\_impossibility} & \texttt{Ubiquity.lean} \\
-Recursive enrichment & \texttt{enrichment\_creates\_new\_impossibility} & \texttt{RecursiveImpossibility.lean} \\
-Levels independent & \texttt{levels\_independent} & \texttt{RecursiveImpossibility.lean} \\
+Recursive enrichment & \texttt{recursive\_impossibility\_persists} & \texttt{RecursiveImpossibility.lean} \\
+Levels independent & \texttt{infiniteStack\_independence} & \texttt{RecursiveImpossibility.lean} \\
 \bottomrule
 \end{longtable}
 }
@@ -39,7 +39,7 @@ Levels independent & \texttt{levels\_independent} & \texttt{RecursiveImpossibili
 \subsection{Complete Theorem Index}
 \label{sec:type-sigs}
 
-\noindent All 530 theorem and lemma names from the Lean~4
+\noindent All 531 theorem and lemma names from the Lean~4
 formalization, grouped by source file. This index enables
 verification of completeness and traceability from any monograph
 claim to its machine-checked proof in the public repository.
@@ -632,7 +632,7 @@ claim to its machine-checked proof in the public repository.
 \texttt{impossibility\_from\_mi}\\
 \texttt{no\_rashomon\_from\_agreement}\\
 \texttt{stable\_ranking\_from\_agreement}\\
-\texttt{mi\_is\_exact\_boundary}\\
+\texttt{mi\_sufficient\_for\_impossibility}\\
 \texttt{correlation\_implies\_mi\_impossibility}\\
 }
 
@@ -667,7 +667,7 @@ claim to its machine-checked proof in the public repository.
 \texttt{dash\_pareto\_gap\_exact}\\
 \texttt{universal\_within\_group\_half}\\
 \texttt{pareto\_frontier\_dichotomy}\\
-\texttt{dash\_unique\_pareto\_optimal}\\
+\texttt{dash\_within\_group\_dominance}\\
 }
 
 \paragraph{PathConvergence.lean} (3)
@@ -1000,7 +1000,7 @@ claim to its machine-checked proof in the public repository.
 \texttt{ubiquity\_impossibility}\\
 }
 
-\paragraph{UncertaintyFromSymmetry.lean} (16)
+\paragraph{UncertaintyFromSymmetry.lean} (17)
 
 {\footnotesize
 \texttt{inner\_Rv\_v\_eq\_inner\_Rv\_Rv}\\
@@ -1016,7 +1016,8 @@ claim to its machine-checked proof in the public repository.
 \texttt{reynolds\_naturality}\\
 \texttt{fixed\_perp\_residual}\\
 \texttt{reynolds\_best\_approximation}\\
-\texttt{stable\_in\_fixed\_subspace}\\
+\texttt{reynolds\_image\_in\_fixed}\\
+\texttt{fixed\_point\_in\_invariant\_subspace}\\
 \texttt{beyond\_capacity\_penalty}\\
 \texttt{beyond\_capacity\_optimal}\\
 }

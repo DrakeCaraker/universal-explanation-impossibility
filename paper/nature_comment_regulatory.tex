@@ -18,6 +18,8 @@
 
 \date{April 2026}
 
+\input{claims}
+
 \begin{document}
 
 \maketitle
@@ -62,7 +64,7 @@ performance---the \emph{Rashomon property}, which holds for virtually all
 production ML systems with more parameters than
 constraints~\citep{breiman2001statistical,rudin2024amazing}---no explanation
 can be simultaneously faithful, stable, and decisive.  The proof is four
-steps, verified in the Lean~4 proof assistant (104~files, 463~theorems,
+steps, verified in the Lean~4 proof assistant (\ClaimMainFiles~files, \ClaimMainTheorems~theorems,
 0~unproved goals), and applies uniformly to all major explanation methods:
 SHAP, attention maps, counterfactual explanations, concept probes, saliency
 maps, causal discovery, and mechanistic interpretability.

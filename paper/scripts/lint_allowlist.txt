@@ -1,0 +1,31 @@
+# Deliberate \texttt{} tokens that are NOT live Lean identifiers/files.
+# One token per line; deescaped form (underscores literal). Keep sorted by group.
+
+# --- retired Lean names cited deliberately (rename provenance / deprecation prose) ---
+spearman_classical_bound
+
+# --- wildcards in prose (not a literal filename) ---
+*InstanceConstructive.lean
+
+# --- Python / sklearn / xgboost hyperparameters ---
+random_state
+colsample_bytree
+
+# --- dataset and column names ---
+breast_cancer
+mean_texture
+worst_texture
+load_digits
+checking_status
+
+# --- DASH practitioner-pipeline API (Python, in dash-shap, not the Lean repos) ---
+confidence_intervals
+partial_order
+feature_groups
+stable_feature_selection
+local_uncertainty
+robust_certification
+theory_bridge
+causal_flags
+audit_report
+federated_consensus

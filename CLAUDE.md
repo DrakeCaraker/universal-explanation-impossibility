@@ -36,12 +36,12 @@ Contrast:                 RandomForest.lean (bounded violations, no formal proof
 
 Universal framework (new):
   ExplanationSystem.lean        — Abstract ExplanationSystem structure; explanation_impossibility
-  AttributionInstance.lean      — Additive attribution instance (SHAP, IG, LIME)
-  AttentionInstance.lean        — Attention map instance (DistilBERT)
-  CounterfactualInstance.lean   — Counterfactual explanation instance
-  ConceptInstance.lean          — Concept probe instance (TCAV)
-  CausalInstance.lean           — Causal discovery instance (DAG Markov equivalence)
-  ModelSelectionInstance.lean   — Model selection instance (Rashomon multiplicity)
+  AttributionInstanceConstructive.lean — Additive attribution instance (SHAP, IG, LIME)
+  AttentionInstanceConstructive.lean — Attention map instance (DistilBERT)
+  CounterfactualInstanceConstructive.lean — Counterfactual explanation instance
+  ConceptInstanceConstructive.lean — Concept probe instance (TCAV)
+  CausalInstanceConstructive.lean — Causal discovery instance (DAG Markov equivalence)
+  ModelSelectionInstanceConstructive.lean — Model selection instance (Rashomon multiplicity)
   UniversalImpossibility.lean   — Import hub; documents 9-instance inventory
   UniversalResolution.lean      — G-invariant resolution framework; gInvariant_stable
   UniversalDesignSpace.lean     — Universal design space dichotomy (Family A / Family B)
@@ -97,23 +97,18 @@ UniversalImpossibility/
   Basic.lean             — Import hub
   ── Universal framework (ExplanationSystem + instances) ──
   ExplanationSystem.lean        — Abstract ExplanationSystem; explanation_impossibility (0 axioms)
-  AttributionInstance.lean      — Additive attribution instance (SHAP, IG, LIME)
-  AttentionInstance.lean        — Attention map instance (DistilBERT)
-  AttentionInstanceConstructive.lean — Constructive attention instance
-  CounterfactualInstance.lean   — Counterfactual explanation instance
+  AttributionInstanceConstructive.lean — Constructive attribution instance (SHAP, IG, LIME)
+  AttentionInstanceConstructive.lean — Constructive attention instance (DistilBERT)
   CounterfactualInstanceConstructive.lean — Constructive counterfactual instance
-  ConceptInstance.lean          — Concept probe instance (TCAV)
-  ConceptInstanceConstructive.lean — Constructive concept instance
-  CausalInstance.lean           — Causal discovery instance (Markov equivalence)
+  ConceptInstanceConstructive.lean — Constructive concept instance (TCAV)
+  CausalInstanceConstructive.lean — Constructive causal discovery instance (Markov equivalence)
   CausalExplanationSystem.lean  — Causal explanation system abstraction
-  ModelSelectionInstance.lean   — Model selection instance (Rashomon multiplicity)
   ModelSelectionInstanceConstructive.lean — Constructive model selection
-  MechInterpInstance.lean       — Mechanistic interpretability instance
   MechInterpInstanceConstructive.lean — Constructive mech interp
-  SaliencyInstance.lean         — Saliency map instance (GradCAM)
-  SaliencyInstanceConstructive.lean — Constructive saliency
-  LLMExplanationInstance.lean   — LLM self-explanation instance
-  LLMExplanationInstanceConstructive.lean — Constructive LLM instance
+  SaliencyInstanceConstructive.lean — Constructive saliency (GradCAM)
+  LLMExplanationInstanceConstructive.lean — Constructive LLM self-explanation instance
+  (NOTE: the non-Constructive *Instance.lean variants were deleted; the
+  Constructive files ARE the nine instances. Do not cite the old names.)
   MarkovEquivalence.lean        — Derives Rashomon from Markov equivalence first principles
   Necessity.lean                — Necessity of Rashomon (possibility iff no Rashomon)
   NecessityBiconditional.lean   — Biconditional necessity
@@ -178,7 +173,7 @@ knockout-experiments/           — Empirical validation (90+ scripts, 80+ resul
   PRE_REGISTRATION.md           — Pre-registered predictions
 ```
 
-## Lean State: 102 files, 2 axioms, 519 theorems+lemmas, 0 sorry
+## Lean State: 104 files, 2 axioms, 530 theorems+lemmas, 0 sorry
 
 ## Axiom Inventory (2 total)
 
@@ -274,7 +269,7 @@ Four papers forming a layered publication strategy:
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 519)
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 530). Caveat: `grep '^axiom'` overcounts on doc-comment lines beginning with "axiom…" — use `grep '^axiom '` (trailing space) for the axiom count.
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.
@@ -287,13 +282,13 @@ Four papers forming a layered publication strategy:
 
 **Archived publication strategy (superseded):** [`docs/archive/publication-strategy-complete-2026-04-30.md`](docs/archive/publication-strategy-complete-2026-04-30.md)
 
-### Core Lean Theorems (519 total, 2 axioms, 0 sorry)
+### Core Lean Theorems (530 total, 2 axioms, 0 sorry)
 
 **Level 0 — Universal impossibility (zero axioms):**
 - `explanation_impossibility` (ExplanationSystem.lean): F+S+D impossible under Rashomon. 4-line proof.
 - `bilemma` (MaximalIncompatibility.lean): F+S impossible for maximally incompatible H.
 - `universal_design_space_dichotomy` (UniversalDesignSpace.lean): Every method is Family A or B.
-- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is necessary and sufficient for impossibility.
+- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is sufficient for impossibility, conditional on the `hdep_implies_diff` bridge hypothesis (forward direction only; the converse is argued, not machine-checked).
 - `mi_quantitative_unfaithfulness` (MIQuantitativeBridge.lean): MI > 0 → unfaithfulness ≥ Δ/2.
 
 **Level 1 — Resolution and optimality:**
@@ -301,8 +296,8 @@ Four papers forming a layered publication strategy:
 - `uncertainty_from_symmetry` (UncertaintyFromSymmetry.lean): Pythagorean decomposition ‖v-Rv‖²+‖Rv‖²=‖v‖².
 - `best_approximation` / `reynolds_best_approximation`: Rv is closest fixed point to v.
 - `beyond_capacity_penalty`: ‖w‖ ≤ ‖u-w‖ for w ∈ (V^G)⊥.
-- `stable_in_fixed_subspace`: Stable maps have image in V^G.
-- `dash_unique_pareto_optimal` (ParetoOptimality.lean): DASH is unique Pareto-optimal for within-group.
+- `stable_in_fixed_subspace`: CAUTION — the statement is `(hu : R u = u) : R u = u` (a fixed point lies in V^G, definitionally). It does NOT prove "stable maps have image in V^G"; that stronger claim is a Tier-B conjecture in the monograph.
+- `dash_unique_pareto_optimal` (ParetoOptimality.lean): a committed within-group ranking has strictly positive disagreement, conditional on the bundled GBDT/DGP hypotheses. Within-group only; global Pareto optimality is argued (unformalized Cramér–Rao step), not Lean-verified.
 - `pareto_frontier_dichotomy`: Disagreement is exactly 0 (tie) or 1/2 (commitment).
 
 **Level 2 — Tightness and enrichment:**
@@ -362,9 +357,9 @@ Four papers forming a layered publication strategy:
 | JMLR | `paper/universal_impossibility_jmlr.tex` | JMLR | Full technical |
 | NeurIPS | `paper/universal_impossibility_neurips.tex` | NeurIPS 2026 | Companion |
 
-### Verified State (as of 2026-04-30)
+### Verified State (as of 2026-07-28)
 ```
-Theorems: 519 | Axioms: 2 | Files: 102 | Sorry: 0
-Build: lake build → 2954 jobs, 0 errors
-Papers: 0 stale numbers (last verified this session)
+Theorems: 530 | Axioms: 2 | Files: 104 | Sorry: 0
+Build: lake build → 2956 jobs, 0 errors
+Papers: monograph v2 numbers verified this session (older venue drafts may lag)
 ```

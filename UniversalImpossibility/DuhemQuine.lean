@@ -189,7 +189,7 @@ def dq4Config2 : HypConfig4 := fun i =>
 /-- Both 4-hypothesis witnesses produce experimental failure. -/
 theorem dq4_same_outcome :
     experimentOutcome4 dq4Config1 = experimentOutcome4 dq4Config2 := by
-  native_decide
+  decide
 
 /-- The two 4-hypothesis witnesses have different blame assignments
     (they disagree on which hypothesis is wrong). -/

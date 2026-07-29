@@ -28,7 +28,7 @@ def sol2 : Vec2 := ⟨0, 2⟩
 
 /-- Both solutions produce the same output: 1+1 = 0+2 = 2. -/
 theorem same_output : dotA sol1 = dotA sol2 := by
-  native_decide
+  decide
 
 /-- The two solutions are different vectors. -/
 theorem different_solutions : sol1 ≠ sol2 := by

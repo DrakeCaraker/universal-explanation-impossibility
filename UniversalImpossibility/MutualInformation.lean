@@ -232,19 +232,20 @@ theorem stable_ranking_from_agreement
     ∀ f : Model, attribution j f ≥ attribution k f :=
   hagree
 
-/-! ### Complete Characterization -/
+/-! ### Characterization status -/
 
-/-- **MI Characterization Theorem (informally):**
-    The attribution impossibility holds if and only if I(X_j; X_k) > 0.
+/-- **MI sufficiency (conditional).**
+    Forward direction only: MI > 0 → impossibility, CONDITIONAL on the bridge
+    hypothesis `hdep_implies_diff` (statistical dependence produces differing
+    attributions), which is assumed here, not derived.
 
-    Forward direction: MI > 0 → impossibility (impossibility_from_mi above)
-    Backward direction: MI = 0 → stable ranking exists (stable_ranking_from_independence above)
-
-    This means mutual information is the EXACT boundary between possible
-    and impossible feature ranking. Correlation (ρ > 0) is sufficient but
-    not necessary: features with ρ = 0 but I > 0 (e.g., X_k = X_j²) are
-    also subject to the impossibility. -/
-theorem mi_is_exact_boundary
+    The backward direction is NOT established in terms of mutual information:
+    `stable_ranking_from_agreement` above assumes pointwise attribution
+    agreement directly and never connects I = 0 to agreement. So this file
+    proves conditional sufficiency, not a biconditional. Correlation (ρ > 0)
+    is sufficient but not necessary for dependence: features with ρ = 0 but
+    I > 0 (e.g., X_k = X_j²) are also subject to the impossibility. -/
+theorem mi_sufficient_for_impossibility
     (attribution : Fin fs.P → Model → ℝ)
     (swap : Fin fs.P → Fin fs.P → Model → Model)
     (hsym_j : ∀ j k f, attribution j (swap j k f) = attribution k f)
@@ -262,6 +263,9 @@ theorem mi_is_exact_boundary
   intro hdep ranking hfaith
   exact impossibility_from_mi fs attribution swap hsym_j hsym_k mia
     hdep_implies_diff j k hdep ranking hfaith
+
+@[deprecated (since := "2026-07-29")]
+alias mi_is_exact_boundary := mi_sufficient_for_impossibility
 
 /-- The Gaussian specialization: for jointly Gaussian features,
     ρ ≠ 0 implies I > 0, so the correlation-based impossibility

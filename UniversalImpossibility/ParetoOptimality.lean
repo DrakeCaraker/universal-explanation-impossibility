@@ -230,11 +230,15 @@ theorem pareto_frontier_dichotomy
       left
       exact tie_disagreement_zero j k ranking ⟨hjk_rank, hkj_rank⟩
 
-/-- Combining the frontier dichotomy with the strict ordering 0 < 1/2:
-    DASH (tie, achieving 0) is the unique Pareto-optimal strategy for
-    within-group pairs. Any committed ranking achieves 1/2, which is
-    strictly worse. -/
-theorem dash_unique_pareto_optimal
+/-- **Within-group dominance.** Combining the frontier dichotomy with the
+    strict ordering 0 < 1/2: for within-group pairs, the tie strategy (DASH)
+    achieves disagreement 0 while any committed ranking has strictly positive
+    disagreement — committed rankings are strictly dominated within groups.
+    Conditional on the bundled GBDT/DGP hypotheses below. This does NOT
+    establish global Pareto-optimality: the between-group case rests on the
+    unformalized Cramér–Rao argument sketched in the remark at the end of
+    this file. -/
+theorem dash_within_group_dominance
     (hprob : IsProbabilityModelMeasure)
     (hmeas : HasMeasurableAttribution fs)
     (hsym : IsDGPSymmetric fs)
@@ -276,6 +280,9 @@ theorem dash_unique_pareto_optimal
       rw [this] at h0
       simp at h0
   · rw [h_half]; norm_num
+
+@[deprecated (since := "2026-07-29")]
+alias dash_unique_pareto_optimal := dash_within_group_dominance
 
 /-! ## Remark: between-group pairs
 

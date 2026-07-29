@@ -384,7 +384,7 @@ Model selection & Model permutation & Ensemble / Rashomon set & Single best mode
 \end{tabular}
 \end{table}
 
-\DASH{} is the prototype: it averages SHAP values over retrained models, achieving consensus equity $\E[\varphi_j] = \E[\varphi_k]$ for symmetric features, and is Pareto-optimal among stable attribution methods. CPDAGs, ensemble concept probes, and robust recourse are analogous instances of the orbit-averaging resolution. The resolution strategy is structurally analogous to invariant decision procedures in the Hunt--Stein framework \citep{lehmann2005testing}.
+\DASH{} is the prototype: it averages SHAP values over retrained models, achieving consensus equity $\E[\varphi_j] = \E[\varphi_k]$ for symmetric features, and is Pareto-optimal among stable attribution methods for within-group pairs (Lean-verified; \texttt{dash\_within\_group\_dominance}), with global optimality argued via classical invariant decision theory. CPDAGs, ensemble concept probes, and robust recourse are analogous instances of the orbit-averaging resolution. The resolution strategy is structurally analogous to invariant decision procedures in the Hunt--Stein framework \citep{lehmann2005testing}.
 
 %%=======================================================================
 \section{Ubiquity}
@@ -510,7 +510,7 @@ Collinear features within group $\ell$ share correlation $\rho$.  For \GBDT{}, t
 \subsection{Instance 2: Attention Maps --- Details}
 
 \paragraph{Proof.}
-By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} = f_{\theta_2}$ yet $\operatorname{argmax} \alpha_{\theta_1} \neq \operatorname{argmax} \alpha_{\theta_2}$.  Theorem~\ref{thm:universal} yields the impossibility.  Lean: \texttt{attention\_impossibility} in \texttt{AttentionInstance.lean}.
+By the Rashomon property, $\exists\, \theta_1, \theta_2$ with $f_{\theta_1} = f_{\theta_2}$ yet $\operatorname{argmax} \alpha_{\theta_1} \neq \operatorname{argmax} \alpha_{\theta_2}$.  Theorem~\ref{thm:universal} yields the impossibility.  Lean: \texttt{attention\_impossibility\_constructive} in \texttt{AttentionInstanceConstructive.lean}.
 
 \paragraph{Experiment.}
 10 DistilBERT models with weight perturbations ($\sigma \in \{0.01, 0.02\}$) on 200 SST-2 sentences.  100\% prediction agreement.  Argmax flip rate (weight perturbation): 60.0\% [CI: 59--61\%]; under full retraining (20 models, last 2 transformer layers retrained from random initialization): 19.9\%.  We report the conservative retraining figure in the main text.  Mean Kendall $\tau$: 0.30 [CI: 0.29--0.31].
@@ -521,7 +521,7 @@ Theorem resolves the \citet{jainwallace2019} vs.\ \citet{wiegreffe2019attention}
 \subsection{Instance 3: Counterfactual Explanations --- Details}
 
 \paragraph{Proof.}
-Models in $\mathcal{R}_\varepsilon$ place boundaries on opposite sides of query $x_0$, producing counterfactuals in opposite directions.  Theorem~\ref{thm:universal} applies.  Lean: \texttt{counterfactual\_impossibility} in \texttt{CounterfactualInstance.lean}.
+Models in $\mathcal{R}_\varepsilon$ place boundaries on opposite sides of query $x_0$, producing counterfactuals in opposite directions.  Theorem~\ref{thm:universal} applies.  Lean: \texttt{counterfactual\_impossibility\_constructive} in \texttt{CounterfactualInstanceConstructive.lean}.
 
 \paragraph{Experiment.}
 20 XGBoost models on German Credit (AUC spread $< 0.03$).  45 query points.  Direction flip rate: 23.5\% [CI: 20.6--26.6\%].  Cross-model recourse validity: 61.3\% [CI: 55.8--66.2\%].  Most unstable feature: \texttt{checking\_status} (43\% flip rate).
@@ -532,7 +532,7 @@ Algorithmic recourse is fundamentally limited: retraining a lender's model may r
 \subsection{Instance 4: Concept Probes --- Details}
 
 \paragraph{Proof.}
-Let $\theta_1, \theta_2$ witness the Rashomon property with $f_{\theta_1} = f_{\theta_2}$ and $(v_{\theta_1}, v_{\theta_2}) \in \incomp$.  Faithfulness forces $\mathsf{exp}(\theta_i) = v_{\theta_i}$; stability forces $v_{\theta_1} = v_{\theta_2}$---contradiction.  Lean: \texttt{concept\_impossibility} in \texttt{ConceptInstance.lean}.
+Let $\theta_1, \theta_2$ witness the Rashomon property with $f_{\theta_1} = f_{\theta_2}$ and $(v_{\theta_1}, v_{\theta_2}) \in \incomp$.  Faithfulness forces $\mathsf{exp}(\theta_i) = v_{\theta_i}$; stability forces $v_{\theta_1} = v_{\theta_2}$---contradiction.  Lean: \texttt{concept\_impossibility\_constructive} in \texttt{ConceptInstanceConstructive.lean}.
 
 \paragraph{Experiment.}
 15 MLP classifiers (128--64, ReLU) on \texttt{load\_digits}, different seeds.  Prediction agreement: 97.2\%.  Mean $|\cos(v_i, v_j)|$: 0.10.  Concept instability: 0.90 [CI: 0.89--0.91].  TCAV score std: 0.16.
@@ -540,7 +540,7 @@ Let $\theta_1, \theta_2$ witness the Rashomon property with $f_{\theta_1} = f_{\
 \subsection{Instance 5: Causal Discovery --- Details}
 
 \paragraph{Proof.}
-For any CPDAG with an undirected edge $\{X,Y\}$, DAGs $h$ (with $X \to Y$) and $h'$ (with $Y \to X$) are Markov equivalent yet incompatible.  This is the classical result of \citet{verma1991equivalence} recast as a Rashomon property.  Lean: \texttt{causal\_instance\_impossibility} in \texttt{CausalInstance.lean}.
+For any CPDAG with an undirected edge $\{X,Y\}$, DAGs $h$ (with $X \to Y$) and $h'$ (with $Y \to X$) are Markov equivalent yet incompatible.  This is the classical result of \citet{verma1991equivalence} recast as a Rashomon property.  Lean: \texttt{causal\_impossibility\_constructive} in \texttt{CausalInstanceConstructive.lean}.
 
 \paragraph{Resolution.}
 Report the CPDAG rather than committing to a single orientation.  Undirected edges correspond to unresolvable queries---the principled cost of stability.
@@ -548,7 +548,7 @@ Report the CPDAG rather than committing to a single orientation.  Undirected edg
 \subsection{Instance 6: Model Selection --- Details}
 
 \paragraph{Proof.}
-The $\varepsilon$-Rashomon set $\mathcal{R}_\varepsilon = \{h : \mathsf{obs}(h) \geq \mathsf{obs}(h^*) - \varepsilon\}$ generically contains models with incompatible rankings on different evaluation splits.  Lean: \texttt{model\_selection\_instance\_impossibility} in \texttt{ModelSelectionInstance.lean}.
+The $\varepsilon$-Rashomon set $\mathcal{R}_\varepsilon = \{h : \mathsf{obs}(h) \geq \mathsf{obs}(h^*) - \varepsilon\}$ generically contains models with incompatible rankings on different evaluation splits.  Lean: \texttt{model\_selection\_impossibility\_constructive} in \texttt{ModelSelectionInstanceConstructive.lean}.
 
 \paragraph{Experiment.}
 50 XGBoost classifiers (different seeds) on German Credit, 20 evaluation splits.  Mean AUC: $0.948 \pm 0.002$.  11/50 unique ``best'' models.  Best-model flip rate: 80\%.  Consecutive flip rate: 89\%.
