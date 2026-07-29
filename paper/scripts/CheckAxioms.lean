@@ -1,0 +1,34 @@
+/- CI axiom audit for the Tier-A spine.
+   Run: lake env lean paper/scripts/CheckAxioms.lean
+   The ci script asserts each spine declaration "does not depend on any axioms"
+   (propext/Quot.sound/funext are Lean-core and acceptable; the assertion below
+   greps only for the custom axioms gbdtWorld/gbdtAxioms and ofReduceBool). -/
+import UniversalImpossibility.ExplanationSystem
+import UniversalImpossibility.NecessityBiconditional
+import UniversalImpossibility.MaximalIncompatibility
+import UniversalImpossibility.UncertaintyFromSymmetry
+import UniversalImpossibility.AttributionInstanceConstructive
+import UniversalImpossibility.AttentionInstanceConstructive
+import UniversalImpossibility.CounterfactualInstanceConstructive
+import UniversalImpossibility.ConceptInstanceConstructive
+import UniversalImpossibility.CausalInstanceConstructive
+import UniversalImpossibility.ModelSelectionInstanceConstructive
+import UniversalImpossibility.MechInterpInstanceConstructive
+import UniversalImpossibility.SaliencyInstanceConstructive
+import UniversalImpossibility.LLMExplanationInstanceConstructive
+
+#print axioms explanation_impossibility
+#print axioms bilemma
+#print axioms rashomon_biconditional_neq
+#print axioms fully_specified_possibility
+#print axioms UniversalImpossibility.reynolds_image_in_fixed
+#print axioms UniversalImpossibility.reynolds_best_approximation
+#print axioms attribution_impossibility_constructive
+#print axioms attention_impossibility_constructive
+#print axioms counterfactual_impossibility_constructive
+#print axioms concept_impossibility_constructive
+#print axioms causal_impossibility_constructive
+#print axioms model_selection_impossibility_constructive
+#print axioms mech_interp_impossibility_constructive
+#print axioms saliency_impossibility_constructive
+#print axioms llm_explanation_impossibility_constructive
