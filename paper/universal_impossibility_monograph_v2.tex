@@ -1459,7 +1459,7 @@ Component & Count & Notes \\
 \midrule
 Files & 104 & All in \texttt{UniversalImpossibility/} \\
 Theorems \& lemmas & 530 & Verified by \texttt{grep -c} \\
-Axioms & 2 & 2 declarations bundling 25 assumptions; core uses 0 \\
+Axioms & 2 & main repo, bundling ${\sim}14$ GBDT properties (4 total across 3 repos---see above); core uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero custom axiom dependencies \\
@@ -1526,7 +1526,12 @@ Theorem & Axioms & Description \\
 \end{table}
 
 \paragraph{Zero-axiom scope.}
-The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  Across three repositories the totals are: 530~$+$~358~$+$~482~$=$ 1{,}370~theorems, 4~axioms, 200~files, 0~\texttt{sorry}.  Key new files from this formalization campaign: \texttt{LanglandsCorrespondence.lean} (7~theorems: trace conjugation-invariance, the $n{=}1$/$n{\geq}2$ boundary, scalar embedding functoriality) and \texttt{MultiAnalystInstance.lean} (4~theorems: multi-analyst Rashomon, trilemma, bilemma, maximal incompatibility).
+The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  We report counts \emph{per repository}
+(main~530, attribution companion~358, physics companion~482; 4~\texttt{axiom} declarations in
+total, 2+2+0; 0~\texttt{sorry}; all three build with \texttt{lake build}) and do \emph{not} sum
+them, because the attribution companion overlaps the main repository by ${\approx}88\%$ of theorem
+names and the physics companion by ${\approx}12\%$; the distinct program-wide count is
+approximately~1{,}000.  Key new files from this formalization campaign: \texttt{LanglandsCorrespondence.lean} (7~theorems: trace conjugation-invariance, the $n{=}1$/$n{\geq}2$ boundary, scalar embedding functoriality) and \texttt{MultiAnalystInstance.lean} (4~theorems: multi-analyst Rashomon, trilemma, bilemma, maximal incompatibility).
 
 \paragraph{Reynolds naturality and the character: a structural analogy, not a Langlands result.}\emph{~[Tier~C.]}
 The Reynolds naturality theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections, and for GL($n$) the Reynolds projection is the trace (conjugation-averaging).  This is a one-line fact of invariant theory: the trace is a class function, constant on conjugacy classes and compatible with the group action.  We flag explicitly that this is \emph{not} Langlands functoriality: the formalization contains no automorphic forms, no $L$-functions, and no automorphic-to-Galois correspondence.  The parallel is purely structural---characters/traces are the natural stable invariant under conjugation, just as the orbit average is the stable resolution under any symmetry group---and is stated only to orient readers familiar with representation theory. It is not a theorem about, or a prediction of, functoriality.

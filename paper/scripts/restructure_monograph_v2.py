@@ -169,7 +169,7 @@ rep("""The \\emph{Reynolds naturality} theorem (\\texttt{reynolds\\_naturality} 
 """The \\emph{Reynolds naturality} theorem (\\texttt{reynolds\\_naturality} in \\texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections: if $\\varphi : V \\to W$ intertwines the group actions ($R_W \\circ \\varphi = \\varphi \\circ R_V$), then the stable resolutions are compatible.  We deliberately do \\emph{not} phrase this as ``predicting Langlands functoriality'': it is the elementary statement that a natural transformation commutes with a group average, carries no arithmetic content, and does not bear on the automorphic-to-Galois correspondence the Langlands programme concerns.  The formal resemblance is noted only to orient readers from representation theory.""")
 
 rep("Axioms & 2 & Bundled GBDT infrastructure; core theorem uses 0 \\\\",
-    "Axioms & 2 & 2 declarations bundling 25 assumptions; core uses 0 \\\\")
+    "Axioms & 2 & main repo, bundling ${\\sim}14$ GBDT properties (4 total across 3 repos---see above); core uses 0 \\\\")
 
 rep("""Table~\\ref{tab:lean-summary} summarizes the formalization.""",
 """Table~\\ref{tab:lean-summary} summarizes the formalization.
@@ -227,6 +227,15 @@ falsified predictions (Part~V).  Material is organized by evidence tier so that 
 original, machine-checked results are cleanly separated from exploratory and analogical
 content; the latter is included for transparency, not as established claims.  A focused
 version of the empirical contribution is presented separately.""")
+
+# ---- fix the double-counting summation line (verified: companions overlap the main repo) ----
+rep("""The theoretical framework is a pure theorem of logic.  Across three repositories the totals are: 530~$+$~358~$+$~482~$=$ 1{,}370~theorems, 4~axioms, 200~files, 0~\\texttt{sorry}.""",
+"""The theoretical framework is a pure theorem of logic.  We report counts \\emph{per repository}
+(main~530, attribution companion~358, physics companion~482; 4~\\texttt{axiom} declarations in
+total, 2+2+0; 0~\\texttt{sorry}; all three build with \\texttt{lake build}) and do \\emph{not} sum
+them, because the attribution companion overlaps the main repository by ${\\approx}88\\%$ of theorem
+names and the physics companion by ${\\approx}12\\%$; the distinct program-wide count is
+approximately~1{,}000.""")
 
 text=text.replace('\\textquotesingle',"'")
 open(OUT,'w').write(text)
