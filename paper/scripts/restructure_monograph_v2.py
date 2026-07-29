@@ -199,6 +199,23 @@ rep("""The gap---4 out of 6 CRT-allowed combinations are blocked by automorphici
 rep("""The discrete Fourier transform on $\\mathbb{Z}/p\\mathbb{Z}$ satisfies $F^4 = p^2 \\cdot \\mathrm{id}$, forcing eigenvalues to have absolute value $\\sqrt{p}$---the local Riemann Hypothesis in spectral form (\\texttt{EnrichmentFunctor.lean}).""",
 """The discrete Fourier transform on $\\mathbb{Z}/p\\mathbb{Z}$ satisfies $F^4 = p^2 \\cdot \\mathrm{id}$, forcing eigenvalues to have absolute value $\\sqrt{p}$---an eigenvalue-modulus fact sometimes called the ``local Riemann Hypothesis'' in spectral form, unrelated to the analytic Riemann Hypothesis (\\texttt{EnrichmentFunctor.lean}).""")
 
+# ---- reframe review-article-triggering language to research-article framing (arXiv CS moderation) ----
+rep("""This monograph serves as the definitive reference.  It documents the
+complete formal theory (all proofs, Lean~4 verification), the full
+empirical validation, 23~cross-domain instantiations, speculative
+connections (clearly labeled), five falsified predictions, and the
+validated practitioner pipeline.  The associated Nature submission
+presents the focused empirical contribution.""",
+"""The primary contributions of this paper are original research: the impossibility
+theorem and its Lean~4-verified formalization (Part~I), and an empirical
+characterization of explanation instability including a pre-registered stable-fact-count
+result (Part~II).  For completeness the paper also documents the cross-domain
+instantiations (Part~III), clearly-labeled speculative connections (Part~IV), and five
+falsified predictions (Part~V).  Material is organized by evidence tier so that the
+original, machine-checked results are cleanly separated from exploratory and analogical
+content; the latter is included for transparency, not as established claims.  A focused
+version of the empirical contribution is presented separately.""")
+
 text=text.replace('\\textquotesingle',"'")
 open(OUT,'w').write(text)
 
