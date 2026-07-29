@@ -148,13 +148,17 @@ eight scientific domains: the degeneracy of the genetic code (biology),""")
 
 rep("""The framework is mechanically verified in Lean~4 (104~files, 530~theorems,
 2~axioms, 0~\\texttt{sorry}).""",
-"""The framework is mechanically verified in Lean~4 with \\textbf{0}~\\texttt{sorry}.
-Its trusted base is \\textbf{2}~\\texttt{axiom} declarations that bundle
-\\textbf{25}~behavioral assumptions (reported unbundled as~25 for transparency),
-plus \\texttt{native\\_decide}-induced \\texttt{ofReduceBool} dependencies flagged
-per theorem; the core theorem and the entire hardened spine (Part~I) use \\emph{none}
-of these. Theorem counts are reported per repository and are not summed across the
-overlapping companion repositories (see Part~I).""")
+"""The framework is mechanically verified in Lean~4 with \\textbf{0}~\\texttt{sorry}
+(a real \\texttt{lake build} of all three repositories completes with 0 errors).
+The trusted base is \\textbf{4}~\\texttt{axiom} declarations across the three
+repositories---2 in the main repository (bundling ${\\sim}14$ gradient-boosting
+properties), 2 in the attribution companion (bundling 7 fields), and 0 in the physics
+companion, which instead carries ${\\sim}11$ domain hypotheses (including the classical
+Selmer~1951 result) as section variables rather than axioms. Some theorems additionally
+depend on Lean's \\texttt{ofReduceBool} via \\texttt{native\\_decide} (6/0/65 across the
+three repositories). The core theorem and the entire hardened spine (Part~I) use
+\\emph{none} of these. Theorem counts are reported per repository, not summed across the
+overlapping companions.""")
 
 rep("""\\paragraph{Reynolds naturality predicts Langlands functoriality.}
 The Reynolds naturality theorem (\\texttt{reynolds\\_naturality} in \\texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections.  For GL($n$), the Reynolds projection is the trace (conjugation-averaging).  Reynolds naturality therefore implies that the trace commutes with group homomorphisms---which IS Langlands functoriality for finite fields.  The impossibility framework predicts functoriality as a structural consequence of the bilemma's resolution: collapsed tightness for $n \\geq 2$ forces the trace as the unique Pareto-optimal resolution; Reynolds naturality forces the trace to be functorial.  The Langlands programme classifies which characters arise from automorphic representations; the impossibility framework provides a structural explanation for why characters are the natural invariant.""",
@@ -170,21 +174,29 @@ rep("Axioms & 2 & Bundled GBDT infrastructure; core theorem uses 0 \\\\",
 rep("""Table~\\ref{tab:lean-summary} summarizes the formalization.""",
 """Table~\\ref{tab:lean-summary} summarizes the formalization.
 
-\\paragraph{Trusted-base statement (authoritative).}
-The framework is mechanically verified in Lean~4 with \\textbf{0}~\\texttt{sorry}/\\texttt{admit}
-across three repositories. The trusted base is \\textbf{2}~\\texttt{axiom} declarations that
-\\emph{bundle} 25 behavioral assumptions---gradient-boosting infrastructure and, in the physics
-companion, contested black-hole/spacetime-emergence hypotheses plus the classical Selmer~(1951)
-result---reported unbundled as \\textbf{25} for transparency (bundling changes the count of
-\\texttt{axiom} keywords, not what is assumed). In addition, some theorems depend on Lean's
-\\texttt{Lean.ofReduceBool} axiom via \\texttt{native\\_decide} (6~uses in the main repository,
-65 in the physics companion, 0 in the attribution companion), flagged per theorem.
-\\textbf{The core theorem \\texttt{explanation\\_impossibility} and the entire Tier-A hardened
-spine use none of these}---they are pure logic from the stated hypotheses (verified by
-\\texttt{\\#print axioms}). Theorem counts are reported \\emph{per repository} (main~530;
-attribution companion~358, of which ${\\approx}88\\%$ coincide with the main repository; physics
-companion~482, of which ${\\approx}12\\%$ coincide). Because the companions overlap the main
-repository we do \\emph{not} sum them; the distinct program-wide count is approximately~1{,}000.""")
+\\paragraph{Trusted-base statement (authoritative; verified by a real build).}
+All three repositories compile with \\texttt{lake build} (0 errors) and contain
+\\textbf{0}~\\texttt{sorry}/\\texttt{admit}. The trusted base, counted at source, is:
+\\begin{itemize}\\itemsep2pt
+  \\item \\textbf{Main repository:} \\textbf{2}~\\texttt{axiom} declarations bundling ${\\sim}14$
+    gradient-boosting properties; \\textbf{6}~\\texttt{native\\_decide} uses (which import Lean's
+    \\texttt{ofReduceBool}); 0~\\texttt{sorry}.
+  \\item \\textbf{Attribution companion:} \\textbf{2}~\\texttt{axiom} declarations bundling
+    \\textbf{7} fields (of which one is genuinely behavioral); \\textbf{0}~\\texttt{native\\_decide};
+    0~\\texttt{sorry}.
+  \\item \\textbf{Physics companion:} \\textbf{0}~\\texttt{axiom} declarations---the Selmer~1951
+    result and ${\\sim}11$ black-hole/spacetime-emergence properties are carried as
+    \\emph{hypotheses / section variables}, not axioms, but still gate their downstream results;
+    \\textbf{65}~\\texttt{native\\_decide} uses; 0~\\texttt{sorry}.
+\\end{itemize}
+So \\textbf{4}~\\texttt{axiom} declarations in total (2+2+0); bundling changes the keyword count,
+not what is assumed. \\textbf{The core theorem \\texttt{explanation\\_impossibility} and the entire
+Tier-A hardened spine use none of these}---they are pure logic from the stated hypotheses (verified
+by \\texttt{\\#print axioms}). Theorem counts are reported \\emph{per repository} (main~530;
+attribution companion~358, ${\\approx}88\\%$ coinciding with the main repository; physics
+companion~482, ${\\approx}12\\%$ coinciding); because the companions overlap we do \\emph{not} sum
+them, and the distinct program-wide count is approximately~1{,}000. Results that depend on the
+Selmer~1951 result or the black-hole/spacetime hypotheses are conditional on those assumptions.""")
 
 rep("""The Noether permutation test is confirmatory (pre-specified test on a pre-registered prediction).  We label each analysis accordingly throughout the text.""",
 """The Noether permutation test is confirmatory (pre-specified test on a pre-registered prediction).  We label each analysis accordingly throughout the text.  \\emph{Caveat on temporal precedence:} \\texttt{PRE\\_REGISTRATION.md} entered version control in the same commit as the knockout results it governs, so its precedence cannot be independently established from the repository history; and its own primary criterion---capacity $R^2>0.90$ on the \\emph{full} domain set---was not met (the all-domain fit is $R^2\\approx0.60$).  The headline $R^2=0.957$ is the pre-specified well-characterised-group subset, defined by an a-priori criterion but a subset nonetheless; we report the full-set figure alongside it and treat the capacity law as Tier~B (empirical), not as a consequence of the impossibility theorem.""")
