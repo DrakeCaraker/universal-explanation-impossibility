@@ -282,8 +282,10 @@ simultaneously be faithful, stable, and decisive.  The proof is four
 lines; the content is in the consequences.  From this structural foundation
 we derive: a parameter-free quantitative predictor of instability (the
 explanation capacity $\dim(V^G)/\dim(V)$, confirmed at $R^2 = 0.957$
-across seven domains), a unique Pareto-optimal resolution (orbit
-averaging, a consequence of classical invariant decision theory), and a
+across seven domains), a canonical resolution (orbit averaging;
+Pareto-optimal \emph{within} correlation groups by a Lean-verified
+theorem, and globally by a classical invariant-decision-theory argument
+not yet mechanized), and a
 model-agnostic diagnostic pipeline validated on 30~datasets $\times$
 6~model/method configurations (Cochran's $Q$, $p = 0.25$; no model or
 method effect).  The framework has the structural form of a capacity
@@ -1048,9 +1050,10 @@ $\E[\phi_j] = \E[\phi_k]$ for any pair of symmetric features $j, k$
 Proposition~\ref{prop:g-invariant-stable} and faithful in expectation: the
 expected explanation matches the expected observation across the Rashomon set.
 The cost is indecisiveness---\DASH{} reports ties for feature pairs whose
-rankings disagree across the ensemble.  The companion paper proves that
-\DASH{} is Pareto-optimal: no other stable attribution method can achieve
-higher expected faithfulness.
+rankings disagree across the ensemble.  The companion paper argues that
+\DASH{} is Pareto-optimal (no other stable attribution method can achieve
+higher expected faithfulness); the within-group component of this claim is
+Lean-verified, the global claim is not (see the proof-status inventory).
 
 \paragraph{Connection to estimation-theoretic bounds.}
 Faithfulness can be viewed as an unbiasedness condition: $\E[E(\theta)] = \text{explain}(\theta)$. Under this reading, the attribution impossibility is a Cram\'er--Rao-type result: no unbiased estimator achieves zero variance when the Fisher information (determined by the Rashomon set geometry) is finite. The design space theorem refines this: it characterises the full Pareto frontier of (bias, variance, completeness) trade-offs, not just the variance lower bound.
@@ -1363,7 +1366,7 @@ The explanatory information loss identity yields a capacity theory for explanati
 $\mathbb{E}[\|\bar{E}_M - R\mu\|^2] = M^{-1} \operatorname{tr}(R\Sigma R)$.
 For target MSE $\leq \varepsilon$, it suffices to use $M \geq \operatorname{tr}(R\Sigma R)/\varepsilon$ models.  This is the source coding rate for the explanation channel.  The NARPS convergence ($M_{95} = 16$~teams for 95\% stability) is a special case.
 
-\emph{Part (ii): Capacity bound.}  Any $G$-invariant map $E$ satisfies $E(\theta) \in V^G$ for all $\theta$; the dimension of the image is at most $C = \dim(V^G)$.  No amount of averaging, ensembling, or methodological refinement expands $V^G$.  The capacity is a structural constant (Lean-verified: \texttt{stable\_in\_fixed\_subspace}).
+\emph{Part (ii): Capacity bound.}  The orbit-averaged (Reynolds-projected) explanation $R \circ E$ has image in $V^G$---immediate from idempotency of $R$---so its image dimension is at most $C = \dim(V^G)$, and no amount of averaging, ensembling, or methodological refinement expands $V^G$.  The stronger statement that \emph{every} stable map has image in $V^G$ is stated here as a conjecture [Tier~B], not a Lean-verified theorem: the declaration \texttt{stable\_in\_fixed\_subspace} records only the definitional fact that a fixed point of $R$ lies in $V^G$ (it takes $Ru = u$ as a hypothesis) and does not derive fixed-point-ness from stability.
 
 \emph{Part (iii): Rate optimality.}  Among all linear unbiased estimators of $R\mu$ from $M$ i.i.d.\ samples, the orbit average minimises $\mathbb{E}[\|\hat{E} - R\mu\|^2]$ (Gauss--Markov).  Equivalently, $V^G$ is the sufficient statistic for stable explanatory content, and the Reynolds projection is the Rao--Blackwell improvement of any explanation method.
 
@@ -1526,7 +1529,7 @@ Theorem & Axioms & Description \\
 \end{table}
 
 \paragraph{Zero-axiom scope.}
-The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  We report counts \emph{per repository}
+The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, the Navier--Stokes tightness schema, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  We report counts \emph{per repository}
 (main~530, attribution companion~358, physics companion~482; 4~\texttt{axiom} declarations in
 total, 2+2+0; 0~\texttt{sorry}; all three build with \texttt{lake build}) and do \emph{not} sum
 them, because the attribution companion overlaps the main repository by ${\approx}88\%$ of theorem
@@ -1613,10 +1616,14 @@ We distinguish four levels of verification:
 
   \item \textbf{Argued} (supplement proof only): The result has a
     rigorous proof sketch in the supplement or companion paper but has
-    not been mechanized in Lean~4.  (Note: as of the current version,
-    the Pareto optimality of DASH is now Lean-verified in
+    not been mechanized in Lean~4.  (Note: the \emph{within-group}
+    component of \DASH{}'s Pareto optimality is Lean-verified in
     \texttt{ParetoOptimality.lean} via
-    \texttt{dash\_unique\_pareto\_optimal}.)
+    \texttt{dash\_unique\_pareto\_optimal}: a committed within-group
+    ranking has strictly positive disagreement, conditional on the
+    bundled GBDT/DGP hypotheses.  The between-group case---and hence
+    \emph{global} Pareto optimality---remains argued, resting on an
+    unformalized Cram\'er--Rao step.)
 
   \item \textbf{Empirical}: The result is supported by computational
     experiments but not formally proved.  Examples: the specific flip
@@ -2032,7 +2039,7 @@ held-out model architectures) is needed before claiming empirical support.
 
 The invariance correspondence (Section~\ref{sec:bridge-noether}) predicts that
 the number of independently stable ranking facts equals $\binom{g}{2}$, where
-$g$~is the number of dependence groups (identified here via correlation; the exact boundary is $I > 0$).  Within-group comparisons should be
+$g$~is the number of dependence groups (identified here via correlation; the operative dependence condition is $I > 0$).  Within-group comparisons should be
 unstable ($\sim\!50\%$ flip rate), while between-group comparisons should be
 perfectly stable.  We tested this counting prediction directly.
 
@@ -3579,7 +3586,7 @@ where $N$ is the grid size.  The exponent $1.56$ lies between the Kolmogorov pre
 \emph{Divergence check:} $\max|\nabla \cdot \mathbf{u}| < 10^{-8}$ across all 54 runs, confirming the pseudospectral solver preserves incompressibility.
 
 \paragraph{The Explanation Capacity Audit.}
-The explanation capacity theorem was validated at scale across 149~datasets from 53~scientific domains (genomics, neuroscience, particle physics, manufacturing, veterinary medicine, and 48~others).  For each dataset, 50~XGBoost models with stochastic regularisation (subsample~$= 0.8$, colsample\_bytree~$= 0.5$) were trained with different random seeds, and TreeSHAP importance rankings were computed.  Correlation groups were identified via SAGE (hierarchical clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$), giving the explanation capacity $C = g$ (number of groups).  Note: the Lean-verified generalization (\texttt{mi\_is\_exact\_boundary} in \texttt{MutualInformation.lean}) proves that mutual information $I(X_j; X_k) > 0$---not correlation---is the necessary and sufficient condition for the attribution impossibility.  For continuous features, Spearman correlation is an adequate proxy: an MI-vs-correlation comparison across 131~PMLB benchmark datasets confirms that the two grouping methods produce identical groups 77\% of the time (ARI~$= 1.000$) and nearly identical groups 74\% of the time (ARI~$> 0.80$; mean ARI~$= 0.84$).  However, for binary or categorical features, correlation can fail completely---the drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this: Pearson clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate.  The 75\% exceedance rate below is therefore exact for the continuous-feature audit but a \emph{lower bound} for domains with binary, categorical, or nonlinear feature dependencies.
+The explanation capacity theorem was validated at scale across 149~datasets from 53~scientific domains (genomics, neuroscience, particle physics, manufacturing, veterinary medicine, and 48~others).  For each dataset, 50~XGBoost models with stochastic regularisation (subsample~$= 0.8$, colsample\_bytree~$= 0.5$) were trained with different random seeds, and TreeSHAP importance rankings were computed.  Correlation groups were identified via SAGE (hierarchical clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$), giving the explanation capacity $C = g$ (number of groups).  Note: the Lean theorem \texttt{mi\_is\_exact\_boundary} in \texttt{MutualInformation.lean} proves the \emph{sufficiency} direction---mutual information $I(X_j; X_k) > 0$ (not correlation) yields the attribution impossibility---and does so \emph{conditional} on the bridge hypothesis \texttt{hdep\_implies\_diff} (statistical dependence produces differing attributions), which is assumed rather than derived; the converse direction is argued informally, not machine-checked.  For continuous features, Spearman correlation is an adequate proxy: an MI-vs-correlation comparison across 131~PMLB benchmark datasets confirms that the two grouping methods produce identical groups 77\% of the time (ARI~$= 1.000$) and nearly identical groups 74\% of the time (ARI~$> 0.80$; mean ARI~$= 0.84$).  However, for binary or categorical features, correlation can fail completely---the drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this: Pearson clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate.  The 75\% exceedance rate below is therefore exact for the continuous-feature audit but a \emph{lower bound} for domains with binary, categorical, or nonlinear feature dependencies.
 
 \emph{Exceedance:} 111 of 149 datasets (75\%) exceed their explanation capacity --- the feature rankings reported in typical SHAP analyses contain more pairwise claims than the correlation structure can stably support.  A TreeSHAP replication on 70~PMLB datasets with $M = 50$ confirms: 84\% exceed capacity (conservative relative to gain-based 87\% on the same datasets, because TreeSHAP is 34\% more stable).  Exceedance is robust to threshold: 83\% at $\rho^* = 0.50$, 81\% at 0.60, 75\% at 0.70, 69\% at 0.80, 50\% at 0.90.  The directional prediction (within $>$ between flip rate) is confirmed at all five thresholds (Wilcoxon $p \leq 0.021$ at each), with the strongest signal at $\rho^* = 0.70$ and $0.90$.  The slight weakening at $\rho^* = 0.80$ (77\% directional vs.\ 81\% at 0.70) reflects group fragmentation: 8~datasets lose testability as within-group pairs are split, and the mean number of within-group pairs drops from 81 to 62.
 
@@ -3643,7 +3650,7 @@ A comparison of three group-discovery methods on 14~datasets with cached importa
 \paragraph{The theorem as a capacity law and uncertainty principle for scientific explanation.}
 The Uncertainty from Symmetry theorem (Section~\ref{sec:group-classification}) formalises this scope.  For any system with symmetry group~$G$, the explanation capacity is $C = \dim(V^G)$ and the explanation loss rate is $\eta = 1 - C/\dim(V)$.  These are not specific to ML explanations, SHAP values, or feature importance.  They apply to any vector-valued description of any system with a symmetry group---physical, biological, economic, or social.  The \emph{explanation uncertainty bound} ($\mathrm{unfaith}(\theta_1) + \mathrm{unfaith}(\theta_2) \geq \Delta - \delta$, the quantitative form of the bilemma) provides the complementary bound: reducing unfaithfulness at one configuration forces increased unfaithfulness at another, with a lower bound determined by the system's structure.
 
-The practical consequence for working scientists in \emph{any} field: if your system has statistically dependent explanatory variables (whether linearly correlated or not---the exact boundary is $I(X_j; X_k) > 0$), the specific attribution you report (which variable is most important, which mechanism is primary) is not a stable property of the data.  It is a joint property of the data and the particular model or analysis pipeline.  The stable content---what survives averaging over valid pipelines---is at a coarser level (variable groups, pathway classes, mechanism families).  The theorem identifies exactly what that coarser level is ($V^G$, the symmetry-invariant subspace) and proves the orbit average is the optimal way to access it.
+The practical consequence for working scientists in \emph{any} field: if your system has statistically dependent explanatory variables (whether linearly correlated or not---the operative dependence condition is $I(X_j; X_k) > 0$), the specific attribution you report (which variable is most important, which mechanism is primary) is not a stable property of the data.  It is a joint property of the data and the particular model or analysis pipeline.  The stable content---what survives averaging over valid pipelines---is at a coarser level (variable groups, pathway classes, mechanism families).  The theorem identifies exactly what that coarser level is ($V^G$, the symmetry-invariant subspace) and proves the orbit average is the optimal way to access it.
 
 \subsection[The Isn't This Obvious Defense]{The ``Isn't This Obvious?'' Defense}
 \label{sec:obvious}
@@ -4761,82 +4768,83 @@ theorem ubiquity_impossibility
 \subsection{Instance Theorems}
 \label{app:lean-instances}
 
-Each of the nine instances follows the same pattern: axiomatize the domain types,
-bundle them into an \texttt{ExplanationSystem}, and apply
-\texttt{explanation\_impossibility}.  We list the theorem statements here.
+Each of the nine instances follows the same pattern: construct explicit
+finite witness configurations, bundle them into an
+\texttt{ExplanationSystem} whose Rashomon witness is checked by
+\texttt{decide}/\texttt{rfl} (zero axioms), and apply
+\texttt{explanation\_impossibility}.  We list the theorem statements as
+they appear in the repository (\texttt{*InstanceConstructive.lean}).
 
-\begin{lstlisting}[caption={Nine instance impossibility theorems}]
--- Attribution (AttributionInstance.lean)
-theorem attribution_impossibility_abstract
-    (E : AttrConfig -> AttrExplanation)
-    (hf : faithful attrSystem E)
-    (hs : stable attrSystem E)
-    (hd : decisive attrSystem E) : False :=
-  explanation_impossibility attrSystem E hf hs hd
+\begin{lstlisting}[caption={Nine constructive instance impossibility theorems}]
+-- Attribution (AttributionInstanceConstructive.lean)
+theorem attribution_impossibility_constructive :
+    forall (E : AttrConfigC -> AttrRanking),
+      faithful attrSystemC E -> stable attrSystemC E ->
+      decisive attrSystemC E -> False :=
+  explanation_impossibility attrSystemC
 
--- Attention (AttentionInstance.lean)
-theorem attention_impossibility
-    (E : AttentionConfig -> AttentionMap)
-    (hf : faithful attentionSystem E)
-    (hs : stable attentionSystem E)
-    (hd : decisive attentionSystem E) : False :=
-  explanation_impossibility attentionSystem E hf hs hd
+-- Attention (AttentionInstanceConstructive.lean)
+theorem attention_impossibility_constructive
+    (E : AttnConfig -> AttnArgmax)
+    (hf : faithful attentionSystemConstructive E)
+    (hs : stable attentionSystemConstructive E)
+    (hd : decisive attentionSystemConstructive E) : False :=
+  explanation_impossibility attentionSystemConstructive E hf hs hd
 
--- Counterfactual (CounterfactualInstance.lean)
-theorem counterfactual_impossibility
-    (E : CFConfig -> CFExplanation)
-    (hf : faithful cfSystem E)
-    (hs : stable cfSystem E)
-    (hd : decisive cfSystem E) : False :=
-  explanation_impossibility cfSystem E hf hs hd
+-- Counterfactual (CounterfactualInstanceConstructive.lean)
+theorem counterfactual_impossibility_constructive
+    (E : CFConfig -> CFDirection)
+    (hf : faithful cfSystemConstructive E)
+    (hs : stable cfSystemConstructive E)
+    (hd : decisive cfSystemConstructive E) : False :=
+  explanation_impossibility cfSystemConstructive E hf hs hd
 
--- Concept Probe (ConceptInstance.lean)
-theorem concept_impossibility
-    (E : ConceptConfig -> ConceptExplanation)
-    (hf : faithful conceptSystem E)
-    (hs : stable conceptSystem E)
-    (hd : decisive conceptSystem E) : False :=
-  explanation_impossibility conceptSystem E hf hs hd
+-- Concept Probe (ConceptInstanceConstructive.lean)
+theorem concept_impossibility_constructive
+    (E : ConceptCfg -> ConceptDirection)
+    (hf : faithful conceptSystemConstructive E)
+    (hs : stable conceptSystemConstructive E)
+    (hd : decisive conceptSystemConstructive E) : False :=
+  explanation_impossibility conceptSystemConstructive E hf hs hd
 
--- Causal Discovery (CausalInstance.lean)
-theorem causal_instance_impossibility
-    (E : CausalConfig -> CausalExplanation)
-    (hf : faithful causalSystem E)
-    (hs : stable causalSystem E)
-    (hd : decisive causalSystem E) : False :=
-  explanation_impossibility causalSystem E hf hs hd
+-- Causal Discovery (CausalInstanceConstructive.lean)
+theorem causal_impossibility_constructive :
+    forall (E : CausalConfigC -> EdgeOrientation),
+      faithful causalSystemC E -> stable causalSystemC E ->
+      decisive causalSystemC E -> False :=
+  explanation_impossibility causalSystemC
 
--- Model Selection (ModelSelectionInstance.lean)
-theorem model_selection_instance_impossibility
-    (E : MSConfig -> MSExplanation)
-    (hf : faithful msSystem E)
-    (hs : stable msSystem E)
-    (hd : decisive msSystem E) : False :=
-  explanation_impossibility msSystem E hf hs hd
+-- Model Selection (ModelSelectionInstanceConstructive.lean)
+theorem model_selection_impossibility_constructive
+    (E : MSCfg -> MSModelId)
+    (hf : faithful msSystemConstructive E)
+    (hs : stable msSystemConstructive E)
+    (hd : decisive msSystemConstructive E) : False :=
+  explanation_impossibility msSystemConstructive E hf hs hd
 
--- GradCAM (SaliencyInstance.lean)
-theorem saliency_impossibility
-    (E : SaliencyConfig -> SaliencyMap)
-    (hf : faithful saliencySystem E)
-    (hs : stable saliencySystem E)
-    (hd : decisive saliencySystem E) : False :=
-  explanation_impossibility saliencySystem E hf hs hd
+-- GradCAM (SaliencyInstanceConstructive.lean)
+theorem saliency_impossibility_constructive
+    (E : SaliencyCfg -> SaliencyRegion)
+    (hf : faithful saliencySystemConstructive E)
+    (hs : stable saliencySystemConstructive E)
+    (hd : decisive saliencySystemConstructive E) : False :=
+  explanation_impossibility saliencySystemConstructive E hf hs hd
 
--- LLM Self-Explanation (LLMExplanationInstance.lean)
-theorem llm_explanation_impossibility
-    (E : LLMConfig -> LLMExplanation)
-    (hf : faithful llmSystem E)
-    (hs : stable llmSystem E)
-    (hd : decisive llmSystem E) : False :=
-  explanation_impossibility llmSystem E hf hs hd
+-- LLM Self-Explanation (LLMExplanationInstanceConstructive.lean)
+theorem llm_explanation_impossibility_constructive
+    (E : LLMCfg -> LLMCitation)
+    (hf : faithful llmSystemConstructive E)
+    (hs : stable llmSystemConstructive E)
+    (hd : decisive llmSystemConstructive E) : False :=
+  explanation_impossibility llmSystemConstructive E hf hs hd
 
--- Mechanistic Interpretability (MechInterpInstance.lean)
-theorem mech_interp_impossibility
-    (E : MechInterpConfig -> Circuit)
-    (hf : faithful mechInterpSystem E)
-    (hs : stable mechInterpSystem E)
-    (hd : decisive mechInterpSystem E) : False :=
-  explanation_impossibility mechInterpSystem E hf hs hd
+-- Mechanistic Interpretability (MechInterpInstanceConstructive.lean)
+theorem mech_interp_impossibility_constructive
+    (E : MechInterpCfg -> CircuitDecomp)
+    (hf : faithful mechInterpSystemConstructive E)
+    (hs : stable mechInterpSystemConstructive E)
+    (hd : decisive mechInterpSystemConstructive E) : False :=
+  explanation_impossibility mechInterpSystemConstructive E hf hs hd
 \end{lstlisting}
 
 %%% ==========================================================================
@@ -5079,9 +5087,9 @@ This is the \texttt{RashomonProperty} of \texttt{Trilemma.lean}.
 {\raggedright
 \texttt{attribution\_impossibility} in \texttt{Trilemma.lean}
 (0~axioms);
-\texttt{attribution\_impossibility\_abstract} in
-\texttt{AttributionInstance.lean}
-(0~additional axioms beyond system).\par}
+\texttt{attribution\_impossibility\_constructive} in
+\texttt{AttributionInstanceConstructive.lean}
+(constructive witness; 0~axioms).\par}
 
 \subsection{Instance 2: Attention Maps}
 \label{app:proof-attention}
@@ -5110,7 +5118,7 @@ $\arg\max_t (\alpha_{\theta_1})_t \neq \arg\max_t (\alpha_{\theta_2})_t$.
 \end{enumerate}
 
 \paragraph{Lean.}
-\texttt{attention\_impossibility} in \texttt{AttentionInstance.lean}.
+\texttt{attention\_impossibility\_constructive} in \texttt{AttentionInstanceConstructive.lean}.
 
 \subsection{Instance 3: Counterfactual Explanations}
 \label{app:proof-counterfactual}
@@ -5130,7 +5138,7 @@ in opposite directions \citep{semenova2022existence,fisher2019models}.
 
 \paragraph{Proof.}
 Same four-step structure.  Lean:
-\texttt{counterfactual\_impossibility} in \texttt{Counterfactual\-Instance.lean}.
+\texttt{counterfactual\_impossibility\_constructive} in \texttt{Counterfactual\-Instance\-Constructive.lean}.
 
 \subsection{Instance 4: Concept Probes}
 \label{app:proof-concept}
@@ -5152,7 +5160,7 @@ but geometrically distinct representations.
 
 \paragraph{Proof.}
 Same four-step structure.  Lean:
-\texttt{concept\_impossibility} in \texttt{ConceptInstance.lean}.
+\texttt{concept\_impossibility\_constructive} in \texttt{ConceptInstanceConstructive.lean}.
 
 \subsection{Instance 5: Causal Discovery}
 \label{app:proof-causal}
@@ -5174,8 +5182,8 @@ oriented in opposite directions.
 Same four-step structure.
 
 {\raggedright\noindent\textit{Lean:}
-\texttt{causal\_instance\_impossibility} in
-\texttt{CausalInstance.lean};
+\texttt{causal\_impossibility\_constructive} in
+\texttt{CausalInstanceConstructive.lean};
 \texttt{causal\_discovery\_impossibility} in
 \texttt{CausalDiscovery.lean}.\par}
 
@@ -5199,8 +5207,8 @@ performance that are ranked differently on different evaluation splits
 Same four-step structure.
 
 {\raggedright\noindent\textit{Lean:}
-\texttt{model\_selection\_instance\_impossibility}
-in \texttt{ModelSelectionInstance.lean};
+\texttt{model\_selection\_impossibility\_constructive}
+in \texttt{ModelSelectionInstanceConstructive.lean};
 \texttt{model\_selection\_impossibility}
 in \texttt{ModelSelection.lean}.\par}
 
@@ -5215,7 +5223,7 @@ This section documents results from the companion repository \texttt{ostrowski-i
 
 \subsection{Ostrowski's Classification and the Mathlib Bridge}
 
-Ostrowski's theorem classifies all nontrivial absolute values on~$\mathbb{Q}$: each is equivalent to the real absolute value or a $p$-adic absolute value.  The companion repository formalises this via Mathlib's \texttt{Rat.AbsoluteValue.equiv\_real\_or\_padic}, converting the completion family (archimedean vs $p$-adic) from axioms to concrete definitions.  This provides the zero-axiom foundation for the physics bilemma instantiation.  The bridge theorem \texttt{ostrowski\_classification} (\texttt{OstrowskiFramework.lean}) connects the abstract impossibility to the concrete number-theoretic structure.
+Ostrowski's theorem classifies all nontrivial absolute values on~$\mathbb{Q}$: each is equivalent to the real absolute value or a $p$-adic absolute value.  The companion repository formalises this via Mathlib's \texttt{Rat.AbsoluteValue.equiv\_real\_or\_padic}, converting the completion family (archimedean vs $p$-adic) from axioms to concrete definitions.  This provides the zero-axiom foundation for the physics bilemma instantiation.  The bridge \texttt{ostrowski\_classify} (a \texttt{noncomputable def} in \texttt{OstrowskiFramework.lean}, built on Mathlib's \texttt{Rat.AbsoluteValue.equiv\_real\_or\_padic}) connects the abstract impossibility to the concrete number-theoretic structure.
 
 \subsection{Freund--Witten Three-Fold Zeta Symmetry}
 
@@ -5225,7 +5233,7 @@ is proved using three applications of Mathlib's \texttt{completedRiemannZeta\_on
 
 \subsection{Adelic Resolution}
 
-The adele ring is constructed as a concrete definition with identity embedding (\texttt{AdelicResolution.lean}).  The adelic projection is proved $G$-invariant (\texttt{adelic\_projection\_invariant}) and resolves the physics bilemma (\texttt{adelic\_resolves}).  This parallels DASH for attributions and CPDAG for causal discovery as instances of the same abstract $G$-invariant resolution.
+The ``adelic resolution'' here is a placeholder model, not a formalization of the adele ring: the underlying type is a finite enumeration of completions with an identity embedding, and the resolution witnessing \texttt{adelic\_resolves} is literally the constant predicate \texttt{fun \_ => True} (\texttt{AdelicResolution.lean}).  It records the \emph{intended} parallel---commit to all completions simultaneously, as DASH does for attributions and CPDAG for causal discovery---but, unlike those two instances, nothing nontrivial is proved: the real adele ring and its symmetry action are not formalised.  We flag this as the weakest companion result [Tier~C].
 
 \subsection{Circuit Complexity: AC$^0$ Parity}
 
@@ -5235,11 +5243,11 @@ A novel \emph{conditional barrier analysis} shows that WITH one-way functions, p
 
 \subsection{DPRM Trilemma and the Selmer Curve}
 
-Hilbert's 10th problem is modelled as a three-property impossibility \{correctness, totality, universality\} with full tightness (\texttt{DiophantineImpossibility.lean}).  The degree hierarchy forms an enrichment stack: Hasse--Minkowski resolves degree~$\leq 2$ but not degree~3.  The Selmer curve $3x^3 + 4y^3 + 5z^3 = 0$ is locally solvable mod 2, 3, 5, 7 (verified by \texttt{native\_decide}) but globally insolvable (1~axiom: \texttt{selmer\_no\_nontrivial\_solution}, Selmer~1951).  This parallels the local-to-global obstruction of the Tate--Shafarevich group.
+Hilbert's 10th problem is modelled as a three-property impossibility \{correctness, totality, universality\} with full tightness (\texttt{DiophantineImpossibility.lean}).  The degree hierarchy forms an enrichment stack: Hasse--Minkowski resolves degree~$\leq 2$ but not degree~3.  The Selmer curve $3x^3 + 4y^3 + 5z^3 = 0$ is locally solvable mod 2, 3, 5, 7 (verified by \texttt{native\_decide}) but globally insolvable (assumed as the explicit hypothesis \texttt{selmer\_no\_nontrivial\_solution}---Selmer's 1951 theorem---rather than proved; it is a hypothesis parameter, not an \texttt{axiom} declaration).  This parallels the local-to-global obstruction of the Tate--Shafarevich group.
 
 \subsection{Navier--Stokes Conditional Tightness}
 
-The 3D Navier--Stokes equations are formalised as a conditional \texttt{AbstractImpossibility}: without regularity, full tightness; with regularity, all three properties are achievable (\texttt{NavierStokesImpossibility.lean}).  The Reynolds dichotomy (\texttt{ns\_reynolds\_dichotomy}) proves: below the critical Reynolds number, all three properties \{smooth, energy-conserving, global\} are jointly achievable; above, the system becomes an \texttt{AbstractImpossibility}.  The 54~numerical experiments (Section~\ref{sec:ns-experiments}) validate this classification experimentally.
+The Navier--Stokes trilemma is modelled as a three-strategy tightness \emph{schema}---a finite case analysis over the three classical compromise strategies (Leray weak, local classical, viscosity), with no PDEs formalised: without regularity the schema has full tightness; with regularity all three properties are achievable (\texttt{NavierStokesImpossibility.lean}).  The Reynolds dichotomy (\texttt{ns\_reynolds\_dichotomy}) encodes the same case split parametrically---below a critical Reynolds number all three properties \{smooth, energy-conserving, global\} are jointly achievable; above, the schema becomes an \texttt{AbstractImpossibility}---as bookkeeping over assumed regime classifications, not as fluid dynamics.  The 54~numerical experiments (Section~\ref{sec:ns-experiments}) probe this classification experimentally.
 
 \subsection{The $N$-Property Generalisation and Myerson--Satterthwaite}
 

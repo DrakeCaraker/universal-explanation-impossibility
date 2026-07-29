@@ -237,6 +237,252 @@ them, because the attribution companion overlaps the main repository by ${\\appr
 names and the physics companion by ${\\approx}12\\%$; the distinct program-wide count is
 approximately~1{,}000.""")
 
+# ---- F1: appendix instance listing was wholesale stale (names/systems/files did not
+# ---- exist in the repo; the real objects are *_constructive over *SystemConstructive/
+# ---- *SystemC in *InstanceConstructive.lean). Replace intro + all 9 entries + prose cites.
+rep("""Each of the nine instances follows the same pattern: axiomatize the domain types,
+bundle them into an \\texttt{ExplanationSystem}, and apply
+\\texttt{explanation\\_impossibility}.  We list the theorem statements here.
+
+\\begin{lstlisting}[caption={Nine instance impossibility theorems}]""",
+"""Each of the nine instances follows the same pattern: construct explicit
+finite witness configurations, bundle them into an
+\\texttt{ExplanationSystem} whose Rashomon witness is checked by
+\\texttt{decide}/\\texttt{rfl} (zero axioms), and apply
+\\texttt{explanation\\_impossibility}.  We list the theorem statements as
+they appear in the repository (\\texttt{*InstanceConstructive.lean}).
+
+\\begin{lstlisting}[caption={Nine constructive instance impossibility theorems}]""")
+
+rep("""-- Attribution (AttributionInstance.lean)
+theorem attribution_impossibility_abstract
+    (E : AttrConfig -> AttrExplanation)
+    (hf : faithful attrSystem E)
+    (hs : stable attrSystem E)
+    (hd : decisive attrSystem E) : False :=
+  explanation_impossibility attrSystem E hf hs hd""",
+"""-- Attribution (AttributionInstanceConstructive.lean)
+theorem attribution_impossibility_constructive :
+    forall (E : AttrConfigC -> AttrRanking),
+      faithful attrSystemC E -> stable attrSystemC E ->
+      decisive attrSystemC E -> False :=
+  explanation_impossibility attrSystemC""")
+
+rep("""-- Attention (AttentionInstance.lean)
+theorem attention_impossibility
+    (E : AttentionConfig -> AttentionMap)
+    (hf : faithful attentionSystem E)
+    (hs : stable attentionSystem E)
+    (hd : decisive attentionSystem E) : False :=
+  explanation_impossibility attentionSystem E hf hs hd""",
+"""-- Attention (AttentionInstanceConstructive.lean)
+theorem attention_impossibility_constructive
+    (E : AttnConfig -> AttnArgmax)
+    (hf : faithful attentionSystemConstructive E)
+    (hs : stable attentionSystemConstructive E)
+    (hd : decisive attentionSystemConstructive E) : False :=
+  explanation_impossibility attentionSystemConstructive E hf hs hd""")
+
+rep("""-- Counterfactual (CounterfactualInstance.lean)
+theorem counterfactual_impossibility
+    (E : CFConfig -> CFExplanation)
+    (hf : faithful cfSystem E)
+    (hs : stable cfSystem E)
+    (hd : decisive cfSystem E) : False :=
+  explanation_impossibility cfSystem E hf hs hd""",
+"""-- Counterfactual (CounterfactualInstanceConstructive.lean)
+theorem counterfactual_impossibility_constructive
+    (E : CFConfig -> CFDirection)
+    (hf : faithful cfSystemConstructive E)
+    (hs : stable cfSystemConstructive E)
+    (hd : decisive cfSystemConstructive E) : False :=
+  explanation_impossibility cfSystemConstructive E hf hs hd""")
+
+rep("""-- Concept Probe (ConceptInstance.lean)
+theorem concept_impossibility
+    (E : ConceptConfig -> ConceptExplanation)
+    (hf : faithful conceptSystem E)
+    (hs : stable conceptSystem E)
+    (hd : decisive conceptSystem E) : False :=
+  explanation_impossibility conceptSystem E hf hs hd""",
+"""-- Concept Probe (ConceptInstanceConstructive.lean)
+theorem concept_impossibility_constructive
+    (E : ConceptCfg -> ConceptDirection)
+    (hf : faithful conceptSystemConstructive E)
+    (hs : stable conceptSystemConstructive E)
+    (hd : decisive conceptSystemConstructive E) : False :=
+  explanation_impossibility conceptSystemConstructive E hf hs hd""")
+
+rep("""-- Causal Discovery (CausalInstance.lean)
+theorem causal_instance_impossibility
+    (E : CausalConfig -> CausalExplanation)
+    (hf : faithful causalSystem E)
+    (hs : stable causalSystem E)
+    (hd : decisive causalSystem E) : False :=
+  explanation_impossibility causalSystem E hf hs hd""",
+"""-- Causal Discovery (CausalInstanceConstructive.lean)
+theorem causal_impossibility_constructive :
+    forall (E : CausalConfigC -> EdgeOrientation),
+      faithful causalSystemC E -> stable causalSystemC E ->
+      decisive causalSystemC E -> False :=
+  explanation_impossibility causalSystemC""")
+
+rep("""-- Model Selection (ModelSelectionInstance.lean)
+theorem model_selection_instance_impossibility
+    (E : MSConfig -> MSExplanation)
+    (hf : faithful msSystem E)
+    (hs : stable msSystem E)
+    (hd : decisive msSystem E) : False :=
+  explanation_impossibility msSystem E hf hs hd""",
+"""-- Model Selection (ModelSelectionInstanceConstructive.lean)
+theorem model_selection_impossibility_constructive
+    (E : MSCfg -> MSModelId)
+    (hf : faithful msSystemConstructive E)
+    (hs : stable msSystemConstructive E)
+    (hd : decisive msSystemConstructive E) : False :=
+  explanation_impossibility msSystemConstructive E hf hs hd""")
+
+rep("""-- GradCAM (SaliencyInstance.lean)
+theorem saliency_impossibility
+    (E : SaliencyConfig -> SaliencyMap)
+    (hf : faithful saliencySystem E)
+    (hs : stable saliencySystem E)
+    (hd : decisive saliencySystem E) : False :=
+  explanation_impossibility saliencySystem E hf hs hd""",
+"""-- GradCAM (SaliencyInstanceConstructive.lean)
+theorem saliency_impossibility_constructive
+    (E : SaliencyCfg -> SaliencyRegion)
+    (hf : faithful saliencySystemConstructive E)
+    (hs : stable saliencySystemConstructive E)
+    (hd : decisive saliencySystemConstructive E) : False :=
+  explanation_impossibility saliencySystemConstructive E hf hs hd""")
+
+rep("""-- LLM Self-Explanation (LLMExplanationInstance.lean)
+theorem llm_explanation_impossibility
+    (E : LLMConfig -> LLMExplanation)
+    (hf : faithful llmSystem E)
+    (hs : stable llmSystem E)
+    (hd : decisive llmSystem E) : False :=
+  explanation_impossibility llmSystem E hf hs hd""",
+"""-- LLM Self-Explanation (LLMExplanationInstanceConstructive.lean)
+theorem llm_explanation_impossibility_constructive
+    (E : LLMCfg -> LLMCitation)
+    (hf : faithful llmSystemConstructive E)
+    (hs : stable llmSystemConstructive E)
+    (hd : decisive llmSystemConstructive E) : False :=
+  explanation_impossibility llmSystemConstructive E hf hs hd""")
+
+rep("""-- Mechanistic Interpretability (MechInterpInstance.lean)
+theorem mech_interp_impossibility
+    (E : MechInterpConfig -> Circuit)
+    (hf : faithful mechInterpSystem E)
+    (hs : stable mechInterpSystem E)
+    (hd : decisive mechInterpSystem E) : False :=
+  explanation_impossibility mechInterpSystem E hf hs hd""",
+"""-- Mechanistic Interpretability (MechInterpInstanceConstructive.lean)
+theorem mech_interp_impossibility_constructive
+    (E : MechInterpCfg -> CircuitDecomp)
+    (hf : faithful mechInterpSystemConstructive E)
+    (hs : stable mechInterpSystemConstructive E)
+    (hd : decisive mechInterpSystemConstructive E) : False :=
+  explanation_impossibility mechInterpSystemConstructive E hf hs hd""")
+
+# F1 prose citations of the stale names (appendix proof sketches, Instances 1-6)
+rep("""\\texttt{attribution\\_impossibility} in \\texttt{Trilemma.lean}
+(0~axioms);
+\\texttt{attribution\\_impossibility\\_abstract} in
+\\texttt{AttributionInstance.lean}
+(0~additional axioms beyond system).\\par}""",
+"""\\texttt{attribution\\_impossibility} in \\texttt{Trilemma.lean}
+(0~axioms);
+\\texttt{attribution\\_impossibility\\_constructive} in
+\\texttt{AttributionInstanceConstructive.lean}
+(constructive witness; 0~axioms).\\par}""")
+
+rep("""\\texttt{attention\\_impossibility} in \\texttt{AttentionInstance.lean}.""",
+"""\\texttt{attention\\_impossibility\\_constructive} in \\texttt{AttentionInstanceConstructive.lean}.""")
+
+rep("""\\texttt{counterfactual\\_impossibility} in \\texttt{Counterfactual\\-Instance.lean}.""",
+"""\\texttt{counterfactual\\_impossibility\\_constructive} in \\texttt{Counterfactual\\-Instance\\-Constructive.lean}.""")
+
+rep("""\\texttt{concept\\_impossibility} in \\texttt{ConceptInstance.lean}.""",
+"""\\texttt{concept\\_impossibility\\_constructive} in \\texttt{ConceptInstanceConstructive.lean}.""")
+
+rep("""\\texttt{causal\\_instance\\_impossibility} in
+\\texttt{CausalInstance.lean};""",
+"""\\texttt{causal\\_impossibility\\_constructive} in
+\\texttt{CausalInstanceConstructive.lean};""")
+
+rep("""\\texttt{model\\_selection\\_instance\\_impossibility}
+in \\texttt{ModelSelectionInstance.lean};""",
+"""\\texttt{model\\_selection\\_impossibility\\_constructive}
+in \\texttt{ModelSelectionInstanceConstructive.lean};""")
+
+# ---- F2a: capacity bound cited a tautology ((hu : R u = u) : R u = u). Downgrade to
+# ---- what is actually established; flag the general claim as Tier-B conjecture.
+rep("""\\emph{Part (ii): Capacity bound.}  Any $G$-invariant map $E$ satisfies $E(\\theta) \\in V^G$ for all $\\theta$; the dimension of the image is at most $C = \\dim(V^G)$.  No amount of averaging, ensembling, or methodological refinement expands $V^G$.  The capacity is a structural constant (Lean-verified: \\texttt{stable\\_in\\_fixed\\_subspace}).""",
+"""\\emph{Part (ii): Capacity bound.}  The orbit-averaged (Reynolds-projected) explanation $R \\circ E$ has image in $V^G$---immediate from idempotency of $R$---so its image dimension is at most $C = \\dim(V^G)$, and no amount of averaging, ensembling, or methodological refinement expands $V^G$.  The stronger statement that \\emph{every} stable map has image in $V^G$ is stated here as a conjecture [Tier~B], not a Lean-verified theorem: the declaration \\texttt{stable\\_in\\_fixed\\_subspace} records only the definitional fact that a fixed point of $R$ lies in $V^G$ (it takes $Ru = u$ as a hypothesis) and does not derive fixed-point-ness from stability.""")
+
+# ---- F2b: dash_unique_pareto_optimal is within-group only, conditional on GBDT/DGP
+# ---- hypotheses; global Pareto optimality is argued, not Lean-verified. Soften prose.
+rep("""across seven domains), a unique Pareto-optimal resolution (orbit
+averaging, a consequence of classical invariant decision theory), and a""",
+"""across seven domains), a canonical resolution (orbit averaging;
+Pareto-optimal \\emph{within} correlation groups by a Lean-verified
+theorem, and globally by a classical invariant-decision-theory argument
+not yet mechanized), and a""")
+
+rep("""rankings disagree across the ensemble.  The companion paper proves that
+\\DASH{} is Pareto-optimal: no other stable attribution method can achieve
+higher expected faithfulness.""",
+"""rankings disagree across the ensemble.  The companion paper argues that
+\\DASH{} is Pareto-optimal (no other stable attribution method can achieve
+higher expected faithfulness); the within-group component of this claim is
+Lean-verified, the global claim is not (see the proof-status inventory).""")
+
+rep("""    not been mechanized in Lean~4.  (Note: as of the current version,
+    the Pareto optimality of DASH is now Lean-verified in
+    \\texttt{ParetoOptimality.lean} via
+    \\texttt{dash\\_unique\\_pareto\\_optimal}.)""",
+"""    not been mechanized in Lean~4.  (Note: the \\emph{within-group}
+    component of \\DASH{}'s Pareto optimality is Lean-verified in
+    \\texttt{ParetoOptimality.lean} via
+    \\texttt{dash\\_unique\\_pareto\\_optimal}: a committed within-group
+    ranking has strictly positive disagreement, conditional on the
+    bundled GBDT/DGP hypotheses.  The between-group case---and hence
+    \\emph{global} Pareto optimality---remains argued, resting on an
+    unformalized Cram\\'er--Rao step.)""")
+
+# ---- F3: mi_is_exact_boundary proves forward direction only, under an assumed bridge
+# ---- hypothesis. "Necessary and sufficient" -> "sufficient, conditional".
+rep("""Note: the Lean-verified generalization (\\texttt{mi\\_is\\_exact\\_boundary} in \\texttt{MutualInformation.lean}) proves that mutual information $I(X_j; X_k) > 0$---not correlation---is the necessary and sufficient condition for the attribution impossibility.""",
+"""Note: the Lean theorem \\texttt{mi\\_is\\_exact\\_boundary} in \\texttt{MutualInformation.lean} proves the \\emph{sufficiency} direction---mutual information $I(X_j; X_k) > 0$ (not correlation) yields the attribution impossibility---and does so \\emph{conditional} on the bridge hypothesis \\texttt{hdep\\_implies\\_diff} (statistical dependence produces differing attributions), which is assumed rather than derived; the converse direction is argued informally, not machine-checked.""")
+
+rep("""(identified here via correlation; the exact boundary is $I > 0$).  Within-group comparisons should be""",
+"""(identified here via correlation; the operative dependence condition is $I > 0$).  Within-group comparisons should be""")
+
+rep("""whether linearly correlated or not---the exact boundary is $I(X_j; X_k) > 0$""",
+"""whether linearly correlated or not---the operative dependence condition is $I(X_j; X_k) > 0$""")
+
+# ---- F4: companion physics lines to match the honest body (NS = tightness schema,
+# ---- no PDEs; adelic resolution = placeholder with resolution := fun _ => True).
+rep("""The adele ring is constructed as a concrete definition with identity embedding (\\texttt{AdelicResolution.lean}).  The adelic projection is proved $G$-invariant (\\texttt{adelic\\_projection\\_invariant}) and resolves the physics bilemma (\\texttt{adelic\\_resolves}).  This parallels DASH for attributions and CPDAG for causal discovery as instances of the same abstract $G$-invariant resolution.""",
+"""The ``adelic resolution'' here is a placeholder model, not a formalization of the adele ring: the underlying type is a finite enumeration of completions with an identity embedding, and the resolution witnessing \\texttt{adelic\\_resolves} is literally the constant predicate \\texttt{fun \\_ => True} (\\texttt{AdelicResolution.lean}).  It records the \\emph{intended} parallel---commit to all completions simultaneously, as DASH does for attributions and CPDAG for causal discovery---but, unlike those two instances, nothing nontrivial is proved: the real adele ring and its symmetry action are not formalised.  We flag this as the weakest companion result [Tier~C].""")
+
+rep("""The 3D Navier--Stokes equations are formalised as a conditional \\texttt{AbstractImpossibility}: without regularity, full tightness; with regularity, all three properties are achievable (\\texttt{NavierStokesImpossibility.lean}).  The Reynolds dichotomy (\\texttt{ns\\_reynolds\\_dichotomy}) proves: below the critical Reynolds number, all three properties \\{smooth, energy-conserving, global\\} are jointly achievable; above, the system becomes an \\texttt{AbstractImpossibility}.  The 54~numerical experiments (Section~\\ref{sec:ns-experiments}) validate this classification experimentally.""",
+"""The Navier--Stokes trilemma is modelled as a three-strategy tightness \\emph{schema}---a finite case analysis over the three classical compromise strategies (Leray weak, local classical, viscosity), with no PDEs formalised: without regularity the schema has full tightness; with regularity all three properties are achievable (\\texttt{NavierStokesImpossibility.lean}).  The Reynolds dichotomy (\\texttt{ns\\_reynolds\\_dichotomy}) encodes the same case split parametrically---below a critical Reynolds number all three properties \\{smooth, energy-conserving, global\\} are jointly achievable; above, the schema becomes an \\texttt{AbstractImpossibility}---as bookkeeping over assumed regime classifications, not as fluid dynamics.  The 54~numerical experiments (Section~\\ref{sec:ns-experiments}) probe this classification experimentally.""")
+
+rep("""multi-analyst aggregation, 3D Navier--Stokes conditional tightness, the DPRM trilemma""",
+"""multi-analyst aggregation, the Navier--Stokes tightness schema, the DPRM trilemma""")
+
+# ---- F6: stale citations (ostrowski_classify is a noncomputable def; Selmer 1951 is
+# ---- now a hypothesis parameter, not an axiom declaration).
+rep("""The bridge theorem \\texttt{ostrowski\\_classification} (\\texttt{OstrowskiFramework.lean}) connects the abstract impossibility to the concrete number-theoretic structure.""",
+"""The bridge \\texttt{ostrowski\\_classify} (a \\texttt{noncomputable def} in \\texttt{OstrowskiFramework.lean}, built on Mathlib's \\texttt{Rat.AbsoluteValue.equiv\\_real\\_or\\_padic}) connects the abstract impossibility to the concrete number-theoretic structure.""")
+
+rep("""(1~axiom: \\texttt{selmer\\_no\\_nontrivial\\_solution}, Selmer~1951)""",
+"""(assumed as the explicit hypothesis \\texttt{selmer\\_no\\_nontrivial\\_solution}---Selmer's 1951 theorem---rather than proved; it is a hypothesis parameter, not an \\texttt{axiom} declaration)""")
+
 text=text.replace('\\textquotesingle',"'")
 open(OUT,'w').write(text)
 

@@ -293,7 +293,7 @@ Four papers forming a layered publication strategy:
 - `explanation_impossibility` (ExplanationSystem.lean): F+S+D impossible under Rashomon. 4-line proof.
 - `bilemma` (MaximalIncompatibility.lean): F+S impossible for maximally incompatible H.
 - `universal_design_space_dichotomy` (UniversalDesignSpace.lean): Every method is Family A or B.
-- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is necessary and sufficient for impossibility.
+- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is sufficient for impossibility, conditional on the `hdep_implies_diff` bridge hypothesis (forward direction only; the converse is argued, not machine-checked).
 - `mi_quantitative_unfaithfulness` (MIQuantitativeBridge.lean): MI > 0 → unfaithfulness ≥ Δ/2.
 
 **Level 1 — Resolution and optimality:**
