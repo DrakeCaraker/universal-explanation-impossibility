@@ -24,6 +24,12 @@ done
 python3 "$MAIN/paper/scripts/lint_tex_lean_refs.py" "${LINT_FILES[@]}" \
   || fail "stale Lean references in papers"
 
+echo "== 2b/5 hardcoded-count lint (repo-scale counts must be \\Claim* macros)"
+# Catches count drift, incl. LaTeX ~-hidden counts (e.g. 491~theorems) that
+# space-based greps miss. Archived drafts (paper/archive/) are not globbed.
+python3 "$MAIN/paper/scripts/lint_counts.py" "${LINT_FILES[@]}" \
+  || fail "hardcoded repo-scale counts in papers (use \\Claim* macros)"
+
 echo "== 3/5 lake build x3"
 (cd "$MAIN" && lake build >/dev/null 2>&1) || fail "main lake build"
 (cd "$DASH" && lake build >/dev/null 2>&1) || fail "dash lake build"

@@ -1,0 +1,12 @@
+# Legitimate hardcoded counts (NOT repo-scale Lean counts that must be macros).
+# One distinguishing substring per line; a line matching any of these is skipped.
+
+# The impossibility atlas: count of CLASSICAL theorems classified, not Lean theorems.
+classify 21 impossibility theorems
+21 impossibility theorems
+20 impossibility theorems
+21 classical impossibility
+
+# Years that collide with the unit regex (e.g. "Selmer's 1951 theorem").
+1951 theorem
+1951 result

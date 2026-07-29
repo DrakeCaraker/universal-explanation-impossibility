@@ -1543,7 +1543,7 @@ Theorem & Axioms & Description \\
 \end{table}
 
 \paragraph{Zero-axiom scope.}
-The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, the Navier--Stokes tightness schema, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  We report counts \emph{per repository}
+The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, the Navier--Stokes tightness schema, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (\ClaimTotalAxioms~\texttt{axiom} declarations in total across the three repositories, not summed over files) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  We report counts \emph{per repository}
 (main~\ClaimMainTheorems, attribution companion~\ClaimDashTheorems, physics companion~\ClaimOstrowskiTheorems; \ClaimTotalAxioms~\texttt{axiom} declarations in
 total, 2+2+0; 0~\texttt{sorry}; all three build with \texttt{lake build}) and do \emph{not} sum
 them, because the attribution companion overlaps the main repository by ${\approx}88\%$ of theorem
@@ -3816,7 +3816,7 @@ century of convergent evolution.
 
 \paragraph{Precedents and distinctiveness.}
 No prior work combines all of the following: a formally verified
-impossibility theorem (1{,}096 theorems, 0~sorry), a constructive
+impossibility theorem (\ClaimDistinctTheorems~distinct theorems across three repositories, 0~sorry), a constructive
 resolution proved Pareto-optimal, a quantitative prediction with zero
 free parameters ($R^2 = 0.957$), domain-specific empirical consequences
 (gene expression, AI safety, neuroimaging), an explanation of convergent
@@ -4514,7 +4514,7 @@ The eigenspectrum approach fails because PCA captures variance (cardinal), not r
 %%% ==========================================================================
 
 This appendix reproduces the key Lean~4 theorem statements from the
-formalization.  The complete codebase comprises 104 files in
+formalization.  The complete codebase comprises \ClaimMainFiles~files in
 \texttt{UniversalImpossibility/}; we present the three most important files
 in full and excerpt key theorems from the instance files.
 
@@ -5244,7 +5244,7 @@ in \texttt{ModelSelection.lean}.\par}
 \section{Companion Results: Number Theory and Physics}
 \label{sec:companion-physics}
 
-This section documents results from the companion repository \texttt{ostrowski-impossibility} (\ClaimOstrowskiTheorems~theorems; 0~\texttt{axiom} declarations, with ${\sim}11$ domain hypotheses---including the Selmer~1951 result and the contested/speculative black-hole and spacetime-emergence properties---carried as section variables that gate their downstream results; 38~files; 0~\texttt{sorry}).  These establish the impossibility framework's connections to number theory, mathematical physics, and computability theory.
+This section documents results from the companion repository \texttt{ostrowski-impossibility} (\ClaimOstrowskiTheorems~theorems; 0~\texttt{axiom} declarations, with ${\sim}11$ domain hypotheses---including the Selmer~1951 result and the contested/speculative black-hole and spacetime-emergence properties---carried as section variables that gate their downstream results; \ClaimOstrowskiFiles~files; 0~\texttt{sorry}).  These establish the impossibility framework's connections to number theory, mathematical physics, and computability theory.
 
 \subsection{Ostrowski's Classification and the Mathlib Bridge}
 
