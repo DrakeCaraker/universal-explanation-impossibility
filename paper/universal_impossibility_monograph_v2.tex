@@ -1447,7 +1447,7 @@ So \textbf{4}~\texttt{axiom} declarations in total (2+2+0); bundling changes the
 not what is assumed. \textbf{The core theorem \texttt{explanation\_impossibility} and the entire
 Tier-A hardened spine use none of these}---they are pure logic from the stated hypotheses (verified
 by \texttt{\#print axioms}). Theorem counts are reported \emph{per repository} (main~530;
-attribution companion~358, ${\approx}88\%$ coinciding with the main repository; physics
+attribution companion~368, ${\approx}88\%$ coinciding with the main repository; physics
 companion~482, ${\approx}12\%$ coinciding); because the companions overlap we do \emph{not} sum
 them, and the distinct program-wide count is approximately~1{,}000. Results that depend on the
 Selmer~1951 result or the black-hole/spacetime hypotheses are conditional on those assumptions.
@@ -1530,7 +1530,7 @@ Theorem & Axioms & Description \\
 
 \paragraph{Zero-axiom scope.}
 The entire theoretical framework---impossibility theorem, bilemma, tightness classification, capacity theorem (Pythagorean decomposition, best approximation, over-explanation penalty), Pareto-optimal resolution, and all domain instances including Arrow's theorem, Peres--Mermin contextuality, the Langlands boundary for GL($n$, $\mathbb{F}_p$), multi-analyst aggregation, the Navier--Stokes tightness schema, the DPRM trilemma, and all 9~ML explanation types---requires zero axioms.  The only axioms in the formalization (4~total across 200~files in three repositories) encode empirical properties of gradient-boosted decision trees for the ML-specific quantitative bounds.  The theoretical framework is a pure theorem of logic.  We report counts \emph{per repository}
-(main~530, attribution companion~358, physics companion~482; 4~\texttt{axiom} declarations in
+(main~530, attribution companion~368, physics companion~482; 4~\texttt{axiom} declarations in
 total, 2+2+0; 0~\texttt{sorry}; all three build with \texttt{lake build}) and do \emph{not} sum
 them, because the attribution companion overlaps the main repository by ${\approx}88\%$ of theorem
 names and the physics companion by ${\approx}12\%$; the distinct program-wide count is
@@ -1682,14 +1682,20 @@ A tautology would make even pairs unachievable; here every pair is
 constructively realized.
 
 \paragraph{2.\ Necessity: the Rashomon property is the exact boundary.}
-The converse is proved in Lean (\texttt{fully\_specified\_possibility} in
-\texttt{Necessity.lean}): if the system has \emph{no} Rashomon
-property---every observation uniquely determines its configuration---then
-all three properties are simultaneously achievable.  The Rashomon property
-is therefore both sufficient \emph{and} necessary for the impossibility.
-This is not a vague ``things are hard when the problem is hard'' statement;
-it is a precise logical equivalence: the impossibility holds \emph{if and
-only if} the Rashomon property holds.
+Two converses are proved in Lean.  For \emph{fully specified} systems
+(\texttt{fully\_specified\_possibility} in \texttt{Necessity.lean}): if every
+observation uniquely determines its configuration, all three properties are
+simultaneously achievable.  And for systems whose incompatibility relation is
+inequality---the maximal-incompatibility class covering the bilemma
+instances---the full equivalence is machine-checked
+(\texttt{rashomon\_biconditional\_neq} in
+\texttt{NecessityBiconditional.lean}): the three properties are jointly
+achievable \emph{if and only if} the Rashomon property fails.  For general
+incompatibility relations the unqualified biconditional is not
+machine-checked; what is proved is sufficiency (Rashomon $\Rightarrow$
+impossibility) plus the two converses above.  Within its proved scope this is
+a precise logical equivalence, not a vague ``things are hard when the problem
+is hard'' statement.
 
 \paragraph{3.\ Resolution optimality: the $G$-invariant projection is
 Pareto-optimal.}
@@ -3116,7 +3122,7 @@ The Lean~4 formalization and all experiment scripts are available at
 (universal framework: 104~files, 530~theorems, 2~axioms, 0~\texttt{sorry}).
 The attribution-specific formalization is at
 \url{https://github.com/DrakeCaraker/dash-impossibility-lean}
-(58~files, 358~theorems, 2~axioms, 0~\texttt{sorry}).
+(59~files, 368~theorems, 2~axioms, 0~\texttt{sorry}).
 The tightness classification and physics application are at
 \url{https://github.com/DrakeCaraker/ostrowski-impossibility}
 (38~files, 482~theorems, 0~\texttt{axiom} declarations with ${\sim}11$ domain
@@ -3704,7 +3710,9 @@ ours in one respect: its axioms appear independently mild, and the impossibility
 emerges from their conjunction.  Our axioms are more transparently in tension
 once the Rashomon property is stated.  The framework captures Arrow's \emph{setting}---underdetermination in preference aggregation---but not Arrow's \emph{theorem}, which proves dictatorship from weaker axioms (unanimity and IIA).  Our faithfulness is strictly stronger than Arrow's unanimity (requiring agreement on all profiles, not just unanimous ones); our stability is strictly stronger than IIA (requiring global invariance, not just pairwise).  The framework's impossibility is therefore complementary to Arrow's: it applies to a broader class of systems under stronger assumptions.  The contribution is not surprise but
 \emph{precision}: the axiom set is tight (each pair of properties is
-achievable), necessary and sufficient (the biconditional), and quantitatively
+achievable), equipped with machine-checked necessity converses (the full
+biconditional for the maximal-incompatibility class; the fully-specified
+converse in general), and quantitatively
 productive (the counting theorem and capacity theorem).  Arrow's formalization
 created the field of social choice theory not because it was surprising but
 because it replaced intuition with a theorem that could be built upon; we aim
@@ -4262,7 +4270,9 @@ We identify five limitations and directions for future work.
     contains distinct elements that cannot be simultaneously preserved and
     collapsed.  The contribution is not the proof's depth but the
     axiomatic framework---tightness (each pair achievable), necessity
-    (biconditional with Rashomon), and the quantitative corollaries
+    (biconditional with Rashomon, machine-checked for
+    inequality-incompatibility; sufficiency plus the fully-specified
+    converse in general), and the quantitative corollaries
     (invariance counting, capacity theorem) that follow from the framework but not
     from any simpler observation about non-injectivity.
   \item \textbf{Broken symmetry in trained networks.}  The $1/n$

@@ -193,7 +193,7 @@ So \\textbf{4}~\\texttt{axiom} declarations in total (2+2+0); bundling changes t
 not what is assumed. \\textbf{The core theorem \\texttt{explanation\\_impossibility} and the entire
 Tier-A hardened spine use none of these}---they are pure logic from the stated hypotheses (verified
 by \\texttt{\\#print axioms}). Theorem counts are reported \\emph{per repository} (main~530;
-attribution companion~358, ${\\approx}88\\%$ coinciding with the main repository; physics
+attribution companion~368, ${\\approx}88\\%$ coinciding with the main repository; physics
 companion~482, ${\\approx}12\\%$ coinciding); because the companions overlap we do \\emph{not} sum
 them, and the distinct program-wide count is approximately~1{,}000. Results that depend on the
 Selmer~1951 result or the black-hole/spacetime hypotheses are conditional on those assumptions.""")
@@ -231,7 +231,7 @@ version of the empirical contribution is presented separately.""")
 # ---- fix the double-counting summation line (verified: companions overlap the main repo) ----
 rep("""The theoretical framework is a pure theorem of logic.  Across three repositories the totals are: 530~$+$~358~$+$~482~$=$ 1{,}370~theorems, 4~axioms, 200~files, 0~\\texttt{sorry}.""",
 """The theoretical framework is a pure theorem of logic.  We report counts \\emph{per repository}
-(main~530, attribution companion~358, physics companion~482; 4~\\texttt{axiom} declarations in
+(main~530, attribution companion~368, physics companion~482; 4~\\texttt{axiom} declarations in
 total, 2+2+0; 0~\\texttt{sorry}; all three build with \\texttt{lake build}) and do \\emph{not} sum
 them, because the attribution companion overlaps the main repository by ${\\approx}88\\%$ of theorem
 names and the physics companion by ${\\approx}12\\%$; the distinct program-wide count is
@@ -485,6 +485,53 @@ All code is released under the Apache~2.0 licence.""")
 
 rep("""This section documents results from the companion repository \\texttt{ostrowski-impossibility} (482~theorems, 0~axioms, 38~files, 0~\\texttt{sorry}).""",
 """This section documents results from the companion repository \\texttt{ostrowski-impossibility} (482~theorems; 0~\\texttt{axiom} declarations, with ${\\sim}11$ domain hypotheses---including the Selmer~1951 result and the contested/speculative black-hole and spacetime-emergence properties---carried as section variables that gate their downstream results; 38~files; 0~\\texttt{sorry}).""")
+
+# ---- count drift: dash companion is 59 files / 368 theorems+lemmas at HEAD 7ec3ef9
+# ---- (canonical grep count; the 58/358 figures predate the last dash commits).
+rep("""(58~files, 358~theorems, 2~axioms, 0~\\texttt{sorry}).""",
+"""(59~files, 368~theorems, 2~axioms, 0~\\texttt{sorry}).""")
+
+# ---- Rashomon-necessity biconditional: proved in general only as (a) sufficiency,
+# ---- (b) fully-specified converse, (c) full iff for incompatibility = inequality
+# ---- (rashomon_biconditional_neq). Scope the three unqualified-iff prose passages.
+rep("""The converse is proved in Lean (\\texttt{fully\\_specified\\_possibility} in
+\\texttt{Necessity.lean}): if the system has \\emph{no} Rashomon
+property---every observation uniquely determines its configuration---then
+all three properties are simultaneously achievable.  The Rashomon property
+is therefore both sufficient \\emph{and} necessary for the impossibility.
+This is not a vague ``things are hard when the problem is hard'' statement;
+it is a precise logical equivalence: the impossibility holds \\emph{if and
+only if} the Rashomon property holds.""",
+"""Two converses are proved in Lean.  For \\emph{fully specified} systems
+(\\texttt{fully\\_specified\\_possibility} in \\texttt{Necessity.lean}): if every
+observation uniquely determines its configuration, all three properties are
+simultaneously achievable.  And for systems whose incompatibility relation is
+inequality---the maximal-incompatibility class covering the bilemma
+instances---the full equivalence is machine-checked
+(\\texttt{rashomon\\_biconditional\\_neq} in
+\\texttt{NecessityBiconditional.lean}): the three properties are jointly
+achievable \\emph{if and only if} the Rashomon property fails.  For general
+incompatibility relations the unqualified biconditional is not
+machine-checked; what is proved is sufficiency (Rashomon $\\Rightarrow$
+impossibility) plus the two converses above.  Within its proved scope this is
+a precise logical equivalence, not a vague ``things are hard when the problem
+is hard'' statement.""")
+
+rep("""\\emph{precision}: the axiom set is tight (each pair of properties is
+achievable), necessary and sufficient (the biconditional), and quantitatively
+productive (the counting theorem and capacity theorem).""",
+"""\\emph{precision}: the axiom set is tight (each pair of properties is
+achievable), equipped with machine-checked necessity converses (the full
+biconditional for the maximal-incompatibility class; the fully-specified
+converse in general), and quantitatively
+productive (the counting theorem and capacity theorem).""")
+
+rep("""    axiomatic framework---tightness (each pair achievable), necessity
+    (biconditional with Rashomon), and the quantitative corollaries""",
+"""    axiomatic framework---tightness (each pair achievable), necessity
+    (biconditional with Rashomon, machine-checked for
+    inequality-incompatibility; sufficiency plus the fully-specified
+    converse in general), and the quantitative corollaries""")
 
 # ---- F6: stale citations (ostrowski_classify is a noncomputable def; Selmer 1951 is
 # ---- now a hypothesis parameter, not an axiom declaration).
