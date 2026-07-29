@@ -51,6 +51,8 @@
 
 \date{}
 
+\input{claims}
+
 \begin{document}
 \maketitle
 
@@ -70,7 +72,7 @@ code degeneracy (biology), gauge freedom (physics), microstate multiplicity
 (statistical mechanics), syntactic ambiguity (linguistics), the phase
 problem (crystallography), the view update problem (computer science), and
 Markov equivalence (statistics).  Each derivation is mechanically verified
-in the Lean~4 proof assistant (104~files, 463~theorems, 0~unproved goals),
+in the Lean~4 proof assistant (\ClaimMainFiles~files, \ClaimMainTheorems~theorems, 0~unproved goals),
 and empirically validated in seven domains with domain-appropriate metrics
 and negative controls.  The constructive resolution---averaging over
 equivalent configurations---unifies existing domain-specific practices
@@ -113,7 +115,7 @@ stable, and decisive simultaneously.  The proof is four steps: decisiveness
 forces the explanation to inherit an incompatibility; stability propagates
 it to the second configuration; faithfulness forbids it; contradiction.
 The entire framework is mechanically verified in Lean~4
-\citep{demoura2021lean4} (104~files, 463~theorems, 0~unproved goals).
+\citep{demoura2021lean4} (\ClaimMainFiles~files, \ClaimMainTheorems~theorems, 0~unproved goals).
 Lean-verified tightness theorems confirm that every pair of properties is
 achievable, so the impossibility is tight.  An axiom substitution analysis
 shows that weakening any single definition collapses the result, confirming
@@ -203,9 +205,11 @@ confirming that the instability is structural.
 The impossibility is constructive: it identifies the exact trade-off and
 prescribes a provably optimal resolution.  The strategy is to average over
 equivalent configurations, sacrificing decisiveness to achieve stability and
-faithfulness in expectation.  We prove that this orbit-averaging resolution
-is \emph{Pareto-optimal}: among all stable explanation maps, no alternative
-can achieve strictly higher pointwise faithfulness on every equivalence class.
+faithfulness in expectation.  This orbit-averaging resolution
+is \emph{Pareto-optimal} within equivalence classes (Lean-verified; global
+optimality argued via classical invariant decision theory): among all stable
+explanation maps, no alternative can achieve strictly higher pointwise
+faithfulness on every equivalence class.
 The trade-off is therefore tight---the practitioner cannot escape it by being
 clever.
 
@@ -223,7 +227,7 @@ In linguistics, packed parse forests represent all parses simultaneously.
 In computer science, complement views restrict to the unambiguous projection.
 Our framework explains \emph{why} these communities converged: each was
 independently solving the same impossibility, and orbit averaging is the
-unique Pareto-optimal stable resolution.
+Pareto-optimal stable resolution.
 
 \paragraph{Necessity and the query-relative version.}
 The Rashomon property is the \emph{exact} boundary of the impossibility.
@@ -300,9 +304,10 @@ report what is invariant; disclose what is not.
 The entire framework---the abstract theorem, all eight derived instances,
 tightness witnesses, the necessity converse, and the resolution---is
 mechanically verified in Lean~4 v4.30.0-rc1 \citep{demoura2021lean4} using
-Mathlib \citep{mathlib2020}.  The formalization comprises 104~files,
-463~theorems and lemmas, 72~axioms (all domain-specific; the core theorem
-uses zero), and 0~\texttt{sorry} (unproved goals).  Each of the eight
+Mathlib \citep{mathlib2020}.  The formalization comprises \ClaimMainFiles~files,
+\ClaimMainTheorems~theorems and lemmas, \ClaimMainAxioms~\texttt{axiom} declarations
+(gradient-boosting infrastructure; the core theorem and all eight derived instances
+use zero), and 0~\texttt{sorry} (unproved goals).  Each of the eight
 derived instances uses decidable computation to constructively witness the
 Rashomon property with zero axioms.  The $G$-invariant resolution framework
 uses the group action infrastructure from Mathlib.

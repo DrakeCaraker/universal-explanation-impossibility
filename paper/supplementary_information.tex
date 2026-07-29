@@ -12,6 +12,8 @@
 \author{Drake Caraker, Bryan Arnold, David Rhoads}
 \date{}
 
+\input{claims}
+
 \begin{document}
 \maketitle
 
@@ -45,9 +47,9 @@ A causal chain $A \to B \to C$ and a fork $A \leftarrow B \to C$ encode the same
 
 \section{Lean Formalization Details}
 
-The Lean~4 formalization (v4.30.0-rc1 with Mathlib) comprises 104 files containing 463 theorems and lemmas, 72 axioms, and 0 \texttt{sorry} (unproved goals).  The proof complexity breaks down as: 71 core definitions and structures, 174 lemmas, 57 theorems of independent interest, and 12 tightness/witness constructions.
+The Lean~4 formalization (v4.30.0-rc1 with Mathlib) comprises \ClaimMainFiles~files containing \ClaimMainTheorems~theorems and lemmas, \ClaimMainAxioms~\texttt{axiom} declarations, and 0 \texttt{sorry} (unproved goals).
 
-The axiom inventory is stratified by dependency: the core universal impossibility (\texttt{explanation\_impossibility}) requires zero axioms beyond the Rashomon hypothesis.  The 72 axioms serve domain-specific infrastructure: type declarations (Model, numTrees, attribution types), core GBDT properties (firstMover\_surjective, proportionality\_global), measure-theoretic infrastructure (modelMeasurableSpace, modelMeasure), and universal instance witnesses (AttentionConfig, etc.).
+The axiom inventory is stratified by dependency: the core universal impossibility (\texttt{explanation\_impossibility}) requires zero axioms beyond the Rashomon hypothesis.  The \ClaimMainAxioms~\texttt{axiom} declarations (\texttt{gbdtWorld} and \texttt{gbdtAxioms}) bundle ${\sim}14$ gradient-boosting properties---model type and tree counts, split-count and first-mover structure, and measure-theoretic infrastructure---used only by the ML-specific quantitative bounds.  All former individually-declared axioms (\texttt{Model}, \texttt{firstMover\_surjective}, \texttt{proportionality\_global}, etc.) are now fields of these two bundles or theorems extracted from them, and the nine ML instances are \emph{constructive} (zero axioms; their Rashomon witnesses are checked by \texttt{decide}/\texttt{rfl}).
 
 Key files: \texttt{ExplanationSystem.lean} (abstract impossibility), \texttt{AttributionInstanceConstructive.lean} (SHAP/IG/LIME instance), \texttt{CausalInstanceConstructive.lean} (DAG Markov equivalence), \texttt{MaximalIncompatibility.lean} (bilemma and tightness), \texttt{UniversalResolution.lean} ($G$-invariant resolution), \texttt{NecessityBiconditional.lean} (\texttt{rashomon\_biconditional\_neq}: impossibility iff Rashomon, for inequality-incompatibility; \texttt{fully\_specified\_possibility} gives the general converse).  Full file listing and build instructions are in the repository \texttt{CLAUDE.md}.
 
@@ -350,7 +352,7 @@ Mean: faithfulness 0.669, unfaithfulness 0.739.  Median: 0.660, 0.719.  Trimmed 
 \section{Classification of Impossibility Theorems}
 \label{sec:classification-si}
 
-Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (475 theorems, 11 axioms, 0 sorry across 37 files).
+Extended Data Table~2 classifies 21 impossibility theorems by tightness type.  Full details: 7 instances have structural Lean proofs (non-trivial solution spaces); 14 use trilemma models (3-element types).  The classification, tightness type exhaustiveness/exclusivity proofs, enlargement monotonicity, and obstruction taxonomy are formalised in the companion Ostrowski repository (\ClaimOstrowskiTheorems~theorems, \ClaimOstrowskiAxioms~\texttt{axiom} declarations with ${\sim}11$ domain hypotheses carried as section variables, 0 sorry across \ClaimOstrowskiFiles~files).
 
 Bell (CHSH) and Kochen-Specker are naturally 2-ary impossibilities; their 3-property decomposition into locality/determinism/correctness (Bell) and row-assignment/column-assignment/consistency (KS) is decomposition-dependent.  Alternative decompositions may yield different tightness types.
 

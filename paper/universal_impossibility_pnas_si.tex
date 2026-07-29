@@ -121,7 +121,7 @@ Set $E = \mathsf{explain}$.
     the native explanation is \emph{injective on incompatibility classes}
     (i.e., compatible explanations on the same observe-fiber are equal),
     stability follows. In the Lean formalization, this is captured by the
-    \texttt{no\_rashomon\_implies\_all\_three} theorem, which assumes the
+    \texttt{fully\_specified\_possibility} theorem, which assumes the
     negation of the Rashomon property directly implies equality of native
     explanations on each fiber.
 \end{itemize}
@@ -439,28 +439,29 @@ Fairness instance & 2 axioms & Unequal base rates + equal accuracy \\
 
 \subsection{Axiom Inventory}
 
-The 72 axioms fall into four categories:
+The main repository has \textbf{2}~\texttt{axiom} declarations, which bundle
+the ${\sim}14$ gradient-boosting properties formerly declared as separate
+axioms:
 
-\paragraph{Type declarations (6 axioms).}
-\texttt{Model}, \texttt{numTrees}, \texttt{numTrees\_pos},
-\texttt{attribution}, \texttt{splitCount}, \texttt{firstMover}.
-These declare the types and basic constants of the GBDT framework.
+\paragraph{\texttt{gbdtWorld} (1 declaration).}
+Bundles the GBDT type infrastructure---model type, tree counts
+(\texttt{numTrees}, \texttt{numTrees\_pos}), and the measure-theoretic
+structure (\texttt{modelMeasurableSpace}, \texttt{modelMeasure}) connecting
+the model space to Mathlib's measure theory library.
 
-\paragraph{Core behavioral properties (6 axioms).}
-\texttt{firstMover\_surjective}, \texttt{splitCount\_firstMover},
-\texttt{splitCount\_nonFirstMover}, \texttt{proportionality\_global},
-\texttt{splitCount\_crossGroup\_symmetric},
-\texttt{splitCount\_crossGroup\_stable}.
-These encode the structure of gradient-boosted decision trees.
+\paragraph{\texttt{gbdtAxioms} (1 declaration).}
+Bundles the behavioral properties---\texttt{attribution}, \texttt{splitCount},
+\texttt{firstMover} and their properties (first-mover surjectivity, split-count
+structure, global proportionality, cross-group symmetry). These encode the
+structure of gradient-boosted decision trees.
 
-\paragraph{Measure infrastructure (2 axioms).}
-\texttt{modelMeasurableSpace}, \texttt{modelMeasure}. These connect the
-model space to Mathlib's measure theory library.
-
-\paragraph{Universal instance axioms (58 axioms).}
-Per-instance type and Rashomon witness axioms for the nine instances
-(attention, counterfactual, concept, causal, model selection, saliency,
-token citation, mechanistic interpretability, fairness).
+\paragraph{The nine ML instances: zero axioms.}
+Formerly axiomatized per-instance type and Rashomon-witness assumptions are now
+\emph{constructive}: each instance builds explicit finite witnesses whose
+Rashomon property is checked by \texttt{decide}/\texttt{rfl}, introducing no
+axioms (\texttt{*InstanceConstructive.lean}). All former individually-declared
+axioms (\texttt{Model}, \texttt{firstMover\_surjective}, etc.) are now fields of
+the two bundles above or theorems extracted from them.
 
 \subsection{Axiom Stratification}
 
@@ -471,13 +472,13 @@ The axiom dependencies are strictly stratified:
     an axiom.
   \item \textbf{Attribution impossibility}
     (\texttt{attribution\_impossibility}): \textbf{0 behavioral axioms}
-    (only type declarations).
-  \item \textbf{GBDT impossibility} (\texttt{gbdt\_impossibility\_local}):
-    4 axioms (surjectivity, first-mover, non-first-mover, split-count).
-  \item \textbf{Quantitative bounds} (\texttt{impossibility}):
-    5 axioms (+ proportionality).
-  \item \textbf{DASH resolution} (\texttt{consensus\_equity}):
-    6 axioms (+ cross-group symmetry).
+    (depends only on the \texttt{gbdtWorld} type bundle).
+  \item \textbf{GBDT impossibility} (\texttt{gbdt\_impossibility\_local}),
+    \textbf{quantitative bounds} (\texttt{impossibility}), and \textbf{DASH
+    resolution} (\texttt{consensus\_equity}): each depends on the two bundled
+    declarations \texttt{gbdtWorld} and \texttt{gbdtAxioms} (surjectivity,
+    first-mover, split-count, proportionality, cross-group symmetry are fields
+    of these bundles), verified by \texttt{\#print axioms}.
 \end{itemize}
 
 \subsection{Axiom Substitution Analysis}
@@ -502,21 +503,21 @@ Theorem name & File & Axioms \\
 \texttt{explanation\_impossibility} & ExplanationSystem.lean & 0 \\
 \texttt{attribution\_impossibility} & Trilemma.lean & 0 \\
 \texttt{attribution\_impossibility\_weak} & Trilemma.lean & 0 \\
-\texttt{attribution\_impossibility\_abstract} & AttributionInstance.lean & 0 \\
-\texttt{attention\_impossibility} & AttentionInstance.lean & 3 \\
-\texttt{counterfactual\_impossibility} & CounterfactualInstance.lean & 3 \\
-\texttt{concept\_impossibility} & ConceptInstance.lean & 3 \\
-\texttt{causal\_instance\_impossibility} & CausalInstance.lean & 3 \\
-\texttt{mech\_interp\_impossibility} & MechInterpInstance.lean & 3 \\
+\texttt{attribution\_impossibility\_constructive} & AttributionInstanceConstructive.lean & 0 \\
+\texttt{attention\_impossibility\_constructive} & AttentionInstanceConstructive.lean & 0 \\
+\texttt{counterfactual\_impossibility\_constructive} & CounterfactualInstanceConstructive.lean & 0 \\
+\texttt{concept\_impossibility\_constructive} & ConceptInstanceConstructive.lean & 0 \\
+\texttt{causal\_impossibility\_constructive} & CausalInstanceConstructive.lean & 0 \\
+\texttt{mech\_interp\_impossibility\_constructive} & MechInterpInstanceConstructive.lean & 0 \\
 \texttt{gInvariant\_stable} & UniversalResolution.lean & 0 \\
 \texttt{universal\_design\_space\_dichotomy} & UniversalDesignSpace.lean & 0 \\
-\texttt{no\_rashomon\_all\_three} & Necessity.lean & 0 \\
+\texttt{fully\_specified\_possibility} & Necessity.lean & 0 \\
 \texttt{generic\_underspecification} & Ubiquity.lean & 0 \\
 \texttt{consensus\_equity} & Corollary.lean & 6 \\
 \texttt{gbdt\_impossibility\_local} & General.lean & 4 \\
 \texttt{ratio\_tendsto\_atTop} & Ratio.lean & 5 \\
 \texttt{lasso\_impossibility} & Lasso.lean & 2 \\
-\texttt{causal\_rashomon\_from\_markov} & MarkovEquivalence.lean & 0 \\
+\texttt{causal\_rashomon\_derived} & MarkovEquivalence.lean & 0 \\
 \bottomrule
 \end{longtable}
 

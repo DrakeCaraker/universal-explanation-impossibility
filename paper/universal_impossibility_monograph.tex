@@ -1463,13 +1463,18 @@ Selmer~1951 result or the black-hole/spacetime hypotheses are conditional on tho
 
 \begin{table}[ht]
 \centering
-\caption{Summary of the Lean~4 formalization.}
+\caption{Summary of the Lean~4 formalization. Per-theorem ``$N$ axioms''
+  entries below count the \emph{behavioral properties} a result depends on;
+  at source these are bundled into the \ClaimMainAxioms~\texttt{axiom}
+  declarations (\texttt{gbdtWorld}, \texttt{gbdtAxioms}), so \texttt{\#print
+  axioms} reports \ClaimMainAxioms, not their sum. The eight science instances
+  and the nine constructive ML instances use \emph{zero} axioms.}
 \label{tab:lean-summary}
 \begin{tabular}{lrr}
 \toprule
 Component & Count & Notes \\
 \midrule
-Files & 104 & All in \texttt{UniversalImpossibility/} \\
+Files & \ClaimMainFiles & All in \texttt{UniversalImpossibility/} \\
 Theorems \& lemmas & \ClaimMainTheorems & Verified by \texttt{grep -c} \\
 Axioms & 2 & main repo, bundling ${\sim}14$ GBDT properties (4 total across 3 repos---see above); core uses 0 \\
 \texttt{sorry}s & 0 & Zero admitted goals \\
@@ -5319,7 +5324,7 @@ The enrichment tower is formalised as a field extension tower (\texttt{GaloisCon
 \section{Companion Results: Attribution-Specific Formalization}
 \label{sec:companion-attribution}
 
-This section documents results from the companion repository \texttt{dash-impossibility-lean} (358~theorems, 2~axioms, 58~files, 0~\texttt{sorry}).  These provide the attribution-specific depth underlying the universal framework.
+This section documents results from the companion repository \texttt{dash-impossibility-lean} (\ClaimDashTheorems~theorems, \ClaimDashAxioms~axioms, \ClaimDashFiles~files, 0~\texttt{sorry}).  These provide the attribution-specific depth underlying the universal framework.
 
 \subsection{Constructive Bilemma Instances}
 
