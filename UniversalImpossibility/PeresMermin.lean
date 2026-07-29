@@ -65,6 +65,7 @@ codon degeneracy, and all other instances in the framework.
 -- Part 1: The Combinatorial Impossibility (the real content)
 -- ============================================================================
 
+set_option maxRecDepth 8192 in
 /-- **Peres-Mermin Magic Square Impossibility (Bool/XOR version).**
 
 No assignment of ±1 values to a 3×3 grid can simultaneously satisfy:
@@ -86,13 +87,14 @@ theorem peres_mermin_bool :
       (xor (xor (v 0 1) (v 1 1)) (v 2 1) = false) ∧
       -- Column 2 XOR is true (column 2 product = -1)
       (xor (xor (v 0 2) (v 1 2)) (v 2 2) = true) := by
-  native_decide
+  decide
 
+set_option maxRecDepth 8192 in
 /-- The parity argument made explicit: if all row XORs are false, then
 the XOR of all 9 values is false. If column XORs are false, false, true,
 then the XOR of all 9 values is true. These cannot both hold.
 
-This is the human-readable proof that `native_decide` verifies above. -/
+This is the human-readable proof that `decide` verifies above. -/
 theorem peres_mermin_parity
     (v : Fin 3 → Fin 3 → Bool)
     (hrow : ∀ i : Fin 3, xor (xor (v i 0) (v i 1)) (v i 2) = false)
@@ -105,7 +107,7 @@ theorem peres_mermin_parity
   -- Each v i j is Bool, so we can just case-split on all 9 values
   revert hr0 hr1 hr2 hc0 hc1 hc2
   revert v
-  native_decide
+  decide
 
 -- ============================================================================
 -- Part 2: ExplanationSystem Wrapping

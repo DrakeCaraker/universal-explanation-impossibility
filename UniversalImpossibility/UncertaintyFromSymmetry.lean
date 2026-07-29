@@ -250,13 +250,31 @@ beyond-capacity quantity from stable observations has MSE equal to the
 full norm of the target. Stability gives zero information about the
 unstable component. -/
 
-/-- **Capacity bound (Coding Theorem Part ii).** Any G-invariant (stable) element
-    is a fixed point of R. Equivalently: the image of any stable map lies in V^G.
-    This is immediate from idempotency but names the concept for the coding theorem. -/
-theorem stable_in_fixed_subspace
+/-- **Fixed points lie in the invariant subspace (definitional).** If `R u = u`
+    then `u` lies in the fixed-point subspace V^G. The hypothesis IS the
+    conclusion: this records a definition, and does NOT derive
+    fixed-point-ness from any stability property. The substantive capacity
+    bound is `reynolds_image_in_fixed` below. -/
+theorem fixed_point_in_invariant_subspace
     (R : V →ₗ[ℝ] V)
     (u : V) (hu : R u = u) :
     R u = u := hu
+
+@[deprecated (since := "2026-07-29")]
+alias stable_in_fixed_subspace := fixed_point_in_invariant_subspace
+
+/-- **Capacity bound.** The image of the Reynolds projection lies in the
+    fixed-point subspace: for every v, R v is itself a fixed point of R,
+    by idempotency. Consequently the orbit-averaged (Reynolds-projected)
+    explanation R ∘ E has image inside V^G, so its image dimension is at
+    most dim V^G. This is the honest Lean citation for the Explanation
+    Stability Theorem, Part (ii); the stronger statement that EVERY stable
+    map has image in V^G is not proved here. -/
+theorem reynolds_image_in_fixed
+    (R : V →ₗ[ℝ] V)
+    (hIdem : ∀ (v : V), R (R v) = R v)
+    (v : V) :
+    R (R v) = R v := hIdem v
 
 /-- **Beyond-capacity penalty.** For any w ∈ (V^G)⊥ (i.e., Rw = 0) and any
     stable element u ∈ V^G (i.e., Ru = u), ‖w‖ ≤ ‖u - w‖.

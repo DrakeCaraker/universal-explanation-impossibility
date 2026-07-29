@@ -39,7 +39,7 @@ def sig1 : Signal2 := ⟨1, 0⟩
 def sig2 : Signal2 := ⟨0, 1⟩
 
 /-- The two signals have the same energy: 1² + 0² = 0² + 1² = 1. -/
-theorem same_energy : energy sig1 = energy sig2 := by native_decide
+theorem same_energy : energy sig1 = energy sig2 := by decide
 
 /-- The two signals are distinct. -/
 theorem different_signals : sig1 ≠ sig2 := by decide
