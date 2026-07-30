@@ -16,6 +16,7 @@ import UniversalImpossibility.ModelSelectionInstanceConstructive
 import UniversalImpossibility.MechInterpInstanceConstructive
 import UniversalImpossibility.SaliencyInstanceConstructive
 import UniversalImpossibility.LLMExplanationInstanceConstructive
+import UniversalImpossibility.MIWitness
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -32,3 +33,5 @@ import UniversalImpossibility.LLMExplanationInstanceConstructive
 #print axioms mech_interp_impossibility_constructive
 #print axioms saliency_impossibility_constructive
 #print axioms llm_explanation_impossibility_constructive
+#print axioms UniversalImpossibility.MIWitness.concrete_mi_impossibility
+#print axioms UniversalImpossibility.MIWitness.hdep_implies_diff

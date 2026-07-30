@@ -2,12 +2,18 @@
   Mutual Information Generalization.
 
   Generalizes the impossibility from ρ > 0 (linear correlation) to
-  I(X_j; X_k) > 0 (any statistical dependence). This is the necessary
-  and sufficient condition for the attribution impossibility.
+  I(X_j; X_k) > 0 (any statistical dependence). MI > 0 is SUFFICIENT for the
+  attribution impossibility, conditional on the bridge hypothesis
+  `hdep_implies_diff` (dependence ⇒ some model distinguishes the features),
+  which cannot be discharged in the abstract framework (a degenerate constant
+  attribution falsifies it). See `MIWitness.lean` for a concrete two-feature
+  model where the bridge is a *theorem* (MI computed as log 2 from an explicit
+  distribution; attribution difference derived from the feature-swap Rashomon
+  pair) and the impossibility holds unconditionally with no custom axioms.
 
   Key results:
-  - MI = 0 ⟺ features independent ⟺ stable ranking exists (escape)
-  - MI > 0 ⟺ features dependent ⟹ (under symmetric DGP) Rashomon ⟹ impossibility
+  - MI = 0 (features independent) ⇒ stable ranking exists (escape)
+  - MI > 0 (features dependent) ⇒ (under symmetric DGP + bridge) Rashomon ⇒ impossibility
   - For Gaussian: I = -½ log(1 - ρ²), so ρ > 0 ⟹ I > 0
 
   Supplement: §Open Problems (generalization from ρ > 0 to I > 0)
