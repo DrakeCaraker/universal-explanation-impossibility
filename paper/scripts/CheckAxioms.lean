@@ -18,6 +18,7 @@ import UniversalImpossibility.SaliencyInstanceConstructive
 import UniversalImpossibility.LLMExplanationInstanceConstructive
 import UniversalImpossibility.MIWitness
 import UniversalImpossibility.CertificateGuarantee
+import UniversalImpossibility.PopulationCantelli
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -40,3 +41,5 @@ import UniversalImpossibility.CertificateGuarantee
 #print axioms UniversalImpossibility.Certificate.flip_le_one_div_one_add_snrSq
 #print axioms UniversalImpossibility.Certificate.stable_flip_le_one_fifth
 #print axioms UniversalImpossibility.Certificate.simultaneous_cantelli
+#print axioms UniversalImpossibility.PopulationCantelli.cantelli_upper
+#print axioms UniversalImpossibility.PopulationCantelli.cantelli_lower

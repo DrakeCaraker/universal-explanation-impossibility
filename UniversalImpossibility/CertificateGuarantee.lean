@@ -24,8 +24,9 @@
   axioms (no `gbdtWorld`/`gbdtAxioms`, no `native_decide`, no `sorry`).
 
   Honest scope: this is the finite-ensemble (empirical-measure) Cantelli bound — the
-  object the tool computes. The population-measure form is the measure-theoretic
-  idealization and is a separate (larger) formalization; it is not claimed here.
+  object the tool computes. The population-measure form (the measure-theoretic
+  idealization) is now also machine-checked, separately, in `PopulationCantelli.lean`
+  (`cantelli_upper` / `cantelli_lower`), filling a gap in Mathlib.
 -/
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
 import Mathlib.Algebra.BigOperators.Ring.Finset

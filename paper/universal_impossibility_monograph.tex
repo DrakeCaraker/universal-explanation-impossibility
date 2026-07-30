@@ -1431,7 +1431,9 @@ form) and \texttt{stable\_flip\_le\_one\_fifth} (\textsc{stable} $\Rightarrow$ f
 is deliberately the finite-ensemble form the certificate actually computes---the sample mean and
 variance over the retrained models---so its hypotheses are discharged with no distributional or
 integrability assumptions, which is also why the bound is expected to (and does) hold for every
-observed pair.  Across five real datasets (592~pairs) the Chebyshev bound holds for every pair and
+observed pair.  The population (measure-theoretic) Cantelli inequality---the idealization behind the
+finite bound, and itself a gap in current formalized libraries---is also machine-checked
+(\texttt{cantelli\_upper} in \texttt{PopulationCantelli.lean}).  Across five real datasets (592~pairs) the Chebyshev bound holds for every pair and
 \textsc{stable}-certified claims flip at most $5\%$ (mean $0.2\%$); the certificate holds
 out-of-sample (Spearman $0.76$--$0.94$ vs $\leq 0.26$ for raw data-property baselines) and flags
 top-ranked single-model claims that are in fact coin-flips across retraining.
