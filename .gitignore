@@ -45,3 +45,6 @@ paper/scripts/alpha_precision_validation.py
 docs/private/
 data/
 docs/private/
+
+# Python bytecode from knockout-experiments
+**/__pycache__/

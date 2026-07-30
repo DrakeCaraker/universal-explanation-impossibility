@@ -1452,10 +1452,29 @@ a competitive \emph{ranking} baseline---the certificate beats it on $87\%$ of da
 it, returns a calibrated probability and a guarantee, but the gap is not negligible---and two
 datasets (balance\_scale, xd6) show weak out-of-sample ranking.
 
-Two further limits are worth
-stating: reliability is \emph{per model} (a claim stable for one model class need not be for
+\emph{Simultaneous claims and a certified top-$k$.}  A single-claim guarantee does not control the
+\emph{family-wise} error of testing many claims at once; a union (Bonferroni) bound does---the
+fraction of the ensemble on which \emph{any} claim in a family flips is at most the sum of the
+per-claim Cantelli bounds (Lean: \texttt{simultaneous\_cantelli}, axiom-clean).  Empirically this
+family-wise bound holds on every dataset where it is non-vacuous (it is informative only for a small
+family or large SNRs; median slack $0.69$), and it specializes to a guarantee on the headline
+``top-$k$ features'' claim: call a top-$k$ \emph{set} certified when the boundary comparison ($k$-th
+vs $(k{+}1)$-th feature by mean importance) is \textsc{stable}.  Across $104$ datasets a certified
+top-$k$ set reproduced \emph{exactly} on an independent retrained ensemble in $100\%$ of cases, versus
+$27$--$30\%$ for uncertified sets---though certification fires rarely (few datasets have a stable
+top-$k$ boundary), which is itself the impossibility's point: most ``top-feature'' claims are not
+stable, and the certificate says precisely which are.
+
+\emph{Decomposing the per-model limit.}  Splitting a pair's instability across four model classes
+(random forest, gradient boosting, extra-trees, linear) shows the between-class component exceeds the
+within-class one (median spread $0.058$ vs $0.032$): which model one picks drives more instability
+than retraining a fixed model.  A certificate that requires agreement across the three tree-ensemble
+classes does \emph{not} transfer better to a held-out linear model than a single-model certificate
+($0.60$ vs $0.63$)---reliability across architectures needs architecturally diverse models in the
+agreement set, not more of the same kind.  This sharpens, rather than removes, the first of two
+standing limits.  Reliability is \emph{per model} (a claim stable for one model class need not be for
 another---\textsc{stable}-call agreement ${\approx}0.65$ across gradient-boosting, random-forest, and
-linear ensembles), and the feature-geometry capacity is a valid but sometimes-loose upper bound that
+linear ensembles).  Second, the feature-geometry capacity is a valid but sometimes-loose upper bound that
 captures correlation-driven Rashomon only---it can miss target-symmetry instability (independent but
 interchangeable features), which the per-query certificate still catches.  The two combine into a
 sharper bound: subtracting the importance-gated target-symmetry instabilities the certificate detects
