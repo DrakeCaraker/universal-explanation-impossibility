@@ -1,0 +1,74 @@
+{
+  "NULL(want~1.0)": {
+    "roy_over_p": 0.994,
+    "bracket_lo_over_p": 0.811,
+    "bracket_hi_over_p": 1.0
+  },
+  "SYNTH_g4_het0.0(want 4)": {
+    "roy": 5.33,
+    "bracket": [
+      4.0,
+      4.0
+    ]
+  },
+  "SYNTH_g4_het0.3(want 4)": {
+    "roy": 5.36,
+    "bracket": [
+      4.0,
+      4.0
+    ]
+  },
+  "SYNTH_g4_het0.6(want 4)": {
+    "roy": 5.39,
+    "bracket": [
+      4.0,
+      4.0
+    ]
+  },
+  "REAL": [
+    {
+      "dataset": "breast_cancer",
+      "p": 30,
+      "bracket_capacity": [
+        6,
+        7
+      ],
+      "roy_effrank": 6.62,
+      "stable_rank": 2.26,
+      "ensemble_high_snr_features": 25
+    },
+    {
+      "dataset": "wine",
+      "p": 13,
+      "bracket_capacity": [
+        4,
+        7
+      ],
+      "roy_effrank": 7.39,
+      "stable_rank": 2.76,
+      "ensemble_high_snr_features": 12
+    },
+    {
+      "dataset": "diabetes",
+      "p": 10,
+      "bracket_capacity": [
+        4,
+        7
+      ],
+      "roy_effrank": 6.15,
+      "stable_rank": 2.48,
+      "ensemble_high_snr_features": 9
+    },
+    {
+      "dataset": "california",
+      "p": 8,
+      "bracket_capacity": [
+        4,
+        5
+      ],
+      "roy_effrank": 5.58,
+      "stable_rank": 2.65,
+      "ensemble_high_snr_features": 8
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "A_null": {
+    "mean_ghat_over_p": 0.902,
+    "frac_no_collapse(ghat>=p-1)": 0.867
+  },
+  "B_synth_g4": {
+    "ghat_values": [
+      4,
+      8,
+      6,
+      7,
+      5,
+      7,
+      6,
+      6,
+      5,
+      7,
+      7,
+      6
+    ],
+    "recovery_rate_eq4": 0.083
+  },
+  "C_real": [
+    {
+      "dataset": "breast_cancer",
+      "p": 30,
+      "ghat_parallel": 29
+    },
+    {
+      "dataset": "wine",
+      "p": 13,
+      "ghat_parallel": 13
+    },
+    {
+      "dataset": "diabetes",
+      "p": 10,
+      "ghat_parallel": 9
+    },
+    {
+      "dataset": "california",
+      "p": 8,
+      "ghat_parallel": 7
+    }
+  ]
+}

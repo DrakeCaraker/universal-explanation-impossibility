@@ -9,3 +9,4 @@ import UniversalImpossibility.QuantumMeasurementRevolution
 import UniversalImpossibility.SimultaneityRevolution
 import UniversalImpossibility.ValueAlignment
 import UniversalImpossibility.MIWitness
+import UniversalImpossibility.CapacityTrace

@@ -1,0 +1,15 @@
+{
+  "mean_observed_flip_by_band": {
+    "STABLE": 0.0725,
+    "MARGINAL": 0.1781,
+    "UNRELIABLE": 0.4118
+  },
+  "n_by_band": {
+    "STABLE": 1083,
+    "MARGINAL": 641,
+    "UNRELIABLE": 292
+  },
+  "monotone_unreliable>marginal>stable": true,
+  "STABLE_precision_truly_between_group": 0.9723,
+  "UNRELIABLE_precision_truly_within_group": 0.4932
+}
