@@ -22,12 +22,19 @@ import UniversalImpossibility.PopulationCantelli
 import UniversalImpossibility.IncompatibilityCharacterization
 import UniversalImpossibility.GaussMarkovDASH
 import UniversalImpossibility.DavisKahanSinTheta
+import UniversalImpossibility.CertificateTight
+import UniversalImpossibility.Dichotomy
 
 #print axioms explanation_impossibility
 #print axioms bilemma
 #print axioms rashomon_biconditional_neq
 #print axioms fully_specified_possibility
 #print axioms UniversalImpossibility.reynolds_image_in_fixed
+#print axioms UniversalImpossibility.Certificate.flip_bound_tight
+#print axioms UniversalImpossibility.Certificate.flip_zero_at_low_snr
+#print axioms Dichotomy.orbit_subset_rashomon
+#print axioms Dichotomy.rashomon_within_tube
+#print axioms Dichotomy.dichotomy
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive
