@@ -1388,6 +1388,39 @@ The four parts are organised by structural analogy to the roles in Shannon's cod
 
 \emph{Empirical validation.}  The convergence rate $\text{MSE} \sim M^{-\beta}$ was validated on synthetic data with $\beta = 1.28$ (predicted: $1.00$; $R^2 = 0.97$).  The over-explanation penalty was validated across 149~datasets: within-group pairwise claims (beyond capacity) flip at rate $0.22 \pm 0.10$, while between-group claims (within capacity) flip at rate $0.15 \pm 0.08$ (cross-dataset Wilcoxon $p = 5.1 \times 10^{-11}$; directional confirmation in 81\% of 110~testable datasets, 86\% of 84~with Cohen's $d$ computable).
 
+\paragraph{Capacity is a proved trace identity and a data-estimable bound.}
+Two results in the Lean development (\texttt{CapacityTrace.lean}) sharpen the capacity from a
+definition into computed mathematics; both depend only on Lean's core axioms.  First,
+\emph{capacity is the trace of the Reynolds projection}: for the orbit-average operator $R$---proved
+idempotent for any finite-group representation (\texttt{reynolds\_isIdempotent})---one has
+$\operatorname{tr}(R) = \dim(V^G) = C$ (\texttt{capacity\_eq\_trace}, and
+\texttt{reynolds\_capacity\_eq\_trace} for the actual averaging operator).  This turns Part~(ii)'s
+$C = \dim(V^G)$ into a machine-checked identity for the operator the framework actually uses, not
+merely a naming convention.  Second, \emph{capacity is bounded---and estimable---from the feature
+geometry alone, without knowing the symmetry group}.  Attribution is free (unstable) exactly along
+the prediction-preserving, collinear directions, which lie in $\ker R$; so for any subspace $W$ of
+such directions, $C \leq \dim(V) - \dim(W)$ (\texttt{capacity\_le\_of\_ker}, with the rank--nullity
+identity \texttt{capacity\_add\_ker}).  Empirically this bound is realised by the effective rank of
+the feature covariance: on controlled data with a known symmetry it recovers the true capacity
+exactly (an eigenvalue bracket $[g,g]$, stable across a wide threshold range and robust to
+approximate exchangeability) and, more strongly, recovers the stable subspace $V^G$ itself
+(principal-angle alignment $\approx 1$ with the true fixed subspace) using no group labels; on
+independent features it correctly returns full capacity---the null control that ensemble-based
+estimators fail; and on real datasets it returns honest non-degenerate intervals (e.g.\ breast
+cancer $[6,7]$ out of $30$ features, California housing $[4,5]$ out of $8$).
+
+\emph{Scope, stated plainly.}  The exact \emph{integer} capacity is well-posed and recoverable only
+under (near-)exact symmetry, where the feature spectrum has a clean gap; on real, approximately
+symmetric data the instability is a continuum, and capacity is honestly a \emph{bounded interval}
+rather than a single number, its width reflecting the sharpness of that gap.  Estimating the exact
+dimension from the trained-model \emph{ensemble} (rather than the feature geometry) was attempted
+with five principled estimators and does not work; we report this negative result because it
+delimits the claim precisely---capacity is a property of the feature geometry (noise-free), not of
+the attribution ensemble (noisy).  The complementary practitioner question---\emph{which} specific
+pairwise claims are reliable---is answered per query by an ensemble signal-to-noise certificate that
+holds out-of-sample on real data (Spearman $0.76$--$0.94$, versus $\leq 0.26$ for raw
+data-property baselines).
+
 \paragraph{The deeper claim.}
 If the group-theoretic parameterization is correct in full generality, then
 the Explanation Impossibility is not a standalone theorem but the \emph{first
@@ -2237,7 +2270,7 @@ The capacity theorem's scope is determined by a subtlety: the relevant criterion
 
 The mechanism is detectable: genuinely substitutable features (e.g.\ \texttt{mean\_texture} and \texttt{worst\_texture} in Breast Cancer, $\rho_{\mathrm{SHAP}} = -0.19$) exhibit negative cross-model SHAP correlation---when one's importance goes up, the other's goes down.  This ``first-mover'' signature is confirmed on synthetic data ($\rho_{\mathrm{SHAP}} = -0.11$ to $-0.24$).  \emph{Conjectural diagnostic:} the sign of cross-model SHAP correlation may detect genuine exchangeability (negative~$=$ substitutable; positive~$=$ independent).  This is validated directionally on Breast Cancer and synthetic data but has not been tested at scale; it remains an open question whether this diagnostic generalises beyond these specific datasets.
 
-Attempts to predict instability from data properties alone (7 predictors: correlation, VIF, PCA loadings, mutual information, redundancy ratio, leverage, spectral gap) all fail (maximum Spearman $\rho = 0.26$).  The capacity theorem works for exact domain-specific groups ($R^2 = 0.957$) but does NOT work for correlation-derived groups on XGBoost+SHAP.  The extension from ``predicts instability given $G$'' to ``predicts instability from data'' remains an open problem.
+Attempts to predict instability from single data properties alone (7 predictors: correlation, VIF, PCA loadings, mutual information, redundancy ratio, leverage, spectral gap) all fail (maximum Spearman $\rho = 0.26$).  The capacity theorem works for exact domain-specific groups ($R^2 = 0.957$) but does NOT recover the exact group structure for correlation-derived groups on XGBoost+SHAP.  The extension from ``predicts instability given $G$'' to ``from data'' is therefore \emph{partially} resolved, along two fronts that do not require knowing $G$: (i) the per-query reliability question is answered by the ensemble signal-to-noise certificate (Spearman $0.76$--$0.94$ out-of-sample; $\S$\emph{capacity trace identity and bound}), and (ii) the capacity itself is \emph{bounded}, and its stable subspace recovered, from the feature-geometry effective rank (\texttt{capacity\_le\_of\_ker}). What remains genuinely open is estimating the exact integer capacity from the model ensemble under approximate symmetry---which we show, with five principled estimators, is not reliably possible; capacity is best read from the feature geometry, and reported as a bound.
 
 \paragraph{Tautology concern.}  Coverage conflict degree (fraction of low-SNR pairs) and mean instability (mean flip rate) are both functions of the same importance distributions.  The high correlation ($\rho = 0.961$) partly reflects this statistical relationship.  The non-trivial content is twofold: (1)~the \emph{threshold} at SNR~$= 0.5$ comes from the algebraic theory (the coverage conflict boundary, proved in Lean), not from fitting the data; and (2)~the correlation is robust to threshold choice ($\rho > 0.88$ for all tested thresholds), confirming that the theory identifies the correct structural boundary rather than overfitting a particular cutoff.  A pure statistical approach would not know \emph{a priori} which summary statistic of the SNR distribution to use as a predictor.
 
