@@ -1407,7 +1407,14 @@ approximate exchangeability) and, more strongly, recovers the stable subspace $V
 (principal-angle alignment $\approx 1$ with the true fixed subspace) using no group labels; on
 independent features it correctly returns full capacity---the null control that ensemble-based
 estimators fail; and on real datasets it returns honest non-degenerate intervals (e.g.\ breast
-cancer $[6,7]$ out of $30$ features, California housing $[4,5]$ out of $8$).
+cancer $[6,7]$ out of $30$ features, California housing $[4,5]$ out of $8$).  This empirical subspace
+recovery is now underwritten by a machine-checked perturbation bound: a Frobenius-norm Davis--Kahan
+sin-$\theta$ theorem (\texttt{davisKahan\_sinTheta\_hermitian}, axiom-clean, built on the gapped
+Sylvester core \texttt{gapped\_sylvester\_frobenius}) shows that when the feature spectrum has a gap
+$\delta$ separating the stable block from the collinear remainder, the recovered stable subspace lies
+within a sin-$\theta$ distance $\|E\|_F/\delta$ of the true $V^G$---so the alignment${}\approx 1$
+above is the theorem's prediction under a spectral gap, and the recovery is rigorous end-to-end, not
+merely empirical.
 
 \emph{Scope, stated plainly.}  The exact \emph{integer} capacity is well-posed and recoverable only
 under (near-)exact symmetry, where the feature spectrum has a clean gap; on real, approximately

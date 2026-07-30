@@ -21,6 +21,7 @@ import UniversalImpossibility.CertificateGuarantee
 import UniversalImpossibility.PopulationCantelli
 import UniversalImpossibility.IncompatibilityCharacterization
 import UniversalImpossibility.GaussMarkovDASH
+import UniversalImpossibility.DavisKahanSinTheta
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -50,3 +51,5 @@ import UniversalImpossibility.GaussMarkovDASH
 #print axioms UniversalImpossibility.IncompatChar.general_boundary_fails
 #print axioms UniversalImpossibility.GaussMarkovDASH.dash_min_variance
 #print axioms UniversalImpossibility.GaussMarkovDASH.dash_orbit_average_optimal
+#print axioms UniversalImpossibility.DavisKahanSinTheta.gapped_sylvester_frobenius
+#print axioms UniversalImpossibility.DavisKahanSinTheta.davisKahan_sinTheta_hermitian
