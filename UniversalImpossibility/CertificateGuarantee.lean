@@ -181,4 +181,28 @@ theorem stable_flip_le_one_fifth (s : Finset ι) (hs : s.Nonempty) (d : ι → �
     nlinarith [hstable]
   exact h.trans hstep
 
+/-- **Simultaneous (multiplicity-corrected) guarantee.** For a finite family `F` of pairwise
+    claims (claim `t` has attribution-difference readout `d t` and threshold `lam t > 0`), the
+    fraction of the ensemble on which *at least one* claim in the family flips its lower tail is at
+    most the sum of the per-claim Cantelli bounds -- the union (Bonferroni) bound. To certify `K`
+    claims at family-wise level `α`, it suffices that each per-claim bound is `≤ α/K`. This is the
+    honest fix for testing many explanation claims at once (a single-claim guarantee does not
+    control the family-wise error); its cost is that the bound is only informative for a small
+    family or large per-claim SNRs. -/
+theorem simultaneous_cantelli [DecidableEq ι] (s : Finset ι) (hs : s.Nonempty)
+    {T : Type*} (F : Finset T) (d : T → ι → ℝ) (lam : T → ℝ) (hlam : ∀ t ∈ F, 0 < lam t) :
+    ((F.biUnion (fun t => s.filter (fun i => d t i - mean s (d t) ≤ -lam t))).card : ℝ) / (s.card : ℝ)
+      ≤ ∑ t ∈ F, variance s (d t) / (variance s (d t) + (lam t) ^ 2) := by
+  classical
+  have hc : (0 : ℝ) < (s.card : ℝ) := by exact_mod_cast Finset.card_pos.mpr hs
+  calc ((F.biUnion (fun t => s.filter (fun i => d t i - mean s (d t) ≤ -lam t))).card : ℝ)
+          / (s.card : ℝ)
+      ≤ (∑ t ∈ F, ((s.filter (fun i => d t i - mean s (d t) ≤ -lam t)).card : ℝ)) / (s.card : ℝ) := by
+        gcongr
+        exact_mod_cast Finset.card_biUnion_le
+    _ = ∑ t ∈ F, ((s.filter (fun i => d t i - mean s (d t) ≤ -lam t)).card : ℝ) / (s.card : ℝ) := by
+        simp only [div_eq_mul_inv, Finset.sum_mul]
+    _ ≤ ∑ t ∈ F, variance s (d t) / (variance s (d t) + (lam t) ^ 2) :=
+        Finset.sum_le_sum fun t ht => cantelli_lower_tail s hs (d t) (hlam t ht)
+
 end UniversalImpossibility.Certificate

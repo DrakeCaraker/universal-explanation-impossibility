@@ -1,0 +1,2403 @@
+{
+  "summary": {
+    "n_ok": 104,
+    "n_datasets": 136,
+    "simultaneous_bonferroni_holds_frac": 1.0,
+    "simultaneous_n_datasets": 41,
+    "median_bound_minus_observed_slack": 0.6874,
+    "median_any_flip_B": 0.0333,
+    "topk_k3": {
+      "certified_exactmatch": 1.0,
+      "certified_n": 7,
+      "uncertified_exactmatch": 0.299,
+      "uncertified_n": 97
+    },
+    "topk_k5": {
+      "certified_exactmatch": 1.0,
+      "certified_n": 2,
+      "uncertified_exactmatch": 0.2692,
+      "uncertified_n": 78
+    },
+    "errors": [
+      {
+        "dataset": "australian",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "auto",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "breast",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "breast_w",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "buggyCrx",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "breast_cancer_wisconsin",
+        "error": "ValueError: Dataset not found in PMLB."
+      }
+    ],
+    "skipped": []
+  },
+  "detail": [
+    {
+      "dataset": "229_pwLinear",
+      "task": "regression",
+      "n": 200,
+      "p": 10,
+      "n_stable_pairs": 9,
+      "bonferroni_bound": 0.965,
+      "any_flip_B": 0.0333,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.08,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.049,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "1027_ESL",
+      "task": "regression",
+      "n": 488,
+      "p": 4,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.011,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "230_machine_cpu",
+      "task": "regression",
+      "n": 209,
+      "p": 6,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.067,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.547,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "561_cpu",
+      "task": "regression",
+      "n": 209,
+      "p": 7,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.07,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.055,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "1030_ERA",
+      "task": "regression",
+      "n": 1000,
+      "p": 4,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.02,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "1029_LEV",
+      "task": "regression",
+      "n": 1000,
+      "p": 4,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.66,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "579_fri_c0_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.025,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        }
+      }
+    },
+    {
+      "dataset": "1028_SWD",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_stable_pairs": 14,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.1667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.143,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.022,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "560_bodyfat",
+      "task": "regression",
+      "n": 252,
+      "p": 14,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.139,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.021,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "522_pm10",
+      "task": "regression",
+      "n": 500,
+      "p": 7,
+      "n_stable_pairs": 2,
+      "bonferroni_bound": 0.3436,
+      "any_flip_B": 0.0333,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.115,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.442,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "547_no2",
+      "task": "regression",
+      "n": 500,
+      "p": 7,
+      "n_stable_pairs": 1,
+      "bonferroni_bound": 0.1267,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.076,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.461,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "596_fri_c2_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.049,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "597_fri_c2_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.144,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "601_fri_c1_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.534,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "602_fri_c3_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.188,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.009,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "599_fri_c2_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.002,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "604_fri_c4_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.021,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.084,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "584_fri_c4_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.04,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.005,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "582_fri_c1_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.001,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.001,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "581_fri_c3_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.018,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.044,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "605_fri_c2_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.024,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.011,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "593_fri_c1_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.039,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.113,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "595_fri_c0_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.008,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.012,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "613_fri_c3_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.235,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "615_fri_c4_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.083,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.055,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "609_fri_c0_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.126,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        }
+      }
+    },
+    {
+      "dataset": "617_fri_c3_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.251,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "612_fri_c1_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.285,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "606_fri_c2_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.034,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.004,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "631_fri_c1_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.133,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "608_fri_c3_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.025,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.114,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "529_pollen",
+      "task": "regression",
+      "n": 3848,
+      "p": 4,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.049,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        }
+      }
+    },
+    {
+      "dataset": "635_fri_c0_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.063,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.046,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "627_fri_c2_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.033,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.096,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "628_fri_c3_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.49,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "641_fri_c1_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.017,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.078,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "647_fri_c1_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.064,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.062,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "586_fri_c3_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.031,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.067,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        }
+      }
+    },
+    {
+      "dataset": "649_fri_c0_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.067,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        }
+      }
+    },
+    {
+      "dataset": "623_fri_c4_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.012,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.132,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "657_fri_c2_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.208,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.017,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "646_fri_c3_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.002,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.055,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "644_fri_c4_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.001,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.003,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "589_fri_c2_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.018,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.005,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "653_fri_c0_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.052,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.001,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "654_fri_c0_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.058,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.055,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "598_fri_c0_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.001,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.001,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "592_fri_c4_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.007,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.021,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "690_visualizing_galaxy",
+      "task": "regression",
+      "n": 323,
+      "p": 4,
+      "n_stable_pairs": 3,
+      "bonferroni_bound": 0.0864,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 5.869,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "633_fri_c0_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.037,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.01,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        }
+      }
+    },
+    {
+      "dataset": "695_chatfield_4",
+      "task": "regression",
+      "n": 235,
+      "p": 12,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.077,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.007,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_stable_pairs": 18,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.1667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.175,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.039,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "658_fri_c3_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.004,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.073,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "666_rmftsa_ladata",
+      "task": "regression",
+      "n": 508,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.015,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.009,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_stable_pairs": 46,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.0667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.052,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.013,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_stable_pairs": 32,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.3,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.153,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.011,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_stable_pairs": 19,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.3,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.014,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.044,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "643_fri_c2_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.012,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.009,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        }
+      }
+    },
+    {
+      "dataset": "analcatdata_dmft",
+      "task": "classification",
+      "n": 797,
+      "p": 4,
+      "n_stable_pairs": 5,
+      "bonferroni_bound": 0.1828,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 2.804,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_stable_pairs": 21,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.1667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.054,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.012,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "analcatdata_germangss",
+      "task": "classification",
+      "n": 400,
+      "p": 5,
+      "n_stable_pairs": 8,
+      "bonferroni_bound": 0.0953,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 6.868,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "analcatdata_lawsuit",
+      "task": "classification",
+      "n": 264,
+      "p": 4,
+      "n_stable_pairs": 5,
+      "bonferroni_bound": 0.2931,
+      "any_flip_B": 0.0667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 4.729,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "biomed",
+      "task": "classification",
+      "n": 209,
+      "p": 8,
+      "n_stable_pairs": 8,
+      "bonferroni_bound": 0.5955,
+      "any_flip_B": 0.1,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.389,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.608,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "breast_cancer",
+      "task": "classification",
+      "n": 286,
+      "p": 9,
+      "n_stable_pairs": 16,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 1.21,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 1.218,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "balance_scale",
+      "task": "classification",
+      "n": 625,
+      "p": 4,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.104,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        }
+      }
+    },
+    {
+      "dataset": "bupa",
+      "task": "classification",
+      "n": 345,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.654,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "allbp",
+      "task": "classification",
+      "n": 3772,
+      "p": 27,
+      "n_stable_pairs": 169,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.4,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.31,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.567,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "allhyper",
+      "task": "classification",
+      "n": 3771,
+      "p": 27,
+      "n_stable_pairs": 154,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.2667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.374,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.594,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "cars",
+      "task": "classification",
+      "n": 392,
+      "p": 8,
+      "n_stable_pairs": 11,
+      "bonferroni_bound": 0.5994,
+      "any_flip_B": 0.0333,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.65,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.298,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "allrep",
+      "task": "classification",
+      "n": 3772,
+      "p": 27,
+      "n_stable_pairs": 161,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.5,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.046,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.386,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "allhypo",
+      "task": "classification",
+      "n": 3770,
+      "p": 27,
+      "n_stable_pairs": 167,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.3333,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.278,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.265,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "620_fri_c1_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.049,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.016,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "car_evaluation",
+      "task": "classification",
+      "n": 1728,
+      "p": 6,
+      "n_stable_pairs": 9,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.1,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 2.699,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.003,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "collins",
+      "task": "classification",
+      "n": 485,
+      "p": 22,
+      "n_stable_pairs": 21,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.045,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.057,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "ecoli",
+      "task": "classification",
+      "n": 327,
+      "p": 6,
+      "n_stable_pairs": 5,
+      "bonferroni_bound": 0.0475,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.197,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 11.143,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "irish",
+      "task": "classification",
+      "n": 500,
+      "p": 5,
+      "n_stable_pairs": 9,
+      "bonferroni_bound": 0.2225,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 4.794,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "monk1",
+      "task": "classification",
+      "n": 556,
+      "p": 6,
+      "n_stable_pairs": 11,
+      "bonferroni_bound": 0.8895,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.066,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.167,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "monk2",
+      "task": "classification",
+      "n": 601,
+      "p": 6,
+      "n_stable_pairs": 11,
+      "bonferroni_bound": 0.8647,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.31,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.197,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "new_thyroid",
+      "task": "classification",
+      "n": 215,
+      "p": 5,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.062,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "monk3",
+      "task": "classification",
+      "n": 554,
+      "p": 6,
+      "n_stable_pairs": 9,
+      "bonferroni_bound": 0.5565,
+      "any_flip_B": 0.0333,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.132,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.142,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "mofn_3_7_10",
+      "task": "classification",
+      "n": 1324,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.029,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.043,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "penguins",
+      "task": "classification",
+      "n": 333,
+      "p": 7,
+      "n_stable_pairs": 14,
+      "bonferroni_bound": 0.4115,
+      "any_flip_B": 0.0333,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.667,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 1.47,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "parity5+5",
+      "task": "classification",
+      "n": 1124,
+      "p": 10,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.011,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.036,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "led7",
+      "task": "classification",
+      "n": 3200,
+      "p": 7,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.007,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.08,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "prnn_crabs",
+      "task": "classification",
+      "n": 200,
+      "p": 7,
+      "n_stable_pairs": 6,
+      "bonferroni_bound": 0.1015,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.201,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.05,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "dis",
+      "task": "classification",
+      "n": 3772,
+      "p": 27,
+      "n_stable_pairs": 144,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.3,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.019,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.584,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "led24",
+      "task": "classification",
+      "n": 3200,
+      "p": 24,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.112,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.024,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.25
+        }
+      }
+    },
+    {
+      "dataset": "mfeat_morphological",
+      "task": "classification",
+      "n": 2000,
+      "p": 6,
+      "n_stable_pairs": 11,
+      "bonferroni_bound": 0.1657,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 18.615,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 3.29,
+          "certified": true,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "hypothyroid",
+      "task": "classification",
+      "n": 3163,
+      "p": 25,
+      "n_stable_pairs": 130,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.3,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.158,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.517,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "profb",
+      "task": "classification",
+      "n": 672,
+      "p": 9,
+      "n_stable_pairs": 19,
+      "bonferroni_bound": 0.6874,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.03,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.34,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "schizo",
+      "task": "classification",
+      "n": 340,
+      "p": 14,
+      "n_stable_pairs": 24,
+      "bonferroni_bound": 0.7338,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.051,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.018,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "spect",
+      "task": "classification",
+      "n": 267,
+      "p": 22,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.0,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.061,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "saheart",
+      "task": "classification",
+      "n": 462,
+      "p": 9,
+      "n_stable_pairs": 8,
+      "bonferroni_bound": 0.2826,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.802,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.051,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "threeOf9",
+      "task": "classification",
+      "n": 512,
+      "p": 9,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.005,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.056,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "tic_tac_toe",
+      "task": "classification",
+      "n": 958,
+      "p": 9,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.031,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.022,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "vehicle",
+      "task": "classification",
+      "n": 846,
+      "p": 18,
+      "n_stable_pairs": 44,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.1,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.21,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.057,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "xd6",
+      "task": "classification",
+      "n": 973,
+      "p": 9,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.075,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.0
+        },
+        "k5": {
+          "boundary_snr": 0.096,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    },
+    {
+      "dataset": "vowel",
+      "task": "classification",
+      "n": 990,
+      "p": 13,
+      "n_stable_pairs": 32,
+      "bonferroni_bound": 0.7619,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.135,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.011,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "yeast",
+      "task": "classification",
+      "n": 1479,
+      "p": 8,
+      "n_stable_pairs": 12,
+      "bonferroni_bound": 0.1075,
+      "any_flip_B": 0.0,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.225,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 1.279,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "wine_quality_red",
+      "task": "classification",
+      "n": 1599,
+      "p": 11,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.008,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.132,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "churn",
+      "task": "classification",
+      "n": 5000,
+      "p": 20,
+      "n_stable_pairs": 74,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.0667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.026,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.5
+        },
+        "k5": {
+          "boundary_snr": 0.098,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.429
+        }
+      }
+    },
+    {
+      "dataset": "segmentation",
+      "task": "classification",
+      "n": 2310,
+      "p": 18,
+      "n_stable_pairs": 53,
+      "bonferroni_bound": 1.0,
+      "any_flip_B": 0.0667,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.056,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.389,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        }
+      }
+    },
+    {
+      "dataset": "wine_quality_white",
+      "task": "classification",
+      "n": 4898,
+      "p": 11,
+      "n_stable_pairs": 1,
+      "bonferroni_bound": 0.1947,
+      "any_flip_B": 0.1,
+      "simultaneous_holds": true,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.002,
+          "certified": false,
+          "exact_match_B": true,
+          "jaccard_B": 1.0
+        },
+        "k5": {
+          "boundary_snr": 0.051,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.667
+        }
+      }
+    },
+    {
+      "dataset": "waveform_21",
+      "task": "classification",
+      "n": 5000,
+      "p": 21,
+      "n_stable_pairs": 0,
+      "bonferroni_bound": 0.0,
+      "any_flip_B": null,
+      "simultaneous_holds": null,
+      "topk": {
+        "k3": {
+          "boundary_snr": 0.014,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.2
+        },
+        "k5": {
+          "boundary_snr": 0.011,
+          "certified": false,
+          "exact_match_B": false,
+          "jaccard_B": 0.111
+        }
+      }
+    }
+  ]
+}
