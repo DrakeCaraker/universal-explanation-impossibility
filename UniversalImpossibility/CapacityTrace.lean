@@ -57,6 +57,25 @@ noncomputable def lossRate (R : V →ₗ[𝕜] V) : ℚ :=
 theorem capacity_le_dim (R : V →ₗ[𝕜] V) : capacity R ≤ finrank 𝕜 V :=
   Submodule.finrank_le _
 
+/-- Rank–nullity for the Reynolds operator: capacity plus the dimension of the
+    unstable kernel equals the ambient dimension. -/
+theorem capacity_add_ker (R : V →ₗ[𝕜] V) :
+    capacity R + finrank 𝕜 (LinearMap.ker R) = finrank 𝕜 V :=
+  R.finrank_range_add_finrank_ker
+
+/-- **Capacity upper bound from a provably-unstable subspace.** If `W` consists of
+    directions the Reynolds operator annihilates (`W ≤ ker R` — e.g. the
+    prediction-preserving / collinear directions along which attribution is free),
+    then the capacity is at most `dim V − dim W`. This is the rigorous form of the
+    empirical feature-geometry bound `capacity ≤ dim V − (collinear nullity)`: you
+    cannot stably resolve more directions than remain after removing the unstable ones. -/
+theorem capacity_le_of_ker (R : V →ₗ[𝕜] V) {W : Submodule 𝕜 V}
+    (hW : W ≤ LinearMap.ker R) :
+    capacity R ≤ finrank 𝕜 V - finrank 𝕜 W := by
+  have h := capacity_add_ker R
+  have hle : finrank 𝕜 W ≤ finrank 𝕜 (LinearMap.ker R) := Submodule.finrank_mono hW
+  omega
+
 /-! ### The theorem applies to the ACTUAL Reynolds operator, not just any idempotent.
 
 The capacity theorem above assumes an idempotent `R`. To close the objection "that is

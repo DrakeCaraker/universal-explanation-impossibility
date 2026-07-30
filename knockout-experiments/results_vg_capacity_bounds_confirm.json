@@ -1,0 +1,32 @@
+{
+  "tau_robustness_synth_g4": {
+    "0.2": 4.0,
+    "0.3": 4.0,
+    "0.4": 4.0,
+    "0.5": 4.0,
+    "0.6": 4.0,
+    "0.7": 4.0,
+    "0.8": 4.0,
+    "0.9": 4.0,
+    "1.0": 4.0,
+    "1.1": 4.0
+  },
+  "subspace_recovery": {
+    "het0.0": {
+      "align_stable_vs_trueVG": 1.0,
+      "align_unstable_vs_trueVperp": 1.0
+    },
+    "het0.3": {
+      "align_stable_vs_trueVG": 1.0,
+      "align_unstable_vs_trueVperp": 1.0
+    },
+    "het0.6": {
+      "align_stable_vs_trueVG": 0.875,
+      "align_unstable_vs_trueVperp": 0.937
+    }
+  },
+  "consistency_ens_unstable_vs_(p-cap)": {
+    "mean_ens_unstable": 8.0,
+    "mean_p_minus_cap": 8.0
+  }
+}
