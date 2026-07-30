@@ -1,0 +1,94 @@
+{
+  "A_null": {
+    "mean_ghat_over_p": 0.334,
+    "frac_reporting_no_collapse(ghat>=p-1)": 0.2,
+    "verdict": "FAIL (hallucinates structure)"
+  },
+  "B_approx_symmetry": [
+    {
+      "het": 0.0,
+      "dim_recovery": 0.0,
+      "subspace_align": 0.952
+    },
+    {
+      "het": 0.1,
+      "dim_recovery": 0.0,
+      "subspace_align": 0.954
+    },
+    {
+      "het": 0.25,
+      "dim_recovery": 0.0,
+      "subspace_align": 0.946
+    },
+    {
+      "het": 0.5,
+      "dim_recovery": 0.0,
+      "subspace_align": 0.955
+    },
+    {
+      "het": 1.0,
+      "dim_recovery": 0.0,
+      "subspace_align": 0.944
+    }
+  ],
+  "C_real_data": [
+    {
+      "dataset": "breast_cancer",
+      "p": 30,
+      "snr_pred_flip_spearman": 0.935,
+      "corr_baseline_spearman": 0.262,
+      "ghat": 1,
+      "g_corr_clusters": 18,
+      "Vhat_vs_corrgroups_align": 1.0
+    },
+    {
+      "dataset": "wine",
+      "p": 13,
+      "snr_pred_flip_spearman": 0.933,
+      "corr_baseline_spearman": 0.012,
+      "ghat": 1,
+      "g_corr_clusters": 12,
+      "Vhat_vs_corrgroups_align": 1.0
+    },
+    {
+      "dataset": "diabetes",
+      "p": 10,
+      "snr_pred_flip_spearman": 0.94,
+      "corr_baseline_spearman": 0.037,
+      "ghat": 1,
+      "g_corr_clusters": 9,
+      "Vhat_vs_corrgroups_align": 1.0
+    },
+    {
+      "dataset": "california",
+      "p": 8,
+      "snr_pred_flip_spearman": 0.762,
+      "corr_baseline_spearman": 0.085,
+      "ghat": 1,
+      "g_corr_clusters": 7,
+      "Vhat_vs_corrgroups_align": 1.0
+    }
+  ],
+  "D_robustness": {
+    "M20": {
+      "ghat_ratio": 4,
+      "ghat_thresh": 4,
+      "true_g": 4
+    },
+    "M100": {
+      "ghat_ratio": 4,
+      "ghat_thresh": 4,
+      "true_g": 4
+    },
+    "n100": {
+      "ghat_ratio": 4,
+      "ghat_thresh": 4,
+      "true_g": 4
+    },
+    "pgtn": {
+      "ghat_ratio": 1,
+      "ghat_thresh": 1,
+      "true_g": 4
+    }
+  }
+}
