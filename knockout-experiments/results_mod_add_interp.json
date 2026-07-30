@@ -1,0 +1,78 @@
+{
+  "summary": {
+    "n_models_trained": 10,
+    "n_grokked(test_acc>=0.9)": 10,
+    "test_accs": [
+      0.9929,
+      0.99,
+      0.9922,
+      0.9986,
+      0.9943,
+      0.9986,
+      0.9972,
+      0.9972,
+      0.9907,
+      0.9964
+    ],
+    "RAW_index_spearman (non-invariant, want ~0)": {
+      "mean": -0.0018,
+      "median": -0.0099,
+      "min": -0.089,
+      "max": 0.1162,
+      "n": 45
+    },
+    "RAW_index_pearson (non-invariant, want ~0)": {
+      "mean": 0.0021,
+      "median": 0.0063,
+      "min": -0.0871,
+      "max": 0.1175,
+      "n": 45
+    },
+    "INVARIANT_spectrum_pearson (S_n-invariant, want high)": {
+      "mean": 0.9752,
+      "median": 0.984,
+      "min": 0.9015,
+      "max": 0.9974,
+      "n": 45
+    },
+    "INVARIANT_spectrum_cosine": {
+      "mean": 0.9758,
+      "median": 0.9819,
+      "min": 0.9081,
+      "max": 0.9982,
+      "n": 45
+    },
+    "PARTICIPATION_RATIO_per_model": {
+      "mean": 263.63,
+      "cv": 0.2006,
+      "values": [
+        338.5,
+        208.5,
+        279.6,
+        286.6,
+        276.4,
+        252.6,
+        192.2,
+        247.9,
+        197.9,
+        356.2
+      ]
+    },
+    "FROMDATA_activation_matched_pearson": {
+      "mean": 0.0847,
+      "median": 0.0798,
+      "min": -0.078,
+      "max": 0.2732,
+      "n": 45
+    },
+    "RANDOM_permutation_null_pearson": {
+      "mean": 0.0105,
+      "median": 0.0051,
+      "min": -0.0745,
+      "max": 0.1308,
+      "n": 45
+    },
+    "identifiability_lift_spectrum_over_raw (pearson)": 0.9731,
+    "interpretation": "Raw index-aligned per-neuron importance is unidentifiable across independently trained grokked models (Spearman & Pearson ~0). The S_n-invariant importance SPECTRUM is identifiable (sorted-value Pearson/cosine high, participation ratio consistent). Activation-fingerprint matching only partially recovers neuron correspondence -- the ensemble occupies genuinely distinct algorithmic solutions, not permutations of one, so the identifiable invariant is the coarse spectrum, not the fine neuron assignment. Interpretability is well-posed on V^G (the invariant), ill-posed off it."
+  }
+}
