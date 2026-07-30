@@ -1,0 +1,25 @@
+{
+  "summary": {
+    "n_models": 2,
+    "n_sae_per_model": 6,
+    "d_act": 512,
+    "d_sae": 1024,
+    "sae_reconstruction_r2": {
+      "mean": 0.9935,
+      "min": 0.9927
+    },
+    "sae_l0_sparsity_mean": 40.84,
+    "matched_cosine_across_seeds": {
+      "mean": 0.387,
+      "median": 0.2862,
+      "min": 0.0754
+    },
+    "STABLE_feature_fraction": {
+      "cos>0.9": 0.0037,
+      "cos>0.7": 0.1559,
+      "cos>0.5": 0.4208
+    },
+    "random_direction_null_matched_cosine_mean": 0.1458,
+    "interpretation": "Fraction of SAE dictionary features reproduced across independent SAE training seeds on the SAME model. If < 1, SAE features are Rashomon-unstable and do NOT escape the impossibility; the identifiable content is the stable-feature subset, and the rest is training-seed noise -- exactly the framework's prediction (G is nontrivial, eta > 0)."
+  }
+}
