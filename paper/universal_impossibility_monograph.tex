@@ -1418,11 +1418,12 @@ with five principled estimators and does not work; we report this negative resul
 delimits the claim precisely---capacity is a property of the feature geometry (noise-free), not of
 the attribution ensemble (noisy).  The complementary practitioner question---\emph{which} specific
 pairwise claims are reliable---is answered per query by an ensemble signal-to-noise certificate with
-a \emph{provable, distribution-free} guarantee: a flip of the pairwise claim is the event
-$|D - \mathbb{E}D| \geq |\mathbb{E}D|$ for the attribution difference $D$, so by Chebyshev's
-inequality the flip rate is at most $1/\mathrm{SNR}^2$ with no distributional assumption (a
-\textsc{stable} certificate, $\mathrm{SNR} \geq 2$, thus guarantees flip $\leq 25\%$
-unconditionally; the Gaussian estimate $\Phi(-\mathrm{SNR})$ is tighter and empirically
+a \emph{provable, distribution-free} guarantee: a flip of the pairwise claim is the one-sided (minority-tail) event
+$D - \mathbb{E}D \leq -|\mathbb{E}D|$ for the attribution difference $D$, so by Cantelli's
+inequality the flip rate is at most $1/(1+\mathrm{SNR}^2)$ with no distributional assumption
+(strictly sharper than the two-sided Chebyshev bound $1/\mathrm{SNR}^2$ and never vacuous; a
+\textsc{stable} certificate, $\mathrm{SNR} \geq 2$, thus guarantees flip $\leq 20\%$
+unconditionally; the Gaussian estimate $\Phi(-\mathrm{SNR})$ is tighter still and empirically
 well-calibrated).  Across five real datasets (592~pairs) the Chebyshev bound holds for every pair and
 \textsc{stable}-certified claims flip at most $5\%$ (mean $0.2\%$); the certificate holds
 out-of-sample (Spearman $0.76$--$0.94$ vs $\leq 0.26$ for raw data-property baselines) and flags
@@ -1431,7 +1432,11 @@ stating: reliability is \emph{per model} (a claim stable for one model class nee
 another---\textsc{stable}-call agreement ${\approx}0.65$ across gradient-boosting, random-forest, and
 linear ensembles), and the feature-geometry capacity is a valid but sometimes-loose upper bound that
 captures correlation-driven Rashomon only---it can miss target-symmetry instability (independent but
-interchangeable features), which the per-query certificate still catches.
+interchangeable features), which the per-query certificate still catches.  The two combine into a
+sharper bound: subtracting the importance-gated target-symmetry instabilities the certificate detects
+among low-correlation feature pairs from the feature-geometry rank tightens the upper bound exactly
+where the geometry alone is loose (on a controlled interchangeable-feature stress it recovers the
+true capacity $7$ where the geometry alone reports $8$).
 
 \paragraph{The deeper claim.}
 If the group-theoretic parameterization is correct in full generality, then

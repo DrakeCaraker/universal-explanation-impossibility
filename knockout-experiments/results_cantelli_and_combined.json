@@ -1,0 +1,52 @@
+{
+  "S1_cantelli": {
+    "cantelli_holds_frac (want 1.0)": 1.0,
+    "chebyshev_holds_frac": 1.0,
+    "cantelli_bound_at_SNR2": 0.2,
+    "chebyshev_bound_at_SNR2": 0.25,
+    "STABLE_band_max_flip (<= cantelli 0.20)": 0.05,
+    "n_pairs": 592
+  },
+  "S2_combined_stress": {
+    "feature_geo_upper (loose, =p)": 8,
+    "certificate_extra_unstable": 4,
+    "combined_upper (tight, want 7)": 4
+  },
+  "S2_combined_real": [
+    {
+      "dataset": "breast_cancer",
+      "p": 30,
+      "feature_geo_upper": 7,
+      "extra_unstable": 14,
+      "combined_upper": -7
+    },
+    {
+      "dataset": "wine",
+      "p": 13,
+      "feature_geo_upper": 7,
+      "extra_unstable": 6,
+      "combined_upper": 1
+    },
+    {
+      "dataset": "diabetes",
+      "p": 10,
+      "feature_geo_upper": 7,
+      "extra_unstable": 3,
+      "combined_upper": 4
+    },
+    {
+      "dataset": "iris",
+      "p": 4,
+      "feature_geo_upper": 2,
+      "extra_unstable": 0,
+      "combined_upper": 2
+    },
+    {
+      "dataset": "california",
+      "p": 8,
+      "feature_geo_upper": 5,
+      "extra_unstable": 1,
+      "combined_upper": 4
+    }
+  ]
+}
