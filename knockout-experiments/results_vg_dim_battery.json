@@ -1,0 +1,54 @@
+{
+  "NULL_capacity_over_p": {
+    "N": 0.516,
+    "D": 1.0,
+    "S": 0.986,
+    "P": 0.172
+  },
+  "SYNTH_g4_het0.0_capacity(true=4)": {
+    "N": 4.0,
+    "D": 11.2,
+    "S": 12.0,
+    "P": 5.01
+  },
+  "SYNTH_g4_het0.3_capacity(true=4)": {
+    "N": 4.0,
+    "D": 11.2,
+    "S": 12.0,
+    "P": 5.11
+  },
+  "REAL_capacity": [
+    {
+      "dataset": "breast_cancer",
+      "p": 30,
+      "N": 1,
+      "D": 19,
+      "S": 30,
+      "P": 23.32
+    },
+    {
+      "dataset": "wine",
+      "p": 13,
+      "N": 1,
+      "D": 6,
+      "S": 13,
+      "P": 7.67
+    },
+    {
+      "dataset": "diabetes",
+      "p": 10,
+      "N": 1,
+      "D": 9,
+      "S": 8,
+      "P": 8.69
+    },
+    {
+      "dataset": "california",
+      "p": 8,
+      "N": 1,
+      "D": 8,
+      "S": 8,
+      "P": 5.61
+    }
+  ]
+}
