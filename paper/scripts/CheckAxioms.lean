@@ -17,6 +17,7 @@ import UniversalImpossibility.MechInterpInstanceConstructive
 import UniversalImpossibility.SaliencyInstanceConstructive
 import UniversalImpossibility.LLMExplanationInstanceConstructive
 import UniversalImpossibility.MIWitness
+import UniversalImpossibility.CertificateGuarantee
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -35,3 +36,6 @@ import UniversalImpossibility.MIWitness
 #print axioms llm_explanation_impossibility_constructive
 #print axioms UniversalImpossibility.MIWitness.concrete_mi_impossibility
 #print axioms UniversalImpossibility.MIWitness.hdep_implies_diff
+#print axioms UniversalImpossibility.Certificate.cantelli_lower_tail
+#print axioms UniversalImpossibility.Certificate.flip_le_one_div_one_add_snrSq
+#print axioms UniversalImpossibility.Certificate.stable_flip_le_one_fifth

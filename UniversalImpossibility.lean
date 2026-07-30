@@ -10,3 +10,4 @@ import UniversalImpossibility.SimultaneityRevolution
 import UniversalImpossibility.ValueAlignment
 import UniversalImpossibility.MIWitness
 import UniversalImpossibility.CapacityTrace
+import UniversalImpossibility.CertificateGuarantee

@@ -1424,7 +1424,14 @@ inequality the flip rate is at most $1/(1+\mathrm{SNR}^2)$ with no distributiona
 (strictly sharper than the two-sided Chebyshev bound $1/\mathrm{SNR}^2$ and never vacuous; a
 \textsc{stable} certificate, $\mathrm{SNR} \geq 2$, thus guarantees flip $\leq 20\%$
 unconditionally; the Gaussian estimate $\Phi(-\mathrm{SNR})$ is tighter still and empirically
-well-calibrated).  Across five real datasets (592~pairs) the Chebyshev bound holds for every pair and
+well-calibrated).  This guarantee is machine-checked: the finite-sample Cantelli bound is formalized
+axiom-free in Lean as \texttt{cantelli\_lower\_tail} (file \texttt{CertificateGuarantee.lean}), with
+the certificate corollaries \texttt{flip\_le\_one\_div\_one\_add\_snrSq} (the $1/(1+\mathrm{SNR}^2)$
+form) and \texttt{stable\_flip\_le\_one\_fifth} (\textsc{stable} $\Rightarrow$ flip $\leq 20\%$).  It
+is deliberately the finite-ensemble form the certificate actually computes---the sample mean and
+variance over the retrained models---so its hypotheses are discharged with no distributional or
+integrability assumptions, which is also why the bound is expected to (and does) hold for every
+observed pair.  Across five real datasets (592~pairs) the Chebyshev bound holds for every pair and
 \textsc{stable}-certified claims flip at most $5\%$ (mean $0.2\%$); the certificate holds
 out-of-sample (Spearman $0.76$--$0.94$ vs $\leq 0.26$ for raw data-property baselines) and flags
 top-ranked single-model claims that are in fact coin-flips across retraining.  Two limits are worth
