@@ -1,0 +1,67 @@
+{
+  "C1_provable": {
+    "chebyshev_holds_frac (want 1.0)": 1.0,
+    "STABLE_band_max_observed_flip (want <=0.25)": 0.05,
+    "STABLE_band_mean_observed_flip": 0.002,
+    "gaussian_calibration_bins": [
+      [
+        0.0,
+        0.014
+      ],
+      [
+        0.1,
+        0.123
+      ],
+      [
+        0.2,
+        0.247
+      ],
+      [
+        0.3,
+        0.357
+      ],
+      [
+        0.4,
+        0.446
+      ]
+    ],
+    "n_pairs": 592
+  },
+  "C2_target_symmetry_stress": {
+    "corr(x0,x1) (indep ~0)": 0.069,
+    "feature_capacity_bracket_hi (misses it if ~p=8)": 8,
+    "cert_verdict_x0_x1": "UNRELIABLE",
+    "SNR_x0_x1": 0.25,
+    "observed_flip_x0_x1": 0.4,
+    "interpretation": "certificate catches target-symmetry Rashomon that feature-geometry misses"
+  },
+  "C3_C4_cross_model_method": {
+    "verdict_agree_RF_vs_GBM": 0.391,
+    "verdict_agree_RF_vs_Linear": 0.437,
+    "STABLE-call_agree_RF_vs_GBM": 0.651,
+    "STABLE-call_agree_RF_vs_Linear": 0.623
+  },
+  "C5_failure_catch": [
+    {
+      "pair_rank_by_single_model": "22 vs 27",
+      "single_says": "22>27",
+      "SNR": 0.1,
+      "cert": "UNRELIABLE",
+      "ensemble_flip_rate": 0.46
+    },
+    {
+      "pair_rank_by_single_model": "27 vs 7",
+      "single_says": "27>7",
+      "SNR": 0.27,
+      "cert": "UNRELIABLE",
+      "ensemble_flip_rate": 0.38
+    },
+    {
+      "pair_rank_by_single_model": "7 vs 20",
+      "single_says": "7>20",
+      "SNR": 0.02,
+      "cert": "UNRELIABLE",
+      "ensemble_flip_rate": 0.44
+    }
+  ]
+}
