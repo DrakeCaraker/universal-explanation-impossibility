@@ -14,3 +14,4 @@ import UniversalImpossibility.CertificateGuarantee
 import UniversalImpossibility.DavisKahanRecovery
 import UniversalImpossibility.PopulationCantelli
 import UniversalImpossibility.IncompatibilityCharacterization
+import UniversalImpossibility.GaussMarkovDASH

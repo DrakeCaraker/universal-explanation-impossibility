@@ -20,6 +20,7 @@ import UniversalImpossibility.MIWitness
 import UniversalImpossibility.CertificateGuarantee
 import UniversalImpossibility.PopulationCantelli
 import UniversalImpossibility.IncompatibilityCharacterization
+import UniversalImpossibility.GaussMarkovDASH
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -47,3 +48,5 @@ import UniversalImpossibility.IncompatibilityCharacterization
 #print axioms UniversalImpossibility.IncompatChar.possibility_of_equiv_compat
 #print axioms UniversalImpossibility.IncompatChar.rashomon_biconditional_of_equiv
 #print axioms UniversalImpossibility.IncompatChar.general_boundary_fails
+#print axioms UniversalImpossibility.GaussMarkovDASH.dash_min_variance
+#print axioms UniversalImpossibility.GaussMarkovDASH.dash_orbit_average_optimal

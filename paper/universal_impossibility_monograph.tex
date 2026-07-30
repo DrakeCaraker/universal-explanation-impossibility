@@ -1820,7 +1820,12 @@ The resolution is not arbitrary.  The orbit-averaging map is Pareto-optimal
 among all stable explanation maps: no stable map can achieve strictly higher
 pointwise faithfulness on every observe-fiber.  This means the trade-off
 identified by the theorem is \emph{tight}---the practitioner cannot do better
-by being clever.
+by being clever.  A second, variance-theoretic optimality is machine-checked
+for the aggregation itself: among all linear unbiased aggregators of exchangeable
+estimators, the equal-weight orbit average is the \emph{minimum-variance} choice
+(a Gauss--Markov statement for the symmetric case; \texttt{dash\_min\_variance}
+and \texttt{dash\_orbit\_average\_optimal} in \texttt{GaussMarkovDASH.lean}, via
+the Cauchy--Schwarz core $\sum w_i^2 \geq 1/n$ at $\sum w_i = 1$).
 
 \paragraph{4.\ Shared resolution structure across eight domains.}
 If the impossibility were trivial, one would not expect eight independent
