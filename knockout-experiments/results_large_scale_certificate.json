@@ -1,0 +1,3515 @@
+{
+  "summary": {
+    "n_datasets_selected": 136,
+    "n_ok": 104,
+    "n_skipped": 0,
+    "n_error": 32,
+    "total_pairs": 10724,
+    "OOS_spearman_certificate": {
+      "median": 0.822,
+      "mean": 0.785,
+      "q25": 0.747,
+      "q75": 0.876,
+      "min": 0.0,
+      "max": 0.941,
+      "n": 102
+    },
+    "OOS_spearman_baseline_corr": {
+      "median": 0.04,
+      "mean": 0.061,
+      "q25": -0.071,
+      "q75": 0.172,
+      "min": -0.522,
+      "max": 0.655,
+      "n": 99
+    },
+    "OOS_spearman_baseline_singlemodel_gap": {
+      "median": 0.673,
+      "mean": 0.637,
+      "q25": 0.574,
+      "q75": 0.73,
+      "min": -0.098,
+      "max": 0.941,
+      "n": 102
+    },
+    "cert_beats_corr_frac": 0.98,
+    "cert_beats_gap_frac": 0.873,
+    "cert_frac_datasets_above_0.26_ceiling": 0.98,
+    "STABLE_transfer_frac_per_dataset": {
+      "median": 1.0,
+      "mean": 1.0,
+      "q25": 1.0,
+      "q75": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 100
+    },
+    "STABLE_meanB_flip_per_dataset": {
+      "median": 0.0,
+      "mean": 0.003,
+      "q25": 0.0,
+      "q75": 0.003,
+      "min": 0.0,
+      "max": 0.059,
+      "n": 100
+    },
+    "UNRELIABLE_meanB_flip_per_dataset": {
+      "median": 0.423,
+      "mean": 0.423,
+      "q25": 0.383,
+      "q75": 0.451,
+      "min": 0.222,
+      "max": 0.7,
+      "n": 89
+    },
+    "calibration_OOS_bins_[pred,obs,n]": [
+      [
+        0.012,
+        0.01,
+        5523
+      ],
+      [
+        0.151,
+        0.137,
+        822
+      ],
+      [
+        0.253,
+        0.265,
+        1146
+      ],
+      [
+        0.352,
+        0.374,
+        1477
+      ],
+      [
+        0.45,
+        0.466,
+        1756
+      ]
+    ],
+    "calibration_ECE": 0.009,
+    "band_table_insample": {
+      "STABLE": {
+        "n_pairs": 4431,
+        "mean_flip": 0.0009,
+        "max_flip": 0.05
+      },
+      "MARGINAL": {
+        "n_pairs": 2964,
+        "mean_flip": 0.1323,
+        "max_flip": 0.4167
+      },
+      "UNRELIABLE": {
+        "n_pairs": 3329,
+        "mean_flip": 0.4091,
+        "max_flip": 0.9
+      }
+    },
+    "cantelli_hold_frac_insample_pooled": 1.0,
+    "pooled_mean_is_minority_frac": 0.0177,
+    "n_failure_datasets_oos<0.2": 2,
+    "failure_datasets": [
+      {
+        "dataset": "balance_scale",
+        "oos_spearman_cert": 0.0,
+        "stable_transfer": null
+      },
+      {
+        "dataset": "xd6",
+        "oos_spearman_cert": 0.126,
+        "stable_transfer": null
+      }
+    ],
+    "errors_sample": [
+      {
+        "dataset": "australian",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "auto",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "breast",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "breast_cancer_wisconsin",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "breast_w",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "buggyCrx",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "car",
+        "error": "ValueError: Dataset not found in PMLB."
+      },
+      {
+        "dataset": "cleve",
+        "error": "ValueError: Dataset not found in PMLB."
+      }
+    ],
+    "skipped_reasons_sample": []
+  },
+  "detail": [
+    {
+      "dataset": "1027_ESL",
+      "task": "regression",
+      "n": 488,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": 0.9411239481143202,
+      "oos_spearman_corr": 0.030358837035945815,
+      "oos_spearman_gap": 0.9411239481143202,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.36666666666666664,
+      "n_stableA": 3,
+      "band_STABLE": [
+        3,
+        0.005555555555555556,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        1,
+        0.18333333333333332,
+        0.18333333333333332
+      ],
+      "band_UNRELIABLE": [
+        2,
+        0.33333333333333337,
+        0.4
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "229_pwLinear",
+      "task": "regression",
+      "n": 200,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7748166532865074,
+      "oos_spearman_corr": -0.24836797342320693,
+      "oos_spearman_gap": 0.6763667715240025,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.4761904761904762,
+      "n_stableA": 30,
+      "band_STABLE": [
+        31,
+        0.001075268817204301,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        7,
+        0.16428571428571428,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        7,
+        0.4642857142857143,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.044444444444444446
+    },
+    {
+      "dataset": "230_machine_cpu",
+      "task": "regression",
+      "n": 209,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.918699282997326,
+      "oos_spearman_corr": -0.005425389466519642,
+      "oos_spearman_gap": 0.8210422725999723,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.025,
+      "unreliable_meanB": 0.35333333333333333,
+      "n_stableA": 4,
+      "band_STABLE": [
+        4,
+        0.0125,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        7,
+        0.14523809523809525,
+        0.26666666666666666
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.44166666666666665,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.06666666666666667
+    },
+    {
+      "dataset": "561_cpu",
+      "task": "regression",
+      "n": 209,
+      "p": 7,
+      "n_pairs": 21,
+      "oos_spearman_cert": 0.7846764200565367,
+      "oos_spearman_corr": 0.271397257212215,
+      "oos_spearman_gap": 0.3642626316959703,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.3833333333333333,
+      "n_stableA": 6,
+      "band_STABLE": [
+        6,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        11,
+        0.0787878787878788,
+        0.23333333333333334
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.4041666666666667,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.047619047619047616
+    },
+    {
+      "dataset": "1030_ERA",
+      "task": "regression",
+      "n": 1000,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": 0.7775419143502353,
+      "oos_spearman_corr": -0.16903085094570333,
+      "oos_spearman_gap": 0.7775419143502353,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 4,
+      "band_STABLE": [
+        4,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.06666666666666667,
+        0.06666666666666667
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "579_fri_c0_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.8210653934707496,
+      "oos_spearman_corr": -0.08404606389858067,
+      "oos_spearman_gap": 0.7176240840571119,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.014285714285714287,
+      "unreliable_meanB": 0.4,
+      "n_stableA": 7,
+      "band_STABLE": [
+        7,
+        0.009523809523809523,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        2,
+        0.21666666666666667,
+        0.21666666666666667
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.38333333333333336,
+        0.38333333333333336
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "1029_LEV",
+      "task": "regression",
+      "n": 1000,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": 0.6546536707079772,
+      "oos_spearman_corr": 0.6546536707079772,
+      "oos_spearman_gap": 0.6546536707079772,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.4,
+      "n_stableA": 5,
+      "band_STABLE": [
+        5,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.4,
+        0.4
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "1028_SWD",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.9060878192662972,
+      "oos_spearman_corr": -0.19631084496682144,
+      "oos_spearman_gap": 0.8657595820901907,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.007246376811594204,
+      "unreliable_meanB": 0.5222222222222223,
+      "n_stableA": 23,
+      "band_STABLE": [
+        22,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        17,
+        0.15098039215686276,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        6,
+        0.38055555555555554,
+        0.4666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "560_bodyfat",
+      "task": "regression",
+      "n": 252,
+      "p": 14,
+      "n_pairs": 91,
+      "oos_spearman_cert": 0.8663244921089752,
+      "oos_spearman_corr": 0.05816295308188001,
+      "oos_spearman_gap": 0.5703453744912905,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.3446808510638298,
+      "n_stableA": 13,
+      "band_STABLE": [
+        13,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        36,
+        0.15509259259259262,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        42,
+        0.37896825396825395,
+        0.6
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.02197802197802198
+    },
+    {
+      "dataset": "522_pm10",
+      "task": "regression",
+      "n": 500,
+      "p": 7,
+      "n_pairs": 21,
+      "oos_spearman_cert": 0.8612687209957489,
+      "oos_spearman_corr": 0.2505019266696002,
+      "oos_spearman_gap": 0.634335523985923,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.22222222222222224,
+      "n_stableA": 7,
+      "band_STABLE": [
+        7,
+        0.0071428571428571435,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        12,
+        0.11388888888888891,
+        0.25
+      ],
+      "band_UNRELIABLE": [
+        2,
+        0.3833333333333333,
+        0.4
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "547_no2",
+      "task": "regression",
+      "n": 500,
+      "p": 7,
+      "n_pairs": 21,
+      "oos_spearman_cert": 0.7416381959986401,
+      "oos_spearman_corr": 0.14780597106655194,
+      "oos_spearman_gap": 0.6225239722567717,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.375,
+      "n_stableA": 14,
+      "band_STABLE": [
+        15,
+        0.0022222222222222222,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        2,
+        0.03333333333333333,
+        0.06666666666666667
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.4333333333333333,
+        0.48333333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "596_fri_c2_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.8090398349558906,
+      "oos_spearman_corr": -0.09738442457802386,
+      "oos_spearman_gap": 0.7640931774583409,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 6,
+      "band_STABLE": [
+        7,
+        0.0023809523809523807,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        3,
+        0.12222222222222223,
+        0.16666666666666666
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "597_fri_c2_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7006490497453708,
+      "oos_spearman_corr": 0.07784989441615231,
+      "oos_spearman_gap": 0.4930493313022979,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 8,
+      "band_STABLE": [
+        8,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        1,
+        0.1,
+        0.1
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.31666666666666665,
+        0.31666666666666665
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "601_fri_c1_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7006490497453708,
+      "oos_spearman_corr": 0.11244984748999776,
+      "oos_spearman_gap": 0.4670993664969138,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 8,
+      "band_STABLE": [
+        8,
+        0.0020833333333333333,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        2,
+        0.06666666666666667,
+        0.08333333333333333
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "602_fri_c3_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8236345516070276,
+      "oos_spearman_corr": 0.1819693532709358,
+      "oos_spearman_gap": 0.5832410278062101,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.5185185185185186,
+      "n_stableA": 21,
+      "band_STABLE": [
+        18,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        15,
+        0.02,
+        0.15
+      ],
+      "band_UNRELIABLE": [
+        12,
+        0.40138888888888885,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "599_fri_c2_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7006490497453708,
+      "oos_spearman_corr": -0.3373495424699933,
+      "oos_spearman_gap": 0.7006490497453708,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.43333333333333335,
+      "n_stableA": 7,
+      "band_STABLE": [
+        7,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.04166666666666667,
+        0.05
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.4,
+        0.4
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "604_fri_c4_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8599147226905828,
+      "oos_spearman_corr": 0.17317779570498942,
+      "oos_spearman_gap": 0.6375816574623432,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.41,
+      "n_stableA": 25,
+      "band_STABLE": [
+        25,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        10,
+        0.08166666666666667,
+        0.2
+      ],
+      "band_UNRELIABLE": [
+        10,
+        0.425,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.08888888888888889
+    },
+    {
+      "dataset": "582_fri_c1_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8850318470789561,
+      "oos_spearman_corr": 0.015413549161663792,
+      "oos_spearman_gap": 0.6797886416271491,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.001282051282051282,
+      "unreliable_meanB": 0.4312206572769954,
+      "n_stableA": 104,
+      "band_STABLE": [
+        105,
+        0.0011111111111111111,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        40,
+        0.23125,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        155,
+        0.40204301075268817,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.03
+    },
+    {
+      "dataset": "584_fri_c4_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8258436861531201,
+      "oos_spearman_corr": 0.04848659673248532,
+      "oos_spearman_gap": 0.6459113683236861,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.43511450381679384,
+      "n_stableA": 105,
+      "band_STABLE": [
+        105,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        36,
+        0.224537037037037,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        159,
+        0.40283018867924536,
+        0.6
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.05333333333333334
+    },
+    {
+      "dataset": "581_fri_c3_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8171475854350257,
+      "oos_spearman_corr": -0.07063875402051542,
+      "oos_spearman_gap": 0.7140916177659687,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.43549019607843137,
+      "n_stableA": 85,
+      "band_STABLE": [
+        87,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        33,
+        0.10353535353535355,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        180,
+        0.4152777777777778,
+        0.6
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.043333333333333335
+    },
+    {
+      "dataset": "605_fri_c2_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.9025850898931341,
+      "oos_spearman_corr": 0.014457472335996034,
+      "oos_spearman_gap": 0.6660054916013936,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0009009009009009009,
+      "unreliable_meanB": 0.3925619834710744,
+      "n_stableA": 74,
+      "band_STABLE": [
+        63,
+        0.0007936507936507937,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        113,
+        0.12964601769911505,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        124,
+        0.4020161290322581,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.03
+    },
+    {
+      "dataset": "593_fri_c1_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7585116606297542,
+      "oos_spearman_corr": 0.3006606068820486,
+      "oos_spearman_gap": 0.6803399028404216,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0019047619047619048,
+      "unreliable_meanB": 0.3666666666666667,
+      "n_stableA": 35,
+      "band_STABLE": [
+        35,
+        0.0009523809523809524,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        2,
+        0.21666666666666667,
+        0.23333333333333334
+      ],
+      "band_UNRELIABLE": [
+        8,
+        0.3645833333333333,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "595_fri_c0_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7409818308740507,
+      "oos_spearman_corr": -0.08612614467073133,
+      "oos_spearman_gap": 0.730325249079092,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.44666666666666666,
+      "n_stableA": 33,
+      "band_STABLE": [
+        33,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.13333333333333333,
+        0.21666666666666667
+      ],
+      "band_UNRELIABLE": [
+        10,
+        0.44333333333333336,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "613_fri_c3_250_5",
+      "task": "regression",
+      "n": 250,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.9122881765308201,
+      "oos_spearman_corr": -0.12037135662559433,
+      "oos_spearman_gap": 0.6462041250426642,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.016666666666666666,
+      "unreliable_meanB": 0.36666666666666664,
+      "n_stableA": 4,
+      "band_STABLE": [
+        4,
+        0.0125,
+        0.05
+      ],
+      "band_MARGINAL": [
+        5,
+        0.08,
+        0.15
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.31666666666666665,
+        0.31666666666666665
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "615_fri_c4_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8816804687666709,
+      "oos_spearman_corr": -0.0016832655516983617,
+      "oos_spearman_gap": 0.8300603251812547,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0015873015873015873,
+      "unreliable_meanB": 0.47333333333333333,
+      "n_stableA": 21,
+      "band_STABLE": [
+        18,
+        0.000925925925925926,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        19,
+        0.11929824561403508,
+        0.26666666666666666
+      ],
+      "band_UNRELIABLE": [
+        8,
+        0.38958333333333334,
+        0.6166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "617_fri_c3_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.8842048302391148,
+      "oos_spearman_corr": 0.4044037595667269,
+      "oos_spearman_gap": 0.43867526461475465,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.7,
+      "n_stableA": 5,
+      "band_STABLE": [
+        5,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        4,
+        0.075,
+        0.16666666666666666
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.4,
+        0.4
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "609_fri_c0_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.5222329678670935,
+      "oos_spearman_corr": -0.2901294265928297,
+      "oos_spearman_gap": 0.5222329678670935,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 9,
+      "band_STABLE": [
+        9,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        1,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "612_fri_c1_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.5222329678670935,
+      "oos_spearman_corr": -0.5222329678670935,
+      "oos_spearman_gap": 0.5222329678670935,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.36666666666666664,
+      "n_stableA": 8,
+      "band_STABLE": [
+        9,
+        0.001851851851851852,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.36666666666666664,
+        0.36666666666666664
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "606_fri_c2_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7477517538118196,
+      "oos_spearman_corr": -0.03467555732546342,
+      "oos_spearman_gap": 0.725566384641372,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.45416666666666666,
+      "n_stableA": 34,
+      "band_STABLE": [
+        34,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        3,
+        0.2111111111111111,
+        0.25
+      ],
+      "band_UNRELIABLE": [
+        8,
+        0.38958333333333334,
+        0.48333333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "608_fri_c3_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8132517528409569,
+      "oos_spearman_corr": 0.0829717590799712,
+      "oos_spearman_gap": 0.6613644378165372,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.380952380952381,
+      "n_stableA": 26,
+      "band_STABLE": [
+        26,
+        0.000641025641025641,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        10,
+        0.095,
+        0.3
+      ],
+      "band_UNRELIABLE": [
+        9,
+        0.3907407407407407,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "529_pollen",
+      "task": "regression",
+      "n": 3848,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": NaN,
+      "oos_spearman_corr": NaN,
+      "oos_spearman_gap": NaN,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 5,
+      "band_STABLE": [
+        6,
+        0.002777777777777778,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "631_fri_c1_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7006490497453708,
+      "oos_spearman_corr": 0.3027495893961478,
+      "oos_spearman_gap": 0.7006490497453708,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 8,
+      "band_STABLE": [
+        8,
+        0.0020833333333333333,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        2,
+        0.075,
+        0.11666666666666667
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "635_fri_c0_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8396004118040606,
+      "oos_spearman_corr": -0.0824738183107538,
+      "oos_spearman_gap": 0.7291732825252362,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.37407407407407406,
+      "n_stableA": 24,
+      "band_STABLE": [
+        24,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        12,
+        0.08749999999999998,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        9,
+        0.3555555555555555,
+        0.4666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "627_fri_c2_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7646569850053838,
+      "oos_spearman_corr": 0.09727534054153963,
+      "oos_spearman_gap": 0.7298613671093239,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.000980392156862745,
+      "unreliable_meanB": 0.35555555555555557,
+      "n_stableA": 34,
+      "band_STABLE": [
+        34,
+        0.000980392156862745,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        6,
+        0.23055555555555554,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        5,
+        0.4033333333333333,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "628_fri_c3_1000_5",
+      "task": "regression",
+      "n": 1000,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.6934700791133827,
+      "oos_spearman_corr": 0.1565900178643122,
+      "oos_spearman_gap": 0.6487300740092935,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0047619047619047615,
+      "unreliable_meanB": 0.6666666666666666,
+      "n_stableA": 7,
+      "band_STABLE": [
+        7,
+        0.0023809523809523807,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        2,
+        0.075,
+        0.13333333333333333
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.43333333333333335,
+        0.43333333333333335
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "641_fri_c1_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7638534838711168,
+      "oos_spearman_corr": 0.16770406201359664,
+      "oos_spearman_gap": 0.6648903094673336,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.38484848484848483,
+      "n_stableA": 28,
+      "band_STABLE": [
+        28,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        6,
+        0.011111111111111112,
+        0.06666666666666667
+      ],
+      "band_UNRELIABLE": [
+        11,
+        0.38333333333333336,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "586_fri_c3_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8405174020065933,
+      "oos_spearman_corr": -0.07224561229131596,
+      "oos_spearman_gap": 0.7823993675910978,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.433806146572104,
+      "n_stableA": 86,
+      "band_STABLE": [
+        86,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        64,
+        0.15286458333333333,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        150,
+        0.4123333333333333,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.02666666666666667
+    },
+    {
+      "dataset": "647_fri_c1_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8526013515406639,
+      "oos_spearman_corr": 0.005719696002422963,
+      "oos_spearman_gap": 0.747666928726981,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.00574712643678161,
+      "unreliable_meanB": 0.4541666666666667,
+      "n_stableA": 29,
+      "band_STABLE": [
+        24,
+        0.001388888888888889,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        12,
+        0.15,
+        0.38333333333333336
+      ],
+      "band_UNRELIABLE": [
+        9,
+        0.40185185185185185,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "649_fri_c0_500_5",
+      "task": "regression",
+      "n": 500,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7006490497453708,
+      "oos_spearman_corr": 0.4670993664969138,
+      "oos_spearman_gap": 0.7006490497453708,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 8,
+      "band_STABLE": [
+        8,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.15833333333333333,
+        0.2
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "623_fri_c4_1000_10",
+      "task": "regression",
+      "n": 1000,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8273522880338701,
+      "oos_spearman_corr": 0.3511003110078213,
+      "oos_spearman_gap": 0.6723464895065864,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.008333333333333333,
+      "unreliable_meanB": 0.45999999999999996,
+      "n_stableA": 32,
+      "band_STABLE": [
+        29,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        9,
+        0.14814814814814814,
+        0.26666666666666666
+      ],
+      "band_UNRELIABLE": [
+        7,
+        0.3880952380952381,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "657_fri_c2_250_10",
+      "task": "regression",
+      "n": 250,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.828094601707327,
+      "oos_spearman_corr": 0.059619784937905325,
+      "oos_spearman_gap": 0.7606818753371828,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0024691358024691358,
+      "unreliable_meanB": 0.3481481481481482,
+      "n_stableA": 27,
+      "band_STABLE": [
+        25,
+        0.0006666666666666666,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        11,
+        0.1015151515151515,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        9,
+        0.4092592592592592,
+        0.6
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "646_fri_c3_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.815018818377994,
+      "oos_spearman_corr": 0.19975872684597132,
+      "oos_spearman_gap": 0.7273081108123323,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.3916666666666666,
+      "n_stableA": 25,
+      "band_STABLE": [
+        26,
+        0.000641025641025641,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        12,
+        0.11527777777777777,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        7,
+        0.4023809523809524,
+        0.45
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "644_fri_c4_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.9252428690451333,
+      "oos_spearman_corr": -0.11937318518330821,
+      "oos_spearman_gap": 0.7383232279376262,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.42447916666666663,
+      "n_stableA": 63,
+      "band_STABLE": [
+        63,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        108,
+        0.11574074074074074,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        129,
+        0.41614987080103355,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.03333333333333333
+    },
+    {
+      "dataset": "589_fri_c2_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.880912430744859,
+      "oos_spearman_corr": -0.06536280912842406,
+      "oos_spearman_gap": 0.731129886905109,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.3930455635491607,
+      "n_stableA": 109,
+      "band_STABLE": [
+        109,
+        0.0001529051987767584,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        59,
+        0.23672316384180792,
+        0.36666666666666664
+      ],
+      "band_UNRELIABLE": [
+        132,
+        0.4011363636363637,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.02
+    },
+    {
+      "dataset": "598_fri_c0_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8694340585638847,
+      "oos_spearman_corr": -0.08570978737664676,
+      "oos_spearman_gap": 0.7928766378497576,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0003058103975535168,
+      "unreliable_meanB": 0.422463768115942,
+      "n_stableA": 109,
+      "band_STABLE": [
+        109,
+        0.0001529051987767584,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        48,
+        0.22465277777777778,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        143,
+        0.40780885780885784,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.03666666666666667
+    },
+    {
+      "dataset": "592_fri_c4_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8506990270439881,
+      "oos_spearman_corr": -0.05103832685549303,
+      "oos_spearman_gap": 0.7623746502310585,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.4113871635610765,
+      "n_stableA": 107,
+      "band_STABLE": [
+        87,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        47,
+        0.12730496453900708,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        166,
+        0.40712851405622486,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.06
+    },
+    {
+      "dataset": "690_visualizing_galaxy",
+      "task": "regression",
+      "n": 323,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": 0.6546536707079772,
+      "oos_spearman_corr": -0.39279220242478635,
+      "oos_spearman_gap": 0.6546536707079772,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 5,
+      "band_STABLE": [
+        5,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        1,
+        0.25,
+        0.25
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "654_fri_c0_500_10",
+      "task": "regression",
+      "n": 500,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.7693571033948916,
+      "oos_spearman_corr": 0.12688593882593713,
+      "oos_spearman_gap": 0.7691031622231251,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.4904761904761905,
+      "n_stableA": 33,
+      "band_STABLE": [
+        33,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        4,
+        0.25,
+        0.38333333333333336
+      ],
+      "band_UNRELIABLE": [
+        8,
+        0.42083333333333334,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "653_fri_c0_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8802800030028807,
+      "oos_spearman_corr": -0.02984637715362378,
+      "oos_spearman_gap": 0.7427488967992083,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0011627906976744186,
+      "unreliable_meanB": 0.449047619047619,
+      "n_stableA": 86,
+      "band_STABLE": [
+        86,
+        0.0001937984496124031,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        63,
+        0.1925925925925926,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        151,
+        0.4206401766004415,
+        0.6
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.04
+    },
+    {
+      "dataset": "633_fri_c0_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8831509079623906,
+      "oos_spearman_corr": -0.008985828187349089,
+      "oos_spearman_gap": 0.7029025629078384,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.4434666666666667,
+      "n_stableA": 104,
+      "band_STABLE": [
+        107,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        56,
+        0.24404761904761904,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        137,
+        0.4102189781021898,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.02
+    },
+    {
+      "dataset": "695_chatfield_4",
+      "task": "regression",
+      "n": 235,
+      "p": 12,
+      "n_pairs": 66,
+      "oos_spearman_cert": 0.925281712988783,
+      "oos_spearman_corr": 0.3013951753246307,
+      "oos_spearman_gap": 0.8389159044103384,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.3600000000000001,
+      "n_stableA": 10,
+      "band_STABLE": [
+        10,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        38,
+        0.09122807017543859,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        18,
+        0.36296296296296293,
+        0.55
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.015151515151515152
+    },
+    {
+      "dataset": "658_fri_c3_250_25",
+      "task": "regression",
+      "n": 250,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.875797890017859,
+      "oos_spearman_corr": -0.1523527703201954,
+      "oos_spearman_gap": 0.6866554349298484,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.000546448087431694,
+      "unreliable_meanB": 0.4333333333333333,
+      "n_stableA": 61,
+      "band_STABLE": [
+        44,
+        0.0003787878787878788,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        98,
+        0.091156462585034,
+        0.38333333333333336
+      ],
+      "band_UNRELIABLE": [
+        158,
+        0.41424050632911386,
+        0.6
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.056666666666666664
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_pairs": 190,
+      "oos_spearman_cert": 0.9148062910132223,
+      "oos_spearman_corr": -0.0016702118485018625,
+      "oos_spearman_gap": 0.5183478762193612,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.011111111111111112,
+      "unreliable_meanB": 0.4284848484848484,
+      "n_stableA": 24,
+      "band_STABLE": [
+        27,
+        0.009876543209876543,
+        0.05
+      ],
+      "band_MARGINAL": [
+        105,
+        0.14476190476190476,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        58,
+        0.407183908045977,
+        0.55
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.015789473684210527
+    },
+    {
+      "dataset": "643_fri_c2_500_25",
+      "task": "regression",
+      "n": 500,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8478520062843171,
+      "oos_spearman_corr": -0.035877736558006926,
+      "oos_spearman_gap": 0.6731266918387994,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0022653721682847896,
+      "unreliable_meanB": 0.4325814536340852,
+      "n_stableA": 103,
+      "band_STABLE": [
+        102,
+        0.0004901960784313725,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        54,
+        0.21635802469135795,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        144,
+        0.407175925925926,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.04666666666666667
+    },
+    {
+      "dataset": "666_rmftsa_ladata",
+      "task": "regression",
+      "n": 508,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.9137979609477451,
+      "oos_spearman_corr": -0.027444580836162046,
+      "oos_spearman_gap": 0.8534465283323013,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.42333333333333334,
+      "n_stableA": 9,
+      "band_STABLE": [
+        9,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        24,
+        0.13402777777777777,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        12,
+        0.3972222222222222,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_pairs": 190,
+      "oos_spearman_cert": 0.9108400653532533,
+      "oos_spearman_corr": 0.04555719551469456,
+      "oos_spearman_gap": 0.7334745792156779,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.005555555555555556,
+      "unreliable_meanB": 0.44938271604938285,
+      "n_stableA": 54,
+      "band_STABLE": [
+        50,
+        0.007333333333333334,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        71,
+        0.12159624413145544,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        69,
+        0.39855072463768115,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.031578947368421054
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_pairs": 190,
+      "oos_spearman_cert": 0.8750857670860448,
+      "oos_spearman_corr": -0.00022804344057633988,
+      "oos_spearman_gap": 0.48333984008016145,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.007207207207207207,
+      "unreliable_meanB": 0.4219047619047619,
+      "n_stableA": 37,
+      "band_STABLE": [
+        36,
+        0.006481481481481482,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        114,
+        0.1159356725146199,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        40,
+        0.40166666666666667,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.021052631578947368
+    },
+    {
+      "dataset": "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_pairs": 190,
+      "oos_spearman_cert": 0.8667894031342818,
+      "oos_spearman_corr": 0.12935974152453628,
+      "oos_spearman_gap": 0.47287803136401546,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.014285714285714287,
+      "unreliable_meanB": 0.41504065040650406,
+      "n_stableA": 14,
+      "band_STABLE": [
+        11,
+        0.004545454545454546,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        100,
+        0.166,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        79,
+        0.4124472573839662,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.02631578947368421
+    },
+    {
+      "dataset": "australian",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "auto",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+      "task": "classification",
+      "n": 1600,
+      "p": 20,
+      "n_pairs": 190,
+      "oos_spearman_cert": 0.8835713466376621,
+      "oos_spearman_corr": 0.031881272559790036,
+      "oos_spearman_gap": 0.6736528726952787,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.011458333333333334,
+      "unreliable_meanB": 0.4557077625570776,
+      "n_stableA": 32,
+      "band_STABLE": [
+        27,
+        0.0030864197530864196,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        84,
+        0.08908730158730158,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        79,
+        0.42236286919831223,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.03684210526315789
+    },
+    {
+      "dataset": "analcatdata_dmft",
+      "task": "classification",
+      "n": 797,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": NaN,
+      "oos_spearman_corr": NaN,
+      "oos_spearman_gap": NaN,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 6,
+      "band_STABLE": [
+        6,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "analcatdata_germangss",
+      "task": "classification",
+      "n": 400,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.6833490732084478,
+      "oos_spearman_corr": -0.35464951900691605,
+      "oos_spearman_gap": 0.7006490497453708,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 8,
+      "band_STABLE": [
+        8,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.14166666666666666,
+        0.16666666666666666
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "breast",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "analcatdata_lawsuit",
+      "task": "classification",
+      "n": 264,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": 0.6546536707079772,
+      "oos_spearman_corr": 0.6546536707079772,
+      "oos_spearman_gap": 0.6546536707079772,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 5,
+      "band_STABLE": [
+        5,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        1,
+        0.13333333333333333,
+        0.13333333333333333
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "breast_cancer_wisconsin",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "breast_w",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "buggyCrx",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "car",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "cleve",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "cleveland",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "biomed",
+      "task": "classification",
+      "n": 209,
+      "p": 8,
+      "n_pairs": 28,
+      "oos_spearman_cert": 0.8378854180191077,
+      "oos_spearman_corr": 0.5245169105556137,
+      "oos_spearman_gap": 0.3440345387749062,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.38333333333333336,
+      "n_stableA": 15,
+      "band_STABLE": [
+        15,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        9,
+        0.0962962962962963,
+        0.26666666666666666
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.36666666666666664,
+        0.45
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "cleveland_nominal",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "cmc",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "balance_scale",
+      "task": "classification",
+      "n": 625,
+      "p": 4,
+      "n_pairs": 6,
+      "oos_spearman_cert": 0.0,
+      "oos_spearman_corr": NaN,
+      "oos_spearman_gap": 0.1765469659009499,
+      "stable_transfer_frac": NaN,
+      "stable_meanB": NaN,
+      "unreliable_meanB": 0.5,
+      "n_stableA": 0,
+      "band_STABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        6,
+        0.44166666666666665,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.16666666666666666
+    },
+    {
+      "dataset": "breast_cancer",
+      "task": "classification",
+      "n": 286,
+      "p": 9,
+      "n_pairs": 36,
+      "oos_spearman_cert": 0.9004238945202853,
+      "oos_spearman_corr": 0.1075727661595031,
+      "oos_spearman_gap": 0.5607064428708914,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0047619047619047615,
+      "unreliable_meanB": 0.37619047619047624,
+      "n_stableA": 14,
+      "band_STABLE": [
+        15,
+        0.005555555555555555,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        15,
+        0.14555555555555558,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        6,
+        0.3861111111111111,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "allhyper",
+      "task": "classification",
+      "n": 3771,
+      "p": 27,
+      "n_pairs": 351,
+      "oos_spearman_cert": 0.7464543055617541,
+      "oos_spearman_corr": -0.016296795766119816,
+      "oos_spearman_gap": 0.5709280062169424,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0022026431718061676,
+      "unreliable_meanB": 0.4509803921568627,
+      "n_stableA": 227,
+      "band_STABLE": [
+        228,
+        0.000804093567251462,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        105,
+        0.10396825396825396,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        18,
+        0.43333333333333335,
+        0.7666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.008547008547008548
+    },
+    {
+      "dataset": "colic",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "allrep",
+      "task": "classification",
+      "n": 3772,
+      "p": 27,
+      "n_pairs": 351,
+      "oos_spearman_cert": 0.7950470149775015,
+      "oos_spearman_corr": -0.09203846886726741,
+      "oos_spearman_gap": 0.6548227481531083,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0006172839506172839,
+      "unreliable_meanB": 0.37583333333333335,
+      "n_stableA": 216,
+      "band_STABLE": [
+        213,
+        0.0009389671361502348,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        98,
+        0.10493197278911565,
+        0.38333333333333336
+      ],
+      "band_UNRELIABLE": [
+        40,
+        0.3866666666666666,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.008547008547008548
+    },
+    {
+      "dataset": "allbp",
+      "task": "classification",
+      "n": 3772,
+      "p": 27,
+      "n_pairs": 351,
+      "oos_spearman_cert": 0.7812665200361215,
+      "oos_spearman_corr": 0.04685643547933628,
+      "oos_spearman_gap": 0.633079550141806,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.002463768115942029,
+      "unreliable_meanB": 0.43333333333333335,
+      "n_stableA": 230,
+      "band_STABLE": [
+        220,
+        0.0007575757575757577,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        103,
+        0.09741100323624598,
+        0.4166666666666667
+      ],
+      "band_UNRELIABLE": [
+        28,
+        0.4053571428571428,
+        0.65
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.014245014245014245
+    },
+    {
+      "dataset": "contraceptive",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "credit_a",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "bupa",
+      "task": "classification",
+      "n": 345,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7963562622208846,
+      "oos_spearman_corr": 0.07294866524160776,
+      "oos_spearman_gap": 0.49240349038085235,
+      "stable_transfer_frac": NaN,
+      "stable_meanB": NaN,
+      "unreliable_meanB": 0.42666666666666664,
+      "n_stableA": 0,
+      "band_STABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_MARGINAL": [
+        5,
+        0.15,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        5,
+        0.3966666666666667,
+        0.48333333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "credit_g",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "allhypo",
+      "task": "classification",
+      "n": 3770,
+      "p": 27,
+      "n_pairs": 351,
+      "oos_spearman_cert": 0.7713416010031111,
+      "oos_spearman_corr": -0.07440671897741538,
+      "oos_spearman_gap": 0.6294402137689216,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0010558069381598793,
+      "unreliable_meanB": 0.4229885057471265,
+      "n_stableA": 221,
+      "band_STABLE": [
+        225,
+        0.0011111111111111111,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        94,
+        0.09539007092198584,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        32,
+        0.3838541666666666,
+        0.55
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.017094017094017096
+    },
+    {
+      "dataset": "crx",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "diabetes",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "620_fri_c1_1000_25",
+      "task": "regression",
+      "n": 1000,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8799506686749489,
+      "oos_spearman_corr": -0.10917986993585026,
+      "oos_spearman_gap": 0.710888989872469,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.42105263157894735,
+      "n_stableA": 90,
+      "band_STABLE": [
+        101,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        66,
+        0.19747474747474747,
+        0.38333333333333336
+      ],
+      "band_UNRELIABLE": [
+        133,
+        0.40689223057644114,
+        0.55
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.03666666666666667
+    },
+    {
+      "dataset": "cars",
+      "task": "classification",
+      "n": 392,
+      "p": 8,
+      "n_pairs": 28,
+      "oos_spearman_cert": 0.8125960131803825,
+      "oos_spearman_corr": 0.23532332898911612,
+      "oos_spearman_gap": 0.5850442604458607,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.00196078431372549,
+      "unreliable_meanB": 0.39166666666666666,
+      "n_stableA": 17,
+      "band_STABLE": [
+        17,
+        0.00196078431372549,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        7,
+        0.0880952380952381,
+        0.16666666666666666
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.37916666666666665,
+        0.45
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "flare",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "glass",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "car_evaluation",
+      "task": "classification",
+      "n": 1728,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.43301270189221924,
+      "oos_spearman_corr": NaN,
+      "oos_spearman_gap": 0.43301270189221924,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 13,
+      "band_STABLE": [
+        13,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.16666666666666666,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "german",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "heart_c",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "heart_h",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "heart_statlog",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "horse_colic",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "house_votes_84",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "hungarian",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "ecoli",
+      "task": "classification",
+      "n": 327,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.822845699513558,
+      "oos_spearman_corr": 0.19348568128096583,
+      "oos_spearman_gap": 0.7016513716782277,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 9,
+      "band_STABLE": [
+        10,
+        0.0016666666666666666,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        5,
+        0.12666666666666665,
+        0.25
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "collins",
+      "task": "classification",
+      "n": 485,
+      "p": 22,
+      "n_pairs": 231,
+      "oos_spearman_cert": 0.9248425065313413,
+      "oos_spearman_corr": -0.04614421749679124,
+      "oos_spearman_gap": 0.7672924949726565,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.006000000000000001,
+      "unreliable_meanB": 0.44893617021276583,
+      "n_stableA": 100,
+      "band_STABLE": [
+        95,
+        0.0012280701754385965,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        87,
+        0.16015325670498085,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        49,
+        0.4146258503401361,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.008658008658008658
+    },
+    {
+      "dataset": "irish",
+      "task": "classification",
+      "n": 500,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.5222329678670935,
+      "oos_spearman_corr": -0.4061811972299616,
+      "oos_spearman_gap": 0.4061811972299616,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": NaN,
+      "n_stableA": 9,
+      "band_STABLE": [
+        9,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        1,
+        0.21666666666666667,
+        0.21666666666666667
+      ],
+      "band_UNRELIABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "pima",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "monk1",
+      "task": "classification",
+      "n": 556,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.5916079783099615,
+      "oos_spearman_corr": 0.3380617018914066,
+      "oos_spearman_gap": 0.4889821045214988,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.3833333333333333,
+      "n_stableA": 13,
+      "band_STABLE": [
+        13,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        2,
+        0.3833333333333333,
+        0.43333333333333335
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "monk3",
+      "task": "classification",
+      "n": 554,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.7780470055575966,
+      "oos_spearman_corr": 0.41541742774609136,
+      "oos_spearman_gap": 0.7505055186352037,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.002777777777777778,
+      "unreliable_meanB": 0.5333333333333333,
+      "n_stableA": 12,
+      "band_STABLE": [
+        11,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.025,
+        0.03333333333333333
+      ],
+      "band_UNRELIABLE": [
+        2,
+        0.425,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "monk2",
+      "task": "classification",
+      "n": 601,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.5000032117060261,
+      "oos_spearman_corr": 0.2670268048179136,
+      "oos_spearman_gap": 0.05197165999811741,
+      "stable_transfer_frac": NaN,
+      "stable_meanB": NaN,
+      "unreliable_meanB": 0.4238095238095238,
+      "n_stableA": 0,
+      "band_STABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_MARGINAL": [
+        10,
+        0.23500000000000001,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        5,
+        0.4533333333333333,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.06666666666666667
+    },
+    {
+      "dataset": "new_thyroid",
+      "task": "classification",
+      "n": 215,
+      "p": 5,
+      "n_pairs": 10,
+      "oos_spearman_cert": 0.7363735392481269,
+      "oos_spearman_corr": -0.49091569283208464,
+      "oos_spearman_gap": 0.6797294208444249,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.02,
+      "unreliable_meanB": 0.4666666666666666,
+      "n_stableA": 5,
+      "band_STABLE": [
+        4,
+        0.004166666666666667,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        3,
+        0.05555555555555556,
+        0.06666666666666667
+      ],
+      "band_UNRELIABLE": [
+        3,
+        0.4666666666666666,
+        0.48333333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "penguins",
+      "task": "classification",
+      "n": 333,
+      "p": 7,
+      "n_pairs": 21,
+      "oos_spearman_cert": 0.8269831560623444,
+      "oos_spearman_corr": 0.41039426283992736,
+      "oos_spearman_gap": 0.5915872015277445,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.23333333333333334,
+      "n_stableA": 14,
+      "band_STABLE": [
+        15,
+        0.0022222222222222222,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        5,
+        0.14666666666666667,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.26666666666666666,
+        0.26666666666666666
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "prnn_fglass",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "mofn_3_7_10",
+      "task": "classification",
+      "n": 1324,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.8447154671126011,
+      "oos_spearman_corr": 0.1716720242211698,
+      "oos_spearman_gap": 0.6942761952788834,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.42666666666666664,
+      "n_stableA": 21,
+      "band_STABLE": [
+        21,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        2,
+        0.2833333333333333,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        22,
+        0.40303030303030307,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "parity5+5",
+      "task": "classification",
+      "n": 1124,
+      "p": 10,
+      "n_pairs": 45,
+      "oos_spearman_cert": 0.783051092796581,
+      "oos_spearman_corr": 0.07381273628155283,
+      "oos_spearman_gap": 0.5643957698799523,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.05925925925925927,
+      "unreliable_meanB": 0.45499999999999996,
+      "n_stableA": 9,
+      "band_STABLE": [
+        4,
+        0.016666666666666666,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        21,
+        0.045238095238095244,
+        0.1
+      ],
+      "band_UNRELIABLE": [
+        20,
+        0.43666666666666665,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.022222222222222223
+    },
+    {
+      "dataset": "solar_flare_1",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "led7",
+      "task": "classification",
+      "n": 3200,
+      "p": 7,
+      "n_pairs": 21,
+      "oos_spearman_cert": 0.8348346428523002,
+      "oos_spearman_corr": -0.14570577916211117,
+      "oos_spearman_gap": 0.8140195315434271,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0047619047619047615,
+      "unreliable_meanB": 0.3666666666666667,
+      "n_stableA": 14,
+      "band_STABLE": [
+        14,
+        0.0047619047619047615,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        4,
+        0.10416666666666666,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        3,
+        0.4222222222222222,
+        0.4666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "solar_flare_2",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "dis",
+      "task": "classification",
+      "n": 3772,
+      "p": 27,
+      "n_pairs": 351,
+      "oos_spearman_cert": 0.7877601139393401,
+      "oos_spearman_corr": -0.035212169781980995,
+      "oos_spearman_gap": 0.6453297596349851,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0007168458781362007,
+      "unreliable_meanB": 0.4666666666666667,
+      "n_stableA": 186,
+      "band_STABLE": [
+        179,
+        9.310986964618249e-05,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        133,
+        0.06817042606516291,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        39,
+        0.4183760683760684,
+        0.9
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.008547008547008548
+    },
+    {
+      "dataset": "prnn_crabs",
+      "task": "classification",
+      "n": 200,
+      "p": 7,
+      "n_pairs": 21,
+      "oos_spearman_cert": 0.7905673161360187,
+      "oos_spearman_corr": 0.28558593546211775,
+      "oos_spearman_gap": 0.5979455523738091,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0044444444444444444,
+      "unreliable_meanB": 0.43333333333333335,
+      "n_stableA": 15,
+      "band_STABLE": [
+        15,
+        0.0044444444444444444,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        4,
+        0.1875,
+        0.26666666666666666
+      ],
+      "band_UNRELIABLE": [
+        2,
+        0.42500000000000004,
+        0.4666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "hypothyroid",
+      "task": "classification",
+      "n": 3163,
+      "p": 25,
+      "n_pairs": 300,
+      "oos_spearman_cert": 0.8126264531664495,
+      "oos_spearman_corr": 0.04744155011778131,
+      "oos_spearman_gap": 0.6654698528520194,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0016161616161616162,
+      "unreliable_meanB": 0.39416666666666667,
+      "n_stableA": 165,
+      "band_STABLE": [
+        159,
+        0.0004192872117400419,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        104,
+        0.08509615384615385,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        37,
+        0.4099099099099099,
+        0.5833333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.02
+    },
+    {
+      "dataset": "vote",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "mfeat_morphological",
+      "task": "classification",
+      "n": 2000,
+      "p": 6,
+      "n_pairs": 15,
+      "oos_spearman_cert": 0.8720815992723808,
+      "oos_spearman_corr": -0.11725466880973189,
+      "oos_spearman_gap": 0.7658195556635613,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.005555555555555556,
+      "unreliable_meanB": 0.2833333333333333,
+      "n_stableA": 6,
+      "band_STABLE": [
+        6,
+        0.002777777777777778,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        7,
+        0.0880952380952381,
+        0.21666666666666667
+      ],
+      "band_UNRELIABLE": [
+        2,
+        0.32499999999999996,
+        0.3333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "led24",
+      "task": "classification",
+      "n": 3200,
+      "p": 24,
+      "n_pairs": 276,
+      "oos_spearman_cert": 0.8657449070029307,
+      "oos_spearman_corr": 0.043195386890035395,
+      "oos_spearman_gap": 0.8506153849431042,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.000505050505050505,
+      "unreliable_meanB": 0.45333333333333325,
+      "n_stableA": 132,
+      "band_STABLE": [
+        133,
+        0.0002506265664160401,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        25,
+        0.274,
+        0.38333333333333336
+      ],
+      "band_UNRELIABLE": [
+        118,
+        0.42104519774011295,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.028985507246376812
+    },
+    {
+      "dataset": "wdbc",
+      "error": "ValueError: Dataset not found in PMLB."
+    },
+    {
+      "dataset": "spect",
+      "task": "classification",
+      "n": 267,
+      "p": 22,
+      "n_pairs": 231,
+      "oos_spearman_cert": 0.8779125626218939,
+      "oos_spearman_corr": 0.003445014401249512,
+      "oos_spearman_gap": 0.713265491954605,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.021839080459770118,
+      "unreliable_meanB": 0.41688888888888886,
+      "n_stableA": 29,
+      "band_STABLE": [
+        22,
+        0.007575757575757577,
+        0.05
+      ],
+      "band_MARGINAL": [
+        132,
+        0.1292929292929293,
+        0.36666666666666664
+      ],
+      "band_UNRELIABLE": [
+        77,
+        0.40519480519480516,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.017316017316017316
+    },
+    {
+      "dataset": "profb",
+      "task": "classification",
+      "n": 672,
+      "p": 9,
+      "n_pairs": 36,
+      "oos_spearman_cert": 0.8474372045917518,
+      "oos_spearman_corr": 0.05177316255120948,
+      "oos_spearman_gap": 0.7003310231785418,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.002898550724637681,
+      "unreliable_meanB": 0.5111111111111111,
+      "n_stableA": 23,
+      "band_STABLE": [
+        24,
+        0.003472222222222222,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        8,
+        0.1375,
+        0.3
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.4166666666666667,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "threeOf9",
+      "task": "classification",
+      "n": 512,
+      "p": 9,
+      "n_pairs": 36,
+      "oos_spearman_cert": 0.9137734631552602,
+      "oos_spearman_corr": NaN,
+      "oos_spearman_gap": 0.5158222550298655,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.4777777777777778,
+      "n_stableA": 16,
+      "band_STABLE": [
+        16,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        14,
+        0.13095238095238096,
+        0.21666666666666667
+      ],
+      "band_UNRELIABLE": [
+        6,
+        0.4416666666666667,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.027777777777777776
+    },
+    {
+      "dataset": "saheart",
+      "task": "classification",
+      "n": 462,
+      "p": 9,
+      "n_pairs": 36,
+      "oos_spearman_cert": 0.9067934166808588,
+      "oos_spearman_corr": -0.16481221546523592,
+      "oos_spearman_gap": 0.31200792333917593,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0030303030303030303,
+      "unreliable_meanB": 0.37777777777777777,
+      "n_stableA": 11,
+      "band_STABLE": [
+        11,
+        0.004545454545454546,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        19,
+        0.12105263157894738,
+        0.4
+      ],
+      "band_UNRELIABLE": [
+        6,
+        0.4083333333333334,
+        0.5333333333333333
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.027777777777777776
+    },
+    {
+      "dataset": "schizo",
+      "task": "classification",
+      "n": 340,
+      "p": 14,
+      "n_pairs": 91,
+      "oos_spearman_cert": 0.9060144241280279,
+      "oos_spearman_corr": 0.5635518367374363,
+      "oos_spearman_gap": 0.7252702807829934,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.42068965517241375,
+      "n_stableA": 24,
+      "band_STABLE": [
+        24,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        32,
+        0.19479166666666667,
+        0.3333333333333333
+      ],
+      "band_UNRELIABLE": [
+        35,
+        0.39285714285714285,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.01098901098901099
+    },
+    {
+      "dataset": "tic_tac_toe",
+      "task": "classification",
+      "n": 958,
+      "p": 9,
+      "n_pairs": 36,
+      "oos_spearman_cert": 0.834958179909622,
+      "oos_spearman_corr": 0.040188344731455404,
+      "oos_spearman_gap": 0.7388894298791532,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.021212121212121213,
+      "unreliable_meanB": 0.4888888888888889,
+      "n_stableA": 11,
+      "band_STABLE": [
+        8,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        16,
+        0.04375,
+        0.08333333333333333
+      ],
+      "band_UNRELIABLE": [
+        12,
+        0.45138888888888884,
+        0.5666666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.05555555555555555
+    },
+    {
+      "dataset": "xd6",
+      "task": "classification",
+      "n": 973,
+      "p": 9,
+      "n_pairs": 36,
+      "oos_spearman_cert": 0.12626678312346415,
+      "oos_spearman_corr": 0.0672808406424298,
+      "oos_spearman_gap": -0.09848545753529843,
+      "stable_transfer_frac": NaN,
+      "stable_meanB": NaN,
+      "unreliable_meanB": 0.5324074074074073,
+      "n_stableA": 0,
+      "band_STABLE": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_MARGINAL": [
+        0,
+        NaN,
+        NaN
+      ],
+      "band_UNRELIABLE": [
+        36,
+        0.4782407407407407,
+        0.55
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.19444444444444445
+    },
+    {
+      "dataset": "vehicle",
+      "task": "classification",
+      "n": 846,
+      "p": 18,
+      "n_pairs": 153,
+      "oos_spearman_cert": 0.8832837447923019,
+      "oos_spearman_corr": 0.08079675198508814,
+      "oos_spearman_gap": 0.7231506207828636,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0008771929824561404,
+      "unreliable_meanB": 0.40151515151515144,
+      "n_stableA": 76,
+      "band_STABLE": [
+        78,
+        0.0017094017094017098,
+        0.05
+      ],
+      "band_MARGINAL": [
+        56,
+        0.11875000000000001,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        19,
+        0.4131578947368421,
+        0.48333333333333334
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "vowel",
+      "task": "classification",
+      "n": 990,
+      "p": 13,
+      "n_pairs": 78,
+      "oos_spearman_cert": 0.6547601036310039,
+      "oos_spearman_corr": 0.10316927872103754,
+      "oos_spearman_gap": 0.5719865104614503,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0005208333333333333,
+      "unreliable_meanB": 0.4444444444444444,
+      "n_stableA": 64,
+      "band_STABLE": [
+        63,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        12,
+        0.12361111111111112,
+        0.25
+      ],
+      "band_UNRELIABLE": [
+        3,
+        0.4166666666666667,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "yeast",
+      "task": "classification",
+      "n": 1479,
+      "p": 8,
+      "n_pairs": 28,
+      "oos_spearman_cert": 0.5956740603777343,
+      "oos_spearman_corr": 0.4475434739345939,
+      "oos_spearman_gap": 0.571360833423541,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.002777777777777778,
+      "unreliable_meanB": 0.3333333333333333,
+      "n_stableA": 24,
+      "band_STABLE": [
+        24,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        3,
+        0.04444444444444445,
+        0.05
+      ],
+      "band_UNRELIABLE": [
+        1,
+        0.36666666666666664,
+        0.36666666666666664
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "wine_quality_red",
+      "task": "classification",
+      "n": 1599,
+      "p": 11,
+      "n_pairs": 55,
+      "oos_spearman_cert": 0.8505412052424931,
+      "oos_spearman_corr": 0.021444679031080733,
+      "oos_spearman_gap": 0.7998613973760719,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0,
+      "unreliable_meanB": 0.38571428571428573,
+      "n_stableA": 34,
+      "band_STABLE": [
+        34,
+        0.0,
+        0.0
+      ],
+      "band_MARGINAL": [
+        13,
+        0.1705128205128205,
+        0.31666666666666665
+      ],
+      "band_UNRELIABLE": [
+        8,
+        0.3729166666666667,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "segmentation",
+      "task": "classification",
+      "n": 2310,
+      "p": 18,
+      "n_pairs": 153,
+      "oos_spearman_cert": 0.728855542263575,
+      "oos_spearman_corr": 0.557847909813256,
+      "oos_spearman_gap": 0.2853868701455606,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.0014245014245014244,
+      "unreliable_meanB": 0.43,
+      "n_stableA": 117,
+      "band_STABLE": [
+        117,
+        0.001282051282051282,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        26,
+        0.09038461538461541,
+        0.26666666666666666
+      ],
+      "band_UNRELIABLE": [
+        10,
+        0.4333333333333334,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.006535947712418301
+    },
+    {
+      "dataset": "churn",
+      "task": "classification",
+      "n": 5000,
+      "p": 20,
+      "n_pairs": 190,
+      "oos_spearman_cert": 0.7404663362395194,
+      "oos_spearman_corr": 0.0070576598289711,
+      "oos_spearman_gap": 0.578454347321053,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.00047961630695443646,
+      "unreliable_meanB": 0.41874999999999996,
+      "n_stableA": 139,
+      "band_STABLE": [
+        139,
+        0.0007194244604316547,
+        0.05
+      ],
+      "band_MARGINAL": [
+        36,
+        0.11666666666666664,
+        0.3
+      ],
+      "band_UNRELIABLE": [
+        15,
+        0.42222222222222233,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "wine_quality_white",
+      "task": "classification",
+      "n": 4898,
+      "p": 11,
+      "n_pairs": 55,
+      "oos_spearman_cert": 0.8023930956573022,
+      "oos_spearman_corr": 0.0036145818735317686,
+      "oos_spearman_gap": 0.6408829982838827,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.000925925925925926,
+      "unreliable_meanB": 0.4666666666666667,
+      "n_stableA": 36,
+      "band_STABLE": [
+        37,
+        0.0009009009009009009,
+        0.016666666666666666
+      ],
+      "band_MARGINAL": [
+        14,
+        0.12261904761904761,
+        0.2833333333333333
+      ],
+      "band_UNRELIABLE": [
+        4,
+        0.42500000000000004,
+        0.5
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.0
+    },
+    {
+      "dataset": "waveform_21",
+      "task": "classification",
+      "n": 5000,
+      "p": 21,
+      "n_pairs": 210,
+      "oos_spearman_cert": 0.7993793709284586,
+      "oos_spearman_corr": 0.3752659661869491,
+      "oos_spearman_gap": 0.6099312870919743,
+      "stable_transfer_frac": 1.0,
+      "stable_meanB": 0.002415458937198068,
+      "unreliable_meanB": 0.4087719298245614,
+      "n_stableA": 138,
+      "band_STABLE": [
+        137,
+        0.001094890510948905,
+        0.03333333333333333
+      ],
+      "band_MARGINAL": [
+        53,
+        0.11981132075471697,
+        0.35
+      ],
+      "band_UNRELIABLE": [
+        20,
+        0.39416666666666667,
+        0.5166666666666667
+      ],
+      "cantelli_hold_frac": 1.0,
+      "mean_minority_frac": 0.004761904761904762
+    }
+  ]
+}
