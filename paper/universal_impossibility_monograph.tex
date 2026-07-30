@@ -1801,11 +1801,18 @@ instances---the full equivalence is machine-checked
 (\texttt{rashomon\_biconditional\_neq} in
 \texttt{NecessityBiconditional.lean}): the three properties are jointly
 achievable \emph{if and only if} the Rashomon property fails.  For general
-incompatibility relations the unqualified biconditional is not
-machine-checked; what is proved is sufficiency (Rashomon $\Rightarrow$
-impossibility) plus the two converses above.  Within its proved scope this is
-a precise logical equivalence, not a vague ``things are hard when the problem
-is hard'' statement.
+incompatibility relations the boundary is now characterized exactly: the
+biconditional holds \emph{precisely} when the incompatibility relation is the
+complement of an equivalence relation (equivalently, when ``compatible'' is
+transitive), proved as \texttt{rashomon\_biconditional\_of\_equiv}---with the
+substantive possibility direction \texttt{possibility\_of\_equiv\_compat}---in
+\texttt{IncompatibilityCharacterization.lean}, of which the inequality case
+above is the finest special case.  That the equivalence hypothesis is essential
+is itself machine-checked (\texttt{general\_boundary\_fails} exhibits a
+non-Rashomon system admitting no faithful, stable, and decisive explanation).
+So ``Rashomon is the exact boundary'' is a precise logical equivalence exactly
+for congruence-structured incompatibility, and provably false without it---not
+a vague ``things are hard when the problem is hard'' statement.
 
 \paragraph{3.\ Resolution optimality: the $G$-invariant projection is
 Pareto-optimal.}

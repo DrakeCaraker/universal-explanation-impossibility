@@ -19,6 +19,7 @@ import UniversalImpossibility.LLMExplanationInstanceConstructive
 import UniversalImpossibility.MIWitness
 import UniversalImpossibility.CertificateGuarantee
 import UniversalImpossibility.PopulationCantelli
+import UniversalImpossibility.IncompatibilityCharacterization
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -43,3 +44,6 @@ import UniversalImpossibility.PopulationCantelli
 #print axioms UniversalImpossibility.Certificate.simultaneous_cantelli
 #print axioms UniversalImpossibility.PopulationCantelli.cantelli_upper
 #print axioms UniversalImpossibility.PopulationCantelli.cantelli_lower
+#print axioms UniversalImpossibility.IncompatChar.possibility_of_equiv_compat
+#print axioms UniversalImpossibility.IncompatChar.rashomon_biconditional_of_equiv
+#print axioms UniversalImpossibility.IncompatChar.general_boundary_fails
