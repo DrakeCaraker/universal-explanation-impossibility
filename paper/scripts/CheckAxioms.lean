@@ -27,6 +27,7 @@ import UniversalImpossibility.Dichotomy
 import UniversalImpossibility.TransferTheorem
 import UniversalImpossibility.MolienCapacity
 import UniversalImpossibility.CapacityFunctoriality
+import UniversalImpossibility.TransferGeneral
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -44,6 +45,7 @@ import UniversalImpossibility.CapacityFunctoriality
 #print axioms UniversalImpossibility.Molien.capacity_reynolds_eq_finrank_invariants
 #print axioms UniversalImpossibility.Capacity.structural_floor_dim
 #print axioms UniversalImpossibility.Capacity.capacity_antitone_subgroup
+#print axioms UniversalImpossibility.Transfer.transfer_flip_general
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive
