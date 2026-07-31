@@ -57,6 +57,8 @@ import UniversalImpossibility.UbiquityDimensional
 #print axioms UniversalImpossibility.Ubiquity.exists_observational_collision
 #print axioms UniversalImpossibility.Ubiquity.fderiv_exists_kernel_direction
 #print axioms UniversalImpossibility.Ubiquity.underspecified_impossibility
+#print axioms UniversalImpossibility.Ubiquity.regular_fiber_not_isolated
+#print axioms UniversalImpossibility.Ubiquity.smooth_regular_underspecified_impossibility
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive

@@ -142,12 +142,15 @@ Impossibility}, is a meta-theorem: it holds for \emph{every} system whose
 configurations, observations, and explanations satisfy the Rashomon property.
 A ubiquity argument (Part~I) indicates that this hypothesis is generically met
 whenever the parameter dimension exceeds the observable dimension---the regime
-of essentially all overparameterized models.  Its linear and infinitesimal core
-is machine-checked (rank--nullity forces genuinely distinct, observationally
-identical configurations, and a differentiable observation map has a nonzero
-derivative-annihilated direction at every point); the smooth globalisation to a
-positive-measure fiber---and the Sard genericity step---remain informal rather
-than machine-checked (see Part~I).
+of essentially all overparameterized models.  Its linear, infinitesimal, and
+\emph{local smooth} cores are machine-checked: rank--nullity forces genuinely
+distinct, observationally identical configurations; a differentiable observation
+map has a nonzero derivative-annihilated direction at every point; and, via the
+implicit function theorem, at a \emph{regular} point of a nonlinear observation
+map the true curved fiber contains genuinely distinct models arbitrarily close.
+What remains informal is strictly the \emph{genericity} of regular points (Sard's
+theorem, not in Mathlib) and the global positive-measure statement built on it
+(see Part~I).
 We then instantiate the theorem on explicit minimal witnesses in
 eight scientific domains: the degeneracy of the genetic code (biology),
 gauge freedom in electromagnetism (physics), microstate degeneracy in
@@ -900,13 +903,20 @@ any point a differentiable observation map has a nonzero tangent direction its d
 (\texttt{fderiv\_exists\_kernel\_direction}---the honest infinitesimal heart of the preimage theorem).
 The dimensional fact is then wired to the impossibility itself
 (\texttt{underspecified\_impossibility}): the colliding pair is now \emph{produced} by dimension, and
-the only residual hypothesis is non-degeneracy of the explanation.  What remains \emph{genuinely
-informal} is the globalisation---from ``the derivative has a flat direction everywhere'' to ``the fiber
-is a positive-\emph{measure} submanifold of genuinely distinct models'' (the constant-rank / implicit-function
-theorem plus a non-degeneracy condition), and the ``generic $y$'' refinement via Sard's theorem.  Mathlib
-supplies the implicit-function machinery but not the assembled positive-measure-submanifold statement;
-that globalisation is a separate formalization project, and the smooth (nonlinear) case is not yet
-Lean-verified.
+the only residual hypothesis is non-degeneracy of the explanation.
+The \emph{local smooth (nonlinear) globalisation is now machine-checked as well}: at a \emph{regular}
+point of a nonlinear observation map (surjective derivative) with $\dim(\sH) > \dim(Y)$, the \emph{true
+curved fiber} is not isolated---genuinely distinct configurations observing identically exist
+arbitrarily close (\texttt{regular\_fiber\_not\_isolated}, proved via Mathlib's implicit function
+theorem)---and this is wired to the impossibility for the nonlinear case
+(\texttt{smooth\_regular\_underspecified\_impossibility}).  This upgrades the infinitesimal statement (a
+flat tangent \emph{direction}) to genuinely distinct \emph{points} on the exact nonlinear fiber, with no
+genericity assumption.  What now remains \emph{genuinely informal} is strictly smaller: the
+\emph{genericity of regular points}---that almost every observable value is a regular value, so the
+statement holds at almost every fiber rather than only at an assumed regular point---which is Sard's
+theorem, not in Mathlib, and the global positive-\emph{measure} statement built on it.  The local
+structure at a regular point is verified; only the ``almost every $y$'' quantifier and the ensuing
+measure statement await Sard, a separate formalization project.
 Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon

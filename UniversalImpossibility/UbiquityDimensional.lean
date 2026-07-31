@@ -37,9 +37,10 @@
 -/
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.Analysis.Calculus.FDeriv.Basic
+import Mathlib.Analysis.Calculus.Implicit
 import UniversalImpossibility.Ubiquity
 
-open Module
+open Module Filter Topology
 
 namespace UniversalImpossibility.Ubiquity
 
@@ -145,5 +146,116 @@ theorem underspecified_impossibility
     (fun t => obs t) explain incomp θ' θ hobs (hnd θ' hne hobs) E hf hs hd
 
 end Bridge
+
+-- ============================================================================
+-- §4  Local smooth globalisation: distinct models on the true curved fibre
+-- ============================================================================
+
+/-
+  The infinitesimal result of §2 gives a flat tangent direction of the derivative.
+  Here we globalise it locally, via Mathlib's implicit function theorem: at a
+  *regular* point of a (nonlinear) map whose configuration space out-dimensions its
+  observable space, the true curved fibre contains genuinely distinct configurations
+  arbitrarily close — not merely an infinitesimal direction. This is the local part
+  of the smooth globalisation; what remains is the genericity of regular points
+  (Sard's theorem, not in Mathlib) and the global positive-measure statement.
+-/
+
+section SmoothLocal
+variable {𝕜 E F : Type*} [NontriviallyNormedField 𝕜] [CompleteSpace 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+  [NormedAddCommGroup F] [NormedSpace 𝕜 F] [FiniteDimensional 𝕜 F]
+
+/-- **Local smooth globalisation.** At a regular point (`f'.range = ⊤`) of a map whose
+    configuration space has strictly larger dimension than its observable space, the
+    *exact* fibre is not isolated: genuinely distinct configurations that observe
+    identically exist arbitrarily close (within any `ε`). This upgrades the
+    infinitesimal `fderiv_exists_kernel_direction` (a flat tangent direction) to
+    genuinely distinct points on the true curved fibre, via the implicit function
+    theorem — no Sard genericity required. -/
+theorem regular_fiber_not_isolated {f : E → F} {f' : E →L[𝕜] F} {a : E}
+    (hf : HasStrictFDerivAt f f' a) (hf' : f'.range = ⊤)
+    (hdim : finrank 𝕜 F < finrank 𝕜 E) (ε : ℝ) (hε : 0 < ε) :
+    ∃ x : E, x ≠ a ∧ f x = f a ∧ dist x a < ε := by
+  haveI : CompleteSpace E := FiniteDimensional.complete 𝕜 E
+  have hker : f'.ker ≠ ⊥ := f'.toLinearMap.ker_ne_bot_of_finrank_lt hdim
+  obtain ⟨b, hb_mem, hb_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hker
+  set u : (f'.ker) := ⟨b, hb_mem⟩ with hu_def
+  have hu_ne : u ≠ 0 := fun h => hb_ne (congrArg Subtype.val h)
+  set g := hf.implicitToOpenPartialHomeomorph f f' hf' with hg
+  have hself : g a = (f a, 0) := hf.implicitToOpenPartialHomeomorph_self hf'
+  have hsrc : a ∈ g.source := hf.mem_implicitToOpenPartialHomeomorph_source hf'
+  have htgt : (f a, (0 : f'.ker)) ∈ g.target := hf.mem_implicitToOpenPartialHomeomorph_target hf'
+  have hfst : ∀ x, (g x).fst = f x := fun x => hf.implicitToOpenPartialHomeomorph_fst hf' x
+  set k : 𝕜 → F × (f'.ker) := fun t => (f a, t • u) with hk
+  have hk0 : k 0 = (f a, 0) := by simp [hk]
+  have hk_cont : Continuous k := by rw [hk]; fun_prop
+  set γ : 𝕜 → E := fun t => g.symm (k t) with hγ
+  have hγ0 : γ 0 = a := by
+    have h := g.left_inv hsrc
+    simpa [hγ, hk0, hself] using h
+  have hsymm_ca : ContinuousAt g.symm (f a, 0) :=
+    g.continuousOn_symm.continuousAt (g.open_target.mem_nhds htgt)
+  have hγ_ca : ContinuousAt γ 0 := by
+    have hca : ContinuousAt g.symm (k 0) := by rw [hk0]; exact hsymm_ca
+    simpa [hγ, Function.comp] using hca.comp hk_cont.continuousAt
+  have hTgt : ∀ᶠ t in 𝓝 (0 : 𝕜), k t ∈ g.target :=
+    hk_cont.continuousAt.eventually_mem (by rw [hk0]; exact g.open_target.mem_nhds htgt)
+  have hDist : ∀ᶠ t in 𝓝 (0 : 𝕜), dist (γ t) a < ε := by
+    have ht := hγ_ca.tendsto
+    rw [hγ0] at ht
+    exact (Metric.tendsto_nhds.mp ht) ε hε
+  have h1 : ∀ᶠ t in 𝓝[≠] (0 : 𝕜), t ≠ 0 := by
+    filter_upwards [eventually_mem_nhdsWithin] with t ht using by simpa using ht
+  have hcomb : ∀ᶠ t in 𝓝[≠] (0 : 𝕜), t ≠ 0 ∧ k t ∈ g.target ∧ dist (γ t) a < ε := by
+    filter_upwards [h1, hTgt.filter_mono nhdsWithin_le_nhds,
+      hDist.filter_mono nhdsWithin_le_nhds] with t ht1 ht2 ht3 using ⟨ht1, ht2, ht3⟩
+  obtain ⟨t, ht_ne, ht_tgt, ht_dist⟩ := hcomb.exists
+  have hgt : g (γ t) = k t := g.right_inv ht_tgt
+  refine ⟨γ t, ?_, ?_, ht_dist⟩
+  · intro he
+    have hk_eq : k t = (f a, 0) := hgt.symm.trans (by rw [he]; exact hself)
+    rw [hk] at hk_eq
+    exact smul_ne_zero ht_ne hu_ne ((Prod.mk.injEq _ _ _ _).mp hk_eq).2
+  · have hf1 := hfst (γ t)
+    rw [hgt, hk] at hf1
+    exact hf1.symm
+
+/-- **The smooth (nonlinear) ubiquity impossibility, locally.** At a regular point of a
+    map whose configuration space out-dimensions its observable space, a genuinely
+    distinct configuration observing identically exists (produced on the true curved
+    fibre by the implicit function theorem); given a non-degenerate explanation, no
+    explanation can be faithful, stable, and decisive. The nonlinear analogue of
+    `underspecified_impossibility`, with the colliding pair now derived rather than
+    assumed. -/
+theorem smooth_regular_underspecified_impossibility
+    {H : Type*} {f : E → F} {f' : E →L[𝕜] F} {a : E}
+    (hf : HasStrictFDerivAt f f' a) (hf' : f'.range = ⊤)
+    (hdim : finrank 𝕜 F < finrank 𝕜 E)
+    (explain : E → H) (incomp : H → H → Prop)
+    (hnd : ∀ x, x ≠ a → f x = f a → incomp (explain x) (explain a))
+    (Efn : E → H)
+    (hfaith : ∀ t, ¬ incomp (Efn t) (explain t))
+    (hstab : ∀ p q, f p = f q → Efn p = Efn q)
+    (hdec : ∀ t h, incomp (explain t) h → incomp (Efn t) h) :
+    False := by
+  obtain ⟨x, hx_ne, hx_obs, _⟩ := regular_fiber_not_isolated hf hf' hdim 1 one_pos
+  have hinc : incomp (Efn x) (explain a) := hdec x (explain a) (hnd x hx_ne hx_obs)
+  have heq : Efn x = Efn a := hstab x a hx_obs
+  rw [heq] at hinc
+  exact hfaith a hinc
+
+/-- Non-vacuity: the projection `ℝ² → ℝ` is a regular map with configuration dimension
+    `2` strictly above observable dimension `1`, so the hypotheses above are satisfiable
+    (and its fibres are genuinely positive-dimensional lines of distinct models). -/
+example :
+    HasStrictFDerivAt (Prod.fst : ℝ × ℝ → ℝ) (ContinuousLinearMap.fst ℝ ℝ ℝ) (0, 0)
+    ∧ (ContinuousLinearMap.fst ℝ ℝ ℝ).range = ⊤
+    ∧ finrank ℝ ℝ < finrank ℝ (ℝ × ℝ) :=
+  ⟨(ContinuousLinearMap.fst ℝ ℝ ℝ).hasStrictFDerivAt,
+   Submodule.eq_top_iff'.mpr (fun y => ⟨(y, 0), rfl⟩),
+   by rw [Module.finrank_prod, Module.finrank_self]; norm_num⟩
+
+end SmoothLocal
 
 end UniversalImpossibility.Ubiquity
