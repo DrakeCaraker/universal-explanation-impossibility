@@ -1244,9 +1244,15 @@ character $\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g) = \dim(\text{invariants
 and the incurable structural instability---the directions no amount of data
 resolves---is exactly the kernel of the Reynolds projection, of dimension $\eta\cdot\dim V$
 (\texttt{structural\_floor\_dim}), linking the classification to the structural/statistical
-dichotomy. (The full graded \emph{series} in Lean awaits symmetric-power representations
-Mathlib does not yet provide; the degree-1 coefficient and the invariant's algebra are
-machine-checked, the higher coefficients rigorously computed.)
+dichotomy. This graded classification is now machine-checked at \emph{every} degree, not just degree~1.
+The symmetric group acts on degree-$d$ homogeneous polynomials by renaming variables---a
+genuine finite-dimensional representation (\texttt{renameRep}), once one supplies the missing
+finite-dimensionality of the graded piece (\texttt{homogeneousSubmodule\_finiteDimensional}, an
+independent gap in Mathlib). Applying the degree-1 character-average formula to it yields, for
+every~$d$, that the dimension of the degree-$d$ symmetric (invariant) homogeneous polynomials---the
+graded Molien coefficient $C_d$, the count of stable degree-$d$ facts---equals the average of the
+degree-$d$ character (\texttt{graded\_molien\_char\_average}). The graded stable-fact hierarchy is
+thus a theorem, not merely a computation.
 
 \paragraph{The keystone: capacity is exact, and one structure theorem closes the theory.}
 Capacity was an upper bound because its converse---that \emph{every} stable explanation map
@@ -1374,7 +1380,7 @@ Pareto-optimal).  As Shannon's channel capacity bounds the rate of
 reliable communication, the explanation capacity bounds the rate of
 reliable explanation.
 
-The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$---the degree-1 Molien coefficient---and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The full graded Molien \emph{series}---whose degree-2 coefficient is the interaction capacity---requires symmetric-power representations Mathlib does not yet provide, and is computed rigorously outside Lean.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$---the degree-1 Molien coefficient---and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The graded Molien coefficients---whose degree-2 term is the interaction capacity---are also machine-checked at every degree: \texttt{graded\_molien\_char\_average} realizes the symmetric-power action on degree-$d$ homogeneous polynomials as a representation and applies the same degree-1 formula, giving $C_d = \dim(\text{invariant degree-}d\text{ polynomials}) = $ average degree-$d$ character.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
 
 \paragraph{Will more data fix it? The structural/statistical dichotomy.}
 The most common objection to Rashomon-driven instability is that it is finite-sample noise more data

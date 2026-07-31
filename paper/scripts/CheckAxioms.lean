@@ -30,6 +30,7 @@ import UniversalImpossibility.CapacityFunctoriality
 import UniversalImpossibility.TransferGeneral
 import UniversalImpossibility.StructureTheorem
 import UniversalImpossibility.HomogeneousFinite
+import UniversalImpossibility.GradedMolien
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -51,6 +52,7 @@ import UniversalImpossibility.HomogeneousFinite
 #print axioms stable_iff_gInvariant
 #print axioms UniversalImpossibility.Capacity.explanation_structure_theorem
 #print axioms UniversalImpossibility.Graded.homogeneousSubmodule_finiteDimensional
+#print axioms UniversalImpossibility.Graded.graded_molien_char_average
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive
