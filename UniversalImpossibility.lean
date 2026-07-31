@@ -20,3 +20,5 @@ import UniversalImpossibility.CertificateTight
 import UniversalImpossibility.Dichotomy
 import UniversalImpossibility.TransferTheorem
 import UniversalImpossibility.MolienCapacity
+import UniversalImpossibility.CapacityFunctoriality
+import UniversalImpossibility.TransferGeneral

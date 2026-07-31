@@ -1223,6 +1223,31 @@ theory \citep{sturmfels2008algorithms}---but its identification as the
 universal resolution of the Explanation Impossibility, across all domains
 simultaneously, appears to be new.
 
+\paragraph{The graded classification table and the invariant's algebra.}
+The symmetry group does not merely decide \emph{whether} explanation is possible; via
+the Molien series of its permutation representation, $C_d = \dim(\mathrm{Sym}^d V)^G$
+counts the \emph{stable explanation facts at each interaction order}---degree~1 the
+main-effect attributions, degree~2 the interactions, degree~3 the triple interactions.
+This yields a concrete classification table (computed for the canonical classes and
+verified against the closed form for $S_n$, where $C_d$ is the number of partitions of
+$d$ into at most $n$ parts): for $S_n$ with $n \geq 3$, $(C_1,C_2,C_3) = (1,2,3)$
+regardless of $n$---exactly one stable main-effect fact (the sum), two stable interaction
+facts, three stable triples; for the cyclic group $C_4$, $(1,3,5)$; for the dihedral
+$D_4$, $(1,3,4)$; for the product $S_2 \times S_2$, $(2,5,8)$. Each entry is the a-priori
+count of facts an explanation can stably assert at that order---the fine (graded)
+refinement of the coarse hierarchy below. Capacity is moreover a well-behaved invariant,
+machine-checked as such: monotone (\texttt{capacity\_mono}), antitone in the symmetry
+group---more symmetry, fewer stable facts (\texttt{capacity\_antitone\_subgroup})---and
+full under trivial symmetry (\texttt{capacity\_id}); its degree-1 value is the average
+character $\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g) = \dim(\text{invariants})$
+(\texttt{capacity\_reynolds\_eq\_char\_average}, \texttt{capacity\_reynolds\_eq\_finrank\_invariants});
+and the incurable structural instability---the directions no amount of data
+resolves---is exactly the kernel of the Reynolds projection, of dimension $\eta\cdot\dim V$
+(\texttt{structural\_floor\_dim}), linking the classification to the structural/statistical
+dichotomy. (The full graded \emph{series} in Lean awaits symmetric-power representations
+Mathlib does not yet provide; the degree-1 coefficient and the invariant's algebra are
+machine-checked, the higher coefficients rigorously computed.)
+
 \paragraph{A hierarchy of difficulty.}
 The group structure determines the character of the impossibility and the
 available resolutions:
@@ -1491,7 +1516,13 @@ $\Pr[\widehat{\mathrm{flip}}_B \geq \beta + t] \leq e^{-2mt^2}$: the population 
 Lean as \texttt{transfer\_flipFreq\_bound} (and the sum form \texttt{transfer\_flip\_bound}) in
 \texttt{TransferTheorem.lean}, composing Mathlib's Hoeffding lemma with the population Cantelli bound,
 and closes the in-sample-to-out-of-sample gap the split-ensemble study was designed to probe---the
-$100\%$ observed transfer is the theorem's predicted consequence.  The proved, uncapped Cantelli bound
+$100\%$ observed transfer is the theorem's predicted consequence.  Because real ensembles are
+bootstrap-correlated rather than i.i.d., we also prove the transfer bound with the independence
+assumption \emph{removed} entirely: population Cantelli applied to the deployment flip frequency gives
+$\Pr[\mathrm{flip}_B \geq \beta + t] \leq \mathrm{Var}(\mathrm{flip}_B)/(\mathrm{Var}(\mathrm{flip}_B)+t^2)$
+for \emph{any} ensemble (\texttt{transfer\_flip\_general} in \texttt{TransferGeneral.lean}), the bound
+degrading gracefully as correlation inflates the flip-frequency variance and recovering the Hoeffding
+concentration when the ensemble is independent.  The proved, uncapped Cantelli bound
 itself holds for all $10{,}724$ pairs, as it must.  Two honest caveats survive the scale-up: a single-model importance gap is itself
 a competitive \emph{ranking} baseline---the certificate beats it on $87\%$ of datasets and, unlike
 it, returns a calibrated probability and a guarantee, but the gap is not negligible---and two
@@ -2388,7 +2419,7 @@ The capacity theorem's scope is determined by a subtlety: the relevant criterion
 
 The mechanism is detectable: genuinely substitutable features (e.g.\ \texttt{mean\_texture} and \texttt{worst\_texture} in Breast Cancer, $\rho_{\mathrm{SHAP}} = -0.19$) exhibit negative cross-model SHAP correlation---when one's importance goes up, the other's goes down.  This ``first-mover'' signature is confirmed on synthetic data ($\rho_{\mathrm{SHAP}} = -0.11$ to $-0.24$).  \emph{Conjectural diagnostic:} the sign of cross-model SHAP correlation may detect genuine exchangeability (negative~$=$ substitutable; positive~$=$ independent).  This is validated directionally on Breast Cancer and synthetic data but has not been tested at scale; it remains an open question whether this diagnostic generalises beyond these specific datasets.
 
-Attempts to predict instability from single data properties alone (7 predictors: correlation, VIF, PCA loadings, mutual information, redundancy ratio, leverage, spectral gap) all fail (maximum Spearman $\rho = 0.26$).  The capacity theorem works for exact domain-specific groups ($R^2 = 0.957$) but does NOT recover the exact group structure for correlation-derived groups on XGBoost+SHAP.  The extension from ``predicts instability given $G$'' to ``from data'' is therefore \emph{partially} resolved, along two fronts that do not require knowing $G$: (i) the per-query reliability question is answered by the ensemble signal-to-noise certificate (Spearman $0.76$--$0.94$ out-of-sample; $\S$\emph{capacity trace identity and bound}), and (ii) the capacity itself is \emph{bounded}, and its stable subspace recovered, from the feature-geometry effective rank (\texttt{capacity\_le\_of\_ker}). What remains genuinely open is estimating the exact integer capacity from the model ensemble under approximate symmetry---which we show, with five principled estimators, is not reliably possible; capacity is best read from the feature geometry, and reported as a bound.
+Attempts to predict instability from single data properties alone (7 predictors: correlation, VIF, PCA loadings, mutual information, redundancy ratio, leverage, spectral gap) all fail (maximum Spearman $\rho = 0.26$).  The capacity theorem works for exact domain-specific groups ($R^2 = 0.957$) but does NOT recover the exact group structure for correlation-derived groups on XGBoost+SHAP.  The extension from ``predicts instability given $G$'' to ``from data'' is therefore \emph{partially} resolved, along two fronts that do not require knowing $G$: (i) the per-query reliability question is answered by the ensemble signal-to-noise certificate (Spearman $0.76$--$0.94$ out-of-sample; $\S$\emph{capacity trace identity and bound}), and (ii) the capacity itself is \emph{bounded}, and its stable subspace recovered, from the feature-geometry effective rank (\texttt{capacity\_le\_of\_ker}). What remains genuinely open is estimating the exact integer capacity from the model ensemble under approximate symmetry---which we show, with five principled estimators, is not reliably possible; capacity is best read from the feature geometry, and reported as a bound.  Framed \emph{as a bound}---the program's sound epistemic mode, the same one the Cantelli certificate uses---capacity is validated by coverage rather than regression: across controlled systems, the dimension of the attribution subspace that is stable on \emph{two independent} ensembles (the transfer-confirmed, identifiable structure) respects the capacity bound with $100\%$ coverage and is informative ($C/p \approx 0.5$), and it is tight (equal to $C$) in the pure-symmetry cases.  So the certificate tells a practitioner \emph{which} facts are stable, and the capacity bounds \emph{how many} can be---a bound that holds out-of-sample even where the point-predictive ``$\eta$-law'' does not (the latter's prospective failure, and the failure of a structural-floor reframe of it, are reported in the falsification appendix as a thrice-confirmed boundary).
 
 \paragraph{Tautology concern.}  Coverage conflict degree (fraction of low-SNR pairs) and mean instability (mean flip rate) are both functions of the same importance distributions.  The high correlation ($\rho = 0.961$) partly reflects this statistical relationship.  The non-trivial content is twofold: (1)~the \emph{threshold} at SNR~$= 0.5$ comes from the algebraic theory (the coverage conflict boundary, proved in Lean), not from fitting the data; and (2)~the correlation is robust to threshold choice ($\rho > 0.88$ for all tested thresholds), confirming that the theory identifies the correct structural boundary rather than overfitting a particular cutoff.  A pure statistical approach would not know \emph{a priori} which summary statistic of the SNR distribution to use as a predictor.
 
@@ -4579,6 +4610,23 @@ counterexample (Figure~\ref{fig:falsification}).
 Three conjectured extensions of the framework were pre-registered and tested.
 All three were falsified, providing boundary conditions on the framework's
 predictive reach.
+
+\paragraph{The quantitative capacity law ($\eta$-law), falsified thrice.}
+The strongest \emph{point-predictive} conjecture---that $\eta = 1 - \dim(V^G)/\dim(V)$
+predicts the \emph{magnitude} of explanation instability---has now failed three
+independent ways, and we record the boundary as settled. (i)~It failed prospectively
+(pre-registered; holdout $R^2 = 0.24$, prospective $\rho = 0.31$). (ii)~From-data recovery
+of the integer capacity dimension under approximate symmetry is not reliably possible
+(five principled estimators). (iii)~A structural-floor reframe motivated by the
+structural/statistical dichotomy---predict the large-$n$ residual floor rather than the
+finite-$n$ total---was tested and also fails to differentiate: $\eta$ fits the finite-$n$
+total at least as well as the floor, and the from-data $\hat\eta$ still does not recover it.
+The lesson is epistemic, not merely empirical. The capacity theory is a \emph{bounds}
+theory, not a point-predictive law; reframed as a bound---the number of transfer-confirmed
+stable facts is at most the capacity---it holds with $100\%$ coverage out of sample
+(\S\ref{sec:group-classification}). The point-prediction is retired on evidence; the bound
+stands. This is the same discipline that distinguishes a distribution-free guarantee from a
+fitted regression throughout the program.
 
 \paragraph{Phase transition at the interpolation threshold.}
 We predicted a sharp transition in explanation instability at the
