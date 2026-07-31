@@ -24,6 +24,7 @@ import UniversalImpossibility.GaussMarkovDASH
 import UniversalImpossibility.DavisKahanSinTheta
 import UniversalImpossibility.CertificateTight
 import UniversalImpossibility.Dichotomy
+import UniversalImpossibility.TransferTheorem
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -35,6 +36,8 @@ import UniversalImpossibility.Dichotomy
 #print axioms Dichotomy.orbit_subset_rashomon
 #print axioms Dichotomy.rashomon_within_tube
 #print axioms Dichotomy.dichotomy
+#print axioms UniversalImpossibility.Transfer.transfer_flip_bound
+#print axioms UniversalImpossibility.Transfer.transfer_flipFreq_bound
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive

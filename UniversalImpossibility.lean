@@ -18,3 +18,4 @@ import UniversalImpossibility.GaussMarkovDASH
 import UniversalImpossibility.DavisKahanSinTheta
 import UniversalImpossibility.CertificateTight
 import UniversalImpossibility.Dichotomy
+import UniversalImpossibility.TransferTheorem
