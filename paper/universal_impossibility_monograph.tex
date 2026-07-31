@@ -1571,7 +1571,12 @@ for \emph{any} ensemble (\texttt{transfer\_flip\_general} in \texttt{TransferGen
 degrading gracefully as correlation inflates the flip-frequency variance and the Hoeffding bound being
 the sharper idealization in the independent case.  Under either, the observed $100\%$ transfer is now
 a theorem's predicted consequence rather than a fortunate regularity.  The proved, uncapped Cantelli bound
-itself holds for all $10{,}724$ pairs, as it must.  Two honest caveats survive the scale-up: a single-model importance gap is itself
+itself holds for all $10{,}724$ pairs, as it must; and the transfer theorem's premise is borne out at
+scale---across those pairs the observed out-of-sample flip lies below the machine-checked Hoeffding link
+(the full-ensemble flip plus the finite-$m$ slack) on $99.4\%$ of pairs against its $95\%$ design level,
+and below the end-to-end composite (the Cantelli bound plus that slack) on $100\%$---so the guarantee that
+transfers in theory is the one observed to transfer in practice, with a mean bound slack of ${\approx}0.50$
+(honestly conservative, as Cantelli looseness and the finite-$m$ Hoeffding term predict).  Two honest caveats survive the scale-up: a single-model importance gap is itself
 a competitive \emph{ranking} baseline---the certificate beats it on $87\%$ of datasets and, unlike
 it, returns a calibrated probability and a guarantee, but the gap is not negligible---and two
 datasets (balance\_scale, xd6) show weak out-of-sample ranking.
@@ -3384,6 +3389,11 @@ spine).
 Gene-expression data: OpenML (IDs 1137 and related).
 Neuroimaging: NeuroVault collection~6047.
 Multi-analyst data: OSF (osf.io/gvm2z) and GitHub (nbreznau/CRI).
+A prospective out-of-distribution validation of the reliability certificate on a
+disjoint benchmark suite (OpenML-CC18) has been pre-specified and frozen at a
+public commit for third-party-timestamped registration on OSF; it will be
+reported in future work whatever its outcome, per the falsification discipline of
+Part~V.
 
 % ---- Tier B (Empirical) ----
 \section{Empirical Predictions from the Mathematical Structure\,\textnormal{\normalsize[Tier B: Empirical]}}
@@ -3425,6 +3435,41 @@ decisive answers that are mathematically impossible to guarantee.
 
 \paragraph{Liability implications.}
 If an organisation relies on single-model SHAP explanations for high-stakes decisions and the Rashomon property holds, two independent audits using different random seeds could reach opposite conclusions about which feature drove the decision. Ensemble averaging (\DASH{} with $M \geq 25$) provides a defensible alternative: the explanation is stable, the uncertainty is quantified, and the limitations are documented. This analysis reflects our reading of the regulatory text and should be reviewed by a legal scholar before being relied upon in compliance contexts.
+
+\subsection{A quantitative adverse-action test\,\textnormal{\normalsize[Tier B: Empirical]}}
+\label{sec:adverse-action}
+
+The regulatory argument above is sharpest where an explanation is legally
+operative. Under the U.S.\ Equal Credit Opportunity Act (Regulation~B), a lender
+must state the \emph{principal reasons} for an adverse credit decision; in
+practice those reasons are read off feature attributions on a single deployed
+model \citep{selbst2018intuitive,ustun2019actionable}, and the EU AI Act
+\citep{euaiact2024} creates an analogous demand. We test how stable that
+operative explanation is. On German credit data (OpenML-31; 20~features), for
+each of 5~seeds we trained 60~bootstrap-retrained gradient-boosting models and
+kept those within a strict $2\%$ test-accuracy window of the best---an explicit
+equal-performance Rashomon filter---then recorded each denied applicant's
+principal (top-\SHAP{}) reason under every model in the window. On average
+$84\%$ of denied applicants (range $76$--$93\%$ across seeds) have a principal
+reason that \emph{flips} across equally accurate models: for most applicants the
+legally reported reason is an artifact of which equally good model was deployed.
+
+The per-query certificate identifies the dependable minority. It certifies a
+principal reason for ${\sim}19\%$ of denied applicants (range $4$--$29\%$), and
+certified reasons are modestly but consistently more concentrated across the
+ensemble than uncertified ones (modal-reason share $0.85$ vs $0.71$); the
+separation is directional, not dispositive, at these sample sizes, and we report
+it as such. The epistemic asymmetry is the point, and it is enforced by a
+theorem: because the certificate is provably \emph{one-sided}
+(\texttt{flip\_zero\_at\_low\_snr}, \S\ref{sec:group-classification}), it can
+prove a reason \emph{stable} but can never prove one \emph{arbitrary} from the
+ensemble mean and variance alone. The $84\%$ is therefore an \emph{observed}
+instability across the constructed Rashomon set, not a certified impossibility;
+we state the negative half no more strongly than the mathematics licenses. The
+compliant procedure this suggests is constructive rather than nihilistic: report
+a certified principal reason where one exists, and where none does, disclose
+that no single principal reason is stable across equally accurate models rather
+than reporting a decisive reason the certificate cannot underwrite.
 
 \subsection[What Explainability Can Do]{What Explainability \emph{Can} Do}
 \label{sec:can-do}
