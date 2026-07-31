@@ -142,8 +142,12 @@ Impossibility}, is a meta-theorem: it holds for \emph{every} system whose
 configurations, observations, and explanations satisfy the Rashomon property.
 A ubiquity argument (Part~I) indicates that this hypothesis is generically met
 whenever the parameter dimension exceeds the observable dimension---the regime
-of essentially all overparameterized models---though the differential-topology
-step of that argument is informal rather than machine-checked (see Part~I).
+of essentially all overparameterized models.  Its linear and infinitesimal core
+is machine-checked (rank--nullity forces genuinely distinct, observationally
+identical configurations, and a differentiable observation map has a nonzero
+derivative-annihilated direction at every point); the smooth globalisation to a
+positive-measure fiber---and the Sard genericity step---remain informal rather
+than machine-checked (see Part~I).
 We then instantiate the theorem on explicit minimal witnesses in
 eight scientific domains: the degeneracy of the genetic code (biology),
 gauge freedom in electromagnetism (physics), microstate degeneracy in
@@ -882,7 +886,27 @@ $\geq \dim(\sH) - \dim(Y)$.
 \end{proposition}
 
 \noindent
-The Lean formalization captures the combinatorial skeleton of this argument: \texttt{generic\_underspecification} proves that whenever the parameter dimension exceeds the observable dimension ($n > m$), the fiber dimension is positive ($n - m > 0$). The connection to the preimage theorem in differential topology---which guarantees that generic fibers are smooth submanifolds of the predicted dimension---is an informal mathematical argument, not a Lean-verified claim.
+\emph{What is now machine-checked, and what remains informal.}  An earlier version of this
+development formalized only the arithmetic skeleton (\texttt{generic\_underspecification}: $n > m
+\Rightarrow n - m > 0$) and left the mathematically substantive step---that underspecification
+genuinely \emph{forces} distinct-but-observationally-equivalent configurations to exist---as an
+informal appeal to the preimage theorem.  The \emph{linear and infinitesimal core of that step is now
+Lean-verified}, via rank--nullity (file \texttt{UbiquityDimensional.lean}, axiom-clean).  For a linear
+observation map $\mathsf{obs} : \sH \to Y$ with $\dim(\sH) > \dim(Y)$, from \emph{every} configuration
+there is a genuinely distinct one that observes identically
+(\texttt{exists\_observational\_collision}), the true fiber dimension is at least the naive count
+$n - m$ (\texttt{finrank\_ker\_ge}, so the arithmetic was a real lower bound, not just a proxy), and at
+any point a differentiable observation map has a nonzero tangent direction its derivative annihilates
+(\texttt{fderiv\_exists\_kernel\_direction}---the honest infinitesimal heart of the preimage theorem).
+The dimensional fact is then wired to the impossibility itself
+(\texttt{underspecified\_impossibility}): the colliding pair is now \emph{produced} by dimension, and
+the only residual hypothesis is non-degeneracy of the explanation.  What remains \emph{genuinely
+informal} is the globalisation---from ``the derivative has a flat direction everywhere'' to ``the fiber
+is a positive-\emph{measure} submanifold of genuinely distinct models'' (the constant-rank / implicit-function
+theorem plus a non-degeneracy condition), and the ``generic $y$'' refinement via Sard's theorem.  Mathlib
+supplies the implicit-function machinery but not the assembled positive-measure-submanifold statement;
+that globalisation is a separate formalization project, and the smooth (nonlinear) case is not yet
+Lean-verified.
 Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon
