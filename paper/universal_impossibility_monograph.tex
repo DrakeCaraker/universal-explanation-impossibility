@@ -1327,7 +1327,26 @@ Pareto-optimal).  As Shannon's channel capacity bounds the rate of
 reliable communication, the explanation capacity bounds the rate of
 reliable explanation.
 
-The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$---the degree-1 Molien coefficient---and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The full graded Molien \emph{series}---whose degree-2 coefficient is the interaction capacity---requires symmetric-power representations Mathlib does not yet provide, and is computed rigorously outside Lean.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
+
+\paragraph{Will more data fix it? The structural/statistical dichotomy.}
+The most common objection to Rashomon-driven instability is that it is finite-sample noise more data
+will resolve.  We answer this as a machine-checked dichotomy (\texttt{Dichotomy.lean}, axiom-clean).
+Instability splits into two components with opposite fates.  The \emph{structural} component is
+incurable: if a symmetry $g$ preserves the loss on \emph{every} dataset---the defining property of a
+function-class symmetry such as a neuron permutation or a sign-flip pair---then the entire group orbit
+of any minimizer lies in the Rashomon set at \emph{every} sample size
+(\texttt{orbit\_subset\_rashomon}, \texttt{structural\_floor}); no amount of data removes the ambiguity
+across the orbit.  The \emph{statistical} component is curable: if, transverse to the orbit, the loss
+is strongly convex, the Rashomon set at tolerance $\varepsilon$ is confined to a tube of radius
+$\sqrt{\varepsilon/c}$ around the orbit (\texttt{rashomon\_within\_tube}) that shrinks to the orbit as
+the statistically-indistinguishable tolerance $\varepsilon_n \to 0$
+(\texttt{tube\_radius\_tendsto\_zero}).  Total instability is thus a structural floor (constant in $n$)
+plus a statistical part that vanishes with data (\texttt{dichotomy}).  This is confirmed empirically:
+in a flip-versus-sample-size study, exactly-duplicated features hold a $\approx 0.5$ flip floor as
+their signal-to-noise ratio collapses to $0.007$, while a genuinely dominant feature decays to zero
+flip, and on real datasets the mean pairwise flip decays with $n$ while the worst pairs retain a
+$\approx 0.5$ floor---both halves of the dichotomy in one experiment.
 
 \paragraph{Uncertainty from symmetry: the representation-theoretic connection to quantum mechanics.}
 The capacity theorem and quantum uncertainty both arise from the same representation-theoretic decomposition.  We state and prove the connection.
@@ -1434,7 +1453,16 @@ unconditionally; the Gaussian estimate $\Phi(-\mathrm{SNR})$ is tighter still an
 well-calibrated).  This guarantee is machine-checked: the finite-sample Cantelli bound is formalized
 axiom-free in Lean as \texttt{cantelli\_lower\_tail} (file \texttt{CertificateGuarantee.lean}), with
 the certificate corollaries \texttt{flip\_le\_one\_div\_one\_add\_snrSq} (the $1/(1+\mathrm{SNR}^2)$
-form) and \texttt{stable\_flip\_le\_one\_fifth} (\textsc{stable} $\Rightarrow$ flip $\leq 20\%$).  It
+form) and \texttt{stable\_flip\_le\_one\_fifth} (\textsc{stable} $\Rightarrow$ flip $\leq 20\%$).  Two
+further machine-checked facts pin down exactly what the certificate can and cannot promise.  First it
+is \emph{optimal}: an explicit two-point ensemble attains the Cantelli bound with equality
+(\texttt{flip\_bound\_tight} in \texttt{CertificateTight.lean}), so no certificate reading only the
+ensemble mean and variance can promise a smaller flip rate---the $20\%$ \textsc{stable} guarantee is
+tight, not conservative.  Second it is \emph{one-sided}: an all-positive ensemble reads
+$\mathrm{SNR}^2 < 1$ (the \textsc{unreliable} band) yet has flip exactly $0$
+(\texttt{flip\_zero\_at\_low\_snr}), proving that instability is \emph{not} certifiable from the mean
+and variance alone---the certificate can prove a claim stable but never prove it arbitrary, which is
+why it reports \textsc{stable}/not-\textsc{stable} and never ``certified unstable.''  It
 is deliberately the finite-ensemble form the certificate actually computes---the sample mean and
 variance over the retrained models---so its hypotheses are discharged with no distributional or
 integrability assumptions, which is also why the bound is expected to (and does) hold for every
@@ -1451,12 +1479,20 @@ measure the flip on an \emph{independent} one---shows the certificate is predict
 not merely descriptive.  The out-of-sample flip ranking follows the certificate at Spearman median
 $0.82$ (interquartile $[0.75,0.88]$), beating the group-free $|\text{corr}|$ predictor on $98\%$ of
 datasets and clearing the $0.26$ from-data ceiling on $98\%$, and the Gaussian estimate is well
-calibrated in aggregate (expected calibration error $0.009$).  The decisive test---one \emph{not}
-implied by the in-sample Cantelli theorem---is transfer: every \textsc{stable} verdict computed on
+calibrated in aggregate (expected calibration error $0.009$).  The decisive test---transfer---is that every \textsc{stable} verdict computed on
 one ensemble stays stable (flip $\leq 20\%$) on the independent ensemble, for $100\%$ of pairs across
 all $100$ datasets that produce \textsc{stable} calls, whereas \textsc{unreliable} pairs flip at a
-median $0.42$ (near coin-flip).  The proved, uncapped Cantelli bound itself holds for all $10{,}724$
-pairs, as it must.  Two honest caveats survive the scale-up: a single-model importance gap is itself
+median $0.42$ (near coin-flip).  Crucially, this transfer is no longer merely observed but is itself
+a machine-checked theorem.  Modelling the deployment ensemble as $m$ i.i.d.\ bounded flip indicators
+with population flip probability $p \leq \beta$ (the population Cantelli bound), a Hoeffding tail on
+the independent ensemble gives, distribution-free and finite-sample,
+$\Pr[\widehat{\mathrm{flip}}_B \geq \beta + t] \leq e^{-2mt^2}$: the population guarantee transfers to
+\emph{any} independent ensemble with an explicit exponential rate.  This is formalized axiom-free in
+Lean as \texttt{transfer\_flipFreq\_bound} (and the sum form \texttt{transfer\_flip\_bound}) in
+\texttt{TransferTheorem.lean}, composing Mathlib's Hoeffding lemma with the population Cantelli bound,
+and closes the in-sample-to-out-of-sample gap the split-ensemble study was designed to probe---the
+$100\%$ observed transfer is the theorem's predicted consequence.  The proved, uncapped Cantelli bound
+itself holds for all $10{,}724$ pairs, as it must.  Two honest caveats survive the scale-up: a single-model importance gap is itself
 a competitive \emph{ranking} baseline---the certificate beats it on $87\%$ of datasets and, unlike
 it, returns a calibrated probability and a guarantee, but the gap is not negligible---and two
 datasets (balance\_scale, xd6) show weak out-of-sample ranking.
@@ -3013,7 +3049,7 @@ TinyStories is a synthetic dataset of simple children's stories; extrapolation t
 
 Several questions raised by the component-level analysis warrant future work.  First, \emph{functional stability}: we show that WHICH head is most important varies across seeds, but not whether the FUNCTION computed by that head varies.  If the same attention pattern emerges in different head positions across seeds (a permutation of functional roles), the instability is in labelling rather than in algorithmic diversity.  Permutation alignment methods such as Git Re-Basin~\cite{ainsworth2023git} address this directly and represent a complementary resolution to the $G$-invariant projection: Re-Basin aligns models in weight space, while $V^G$ projects into the shared importance structure.  Whether these produce equivalent conclusions is an empirical question.
 
-Second, \emph{sparse autoencoders (SAEs)}: the mechanistic interpretability community increasingly analyses learned features from SAEs rather than individual attention heads.  If independently trained SAEs on the same model produce stable features, SAE-based attribution may escape the Rashomon property --- the symmetry group would be trivial ($G = \{e\}$) and $\eta = 0$.  We test this directly: on freshly grokked transformers, six SAEs trained independently (different seeds) on the \emph{same} model's activations reconstruct well ($R^2 = 0.99$) yet produce features that are largely \emph{not} reproducible across seeds --- only $0.4\%$ of dictionary features match above cosine $0.9$, and $16\%$ above $0.7$ (random-direction null $0.15$).  So SAE features do \emph{not} escape the Rashomon property: the symmetry group is nontrivial and $\eta > 0$; only a small stable subset of features is identifiable, and the remainder is training-seed noise.  This is the theorem's prediction, and a cautionary result for SAE-based interpretability at scale.
+Second, \emph{sparse autoencoders (SAEs)}: the mechanistic interpretability community increasingly analyses learned features from SAEs rather than individual attention heads.  If independently trained SAEs on the same model produce stable features, SAE-based attribution may escape the Rashomon property --- the symmetry group would be trivial ($G = \{e\}$) and $\eta = 0$.  We test this directly: on freshly grokked transformers, six SAEs trained independently (different seeds) on the \emph{same} model's activations reconstruct well ($R^2 = 0.99$) yet produce features that are largely \emph{not} reproducible across seeds --- only $0.4\%$ of dictionary features match above cosine $0.9$, and $16\%$ above $0.7$ (random-direction null $0.15$).  So SAE features do \emph{not} escape the Rashomon property: the symmetry group is nontrivial and $\eta > 0$; only a small stable subset of features is identifiable, and the remainder is training-seed noise.  This is the theorem's prediction, and a cautionary result for SAE-based interpretability at scale.  The result holds on a \emph{real} pretrained language model, and there the per-query certificate turns the caution into a usable filter: on GPT-2~small (residual stream at layer~6; an ensemble of six SAEs, $R^2 = 0.54$, $L_0 \approx 41$), features again only partially reproduce across seeds (mean best-match cosine $0.36$ vs a random-direction null of $0.12$), and the certificate cleanly isolates the reproducible minority---the $\approx 9.5\%$ of features it certifies \textsc{stable} transfer to a held-out SAE ensemble at cosine $0.81$ ($88\%$ at cosine $\geq 0.7$), whereas uncertified features sit near the ensemble average ($0.32$).  Out-of-sample, on a real LLM, the certificate separates the SAE-feature claims worth trusting from the seed-dependent ones.
 
 Third, the \emph{ablation methodology} uses weight zeroing throughout.  Path patching~\cite{goldowskydill2023localizing} and causal scrubbing offer finer-grained, input-dependent attribution that may break the within-layer symmetry for specific inputs.  The impossibility theorem applies to the population-level importance ranking (averaged over inputs); input-specific attribution may exhibit different stability properties.
 

@@ -25,6 +25,7 @@ import UniversalImpossibility.DavisKahanSinTheta
 import UniversalImpossibility.CertificateTight
 import UniversalImpossibility.Dichotomy
 import UniversalImpossibility.TransferTheorem
+import UniversalImpossibility.MolienCapacity
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -38,6 +39,8 @@ import UniversalImpossibility.TransferTheorem
 #print axioms Dichotomy.dichotomy
 #print axioms UniversalImpossibility.Transfer.transfer_flip_bound
 #print axioms UniversalImpossibility.Transfer.transfer_flipFreq_bound
+#print axioms UniversalImpossibility.Molien.capacity_reynolds_eq_char_average
+#print axioms UniversalImpossibility.Molien.capacity_reynolds_eq_finrank_invariants
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive
