@@ -920,13 +920,20 @@ setting---Sard's property is proved outright} (\texttt{sardProperty\_of\_continu
 critical values lie in $\operatorname{range} L$, a proper subspace when $L$ is not onto, hence
 Haar-null.  So the linear case carries \emph{no residual}: the full generic statement
 (\texttt{generic\_ubiquity\_of\_sard}, which shows that Sard's property implies, for almost every value,
-a positive-dimensional fiber of genuinely distinct models) closes unconditionally for linear maps.  For
-\emph{nonlinear} maps with $\dim(\sH) > \dim(Y)$, Sard's property is isolated as a single named
-hypothesis (\texttt{SardProperty}) and the entire reduction to it is machine-checked; what remains is
-exactly the classical Morse--Sard theorem for that regime, which is \emph{not} in Mathlib (Mathlib has
-only the equidimensional Sard lemma; the general case is work in progress in Y.~Kudryashov's external
-\texttt{SardMoreira} development).  The residual is thus reduced from ``formalise Sard'' to ``discharge
-one named hypothesis, already existing externally,'' with everything else verified.
+a positive-dimensional fiber of genuinely distinct models) closes unconditionally for linear maps.  The \emph{submersion} case is also closed unconditionally (\texttt{sardProperty\_of\_submersion},
+\texttt{submersion\_fiber\_not\_isolated}): a map with no critical points has no critical values, so
+for any C$^1$ submersion with $\dim(\sH) > \dim(Y)$ \emph{every} fiber is a positive-dimensional
+Rashomon locus.  For a general \emph{nonlinear} map, Sard's property is isolated as a single named
+hypothesis (\texttt{SardProperty}) and the entire reduction to it is machine-checked
+(\texttt{generic\_ubiquity\_of\_sard}).  This pins the residual exactly: the \emph{only} observation
+maps for which the generic statement is not unconditionally machine-checked are the genuinely nonlinear
+ones that actually \emph{possess critical points} (rank-deficient derivative somewhere)---which is
+precisely the content of the classical Morse--Sard theorem.  That theorem is \emph{not} in Mathlib
+(only the equidimensional Sard lemma is); its general form is work in progress in Y.~Kudryashov's
+external \texttt{SardMoreira} development, pinned to a different Mathlib revision and hence not
+in-repo dischargeable here.  The residual is thus reduced from ``formalise Sard'' to ``discharge one
+named hypothesis, already existing externally, for the critical-point case,'' with the linear case,
+the submersion case, and the entire reduction verified.
 Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon

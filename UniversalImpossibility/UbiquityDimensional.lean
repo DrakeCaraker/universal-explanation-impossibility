@@ -303,6 +303,18 @@ theorem regular_value_fiber_not_isolated {f : E → F} (hf : ContDiff ℝ 1 f)
     ∃ x' : E, x' ≠ x ∧ f x' = f x ∧ dist x' x < ε :=
   regular_fiber_not_isolated (hf.hasStrictFDerivAt one_ne_zero) (hy x hx) hdim ε hε
 
+/-- **The submersion case, closed unconditionally.** If a C¹ observation map is a
+    submersion everywhere (its derivative is surjective at every configuration) with
+    dim(config) > dim(observable), then *every* fibre is a positive-dimensional Rashomon
+    locus: every configuration has genuinely distinct configurations observing identically
+    arbitrarily close. Submersions have no critical points, so this needs no Sard input —
+    it extends the unconditionally-closed class from linear maps to all submersions. -/
+theorem submersion_fiber_not_isolated {f : E → F} (hf : ContDiff ℝ 1 f)
+    (hsub : ∀ x, (fderiv ℝ f x).range = ⊤)
+    (hdim : finrank ℝ F < finrank ℝ E) (x : E) (ε : ℝ) (hε : 0 < ε) :
+    ∃ x' : E, x' ≠ x ∧ f x' = f x ∧ dist x' x < ε :=
+  regular_value_fiber_not_isolated hf hdim (fun x' _ => hsub x') rfl ε hε
+
 end RegularValue
 
 section Sard
@@ -353,6 +365,20 @@ theorem sardProperty_of_continuousLinearMap
     rw [not_forall] at hy'
     obtain ⟨x, hx⟩ := hy'
     exact LinearMap.mem_range.mpr ⟨x, (Classical.not_imp.mp hx).1⟩
+
+omit [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] in
+/-- **Sard's property holds outright for submersions.** A map with no critical points has
+    no critical values, so its non-regular set is empty. Together with the linear case,
+    the only observation maps for which the generic-ubiquity statement is not
+    unconditionally machine-checked are the genuinely nonlinear ones that actually possess
+    critical points — which is exactly the content of the classical Morse–Sard theorem. -/
+theorem sardProperty_of_submersion {f : E → F} (hsub : ∀ x, (fderiv ℝ f x).range = ⊤)
+    (μ : Measure F) : SardProperty f μ := by
+  have hempty : {y | ¬ IsRegularValue f y} = ∅ := by
+    ext y
+    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_not]
+    intro x _; exact hsub x
+  rw [SardProperty, hempty]; exact measure_empty
 
 end Sard
 
