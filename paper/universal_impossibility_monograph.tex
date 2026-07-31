@@ -1248,6 +1248,28 @@ dichotomy. (The full graded \emph{series} in Lean awaits symmetric-power represe
 Mathlib does not yet provide; the degree-1 coefficient and the invariant's algebra are
 machine-checked, the higher coefficients rigorously computed.)
 
+\paragraph{The keystone: capacity is exact, and one structure theorem closes the theory.}
+Capacity was an upper bound because its converse---that \emph{every} stable explanation map
+is $G$-invariant---was open. It is now a theorem, and an elementary one: since the group
+preserves observables, any map that factors through the observable is constant on orbits, so
+$\text{stable} \Leftrightarrow G\text{-invariant}$ (\texttt{stable\_iff\_gInvariant}, which
+depends on \emph{no} axioms whatsoever). The stable resolutions are therefore \emph{exactly}
+the $G$-invariant ones---nothing outside the invariants is stable---so the capacity
+$\dim(V^G)$ is the \emph{exact} stable-fact count, achieved by the orbit average and not
+exceeded. This upgrades the coverage-validated bound of the previous paragraphs to an
+equality, and it closes the framework into a single \emph{structure theorem}
+(\texttt{explanation\_structure\_theorem}): the orbit-average (Reynolds) operator $R$
+decomposes the explanation space canonically as $V = V^G \oplus \ker R$, and the four pillars
+of the theory are four facets of that one operator. $R$ is a projection; its range is exactly
+the stable subspace $V^G$; its trace/dimension is the capacity, equal to the average character
+$\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g)$; and its kernel---the incurable structural
+instability---has dimension $\dim V - \mathrm{capacity} = \eta\cdot\dim V$. The impossibility,
+the resolution, the capacity, and the structural floor are not four separate results but one
+decomposition seen four ways. This is the sense in which the theory is complete: a single
+machine-checked object from which the parts follow, the point-predictive over-reaches
+falsified and quarantined, and the guarantees stated as distribution-free bounds that hold
+out of sample.
+
 \paragraph{A hierarchy of difficulty.}
 The group structure determines the character of the impossibility and the
 available resolutions:
