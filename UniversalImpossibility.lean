@@ -23,3 +23,4 @@ import UniversalImpossibility.MolienCapacity
 import UniversalImpossibility.CapacityFunctoriality
 import UniversalImpossibility.TransferGeneral
 import UniversalImpossibility.StructureTheorem
+import UniversalImpossibility.HomogeneousFinite
