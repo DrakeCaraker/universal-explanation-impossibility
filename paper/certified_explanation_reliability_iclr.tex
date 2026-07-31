@@ -1,0 +1,501 @@
+% =====================================================================
+% Paper B — "Certified Explanation Reliability" — ICLR 2027 submission
+% v1 DRAFT (extraction from the monograph per TWO_PAPER_SPLIT.md).
+%
+% TODO before submission (owner: Drake):
+%   [ ] swap preamble for iclr2027_conference.sty when released (this
+%       draft uses a compile-anywhere article preamble at ~ICLR density)
+%   [ ] OSF DOI + CC-18 prospective results into Section 5 (placeholders
+%       marked \osfpending)
+%   [ ] anonymize artifact links (anonymous.4open.science) — ICLR is
+%       double-blind; the Lean repo + monograph citations de-anonymize
+%   [ ] co-author sign-off (Arnold, Rhoads) on the full claim set
+% =====================================================================
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[numbers]{natbib}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\input{claims}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newcommand{\snr}{\mathrm{SNR}}
+\newcommand{\flip}{\mathrm{flip}}
+\newcommand{\stab}{\textsc{stable}}
+\newcommand{\marg}{\textsc{marginal}}
+\newcommand{\unrel}{\textsc{unreliable}}
+\newcommand{\osfpending}{\textcolor{red}{[OSF DOI + prospective results pending registration]}}
+
+\title{Certified Explanation Reliability:\\ A Machine-Checked, Distribution-Free
+Per-Query Certificate for Feature-Importance Claims}
+\author{Anonymous authors\\ \small (double-blind submission)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Feature-importance explanations are unstable under model multiplicity: equally accurate
+models routinely disagree about which feature matters more, so a published claim
+``feature $j$ is more important than feature $k$'' may not survive retraining. Global
+skepticism, however, is not actionable. We give a \emph{per-query} certificate that says
+which individual ordering claims are reliable and which are not. For an ensemble of
+equally performing models, the claim's signal-to-noise ratio ($\snr$) yields a
+distribution-free guarantee: the fraction of models on which the claim flips is at most
+$1/(1+\snr^2)$, by Cantelli's inequality applied to the empirical ensemble measure. The
+guarantee, its \emph{tightness} (no certificate reading only the ensemble mean and
+variance can promise less), its \emph{one-sidedness} (instability is provably not
+certifiable from these statistics), and its \emph{transfer} to independent deployment
+ensembles (a Hoeffding composition, plus a dependence-free variant with no independence
+assumption at all) are machine-checked in Lean~4 --- to our knowledge the first empirical
+ML instrument whose end-to-end guarantee chain is formally verified. Retrospectively, on
+104 tabular datasets (10{,}724 ordering claims), every \stab{} verdict computed on one
+ensemble stayed stable on an independent one (100\% transfer), the certificate's flip
+ranking held out of sample (Spearman median $0.82$), its probability estimates were
+calibrated (ECE $0.009$), and certified top-$k$ sets reproduced exactly in 100\% of cases
+versus 27--30\% uncertified. A pre-registered prospective replication on a disjoint data
+source (OpenML-CC18) is reported whatever its outcome \osfpending. Two case studies show
+the stakes: on real credit data, 84\% of denied applicants' principal adverse-action
+reasons flip across equally good models, while the certificate identifies the minority
+of reasons that are dependable; on GPT-2, the certificate selects the ${\sim}10\%$ of
+sparse-autoencoder features that reproduce across retraining ($0.81$ cosine
+out-of-sample, versus $0.32$ uncertified). The certificate is ${\sim}50$ lines of code
+around any ensemble.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+The same data and the same accuracy target admit many models --- the Rashomon effect
+\citep{breiman2001statistical,fisher2019models,semenova2022existence,rudin2024amazing}
+--- and those models disagree about their explanations. Post-hoc attribution methods
+disagree with each other \citep{krishna2022disagreement}, are fragile to perturbation
+\citep{ghorbani2019interpretation,slack2020fooling}, can fail basic sanity checks
+\citep{adebayo2018sanity}, and, even for a fixed method, retraining an equally accurate
+model can reverse the reported ranking \citep{caraker2026dash,caraker2026limits}. A
+companion theory paper proves this is structural, not incidental: no explanation of an
+underspecified system is simultaneously faithful, stable, and decisive
+\citep{caraker2026limits}; related impossibility results constrain what attributions can
+deliver in principle \citep{bilodeau2024impossibility,sundararajan2020many,kumar2020problems}.
+
+An impossibility theorem, however, does not tell a practitioner what to do with the
+explanation in front of them. Total distrust is as useless as total trust: some
+explanation claims \emph{are} stable across every equally good model, and those are
+exactly the ones safe to act on. The missing instrument is a \emph{per-query reliability
+certificate}: for each individual claim, a guarantee --- not a heuristic score --- of how
+likely that claim is to survive model multiplicity.
+
+This paper supplies that instrument and validates it at scale. The certificate is
+deliberately minimal. Retrain (or bootstrap) an ensemble of $M$ equally performing
+models; for the ordering claim ``feature $j$ ranks above feature $k$,'' compute the
+per-model importance differences $D_1,\dots,D_M$, their mean $\hat\mu$ and standard
+deviation $\hat\sigma$, and the signal-to-noise ratio $\snr = |\hat\mu|/\hat\sigma$.
+Then the fraction of models disagreeing with the claimed direction is at most
+$1/(1+\snr^2)$ --- Cantelli's one-sided inequality applied to the empirical measure of
+the ensemble, so the bound is \emph{distribution-free and assumption-free}: it holds for
+every ensemble, exactly, with no appeal to Gaussianity, independence across features, or
+asymptotics. An $\snr \ge 2$ (\stab{}) claim flips on at most $20\%$ of equally good
+models, unconditionally.
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
+\item \textbf{A machine-checked guarantee chain.} The finite-ensemble Cantelli bound
+  (Theorem~\ref{thm:cantelli}), its tightness (Theorem~\ref{thm:tight}), its
+  one-sidedness (Theorem~\ref{thm:onesided}), the family-wise simultaneous bound
+  (Proposition~\ref{prop:simul}), and the out-of-sample transfer theorems
+  (Theorems~\ref{thm:transfer-iid} and~\ref{thm:transfer-general}) are all formalized in
+  Lean~4 \citep{demoura2021lean4} over Mathlib \citep{mathlib2020}, with no custom
+  axioms. The paper's guarantee \emph{is} the verified statement; each theorem below
+  names its Lean declaration.
+\item \textbf{Transfer as a theorem, not an observation.} The bound is computed
+  in-sample on one ensemble; deployment happens on another. We prove the guarantee
+  transfers: with an explicit $e^{-2mt^2}$ rate for independent deployment ensembles,
+  and --- removing the independence assumption entirely --- a population-Cantelli form
+  valid for \emph{any} correlated or exchangeable ensemble. This closes the
+  in-sample-to-out-of-sample gap that a validation study alone cannot.
+\item \textbf{Validation at scale, in the correct epistemic mode.} We validate the
+  \emph{bounds by coverage} (does the guarantee hold?), not by goodness-of-fit of any
+  point-predictive law. On 104 PMLB datasets and 10{,}724 ordering claims: 100\% \stab{}
+  transfer to independent ensembles, out-of-sample flip ranking at Spearman median
+  $0.82$, calibration ECE $0.009$, and certified top-$k$ reproduction 100\% versus
+  27--30\% uncertified (Section~\ref{sec:validation}).
+\item \textbf{A pre-registered prospective round.} Thresholds for five confirmatory
+  predictions on a disjoint benchmark suite (OpenML-CC18) were frozen and registered
+  before any CC-18 data was accessed; the analysis pipeline is frozen at a public commit
+  hash. Results are reported whatever the outcome (Section~\ref{sec:prospective}).
+\item \textbf{Two high-stakes case studies.} Legally mandated adverse-action reasons on
+  real credit data (84\% flip across the Rashomon set; the certificate finds the
+  dependable minority), and sparse-autoencoder features on GPT-2 (the certificate's
+  \stab{} calls transfer at $0.81$ cosine out-of-sample versus $0.32$ uncertified)
+  (Section~\ref{sec:cases}).
+\end{enumerate}
+
+Equally important is what we do \emph{not} claim; Section~\ref{sec:scope} states the
+scope honestly, including the certificate's provable inability to certify
+\emph{instability}, its per-model-class nature, and the falsified point-predictive
+extensions of the underlying theory that this paper deliberately does not rest on.
+
+\section{The certificate and its verified guarantees}
+\label{sec:certificate}
+
+\paragraph{Setting.} Fix a dataset and a model class, and let $\mathcal{E} = \{m_1,
+\dots, m_M\}$ be an ensemble of models with (near-)equal predictive performance ---
+in our experiments, bootstrap-retrained random forests; in general, any Rashomon-set
+sample \citep{semenova2022existence}. An importance functional $I$ (impurity, SHAP
+\citep{lundberg2017unified}, permutation, \dots) assigns each model a vector
+$I(m)\in\mathbb{R}^p$. For an ordered pair $(j,k)$, the \emph{claim} is
+$\mathrm{sign}(\mathbb{E}[D])$ where $D_i = I(m_i)_j - I(m_i)_k$; the \emph{flip
+fraction} is the share of models whose $D_i$ disagrees with the claimed direction. The
+certificate computes
+\[
+\hat\mu = \tfrac1M\textstyle\sum_i D_i,\qquad
+\hat\sigma^2 = \tfrac1M\textstyle\sum_i (D_i-\hat\mu)^2,\qquad
+\snr = |\hat\mu|/\hat\sigma,
+\]
+and reports the band \stab{} ($\snr\ge 2$), \marg{} ($\snr \ge 0.5$), or \unrel{},
+together with the guarantee of Theorem~\ref{thm:cantelli} and the calibrated estimate
+$\Phi(-\snr)$.
+
+\begin{theorem}[Distribution-free flip bound; Lean:
+\texttt{cantelli\_lower\_tail}, \texttt{flip\_le\_one\_div\_one\_add\_snrSq} in
+\texttt{CertificateGuarantee.lean}]
+\label{thm:cantelli}
+For any ensemble with $\hat\mu \neq 0$,
+\[
+\flip(\mathcal{E})\;\le\;\frac{1}{1+\snr^2}.
+\]
+In particular a \stab{} claim ($\snr\ge2$) flips on at most $20\%$ of the ensemble
+(Lean: \texttt{stable\_flip\_le\_one\_fifth}).
+\end{theorem}
+
+\emph{Proof idea.} A flip is the one-sided event $D - \hat\mu \le -|\hat\mu|$ under the
+empirical measure of the ensemble; Cantelli's inequality bounds it by
+$\hat\sigma^2/(\hat\sigma^2 + \hat\mu^2)$. Because the inequality is applied to the
+empirical measure --- the finite list of retrained models the certificate actually sees
+--- there are no distributional hypotheses to discharge: the bound holds for every
+observed ensemble, always. It is strictly sharper than two-sided Chebyshev
+($1/\snr^2$) and never vacuous. \hfill$\square$
+
+Two further verified facts pin down exactly what such a certificate can and cannot
+promise.
+
+\begin{theorem}[Tightness; Lean: \texttt{flip\_bound\_tight} in
+\texttt{CertificateTight.lean}]
+\label{thm:tight}
+For every rational tail fraction there is an explicit two-point ensemble attaining
+$\flip = \hat\sigma^2/(\hat\sigma^2+\hat\mu^2)$ with equality. Consequently no
+certificate that reads only the ensemble mean and variance can promise a smaller flip
+rate: the $20\%$ \stab{} guarantee is exactly met, not conservative-by-design.
+\end{theorem}
+
+\begin{theorem}[One-sidedness; Lean: \texttt{flip\_zero\_at\_low\_snr}]
+\label{thm:onesided}
+There is an explicit ensemble with $\snr^2 < 1$ (the \unrel{} band) whose flip fraction
+is exactly $0$. Hence low $\snr$ does not --- and provably cannot --- certify that a
+claim is unstable: from $(\hat\mu,\hat\sigma)$ alone, stability is certifiable and
+instability is not.
+\end{theorem}
+
+Theorem~\ref{thm:onesided} began as an attempt to prove the opposite (a
+Paley--Zygmund-style lower band that would ``certify arbitrariness''); the counterexample
+is the honest outcome, and it dictates the instrument's interface: the certificate
+reports \stab{} or \emph{not-certified}, never ``certified unstable.'' This matters for
+the regulatory use case in Section~\ref{sec:cases}.
+
+\begin{proposition}[Simultaneous claims and certified top-$k$; Lean:
+\texttt{simultaneous\_cantelli}]
+\label{prop:simul}
+For a family of claims, the fraction of the ensemble on which \emph{any} claim flips is
+at most the sum of the per-claim Cantelli bounds. In particular, call a top-$k$ feature
+set \emph{certified} when the boundary comparison ($k$-th versus $(k{+}1)$-th by mean
+importance) is \stab{}; the union bound then controls the whole set.
+\end{proposition}
+
+\section{Transfer: the in-sample bound is an out-of-sample guarantee}
+\label{sec:transfer}
+
+Theorem~\ref{thm:cantelli} is a statement about the ensemble on which it is computed.
+Deployment poses a different question: a practitioner certifies a claim on ensemble $A$
+today and retrains ensemble $B$ tomorrow. The natural referee objection --- \emph{your
+bound is in-sample; your evidence is out-of-sample; where is the link?} --- is answered
+by two theorems, not by the experiments.
+
+\begin{theorem}[Transfer, independent ensembles; Lean:
+\texttt{transfer\_flipFreq\_bound}, \texttt{transfer\_flip\_bound} in
+\texttt{TransferTheorem.lean}]
+\label{thm:transfer-iid}
+Model the deployment ensemble as $m$ i.i.d.\ draws with population flip probability $p
+\le \beta$, where $\beta$ is the population Cantelli bound $1/(1+\snr_{\mathrm{pop}}^2)$.
+Then for every $t>0$,
+\[
+\Pr\!\left[\widehat{\flip}_B \ge \beta + t\right]\;\le\;e^{-2mt^2}.
+\]
+\end{theorem}
+
+The proof composes Mathlib's Hoeffding inequality with the population Cantelli bound ---
+itself formalized as \texttt{cantelli\_upper} in \texttt{PopulationCantelli.lean}, filling
+a gap in formalized probability libraries. In practice, however, retrained ensembles are
+bootstrap-\emph{correlated}, not independent. Rather than assume the correlation away, we
+remove the independence hypothesis entirely:
+
+\begin{theorem}[Transfer, dependence-free; Lean: \texttt{transfer\_flip\_general} in
+\texttt{TransferGeneral.lean}]
+\label{thm:transfer-general}
+For \emph{any} deployment ensemble --- arbitrarily correlated or exchangeable ---
+population Cantelli applied to the flip frequency itself gives
+\[
+\Pr\!\left[\flip_B \ge \beta + t\right]\;\le\;
+\frac{\operatorname{Var}(\flip_B)}{\operatorname{Var}(\flip_B) + t^2}.
+\]
+\end{theorem}
+
+The bound degrades gracefully as correlation inflates the flip-frequency variance, with
+Theorem~\ref{thm:transfer-iid} as the sharper independent-case idealization. Under
+either, the 100\% observed transfer of Section~\ref{sec:validation} is a theorem's
+predicted consequence rather than a fortunate regularity. To our knowledge this makes
+the certificate the first empirical-ML instrument with an end-to-end formally verified
+chain from guarantee statement to deployment behavior; formal verification in ML has
+otherwise targeted models and robustness properties rather than empirical instruments
+\citep{decker2024provably,noguer2025mathematical}.
+
+\section{Retrospective validation at scale}
+\label{sec:validation}
+
+\paragraph{Protocol.} 104 PMLB classification and regression datasets ($200\le n\le
+5000$, $4\le p\le 30$ after filtering), $M=60$ bootstrap-retrained random forests per
+dataset with impurity importances, split 30/30 into ensemble $A$ (computes the
+certificate) and an independent ensemble $B$ (measures the flip); all
+$\binom{p}{2}$-style ordering claims, 10{,}724 in total. The validation mode is
+\emph{coverage of bounds}: we ask whether guarantees hold, not whether a fitted curve
+fits.
+
+\paragraph{Results.}
+\begin{itemize}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
+\item \textbf{The guarantee holds.} The uncapped Cantelli bound holds for all 10{,}724
+  claims in-sample, as the theorem requires. The composite out-of-sample bound
+  (population Cantelli $+$ Hoeffding slack, Theorem~\ref{thm:transfer-iid}) covers
+  $99.4\%$ of claims against its $95\%$ design level, and the dependence-free composite
+  covers $100\%$. The bound is honestly conservative: mean slack ${\approx}0.50$,
+  expected from Cantelli looseness plus the finite-$m$ Hoeffding term.
+\item \textbf{\stab{} transfers perfectly.} Every \stab{} verdict computed on $A$ stayed
+  stable (flip $\le 20\%$) on the independent $B$ --- $100\%$ of 4{,}521 \stab{} claims
+  across all 100 datasets that produced \stab{} calls. \unrel{} claims flipped at median
+  $0.42$, near coin-flip: the bands separate.
+\item \textbf{The ranking is predictive out of sample.} Per-dataset Spearman between
+  predicted flip $\Phi(-\snr_A)$ and observed flip on $B$: median $0.82$ (IQR
+  $[0.75,0.88]$), beating the group-free $|\mathrm{corr}(X_j,X_k)|$ baseline on $98\%$
+  of datasets and a single-model importance-gap baseline on $87\%$. The single-model gap
+  is itself a competitive \emph{ranking} heuristic --- but returns no calibrated
+  probability and no guarantee.
+\item \textbf{Calibrated.} Pooled reliability diagram of $\Phi(-\snr_A)$ against
+  observed flips: ECE $0.009$.
+\item \textbf{Certified top-$k$ reproduces.} Across the 104 datasets, certified top-5
+  sets (Proposition~\ref{prop:simul}) reproduced \emph{exactly} on the independent
+  ensemble in $100\%$ of cases, versus $27$--$30\%$ for uncertified sets. Certification
+  fires rarely --- few datasets have a stable top-$k$ boundary --- which is itself the
+  point: most ``top-feature'' claims are not stable, and the certificate says precisely
+  which are.
+\item \textbf{Failures, named.} Two datasets (balance\_scale, xd6) show weak
+  out-of-sample ranking; we report them rather than average them away.
+\end{itemize}
+
+\section{Pre-registered prospective validation (OpenML-CC18)}
+\label{sec:prospective}
+
+Retrospective validation, however large, cannot rule out pipeline-level overfitting to
+the benchmark pool. We therefore froze the exact pipeline of
+Section~\ref{sec:validation} (only the data loader, an NA-handling rule, ordinal
+encoding, and a mechanical PMLB-deduplication step differ, each pre-specified) at a
+public commit hash, and registered five confirmatory predictions on OSF \emph{before any
+CC-18 data was downloaded}, with a mandatory waiting period between registration and
+first download. The predictions (P1--P5, thresholds frozen in the registration; full
+table in Appendix~\ref{app:prereg}) cover \stab{} transfer ($\ge 95\%$ per dataset in
+$\ge 90\%$ of eligible datasets), pooled \stab{} flip magnitude, ranking value over
+baselines, calibration, and certified top-$k$ reproduction, each with an explicit
+disconfirmation criterion. \textbf{The paper reports the outcome whatever it is}: a
+failed prediction narrows the claim's scope in the final version rather than
+disappearing. \osfpending
+
+\section{Case studies: what certification changes in practice}
+\label{sec:cases}
+
+\subsection{Adverse-action reasons on real credit data}
+\label{sec:credit}
+
+U.S.\ lenders must state the principal reasons for adverse credit decisions (ECOA /
+Regulation~B; model-risk guidance \citep{occ2011sr117}), and analogous explanation
+rights exist in the EU \citep{euaiact2024}; in practice reasons are derived from feature
+attributions on a single model \citep{selbst2018intuitive,ustun2019actionable}. On
+German credit data (OpenML-31), we trained 40-model Rashomon ensembles under a strict
+$2\%$ equal-accuracy window (5 seeds) and computed each denied applicant's principal
+(top-SHAP) reason per model. \textbf{On average $84\%$ of denied applicants (range
+$76$--$93\%$ across seeds) have a principal reason that flips across equally good
+models}: the legally operative explanation is, for most applicants, an artifact of which
+equally accurate model was deployed. The certificate identifies the dependable
+minority: it certifies a reason for ${\sim}19\%$ of denied applicants (range
+$4$--$29\%$), and certified reasons are more concentrated across the ensemble (modal
+reason share $0.85$ versus $0.71$ uncertified). By Theorem~\ref{thm:onesided} we state
+the negative half carefully: the $84\%$ is an \emph{observed} instability across the
+constructed Rashomon set, not a certified impossibility --- the certificate can prove
+the minority stable but provably cannot prove the majority arbitrary. The compliance
+upshot is constructive: report certified reasons where they exist; where none exists,
+the honest notice is that no single principal reason is stable across equally accurate
+models.
+
+\subsection{Certified sparse-autoencoder features on GPT-2}
+\label{sec:sae}
+
+Sparse autoencoders are a leading tool for extracting interpretable features from
+language models, but SAE features are themselves subject to multiplicity: retrained SAEs
+learn overlapping-but-different dictionaries \citep{paulo2025sae,meloux2025everything}.
+We trained an ensemble of 6 SAEs (2048 latents, $R^2\approx0.54$, $L_0\approx41$) on
+GPT-2-small layer-6 residual activations and applied the certificate to per-feature
+stability, evaluating against a held-out SAE ensemble. Features only partially reproduce
+overall (mean best-match cosine $0.36$; random-direction null $0.12$), reproducing the
+SAE-Rashomon finding at real-LLM scale. The certificate separates, out of sample: the
+$9.5\%$ of features it certifies transfer to the held-out ensemble at mean cosine
+$0.81$ ($88\%$ above $0.7$), while uncertified features sit near the ensemble average
+($0.32$). The certificate thus turns ``SAE features don't fully escape multiplicity''
+into a usable filter for which mechanistic-interpretability claims are worth trusting.
+This study is exploratory --- one model, one layer, one SAE architecture --- and is
+scoped as such.
+
+\section{Honest scope}
+\label{sec:scope}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
+\item \textbf{Per-model-class, not model-invariant.} A claim stable for one model class
+  need not be stable for another: \stab{}-call agreement across gradient-boosting,
+  random-forest, and linear ensembles is ${\approx}0.65$, and between-class instability
+  exceeds within-class (median spread $0.058$ vs $0.032$). A certificate that pools three
+  tree-ensemble classes does \emph{not} transfer better to a held-out linear model
+  ($0.60$ vs $0.63$): cross-architecture reliability requires architecturally diverse
+  agreement sets. All guarantees here are per ensemble-generating process.
+\item \textbf{One-sided by theorem.} The certificate can certify stability, never
+  instability (Theorem~\ref{thm:onesided}). ``Not certified'' means \emph{not proven
+  stable}, nothing stronger.
+\item \textbf{Conservative by design.} Cantelli tightness (Theorem~\ref{thm:tight}) is
+  worst-case; on benign data the bound's mean out-of-sample slack is ${\approx}0.5$, and
+  certification fires on a minority of claims (e.g.\ ${\sim}19\%$ of credit applicants,
+  $9.5\%$ of SAE features). The instrument prefers silence to false confidence.
+\item \textbf{Validation envelope.} The headline study is random forests with impurity
+  importances on $n\gg p$ tabular data ($200\le n\le5000$, $4\le p\le30$); the SAE study
+  is exploratory. No claim is made outside this envelope in this paper.
+\item \textbf{What the underlying theory does not support.} Point-predictive extensions
+  of the companion theory --- a quantitative law predicting instability magnitude from
+  symmetry structure, and recovery of the exact stable-dimension from trained ensembles
+  --- were tested and \emph{falsified} in prospective rounds reported in
+  \citep{caraker2026limits}. This paper's claims are bounds validated by coverage, and
+  none rests on the falsified arms.
+\item \textbf{Known weak spots.} Two of 104 datasets show weak out-of-sample ranking
+  (Section~\ref{sec:validation}); the credit certificate's strict-window separation is
+  directional, not dispositive, at the achieved sample sizes
+  (Section~\ref{sec:credit}).
+\end{itemize}
+
+\section{Related work}
+\label{sec:related}
+
+\textbf{Rashomon and predictive multiplicity.} The model-multiplicity literature
+quantifies disagreement among equally good models
+\citep{breiman2001statistical,fisher2019models,semenova2022existence,marx2024uncertainty,rudin2024amazing};
+explanation disagreement specifically is documented by
+\citet{krishna2022disagreement}. We add the per-claim guarantee layer: not \emph{whether}
+models disagree, but \emph{which individual claims} survive disagreement, with a proof.
+\textbf{Statistical inference for explanations.} Confidence intervals and tests for
+SHAP-style attributions
+\citep{watson2023testing,zhang2026statistical,jin2025probabilistic,hwang2025shap} and
+stability selection \citep{meinshausen2010stability} provide per-quantity uncertainty;
+our certificate differs in being distribution-free at the ensemble level, tight and
+one-sided by theorem, and machine-checked end to end, including its out-of-sample
+transfer. \textbf{Impossibility and critique.} Attribution impossibility and fragility
+results \citep{bilodeau2024impossibility,sundararajan2020many,kumar2020problems,%
+ghorbani2019interpretation,adebayo2018sanity,slack2020fooling} establish the ceiling;
+the companion theory \citep{caraker2026limits,caraker2026dash} derives it from model
+multiplicity and identifies the stable (symmetry-invariant) subspace. The certificate is
+the constructive complement: it identifies, per query, the claims already inside the
+stable region. \textbf{Verified ML.} Formal verification in ML has focused on model
+properties (robustness, fairness) \citep{decker2024provably,noguer2025mathematical};
+verifying the \emph{guarantee chain of an empirical instrument} appears new.
+
+\section{The practitioner interface}
+\label{sec:practice}
+
+The certificate is deliberately small --- no new estimator, no tuning, ${\sim}50$ lines
+around any ensemble:
+
+\begin{quote}\small\ttfamily
+fit M equally-performing models (bootstrap or re-seed);\\
+D[i] = importance(model i, feature j) - importance(model i, feature k);\\
+snr = |mean(D)| / std(D);\\
+band = STABLE if snr >= 2 else MARGINAL if snr >= 0.5 else UNRELIABLE;\\
+guarantee: flip <= 1/(1+snr\^{}2);\quad estimate: Phi(-snr);\\
+top-k certified iff boundary pair (k, k+1) is STABLE.
+\end{quote}
+
+Reference implementation, the 104-dataset study, the frozen prospective runner, and the
+Lean development are in the artifact (Appendix~\ref{app:artifact}).
+
+\section{Conclusion}
+
+Model multiplicity makes most feature-importance claims less solid than they look, and a
+theory-level impossibility says this cannot be engineered away. The practical response is
+not despair but triage: a per-query certificate with a distribution-free, tight,
+provably one-sided, provably transferring guarantee --- every link machine-checked ---
+that turns ``explanations are unreliable'' into ``\emph{these} claims are reliable,
+\emph{those} are not certified.'' At scale, its promises held every time they were made.
+The invitation to the community is adversarial: the pre-registered round is designed so
+that failure would be visible, and the certificate's own theory says exactly what would
+falsify it.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+
+\section{Pre-registered predictions (P1--P5)}
+\label{app:prereg}
+
+Thresholds frozen at registration; ``eligible'' means $\ge5$ \stab{} claims on ensemble
+$A$. \osfpending
+
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & Prediction & Threshold \\
+\midrule
+P1 & \stab{} transfer (flip $\le0.20$ on $B$) per dataset & $\ge95\%$, in $\ge90\%$ of eligible datasets \\
+P2 & pooled mean \stab{} flip on $B$ & $\le0.05$; no dataset $>0.20$ \\
+P3 & ranking: median Spearman; beats $|\mathrm{corr}|$ baseline & $\ge0.60$; on $\ge85\%$ of datasets \\
+P4 & pooled calibration ECE & $\le0.05$ \\
+P5 & certified top-5 exact reproduction (if $\ge10$ instances) & $\ge90\%$ certified vs $<60\%$ uncertified \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Disconfirmation criteria are stated verbatim in the registration: P1 failing falsifies
+the deployability of the \stab{} band under data-source shift; P3/P4 failing falsifies
+the quantitative (Gaussian-calibrated) arm independently of the band-level guarantee.
+Both would be reported as such.
+
+\section{Artifact and verification statement}
+\label{app:artifact}
+
+The Lean~4 development ({\ClaimMainFiles} files, {\ClaimMainTheorems} theorems across
+the program's main repository) builds with zero \texttt{sorry}; the certificate-chain
+theorems cited in this paper (Theorems~\ref{thm:cantelli}--\ref{thm:transfer-general},
+Proposition~\ref{prop:simul}) depend only on Lean's core axioms
+(\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}), verified by
+\texttt{\#print axioms} under continuous integration; the repository-wide count is
+{\ClaimTotalAxioms} domain axioms, none on the results used here. The experiment scripts
+reproduce Section~\ref{sec:validation} from public PMLB data with fixed seeds; the
+prospective runner is frozen at the commit hash cited in the OSF registration.
+% TODO(anonymization): replace repo pointers with anonymous.4open.science mirror for review.
+
+\end{document}
