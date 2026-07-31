@@ -62,6 +62,8 @@ import UniversalImpossibility.UbiquityDimensional
 #print axioms UniversalImpossibility.Ubiquity.regular_value_fiber_not_isolated
 #print axioms UniversalImpossibility.Ubiquity.generic_ubiquity_of_sard
 #print axioms UniversalImpossibility.Ubiquity.sardProperty_of_continuousLinearMap
+#print axioms UniversalImpossibility.Ubiquity.submersion_fiber_not_isolated
+#print axioms UniversalImpossibility.Ubiquity.sardProperty_of_submersion
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
 #print axioms attention_impossibility_constructive
