@@ -148,9 +148,11 @@ distinct, observationally identical configurations; a differentiable observation
 map has a nonzero derivative-annihilated direction at every point; and, via the
 implicit function theorem, at a \emph{regular} point of a nonlinear observation
 map the true curved fiber contains genuinely distinct models arbitrarily close.
-What remains informal is strictly the \emph{genericity} of regular points (Sard's
-theorem, not in Mathlib) and the global positive-measure statement built on it
-(see Part~I).
+For linear observation maps the remaining genericity step (Sard's theorem) is
+proved outright, so the linear ubiquity claim is fully machine-checked; for
+nonlinear maps Sard's conclusion is isolated as a single named hypothesis with
+the entire reduction verified, leaving only the classical Morse--Sard theorem
+itself---not yet in Mathlib---as external input (see Part~I).
 We then instantiate the theorem on explicit minimal witnesses in
 eight scientific domains: the degeneracy of the genetic code (biology),
 gauge freedom in electromagnetism (physics), microstate degeneracy in
@@ -911,12 +913,20 @@ arbitrarily close (\texttt{regular\_fiber\_not\_isolated}, proved via Mathlib's 
 theorem)---and this is wired to the impossibility for the nonlinear case
 (\texttt{smooth\_regular\_underspecified\_impossibility}).  This upgrades the infinitesimal statement (a
 flat tangent \emph{direction}) to genuinely distinct \emph{points} on the exact nonlinear fiber, with no
-genericity assumption.  What now remains \emph{genuinely informal} is strictly smaller: the
-\emph{genericity of regular points}---that almost every observable value is a regular value, so the
-statement holds at almost every fiber rather than only at an assumed regular point---which is Sard's
-theorem, not in Mathlib, and the global positive-\emph{measure} statement built on it.  The local
-structure at a regular point is verified; only the ``almost every $y$'' quantifier and the ensuing
-measure statement await Sard, a separate formalization project.
+genericity assumption.  The last step---from ``at a regular point'' to ``at almost every observable
+value''---is the genericity of regular values, i.e.\ \emph{Sard's theorem}: the set of critical values
+is null.  Here we are precise about status.  \emph{For linear observation maps---the primary ubiquity
+setting---Sard's property is proved outright} (\texttt{sardProperty\_of\_continuousLinearMap}): the
+critical values lie in $\operatorname{range} L$, a proper subspace when $L$ is not onto, hence
+Haar-null.  So the linear case carries \emph{no residual}: the full generic statement
+(\texttt{generic\_ubiquity\_of\_sard}, which shows that Sard's property implies, for almost every value,
+a positive-dimensional fiber of genuinely distinct models) closes unconditionally for linear maps.  For
+\emph{nonlinear} maps with $\dim(\sH) > \dim(Y)$, Sard's property is isolated as a single named
+hypothesis (\texttt{SardProperty}) and the entire reduction to it is machine-checked; what remains is
+exactly the classical Morse--Sard theorem for that regime, which is \emph{not} in Mathlib (Mathlib has
+only the equidimensional Sard lemma; the general case is work in progress in Y.~Kudryashov's external
+\texttt{SardMoreira} development).  The residual is thus reduced from ``formalise Sard'' to ``discharge
+one named hypothesis, already existing externally,'' with everything else verified.
 Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon

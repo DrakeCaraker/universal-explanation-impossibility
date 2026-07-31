@@ -38,9 +38,11 @@
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.Analysis.Calculus.FDeriv.Basic
 import Mathlib.Analysis.Calculus.Implicit
+import Mathlib.Analysis.Calculus.ContDiff.RCLike
+import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 import UniversalImpossibility.Ubiquity
 
-open Module Filter Topology
+open Module Filter Topology MeasureTheory
 
 namespace UniversalImpossibility.Ubiquity
 
@@ -257,5 +259,101 @@ example :
    by rw [Module.finrank_prod, Module.finrank_self]; norm_num⟩
 
 end SmoothLocal
+
+-- ============================================================================
+-- §5  Genericity of regular values: the linear case in full, the rest reduced to Sard
+-- ============================================================================
+
+/-
+  The local smooth globalisation of §4 holds at a *regular* point. To upgrade "at a
+  regular point" to "at almost every observable value" — the honest remaining residual —
+  one needs the genericity of regular values, i.e. **Sard's theorem**: the set of
+  critical values is null. Full Morse–Sard for `dim E > dim F` is not in Mathlib (it is
+  work-in-progress in Y. Kudryashov's external `SardMoreira` development and, for the
+  manifold form, M. Rothgang's `fpvandoorn/sard`); Mathlib has only the equidimensional
+  Sard *lemma* (`MeasureTheory.…addHaar_image_eq_zero_of_det_fderivWithin_eq_zero`).
+
+  So we do two honest things here. (1) We isolate Sard's conclusion as a named predicate
+  `SardProperty` and prove that, *conditional on it*, the full generic-ubiquity statement
+  follows (`generic_ubiquity_of_sard`) — every step except Sard is machine-checked. (2) We
+  prove `SardProperty` *outright for the linear observation maps* that are the primary
+  ubiquity setting (`sardProperty_of_continuousLinearMap`): their critical values sit in a
+  proper subspace, which is Haar-null. The linear case therefore has **no residual**; the
+  nonlinear case is reduced to exactly the one classical theorem that remains unformalised
+  in Mathlib.
+-/
+
+section RegularValue
+variable {E F : Type*}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
+
+/-- `y` is a *regular value* of `f`: every configuration mapping to `y` is a regular
+    point (surjective derivative). -/
+def IsRegularValue (f : E → F) (y : F) : Prop :=
+  ∀ x, f x = y → (fderiv ℝ f x).range = ⊤
+
+/-- **A regular value's fibre is a positive-dimensional Rashomon locus.** If `y` is a
+    regular value of a C¹ map with dim(config) > dim(observable), then every
+    configuration observing `y` has genuinely distinct configurations observing `y`
+    arbitrarily close. The per-value form of the local smooth globalisation; no Sard. -/
+theorem regular_value_fiber_not_isolated {f : E → F} (hf : ContDiff ℝ 1 f)
+    (hdim : finrank ℝ F < finrank ℝ E) {y : F} (hy : IsRegularValue f y)
+    {x : E} (hx : f x = y) (ε : ℝ) (hε : 0 < ε) :
+    ∃ x' : E, x' ≠ x ∧ f x' = f x ∧ dist x' x < ε :=
+  regular_fiber_not_isolated (hf.hasStrictFDerivAt one_ne_zero) (hy x hx) hdim ε hε
+
+end RegularValue
+
+section Sard
+variable {E F : Type*}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
+  [MeasurableSpace F] [BorelSpace F]
+
+/-- **Sard's property**: the set of non-regular (critical) values of `f` is `μ`-null.
+    This is exactly the conclusion of Sard's theorem — NOT proved here in general (full
+    Morse–Sard for `dim E > dim F` is not in Mathlib; WIP in Kudryashov's `SardMoreira`),
+    but isolated as a named hypothesis, and proved outright for linear maps below. -/
+def SardProperty (f : E → F) (μ : Measure F) : Prop :=
+  μ {y | ¬ IsRegularValue f y} = 0
+
+omit [BorelSpace F] in
+/-- **Generic ubiquity, conditional on Sard.** Given Sard's property, for almost every
+    observable value the fibre is a positive-dimensional Rashomon locus: every
+    configuration observing it has genuinely distinct configurations observing the same
+    value arbitrarily close. Everything except `SardProperty` is machine-checked. -/
+theorem generic_ubiquity_of_sard {f : E → F} (hf : ContDiff ℝ 1 f)
+    (hdim : finrank ℝ F < finrank ℝ E) (μ : Measure F) (hsard : SardProperty f μ) :
+    ∀ᵐ y ∂μ, ∀ x, f x = y → ∀ ε : ℝ, 0 < ε →
+      ∃ x' : E, x' ≠ x ∧ f x' = f x ∧ dist x' x < ε := by
+  have hreg : ∀ᵐ y ∂μ, IsRegularValue f y :=
+    ae_iff.mpr (hsard : μ {y | ¬ IsRegularValue f y} = 0)
+  filter_upwards [hreg] with y hy x hx ε hε
+  exact regular_value_fiber_not_isolated hf hdim hy hx ε hε
+
+omit [FiniteDimensional ℝ E] in
+/-- **Sard's property holds outright for linear observation maps.** The critical values
+    lie in `range L`, a proper subspace when `L` is not onto, hence Haar-null; so the
+    linear case of the generic ubiquity statement needs no external Sard input. -/
+theorem sardProperty_of_continuousLinearMap
+    (L : E →L[ℝ] F) (μ : Measure F) [μ.IsAddHaarMeasure] :
+    SardProperty (⇑L) μ := by
+  have hfd : ∀ x, fderiv ℝ (⇑L) x = L := fun x => (L.hasFDerivAt).fderiv
+  by_cases hL : LinearMap.range (L : E →ₗ[ℝ] F) = ⊤
+  · have hempty : {y | ¬ IsRegularValue (⇑L) y} = ∅ := by
+      ext y
+      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_not]
+      intro x _
+      rw [hfd x]; exact hL
+    rw [SardProperty, hempty]; exact measure_empty
+  · refine measure_mono_null ?_ (Measure.addHaar_submodule μ (LinearMap.range (L : E →ₗ[ℝ] F)) hL)
+    intro y hy
+    have hy' : ¬ ∀ x, L x = y → (fderiv ℝ (⇑L) x).range = ⊤ := hy
+    rw [not_forall] at hy'
+    obtain ⟨x, hx⟩ := hy'
+    exact LinearMap.mem_range.mpr ⟨x, (Classical.not_imp.mp hx).1⟩
+
+end Sard
 
 end UniversalImpossibility.Ubiquity
