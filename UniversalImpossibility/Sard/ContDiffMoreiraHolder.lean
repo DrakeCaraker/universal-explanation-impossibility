@@ -5,25 +5,16 @@ import UniversalImpossibility.Sard.ContinuousMultilinearMap
 open scoped unitInterval Topology NNReal
 open Asymptotics Filter Set
 
-namespace Asymptotics
-
-/-- If `a ≤ b`, then `x^b = O(x^a)` as `x → 0`, `x ≥ 0`, unless `b = 0` and `a ≠ 0`. -/
-theorem IsBigO.rpow_rpow_nhdsGE_zero_of_le {a b : ℝ} (h : a ≤ b) (himp : b = 0 → a = 0) :
-    (· ^ b : ℝ → ℝ) =O[𝓝[≥] 0] (· ^ a) :=
-  .of_bound' <| mem_of_superset (Icc_mem_nhdsGE one_pos) fun x hx ↦ by
-    simpa [Real.abs_rpow_of_nonneg hx.1, abs_of_nonneg hx.1]
-     using Real.rpow_le_rpow_of_exponent_ge_of_imp hx.1 hx.2 h fun _ ↦ himp
-
-theorem IsBigO.id_rpow_of_le_one {a : ℝ} (ha : a ≤ 1) :
-    (id : ℝ → ℝ) =O[𝓝[≥] 0] (· ^ a) := by
-  simpa using rpow_rpow_nhdsGE_zero_of_le ha (by simp)
-
-end Asymptotics
-
 variable {E F G : Type*}
   [NormedAddCommGroup E] [NormedSpace ℝ E]
   [NormedAddCommGroup F] [NormedSpace ℝ F]
   [NormedAddCommGroup G] [NormedSpace ℝ G]
+
+private theorem uncurry0_sub {X Y : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X]
+    [NormedAddCommGroup Y] [NormedSpace ℝ Y] (x y : Y) :
+    ContinuousMultilinearMap.uncurry0 ℝ X x - ContinuousMultilinearMap.uncurry0 ℝ X y =
+      ContinuousMultilinearMap.uncurry0 ℝ X (x - y) := by
+  ext; simp
 
 @[mk_iff]
 structure ContDiffMoreiraHolderAt (k : ℕ) (α : I) (f : E → F) (a : E) : Prop where
@@ -68,7 +59,7 @@ theorem of_exponent_le {k : ℕ} {f : E → F} {a : E} {α β : I}
     (hf : ContDiffMoreiraHolderAt k α f a) (hle : β ≤ α) : ContDiffMoreiraHolderAt k β f a where
   contDiffAt := hf.contDiffAt
   isBigO := hf.isBigO.trans <| by
-    refine .comp_tendsto (.rpow_rpow_nhdsGE_zero_of_le hle fun hα ↦ ?_) ?_
+    refine .comp_tendsto (.rpow_rpow_nhdsGE_zero_of_le_of_imp hle fun hα ↦ ?_) ?_
     · exact le_antisymm (le_trans (mod_cast hle) hα.le) β.2.1
     · exact tendsto_norm_sub_self_nhdsGE a
 
@@ -148,7 +139,8 @@ theorem comp' {g : F → G} {f : E → F} {a : E} {k : ℕ} {α : I}
             LinearIsometryEquiv.norm_map, isBigO_norm_left]
           refine ((hd.resolve_right hfd).isBigO_sub.comp_tendsto hf.continuousAt).trans ?_
           refine .trans (.of_norm_right ?_) hf.isBigO
-          simp [iteratedFDeriv_zero_eq_comp, ← map_sub, Function.comp_def, isBigO_refl]
+          refine isBigO_of_le _ fun x ↦ ?_
+          simp [iteratedFDeriv_zero_eq_comp, uncurry0_sub, ContinuousMultilinearMap.uncurry0_norm]
       · intro i hi
         exact (hf.contDiffAt.continuousAt_iteratedFDeriv (mod_cast hi)).norm.isBoundedUnder_le
       · exact fun _ _ ↦ isBoundedUnder_const
@@ -239,15 +231,11 @@ theorem OpenPartialHomeomorph.contDiffMoreiraHolderAt_symm [CompleteSpace E] {k 
     rcases eq_or_ne k 0 with rfl | hk₀
     · calc
         _ =O[𝓝 a] fun x ↦ f.symm x - f.symm a := by
-          refine .of_norm_left ?_
-          simp [iteratedFDeriv_zero_eq_comp, ← map_sub, isBigO_refl]
-        _ =O[𝓝 a] fun x ↦ ‖f (f.symm x) - f (f.symm a)‖ := by
-          simpa using hf'.hasFDerivAt.isBigO_sub_rev hf'.choose.antilipschitz |>.comp_tendsto <|
-            f.continuousAt_symm ha
-        _ =ᶠ[𝓝 a] fun x ↦ ‖x - a‖ := by
-          filter_upwards [f.eventually_right_inverse ha] with x hx
-          simp [hx, ha]
-        _ =O[𝓝 a] fun x ↦ ‖x - a‖ ^ (α : ℝ) := hrpow
+          refine isBigO_of_le _ fun x ↦ ?_
+          simp [iteratedFDeriv_zero_eq_comp, uncurry0_sub, ContinuousMultilinearMap.uncurry0_norm]
+        _ =O[𝓝 a] fun x ↦ x - a := by
+          simpa using f.hasFDerivAt_symm ha hf'.hasFDerivAt |>.isBigO_sub
+        _ =O[𝓝 a] fun x ↦ ‖x - a‖ ^ (α : ℝ) := .of_norm_left hrpow
     · have hinv : ∀ᶠ x in 𝓝 (f.symm a), (fderiv ℝ f x).IsInvertible :=
         (hf.contDiffAt.continuousAt_fderiv <| mod_cast hk₀).eventually <|
            ContinuousLinearEquiv.isOpen.mem_nhds hf'

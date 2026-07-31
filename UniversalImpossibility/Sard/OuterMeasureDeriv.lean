@@ -9,12 +9,12 @@ open Metric Set Filter Fin MeasureTheory TopologicalSpace Besicovitch.TauPackage
 
 attribute [norm_cast] ENNReal.ofReal_coe_nnreal
 
-theorem EMetric.diam_metricClosedBall_le {X : Type*} [PseudoMetricSpace X]
-    (x : X) (r : ℝ) : EMetric.diam (Metric.closedBall x r) ≤ 2 * ENNReal.ofReal r := by
+theorem ediam_metricClosedBall_le {X : Type*} [PseudoMetricSpace X]
+    (x : X) (r : ℝ) : Metric.ediam (Metric.closedBall x r) ≤ 2 * ENNReal.ofReal r := by
   rcases lt_or_ge r 0 with hr | hr
   · simp [ENNReal.ofReal_of_nonpos hr.le, Metric.closedBall_of_neg hr]
   lift r to ℝ≥0 using hr
-  grw [← Metric.emetric_closedBall_nnreal, EMetric.diam_closedBall, ENNReal.ofReal_coe_nnreal]
+  grw [← Metric.closedEBall_coe, Metric.ediam_closedEBall_le, ENNReal.ofReal_coe_nnreal]
 
 universe u
 
@@ -38,7 +38,7 @@ instance [SecondCountableTopology α] [OpensMeasurableSpace α] [HasBesicovitchC
     (μ : Measure α) [SFinite μ] [μ.OuterRegular] : ClosedBallCoveringMeasure μ :=
   ⟨Besicovitch.exists_closedBall_covering_tsum_measure_le μ⟩
 
-open IsUnifLocDoublingMeasure in
+open _root_.IsUnifLocDoublingMeasure in
 instance instClosedBallCoveringMeasureOfIsUnifLocDoublingMeasure [BorelSpace α] [SecondCountableTopology α]
     (μ : Measure α) [IsLocallyFiniteMeasure μ] [IsUnifLocDoublingMeasure μ] :
     ClosedBallCoveringMeasure μ where
@@ -293,7 +293,7 @@ lemma hasudorffMeasure_image_le_mul' {X : Type*} [MetricSpace X] [MeasurableSpac
     exact hdimDom
   suffices ∀ d, 0 < d →
       OuterMeasure.mkMetric'.pre
-        (fun s ↦ EMetric.diam s ^ dimImg) d (f '' s) ≤ ((2 * C) ^ dimImg / μBall) * μ s by
+        (fun s ↦ Metric.ediam s ^ dimImg) d (f '' s) ≤ ((2 * C) ^ dimImg / μBall) * μ s by
     simpa only [hausdorffMeasure, ← toOuterMeasure_apply, mkMetric_toOuterMeasure,
       OuterMeasure.mkMetric, OuterMeasure.mkMetric', OuterMeasure.iSup_apply, iSup_le_iff]
   intro d hd
@@ -360,8 +360,8 @@ lemma hasudorffMeasure_image_le_mul' {X : Type*} [MetricSpace X] [MeasurableSpac
     have hmaps : MapsTo f (s ∩ closedBall x δ) (closedBall (f x) ((C + ε') * δ ^ holderExp)) := by
       intro y hy
       grw [mem_closedBall, hδCε y hy, mem_closedBall.mp hy.2]
-    have hdiam : EMetric.diam (f '' (s ∩ closedBall x δ)) ≤ 2 * (C + ε') * δ ^ holderExp := by
-      grw [hmaps.image_subset, EMetric.diam_metricClosedBall_le,
+    have hdiam : Metric.ediam (f '' (s ∩ closedBall x δ)) ≤ 2 * (C + ε') * δ ^ holderExp := by
+      grw [hmaps.image_subset, ediam_metricClosedBall_le,
         ← ENNReal.coe_rpow_of_nonneg _ (by positivity)]
       norm_cast
       rw [← mul_assoc]

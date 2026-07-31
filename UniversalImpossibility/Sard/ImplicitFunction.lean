@@ -11,13 +11,16 @@ variable {𝕜 E F : Type*} [NontriviallyNormedField 𝕜]
   [NormedAddCommGroup E] [NormedSpace 𝕜 E] [CompleteSpace E]
   [NormedAddCommGroup F] [NormedSpace 𝕜 F] [CompleteSpace F]
 
+set_option backward.isDefEq.respectTransparency false in
 @[irreducible, simps +simpRhs pt]
 def implicitFunctionDataOfComplementedKerRange (f : E → F) (f' : E →L[𝕜] F) {a : E}
     (hf : HasStrictFDerivAt f f' a) (hker : f'.ker.ClosedComplemented)
     (hrange : f'.range.ClosedComplemented) :
-    have := hrange.isClosed.completeSpace_coe
+    haveI : CompleteSpace f'.range := hrange.isClosed.completeSpace_coe
+    haveI : CompleteSpace f'.ker := hker.isClosed.completeSpace_coe
     ImplicitFunctionData 𝕜 E f'.range f'.ker := by
-  haveI := hrange.isClosed.completeSpace_coe
+  haveI : CompleteSpace f'.range := hrange.isClosed.completeSpace_coe
+  haveI : CompleteSpace f'.ker := hker.isClosed.completeSpace_coe
   have hrange_apply (x) : hrange.choose (f' x) = ⟨f' x, by simp⟩ :=
     hrange.choose_spec ⟨f' x, by simp⟩
   have hker_eq : (hrange.choose ∘L f').ker = f'.ker := by
@@ -28,6 +31,8 @@ def implicitFunctionDataOfComplementedKerRange (f : E → F) (f' : E →L[𝕜] 
     rintro ⟨_, x, rfl⟩
     use x
     simp_all
+  haveI : CompleteSpace ((hrange.choose ∘L f').ker) :=
+    hker_eq.symm ▸ hker.isClosed.completeSpace_coe
   let φ := implicitFunctionDataOfComplemented (hrange.choose ∘ f) (hrange.choose ∘L f')
     (hrange.choose.hasStrictFDerivAt.comp a hf) hrange_eq (by rwa [hker_eq])
   refine
@@ -40,11 +45,13 @@ def implicitFunctionDataOfComplementedKerRange (f : E → F) (f' : E →L[𝕜] 
   simpa only [φ, implicitFunctionDataOfComplemented, hker_eq]
     using LinearMap.isCompl_of_proj hker.choose_spec
 
+set_option backward.isDefEq.respectTransparency false in
 def implicitToOpenPartialHomeomorphOfComplementedKerRange (f : E → F) (f' : E →L[𝕜] F) {a : E}
     (hf : HasStrictFDerivAt f f' a) (hker : f'.ker.ClosedComplemented)
     (hrange : f'.range.ClosedComplemented) :
     OpenPartialHomeomorph E (f'.range × f'.ker) :=
-  have := hrange.isClosed.completeSpace_coe
+  haveI : CompleteSpace f'.range := hrange.isClosed.completeSpace_coe
+  haveI : CompleteSpace f'.ker := hker.isClosed.completeSpace_coe
   (hf.implicitFunctionDataOfComplementedKerRange f f' hker hrange).toOpenPartialHomeomorph
 
 @[simp]
@@ -56,6 +63,7 @@ theorem mem_implicitToOpenPartialHomeomorphOfComplementedKerRange_source
   convert ImplicitFunctionData.pt_mem_toOpenPartialHomeomorph_source _
   simp
 
+set_option backward.isDefEq.respectTransparency false in
 theorem implicitToOpenPartialHomeomorphOfComplementedKerRange_apply {f : E → F} {f' : E →L[𝕜] F}
     {a : E} (hf : HasStrictFDerivAt f f' a) (hker : f'.ker.ClosedComplemented)
     (hrange : f'.range.ClosedComplemented) (x : E) :

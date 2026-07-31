@@ -200,6 +200,11 @@ theorem OpenPartialHomeomorph.iteratedFDeriv_symm_eq_rec [CompleteSpace E]
     ext v
     simp +unfoldPartialApp [OrderedFinpartition.applyOrderedFinpartition, ftaylorSeries, hf'.fderiv,
       (f.hasFDerivAt_symm hy hf').fderiv, Function.comp_def]
+    congr 1
+    funext m
+    show v m = iteratedFDeriv 𝕜 1 (f : E → F) ((f.symm : F → E) y) fun _ => f'.symm (v m)
+    rw [iteratedFDeriv_one_apply, hf'.fderiv]
+    simp
 
 theorem OpenPartialHomeomorph.iteratedFDeriv_symm_eq_taylorLeftInv [CompleteSpace E]
     (f : OpenPartialHomeomorph E F) {y : F} (hy : y ∈ f.target) (hf : ContDiffAt 𝕜 n f (f.symm y))

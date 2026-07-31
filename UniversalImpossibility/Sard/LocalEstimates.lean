@@ -71,31 +71,6 @@ lemma dist_le_mul_volume_of_norm_fderiv_le {f : E → F} {a b : E} {C : ℝ} {s 
     simp
   · simp +contextual [(hf.differentiableAt hs <| hmem_s _ ‹_›).lineDeriv_eq_fderiv]
 
-theorem sub_isBigO_norm_rpow_add_one_of_fderiv {f : E → F} {a : E} {r : ℝ} (hr : 0 ≤ r)
-    (hdf : ∀ᶠ x in 𝓝 a, DifferentiableAt ℝ f x) (hderiv : fderiv ℝ f =O[𝓝 a] (‖· - a‖ ^ r)) :
-    (f · - f a) =O[𝓝 a] (‖· - a‖ ^ (r + 1)) := by
-  rcases hderiv.exists_pos with ⟨C, hC₀, hC⟩
-  rw [Asymptotics.IsBigOWith_def] at hC
-  rcases eventually_nhds_iff_ball.mp (hdf.and hC) with ⟨ε, hε₀, hε⟩
-  refine .of_bound C ?_
-  rw [eventually_nhds_iff_ball]
-  refine ⟨ε, hε₀, fun y hy ↦ ?_⟩
-  rw [Real.norm_of_nonneg (by positivity), Real.rpow_add_one' (by positivity) (by positivity),
-    ← mul_assoc]
-  have hsub : closedBall a ‖y - a‖ ⊆ ball a ε :=
-    closedBall_subset_ball (mem_ball_iff_norm.mp hy)
-  apply (convex_closedBall a ‖y - a‖).norm_image_sub_le_of_norm_fderiv_le (𝕜 := ℝ)
-  · exact fun z hz ↦ (hε z <| hsub hz).1
-  · intro z hz
-    grw [(hε z <| hsub hz).2, Real.norm_of_nonneg (by positivity), mem_closedBall_iff_norm.mp hz]
-  · simp
-  · simp [dist_eq_norm_sub]
-
-theorem isBigO_norm_rpow_add_one_of_fderiv_of_apply_eq_zero {f : E → F} {a : E} {r : ℝ} (hr : 0 ≤ r)
-    (hdf : ∀ᶠ x in 𝓝 a, DifferentiableAt ℝ f x) (hderiv : fderiv ℝ f =O[𝓝 a] (‖· - a‖ ^ r))
-    (hf₀ : f a = 0) : f =O[𝓝 a] (‖· - a‖ ^ (r + 1)) := by
-  simpa [hf₀] using sub_isBigO_norm_rpow_add_one_of_fderiv hr hdf hderiv
-
 open UniformSpace (Completion) in
 theorem sub_isLittleO_norm_rpow_add_one_of_fderiv_of_density_point [FiniteDimensional ℝ E]
     [MeasurableSpace E] [BorelSpace E] {f : E → F} {a : E} {r : ℝ}

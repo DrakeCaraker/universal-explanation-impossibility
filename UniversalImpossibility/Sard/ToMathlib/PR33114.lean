@@ -238,7 +238,7 @@ section PseudoEMetricSpace
 
 variable [PseudoEMetricSpace X]
 
-open EMetric
+open Metric
 
 instance : PseudoEMetricSpace (WithRPowDist X α hα₀ hα₁) where
   edist_self x := by simp [edist_def, hα₀]
@@ -256,68 +256,68 @@ instance : PseudoEMetricSpace (WithRPowDist X α hα₀ hα₁) where
 
 @[simp]
 theorem preimage_val_emetricBall (x : X) (r : ℝ≥0∞) :
-    val ⁻¹' ball x r = ball (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
+    val ⁻¹' eball x r = eball (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
   ext ⟨y⟩
   simp (disch := positivity) [ENNReal.rpow_lt_rpow_iff]
 
 @[simp]
 theorem image_mk_emetricBall (x : X) (r : ℝ≥0∞) :
-    mk '' ball x r = ball (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
+    mk '' eball x r = eball (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
   rw [image_mk_eq_preimage, preimage_val_emetricBall]
 
 @[simp]
 theorem preimage_mk_emetricBall (x : WithRPowDist X α hα₀ hα₁) (d : ℝ≥0∞) :
-    mk ⁻¹' ball x d = ball x.val (d ^ α⁻¹) := by
+    mk ⁻¹' eball x d = eball x.val (d ^ α⁻¹) := by
   apply injective_mk.image_injective
   rw [image_mk_emetricBall, Set.image_preimage_eq _ surjective_mk, ENNReal.rpow_inv_rpow hα₀.ne']
 
 @[simp]
 theorem image_val_emetricBall (x : WithRPowDist X α hα₀ hα₁) (d : ℝ≥0∞) :
-    val '' ball x d = ball x.val (d ^ α⁻¹) := by
+    val '' eball x d = eball x.val (d ^ α⁻¹) := by
   rw [image_val_eq_preimage, preimage_mk_emetricBall]
 
 @[simp]
 theorem preimage_val_emetricClosedBall (x : X) (r : ℝ≥0∞) :
-    val ⁻¹' closedBall x r = closedBall (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
+    val ⁻¹' closedEBall x r = closedEBall (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
   ext ⟨y⟩
   simp (disch := positivity) [ENNReal.rpow_le_rpow_iff]
 
 @[simp]
 theorem image_mk_emetricClosedBall (x : X) (r : ℝ≥0∞) :
-    mk '' closedBall x r = closedBall (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
+    mk '' closedEBall x r = closedEBall (mk x : WithRPowDist X α hα₀ hα₁) (r ^ α) := by
   rw [image_mk_eq_preimage, preimage_val_emetricClosedBall]
 
 @[simp]
 theorem preimage_mk_emetricClosedBall (x : WithRPowDist X α hα₀ hα₁) (d : ℝ≥0∞) :
-    mk ⁻¹' closedBall x d = closedBall x.val (d ^ α⁻¹) := by
+    mk ⁻¹' closedEBall x d = closedEBall x.val (d ^ α⁻¹) := by
   apply injective_mk.image_injective
   rw [image_mk_emetricClosedBall, Set.image_preimage_eq _ surjective_mk,
     ENNReal.rpow_inv_rpow hα₀.ne']
 
 @[simp]
 theorem image_val_emetricClosedBall (x : WithRPowDist X α hα₀ hα₁) (d : ℝ≥0∞) :
-    val '' closedBall x d = closedBall x.val (d ^ α⁻¹) := by
+    val '' closedEBall x d = closedEBall x.val (d ^ α⁻¹) := by
   rw [image_val_eq_preimage, preimage_mk_emetricClosedBall]
 
 @[simp]
-theorem ediam_image_val (s : Set (WithRPowDist X α hα₀ hα₁)) : diam (val '' s) = diam s ^ α⁻¹ := by
+theorem ediam_image_val (s : Set (WithRPowDist X α hα₀ hα₁)) : ediam (val '' s) = ediam s ^ α⁻¹ := by
   refine eq_of_forall_ge_iff fun c ↦ ?_
-  simp [diam_le_iff, ENNReal.rpow_inv_le_iff hα₀]
+  simp [ediam_le_iff, ENNReal.rpow_inv_le_iff hα₀]
 
 @[simp]
 theorem ediam_preimage_mk (s : Set (WithRPowDist X α hα₀ hα₁)) :
-    diam (mk ⁻¹' s) = diam s ^ α⁻¹ := by
+    ediam (mk ⁻¹' s) = ediam s ^ α⁻¹ := by
   rw [← image_val_eq_preimage, ediam_image_val]
 
 @[simp]
 theorem ediam_preimage_val (s : Set X) :
-    diam (val ⁻¹' s : Set (WithRPowDist X α hα₀ hα₁)) = diam s ^ α := by
-  rw [← ENNReal.rpow_inv_rpow hα₀.ne' (diam _), ← ediam_preimage_mk,
+    ediam (val ⁻¹' s : Set (WithRPowDist X α hα₀ hα₁)) = ediam s ^ α := by
+  rw [← ENNReal.rpow_inv_rpow hα₀.ne' (ediam _), ← ediam_preimage_mk,
     ← Set.preimage_comp, val_comp_mk, Set.preimage_id]
 
 @[simp]
 theorem ediam_image_mk (s : Set X) :
-    diam (mk '' s : Set (WithRPowDist X α hα₀ hα₁)) = diam s ^ α := by
+    ediam (mk '' s : Set (WithRPowDist X α hα₀ hα₁)) = ediam s ^ α := by
   simp [image_mk_eq_preimage]
 
 end PseudoEMetricSpace

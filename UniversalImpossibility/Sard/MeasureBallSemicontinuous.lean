@@ -15,7 +15,7 @@ theorem MeasureTheory.tendsto_measure_biUnion_lt {α : Type*} {m : MeasurableSpa
   have : (atTop : Filter (Iio a)).IsCountablyGenerated := by
     rw [← comap_coe_Iio_nhdsLT]
     infer_instance
-  simp_rw [← map_coe_Iio_atTop, tendsto_map'_iff, ← mem_Iio, biUnion_eq_iUnion]
+  simp_rw [← map_coe_Iio_atTop a, tendsto_map'_iff, ← mem_Iio, biUnion_eq_iUnion]
   exact tendsto_measure_iUnion_atTop fun i j hle ↦ hm i j hle j.2
 
 theorem continuousWithinAt_Iio_measure_ball {X : Type*} [PseudoMetricSpace X]
