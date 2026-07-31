@@ -1223,6 +1223,31 @@ theory \citep{sturmfels2008algorithms}---but its identification as the
 universal resolution of the Explanation Impossibility, across all domains
 simultaneously, appears to be new.
 
+\paragraph{The graded classification table and the invariant's algebra.}
+The symmetry group does not merely decide \emph{whether} explanation is possible; via
+the Molien series of its permutation representation, $C_d = \dim(\mathrm{Sym}^d V)^G$
+counts the \emph{stable explanation facts at each interaction order}---degree~1 the
+main-effect attributions, degree~2 the interactions, degree~3 the triple interactions.
+This yields a concrete classification table (computed for the canonical classes and
+verified against the closed form for $S_n$, where $C_d$ is the number of partitions of
+$d$ into at most $n$ parts): for $S_n$ with $n \geq 3$, $(C_1,C_2,C_3) = (1,2,3)$
+regardless of $n$---exactly one stable main-effect fact (the sum), two stable interaction
+facts, three stable triples; for the cyclic group $C_4$, $(1,3,5)$; for the dihedral
+$D_4$, $(1,3,4)$; for the product $S_2 \times S_2$, $(2,5,8)$. Each entry is the a-priori
+count of facts an explanation can stably assert at that order---the fine (graded)
+refinement of the coarse hierarchy below. Capacity is moreover a well-behaved invariant,
+machine-checked as such: monotone (\texttt{capacity\_mono}), antitone in the symmetry
+group---more symmetry, fewer stable facts (\texttt{capacity\_antitone\_subgroup})---and
+full under trivial symmetry (\texttt{capacity\_id}); its degree-1 value is the average
+character $\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g) = \dim(\text{invariants})$
+(\texttt{capacity\_reynolds\_eq\_char\_average}, \texttt{capacity\_reynolds\_eq\_finrank\_invariants});
+and the incurable structural instability---the directions no amount of data
+resolves---is exactly the kernel of the Reynolds projection, of dimension $\eta\cdot\dim V$
+(\texttt{structural\_floor\_dim}), linking the classification to the structural/statistical
+dichotomy. (The full graded \emph{series} in Lean awaits symmetric-power representations
+Mathlib does not yet provide; the degree-1 coefficient and the invariant's algebra are
+machine-checked, the higher coefficients rigorously computed.)
+
 \paragraph{A hierarchy of difficulty.}
 The group structure determines the character of the impossibility and the
 available resolutions:
@@ -4585,6 +4610,23 @@ counterexample (Figure~\ref{fig:falsification}).
 Three conjectured extensions of the framework were pre-registered and tested.
 All three were falsified, providing boundary conditions on the framework's
 predictive reach.
+
+\paragraph{The quantitative capacity law ($\eta$-law), falsified thrice.}
+The strongest \emph{point-predictive} conjecture---that $\eta = 1 - \dim(V^G)/\dim(V)$
+predicts the \emph{magnitude} of explanation instability---has now failed three
+independent ways, and we record the boundary as settled. (i)~It failed prospectively
+(pre-registered; holdout $R^2 = 0.24$, prospective $\rho = 0.31$). (ii)~From-data recovery
+of the integer capacity dimension under approximate symmetry is not reliably possible
+(five principled estimators). (iii)~A structural-floor reframe motivated by the
+structural/statistical dichotomy---predict the large-$n$ residual floor rather than the
+finite-$n$ total---was tested and also fails to differentiate: $\eta$ fits the finite-$n$
+total at least as well as the floor, and the from-data $\hat\eta$ still does not recover it.
+The lesson is epistemic, not merely empirical. The capacity theory is a \emph{bounds}
+theory, not a point-predictive law; reframed as a bound---the number of transfer-confirmed
+stable facts is at most the capacity---it holds with $100\%$ coverage out of sample
+(\S\ref{sec:group-classification}). The point-prediction is retired on evidence; the bound
+stands. This is the same discipline that distinguishes a distribution-free guarantee from a
+fitted regression throughout the program.
 
 \paragraph{Phase transition at the interpolation threshold.}
 We predicted a sharp transition in explanation instability at the
