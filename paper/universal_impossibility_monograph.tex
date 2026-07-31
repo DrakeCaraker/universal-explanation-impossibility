@@ -179,6 +179,14 @@ The resolution is uniform: $G$-invariant explanation systems that aggregate
 over equivalent hypotheses restore faithfulness-in-expectation and stability at
 the cost of decisiveness, and \DASH{} (\textbf{D}iversified \textbf{A}ggregation for
 \textbf{S}table \textbf{H}ypotheses) is a concrete instance of this resolution for feature attribution.
+The framework is quantitative as well as qualitative. The resolution has a \emph{capacity}---%
+$\dim(V^G)$, the machine-checked \emph{exact} count of stable explanation facts (exact because a
+keystone theorem shows the stable maps are exactly the $G$-invariant ones), which a structure
+theorem exhibits together with the resolution and the incurable structural floor as facets of a
+single orbit-average operator---and a per-query \emph{reliability certificate}: a distribution-free, Lean-verified bound
+on the flip rate of any individual explanation claim, which we prove transfers to independent
+ensembles and validate on a $104$-dataset, $10{,}724$-pair out-of-sample study in which every
+\textsc{stable} verdict transfers (flip $\leq 20\%$) to an independent ensemble.
 The impossibility is ubiquitous: any learning problem with strictly more
 parameters than constraints admits a Rashomon set of positive measure, and
 neural networks with hidden dimension exceeding the data dimension always fall
@@ -1244,20 +1252,27 @@ character $\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g) = \dim(\text{invariants
 and the incurable structural instability---the directions no amount of data
 resolves---is exactly the kernel of the Reynolds projection, of dimension $\eta\cdot\dim V$
 (\texttt{structural\_floor\_dim}), linking the classification to the structural/statistical
-dichotomy. This graded classification is now machine-checked at \emph{every} degree, not just degree~1.
-The symmetric group acts on degree-$d$ homogeneous polynomials by renaming variables---a
-genuine finite-dimensional representation (\texttt{renameRep}), once one supplies the missing
-finite-dimensionality of the graded piece (\texttt{homogeneousSubmodule\_finiteDimensional}, an
-independent gap in Mathlib). Applying the degree-1 character-average formula to it yields, for
-every~$d$, that the dimension of the degree-$d$ symmetric (invariant) homogeneous polynomials---the
-graded Molien coefficient $C_d$, the count of stable degree-$d$ facts---equals the average of the
-degree-$d$ character (\texttt{graded\_molien\_char\_average}). The graded stable-fact hierarchy is
-thus a theorem, not merely a computation.
+dichotomy. For the \emph{symmetric group} the graded \emph{formula} is now machine-checked at
+\emph{every} degree, not just degree~1. The symmetric group acts on degree-$d$ homogeneous
+polynomials by renaming variables---a genuine finite-dimensional representation (\texttt{renameRep}),
+once one supplies the finite-dimensionality of the graded piece
+(\texttt{homogeneousSubmodule\_finiteDimensional}, a lemma Mathlib does not provide). Applying the
+degree-1 character-average formula to it yields, for every~$d$, the identity
+$C_d = \dim(\text{degree-}d\ \text{symmetric invariants}) = \tfrac{1}{|G|}\sum_g$(degree-$d$
+character)$(g)$ (\texttt{graded\_molien\_char\_average}). It is this generating \emph{formula} that
+is machine-checked. The specific coefficient values in the table above---and the cyclic, dihedral,
+and product columns---are \emph{computed} from the Molien formula (and verified against the closed
+form for $S_n$, where $C_d$ is the number of partitions of $d$ into at most $n$ parts); those
+particular integers, and the non-symmetric groups, are not themselves separately Lean-checked. So
+the graded stable-fact hierarchy is, for the symmetric case, a theorem rather than a bare
+computation; the table's entries are its rigorously computed instances.
 
-\paragraph{The keystone: capacity is exact, and one structure theorem closes the theory.}
+\paragraph{The keystone: capacity is exact, and one structure theorem unifies the framework.}
 Capacity was an upper bound because its converse---that \emph{every} stable explanation map
 is $G$-invariant---was open. It is now a theorem, and an elementary one: since the group
-preserves observables, any map that factors through the observable is constant on orbits, so
+preserves observables, any map that factors through the observable is constant on orbits
+(\texttt{stable\_gInvariant}); together with the already-established forward direction, and under
+the transitive symmetry structure, this gives the biconditional
 $\text{stable} \Leftrightarrow G\text{-invariant}$ (\texttt{stable\_iff\_gInvariant}, which
 depends on \emph{no} axioms whatsoever). The stable resolutions are therefore \emph{exactly}
 the $G$-invariant ones---nothing outside the invariants is stable---so the capacity
@@ -1265,16 +1280,19 @@ $\dim(V^G)$ is the \emph{exact} stable-fact count, achieved by the orbit average
 exceeded. This upgrades the coverage-validated bound of the previous paragraphs to an
 equality, and it closes the framework into a single \emph{structure theorem}
 (\texttt{explanation\_structure\_theorem}): the orbit-average (Reynolds) operator $R$
-decomposes the explanation space canonically as $V = V^G \oplus \ker R$, and the four pillars
-of the theory are four facets of that one operator. $R$ is a projection; its range is exactly
-the stable subspace $V^G$; its trace/dimension is the capacity, equal to the average character
-$\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g)$; and its kernel---the incurable structural
-instability---has dimension $\dim V - \mathrm{capacity} = \eta\cdot\dim V$. The impossibility,
-the resolution, the capacity, and the structural floor are not four separate results but one
-decomposition seen four ways. This is the sense in which the theory is complete: a single
-machine-checked object from which the parts follow, the point-predictive over-reaches
-falsified and quarantined, and the guarantees stated as distribution-free bounds that hold
-out of sample.
+decomposes the explanation space canonically as $V = V^G \oplus \ker R$. $R$ is a projection; its
+range is exactly the stable subspace $V^G$; its trace/dimension is the capacity, equal to the
+average character $\tfrac{1}{|G|}\sum_g \operatorname{tr}\rho(g)$; and its kernel---the incurable
+structural instability---has dimension $\dim V - \mathrm{capacity} = \eta\cdot\dim V$. The
+resolution, the capacity, and the structural floor are thus three facets of this one operator; and
+the impossibility (proved separately) is the obstruction the same decomposition makes
+transparent---a decisive explanation would have to commit along the unstable directions $\ker R$,
+which stability forbids. What read as four separate results are one picture. In this sense the framework is \emph{structurally closed}: a single
+machine-checked object from which the parts follow, with the point-predictive over-reaches
+falsified and quarantined and the guarantees stated as distribution-free bounds that hold out of
+sample. Structural closure is an internal property; it is not a claim of empirical or external
+completeness---prospective replication, external artifact evaluation, and adoption remain future
+work.
 
 \paragraph{A hierarchy of difficulty.}
 The group structure determines the character of the impossibility and the
@@ -1380,7 +1398,7 @@ Pareto-optimal).  As Shannon's channel capacity bounds the rate of
 reliable communication, the explanation capacity bounds the rate of
 reliable explanation.
 
-The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$---the degree-1 Molien coefficient---and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The graded Molien coefficients---whose degree-2 term is the interaction capacity---are also machine-checked at every degree: \texttt{graded\_molien\_char\_average} realizes the symmetric-power action on degree-$d$ homogeneous polynomials as a representation and applies the same degree-1 formula, giving $C_d = \dim(\text{invariant degree-}d\text{ polynomials}) = $ average degree-$d$ character.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$---the degree-1 Molien coefficient---and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The graded Molien \emph{formula}---whose degree-2 term is the interaction capacity---is also machine-checked, for the symmetric group at every degree: \texttt{graded\_molien\_char\_average} realizes the rename action on degree-$d$ homogeneous polynomials as a representation and applies the same degree-1 formula, giving $C_d = \dim(\text{degree-}d\text{ symmetric invariants}) = $ average degree-$d$ character; the specific coefficient values are computed from it.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
 
 \paragraph{Will more data fix it? The structural/statistical dichotomy.}
 The most common objection to Rashomon-driven instability is that it is finite-sample noise more data
@@ -1543,14 +1561,16 @@ $\Pr[\widehat{\mathrm{flip}}_B \geq \beta + t] \leq e^{-2mt^2}$: the population 
 \emph{any} independent ensemble with an explicit exponential rate.  This is formalized axiom-free in
 Lean as \texttt{transfer\_flipFreq\_bound} (and the sum form \texttt{transfer\_flip\_bound}) in
 \texttt{TransferTheorem.lean}, composing Mathlib's Hoeffding lemma with the population Cantelli bound,
-and closes the in-sample-to-out-of-sample gap the split-ensemble study was designed to probe---the
-$100\%$ observed transfer is the theorem's predicted consequence.  Because real ensembles are
-bootstrap-correlated rather than i.i.d., we also prove the transfer bound with the independence
-assumption \emph{removed} entirely: population Cantelli applied to the deployment flip frequency gives
+and closes the in-sample-to-out-of-sample gap the split-ensemble study was designed to probe.
+Because the split-ensemble models are bootstrap-\emph{correlated} rather than i.i.d., the guarantee
+that strictly applies to the observed transfer is not the Hoeffding bound above (which assumes
+independence) but its dependence-free form, which we also prove by removing the independence
+assumption \emph{entirely}: population Cantelli applied to the deployment flip frequency gives
 $\Pr[\mathrm{flip}_B \geq \beta + t] \leq \mathrm{Var}(\mathrm{flip}_B)/(\mathrm{Var}(\mathrm{flip}_B)+t^2)$
 for \emph{any} ensemble (\texttt{transfer\_flip\_general} in \texttt{TransferGeneral.lean}), the bound
-degrading gracefully as correlation inflates the flip-frequency variance and recovering the Hoeffding
-concentration when the ensemble is independent.  The proved, uncapped Cantelli bound
+degrading gracefully as correlation inflates the flip-frequency variance and the Hoeffding bound being
+the sharper idealization in the independent case.  Under either, the observed $100\%$ transfer is now
+a theorem's predicted consequence rather than a fortunate regularity.  The proved, uncapped Cantelli bound
 itself holds for all $10{,}724$ pairs, as it must.  Two honest caveats survive the scale-up: a single-model importance gap is itself
 a competitive \emph{ranking} baseline---the certificate beats it on $87\%$ of datasets and, unlike
 it, returns a calibrated probability and a guarantee, but the gap is not negligible---and two
@@ -4632,12 +4652,16 @@ counterexample (Figure~\ref{fig:falsification}).
 \end{figure}
 
 % ---- Tier D (Falsified) ----
-\section{Boundary Conditions: Three Falsified Extensions\,\textnormal{\normalsize[Tier D: Falsified]}}
+\section{Boundary Conditions: The Quantitative Boundary and Three Falsified Extensions\,\textnormal{\normalsize[Tier D: Falsified]}}
 \label{sec:falsified-extensions}
 
-Three conjectured extensions of the framework were pre-registered and tested.
-All three were falsified, providing boundary conditions on the framework's
-predictive reach.
+This section records the boundary of the framework's \emph{quantitative} reach. It opens with the
+overarching finding---that the capacity $\eta$-law fails as a point-predictor of instability
+magnitude---and then the three specific conjectured extensions that were pre-registered and tested,
+all three of which were falsified. (These three, together with the spectral-gap and
+flip-correlation predictions reported elsewhere in this Part, are the five pre-registered falsified
+predictions summarised at its close; the $\eta$-law below is the umbrella they instantiate, not a
+sixth separate prediction.)
 
 \paragraph{The quantitative capacity law ($\eta$-law), falsified thrice.}
 The strongest \emph{point-predictive} conjecture---that $\eta = 1 - \dim(V^G)/\dim(V)$
