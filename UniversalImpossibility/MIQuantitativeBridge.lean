@@ -3,7 +3,9 @@ import UniversalImpossibility.MutualInformation
 /-!
 # MI → Quantitative Unfaithfulness Bridge
 
-Connects the MI boundary (I > 0 ↔ impossibility) to a quantitative
+Connects the MI boundary (I > 0 ⇒ impossibility; this file is forward-direction
+only — the biconditional, conditional on two named bridges, is
+`MIConverse.mi_exact_boundary_biconditional`) to a quantitative
 unfaithfulness bound. This is the formal version of the empirically
 observed pipeline: MI detects dependence → Rashomon witnesses exist →
 any stable explanation has measurable unfaithfulness.

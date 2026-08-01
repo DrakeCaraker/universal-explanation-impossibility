@@ -77,6 +77,7 @@ namespace UniversalImpossibility.Ubiquity
 -- ============================================================================
 
 section DimensionGap
+universe u
 variable {𝕜 : Type*} [DivisionRing 𝕜]
 
 /-- In a common universe, the gap hypothesis `(finrank 𝕜 W : Cardinal) < Module.rank 𝕜 V`
