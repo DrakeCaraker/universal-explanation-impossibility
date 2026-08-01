@@ -151,8 +151,9 @@ map the true curved fiber contains genuinely distinct models arbitrarily close.
 For linear observation maps the remaining genericity step (Sard's theorem) is
 proved outright; for nonlinear maps the full Morse--Sard theorem itself is now
 machine-checked in-repo---via an in-tree, attribution-preserving port of
-Y.~Kudryashov's formalisation of Moreira's theorem---so the generic ubiquity
-statement is unconditional for $C^{\,n-m+1}$ observation maps, the sharp
+Y.~Kudryashov's Lean~4 formalisation \citep{kudryashov2025sardmoreira} of
+Moreira's version of Sard's theorem \citep{moreira2001hausdorff}---so the generic
+ubiquity statement is unconditional for $C^{\,n-m+1}$ observation maps, the sharp
 classical smoothness threshold (see Part~I).
 We then instantiate the theorem on explicit minimal witnesses in
 eight scientific domains: the degeneracy of the genetic code (biology),
@@ -929,7 +930,8 @@ hypothesis (\texttt{SardProperty}) and the entire reduction to it is machine-che
 (\texttt{generic\_ubiquity\_of\_sard}).  \emph{That hypothesis is now discharged in full}: the
 classical Morse--Sard theorem is machine-checked in this repository
 (\texttt{sardProperty\_of\_contDiff}), via an in-tree, attribution-preserving port of
-Y.~Kudryashov's formalisation of Moreira's version of Sard's theorem
+Y.~Kudryashov's Lean~4 formalisation \citep{kudryashov2025sardmoreira} of Moreira's version of
+Sard's theorem \citep{moreira2001hausdorff}
 (\texttt{UniversalImpossibility/Sard/}, forward-ported from its original Mathlib revision to this
 repository's; authorship of the ported development remains Kudryashov's, per its Apache-2.0 licence
 and the attribution notice in-tree).  The bridge instantiates Moreira's Hausdorff-dimension bound
@@ -944,6 +946,23 @@ ubiquity statement is therefore \emph{unconditional} for $C^{\,n-m+1}$ observati
 (\texttt{generic\_ubiquity\_of\_contDiff}; \texttt{sardProperty\_of\_smooth} for the $C^\infty$
 case), with every theorem in the chain axiom-clean (Lean core only).  The vendored port is counted
 separately from this repository's own theorem inventory.
+The ubiquity argument moreover extends to \emph{infinite-dimensional} configuration spaces
+(\texttt{UbiquityInfiniteDimensional.lean}; observable space finite-dimensional---the
+function-space-model regime): under the cardinal-rank hypothesis
+$\dim Y < \operatorname{rank}(\sH)$, which strictly generalises the finite-dimensional one, the
+linear, infinitesimal, local-smooth (Banach implicit function theorem), and submersion rungs all
+carry over, with two unconditional generic-ubiquity capstones
+(\texttt{generic\_ubiquity\_of\_continuousLinearMap\_infinite},
+\texttt{generic\_ubiquity\_of\_submersion\_infinite}) and a strengthened cardinal rank--nullity:
+the Rashomon fibre of an infinite-dimensional configuration space has \emph{full} rank
+(\texttt{rank\_ker\_eq\_rank\_of\_infiniteDimensional}).  Morse--Sard itself provably does
+\emph{not} extend there: Kupka's counterexample \citep{kupka1965counterexample} gives a $C^\infty$
+map on $\ell^2$ whose critical values contain an interval, and no map from infinite-dimensional
+$\sH$ onto finite-dimensional $Y$ is Fredholm (its kernel has full rank---machine-checked), so even
+the Sard--Smale theorem \citep{smale1965infinite} is inapplicable.
+The finite-dimensionality of the Sard step is thus a theorem-shaped boundary, not a
+formalization gap; in infinite dimension the unconditionally closed classes are exactly the
+linear maps and the submersions.
 Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon
@@ -1525,7 +1544,7 @@ The explanatory information loss identity yields a capacity theory for explanati
 $\mathbb{E}[\|\bar{E}_M - R\mu\|^2] = M^{-1} \operatorname{tr}(R\Sigma R)$.
 For target MSE $\leq \varepsilon$, it suffices to use $M \geq \operatorname{tr}(R\Sigma R)/\varepsilon$ models.  We call this the stability sample-complexity for orbit averaging.  The NARPS convergence ($M_{95} = 16$~teams for 95\% stability) is a special case.
 
-\emph{Part (ii): Capacity bound.}  The orbit-averaged (Reynolds-projected) explanation $R \circ E$ has image in $V^G$---immediate from idempotency of $R$---so its image dimension is at most $C = \dim(V^G)$, and no amount of averaging, ensembling, or methodological refinement expands $V^G$.  The stronger statement that \emph{every} stable map has image in $V^G$ is stated here as a conjecture [Tier~B], not a Lean-verified theorem: the declaration \texttt{fixed\_point\_in\_invariant\_subspace} records only the definitional fact that a fixed point of $R$ lies in $V^G$ (it takes $Ru = u$ as a hypothesis) and does not derive fixed-point-ness from stability. The image bound just stated is the separate theorem \texttt{reynolds\_image\_in\_fixed}.
+\emph{Part (ii): Capacity bound.}  The orbit-averaged (Reynolds-projected) explanation $R \circ E$ has image in $V^G$---immediate from idempotency of $R$---so its image dimension is at most $C = \dim(V^G)$, and no amount of averaging, ensembling, or methodological refinement expands $V^G$.  The stronger statement that \emph{every} stable map has image in $V^G$, formerly a Tier~B conjecture here, is now \emph{resolved as a sharp boundary} (\texttt{TierBResolutions.lean}): it is \emph{false} as literally stated---a constant map is $G$-stable with image escaping $V^G$ (\texttt{gstable\_not\_image\_in\_fixed}), and even a genuinely linear stable map can escape (\texttt{linear\_sigmaStable\_image\_not\_in\_diag})---while the corrected form is a machine-checked, axiom-free theorem: a map that is both stable and \emph{equivariant} has image in $V^G$ (\texttt{gstable\_equivariant\_image\_subset\_fixed}); the linear counterexample violates exactly equivariance (\texttt{Lsum\_not\_equivariant}), so equivariance is the precise missing hypothesis. The image bound just stated is the separate theorem \texttt{reynolds\_image\_in\_fixed}.
 
 \emph{Part (iii): Rate optimality.}  Among all linear unbiased estimators of $R\mu$ from $M$ i.i.d.\ samples, the orbit average minimises $\mathbb{E}[\|\hat{E} - R\mu\|^2]$ (Gauss--Markov).  Equivalently, $V^G$ is the sufficient statistic for stable explanatory content, and the Reynolds projection is the Rao--Blackwell improvement of any explanation method.
 
@@ -1535,7 +1554,7 @@ For target MSE $\leq \varepsilon$, it suffices to use $M \geq \operatorname{tr}(
 \]
 The best stable approximation to any beyond-capacity quantity is the zero vector, with MSE $= \|w\|^2$.  This is not noisy information; it is zero information.  The penalty follows directly from orthogonality ($u \perp w$) and the Pythagorean theorem (Lean-verified: \texttt{beyond\_capacity\_penalty}).
 
-The four parts are organised by structural analogy to the roles in Shannon's coding theorem---capacity (Part~ii), achievability (Parts~i and~iii), a lower-bound converse (Part~iv), and sample complexity (Part~i)---but we emphasise this is an organising analogy, not a claim of information-theoretic depth: Part~(iii) is Gauss--Markov and the general form of Part~(ii) is a conjecture. The over-explanation penalty gives the \emph{exact} MSE for beyond-capacity estimation (not an asymptotic bound), a consequence of working in finite-dimensional inner product spaces.
+The four parts are organised by structural analogy to the roles in Shannon's coding theorem---capacity (Part~ii), achievability (Parts~i and~iii), a lower-bound converse (Part~iv), and sample complexity (Part~i)---but we emphasise this is an organising analogy, not a claim of information-theoretic depth: Part~(iii) is Gauss--Markov and the general form of Part~(ii) is false without equivariance and a theorem with it (see above). The over-explanation penalty gives the \emph{exact} MSE for beyond-capacity estimation (not an asymptotic bound), a consequence of working in finite-dimensional inner product spaces.
 
 \emph{Empirical validation.}  The convergence rate $\text{MSE} \sim M^{-\beta}$ was validated on synthetic data with $\beta = 1.28$ (predicted: $1.00$; $R^2 = 0.97$).  The over-explanation penalty was validated across 149~datasets: within-group pairwise claims (beyond capacity) flip at rate $0.22 \pm 0.10$, while between-group claims (within capacity) flip at rate $0.15 \pm 0.08$ (cross-dataset Wilcoxon $p = 5.1 \times 10^{-11}$; directional confirmation in 81\% of 110~testable datasets, 86\% of 84~with Cohen's $d$ computable).
 
@@ -1920,8 +1939,23 @@ We distinguish four levels of verification:
     \texttt{dash\_within\_group\_dominance}: a committed within-group
     ranking has strictly positive disagreement, conditional on the
     bundled GBDT/DGP hypotheses.  The between-group case---and hence
-    \emph{global} Pareto optimality---remains argued, resting on an
-    unformalized Cram\'er--Rao step.)
+    \emph{global} Pareto optimality---is now \emph{reduced to one named
+    hypothesis} with the reduction machine-checked
+    (\texttt{ParetoGlobal.lean}): the Cram\'er--Rao inequality itself is
+    proved unconditionally in abstract form
+    (\texttt{abstract\_cramer\_rao}, via a covariance Cauchy--Schwarz),
+    the score-regularity content is isolated as
+    \texttt{CramerRaoScoreProperty} (the analogue of
+    \texttt{SardProperty}), the chain from it to global optimality is
+    verified (\texttt{cramer\_rao\_bound\_of\_score} $\to$
+    \texttt{dash\_global\_min\_variance} $\to$
+    \texttt{dash\_global\_pareto\_optimal}), \DASH{} attains the bound
+    exactly (\texttt{dash\_variance\_eq\_inv\_fisher}), and the named
+    hypothesis is discharged outright for the single-sample Gaussian
+    (\texttt{cramerRaoScoreProperty\_gaussianReal}).  What remains argued
+    is only the score property for general regular families---the exact
+    differentiation-under-the-integral condition classical statistics
+    assumes.)
 
   \item \textbf{Empirical}: The result is supported by computational
     experiments but not formally proved.  Examples: the specific flip
@@ -3952,7 +3986,7 @@ where $N$ is the grid size.  The exponent $1.56$ lies between the Kolmogorov pre
 \emph{Divergence check:} $\max|\nabla \cdot \mathbf{u}| < 10^{-8}$ across all 54 runs, confirming the pseudospectral solver preserves incompressibility.
 
 \paragraph{The Explanation Capacity Audit.}
-The explanation capacity theorem was validated at scale across 149~datasets from 53~scientific domains (genomics, neuroscience, particle physics, manufacturing, veterinary medicine, and 48~others).  For each dataset, 50~XGBoost models with stochastic regularisation (subsample~$= 0.8$, colsample\_bytree~$= 0.5$) were trained with different random seeds, and TreeSHAP importance rankings were computed.  Correlation groups were identified via SAGE (hierarchical clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$), giving the explanation capacity $C = g$ (number of groups).  Note: the Lean theorem \texttt{mi\_sufficient\_for\_impossibility} in \texttt{MutualInformation.lean} proves the \emph{sufficiency} direction---mutual information $I(X_j; X_k) > 0$ (not correlation) yields the attribution impossibility---in the abstract framework \emph{conditional} on the bridge hypothesis \texttt{hdep\_implies\_diff} (statistical dependence produces differing attributions). That bridge cannot be discharged abstractly (a degenerate constant attribution falsifies it), but it is \emph{not} merely assumed: \texttt{MIWitness.lean} exhibits an explicit two-feature model in which the mutual information is \emph{computed} from a joint distribution (two perfectly-correlated fair bits, $I = \log 2 > 0$ via the Shannon formula) and the bridge is a \emph{theorem}---the attribution difference is derived from the feature-swap Rashomon pair that the same correlation forces---so \texttt{concrete\_mi\_impossibility} holds unconditionally, with no custom axioms (\texttt{\#print axioms} shows only Lean's core). The MI-to-attribution converse is thus machine-verified on a concrete witness, though not in full abstract generality.  For continuous features, Spearman correlation is an adequate proxy: an MI-vs-correlation comparison across 131~PMLB benchmark datasets confirms that the two grouping methods produce identical groups 77\% of the time (ARI~$= 1.000$) and nearly identical groups 74\% of the time (ARI~$> 0.80$; mean ARI~$= 0.84$).  However, for binary or categorical features, correlation can fail completely---the drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this: Pearson clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate.  The 75\% exceedance rate below is therefore exact for the continuous-feature audit but a \emph{lower bound} for domains with binary, categorical, or nonlinear feature dependencies.
+The explanation capacity theorem was validated at scale across 149~datasets from 53~scientific domains (genomics, neuroscience, particle physics, manufacturing, veterinary medicine, and 48~others).  For each dataset, 50~XGBoost models with stochastic regularisation (subsample~$= 0.8$, colsample\_bytree~$= 0.5$) were trained with different random seeds, and TreeSHAP importance rankings were computed.  Correlation groups were identified via SAGE (hierarchical clustering on $|\text{Spearman } \rho|$ at threshold $\rho^* = 0.70$), giving the explanation capacity $C = g$ (number of groups).  Note: the Lean theorem \texttt{mi\_sufficient\_for\_impossibility} in \texttt{MutualInformation.lean} proves the \emph{sufficiency} direction---mutual information $I(X_j; X_k) > 0$ (not correlation) yields the attribution impossibility---in the abstract framework \emph{conditional} on the bridge hypothesis \texttt{hdep\_implies\_diff} (statistical dependence produces differing attributions). That bridge cannot be discharged abstractly (a degenerate constant attribution falsifies it), but it is \emph{not} merely assumed: \texttt{MIWitness.lean} exhibits an explicit two-feature model in which the mutual information is \emph{computed} from a joint distribution (two perfectly-correlated fair bits, $I = \log 2 > 0$ via the Shannon formula) and the bridge is a \emph{theorem}---the attribution difference is derived from the feature-swap Rashomon pair that the same correlation forces---so \texttt{concrete\_mi\_impossibility} holds unconditionally, with no custom axioms (\texttt{\#print axioms} shows only Lean's core). The MI-to-attribution converse is thus machine-verified on a concrete witness, though not in full abstract generality.  The \emph{escape} direction (MI~$= 0$ implies a stable ranking exists) is resolved in \texttt{MIConverse.lean}: it is \emph{false} unconditionally---\texttt{mi\_converse\_fails\_without\_bridge} formalizes a counterexample with provably independent features (MI computed $= 0$ from a product distribution) whose feature-swap Rashomon pair admits no faithful stable ranking, exactly the target-symmetry instability noted elsewhere in this paper---and it holds under precisely one named mirror bridge, \texttt{hindep\_implies\_agree}, proven minimal, yielding the conditional two-bridge biconditional \texttt{mi\_exact\_boundary\_biconditional}.  For continuous features, Spearman correlation is an adequate proxy: an MI-vs-correlation comparison across 131~PMLB benchmark datasets confirms that the two grouping methods produce identical groups 77\% of the time (ARI~$= 1.000$) and nearly identical groups 74\% of the time (ARI~$> 0.80$; mean ARI~$= 0.84$).  However, for binary or categorical features, correlation can fail completely---the drug discovery experiment (Section~\ref{sec:drug-discovery}) demonstrates this: Pearson clustering predicts 0\% instability on binary fingerprints while MI-based clustering recovers the observed 23\% rate.  The 75\% exceedance rate below is therefore exact for the continuous-feature audit but a \emph{lower bound} for domains with binary, categorical, or nonlinear feature dependencies.
 
 \emph{Exceedance:} 111 of 149 datasets (75\%) exceed their explanation capacity --- the feature rankings reported in typical SHAP analyses contain more pairwise claims than the correlation structure can stably support.  A TreeSHAP replication on 70~PMLB datasets with $M = 50$ confirms: 84\% exceed capacity (conservative relative to gain-based 87\% on the same datasets, because TreeSHAP is 34\% more stable).  Exceedance is robust to threshold: 83\% at $\rho^* = 0.50$, 81\% at 0.60, 75\% at 0.70, 69\% at 0.80, 50\% at 0.90.  The directional prediction (within $>$ between flip rate) is confirmed at all five thresholds (Wilcoxon $p \leq 0.021$ at each), with the strongest signal at $\rho^* = 0.70$ and $0.90$.  The slight weakening at $\rho^* = 0.80$ (77\% directional vs.\ 81\% at 0.70) reflects group fragmentation: 8~datasets lose testability as within-group pairs are split, and the mean number of within-group pairs drops from 81 to 62.
 

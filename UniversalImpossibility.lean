@@ -27,3 +27,7 @@ import UniversalImpossibility.HomogeneousFinite
 import UniversalImpossibility.GradedMolien
 import UniversalImpossibility.UbiquityDimensional
 import UniversalImpossibility.MorseSard
+import UniversalImpossibility.MIConverse
+import UniversalImpossibility.TierBResolutions
+import UniversalImpossibility.UbiquityInfiniteDimensional
+import UniversalImpossibility.ParetoGlobal

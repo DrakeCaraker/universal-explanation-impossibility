@@ -12,9 +12,17 @@
   pair) and the impossibility holds unconditionally with no custom axioms.
 
   Key results:
-  - MI = 0 (features independent) ⇒ stable ranking exists (escape)
   - MI > 0 (features dependent) ⇒ (under symmetric DGP + bridge) Rashomon ⇒ impossibility
   - For Gaussian: I = -½ log(1 - ρ²), so ρ > 0 ⟹ I > 0
+
+  ⚠ CONVERSE STATUS (resolved in `MIConverse.lean`): the unconditional claim
+  "MI = 0 ⇒ stable ranking exists" formerly stated here is FALSE — refuted by a
+  formalized counterexample (`mi_converse_fails_without_bridge`: provably
+  independent features whose feature-swap Rashomon pair admits no faithful
+  stable ranking; this is the target-symmetry instability the monograph itself
+  concedes). The converse holds conditionally on exactly one named mirror
+  bridge (`hindep_implies_agree`, proven minimal), giving the full two-bridge
+  biconditional `mi_exact_boundary_biconditional`.
 
   Supplement: §Open Problems (generalization from ρ > 0 to I > 0)
 -/
