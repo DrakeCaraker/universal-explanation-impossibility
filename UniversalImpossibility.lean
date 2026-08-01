@@ -33,3 +33,4 @@ import UniversalImpossibility.UbiquityInfiniteDimensional
 import UniversalImpossibility.ParetoGlobal
 import UniversalImpossibility.ScoreRegularity
 import UniversalImpossibility.ScoreRegularityNEF
+import UniversalImpossibility.ScoreRegularityExchangeable
