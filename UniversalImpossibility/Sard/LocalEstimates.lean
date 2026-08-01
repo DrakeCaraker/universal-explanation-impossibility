@@ -1,3 +1,7 @@
+-- Ported (with modifications) from Yury G. Kudryashov's `SardMoreira`
+-- (github.com/urkud/SardMoreira @ 14bc8a1), Apache-2.0 licensed. Module paths
+-- renamed and code forward-ported to this repository's Mathlib pin. See the
+-- attribution and licence notices in UniversalImpossibility/Sard/ATTRIBUTION.md.
 import Mathlib.Analysis.Calculus.DiffContOnCl
 import Mathlib.Analysis.Calculus.LineDeriv.Basic
 import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
