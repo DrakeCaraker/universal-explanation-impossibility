@@ -49,6 +49,15 @@ Universal framework (new):
   CPDAGResolution.lean          — CPDAG as G-invariant resolution for causal discovery
   Ubiquity.lean                 — Structural ubiquity: dimensional argument + impossibility bridge
   ValueAlignment.lean           — AI value alignment impossibility; bilemma instance
+
+Ubiquity closure + frontier (2026-07/08, PRs #17–#22):
+  UbiquityDimensional.lean — linear/infinitesimal/local-smooth ubiquity rungs; Sard reduction
+  MorseSard.lean           — full Morse–Sard (sharp C^{n−m+1}); generic ubiquity unconditional
+  Sard/                    — vendored Kudryashov SardMoreira port (attributed, excluded from counts)
+  UbiquityInfiniteDimensional.lean — ∞-dim extension; Sard non-extension boundary formalized
+  MIConverse.lean          — MI-boundary converse refuted/settled (full biconditional)
+  TierBResolutions.lean    — stable-image boundary (false as stated; true with equivariance)
+  ParetoGlobal.lean        — abstract Cramér–Rao + reduction to global Pareto; Gaussian discharge
 ```
 
 ## File Structure
@@ -118,11 +127,48 @@ UniversalImpossibility/
   DASHResolution.lean           — DASH as G-invariant resolution for attributions
   CPDAGResolution.lean          — CPDAG as G-invariant resolution for causal discovery
   Ubiquity.lean                 — generic_underspecification, ubiquity_impossibility
+  UbiquityDimensional.lean      — Linear/infinitesimal/local-smooth ubiquity rungs; Sard reduction
+                                  (sardProperty_of_continuousLinearMap/_of_submersion)
+  MorseSard.lean                — Full Morse–Sard at sharp C^{n−m+1} (sardProperty_of_contDiff);
+                                  generic_ubiquity_of_contDiff unconditional
+  UbiquityInfiniteDimensional.lean — All rungs except Sard extend to ∞-dim; Sard non-extension is a
+                                  formalized boundary (Kupka counterexample, non-Fredholm obstruction)
+  Sard/                         — VENDORED port of Kudryashov's SardMoreira @ 14bc8a1 (Apache-2.0,
+                                  attributed, excluded from all counts; see Sard/ATTRIBUTION.md)
   ── Bilemma + strengthening ──
   MaximalIncompatibility.lean   — Bilemma, S+D impossibility, tightness, recovery (8 theorems)
   BilemmaCharacterization.lean  — Neutral element characterization (3 theorems)
   PredictiveConsequences.lean   — All-or-nothing, Rashomon unfaithfulness, faithful uniqueness (5 theorems)
   ApproximateRashomon.lean      — ε-stability extension (4 theorems)
+  ── Structure, capacity, certificates ──
+  StructureTheorem.lean         — stable_iff_gInvariant (0 axioms); explanation_structure_theorem
+                                  (V = V^G ⊕ ker R)
+  CapacityFunctoriality.lean    — Capacity functoriality
+  CapacityTrace.lean            — Capacity via trace of R (drops the idempotence assumption)
+  MolienCapacity.lean           — Molien-series capacity counting
+  GradedMolien.lean             — Graded Molien series
+  HomogeneousFinite.lean        — Module.Finite for homogeneousSubmodule (Mathlib-upstream candidate)
+  GaussMarkovDASH.lean          — Gauss–Markov: DASH as minimum-variance stable aggregate
+  DavisKahanSinTheta.lean       — Davis–Kahan sin-θ (Frobenius form)
+  DavisKahanRecovery.lean       — Subspace recovery via Rayleigh-quotient bounds
+  CertificateGuarantee.lean     — Cantelli flip-rate certificate: 1/(1+SNR²) bound
+  CertificateTight.lean         — Certificate tightness + one-sidedness (flip_bound_tight)
+  PopulationCantelli.lean       — Population Cantelli inequality (Mathlib-upstream candidate)
+  TransferTheorem.lean          — In-sample → independent-ensemble transfer (Hoeffding rate)
+  TransferGeneral.lean          — Transfer without independence (correlated/exchangeable ensembles)
+  ── Boundary characterizations + frontier resolutions (2026-08, PRs #18–#22) ──
+  GeneralizedBilemma.lean       — Generalized bilemma and characterization
+  IncompatibilityCharacterization.lean — When Rashomon is the exact boundary
+  Dichotomy.lean                — Structural vs statistical instability dichotomy
+  ExplanationLandscape.lean     — The explanation landscape
+  MIQuantitativeBridge.lean     — MI > 0 → unfaithfulness ≥ Δ/2
+  MIWitness.lean                — Explicit MI witness (Bool×Bool joint pmf)
+  MIConverse.lean               — MI=0 converse: refuted without bridge (formalized counterexample);
+                                  true under one bridge proven minimal; mi_exact_boundary_biconditional
+  TierBResolutions.lean         — Stable-image: false as stated, true with equivariance (axiom-free)
+  ParetoGlobal.lean             — abstract_cramer_rao; CramerRaoScoreProperty →
+                                  dash_global_pareto_optimal reduction; Gaussian discharge (the two
+                                  capstones carry gbdtWorld/gbdtAxioms, kept out of Tier-A audit)
   ── Cross-domain instances (14) ──
   ArrowInstance.lean            — Arrow's theorem (social choice)
   PeresMermin.lean              — Quantum contextuality
@@ -138,6 +184,9 @@ UniversalImpossibility/
   LinearSystem.lean             — Linear systems
   QuantumMeasurementRevolution.lean — Quantum measurement as paradigm shift
   SimultaneityRevolution.lean   — Relativity of simultaneity as paradigm shift
+  MultiAnalystInstance.lean     — Multi-analyst pipeline instance
+  GoedelIncompleteness.lean     — Minimal Gödel incompleteness core (formalized bridge)
+  LanglandsCorrespondence.lean  — GL(n) trace bilemma core (formalized bridge)
   ── Additional theorems ──
   AxiomSubstitution.lean        — Axiom substitution framework
   BayesOptimalTie.lean          — Bayes-optimal tie resolution
@@ -173,7 +222,7 @@ knockout-experiments/           — Empirical validation (90+ scripts, 80+ resul
   PRE_REGISTRATION.md           — Pre-registered predictions
 ```
 
-## Lean State: 127 files, 2 axioms, 695 theorems+lemmas, 0 sorry (2026-07-31; authoritative source is `paper/claims.tex`, regenerated by `paper/scripts/gen_claims.py` — never hand-count)
+## Lean State: 127 files, 2 axioms, 695 theorems+lemmas, 0 sorry (2026-08-01, main @ eeefc63; authoritative source is `paper/claims.tex`, regenerated by `paper/scripts/gen_claims.py` — never hand-count)
 
 ## Axiom Inventory (2 total)
 
@@ -269,7 +318,7 @@ Four papers forming a layered publication strategy:
 - Use `sorry` without a `-- TODO:` comment explaining what's needed
 - Change axioms without re-running the SymPy verification (in companion repo: `dash-shap/paper/proofs/verify_lemma6_algebra.py`)
 - Add `autoImplicit true` — all variables must be explicit
-- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 530). Caveat: `grep '^axiom'` overcounts on doc-comment lines beginning with "axiom…" — use `grep '^axiom '` (trailing space) for the axiom count.
+- Claim "N theorems" without verifying — count with `grep -c "^theorem\|^lemma" UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}'` (currently 695). Caveat: `grep '^axiom'` overcounts on doc-comment lines beginning with "axiom…" — use `grep '^axiom '` (trailing space) for the axiom count.
 - Run parallel subagents that both modify the same file (causes build cache corruption)
 - Axiomatize quantities that can be defined — prefer definitions with axiomatized bounds (see SpearmanDef.lean pattern)
 - Claim empirical results as "proved" or "Lean-verified" — distinguish: **proved** (zero axiom deps), **derived** (from axioms), **argued** (supplement proof only), **empirical** (experiments). The paper's "Proof status transparency" paragraph is the reference.
@@ -282,13 +331,13 @@ Four papers forming a layered publication strategy:
 
 **Archived publication strategy (superseded):** [`docs/archive/publication-strategy-complete-2026-04-30.md`](docs/archive/publication-strategy-complete-2026-04-30.md)
 
-### Core Lean Theorems (530 total, 2 axioms, 0 sorry)
+### Core Lean Theorems (695 total, 2 axioms, 0 sorry)
 
 **Level 0 — Universal impossibility (zero axioms):**
 - `explanation_impossibility` (ExplanationSystem.lean): F+S+D impossible under Rashomon. 4-line proof.
 - `bilemma` (MaximalIncompatibility.lean): F+S impossible for maximally incompatible H.
 - `universal_design_space_dichotomy` (UniversalDesignSpace.lean): Every method is Family A or B.
-- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is sufficient for impossibility, conditional on the `hdep_implies_diff` bridge hypothesis (forward direction only; the converse is argued, not machine-checked).
+- `mi_is_exact_boundary` (MutualInformation.lean): MI > 0 is sufficient for impossibility, conditional on the `hdep_implies_diff` bridge hypothesis (forward direction). The converse is settled in MIConverse.lean: FALSE without a bridge (`mi_converse_fails_without_bridge`, formalized independent-features counterexample), true under one bridge proven minimal; full biconditional `mi_exact_boundary_biconditional`.
 - `mi_quantitative_unfaithfulness` (MIQuantitativeBridge.lean): MI > 0 → unfaithfulness ≥ Δ/2.
 
 **Level 1 — Resolution and optimality:**
@@ -296,8 +345,8 @@ Four papers forming a layered publication strategy:
 - `uncertainty_from_symmetry` (UncertaintyFromSymmetry.lean): Pythagorean decomposition ‖v-Rv‖²+‖Rv‖²=‖v‖².
 - `best_approximation` / `reynolds_best_approximation`: Rv is closest fixed point to v.
 - `beyond_capacity_penalty`: ‖w‖ ≤ ‖u-w‖ for w ∈ (V^G)⊥.
-- `stable_in_fixed_subspace`: CAUTION — the statement is `(hu : R u = u) : R u = u` (a fixed point lies in V^G, definitionally). It does NOT prove "stable maps have image in V^G"; that stronger claim is a Tier-B conjecture in the monograph.
-- `dash_unique_pareto_optimal` (ParetoOptimality.lean): a committed within-group ranking has strictly positive disagreement, conditional on the bundled GBDT/DGP hypotheses. Within-group only; global Pareto optimality is argued (unformalized Cramér–Rao step), not Lean-verified.
+- `stable_in_fixed_subspace`: CAUTION — the statement is `(hu : R u = u) : R u = u` (a fixed point lies in V^G, definitionally). It does NOT prove "stable maps have image in V^G"; that stronger claim is now RESOLVED in TierBResolutions.lean — false as stated (`gstable_not_image_in_fixed`, even for linear maps), true with equivariance added (`gstable_equivariant_image_subset_fixed`, axiom-free).
+- `dash_unique_pareto_optimal` (ParetoOptimality.lean): a committed within-group ranking has strictly positive disagreement, conditional on the bundled GBDT/DGP hypotheses. Within-group only. Global Pareto now lives in ParetoGlobal.lean: `abstract_cramer_rao` proved unconditionally; the reduction `CramerRaoScoreProperty → dash_global_pareto_optimal` is machine-checked (the two capstones deliberately carry gbdtWorld/gbdtAxioms and stay OUT of the Tier-A audit); Gaussian single-sample discharged (`cramerRaoScoreProperty_gaussianReal`); general regular families remain the open frontier item.
 - `pareto_frontier_dichotomy`: Disagreement is exactly 0 (tie) or 1/2 (commitment).
 
 **Level 2 — Tightness and enrichment:**
@@ -357,7 +406,7 @@ Four papers forming a layered publication strategy:
 | JMLR | `paper/universal_impossibility_jmlr.tex` | JMLR | Full technical |
 | NeurIPS | `paper/universal_impossibility_neurips.tex` | NeurIPS 2026 | Companion |
 
-### Verified State (as of 2026-07-31)
+### Verified State (as of 2026-08-01, main @ eeefc63)
 ```
 Theorems: 695 | Axioms: 2 | Files: 127 | Sorry: 0
 Counts: paper/claims.tex is authoritative (gen_claims.py); the vendored
