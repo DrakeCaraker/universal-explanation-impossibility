@@ -26,3 +26,4 @@ import UniversalImpossibility.StructureTheorem
 import UniversalImpossibility.HomogeneousFinite
 import UniversalImpossibility.GradedMolien
 import UniversalImpossibility.UbiquityDimensional
+import UniversalImpossibility.MorseSard

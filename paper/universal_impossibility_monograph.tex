@@ -149,10 +149,11 @@ map has a nonzero derivative-annihilated direction at every point; and, via the
 implicit function theorem, at a \emph{regular} point of a nonlinear observation
 map the true curved fiber contains genuinely distinct models arbitrarily close.
 For linear observation maps the remaining genericity step (Sard's theorem) is
-proved outright, so the linear ubiquity claim is fully machine-checked; for
-nonlinear maps Sard's conclusion is isolated as a single named hypothesis with
-the entire reduction verified, leaving only the classical Morse--Sard theorem
-itself---not yet in Mathlib---as external input (see Part~I).
+proved outright; for nonlinear maps the full Morse--Sard theorem itself is now
+machine-checked in-repo---via an in-tree, attribution-preserving port of
+Y.~Kudryashov's formalisation of Moreira's theorem---so the generic ubiquity
+statement is unconditional for $C^{\,n-m+1}$ observation maps, the sharp
+classical smoothness threshold (see Part~I).
 We then instantiate the theorem on explicit minimal witnesses in
 eight scientific domains: the degeneracy of the genetic code (biology),
 gauge freedom in electromagnetism (physics), microstate degeneracy in
@@ -925,15 +926,24 @@ a positive-dimensional fiber of genuinely distinct models) closes unconditionall
 for any C$^1$ submersion with $\dim(\sH) > \dim(Y)$ \emph{every} fiber is a positive-dimensional
 Rashomon locus.  For a general \emph{nonlinear} map, Sard's property is isolated as a single named
 hypothesis (\texttt{SardProperty}) and the entire reduction to it is machine-checked
-(\texttt{generic\_ubiquity\_of\_sard}).  This pins the residual exactly: the \emph{only} observation
-maps for which the generic statement is not unconditionally machine-checked are the genuinely nonlinear
-ones that actually \emph{possess critical points} (rank-deficient derivative somewhere)---which is
-precisely the content of the classical Morse--Sard theorem.  That theorem is \emph{not} in Mathlib
-(only the equidimensional Sard lemma is); its general form is work in progress in Y.~Kudryashov's
-external \texttt{SardMoreira} development, pinned to a different Mathlib revision and hence not
-in-repo dischargeable here.  The residual is thus reduced from ``formalise Sard'' to ``discharge one
-named hypothesis, already existing externally, for the critical-point case,'' with the linear case,
-the submersion case, and the entire reduction verified.
+(\texttt{generic\_ubiquity\_of\_sard}).  \emph{That hypothesis is now discharged in full}: the
+classical Morse--Sard theorem is machine-checked in this repository
+(\texttt{sardProperty\_of\_contDiff}), via an in-tree, attribution-preserving port of
+Y.~Kudryashov's formalisation of Moreira's version of Sard's theorem
+(\texttt{UniversalImpossibility/Sard/}, forward-ported from its original Mathlib revision to this
+repository's; authorship of the ported development remains Kudryashov's, per its Apache-2.0 licence
+and the attribution notice in-tree).  The bridge instantiates Moreira's Hausdorff-dimension bound
+$p + (n-p)/(k+\alpha)$ at $p = m{-}1$, $k = n{-}m$, $\alpha = 1$, where it equals $m$ exactly: the
+critical values of a $C^{\,n-m+1}$ map are null for $m$-dimensional Hausdorff measure
+(\texttt{hausdorffMeasure\_critical\_image\_null}), hence for every additive Haar measure on the
+observable space (\texttt{measure\_null\_of\_hausdorffMeasure\_finrank\_null}, by transfer through a
+linear equivalence with $\mathbb{R}^m$ and Haar uniqueness).  The smoothness $C^{\,n-m+1}$ is the
+sharp classical threshold---Whitney's counterexample shows $C^1$ is insufficient when $n > m$---and
+it is carried entirely by the Sard step; the downstream chain needs only $C^1$.  The generic
+ubiquity statement is therefore \emph{unconditional} for $C^{\,n-m+1}$ observation maps
+(\texttt{generic\_ubiquity\_of\_contDiff}; \texttt{sardProperty\_of\_smooth} for the $C^\infty$
+case), with every theorem in the chain axiom-clean (Lean core only).  The vendored port is counted
+separately from this repository's own theorem inventory.
 Whenever the fiber has positive dimension, the explanation map
 $\mathsf{obs}$ is generically non-constant on fibers---different hypotheses
 in the same fiber honestly report different explanations---and the Rashomon

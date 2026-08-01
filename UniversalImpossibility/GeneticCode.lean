@@ -26,12 +26,12 @@ inductive AminoAcid where
 
 /-- The translation map: codon → amino acid.
     Both UCU and UCC map to Serine. -/
-def translate : Codon → AminoAcid
+def translateCodon : Codon → AminoAcid
   | Codon.UCU => AminoAcid.Ser
   | Codon.UCC => AminoAcid.Ser
 
 /-- Degeneracy: UCU and UCC encode the same amino acid. -/
-theorem codon_degeneracy : translate Codon.UCU = translate Codon.UCC := by
+theorem codon_degeneracy : translateCodon Codon.UCU = translateCodon Codon.UCC := by
   decide
 
 /-- UCU and UCC are different codons. -/
@@ -42,11 +42,11 @@ theorem codons_different : Codon.UCU ≠ Codon.UCC := by
     - Θ = Codon (configurations)
     - H = Codon (explanations: the codon itself explains the translation)
     - Y = AminoAcid (observables)
-    - observe = translate
+    - observe = translateCodon
     - explain = id (the codon is its own explanation)
     - incompatible = (≠) -/
 def geneticCodeSystem : ExplanationSystem Codon Codon AminoAcid where
-  observe := translate
+  observe := translateCodon
   explain := id
   incompatible := fun c₁ c₂ => c₁ ≠ c₂
   incompatible_irrefl := fun _ h => h rfl

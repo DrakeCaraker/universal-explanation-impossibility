@@ -32,6 +32,7 @@ import UniversalImpossibility.StructureTheorem
 import UniversalImpossibility.HomogeneousFinite
 import UniversalImpossibility.GradedMolien
 import UniversalImpossibility.UbiquityDimensional
+import UniversalImpossibility.MorseSard
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -63,6 +64,10 @@ import UniversalImpossibility.UbiquityDimensional
 #print axioms UniversalImpossibility.Ubiquity.generic_ubiquity_of_sard
 #print axioms UniversalImpossibility.Ubiquity.sardProperty_of_continuousLinearMap
 #print axioms UniversalImpossibility.Ubiquity.submersion_fiber_not_isolated
+#print axioms hausdorffMeasure_sardMoreiraBound_image_null_of_finrank_le
+#print axioms UniversalImpossibility.Ubiquity.sardProperty_of_contDiff
+#print axioms UniversalImpossibility.Ubiquity.sardProperty_of_smooth
+#print axioms UniversalImpossibility.Ubiquity.generic_ubiquity_of_contDiff
 #print axioms UniversalImpossibility.Ubiquity.sardProperty_of_submersion
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive
