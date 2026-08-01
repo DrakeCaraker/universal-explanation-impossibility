@@ -37,6 +37,7 @@ import UniversalImpossibility.MIConverse
 import UniversalImpossibility.TierBResolutions
 import UniversalImpossibility.UbiquityInfiniteDimensional
 import UniversalImpossibility.ParetoGlobal
+import UniversalImpossibility.ScoreRegularity
 
 #print axioms explanation_impossibility
 #print axioms bilemma
@@ -87,6 +88,7 @@ import UniversalImpossibility.ParetoGlobal
 #print axioms UniversalImpossibility.ParetoGlobal.dash_global_min_variance
 #print axioms UniversalImpossibility.ParetoGlobal.cramerRaoScoreProperty_gaussianReal
 #print axioms UniversalImpossibility.ParetoGlobal.dash_variance_eq_inv_fisher
+#print axioms UniversalImpossibility.ScoreRegularity.hasDerivAt_integral_mul_exp
 #print axioms UniversalImpossibility.Ubiquity.sardProperty_of_submersion
 #print axioms UniversalImpossibility.reynolds_best_approximation
 #print axioms attribution_impossibility_constructive

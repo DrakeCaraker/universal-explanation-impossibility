@@ -31,3 +31,4 @@ import UniversalImpossibility.MIConverse
 import UniversalImpossibility.TierBResolutions
 import UniversalImpossibility.UbiquityInfiniteDimensional
 import UniversalImpossibility.ParetoGlobal
+import UniversalImpossibility.ScoreRegularity
