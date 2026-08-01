@@ -1951,11 +1951,22 @@ We distinguish four levels of verification:
     \texttt{dash\_global\_min\_variance} $\to$
     \texttt{dash\_global\_pareto\_optimal}), \DASH{} attains the bound
     exactly (\texttt{dash\_variance\_eq\_inv\_fisher}), and the named
-    hypothesis is discharged outright for the single-sample Gaussian
-    (\texttt{cramerRaoScoreProperty\_gaussianReal}).  What remains argued
-    is only the score property for general regular families---the exact
-    differentiation-under-the-integral condition classical statistics
-    assumes.)
+    hypothesis is now \emph{discharged} for every natural exponential
+    family (\texttt{cramerRaoScoreProperty\_tilted}, via machine-checked
+    differentiation under the integral for exponential tilts,
+    \texttt{hasDerivAt\_integral\_mul\_exp}), subsuming the single-sample
+    Gaussian (\texttt{cramerRaoScoreProperty\_gaussianReal}).  Moreover
+    the concrete $M$-sample exchangeable-Gaussian ensemble on which
+    \DASH{} operates is verified \emph{end to end} and axiom-clean:
+    \texttt{dash\_mvue\_exchangeableGaussian} proves the \DASH{} aggregate
+    is the minimum-variance unbiased estimator among all square-integrable
+    regular unbiased estimators of that model, so the global
+    Cram\'er--Rao attainment (\texttt{dash\_global\_min\_variance}) is now
+    mechanized for the model \DASH{} actually uses.  What remains argued
+    is only the score property for general \emph{non-exponential}
+    families (e.g.\ Cauchy-type location families lacking exponential
+    moments)---the residual differentiation-under-the-integral condition
+    classical statistics assumes.)
 
   \item \textbf{Empirical}: The result is supported by computational
     experiments but not formally proved.  Examples: the specific flip
