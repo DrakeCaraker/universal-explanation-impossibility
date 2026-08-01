@@ -11,6 +11,8 @@ open MeasureTheory Measure Metric
 
 local notation "dim" => Module.finrank ℝ
 
+set_option backward.isDefEq.respectTransparency false
+
 -- TODO: generalize to semilinear maps
 protected noncomputable def ContinuousLinearMap.finrank {R M N : Type*} [Semiring R]
     [AddCommMonoid M] [Module R M] [TopologicalSpace M]
@@ -74,11 +76,18 @@ Note that the estimate does not depend on `m`. -/
 noncomputable def sardMoreiraBound (n k : ℕ) (α : I) (p : ℕ) : ℝ≥0 :=
   p + (n - p) / (k + ⟨α, α.2.1⟩)
 
+set_option backward.isDefEq.respectTransparency true in
 theorem mul_sardMoreiraBound {n k p : ℕ} (hk : k ≠ 0) (hpn : p ≤ n) (α : I) :
     (k + α : ℝ) * sardMoreiraBound n k α p = (k + α) * p + (n - p) := by
   rw [sardMoreiraBound]
   have := α.2.1
   simp [field, @NNReal.coe_sub n p (mod_cast hpn)]
+  have key : ∀ c : ℝ, c = (α : ℝ) →
+      ((k : ℝ) + α) * (p * ((k : ℝ) + c) + ((n : ℝ) - p)) =
+        ((k : ℝ) + c) * (((k : ℝ) + α) * p + ((n : ℝ) - p)) := by
+    rintro _ rfl
+    ring
+  exact key _ rfl
 
 theorem monotone_sardMoreiraBound (n : ℕ) {k : ℕ} (hk : k ≠ 0) (α : I) :
     Monotone (sardMoreiraBound n k α) := by
@@ -263,6 +272,7 @@ protected theorem hausdorffMeasure_image_le_mul {X : Type*} [MetricSpace X]
     · congr 2
       have : (dim E : ℝ≥0) ≤ n := by grw [← hn]; simp
       simp [sardMoreiraBound, NNReal.coe_sub this]
+      rfl
     · positivity
     · finiteness
     · left; positivity

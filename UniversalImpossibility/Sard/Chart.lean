@@ -36,15 +36,7 @@ theorem fderiv_curry {𝕜 : Type*} {E F G : Type*}
     fderiv 𝕜 (curry f a) b = fderiv 𝕜 f (a, b) ∘L .inr 𝕜 E F :=
   fderiv_comp_prodMk hdf
 
-@[simp]
-theorem LinearMap.range_prodMap {R M N M' N' : Type*} [Semiring R]
-    [AddCommMonoid M] [Module R M]
-    [AddCommMonoid N] [Module R N]
-    [AddCommMonoid M'] [Module R M']
-    [AddCommMonoid N'] [Module R N']
-    (f : M →ₗ[R] N) (g : M' →ₗ[R] N') :
-    (f.prodMap g).range = f.range.prod g.range := by
-  ext ⟨_, _⟩; simp
+set_option backward.isDefEq.respectTransparency false
 
 namespace Moreira2001
 
@@ -205,7 +197,7 @@ theorem IsLargeAt.fderiv_comp_inr_eq_zero (h : IsLargeAt k α s a) {f : E × F �
   · unfold IsLargeAt at h
     contrapose! h
     rcases ContinuousLinearMap.exists_ne_zero h with ⟨x, hx⟩
-    rcases exists_dual_vector ℝ _ hx with ⟨g, hg₁, hgx⟩
+    rcases exists_dual_vector ℝ _ (norm_ne_zero_iff.mpr hx) with ⟨g, hg₁, hgx⟩
     refine ⟨g ∘ f, hf.mono fun x hx ↦ hx.continuousLinearMap_comp g,
       hf₀.mono <| by simp +contextual, ?_⟩
     rw [fderiv_comp _ (by fun_prop) hfa]
@@ -280,6 +272,7 @@ protected def id : Chart k α s where
 
 instance : Inhabited (Chart k α s) := ⟨.id⟩
 
+set_option maxHeartbeats 1000000 in
 theorem exists_dim_lt_map_nhdsWithin_eq (hs : ¬IsLargeAt k α s a)
     (hk : k ≠ 0) (has : a ∈ s) :
     ∃ (ψ : Chart k α s) (pt : E × ψ.Dom),
@@ -364,6 +357,7 @@ theorem exists_dim_lt_map_nhdsWithin_eq (hs : ¬IsLargeAt k α s a)
       rw [← hU_fst x hxU]
     · exact mem_nhdsWithin_of_mem_nhds <| hUo.mem_nhds hUmem
 
+set_option backward.isDefEq.respectTransparency true in
 @[simps -fullyApplied]
 protected def comp (g : Chart k α s) (f : Chart k α g.set) (hk : k ≠ 0) :
     Chart k α s where
