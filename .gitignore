@@ -48,3 +48,6 @@ docs/private/
 
 # Python bytecode from knockout-experiments
 **/__pycache__/
+
+# Tracked compiled artifact: the definitive monograph PDF (exception to paper/*.pdf above)
+!paper/universal_impossibility_monograph.pdf
