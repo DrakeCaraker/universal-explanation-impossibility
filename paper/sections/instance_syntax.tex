@@ -70,6 +70,6 @@ The Lean~4 types are \texttt{Token} (an inductive with constructors \texttt{V},
 \texttt{NP}, \texttt{PP} representing phrasal categories, not surface tokens),
 \texttt{Bracketing} (with constructors \texttt{leftAttach} and
 \texttt{rightAttach}, corresponding to NP-attachment and VP-attachment), and
-\texttt{syntaxSystem : ExplanationSystem Bracketing Bracketing (List Token)}.
+\texttt{syntaxSystem\,:} \texttt{ExplanationSystem} \texttt{Bracketing} \texttt{Bracketing} \texttt{(List Token)}.
 The impossibility is \texttt{syntactic\_ambiguity\_impossibility} in
 \texttt{SyntacticAmbiguity.lean}, derived with zero axioms.

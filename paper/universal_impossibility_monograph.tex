@@ -38,7 +38,7 @@
   citecolor=green!50!black,
   urlcolor=blue!70!black,
 }
-
+\emergencystretch=3em \let\origUS\_ \renewcommand{\_}{\origUS\allowbreak}
 %% ---- Listings for Lean 4 code ----
 \lstdefinelanguage{Lean4}{
   morekeywords={theorem,lemma,def,structure,axiom,import,set_option,namespace,end,
@@ -1478,7 +1478,7 @@ Pareto-optimal).  As Shannon's channel capacity bounds the rate of
 reliable communication, the explanation capacity bounds the rate of
 reliable explanation.
 
-The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$---the degree-1 Molien coefficient---and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The graded Molien \emph{formula}---whose degree-2 term is the interaction capacity---is also machine-checked, for the symmetric group at every degree: \texttt{graded\_molien\_char\_average} realizes the rename action on degree-$d$ homogeneous polynomials as a representation and applies the same degree-1 formula, giving $C_d = \dim(\text{degree-}d\text{ symmetric invariants}) = $ average degree-$d$ character; the specific coefficient values are computed from it.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
+The ratio $\dim(V^G)/\dim(V)$ is a standard quantity in representation theory, computable via the character formula (Burnside's lemma).  This character formula is itself machine-checked here: for the Reynolds operator of a finite-group representation, \texttt{capacity\_reynolds\_eq\_char\_average} (in \texttt{MolienCapacity.lean}, axiom-clean) proves $\mathrm{capacity} = \tfrac{1}{|G|}\sum_g \operatorname{tr}(\rho\,g)$ --- the degree-1 Molien coefficient --- and \texttt{capacity\_reynolds\_eq\_finrank\_invariants} chains it to Mathlib's character theory to give $\mathrm{capacity} = \dim_{\mathbb{k}}(\text{invariants}\ \rho)$ outright, so ``capacity $=$ dimension of the invariant subspace $=$ average character'' is now a formal identity rather than an appeal to a textbook lemma.  (The graded Molien \emph{formula}---whose degree-2 term is the interaction capacity---is also machine-checked, for the symmetric group at every degree: \texttt{graded\_molien\_char\_average} realizes the rename action on degree-$d$ homogeneous polynomials as a representation and applies the same degree-1 formula, giving $C_d = \dim(\text{degree-}d\text{ symmetric invariants}) = $ average degree-$d$ character; the specific coefficient values are computed from it.)  The novelty is not the formula but its \emph{application}: we show empirically that the explanation capacity predicts instability rates across seven domains with $R^2 = 0.957$ (well-characterized groups), using a quantity from abstract algebra as a parameter-free predictor of empirical flip rates.  We call this the \emph{Explanation Capacity Theorem}.
 
 \paragraph{Will more data fix it? The structural/statistical dichotomy.}
 The most common objection to Rashomon-driven instability is that it is finite-sample noise more data
@@ -1773,7 +1773,7 @@ Selmer~1951 result or the black-hole/spacetime hypotheses are conditional on tho
   axioms} reports \ClaimMainAxioms, not their sum. The eight science instances
   and the nine constructive ML instances use \emph{zero} axioms.}
 \label{tab:lean-summary}
-\begin{tabular}{lrr}
+\small\begin{tabular}{@{}lrp{15.5em}@{}}
 \toprule
 Component & Count & Notes \\
 \midrule
@@ -1783,7 +1783,7 @@ Axioms & 2 & main repo, bundling ${\sim}14$ GBDT properties (4 total across 3 re
 \texttt{sorry}s & 0 & Zero admitted goals \\
 \midrule
 Core impossibility & 1 theorem & Zero custom axiom dependencies \\
-8 derived instances & 0 domain-specific axioms each & Biology, physics $\times 2$, linguistics, \ldots \\
+8 derived instances & 0 each & Domain-specific axioms: none (biology, physics $\times 2$, linguistics, \ldots) \\
 GBDT instance & 4 axioms & Surjectivity, first-mover, split structure \\
 DASH resolution & 6 axioms & + cross-group symmetry \\
 Causal instance & 3 axioms & CPDAG Markov equivalence \\
@@ -2573,7 +2573,7 @@ The bridge from the abstract framework to the quantitative $\eta$ prediction is 
 
 An alternative bridge that sidesteps the group identification bottleneck uses the \emph{coverage conflict degree}---the fraction of feature pairs with $\text{SNR} < 0.5$, computable from bootstrap retrains alone without requiring group identification.  Across 15 datasets, coverage conflict degree predicts mean instability with $\rho = 0.961$ ($p < 10^{-8}$), robust to threshold choice ($\rho \in [0.885, 0.961]$ for thresholds $0.3$--$2.0$) and leave-one-out removal ($\rho \in [0.952, 0.978]$; no single dataset drives the correlation).  The formal bridge is proved in Lean: coverage conflict $\Leftrightarrow$ no neutral element (Theorem in \texttt{ExplanationLandscape.lean}).  The empirical bridge validates that this algebraic property, derived from the impossibility theorem, predicts observed instability at scale.  Unlike the capacity theorem, this bridge requires no group assignment and works for all 15 tested datasets.
 
-\paragraph{The exchangeability criterion.}
+\paragraph{The exchangeability criterion.}\label{sec:exchangeability}
 The capacity theorem's scope is determined by a subtlety: the relevant criterion is \emph{exchangeability} (features genuinely compete for the same predictive signal), not merely \emph{correlation}.  A rigorous test on real data reveals that the group-mean test WORKS: projecting onto the $G$-invariant subspace (averaging SHAP within correlation groups) yields more stable attributions than the within-group deviations in 12/14 cases after Bonferroni correction.  However, the individual-feature test FAILS: correlated features in XGBoost are often \emph{more} stable than uncorrelated ones, inverting the naive prediction.  This occurs because XGBoost consistently picks a ``winner'' within each correlation group, making the winner's attribution stable even though the choice of winner is arbitrary.
 
 The mechanism is detectable: genuinely substitutable features (e.g.\ \texttt{mean\_texture} and \texttt{worst\_texture} in Breast Cancer, $\rho_{\mathrm{SHAP}} = -0.19$) exhibit negative cross-model SHAP correlation---when one's importance goes up, the other's goes down.  This ``first-mover'' signature is confirmed on synthetic data ($\rho_{\mathrm{SHAP}} = -0.11$ to $-0.24$).  \emph{Conjectural diagnostic:} the sign of cross-model SHAP correlation may detect genuine exchangeability (negative~$=$ substitutable; positive~$=$ independent).  This is validated directionally on Breast Cancer and synthetic data but has not been tested at scale; it remains an open question whether this diagnostic generalises beyond these specific datasets.
@@ -3622,7 +3622,7 @@ the definitions.  Table~\ref{tab:unification} summarizes the common structure.
 \centering
 \caption{Eight domains instantiate the Explanation Impossibility. Each row derives the Rashomon property from domain-specific first principles with zero domain-specific axioms.}
 \label{tab:unification}
-\begin{tabular}{llllll}
+\small\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}llllll@{}}
 \toprule
 Domain & $\Params$ & $Y$ & Witness 1 & Witness 2 & Same $Y$? \\
 \midrule
@@ -3738,7 +3738,7 @@ The eight cross-domain scientific instances (\S\ref{sec:derived-instances}) are 
 \caption{Empirical illustration of the limits of explanation across four explanation types. These experiments demonstrate that the Rashomon property produces measurable instability in practice, not that the theorem depends on experimental evidence. All instability measures have 95\% bootstrap confidence intervals excluding zero. Prediction equivalence confirms models are functionally identical.}
 \label{tab:cross-instance}
 \small
-\begin{tabular}{@{}llrl@{}}
+\footnotesize\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}llrl@{}}
 \toprule
 Instance & Instability metric & Value & Pred.\ equiv. \\
 \midrule
@@ -3970,7 +3970,7 @@ Psychology & Garden of forking paths & Which analysis yields the effect & Pre-re
 
 In each domain, the pattern is identical: (1)~correlated variables or underdetermined models create the Rashomon property; (2)~the specific explanation (which gene, which circuit, which risk factor, which feedback mechanism) depends on the particular model or analysis pipeline; (3)~the resolution involves some form of averaging, ensembling, or abstraction to a coarser level where the instability vanishes.  The theorem proves that step~(3) is not a methodological preference but the unique Pareto-optimal response to a structural constraint.
 
-\paragraph{Extension to mathematical physics: 3D Navier--Stokes.}
+\paragraph{Extension to mathematical physics: 3D Navier--Stokes.}\label{sec:ns-experiments}
 The tightness classification extends beyond data science to open problems in mathematical physics.  The 3D incompressible Navier--Stokes equations admit three desiderata: existence of solutions (P1), smoothness/regularity of solutions (P2), and uniqueness (P3).  Whether all three hold simultaneously is one of the seven Clay Millennium Problems.  We apply the framework computationally: for the Taylor--Green vortex ($A = 1$, $T_{\mathrm{final}} = 10$, capturing peak dissipation at $t \approx 9$ per Brachet 1983), 54~pseudospectral DNS runs across five resolutions ($32^3$, $48^3$, $64^3$, $96^3$, $128^3$) with Reynolds numbers $\mathrm{Re} \in [50, 10000]$ establish a complete phase diagram.
 
 \emph{Phase diagram (dealiasing ON):}
@@ -4567,7 +4567,7 @@ The \emph{adjoint connection} (\texttt{adjoint\_connection}) quantifies the info
 
 The characters-separate-representations theorem (\texttt{characters\_separate\_reps}) proves that the character map is injective on isomorphism classes of simple representations: if two simple representations have the same character, they are isomorphic.  This means the Reynolds projection (character) is not just optimal but \emph{complete}---it loses the minimum possible information (the gauge-dependent part) while retaining all distinguishing information (the isomorphism class).
 
-The \emph{Reynolds naturality} theorem (\texttt{reynolds\_naturality} in \texttt{UncertaintyFromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections: if $\varphi : V \to W$ intertwines the group actions ($R_W \circ \varphi = \varphi \circ R_V$), then the stable resolutions are compatible.  We deliberately do \emph{not} phrase this as ``predicting Langlands functoriality'': it is the elementary statement that a natural transformation commutes with a group average, carries no arithmetic content, and does not bear on the automorphic-to-Galois correspondence the Langlands programme concerns.  The formal resemblance is noted only to orient readers from representation theory.
+The \emph{Reynolds naturality} theorem (\texttt{reynolds\_naturality} in \texttt{Uncertainty\allowbreak FromSymmetry.lean}) proves that equivariant maps commute with Reynolds projections: if $\varphi : V \to W$ intertwines the group actions ($R_W \circ \varphi = \varphi \circ R_V$), then the stable resolutions are compatible.  We deliberately do \emph{not} phrase this as ``predicting Langlands functoriality'': it is the elementary statement that a natural transformation commutes with a group average, carries no arithmetic content, and does not bear on the automorphic-to-Galois correspondence the Langlands programme concerns.  The formal resemblance is noted only to orient readers from representation theory.
 
 \paragraph{The gauge reading.}
 The three collapsed instances share a gauge-theoretic description.  In each case, a ``gauge freedom'' (observational equivalence between configurations) makes faithful tracking of gauge-dependent data incompatible with stability:
@@ -5673,7 +5673,7 @@ The ``adelic resolution'' here is a placeholder model, not a formalization of th
 
 \subsection{Circuit Complexity: AC$^0$ Parity}
 
-The Furst--Saxe--Sipser / H\aa stad AC$^0$ parity lower bound is formalised as an \texttt{AbstractImpossibility} with properties \{polynomial-size, constant-depth, computes-parity\} (\texttt{CircuitComplexity.lean}).  Exhaustive verification confirms: (a)~no depth-1 AND/OR gate computes XOR$_3$ (54~gates, kernel \texttt{decide}); (b)~no depth-2 circuit with 2~gates computes XOR$_3$ (52,488~circuits, the sole \texttt{native\_decide}).  Full tightness is proved with three witnesses (AND$_3$, XOR tree, exponential DNF).
+The Furst--Saxe--Sipser\slash H\aa stad AC$^0$ parity lower bound is formalised as an \texttt{Abstract\allowbreak Impossibility} with properties \{polynomial-size, constant-depth, computes-parity\} (\texttt{CircuitComplexity.lean}).  Exhaustive verification confirms: (a)~no depth-1 AND/OR gate computes XOR$_3$ (54~gates, kernel \texttt{decide}); (b)~no depth-2 circuit with 2~gates computes XOR$_3$ (52,488~circuits, the sole \texttt{native\_decide}).  Full tightness is proved with three witnesses (AND$_3$, XOR tree, exponential DNF).
 
 A novel \emph{conditional barrier analysis} shows that WITH one-way functions, proof barriers have full tightness; WITHOUT, the triple is achievable.  This is one of only two instances \emph{in this classification} where impossibility existence depends on an unresolved conjecture (the other being Navier--Stokes regularity); we do not claim it is exhaustive over all impossibility results.
 

@@ -89,6 +89,6 @@ potential from the holonomy alone) to achieve stability and faithfulness.
 \paragraph{Lean formalization.}
 The Lean~4 types are \texttt{EdgeConfig} (a structure with fields
 \texttt{e01 e12 e02 : Bool}), \texttt{holonomy} (the observation map),
-and \texttt{gaugeSystem : ExplanationSystem EdgeConfig EdgeConfig Bool}.
+and \texttt{gaugeSystem\,:} \texttt{ExplanationSystem} \texttt{EdgeConfig} \texttt{EdgeConfig} \texttt{Bool}.
 The impossibility is \texttt{gauge\_impossibility} in
 \texttt{GaugeTheory.lean}, derived with zero axioms.
