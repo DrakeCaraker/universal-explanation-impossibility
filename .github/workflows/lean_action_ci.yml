@@ -18,23 +18,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check counts
+      - name: Check counts against paper/claims.tex
         run: |
-          THEOREMS=$(grep -c '^theorem\|^lemma' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
-          AXIOMS=$(grep -c '^axiom' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
-          # Count actual sorry tactics (not the word "sorry" in comments)
-          SORRY=$(grep -c "^  sorry\|^    sorry\| sorry$" UniversalImpossibility/*.lean 2>/dev/null | awk -F: '{s+=$2} END {print s}')
+          # Same conventions as paper/scripts/gen_claims.py, the generator of
+          # claims.tex: trailing-space greps (bare ^axiom overcounts doc
+          # comments), non-recursive glob (excludes the vendored Sard/ port),
+          # sorry = whole-line tactic only. Expected values are read from the
+          # committed claims.tex, never hardcoded here — if Lean sources change
+          # without regenerating claims.tex, this job fails.
           FILES=$(ls UniversalImpossibility/*.lean | wc -l | tr -d ' ')
+          THEOREMS=$(grep -Ec '^(theorem|lemma) ' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
+          AXIOMS=$(grep -c '^axiom ' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
+          SORRY=$(grep -Ec '^[[:space:]]*sorry[[:space:]]*$' UniversalImpossibility/*.lean | awk -F: '{s+=$2} END {print s}')
 
-          echo "Theorems+lemmas: $THEOREMS"
-          echo "Axioms:          $AXIOMS"
-          echo "Sorry:           $SORRY"
-          echo "Files:           $FILES"
+          claim() { sed -n "s/.*ClaimMain$1}{\([0-9]*\)}.*/\1/p" paper/claims.tex; }
+          E_FILES=$(claim Files); E_THEOREMS=$(claim Theorems); E_AXIOMS=$(claim Axioms)
 
-          if [ "$SORRY" -gt 0 ]; then
-            echo "::error::$SORRY sorry found in Lean files"
-            grep -rn "^  sorry\|^    sorry\| sorry$" UniversalImpossibility/*.lean
+          echo "code:       files=$FILES theorems=$THEOREMS axioms=$AXIOMS sorry=$SORRY"
+          echo "claims.tex: files=$E_FILES theorems=$E_THEOREMS axioms=$E_AXIOMS"
+
+          FAIL=0
+          if [ "$SORRY" != "0" ]; then
+            echo "::error::$SORRY sorry line(s) found"
+            grep -Ern '^[[:space:]]*sorry[[:space:]]*$' UniversalImpossibility/*.lean || true
+            FAIL=1
+          fi
+          [ "$FILES" = "$E_FILES" ] || { echo "::error::file count drift: code $FILES vs claims.tex $E_FILES"; FAIL=1; }
+          [ "$THEOREMS" = "$E_THEOREMS" ] || { echo "::error::theorem count drift: code $THEOREMS vs claims.tex $E_THEOREMS"; FAIL=1; }
+          [ "$AXIOMS" = "$E_AXIOMS" ] || { echo "::error::axiom count drift: code $AXIOMS vs claims.tex $E_AXIOMS"; FAIL=1; }
+
+          if [ "$FAIL" != "0" ]; then
+            echo "Rerun paper/scripts/gen_claims.py and commit the updated claims.tex."
             exit 1
           fi
-
-          echo "Expected: 100 files, 491 theorems, 25 axioms, 0 sorry"
+          echo "claims.tex consistent with Lean sources."
