@@ -1,0 +1,1717 @@
+<title>The Limits of Explanation</title>
+<noscript><style>.veiled{filter:none !important;pointer-events:auto !important;user-select:auto !important}.widget .skiprow{display:none}</style></noscript>
+<style>
+  :root{
+    --paper:#f4f7f6; --surface:#ffffff; --surface-2:#eaf0ee;
+    --ink:#16211f; --ink-soft:#3b4a46; --muted:#5f7069; --line:#d8e1de;
+    --accent:#0d7361; --accent-ink:#0b6153; --accent-soft:#e2efeb;
+    --proven:#0d7361; --proven-bg:#e2efec;
+    --measured:#2c66ac; --measured-bg:#e6eef7;
+    --conjectured:#9c7418; --conjectured-bg:#f4edd7;
+    --retired:#87695f; --retired-bg:#efe7e3;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:"Avenir Next","Avenir","Segoe UI",system-ui,-apple-system,sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --measure:68ch;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#0e1615; --surface:#14201e; --surface-2:#1a2825;
+      --ink:#e8edeb; --ink-soft:#bcc9c4; --muted:#899a93; --line:#243230;
+      --accent:#46c4ab; --accent-ink:#5fd0b9; --accent-soft:#16322c;
+      --proven:#46c4ab; --proven-bg:#12312a;
+      --measured:#7db0e8; --measured-bg:#122536;
+      --conjectured:#d7ab48; --conjectured-bg:#322810;
+      --retired:#b79c92; --retired-bg:#29211e;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#f4f7f6; --surface:#ffffff; --surface-2:#eaf0ee;
+    --ink:#16211f; --ink-soft:#3b4a46; --muted:#5f7069; --line:#d8e1de;
+    --accent:#0d7361; --accent-ink:#0b6153; --accent-soft:#e2efeb;
+    --proven:#0d7361; --proven-bg:#e2efec;
+    --measured:#2c66ac; --measured-bg:#e6eef7;
+    --conjectured:#9c7418; --conjectured-bg:#f4edd7;
+    --retired:#87695f; --retired-bg:#efe7e3;
+  }
+  :root[data-theme="dark"]{
+    --paper:#0e1615; --surface:#14201e; --surface-2:#1a2825;
+    --ink:#e8edeb; --ink-soft:#bcc9c4; --muted:#899a93; --line:#243230;
+    --accent:#46c4ab; --accent-ink:#5fd0b9; --accent-soft:#16322c;
+    --proven:#46c4ab; --proven-bg:#12312a;
+    --measured:#7db0e8; --measured-bg:#122536;
+    --conjectured:#d7ab48; --conjectured-bg:#322810;
+    --retired:#b79c92; --retired-bg:#29211e;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); font-size:19px; line-height:1.62;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:var(--measure); margin:0 auto; padding:0 26px}
+  .band{max-width:960px; margin:0 auto; padding:0 26px}
+
+  h1,h2,h3{font-weight:600; text-wrap:balance; line-height:1.12; letter-spacing:-.01em}
+  h2{font-size:1.72rem; margin:0 0 .9rem}
+  h3{font-size:1.28rem; margin:2rem 0 .5rem; letter-spacing:0}
+  p{margin:0 0 1.05rem}
+  a{color:var(--accent-ink); text-underline-offset:3px; text-decoration-thickness:.06em}
+  strong{font-weight:600}
+  code{font-family:var(--mono); font-size:.82em; background:var(--surface-2);
+    padding:.08em .38em; border-radius:3px; color:var(--accent-ink)}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  .eyebrow{
+    font-family:var(--sans); font-size:.72rem; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+    display:flex; align-items:center; gap:.7ch; margin-bottom:1rem;
+  }
+  .eyebrow .n{color:var(--accent); font-variant-numeric:tabular-nums}
+  .eyebrow::after{content:""; flex:1; height:1px; background:var(--line)}
+  .note{font-size:.96rem; color:var(--muted); font-style:italic}
+  .pull{font-size:1.4rem; line-height:1.32; color:var(--ink); font-style:italic;
+    margin:2.2rem 0; padding-left:1.2rem; border-left:2px solid var(--accent)}
+
+  /* ---- hero ---- */
+  header.hero{
+    padding:7vh 0 3rem; border-bottom:1px solid var(--line);
+    background:radial-gradient(120% 80% at 100% 0%, var(--accent-soft) 0%, transparent 55%);
+  }
+  .kicker{font-family:var(--sans); font-size:.74rem; font-weight:600;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem}
+  h1{font-size:clamp(2.3rem,6vw,3.9rem); letter-spacing:-.02em; margin:0}
+  h1 .q{color:var(--accent)}
+  .sub{font-size:1.24rem; color:var(--ink-soft); margin-top:1.4rem; line-height:1.5; max-width:60ch}
+  .byline{font-family:var(--sans); font-size:.8rem; color:var(--muted); margin-top:1.8rem; letter-spacing:.02em}
+  .byline b{color:var(--ink-soft); font-weight:600}
+
+  /* ---- progress ribbon ---- */
+  .ribbon{position:sticky; top:0; z-index:40; background:var(--paper);
+    border-bottom:1px solid var(--line); box-shadow:0 6px 18px -16px rgba(0,0,0,.4)}
+  .rib-in{max-width:960px; margin:0 auto; padding:.45rem 26px .4rem}
+  .rib-track{display:flex; gap:1.15rem; align-items:flex-end; overflow-x:auto; scrollbar-width:none}
+  .rib-track::-webkit-scrollbar{display:none}
+  .rib-group{display:flex; flex-direction:column; gap:.3rem; flex-shrink:0}
+  .rib-label{font-family:var(--sans); font-size:.58rem; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted); white-space:nowrap}
+  .rib-dots{display:flex; gap:.3rem}
+  .rib-dot{width:1.55em; height:1.55em; display:grid; place-items:center;
+    font-family:var(--sans); font-size:.72rem; font-weight:600; text-decoration:none;
+    color:var(--muted); border:1px solid var(--line); border-radius:50%;
+    background:var(--surface); font-variant-numeric:tabular-nums}
+  .rib-dot.visited{color:var(--paper); background:var(--accent); border-color:var(--accent)}
+  .rib-dot.current{outline:2px solid var(--accent); outline-offset:1px}
+  .rib-stamp{font-family:var(--sans); font-size:.74rem; color:var(--ink-soft);
+    padding-top:.3rem; min-height:1.3em; letter-spacing:.01em}
+  .rib-stamp b{color:var(--accent-ink); font-weight:600}
+
+  /* ---- nodes ---- */
+  section.node{padding:3.8rem 0; border-bottom:1px solid var(--line)}
+  section.node:last-of-type{border-bottom:0}
+
+  /* ---- layers ---- */
+  details.layer{margin:1.5rem 0 0; border:1px solid var(--line); background:var(--surface)}
+  details.layer + details.layer{margin-top:.6rem}
+  details.layer>summary{cursor:pointer; list-style:none; padding:.68rem 1.1rem;
+    font-family:var(--sans); font-size:.76rem; font-weight:700; letter-spacing:.13em;
+    text-transform:uppercase; display:flex; gap:.8ch; align-items:center; color:var(--accent-ink)}
+  details.layer>summary::-webkit-details-marker{display:none}
+  details.layer>summary::before{content:"▸"; font-size:.9em; transition:transform .18s ease}
+  details.layer[open]>summary::before{transform:rotate(90deg)}
+  details.layer.formal>summary{color:var(--muted)}
+  details.layer .inner{padding:.9rem 1.25rem 1.1rem; border-top:1px solid var(--line)}
+  details.layer .inner>p:last-child{margin-bottom:0}
+  @media(prefers-reduced-motion:reduce){details.layer>summary::before{transition:none}}
+
+  /* ---- claim blocks (formal layer) ---- */
+  .claim{margin:1.1rem 0; padding:1rem 1.15rem .95rem;
+    background:var(--surface); border-top:2px solid var(--ct,var(--accent));
+    box-shadow:0 1px 0 var(--line)}
+  .claim[data-tier="proven"]{--ct:var(--proven); background:var(--proven-bg)}
+  .claim[data-tier="measured"]{--ct:var(--measured); background:var(--measured-bg)}
+  .claim[data-tier="conjectured"]{--ct:var(--conjectured); background:var(--conjectured-bg)}
+  .claim[data-tier="retired"]{--ct:var(--retired); background:var(--retired-bg)}
+  .claim .chip{display:inline-flex; align-items:center; gap:.6ch; font-family:var(--sans);
+    font-size:.66rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ct); margin-bottom:.5rem}
+  .claim .chip .dot{width:8px;height:8px;border-radius:50%;background:var(--ct)}
+  .claim .stmt{font-size:.99rem; line-height:1.5; margin:0}
+  .claim .cite{font-family:var(--mono); font-size:.74rem; color:var(--muted);
+    margin-top:.6rem; line-height:1.55; word-break:break-word}
+  .claim .cite b{color:var(--ct); font-weight:600}
+  .claim .cite a{color:inherit}
+  .tierkey{display:flex; flex-wrap:wrap; gap:1rem; font-family:var(--sans);
+    font-size:.78rem; color:var(--muted); margin:.2rem 0 .9rem}
+  .tierkey span{display:inline-flex; align-items:center; gap:.5ch}
+  .tierkey .dot{width:8px;height:8px;border-radius:50%}
+  .b-proven{background:var(--proven)} .b-measured{background:var(--measured)}
+  .b-conjectured{background:var(--conjectured)} .b-retired{background:var(--retired)}
+
+  /* ---- proof chain ---- */
+  .proof{margin:1.6rem 0; padding:0; list-style:none; counter-reset:step;
+    border:1px solid var(--line); background:var(--surface)}
+  .proof li{display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:baseline;
+    padding:.8rem 1.15rem; border-bottom:1px solid var(--line)}
+  .proof li:last-child{border-bottom:0}
+  .proof li::before{counter-increment:step; content:counter(step);
+    font-family:var(--mono); font-size:.78rem; color:var(--accent); font-weight:600;
+    border:1px solid var(--accent); border-radius:50%; width:1.7em; height:1.7em;
+    display:grid; place-items:center; align-self:center}
+  .proof .qed{background:var(--accent-soft)}
+  .proof .qed::before{content:"∎"; border-color:transparent; font-size:1.05rem}
+
+  /* ---- the document motif (M1) ---- */
+  .doc{position:relative; margin:1.9rem auto; max-width:34rem; background:var(--surface);
+    border:1px solid var(--line); box-shadow:0 14px 34px -28px rgba(0,0,0,.55); padding:0}
+  .doc .doc-head{font-family:var(--sans); font-size:.62rem; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+    padding:.6rem 1.1rem; border-bottom:1px solid var(--line); background:var(--surface-2)}
+  .doc .doc-body{padding:.95rem 1.15rem 1rem}
+  .doc .doc-line{font-size:.95rem; margin:0 0 .45rem; color:var(--ink-soft)}
+  .doc .doc-line:last-child{margin-bottom:0}
+  .doc .doc-strong{color:var(--ink); font-weight:600}
+  .doc .doc-flip b{font-weight:600; color:var(--ink)}
+  .doc .flipline{color:var(--accent-ink); border-bottom:2px solid var(--conjectured);
+    transition:opacity .5s ease}
+  .doc .flipline.fade{opacity:0}
+  @media(prefers-reduced-motion:reduce){.doc .flipline{transition:none}}
+  .doc .doc-ghost{font-size:.82rem; color:var(--muted)}
+  .doc figcaption, .figure .cap{font-family:var(--sans); font-size:.8rem; color:var(--muted);
+    padding:.7rem 1.1rem; border-top:1px solid var(--line); line-height:1.5}
+  .doc figcaption b, .figure .cap b{color:var(--ink-soft); font-weight:600}
+
+  /* fanned mini docs (node 3) + wall (node 9) */
+  .docrow{display:flex; flex-wrap:wrap; gap:1rem; align-items:stretch; margin:1.9rem 0}
+  .doc.mini{margin:0; flex:1 1 12rem; max-width:15rem}
+  .doc.mini .doc-body{padding:.7rem .85rem}
+  .doc.mini .doc-line{font-size:.8rem; margin-bottom:.3rem}
+  .docwall{display:grid; grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); gap:.55rem;
+    margin:1.6rem 0; padding:1rem; border:1px solid var(--line); background:var(--surface)}
+  .docwall .cell{border:1px solid var(--line); background:var(--paper); padding:.45rem .5rem}
+  .docwall .tl{height:5px; background:var(--line); margin-bottom:.35rem; width:88%}
+  .docwall .bar{height:7px; background:var(--conjectured); width:62%}
+  .docwall .cell.stable .bar{background:var(--proven); width:62%}
+  @keyframes barshift{0%,28%{width:62%}33%,61%{width:38%}66%,94%{width:80%}100%{width:62%}}
+  .docwall .cell.unstable .bar{animation:barshift 2.6s infinite}
+  @media(prefers-reduced-motion:reduce){
+    .docwall .cell.unstable .bar{animation:none;
+      background:repeating-linear-gradient(90deg,var(--conjectured) 0 6px,transparent 6px 10px)}
+  }
+
+  /* superimposed doc (node 7) */
+  .doc .ghosted{opacity:.34}
+  .doc .doc-core{margin-top:.7rem; padding:.55rem .7rem; background:var(--proven-bg);
+    border-left:3px solid var(--proven); font-size:.92rem; color:var(--ink)}
+  .stamp-cert{position:absolute; right:.9rem; top:2.6rem; transform:rotate(5deg);
+    border:2px solid var(--proven); color:var(--proven); font-family:var(--sans);
+    font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:.66rem;
+    padding:.3rem .55rem; opacity:.9; background:var(--surface)}
+
+  /* ---- property cards ---- */
+  .props{display:grid; grid-template-columns:repeat(3,1fr); gap:.9rem; margin:1.8rem 0}
+  @media(max-width:640px){.props{grid-template-columns:1fr}}
+  .prop{border:1px solid var(--line); background:var(--surface); padding:1rem 1.05rem;
+    border-top:2px solid var(--accent)}
+  .prop h4{margin:0 0 .4rem; font-size:1.02rem; font-weight:600}
+  .prop p{font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:0}
+  .props.minis{grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem; margin:1.2rem 0}
+  .props.minis .prop{padding:.55rem .7rem}
+  .props.minis h4{font-size:.85rem; margin:0}
+  .prop.dimmed{opacity:.42; border-top-color:var(--muted)}
+  .prop .traded{font-family:var(--sans); font-size:.64rem; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.3rem}
+
+  /* ---- widgets ---- */
+  .widget{margin:1.8rem 0; border:1px solid var(--accent); background:var(--surface);
+    padding:1.05rem 1.2rem 1.1rem}
+  .widget .wtag{font-family:var(--sans); font-size:.64rem; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:.55rem}
+  .widget .wq{font-size:1.02rem; font-style:italic; color:var(--ink); margin:0 0 .3rem}
+  .opts{display:flex; flex-wrap:wrap; gap:.55rem; margin:.75rem 0 0}
+  .opt{font-family:var(--sans); font-size:.86rem; padding:.5rem .95rem; cursor:pointer;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink); border-radius:2px}
+  .opt:hover{border-color:var(--accent)}
+  .opt[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft);
+    color:var(--accent-ink); font-weight:600}
+  .opt.correct{box-shadow:0 0 0 2px var(--proven)}
+  .widget .after{font-family:var(--sans); font-size:.86rem; color:var(--ink-soft); margin:.8rem 0 0}
+  .widget .after b{color:var(--accent-ink)}
+  .skiprow{margin-top:.7rem}
+  .skiprow button{font-family:var(--sans); font-size:.76rem; color:var(--muted);
+    background:none; border:none; cursor:pointer; text-decoration:underline; padding:0}
+  .veiled{filter:blur(7px); pointer-events:none; user-select:none}
+  .veilwrap{transition:filter .45s ease}
+  @media(prefers-reduced-motion:reduce){.veilwrap{transition:none}}
+  .wecho{font-family:var(--sans); font-size:.9rem; color:var(--accent-ink);
+    border-left:3px solid var(--accent); padding:.5rem .9rem; background:var(--accent-soft);
+    margin:1.2rem 0}
+  /* W3 slider */
+  .slider{display:flex; align-items:center; gap:1rem; margin:.9rem 0 0}
+  .slider input[type=range]{flex:1; accent-color:var(--accent)}
+  .slider output{font-family:var(--mono); font-size:1rem; color:var(--accent-ink);
+    min-width:4ch; text-align:right; font-variant-numeric:tabular-nums}
+  .deltabar{position:relative; height:34px; background:var(--surface-2);
+    border:1px solid var(--line); margin:1rem 0 .3rem}
+  .deltabar .mk{position:absolute; top:0; bottom:0; width:2px}
+  .deltabar .mk i{position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    font-family:var(--sans); font-style:normal; font-size:.66rem; color:var(--muted);
+    white-space:nowrap; padding-top:2px}
+  .deltabar .mk.you{background:var(--measured)}
+  .deltabar .mk.real{background:var(--retired)}
+  .deltabar .fill{position:absolute; top:0; bottom:0; left:0; background:var(--accent-soft)}
+
+  /* ---- divider band (share card line) ---- */
+  .divider{border-bottom:1px solid var(--line); background:var(--surface);
+    padding:3.2rem 0; text-align:center}
+  .divider .big{font-size:clamp(1.5rem,4.4vw,2.5rem); font-weight:600; letter-spacing:-.01em;
+    margin:0; text-wrap:balance}
+  .divider .big .f{color:var(--proven)} .divider .big .s{color:var(--measured)}
+  .divider .big .d{color:var(--conjectured)}
+  .divider .small{font-family:var(--sans); font-size:.78rem; color:var(--muted);
+    letter-spacing:.14em; text-transform:uppercase; margin:.9rem 0 0}
+
+  /* ---- figures / canvas ---- */
+  .figure{margin:2rem 0; background:var(--surface); border:1px solid var(--line)}
+  .figure canvas{display:block; width:100%; height:280px}
+
+  /* ---- stats band ---- */
+  .stats{display:grid; grid-template-columns:repeat(5,1fr); gap:0;
+    border:1px solid var(--line); margin:1.8rem 0; background:var(--surface)}
+  .stats .s{padding:1.1rem .9rem; border-right:1px solid var(--line)}
+  .stats .s:last-child{border-right:0}
+  .stats .v{font-size:1.55rem; font-weight:600; color:var(--accent);
+    font-variant-numeric:tabular-nums; line-height:1.1}
+  .stats .k{font-family:var(--sans); font-size:.66rem; letter-spacing:.06em;
+    color:var(--muted); margin-top:.45rem; text-transform:uppercase; line-height:1.35}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}
+    .stats .s{border-bottom:1px solid var(--line)}}
+
+  footer{padding:3.2rem 0 4.6rem; background:var(--surface); border-top:1px solid var(--line)}
+  footer p{font-family:var(--sans); font-size:.84rem; color:var(--muted); line-height:1.6}
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1; transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none}}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>The <span class="q">Limits</span> of Explanation</h1>
+    <p class="byline">A research program by <b>Caraker, Arnold &amp; Rhoads</b> ·
+      formalized in Lean&nbsp;4 · every formal claim below carries
+      <b>theorem&nbsp;·&nbsp;file:line&nbsp;·&nbsp;evidence&nbsp;tier</b>, pinned to one commit</p>
+  </div>
+</header>
+
+<nav class="ribbon" aria-label="Progress">
+  <div class="rib-in">
+    <div class="rib-track" id="ribTrack">
+      <div class="rib-group">
+        <div class="rib-label">The Ceiling</div>
+        <div class="rib-dots">
+          <a class="rib-dot" href="#node-1" data-n="1" aria-label="Question 1">1</a>
+          <a class="rib-dot" href="#node-2" data-n="2" aria-label="Question 2">2</a>
+          <a class="rib-dot" href="#node-3" data-n="3" aria-label="Question 3">3</a>
+          <a class="rib-dot" href="#node-4" data-n="4" aria-label="Question 4">4</a>
+          <a class="rib-dot" href="#node-5" data-n="5" aria-label="Question 5">5</a>
+          <a class="rib-dot" href="#node-6" data-n="6" aria-label="Question 6">6</a>
+        </div>
+      </div>
+      <div class="rib-group">
+        <div class="rib-label">The Instrument</div>
+        <div class="rib-dots">
+          <a class="rib-dot" href="#node-7" data-n="7" aria-label="Question 7">7</a>
+          <a class="rib-dot" href="#node-8" data-n="8" aria-label="Question 8">8</a>
+          <a class="rib-dot" href="#node-9" data-n="9" aria-label="Question 9">9</a>
+        </div>
+      </div>
+      <div class="rib-group">
+        <div class="rib-label">The Frontier</div>
+        <div class="rib-dots">
+          <a class="rib-dot" href="#node-10" data-n="10" aria-label="Question 10">10</a>
+        </div>
+      </div>
+      <div class="rib-group">
+        <div class="rib-label">The Ask</div>
+        <div class="rib-dots">
+          <a class="rib-dot" href="#node-11" data-n="11" aria-label="Question 11">11</a>
+        </div>
+      </div>
+    </div>
+    <div class="rib-stamp" id="ribStamp" aria-live="polite"></div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= NODE 0 ================= -->
+<section class="node" id="node-0">
+  <div class="wrap">
+    <p>The result reaches her through the patient portal on a Tuesday: the tumor is malignant.
+      Beneath it, in bold, the reason flagged as mattering most — <strong>Primary factor: the
+      irregular shape of the cell nuclei.</strong> Her surgeon reads the same line, and it shapes
+      the conversation they have next: how wide to cut, how aggressively to treat.</p>
+
+    <p>Weeks later, before a follow-up, she opens the portal again. The diagnosis is unchanged —
+      malignant, as before. But the summary has been regenerated, and the bold line now reads
+      differently: <strong>Primary factor: the size of the cell nuclei.</strong> Not their shape.
+      Their size.</p>
+
+    <figure class="doc" id="docM1" aria-label="A regenerated summary whose one bold line keeps changing">
+      <div class="doc-head">Patient Portal · Pathology Summary</div>
+      <div class="doc-body">
+        <p class="doc-line">Finding: <span class="doc-strong">Malignant.</span></p>
+        <p class="doc-line">Margin assessment: pending surgical consult.</p>
+        <p class="doc-line doc-flip">Primary factor: <b class="flipline" id="flip0">the size of the cell nuclei</b>.</p>
+      </div>
+      <figcaption><b>The verdict holds still. One line does not.</b> A composite case, no real
+        patient — the mechanism is real, and measured at question&nbsp;9.</figcaption>
+    </figure>
+
+    <p>She calls the clinic. Someone checks: no error, no correction, nothing in her chart changed.
+      The finding was never in doubt — only the reason beneath it moved. And after the system's next
+      routine refresh, a third reason would be waiting.</p>
+
+    <p>The verdict is solid. The <em>explanation</em> printed beneath it is, in effect, a coin being
+      flipped somewhere she cannot see.</p>
+
+    <p>Her first thought is yours: someone slipped — sloppy paperwork, a glitch, the kind of thing
+      that gets caught and fixed.</p>
+
+    <p>It doesn't get fixed. And to see why not, you have to know <em>what</em> wrote that line.</p>
+
+    <details class="layer formal">
+      <summary>Formal · available on the opening scene too</summary>
+      <div class="inner">
+        <div class="tierkey">
+          <span><span class="dot b-proven"></span>Proven</span>
+          <span><span class="dot b-measured"></span>Measured</span>
+          <span><span class="dot b-conjectured"></span>Conjectured</span>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven</div>
+          <p class="stmt">The impossibility that makes the reason unfixable is machine-checked, zero axioms.</p>
+          <p class="cite"><b>explanation_impossibility</b> · <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ExplanationSystem.lean#L68">ExplanationSystem.lean:68</a> · Monograph §582</p>
+        </div>
+        <div class="claim" data-tier="measured">
+          <div class="chip"><span class="dot"></span>Measured</div>
+          <p class="stmt">The per-patient reversal the scene dramatizes is measured on real data — see question&nbsp;9.</p>
+          <p class="cite">results_clinical_decision_reversal_v2.json · Monograph §2649 (Per-Individual Explanation Reversal)</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 1 ================= -->
+<section class="node" id="node-1">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">01</span> Isn't that just bad practice? Wouldn't more data or better tools fix it?</div>
+
+    <p>A machine wrote it — though not the diagnosis. The malignant call came the usual way, a
+      pathologist confirming it under the microscope, which is exactly why it never wavered. What
+      the machine added was the <em>reason</em>: a decision-support model scores the case and flags
+      which measurement most drove its own read, and that flagged line is what her care team saw. It
+      changed because, between her visits, the model had been refit on a refreshed sample of cases —
+      the routine revalidation every deployed clinical model goes through — and a model fit to a
+      different draw of the data settles on a different, equally good answer to "which measurement
+      mattered." And here is the part that is not a glitch: even with no update at all, a second
+      model built from the same data and just as accurate could have flagged a different reason from
+      the start.</p>
+
+    <p>That someone-slipped instinct — the people who built this program shared it — is wrong in an
+      interesting way. These systems agree about <em>what</em> while disagreeing about <em>why</em>:
+      they make the same predictions — that's what "equally accurate" means — but reach them through
+      genuinely different internal structure. Statisticians call this the <strong>Rashomon
+      effect</strong>, after the Kurosawa film in which witnesses give incompatible accounts of the
+      same event: many different models fit the data equally well and disagree about the reasons.</p>
+
+    <p>More data helps less than you'd hope, because the effect isn't caused by ignorance. It's
+      caused by arithmetic: modern models have far more internal settings than the data can pin down.
+      When a system has more knobs than the evidence constrains, many knob-settings produce identical
+      behavior — and the explanation depends on the knobs, not just on the behavior. Better tools
+      can't fix it either, because they're being asked to report a fact ("the reason") that the
+      situation does not uniquely contain. And freezing the model — never retraining — doesn't rescue
+      it: the reason it happens to be frozen on is still just one arbitrary draw from the many the
+      data allows equally well.</p>
+
+    <details class="layer">
+      <summary>Go deeper</summary>
+      <div class="inner">
+        <p>The Rashomon effect was <em>introduced to statistics</em> by Leo Breiman in his 2001 "Two
+          Cultures" paper — the one that split the field into the data-modeling and
+          algorithmic-modeling camps. The post-2016 explainability boom (SHAP, LIME, and their kin)
+          is the algorithmic culture answering its own opacity; the Rashomon effect is the crack in
+          that answer. Cynthia Rudin and collaborators built the modern study of <em>Rashomon
+          sets</em> — the set of all models within a tolerance of the best achievable accuracy — and
+          showed these sets are typically large and diverse on real problems. This program takes that
+          as its starting point and asks the next question: given that multiplicity is real, what
+          <em>follows</em>, provably, for explanation?</p>
+        <p>"More knobs than the evidence constrains" has a precise form: when configuration dimension
+          <em>n</em> exceeds the number of independent observational constraints <em>m</em>, the set
+          of parameters consistent with the observations is generically a space of dimension ≥
+          <em>n − m</em> — not a handful of ties but a continuum of equally good models. Whether that
+          is an edge case or the generic condition is exactly what question&nbsp;6 settles.</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · axiom-clean</div>
+          <p class="stmt">Rank–nullity yields, from every configuration, a genuinely distinct
+            configuration with identical observations whenever <em>n &gt; m</em>.</p>
+          <p class="cite"><b>exists_observational_collision</b>, <b>finrank_ker_ge</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/UbiquityDimensional.lean#L71">UbiquityDimensional.lean:71,82</a> ·
+            Monograph §883 (Generic Underspecification), §1007 (Prevalence)</p>
+        </div>
+        <p class="note">Literature: Breiman, <em>Statistical Modeling: The Two Cultures</em>,
+          Statistical Science 16(3), 2001; Fisher, Rudin &amp; Dominici, JMLR 2019 (coins "Rashomon
+          set"); Semenova, Rudin &amp; Parr, FAccT 2022 (arXiv:1908.01755); Rudin et al., ICML 2024.
+          The term predates Breiman (Heider 1988).</p>
+        <p class="note">For specialists: the program is agnostic on interpretable-vs-post-hoc. Its
+          interface covers any explanation operator — including reading structure off an inherently
+          interpretable model — whenever the <em>model class</em> exhibits multiplicity. The trilemma
+          prices what any explanation interface can promise under multiplicity, whatever the family.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 2 ================= -->
+<section class="node" id="node-2">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">02</span> What would a trustworthy explanation even have to do?</div>
+
+    <p>Before proving anything, pin down the target. Three properties, each so reasonable you'd
+      assume any decent explanation has all of them:</p>
+
+    <div class="props" id="propCards">
+      <div class="prop" data-prop="faithful">
+        <h4>Faithful</h4>
+        <p>The explanation reflects what the system actually does. If the model really leans on cell
+          size, a faithful explanation doesn't say cell shape.</p>
+      </div>
+      <div class="prop" data-prop="stable">
+        <h4>Stable</h4>
+        <p>Two systems that behave identically — same outputs on every input — get the same
+          explanation. If nothing observable distinguishes two models, their explanations shouldn't
+          differ.</p>
+      </div>
+      <div class="prop" data-prop="decisive">
+        <h4>Decisive</h4>
+        <p>The explanation commits. It names a factor, ranks the measurements, gives an answer —
+          rather than shrugging "it depends which equally good model you meant."</p>
+      </div>
+    </div>
+
+    <p><strong>Stable</strong> is the exact promise the opening broke: nothing about the patient's
+      case changed, and every version of the model was equally accurate — yet the reason beneath her
+      diagnosis moved anyway.</p>
+
+    <p>It is not only medicine. Picture a second person we'll meet again: a loan applicant, denied,
+      handed the legally required "principal reason" for the decision. Her file, her score, the
+      denial itself are identical across every equally accurate model — the outcome never changes —
+      yet the <em>reason</em> on the letter does. Same broken promise, one rung up in stakes: here
+      the law obliges someone to write the reason down.</p>
+
+    <p>Each is intuitive alone. Each is achievable alone. The entire subject lives in the gap between
+      "each" and "all."</p>
+
+    <p>Notice what these three definitions never mention: neural networks, or machine learning at
+      all. That omission is deliberate, and it will turn out to be the most consequential choice on
+      this page.</p>
+
+    <div class="widget" id="w1" data-widget="w1">
+      <div class="wtag">Commit before you read on · W1</div>
+      <p class="wq">These three are about to collide. If you could keep only two, which would you
+        give up?</p>
+      <div class="opts" role="group" aria-label="Pick the property to give up">
+        <button class="opt" data-v="faithful">Faithful</button>
+        <button class="opt" data-v="stable">Stable</button>
+        <button class="opt" data-v="decisive">Decisive</button>
+      </div>
+      <p class="after" id="w1after" hidden></p>
+    </div>
+
+    <details class="layer">
+      <summary>Go deeper</summary>
+      <div class="inner">
+        <p>The framing is deliberately interface-level: a <em>configuration</em> space (models,
+          parameter settings), an <em>observation</em> map (what behavior you can see), and an
+          <em>explanation</em> operator (anything from SHAP values to a causal graph to a paragraph
+          of prose). Faithfulness, stability, and decisiveness are properties of the operator
+          relative to the observation map. Because nothing about neural networks — or ML at all — is
+          assumed, whatever we prove applies to any system fitting the interface: that is what makes
+          the result a meta-theorem.</p>
+        <p><em>For statisticians:</em> this is kin to non-identifiability — the lineage from Fisher
+          through Koopmans's identification problem — but not identical. Identifiability asks whether
+          the <em>parameters</em> can be recovered from data. The trilemma prices what any
+          <em>explanation operator</em> can promise when they cannot. The multiplicity is the old
+          news; the theorem about the operator is the new part.</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · the structure</div>
+          <p class="stmt">The <code>ExplanationSystem</code> structure carries configurations,
+            observations, explanations, and an incompatibility relation, with
+            <code>faithful</code> / <code>stable</code> / <code>decisive</code> as predicates on the
+            operator. The Rashomon property — two observationally equivalent configurations whose
+            native explanations are incompatible — is a <em>structure field</em> (a hypothesis),
+            never an axiom.</p>
+          <p class="cite"><a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ExplanationSystem.lean">ExplanationSystem.lean</a> ·
+            Monograph §469 (Explanation Systems), §507 (The Three Desiderata), §557 (The Rashomon
+            Property)</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ DIVIDER (share-card line, earned after node 3 precedes it visually) ============ -->
+
+<!-- ================= NODE 3 ================= -->
+<section class="node" id="node-3">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">03</span> So can an explanation be all three?</div>
+
+    <p><strong>No.</strong> This is the theorem the program is named for.</p>
+
+    <p>If the Rashomon property holds — two setups that behave identically but whose honest
+      explanations disagree — then no explanation method can be faithful, stable, and decisive at
+      once. The proof is four moves, and its shortness is the point: nothing exotic is hiding in it.</p>
+
+    <div class="docrow" aria-label="Three competing summaries beside the three properties">
+      <figure class="doc mini"><div class="doc-head">Summary · retrain A</div>
+        <div class="doc-body"><p class="doc-line doc-strong">Malignant</p>
+        <p class="doc-line">Primary factor: <span style="color:var(--accent-ink)">nucleus shape</span></p></div></figure>
+      <figure class="doc mini"><div class="doc-head">Summary · retrain B</div>
+        <div class="doc-body"><p class="doc-line doc-strong">Malignant</p>
+        <p class="doc-line">Primary factor: <span style="color:var(--accent-ink)">nucleus size</span></p></div></figure>
+      <figure class="doc mini"><div class="doc-head">Summary · retrain C</div>
+        <div class="doc-body"><p class="doc-line doc-strong">Malignant</p>
+        <p class="doc-line">Primary factor: <span style="color:var(--accent-ink)">nucleus texture</span></p></div></figure>
+    </div>
+    <p class="note" style="margin-top:-.6rem">Whatever reason the model prints, it is now making a
+      promise the mathematics says no single reason can keep. One card must go.</p>
+
+    <ol class="proof">
+      <li><span>Two configurations behave identically, but their honest explanations disagree.</span></li>
+      <li><span><em>Decisive</em> means the method must commit to an answer for each — no abstaining.</span></li>
+      <li><span><em>Stable</em> means those two answers must be the same one — the systems are
+        outwardly identical.</span></li>
+      <li class="qed"><span><em>Faithful</em> means that one shared answer cannot contradict either
+        system's real structure — but the two structures make incompatible demands. Contradiction.</span></li>
+    </ol>
+
+    <p class="pull">This is the explanation trilemma: faithful, stable, decisive — pick two.</p>
+
+    <p>Hold the alarm: "pick two" is not a dead end. <em>Which</em> two, and what you get for the
+      trade, is where this is heading — and it has an exact answer.</p>
+
+    <details class="layer">
+      <summary>Go deeper</summary>
+      <div class="inner">
+        <p>The right cultural reference is Arrow's impossibility theorem: no voting system satisfies
+          a short list of reasonable fairness properties at once — and that didn't end social choice
+          theory, it <em>founded</em> it, by replacing "which system is best?" with "which
+          combinations of properties are achievable?" The trilemma plays the same role. "Which
+          explanation is right?" becomes "which explanation properties do you want, at what price?" —
+          and that question has exact answers.</p>
+        <p>Note what the theorem does <em>not</em> say. Not that explanations are useless, not that
+          all are equally bad, not that the situation is hopeless. It says the three cannot be had
+          <em>jointly</em> — which raises the two questions the rest of the page answers: is the
+          Rashomon hypothesis common or contrived (question&nbsp;6), and what is the best you can do
+          inside the ceiling (questions&nbsp;7–8)?</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · zero axioms</div>
+          <p class="stmt">For any explanation system <code>S</code> and operator <code>E</code>, if
+            <code>∃ c₁ c₂</code> with <code>obs c₁ = obs c₂</code> and
+            <code>native c₁ ⊥ native c₂</code> (the Rashomon field), then
+            <code>¬(Faithful S E ∧ Stable S E ∧ Decisive S E)</code>. Rashomon enters as a
+            hypothesis, not a built-in assumption; <code>#print axioms</code> is empty beyond Lean's
+            kernel.</p>
+          <p class="cite"><b>explanation_impossibility</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ExplanationSystem.lean#L68">ExplanationSystem.lean:68</a> (body 71–75,
+            a five-line proof) · Monograph §582 (Main Theorem), Appendix §4932</p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · strengthening</div>
+          <p class="stmt">For maximally incompatible systems, faithful + stable <em>alone</em> is
+            already impossible — the explanation bilemma.</p>
+          <p class="cite"><b>bilemma</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/MaximalIncompatibility.lean#L96">MaximalIncompatibility.lean:96</a> ·
+            Monograph §687</p>
+        </div>
+        <p class="note">Literature: Arrow, <em>Social Choice and Individual Values</em> (1951); the
+          analogy is developed in Monograph §4444.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="divider">
+  <p class="big"><span class="f">Faithful.</span> <span class="s">Stable.</span>
+    <span class="d">Decisive.</span> Pick&nbsp;two.</p>
+  <p class="small">The ceiling, in four words</p>
+</div>
+
+<!-- ================= NODE 4 ================= -->
+<section class="node" id="node-4">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">04</span> Wait — did you just rig the definitions?</div>
+
+    <p>The sharpest objection, and the first a mathematician raises. This is the first of three ways
+      you might try to break the result — the definitions, the proof, the hypothesis — taken in
+      order. Attack one: maybe "faithful," "stable," and "decisive" were secretly defined so strongly
+      that of course they conflict. If so, the theorem is a card trick.</p>
+
+    <p>The check is whether each <em>pair</em> is achievable. It is — all three:</p>
+
+    <div class="props minis">
+      <div class="prop"><h4>The abstainer</h4><p>Faithful + stable: declines to commit rather than
+        contradict itself.</p><div class="traded">gives up decisive</div></div>
+      <div class="prop"><h4>The committer</h4><p>Faithful + decisive: commits, and accepts that
+        equally good models get different answers.</p><div class="traded">gives up stable</div></div>
+      <div class="prop"><h4>The stonewaller</h4><p>Stable + decisive: commits to the same answer
+        everywhere, contradicting some systems.</p><div class="traded">gives up faithful</div></div>
+    </div>
+
+    <p>Each is constructed concretely and machine-checked. So the impossibility cuts <em>exactly</em>
+      at the triple. The definitions are not too strong — they are exactly strong enough that
+      removing any one property dissolves the conflict. That's the difference between a theorem and a
+      tautology.</p>
+
+    <details class="layer">
+      <summary>Go deeper</summary>
+      <div class="inner">
+        <p>A further refinement: which pairs are achievable depends on the structure of the
+          explanation space — specifically whether it contains <em>neutral</em> elements (safe
+          non-answers) and <em>committal</em> ones. The classification theorem characterizes
+          achievability in these terms, which is why the theory can tell you, for <em>your</em>
+          explanation format, which trade-offs are even on the menu. Adding a neutral element
+          (enrichment) restores faithful + stable at the cost of decisiveness, and the enrichment is
+          unique on the Rashomon fiber.</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · pairwise witnesses</div>
+          <p class="stmt">Each pair has an explicit machine-verified witness; the stable+decisive
+            witness sits alongside.</p>
+          <p class="cite"><b>tightness_faithful_decisive</b>, <b>tightness_faithful_stable</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ExplanationSystem.lean#L85">ExplanationSystem.lean:85,97</a> ·
+            Monograph §635 (Tightness)</p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · classification + enrichment</div>
+          <p class="stmt">Neutral/committal classification, and enrichment unique on the fiber.</p>
+          <p class="cite"><b>tightness_full</b> / <b>tightness_collapsed</b>,
+            <b>enrichment_unique_on_fiber</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/BilemmaCharacterization.lean">BilemmaCharacterization.lean</a>,
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/MaximalIncompatibility.lean">MaximalIncompatibility.lean</a> ·
+            Monograph §782 (The Enrichment Mechanism)</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 5 ================= -->
+<section class="node" id="node-5">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">05</span> Why should I believe a proof I can't check?</div>
+
+    <p>The second attack aims at the proof itself — and the answer is that you don't have to believe
+      anyone. That is, concretely, the point of how this program is built.</p>
+
+    <p>Every theorem here is written in <strong>Lean</strong>, a proof assistant: a language for
+      mathematics in which a proof either passes the checker or does not compile. There is no "the
+      referee was convinced." A small trusted kernel — the same few thousand lines for everyone —
+      accepts the proof or rejects it. Human error can still live in one place, the
+      <em>definitions</em> (are these the right formalizations of the words?). It cannot live in the
+      reasoning.</p>
+
+    <p>What machine-checking buys is certainty about the mathematics. What it does <em>not</em> buy
+      is any guarantee about the world: whether real models and datasets satisfy the theorems'
+      hypotheses is an empirical question — and this program treats it as one, with its own machinery
+      (question&nbsp;8) and its own evidence (question&nbsp;9), reported so that <em>reality gets a
+      vote</em>.</p>
+
+    <p>The headline theorems assume nothing beyond the logic itself. Across the whole program there
+      are exactly four declared assumptions — all of them housekeeping for applied side-studies of
+      one model family. The impossibility theorem, the repair theory, and every certificate guarantee
+      depend on none of them.</p>
+
+    <div class="stats" id="statsMid" aria-label="Current machine-checked state of the main repository">
+      <div class="s"><div class="v">130</div><div class="k">files</div></div>
+      <div class="s"><div class="v">715</div><div class="k">theorems</div></div>
+      <div class="s"><div class="v">0</div><div class="k">unproven gaps</div></div>
+      <div class="s"><div class="v">4</div><div class="k">assumptions, program-wide</div></div>
+      <div class="s"><div class="v">CI</div><div class="k">re-checked every commit</div></div>
+    </div>
+    <p class="note" style="margin-top:-.7rem">The current state, checked automatically on every
+      change — main repository.</p>
+
+    <p>But one thing the checker cannot do: it certifies the reasoning <em>from</em> the hypothesis,
+      never the hypothesis itself. Every theorem so far is an if–then, and the machine guarantees only
+      the <em>then</em>. The <em>if</em> is your next question.</p>
+
+    <details class="layer">
+      <summary>Go deeper</summary>
+      <div class="inner">
+        <p>Machine-checked proof has its own history. The 1976 Four Color theorem was the first major
+          result to rest on computation no human could survey — philosophers argued whether it even
+          counted as proof. When Thomas Hales proved the Kepler conjecture in 1998, the referees
+          announced they were only "99% certain," so Hales spent over a decade building Flyspeck, the
+          full formal verification, completed in 2014. Today Lean's Mathlib carries much of the
+          undergraduate mathematical canon and substantial graduate material in machine-checked form.
+          This program is downstream of that arc — with one difference: it never passed through the
+          "99% certain" stage at all.</p>
+        <p>To distrust a result here you must either distrust Lean's kernel (shared with hundreds of
+          contributors and thousands of users formalizing unrelated mathematics) or argue that a
+          <em>definition</em> fails to capture its informal concept. The latter is a legitimate
+          scientific argument — it's why the definitions are stated in full and why question&nbsp;4's
+          tightness results matter.</p>
+      </div>
+    </details>
+
+    <details class="layer formal" id="trust-base">
+      <summary>Formal · the trust base, in full</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · CI-audited</div>
+          <p class="stmt">A CI Tier-A audit re-derives every spine theorem's axiom set on each commit
+            (<code>#print axioms</code>, <code>make verify</code>); an overclaim in a file header is a
+            build failure, not a footnote. The vendored Morse–Sard port (question&nbsp;6) is
+            attributed to its author (Kudryashov, Apache-2.0) and <em>excluded</em> from all counts.</p>
+          <p class="cite">Sard/ATTRIBUTION.md · Monograph §1724 (Lean Formalization), §1799 (Axiom
+            Stratification), §1904 (Proof Status Transparency)</p>
+        </div>
+        <p>Trust base, in full: Lean kernel axioms (<code>propext</code>, <code>Classical.choice</code>,
+          <code>Quot.sound</code>) + two declared structures (<code>gbdtWorld</code>,
+          <code>gbdtAxioms</code>, <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/Defs.lean">Defs.lean</a> — the GBDT world model,
+          used only by the GBDT quantitative layer) in the main repo; two analogous declarations in
+          the attribution companion; zero in the physics companion (one theorem there leans on an
+          exhaustive machine enumeration — <code>native_decide</code>, a 419,904-case circuit).</p>
+        <p class="note">Per-repo counts, never summed (repos overlap): main <b>130 files / 715
+          theorems / 2 axioms / 0 sorry</b>; attribution companion <b>368 / 2</b>; physics companion
+          <b>481 / 0</b>; program-wide axioms <b>4</b>. Authoritative source <code>paper/claims.tex</code>
+          (regenerated by <code>gen_claims.py</code>). Literature: Mathlib overview arXiv:2508.21593
+          (2025); Appel &amp; Haken 1976 (Four Color); Hales et al., <em>Forum of Mathematics Pi</em>
+          2017 (Flyspeck).</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 6 ================= -->
+<section class="node" id="node-6">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">06</span> How often does this actually happen? Is it rare, or everywhere?</div>
+
+    <p>The second attack failed; here is the third, and strongest. Everything so far is conditional:
+      <em>if</em> two equally-behaving systems disagree about why, <em>then</em> no explanation can do
+      all three jobs. A skeptic should ask whether that hypothesis is a laboratory curiosity.</p>
+
+    <div class="widget" id="w2" data-widget="w2">
+      <div class="wtag">Guess before the answer · W2</div>
+      <p class="wq">Two models. Identical behavior. Different reasons. How often would you guess that
+        happens?</p>
+      <div class="opts" role="group" aria-label="How often does the Rashomon situation happen">
+        <button class="opt" data-v="rare">A rare pathology</button>
+        <button class="opt" data-v="sloppy">Only with sloppy practice</button>
+        <button class="opt" data-v="common">Common</button>
+        <button class="opt" data-v="typical" data-correct="1">The typical case — nearly unavoidable</button>
+      </div>
+      <p class="after" id="w2after" hidden></p>
+      <div class="skiprow"><button type="button" id="w2skip">Skip the guess — show the answer →</button></div>
+    </div>
+
+    <div class="veilwrap veiled" id="w2veil">
+      <p>The answer is a ladder of four increasingly strong results, ending at the strongest:
+        whenever a system has more internal settings than the data constrains — essentially every
+        modern machine learning model — the Rashomon situation is not just possible but
+        <em>generic</em>. Not "can happen": <em>typically happens, at almost every configuration you
+        could land on.</em></p>
+
+      <p>The last rung leans on a classical theorem of higher geometry — the Morse–Sard theorem —
+        that had been fully machine-checked only once anywhere, by another mathematician for
+        unrelated reasons. The program adapted that work (credited throughout, and deliberately
+        excluded from its own theorem counts) and verified the whole chain end to end: the ubiquity
+        argument is formal from first premise to final conclusion.</p>
+
+      <p>And the same wall appears far beyond machine learning — in physics, where different
+        mathematical descriptions yield identical experimental predictions; in genetics, where
+        different DNA spellings build the same protein; in crystallography, where the same
+        diffraction pattern fits many different molecular structures. These are not loose analogies.
+        In each, a minimal witness is checked, in the same system, as an instance of the same
+        interface.</p>
+    </div>
+
+    <details class="layer">
+      <summary>Go deeper · the four rungs</summary>
+      <div class="inner">
+        <p>The four rungs, each subsuming the last:</p>
+        <ol>
+          <li><strong>Linear</strong> — rank–nullity forces a subspace of observationally identical
+            configurations through every point when <em>n &gt; m</em>.</li>
+          <li><strong>Infinitesimal</strong> — any differentiable observation map has, at every
+            point, a direction its derivative cannot see.</li>
+          <li><strong>Local smooth</strong> — at any regular point of a nonlinear observation map, the
+            true curved fiber contains genuinely distinct configurations arbitrarily close (implicit
+            function theorem).</li>
+          <li><strong>Generic</strong> — for <em>almost every</em> observable value the fiber is a
+            positive-dimensional Rashomon locus. This is where the <strong>Morse–Sard
+            theorem</strong> enters: the critical values, where the argument could fail, form a
+            measure-zero set, at the sharp classical smoothness threshold (Whitney's 1935
+            counterexample shows the threshold cannot be weakened).</li>
+        </ol>
+        <p>Two boundary results sharpen rather than qualify this. In <em>infinite-dimensional</em>
+          configuration spaces (function-space models) every rung except Sard extends — with
+          rank–nullity strengthening to "the Rashomon fiber has full rank": underspecification there
+          is total. And Sard's failure to extend is itself a theorem, not a gap: Kupka's 1965
+          counterexample shows it is false in that regime, and the obstruction (no such map is
+          Fredholm) is machine-checked. Philosophers will recognize the shape: Duhem (1906) and Quine
+          (1951) argued that theory is underdetermined by evidence — the ubiquity ladder is that
+          thesis made exact for a definite interface, and Duhem–Quine underdetermination is itself one
+          of the fourteen formalized instances. The century-old worry did not just inspire the
+          theorem; it is <em>covered</em> by it.</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal · the ubiquity ladder</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · generic ubiquity, unconditional</div>
+          <p class="stmt">Critical values of any C^{n−m+1} map are Haar-null (sharp threshold);
+            generic ubiquity follows unconditionally.</p>
+          <p class="cite"><b>sardProperty_of_contDiff</b>, <b>generic_ubiquity_of_contDiff</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/MorseSard.lean#L149">MorseSard.lean:149,180</a> · via the vendored,
+            attributed port of Kudryashov's formalization of Moreira's theorem (Apache-2.0; excluded
+            from program counts) · Monograph §872 (Ubiquity), §883</p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · lower rungs + ∞-dim boundary</div>
+          <p class="stmt">Regular-fiber non-isolation, linear and submersion Sard; the ∞-dimensional
+            extension with the Kupka non-Fredholm boundary formalized.</p>
+          <p class="cite"><b>regular_fiber_not_isolated</b>,
+            <b>sardProperty_of_continuousLinearMap</b>, <b>sardProperty_of_submersion</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/UbiquityDimensional.lean#L178">UbiquityDimensional.lean:178,351,375</a>;
+            <b>rank_ker_eq_rank_of_infiniteDimensional</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/UbiquityInfiniteDimensional.lean#L168">UbiquityInfiniteDimensional.lean:168</a>
+            · Monograph:959</p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · 9 ML + 14 cross-domain instances</div>
+          <p class="stmt">Nine ML instances (attribution, attention, counterfactuals, concept probes,
+            causal discovery, model selection, saliency, LLM self-explanation, mechanistic interp) +
+            fourteen cross-domain instances (Arrow, Peres–Mermin contextuality, Duhem–Quine, gauge
+            theory, statistical mechanics, genetic code, phase problem, …), each a zero-axiom witness
+            of the same interface.</p>
+          <p class="cite">*InstanceConstructive.lean · Monograph §3611</p>
+        </div>
+        <p class="note">Literature: Moreira, <em>Publ. Mat.</em> 45 (2001) 149–162; Kudryashov,
+          SardMoreira formalization (2025); Kupka, <em>Proc. AMS</em> 16 (1965) 954–957; Whitney,
+          <em>Duke Math. J.</em> 1 (1935) 514–517. Honest hypothesis note: the final wiring assumes
+          the explanation map is <em>non-degenerate</em> — a theorem-shaped boundary (the necessity
+          results, <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/Necessity.lean">Necessity.lean</a> /
+          <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/NecessityBiconditional.lean">NecessityBiconditional.lean</a>), not a
+          loophole: explanation is possible precisely for explainers blind to the structure the
+          trilemma is about.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 7 ================= -->
+<section class="node" id="node-7">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">07</span> If no explanation can do all three jobs, what's the best one <em>can</em> do?</div>
+
+    <p>The trilemma says pick two. The constructive half says <em>which</em> two — and what you get
+      in exchange.</p>
+
+    <p>Give up decisiveness. Keep faithful and stable. Concretely: instead of asking one model for
+      the reason, train many equally good models and <strong>average their explanations</strong>.
+      What all of them agree on survives the averaging; what they merely disagree about cancels. The
+      survivor is the <strong>stable core</strong> — the part of the explanation that was never in
+      dispute between models the data cannot tell apart.</p>
+
+    <figure class="doc" aria-label="The competing summaries superimposed; shared text stays dark, differing lines ghost out">
+      <div class="doc-head">Patient Portal · Pathology Summary · stable core</div>
+      <div class="doc-body">
+        <p class="doc-line"><span class="doc-strong">Malignant.</span></p>
+        <p class="doc-line ghosted">Primary factor: <em>the shape of the cell nuclei</em></p>
+        <p class="doc-line ghosted">Primary factor: <em>the size of the cell nuclei</em></p>
+        <p class="doc-line ghosted">Primary factor: <em>the texture of the cell nuclei</em></p>
+        <div class="doc-core"><b>What every equally good model agrees on:</b> the cell nuclei are
+          abnormally <b>large</b>. How to describe their shape is undetermined and is flagged as such.</div>
+      </div>
+      <figcaption><b>The stable core is literally what survives superposition.</b> The differing
+        "primary factor" lines fade; the shared finding stays dark.</figcaption>
+    </figure>
+
+    <p>This isn't a heuristic patch; it is provably canonical. Among all stable explanations, the
+      average is the closest to what any individual model would have said — and nothing outside the
+      stable set is ever stable at all. The part that cancels was never trustworthy: it was the
+      signature of which arbitrary model you happened to train, not of the data.</p>
+
+    <p>For the patient in the opening, the stable core is concrete. Every equally good model agrees
+      her cell nuclei are abnormally <em>large</em>; they disagree only on how to describe their
+      shape. The honest version of her summary reports the size and flags the shape as undetermined —
+      faithful and stable, at the price of one tidy "primary factor."</p>
+
+    <p>Physics reached this same move a century ago, in its own language. The same physical situation
+      can be written with infinitely many different mathematical descriptions, all producing the
+      identical measurable result — a built-in ambiguity with no fact of the matter about which
+      description is "the real one." Physicists don't agonize over it; they long ago agreed to quote
+      only the quantities every description shares, and to treat those as the physics. Keep what all
+      equally valid descriptions agree on, discard the rest: that is the stable core exactly, and
+      physics turns out to be one instance of it — not the other way around.</p>
+
+    <div class="wecho" id="w1echo" hidden></div>
+
+    <details class="layer">
+      <summary>Go deeper · the symmetry theory</summary>
+      <div class="inner">
+        <p>The mathematics is symmetry theory. The equally good models are related by a group of
+          transformations the observations cannot see; averaging over that group (the orbit average,
+          or Reynolds operator R) projects any explanation onto the invariant subspace V^G. Three
+          structural facts make this canonical:</p>
+        <ul>
+          <li><strong>Stability = invariance, exactly.</strong> The stable explanations are precisely
+            the G-invariant ones — V^G is <em>where all stable answers live</em>.</li>
+          <li><strong>Best approximation.</strong> R(v) is the nearest point of V^G to v. (The
+            invariant aggregate as minimum-variance answer is the Rao–Blackwell / Hunt–Stein
+            principle, not Gauss–Markov — symmetrize a sufficient statistic to reduce variance.)</li>
+          <li><strong>The decomposition.</strong> V = V^G ⊕ ker R: every explanation splits
+            orthogonally into a stable core plus irreducible disagreement, and total explanation
+            content is conserved between them.</li>
+        </ul>
+        <p>This yields a budget: the <strong>explanation capacity</strong> C = dim V^G counts how
+          many independent stable facts a symmetry class can support, before any data is seen. DASH
+          (ensemble-averaged attributions) and CPDAGs (in causal discovery) are methods the community
+          already built and trusts — now identifiable as instances of this one canonical projection,
+          which explains <em>why</em> they work and says they cannot be improved upon within their
+          family.</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal · the stable projection</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · zero axioms</div>
+          <p class="stmt">The stable explanations are exactly the G-invariant ones; the orbit average
+            is the best invariant approximation; and V = V^G ⊕ ker R.</p>
+          <p class="cite"><b>stable_iff_gInvariant</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/StructureTheorem.lean#L50">StructureTheorem.lean:50</a>;
+            <b>reynolds_best_approximation</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/UncertaintyFromSymmetry.lean#L222">UncertaintyFromSymmetry.lean:222</a>;
+            <b>explanation_structure_theorem</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/StructureTheorem.lean#L77">StructureTheorem.lean:77</a> · Monograph
+            §1024, §1137 (DASH), §1161 (Orbit Averaging), §1199 (Uncertainty Bound)</p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · design-space dichotomy</div>
+          <p class="stmt">Every method either abstains on symmetric structure or commits and violates
+            stability (Family A or B, no third way).</p>
+          <p class="cite"><b>universal_design_space_dichotomy</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/UniversalDesignSpace.lean#L27">UniversalDesignSpace.lean:27</a></p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · zero axioms · the physics precedent</div>
+          <p class="stmt">Gauge freedom as a minimal witness: distinct field configurations with
+            identical observable holonomy, and gauge transforms that preserve it. The "keep only what
+            every description agrees on" move is the gauge-invariant projection — formally the same
+            G-invariant subspace as <code>stable_iff_gInvariant</code>.</p>
+          <p class="cite"><b>same_holonomy</b>, <b>different_configs</b>,
+            <b>gauge_preserves_holonomy</b> (all <code>by decide</code>) ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/GaugeTheory.lean">GaugeTheory.lean</a></p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Optimality frontier · honest</div>
+          <p class="stmt">DASH's <em>within-group</em> Pareto optimality is proven under the declared
+            GBDT bundle; the <em>global</em> claim was machine-checked as a reduction to one named
+            classical hypothesis (<code>CramerRaoScoreProperty</code>, question&nbsp;10), the abstract
+            Cramér–Rao inequality proven unconditionally. That hypothesis is now discharged for every
+            natural exponential family and — end-to-end and axiom-clean — for the M-sample
+            exchangeable-Gaussian ensemble DASH operates on: DASH is the minimum-variance unbiased
+            estimator there. Only general non-exponential families remain the named hypothesis.</p>
+          <p class="cite"><b>abstract_cramer_rao</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ParetoGlobal.lean#L143">ParetoGlobal.lean:143</a>;
+            <b>cramerRaoScoreProperty_tilted</b>, <b>dash_mvue_exchangeableGaussian</b> ·
+            ScoreRegularity*.lean · Rao–Blackwell bridge Monograph §3785 · CPDAG Verma &amp; Pearl 1991</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 8 ================= -->
+<section class="node" id="node-8">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">08</span> The explanation in front of me, right now — which parts can I trust?</div>
+
+    <p>Question&nbsp;7 gave you the stable core — what all the equally good models agree on. The
+      <strong>certificate</strong> answers the practical follow-up: is the specific claim in front of
+      you — "measurement A matters more than measurement B, for this patient" — actually inside it?</p>
+
+    <p>The recipe is almost embarrassingly practical. Retrain the model several times (or use an
+      ensemble you already have). Look at how consistently the ensemble endorses the claim relative
+      to how much it wavers: a signal-to-noise ratio. A one-line classical inequality then converts
+      that ratio into a <em>guarantee</em> — an upper bound on how often the claim can flip across
+      equally good models, with no assumptions about distributions or model internals.</p>
+
+    <p>A claim certified at the standard threshold flips on at most one in five equally good models,
+      unconditionally — call it the <strong>one-in-five guarantee</strong>. And the certificate is
+      honest about its own direction: it can prove a claim <em>stable</em>, but never prove one
+      <em>arbitrary</em> — a deliberate one-sidedness, proven, so the instrument cannot be used to
+      condemn.</p>
+
+    <p>This is what the opening was missing. Had her summary carried this stamp, her surgeon would
+      have known whether "cell size, not shape" was a dependable reason to act on or a coin flip —
+      and could have said which, out loud, instead of trusting one line from one model.</p>
+
+    <p>The loan applicant's case shows the other half of why this matters. When the law makes a
+      lender state the principal reason for a denial, a compliance officer has to attest to it — and
+      today that signature vouches for a reason an equally good model would have contradicted. The
+      certificate is what lets the officer sign honestly: it marks which reasons hold across the whole
+      equally-good set and flags the ones that are a coin flip. (The denial itself doesn't move — only
+      whether its stated reason is one you can stand behind.)</p>
+
+    <div class="figure reveal">
+      <canvas id="fan" width="900" height="280"
+        aria-label="An arrow-fan: wide spread is high noise, a tight fan is a certified claim"></canvas>
+      <div class="cap"><b>The fan's spread is the noise.</b> Signal-to-noise is fan-tightness per
+        claim; a certified claim renders as a tight fan — the same fan from question&nbsp;7, now read
+        as a measurement.</div>
+    </div>
+
+    <p>Everything to this point is mathematics — certain, certified, and entirely silent on whether
+      the world cooperates. Reality has not voted yet.</p>
+
+    <details class="layer">
+      <summary>Go deeper · three theorems make it an instrument</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>The bound</strong>: flip rate ≤ 1/(1 + SNR²), via Cantelli's inequality —
+            distribution-free. SNR ≥ 2 gives the ≤ 20% guarantee.</li>
+          <li><strong>Tightness</strong>: no certificate reading only mean and variance can promise
+            less; the bound is achieved.</li>
+          <li><strong>Transfer</strong>: the number you compute on <em>your</em> ensemble today
+            provably transfers to an independent ensemble tomorrow, at an explicit exponential rate —
+            and a second version drops independence entirely, covering correlated and exchangeable
+            ensembles. The in-sample certificate becomes an out-of-sample guarantee.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal · the certificate</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · bound + tightness + one-sidedness</div>
+          <p class="stmt">Cantelli lower-tail flip bound, its tightness, and the one-sided
+            "stable-only" direction.</p>
+          <p class="cite"><b>cantelli_lower_tail</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/CertificateGuarantee.lean#L71">CertificateGuarantee.lean:71</a>;
+            <b>flip_bound_tight</b>, <b>flip_zero_at_low_snr</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/CertificateTight.lean#L43">CertificateTight.lean:43,121</a> · Monograph
+            §1286, lines 1600–1675</p>
+        </div>
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · transfer, with &amp; without independence</div>
+          <p class="stmt">In-sample → independent-ensemble transfer (Hoeffding rate), and a version
+            needing no independence.</p>
+          <p class="cite"><b>transfer_flipFreq_bound</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/TransferTheorem.lean#L90">TransferTheorem.lean:90</a>;
+            <b>transfer_flip_general</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/TransferGeneral.lean#L37">TransferGeneral.lean:37</a> · Literature:
+            Cantelli (one-sided Chebyshev); Hoeffding, JASA 1963</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 9 ================= -->
+<section class="node" id="node-9">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">09</span> Does reality actually obey any of this?</div>
+
+    <p>The theorems are certain; whether the world sits inside their hypotheses is not. So the
+      program tests itself — in a specific mode: its quantitative guarantees are distribution-free
+      <em>bounds</em>, and a bound is validated by <strong>coverage</strong> (did reality stay inside
+      it?), never by curve-fitting.</p>
+
+    <div class="widget" id="w3" data-widget="w3">
+      <div class="wtag">Drag to guess before the reveal · W3</div>
+      <p class="wq">Among breast-cancer patients with a confirmed malignant tumor, for what fraction
+        does a 94%-accurate decision-support model's single "most important measurement" change
+        across equally accurate models?</p>
+      <div class="slider">
+        <input type="range" id="w3range" min="0" max="100" value="50" step="1"
+          aria-label="Your guess, 0 to 100 percent">
+        <output id="w3out">50%</output>
+      </div>
+      <div class="deltabar" id="w3delta" hidden>
+        <div class="fill" id="w3fill"></div>
+        <div class="mk you" id="w3you"><i>your guess</i></div>
+        <div class="mk real" id="w3real" style="left:100%"><i>measured: up to 100%</i></div>
+      </div>
+      <div class="skiprow"><button type="button" id="w3reveal">Reveal the measured number →</button></div>
+      <p class="after" id="w3after" hidden></p>
+    </div>
+
+    <div class="veilwrap veiled" id="w3veil">
+      <h3>Medicine — where the opening lives</h3>
+      <p>On the Breast Cancer Wisconsin data (569 patients, models at 94% accuracy / 0.98 AUC),
+        within a 2%-accuracy Rashomon band, <strong>up to 100% of patients get a different top
+        measurement</strong> across equally accurate models — patients exactly like the one in the opening.
+        But the honest turn <em>raises</em> the rigor: cluster the correlated measurements (worst
+        radius, perimeter, area are three rulers on one thing — the size of the cell nuclei) and the
+        reversal drops to <strong>26–42%</strong>. Much of the churn is size-features trading rank
+        within one meaning — which is exactly the Rashomon symmetry the theory predicts, and exactly
+        what the stable core recovers. And a negative control the theory demanded: on a dataset where
+        the models are identical (nothing left undetermined), the reversal is <strong>0%</strong> —
+        instability appears precisely when, and only when, multiplicity does.</p>
+
+      <div class="docwall" id="wall" aria-label="A wall of summaries: most shimmering between versions, a still minority holding fast"></div>
+
+      <h3>Law — where the reason is binding</h3>
+      <p>The <em>decisions</em> never change (every model in the window is equally accurate); it is
+        the <em>stated reason</em> that flips. On German credit within a strict 2% window,
+        <strong>84% of denied applicants</strong> (76–93% across five seeds) have a principal
+        adverse-action reason that flips across equally good models. Remember the coin flip nobody
+        knew they were flipping? For 84% of denied applicants on this benchmark it is real — and for
+        about 19%, the certificate can prove there was no flip at all. Lending is where the law forces
+        the reason into writing, which is what makes the flip auditable at scale; the clinic is where
+        the same arithmetic is heading.</p>
+
+      <h3>The certificate holds out of sample</h3>
+      <p>Across 104 real datasets and 10,724 explanation claims, every one of the <strong>4,431</strong>
+        claims the certificate called stable stayed stable on a fully independent ensemble — 100%
+        transfer. Observed flip rates stayed below the machine-checked transfer bound on 99.4% of
+        pairs — a statistical link designed to hold 95% of the time, so reality beat its spec. The
+        two weakest datasets are named in the paper, not hidden.</p>
+
+      <p>So the ceiling is proven, the instrument works, and reality — so far — stays inside the
+        bounds. What the mathematics has <em>not</em> yet settled is a shorter list.</p>
+    </div>
+
+    <details class="layer">
+      <summary>Go deeper · the wider program</summary>
+      <div class="inner">
+        <p>The wider program: a 149-dataset capacity audit across 53 domains (75% exceed the capacity
+          threshold; cross-dataset effect at p ≈ 5×10⁻¹¹); mechanistic-interpretability studies
+          across ten transformers (explanation correlation 0.52 → 0.93 after projecting to the
+          invariant core); the same instrument on GPT-2-small's sparse-autoencoder features
+          certifying the ~9.5% that reproduce across retraining (0.81 cosine out of sample vs 0.32 for
+          uncertified) — exploratory, one model, one layer. One honesty note the program insists on:
+          the credit 84% is <em>observed</em> instability, not a certified impossibility — by the
+          one-sidedness theorem the instrument licenses "provably stable," never "provably arbitrary."</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal · the measured record</summary>
+      <div class="inner">
+        <div class="claim" data-tier="measured">
+          <div class="chip"><span class="dot"></span>Measured · certificate transfer</div>
+          <p class="stmt">104 datasets / 10,724 claims / 4,431 certified-stable / 100% transfer /
+            99.4% within bound / median OOS rank corr 0.822 / calibration error 0.009.</p>
+          <p class="cite">results_large_scale_certificate.json
+            (band_table_insample.STABLE.n_pairs) · Monograph §2719</p>
+        </div>
+        <div class="claim" data-tier="measured">
+          <div class="chip"><span class="dot"></span>Measured · per-patient reversal</div>
+          <p class="stmt">Breast-cancer feature-level up to 1.00, cluster-level 0.26–0.42 (12 clusters
+            at corr 0.8); heart-disease negative control 0.00; seed-only 0.00.</p>
+          <p class="cite">results_clinical_decision_reversal_v2.json · Monograph §2649</p>
+        </div>
+        <div class="claim" data-tier="measured">
+          <div class="chip"><span class="dot"></span>Measured · credit adverse-action</div>
+          <p class="stmt">84% (76–93%, 5 seeds); ~19% certifiable minority. One-sidedness caveat
+            inline: this is observed instability, not certified impossibility.</p>
+          <p class="cite">Monograph §3545 (OpenML-31, 60 GBDT models/seed)</p>
+        </div>
+        <div class="claim" data-tier="measured">
+          <div class="chip"><span class="dot"></span>Measured · capacity audit + mech-interp + SAE</div>
+          <p class="stmt">149 datasets / 53 domains / 50 seeds / 75% / p = 5.09×10⁻¹¹. Mech-interp
+            0.518 → 0.929. SAE (GPT-2-small, layer 6): 9.5% / 0.81 / 0.32.</p>
+          <p class="cite">results_audit_150_final.json · Monograph §2548;
+            results_mi_v2_final_validation.json · §3095; §3242. Literature: ECOA/Reg B
+            12 CFR 1002.9; EU AI Act Art. 86; Semenova &amp; Rudin 2022</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 10 ================= -->
+<section class="node" id="node-10">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">10</span> What's still open?</div>
+
+    <p>That shorter list has four items — four mathematical problems, each named with the reason
+      it resists. One is a
+      textbook regularity condition that classical statistics assumes silently — one this program has
+      now settled for the standard families of statistics, including the exact setting the averaging
+      recipe of question&nbsp;7 runs in; it stays open only beyond them. Two are conjectures whose
+      proofs await machinery that does not exist yet; in each case the missing prerequisite is named.
+      One is a suspected bridge to quantum error correction that lacks a statement crisp enough to
+      attack — sharpening comes before proving. Names, files, and the exact obstruction for each: one
+      layer down.</p>
+
+    <details class="layer">
+      <summary>Go deeper · the four items</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>The score property for general families</strong> — the last "argued" step in
+            DASH's global optimality: differentiation under the integral, the condition classical
+            statistics assumes silently. Isolated as a single named hypothesis and now discharged for
+            every natural exponential family, and verified end to end for the M-sample
+            exchangeable-Gaussian ensemble DASH actually uses, the whole chain resting on Lean-core
+            axioms alone — so DASH is proved the minimum-variance unbiased estimator there. What
+            remains open is only the general non-exponential case (e.g. Cauchy-type families with no
+            exponential moments).</li>
+          <li><strong>The irrep-count conjecture</strong> — a proposed exact count of non-dominated
+            explanation profiles via representation theory; resists because a formal scaffold for the
+            objects it counts doesn't exist yet.</li>
+          <li><strong>Categorical enrichment</strong> — that "add an abstain option" is a free
+            construction in the category-theoretic sense; resists for want of 2-categorical machinery.</li>
+          <li><strong>The quantum error-correction bridge</strong> — a suspected dictionary between
+            explanation stability and the Knill–Laflamme conditions; resists at an earlier stage,
+            lacking a crisp statement.</li>
+        </ul>
+        <p>Note the shape: each open item comes with a <em>named formal prerequisite</em> or a
+          <em>named classical assumption</em>, not a vague "future work." That is the program's export
+          to formal science — the reduction method: you don't need to formalize everything at once,
+          you need to know <em>exactly</em> what you haven't. It worked twice (Sard, then
+          Cramér–Rao), converting "the argument is standard" into "one named assumption, verified
+          logic everywhere else."</p>
+      </div>
+    </details>
+
+    <details class="layer formal">
+      <summary>Formal · open frontier</summary>
+      <div class="inner">
+        <div class="claim" data-tier="proven">
+          <div class="chip"><span class="dot"></span>Proven · the reduction, hypothesis now discharged for NEF</div>
+          <p class="stmt"><code>CramerRaoScoreProperty → dash_global_pareto_optimal</code> reduction
+            machine-checked; <code>abstract_cramer_rao</code> unconditional. Discharged for every
+            natural exponential family and end-to-end for the M-sample exchangeable-Gaussian model
+            (DASH is the minimum-variance unbiased estimator; Lean-core axioms only). Open: general
+            non-exponential families.</p>
+          <p class="cite"><b>abstract_cramer_rao</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ParetoGlobal.lean#L143">ParetoGlobal.lean:143</a>;
+            <b>cramerRaoScoreProperty_tilted</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ScoreRegularityNEF.lean#L115">ScoreRegularityNEF.lean:115</a>;
+            <b>dash_mvue_exchangeableGaussian</b> ·
+            <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/UniversalImpossibility/ScoreRegularityExchangeable.lean#L360">ScoreRegularityExchangeable.lean:360</a>
+            · Monograph §1934, §4625 (Limitations and Open Questions)</p>
+        </div>
+        <div class="claim" data-tier="conjectured">
+          <div class="chip"><span class="dot"></span>Conjectured · three, each labeled as such</div>
+          <p class="stmt">Irrep-count, categorical enrichment, Knill–Laflamme bridge.</p>
+          <p class="cite">Monograph §1286, §4477 · Literature: Cramér–Rao (Rao 1945; Cramér 1946);
+            Knill &amp; Laflamme, <em>Phys. Rev. A</em> 1997</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= NODE 11 ================= -->
+<section class="node" id="node-11">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">11</span> What should I do with this?</div>
+
+    <p>Depending on who you are:</p>
+
+    <h3>If you deploy or audit models</h3>
+    <p>Stop asking one model for the reason. Use an ensemble of equally good models; report the stable
+      core; certify the claims you must stand behind; disclose when no dependable reason exists. Every
+      step of that sentence is a theorem or a validated instrument above — and the reference
+      implementation of the certificate ships in the main repository's
+      <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/tree/c74d82d9a3a4dcf977121ead94b4342b126047cd/knockout-experiments"><code>knockout-experiments/</code></a> directory.</p>
+
+    <h3>If you regulate, or are regulated</h3>
+    <p>Here is the sentence you can paste: <em>adverse-action and AI-Act explanation requirements are
+      satisfiable honestly — require reporting of the certified-stable reasons, and disclosure when no
+      reason certifies.</em> Legally mandated explanations (adverse-action notices under ECOA,
+      deployer-level disclosures under EU AI Act Art. 86, clinical decision support) sit under a proven
+      ceiling, and on real data the reasons for most individuals in fact flip across equally good
+      models. The mathematics doesn't weaken the case for explanation requirements; it makes them
+      <em>satisfiable honestly</em> — it is what lets the compliance officer of question&nbsp;8 sign
+      the reason without crossing her fingers.</p>
+
+    <h3>If you do research</h3>
+    <p>The interesting question stopped being "which explanation method is best?" and became "which
+      explanation properties do you want, at what price, and can you certify what you kept?" The
+      <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/paper/universal_impossibility_monograph.tex">monograph</a>, the three Lean
+      repositories, and the open-problems list are public in the
+      <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/tree/c74d82d9a3a4dcf977121ead94b4342b126047cd">main repository</a>.</p>
+
+    <h3>If you just wanted the answer</h3>
+    <p class="pull" style="font-style:normal">When many explanations fit the facts equally well — and
+      they usually do — the one you're given is partly an accident of the draw. That is now a theorem,
+      not a suspicion. But the same mathematics finds what every equally good explanation agrees on:
+      the part you <em>can</em> trust. And a machine checked every step.</p>
+
+    <figure class="doc" aria-label="The final summary: the certified stable finding">
+      <div class="doc-head">Patient Portal · Pathology Summary · certified</div>
+      <span class="stamp-cert">Certified Stable</span>
+      <div class="doc-body">
+        <p class="doc-line"><span class="doc-strong">Finding: Malignant.</span></p>
+        <div class="doc-core"><b>Stable finding:</b> no single measurement is dependable here as
+          "the" reason; what every equally good model agrees on is that the cell nuclei are
+          <b>enlarged</b>. Shape is flagged undetermined.</div>
+      </div>
+      <figcaption><b>The summary her portal should have shown.</b> Return to the opening's patient:
+        one certified line, honest about what it cannot single out.</figcaption>
+    </figure>
+
+    <div class="wecho" id="w1echo2" hidden></div>
+
+    <div class="stats" aria-label="Closing counts, per repository, from paper/claims.tex">
+      <div class="s"><div class="v">130</div><div class="k">files</div></div>
+      <div class="s"><div class="v">715</div><div class="k">theorems</div></div>
+      <div class="s"><div class="v">0</div><div class="k">sorry</div></div>
+      <div class="s"><div class="v">4</div><div class="k">axioms, program-wide</div></div>
+      <div class="s"><div class="v">100%</div><div class="k">certified-claim transfer</div></div>
+    </div>
+
+    <details class="layer formal">
+      <summary>Formal · a where-to-start map</summary>
+      <div class="inner">
+        <p>Monograph Part I (the theorem, questions 3–4) §582; Part I ubiquity (question 6) §872;
+          resolution (question 7) §1024; certificate (question 8) §1286; empirical validation
+          (question 9) §2548; open questions (question 10) §4625. Repositories:
+          <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility"><code>universal-explanation-impossibility</code></a> (main),
+          <a href="https://github.com/DrakeCaraker/dash-shap"><code>dash-shap</code></a> (attribution
+          companion), <a href="https://github.com/DrakeCaraker/ostrowski-impossibility"><code>ostrowski-impossibility</code></a>
+          (physics companion). Closing counts, per repo, from
+          <code>paper/claims.tex</code>: <b>130 files · 715 theorems · 0 sorry · 4 axioms
+          program-wide · 100% certified-claim transfer.</b> Monograph §3580, §3476.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b style="color:var(--ink-soft)">The Limits of Explanation.</b> A research program by Drake
+      Caraker, Bryan Arnold &amp; David Rhoads, formalized in Lean&nbsp;4. Every formal-layer citation
+      on this page is pinned to commit <code>c74d82d</code> of the main repository; counts are drawn
+      from <code>paper/claims.tex</code>. Evidence tiers — Proven (machine-checked), Measured
+      (validated by coverage of a bound), Conjectured (analogy, not proof) — are the page's contract with you: nothing is dressed above its status. This page is the teaching companion to the program's
+      <a href="https://github.com/DrakeCaraker/universal-explanation-impossibility/blob/c74d82d9a3a4dcf977121ead94b4342b126047cd/paper/universal_impossibility_monograph.tex">monograph</a>, where the full
+      technical and empirical record lives.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var store = {};
+  try { store = JSON.parse(sessionStorage.getItem("loe_state") || "{}"); } catch(e){ store = {}; }
+  function save(){ try { sessionStorage.setItem("loe_state", JSON.stringify(store)); } catch(e){} }
+
+  /* ---------- progress ribbon: stamps + visited + scroll-spy ---------- */
+  var STAMPS = {
+    1:"Not bad practice — arithmetic", 2:"Faithful · Stable · Decisive",
+    3:"No — pick two", 4:"Not rigged — cuts at the triple",
+    5:"You don't have to believe anyone", 6:"Generic, and proved",
+    7:"Average to the stable core", 8:"Certify one claim at a time",
+    9:"Up to 100% flip; ~19% certify", 10:"Four named problems",
+    11:"Report stable · certify · disclose"
+  };
+  var dots = Array.prototype.slice.call(document.querySelectorAll(".rib-dot"));
+  var stampEl = document.getElementById("ribStamp");
+  var GATED = {6:"w2", 9:"w3"};
+  var GATEQ = {6:"Rare, or everywhere?", 9:"Does reality obey?"};
+  var curN = 0;
+  function stampFor(n){
+    if(GATED[n] && typeof store[GATED[n]] === "undefined") return GATEQ[n];
+    return STAMPS[n];
+  }
+  var visited = store.visited || {};
+  function markVisited(n){
+    if(visited[n]) return;
+    visited[n] = 1; store.visited = visited; save();
+    var d = document.querySelector('.rib-dot[data-n="'+n+'"]');
+    if(d) d.classList.add("visited");
+  }
+  Object.keys(visited).forEach(function(n){
+    var d = document.querySelector('.rib-dot[data-n="'+n+'"]');
+    if(d) d.classList.add("visited");
+  });
+  function setCurrent(n){
+    curN = n;
+    dots.forEach(function(d){ d.classList.toggle("current", d.getAttribute("data-n")==String(n)); });
+    var s = stampFor(n);
+    if(s) stampEl.innerHTML = '<b>Q'+n+'.</b> '+s;
+    else stampEl.textContent = "";
+  }
+
+  var nodes = Array.prototype.slice.call(document.querySelectorAll("section.node"));
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          var id = en.target.id.replace("node-","");
+          var n = parseInt(id,10);
+          if(n>=1){ markVisited(n); setCurrent(n); }
+          else setCurrent(0);
+        }
+      });
+    }, { rootMargin:"-45% 0px -45% 0px", threshold:0 });
+    nodes.forEach(function(s){ io.observe(s); });
+  }
+
+  /* ---------- reveal-on-scroll ---------- */
+  var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if(reduce){ reveals.forEach(function(r){ r.classList.add("in"); }); }
+  else if("IntersectionObserver" in window){
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); ro.unobserve(en.target); } });
+    }, { threshold:0.2 });
+    reveals.forEach(function(r){ ro.observe(r); });
+  } else { reveals.forEach(function(r){ r.classList.add("in"); }); }
+
+  /* ---------- M1 flip animation (node 0 document) ---------- */
+  var flip0 = document.getElementById("flip0");
+  if(flip0 && !reduce){
+    var reasons = ["the size of the cell nuclei","the texture of the cell nuclei","the irregular shape of the cell nuclei"];
+    var ri = 0, docEl = document.getElementById("docM1");
+    function cycle(){
+      if(!docEl) return;
+      var r = docEl.getBoundingClientRect();
+      if(r.top < window.innerHeight && r.bottom > 0){
+        flip0.classList.add("fade");
+        setTimeout(function(){
+          ri = (ri+1)%reasons.length;
+          flip0.textContent = reasons[ri];
+          flip0.classList.remove("fade");
+        }, 520);
+      }
+    }
+    setInterval(cycle, 2600);
+  }
+
+  /* ---------- widget helper ---------- */
+  function pretty(v){
+    return {faithful:"Faithful",stable:"Stable",decisive:"Decisive"}[v] || v;
+  }
+  function setupChoice(id, opts){
+    var w = document.getElementById(id);
+    if(!w) return;
+    var after = document.getElementById(id+"after");
+    var buttons = Array.prototype.slice.call(w.querySelectorAll(".opt"));
+    var veil = opts.veilId ? document.getElementById(opts.veilId) : null;
+    function lockIn(v, fromRestore){
+      buttons.forEach(function(b){
+        var on = b.getAttribute("data-v")===v;
+        b.setAttribute("aria-pressed", on ? "true":"false");
+        if(b.getAttribute("data-correct")==="1") b.classList.add("correct");
+      });
+      if(after){ after.hidden=false; after.innerHTML = opts.after(v); }
+      if(veil){ veil.classList.remove("veiled"); }
+      store[id]=v; save();
+      if(curN) setCurrent(curN);
+      if(opts.onPick) opts.onPick(v, fromRestore);
+    }
+    buttons.forEach(function(b){
+      b.addEventListener("click", function(){ lockIn(b.getAttribute("data-v"), false); });
+    });
+    if(store[id]==="skip"){ if(veil) veil.classList.remove("veiled"); }
+    else if(store[id]) lockIn(store[id], true);
+  }
+
+  /* W1 — pick two: give up which */
+  function w1Echo2Text(v){
+    if(v==="decisive"){
+      return 'At question&nbsp;2 you chose to give up <b>decisiveness</b> — the same trade the mathematics makes. The certified summary above is the one your choice writes.';
+    }
+    return 'At question&nbsp;2 you chose to give up <b>'+pretty(v)+'</b>. The mathematics trades away <b>decisiveness</b> instead — the certified summary above is what that trade writes.';
+  }
+  function w1EchoText(v){
+    if(v==="decisive"){
+      return 'You agreed with the mathematics — you chose to give up <b>decisiveness</b>. Here is what that choice buys, and what it costs.';
+    }
+    return 'At question&nbsp;2 you chose to give up <b>'+pretty(v)+'</b>. The theory’s answer is to give up <b>decisiveness</b> instead — and this is what you buy with it.';
+  }
+  setupChoice("w1", {
+    after:function(v){
+      if(v==="decisive") return 'You chose the property the mathematics also sacrifices. Watch how that plays out at question&nbsp;7.';
+      return 'Remembered. The mathematics has an opinion about which one to drop — you’ll meet it at question&nbsp;7.';
+    },
+    onPick:function(v){
+      var e1=document.getElementById("w1echo"), e2=document.getElementById("w1echo2");
+      if(e1){ e1.hidden=false; e1.innerHTML=w1EchoText(v); }
+      if(e2){ e2.hidden=false; e2.innerHTML=w1Echo2Text(v); }
+      // dim the sacrificed property card
+      var cards=document.querySelectorAll('#propCards .prop');
+      Array.prototype.forEach.call(cards,function(c){
+        c.classList.toggle("dimmed", c.getAttribute("data-prop")===v);
+      });
+    }
+  });
+  // restore W1 echoes on load if already answered
+  (function(){
+    var v=store["w1"]; if(!v) return;
+    var e1=document.getElementById("w1echo"), e2=document.getElementById("w1echo2");
+    if(e1){ e1.hidden=false; e1.innerHTML=w1EchoText(v); }
+    if(e2){ e2.hidden=false; e2.innerHTML=w1Echo2Text(v); }
+  })();
+
+  /* W2 skip affordance */
+  (function(){
+    var b=document.getElementById("w2skip"); if(!b) return;
+    b.addEventListener("click", function(){
+      var veil=document.getElementById("w2veil");
+      if(veil) veil.classList.remove("veiled");
+      store["w2"]="skip"; save();
+      if(curN) setCurrent(curN);
+      b.disabled=true;
+    });
+  })();
+
+  /* Scroll-past fallback: never leave veiled content permanently hidden */
+  (function(){
+    var veils=[document.getElementById("w2veil"),document.getElementById("w3veil")].filter(Boolean);
+    if(!("IntersectionObserver" in window)){ veils.forEach(function(v){v.classList.remove("veiled");}); return; }
+    var vo=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting && en.boundingClientRect.bottom < 0){
+          en.target.classList.remove("veiled"); vo.unobserve(en.target);
+        }
+      });
+    });
+    veils.forEach(function(v){ vo.observe(v); });
+  })();
+
+  /* W2 — how often (veils the ubiquity answer) */
+  setupChoice("w2", {
+    veilId:"w2veil",
+    after:function(v){
+      var right = (v==="typical");
+      return (right ? 'That’s the answer the mathematics reaches too. '
+                    : 'Most people guess lower. The mathematics reaches further: ')
+        + 'the Rashomon situation is <b>generic</b> — it typically happens, at almost every configuration you could land on.';
+    }
+  });
+
+  /* ---------- W3 slider ---------- */
+  (function(){
+    var w=document.getElementById("w3"); if(!w) return;
+    var range=document.getElementById("w3range"), out=document.getElementById("w3out");
+    var reveal=document.getElementById("w3reveal"), after=document.getElementById("w3after");
+    var delta=document.getElementById("w3delta"), youMk=document.getElementById("w3you");
+    var fill=document.getElementById("w3fill"), veil=document.getElementById("w3veil");
+    function upd(){ out.textContent = range.value+"%"; }
+    range.addEventListener("input", upd);
+    function doReveal(){
+      var g=parseInt(range.value,10);
+      youMk.style.left=g+"%";
+      youMk.querySelector("i").textContent="your guess: "+g+"%";
+      fill.style.width="100%";
+      delta.hidden=false;
+      after.hidden=false;
+      after.innerHTML='Measured: <b>up to 100%</b> of malignant-tumor patients get a different top measurement across equally accurate models (feature level). The honest turn arrives in the next breath — cluster the correlated rulers and it falls to <b>26–42%</b>.';
+      if(veil) veil.classList.remove("veiled");
+      store["w3"]=g; save();
+      if(curN) setCurrent(curN);
+    }
+    reveal.addEventListener("click", doReveal);
+    if(typeof store["w3"] !== "undefined"){ range.value=store["w3"]; upd(); doReveal(); } else { upd(); }
+  })();
+
+  /* ---------- node-9 doc wall ---------- */
+  (function(){
+    var wall=document.getElementById("wall"); if(!wall) return;
+    var N=48, stableEvery=4;
+    for(var i=0;i<N;i++){
+      var c=document.createElement("div");
+      var isStable=(i%stableEvery===0);
+      c.className="cell "+(isStable?"stable":"unstable");
+      var tl=document.createElement("div"); tl.className="tl";
+      var bar=document.createElement("div"); bar.className="bar";
+      if(!reduce && !isStable) bar.style.animationDelay=(-(i%13)*0.2)+"s";
+      c.appendChild(tl); c.appendChild(bar); wall.appendChild(c);
+    }
+  })();
+
+  /* ---------- canvas arrow-fan (node 8) ---------- */
+  function drawFan(canvas){
+    if(!canvas) return;
+    var ctx=canvas.getContext("2d"); if(!ctx) return;
+    function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+    function render(){
+      var dpr=Math.min(window.devicePixelRatio||1,2);
+      var w=canvas.clientWidth, h=canvas.clientHeight;
+      canvas.width=w*dpr; canvas.height=h*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.clearRect(0,0,w,h);
+      var accent=css("--accent"), faint=css("--line"), soft=css("--muted");
+      // two fans: left = wide (noisy), right = tight (certified)
+      function fan(cx, cy, spread, label, tight){
+        var n=11, len=Math.min(h*0.34, 96);
+        for(var i=0;i<n;i++){
+          var t=(i/(n-1)-0.5);
+          var ang=-Math.PI/2 + t*spread;
+          ctx.beginPath();
+          ctx.moveTo(cx,cy);
+          ctx.lineTo(cx+Math.cos(ang)*len, cy+Math.sin(ang)*len);
+          ctx.strokeStyle=faint; ctx.lineWidth=1.4; ctx.stroke();
+        }
+        // bold average (straight up)
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx, cy-len-14);
+        ctx.strokeStyle=accent; ctx.lineWidth=3; ctx.stroke();
+        // arrowhead
+        ctx.beginPath();
+        ctx.moveTo(cx, cy-len-20); ctx.lineTo(cx-5, cy-len-9); ctx.lineTo(cx+5, cy-len-9);
+        ctx.closePath(); ctx.fillStyle=accent; ctx.fill();
+        ctx.fillStyle=soft; ctx.font='12px -apple-system,system-ui,sans-serif';
+        ctx.textAlign="center"; ctx.fillText(label, cx, cy+22);
+      }
+      fan(w*0.30, h*0.72, 1.5, "high noise — flips", false);
+      fan(w*0.72, h*0.72, 0.34, "certified — tight fan", true);
+    }
+    render();
+    var t; window.addEventListener("resize", function(){ clearTimeout(t); t=setTimeout(render,150); });
+    if(window.matchMedia){
+      var mq=window.matchMedia("(prefers-color-scheme:dark)");
+      if(mq.addEventListener) mq.addEventListener("change", render);
+    }
+    // re-render when theme toggled via data-theme
+    new MutationObserver(render).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+  }
+  drawFan(document.getElementById("fan"));
+
+})();
+</script>
